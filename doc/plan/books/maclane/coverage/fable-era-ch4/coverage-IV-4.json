@@ -1,0 +1,307 @@
+[
+  {
+    "id": "maclane:IV.4:prop2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "isomorphism-dense full subcategory inclusion is an equivalence",
+      "essentially surjective inclusion / FF_ESO at Incl",
+      "skeleton inclusion equivalence",
+      "adjoint equivalence with identity counit",
+      "iso-dense subcategory is reflective"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/FullFaithful.v",
+        "line": 160,
+        "symbol": "FF_ESO_Equivalence",
+        "intree_statement": "Theorem FF_ESO_Equivalence `(F : C ⟶ D) `{@Full C D F} `{@Faithful C D F} `{@EssentiallySurjective C D F} : EquivalenceOfCategories F."
+      },
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 333,
+        "symbol": "Equivalence_to_AdjointEquivalence",
+        "intree_statement": "Theorem Equivalence_to_AdjointEquivalence `(E : @EquivalenceOfCategories C D F) : AdjointEquivalence F (@quasi_inverse C D F E)."
+      },
+      {
+        "file": "Construction/Subcategory.v",
+        "line": 69,
+        "symbol": "Full",
+        "intree_statement": "Definition Full : Type := ∀ (x y : C) (ox : sobj S x) (oy : sobj S y) (f : x ~> y), shom S ox oy f.  (with Incl : Sub ⟶ C at line 59, and Full_Implies_Full_Functor at line 74)"
+      },
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 141,
+        "symbol": "EssentiallySurjective",
+        "intree_statement": "Class EssentiallySurjective {C D : Category} (F : C ⟶ D) := { eso_obj : D → C; eso_iso (d : D) : F (eso_obj d) ≅ d }."
+      },
+      {
+        "file": "Construction/Reflective.v",
+        "line": 60,
+        "symbol": "Reflective",
+        "intree_statement": "Record Reflective {C : Category} (S : Subcategory C) := { reflective_full : Construction.Subcategory.Full C S; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }."
+      }
+    ],
+    "statement_record": {
+      "book": "If A is a full subcategory of C and every object of C is isomorphic (in C) to some object of A, then the inclusion K : A -> C is an equivalence of categories and is part of an adjoint equivalence <T, K; eta, 1> : C -> A whose counit is the identity; therefore A is reflective in C. Special case: A a skeleton of C.",
+      "intree": "FF_ESO_Equivalence: any Full + Faithful + EssentiallySurjective functor is an EquivalenceOfCategories; Equivalence_to_AdjointEquivalence refines any equivalence into an AdjointEquivalence (unit and counit componentwise isomorphisms); Reflective packages full subcategory + reflector + reflector ⊣ Incl.",
+      "strength_comparison": "intree-weaker: the general FF+Faithful+ESO theorem subsumes the equivalence claim once instantiated at Incl (iso-density = EssentiallySurjective (Incl), fullness via Full_Implies_Full_Functor, faithfulness of Incl trivial but with no generic instance), yet no in-tree statement performs that specialization; the book's identity counit (strict <T, K; eta, 1>) is only an isomorphism in-tree; and the corollary 'A is reflective in C' is never derived from iso-density (Reflective exists but has no constructor from these hypotheses)."
+    },
+    "gap": "No in-tree specialization of FF_ESO_Equivalence to the inclusion of a full isomorphism-dense subcategory (concrete instances of the pattern exist: Karoubi_Embed in Construction/Karoubi/Universal.v:502, idem_G in Construction/Reflective/Idempotent.v:465, RT_Comparison in Construction/Grothendieck/RoundTrip.v:1589, but no general subcategory statement); no generic Faithful (Incl C S) instance (asserted in comments, proven per-instance, e.g. Sheaves_Faithful); the identity-counit strictness of the book's adjoint equivalence is not representable in the delivered form (counit only a componentwise iso); reflectivity of the iso-dense full subcategory is not concluded.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.4:def-left-adjoint-left-inverse",
+    "classification": "ABSENT",
+    "aliases": [
+      "left-adjoint-left-inverse (lali/LALI)",
+      "adjunction with identity counit",
+      "reflection with strict counit",
+      "left adjoint retraction of a functor",
+      "isomorphism onto a reflective subcategory"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -il --glob '*.v' 'left.?adjoint.?left.?inverse|\\blali\\b|LALI' -- 0 hits",
+      "rg -in --glob '*.v' 'identity counit|counit is the identity|strict.*counit' -- 0 hits",
+      "rg -in --glob '*.v' 'left inverse.*functor|retraction.*functor|Functor.*retract' -- 0 hits (all 'retract'/'zig-zag' matches are about morphism-level retractions or the triangle identities, e.g. Monad/Lifting.v, Monad/Monadicity/Crude.v)",
+      "read Construction/Reflective.v (Reflective record, reflective_counit_iso: counit is an isomorphism for full reflective subcategories) and Construction/Karoubi/Universal.v -- reflective subcategories and split-idempotent machinery exist, but no notion of an adjunction whose counit is the identity, hence no LALI concept"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.4:remark-duality-examples",
+    "classification": "OUT_OF_SCOPE",
+    "aliases": [
+      "Pontryagin duality (character group of compact abelian groups)",
+      "Gelfand-Naimark duality (compact Hausdorff vs commutative C*-algebras)",
+      "duality theorems as equivalences of categories",
+      "CAb ~ Ab^op character functor",
+      "Stone-type duality"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'Pontryagin' -- 0 hits",
+      "rg -in --glob '*.v' 'Gel.?fand' -- only the historical citation in Theory/Equivalence.v lines 122-123 ('commutative C*-algebras against compact Hausdorff spaces (Gelfand, Naimark, ...)') inside a background essay; no formalization",
+      "rg -in --glob '*.v' 'character group|C\\*-algebra|compact abelian' -- 0 formal hits",
+      "rg -in --glob '*.v' 'Stone' -- only the Stone-duality citation in the same Theory/Equivalence.v essay; no topological/analytic categories anywhere in the tree"
+    ],
+    "out_of_scope_reason": "The remark's mathematical content is two functional-analysis duality theorems requiring compact topological (abelian) groups, R/Z, and C*-algebra infrastructure that this pure category-theory-over-setoids library neither has nor targets; only the framing concept (equivalence of categories, PRESENT as EquivalenceOfCategories in Theory/Equivalence.v) is in scope, and the library's own essay cites Gelfand-Naimark exactly as out-of-tree motivation.",
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.4:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "skeleton of a category",
+      "skeletal category (class/definition)",
+      "any two skeletons are isomorphic",
+      "equivalent iff skeletons isomorphic",
+      "Skeleton / Skeletal"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -il --glob '*.v' 'skeleta|Skeletal|skeleton' -- hits are exclusively comments/essays and per-instance prose (Instance/FinSet.v 'the skeletal category of finite sets', Instance/Poset.v 'skeletal thin category', Test/Poset.v poset_nat_skeletal which is nat-level antisymmetry, Theory/Equivalence.v essay lines 92-100)",
+      "rg -in --glob '*.v' 'Class Skeleton|Definition Skeleton|Record Skeleton|Skeletal.*:=' -- 0 definitional hits: no Skeleton-of-a-category definition exists in-tree",
+      "Theory/Equivalence.v lines 97-100 states the design decision explicitly: 'The library accordingly states every law up to ≈ and confines skeletons to concrete instances such as Instance/FinSet.v' -- so neither part (a) (two skeletons of C are isomorphic categories) nor part (b) (A ≃ C iff skeletons isomorphic) is stated or provable from in-tree vocabulary",
+      "rg -in --glob '*.v' 'FinSet.*[Ee]quivalen|equivalen.*FinSet' -- no equivalence between skeletal FinSet and a non-skeletal category of finite sets is proven either"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.4:ex2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "composition of equivalences of categories",
+      "EquivalenceOfCategories_Compose",
+      "Equivalence_trans (bundled ≃ transitivity)",
+      "composition of adjoint equivalences",
+      "Adjunction_Compose"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 94,
+        "symbol": "EquivalenceOfCategories_Compose",
+        "intree_statement": "Definition EquivalenceOfCategories_Compose : EquivalenceOfCategories (G ◯ F) := @Build_EquivalenceOfCategories C E (G ◯ F) (F' ◯ G') EquivalenceOfCategories_Compose_counit EquivalenceOfCategories_Compose_unit.  (F', G' the chosen quasi-inverses)"
+      },
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 115,
+        "symbol": "Equivalence_trans",
+        "intree_statement": "Definition Equivalence_trans {C D E : Category} (E1 : C ≃ D) (E2 : D ≃ E) : C ≃ E := (`1 E2 ◯ `1 E1; EquivalenceOfCategories_Compose (`2 E1) (`2 E2))."
+      },
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 333,
+        "symbol": "Equivalence_to_AdjointEquivalence",
+        "intree_statement": "Theorem Equivalence_to_AdjointEquivalence `(E : @EquivalenceOfCategories C D F) : AdjointEquivalence F (@quasi_inverse C D F E)."
+      }
+    ],
+    "statement_record": {
+      "book": "(a) The composite of two equivalences of categories D -> C and C -> A is an equivalence. (b) State and prove the corresponding fact for adjoint equivalences: they compose to an adjoint equivalence.",
+      "intree": "EquivalenceOfCategories_Compose: given equivalences on F : C ⟶ D and G : D ⟶ E, the composite G ◯ F is an EquivalenceOfCategories with quasi-inverse F' ◯ G'; bundled as transitivity Equivalence_trans of C ≃ D.",
+      "strength_comparison": "part (a) same (setoid presentation, cells stated with ≈ of functors); part (b) intree-weaker: no in-tree statement that adjoint equivalences compose to an adjoint equivalence, though it is a short corollary (AdjointEquivalence_to_Equivalence each side, EquivalenceOfCategories_Compose, then Equivalence_to_AdjointEquivalence, whose right adjoint is definitionally U ◯ V)."
+    },
+    "gap": "Part (b) only: no named composition of AdjointEquivalence (searched AdjointEquivalence across Theory/Equivalence/{Adjoint,Adjunction,Limit}.v -- only swap/round-trip lemmas), and no comparison of the composite's rebuilt unit/counit with those computed from the constituents via Adjunction_Compose (Adjunction/Compose.v:173 composes plain adjunctions but is never linked to adjoint equivalences).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.4:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "full + faithful + surjective on objects implies adjoint equivalence",
+      "FF_ESO_Equivalence",
+      "adjoint equivalence with identity unit",
+      "left-adjoint-right-inverse",
+      "strictly essentially surjective functor"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/FullFaithful.v",
+        "line": 160,
+        "symbol": "FF_ESO_Equivalence",
+        "intree_statement": "Theorem FF_ESO_Equivalence `(F : C ⟶ D) `{@Full C D F} `{@Faithful C D F} `{@EssentiallySurjective C D F} : EquivalenceOfCategories F."
+      },
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 333,
+        "symbol": "Equivalence_to_AdjointEquivalence",
+        "intree_statement": "Theorem Equivalence_to_AdjointEquivalence `(E : @EquivalenceOfCategories C D F) : AdjointEquivalence F (@quasi_inverse C D F E)."
+      },
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 141,
+        "symbol": "EssentiallySurjective",
+        "intree_statement": "Class EssentiallySurjective {C D : Category} (F : C ⟶ D) := { eso_obj : D → C; eso_iso (d : D) : F (eso_obj d) ≅ d }."
+      }
+    ],
+    "statement_record": {
+      "book": "If S : A -> C is full, faithful, and surjective on objects (every c equals S a for some a), then there is an adjoint equivalence <T, S; 1, epsilon> : C -> A whose unit is the identity, and hence T is a left-adjoint-right-inverse of S.",
+      "intree": "FF_ESO_Equivalence + Equivalence_to_AdjointEquivalence: a full, faithful, essentially surjective functor is an equivalence, refinable to an AdjointEquivalence whose unit and counit are componentwise isomorphisms.",
+      "strength_comparison": "intree hypotheses weaker (essential surjectivity, entailed by strict surjectivity with identity witnesses, so the in-tree theorem applies to the book's hypotheses); intree conclusion weaker: the unit is delivered only as a natural isomorphism, never as the identity transformation, and there is no left-adjoint-right-inverse packaging."
+    },
+    "gap": "The strict refinement is missing: no statement that under on-the-nose surjectivity on objects the quasi-inverse T can be chosen with S (T c) = c and identity unit (a strictness the setoid house style deliberately avoids, per the Theory/Equivalence.v essay), and no left-adjoint-right-inverse vocabulary (see the ABSENT record for maclane:IV.4:def-left-adjoint-left-inverse).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.4:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "characterization of left-adjoint-left-inverse",
+      "full faithful injective-on-objects right adjoint",
+      "isomorphism onto a full reflective subcategory",
+      "G = K ∘ H factorization through inclusion",
+      "lali/LALI equivalence of conditions"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -il --glob '*.v' 'left.?adjoint.?left.?inverse|\\blali\\b|LALI' -- 0 hits",
+      "rg -in --glob '*.v' 'injective on objects|surjective on objects|injective_on|surjective_on' -- 2 hits, both unrelated comments (Theory/Lawvere/Sets.v:39 on law_of_nat; Construction/Grothendieck/RoundTrip.v:55 on RT_Comparison)",
+      "rg -in --glob '*.v' 'identity counit|counit is the identity' -- 0 hits (condition (a) unstateable without it)",
+      "Construction/Reflective.v defines Reflective (line 60) and Construction/Reflective/Idempotent.v the reflective ⟺ idempotent-monad correspondence, but no theorem relating 'G has a left adjoint and is full, faithful, injective on objects' to 'G is an isomorphism onto a full reflective subcategory'; the three-way equivalence of the exercise appears nowhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.4:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "connected category (zigzag of arrows)",
+      "colimit over connected diagram as left-adjoint-left-inverse of the diagonal",
+      "Connected / connectedness of an index category",
+      "colim Delta c = c for connected J",
+      "diagonal functor colimit adjunction, strict counit"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'connected categ|zigzag|zig-zag' -- 'zig-zag' hits are all the triangle identities of adjunctions (Theory/Adjunction.v:21, Monad/*, Adjunction/*); no connected-category definition",
+      "rg -l --glob '*.v' 'Connected|connected' -- all hits concern connectivity of cospans/graphs/normal forms in other senses (Construction/Cospan/*, Instance/ZX.v, Structure/Monoidal/HypergraphFunctor.v, Instance/FinSet/Pushout.v, Construction/Groupoid.v etc.), none defines a connected index category",
+      "rg -il --glob '*.v' 'left.?adjoint.?left.?inverse|\\blali\\b|LALI' -- 0 hits (the exercise's conclusion is unstateable without the LALI notion)",
+      "colimit-as-adjoint-of-diagonal machinery exists in general form (Adjunction/Diagonal/Product.v, Theory/Kan/Extension.v, Structure/Cartesian.v), but the connected-J refinement (choosing the colimit functor to be a strict left inverse of Δ) appears nowhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.5:thm1",
+    "classification": "ABSENT",
+    "aliases": [
+      "Galois connections are adjoint pairs",
+      "adjunction between preorders/posets characterization",
+      "GaloisConnection / galois_connection",
+      "monotone maps L ⊣ R iff L p >= q <-> p <= R q",
+      "thin-category adjunction collapse, L = LRL / R = RLR"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'Galois' -- 16 hits, ALL in comments/essays: Instance/Poset.v:37-109 (the 'collapse dictionary' background essay asserting 'an adjunction between posets is exactly a monotone Galois connection' with citations), Theory/Adjunction.v:78-79 (same assertion in the essay), Adjunction/GAFT.v:136, Structure/Factorization.v:69, Instance/Adjoints.v:280 (a quoted MathOverflow passage), Structure/Limit.v:53; no Definition/Class/Theorem",
+      "rg -in --glob '*.v' 'GaloisConnection|galois_connection|Galois_Connection' -- 0 hits",
+      "rg -l --glob '*.v' 'monotone' -- only Instance/{Two,Poset,Proset}.v and Construction/Enriched{,/Two}.v; Construction/Enriched/Two.v proves enriched-functors-are-monotone-maps but contains no adjunction content",
+      "rg -in --glob '*.v' '\\bthin\\b' -- no thin-category adjunction-collapse lemma (uniqueness/automatic naturality of adjunctions between thin categories) anywhere",
+      "near-miss inventory: Instance/Proset.v:33 (Proset, the thin category of a preorder) and Instance/Poset.v:116 (Poset) make the statement EXPRESSIBLE via the general Adjunction class (Theory/Adjunction.v:129), and Instance/Props.v:94 (Props_Closed) is a concrete currying adjunction on a thin category — but the characterization theorem itself (biconditional ⟺ adjunction, uniqueness, unit p <= RLp / counit LRq >= q, L = LRL and R = RLR on posets) is stated nowhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.5:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Galois connection (monotone/antitone pair with pointwise biconditional)",
+      "adjoint pair between preorders regarded as categories",
+      "GaloisConnection",
+      "Proset/Poset thin-category adjunction",
+      "residuated pair"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := ... reflexivity ...; compose := ... transitivity ... |}."
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 129,
+        "symbol": "Adjunction",
+        "intree_statement": "Class Adjunction := { adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y |} {| carrier := @hom D x (U y) |}; to_adj_nat_l ...; to_adj_nat_r ...; from_adj_nat_l ...; from_adj_nat_r ... }."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "Program Instance Props_Closed : @Closed Props _  (the deduction-theorem adjunction (R ∧ P) ⊢ Q ↔ R ⊢ (P → Q) on the thin category Props — a concrete adjoint pair between preorders)."
+      }
+    ],
+    "statement_record": {
+      "book": "A Galois connection from P to Q (preorders) is a pair of order-preserving functions L : P -> Q^op, R : Q^op -> P with L p >= q in Q iff p <= R q in P; by Theorem IV.5.1 this is exactly an adjoint pair between the preorders regarded as categories, with L order-reversing as a map P -> Q.",
+      "intree": "Proset (Instance/Proset.v) realizes 'preorder regarded as a (thin) category'; the general Adjunction class (Theory/Adjunction.v) then expresses 'adjoint pair between preorders' when instantiated at Proset categories, with Props_Closed a concrete thin-category adjunction instance; Instance/Poset.v's essay records the identification ('an adjunction between posets is exactly a monotone Galois connection') as prose only.",
+      "strength_comparison": "intree-weaker: only the categorical half of the book's double description is formal (preorders as thin categories + the general adjunction notion); the order-theoretic Galois-connection presentation itself — the pair of monotone maps with the pointwise biconditional, including the antitone Q^op packaging — is never defined, and no formal bridge identifies it with Adjunction at Proset."
+    },
+    "gap": "No named GaloisConnection definition (neither the monotone L : P -> Q^op / R : Q^op -> P form nor the antitone variant), and no lemma converting the pointwise biconditional L p >= q <-> p <= R q into an Adjunction between the Proset categories (or back); the identification exists only in the background essays of Instance/Poset.v and Theory/Adjunction.v.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": null
+  }
+]

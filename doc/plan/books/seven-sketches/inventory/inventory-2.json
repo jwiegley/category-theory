@@ -1,0 +1,2085 @@
+{
+ "book": "seven-sketches",
+ "range": {
+  "pdf_start": 51,
+  "pdf_end": 88
+ },
+ "pages": [
+  {
+   "pdf_page": 51,
+   "book_page": "39",
+   "empty": true,
+   "items": [],
+   "notes": "Chapter 2 opener ('Resource theories: Monoidal preorders and enrichment') plus the whole of the motivational section 2.1 'Getting from a to b'. Purely motivational prose (omelettes, chemistry, manufacturing, the three questions possible/minimum cost/set of ways). No numbered environment, no numbered display, nothing formalizable."
+  },
+  {
+   "pdf_page": 52,
+   "book_page": "40",
+   "empty": true,
+   "items": [],
+   "notes": "The chapter's first number, 2.1, is CONSUMED BY A DISPLAY: the right-flush-labelled lemon-meringue-pie wiring diagram (2.1). It is a figure illustrating the informal idea, carries no claim distinct from the surrounding prose, so no 'equation' item is recorded. A second, unnumbered wiring diagram ('prepare lemon meringue pie' composed with 'bake pie', showing the oven as a catalyst/means of production) follows. Also a bibliographic aside to Joyal-Street [JS93]. No named items."
+  },
+  {
+   "pdf_page": 53,
+   "book_page": "41",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.1:def2"
+   ],
+   "notes": "End of section 2.1 (preview of Bool-, Cost- and Set-categories), then section 2.2 'Symmetric monoidal preorders' and subsection 2.2.1. The pink Definition 2.2 box OPENS at the foot of the page and its axiom list runs onto printed 42, so the item is recorded here with the spans-page-break flag. Chapter 2's first NAMED item is 2.2 (2.1 was a display), exactly as the pagemap predicts."
+  },
+  {
+   "pdf_page": 54,
+   "book_page": "42",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.1:remark3",
+    "7sketches:2.2.1:example4",
+    "7sketches:2.2.1:ex5",
+    "7sketches:2.2.1:example6",
+    "7sketches:2.2.1:def2"
+   ],
+   "notes": "Definition 2.2's pink box continues from printed 41 (axioms (a)-(d) and the naming of monotonicity/unitality/associativity/symmetry). Number 2.7 is CONSUMED BY A DISPLAY that sits INSIDE another item's shaded box: the three monoid equations m*e=m, e*m=m, (m*n)*p=m*(n*p), right-flush-labelled (2.7), inside the green Example 2.6 box. That display states no claim distinct from Example 2.6, so no 'equation' item is recorded."
+  },
+  {
+   "pdf_page": 55,
+   "book_page": "43",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.1:ex8",
+    "7sketches:2.2.1:example9"
+   ],
+   "notes": "Subsection 2.2.2 'Introducing wiring diagrams' opens in the lower half. Numbers 2.10 and 2.11 are both CONSUMED BY DISPLAYS: (2.10) the single x-[<=]-y box icon, (2.11) the row of 0-, 1-, 2-, 3-box series chains. Both are figures, no distinct claim, so no 'equation' items."
+  },
+  {
+   "pdf_page": 56,
+   "book_page": "44",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.2:def-valid-wiring-diagram"
+   ],
+   "notes": "Numbers 2.12 and 2.13 are CONSUMED BY DISPLAYS: (2.12) the series-and-parallel wiring diagram with wires t,u,v,w,x,y,z, (2.13) the four alternative wiring-diagram styles for other categorical structures. The two bold run-in leads ('Different styles of wiring diagrams', 'Wiring diagrams for symmetric monoidal preorders') are NOT sections and NOT items. The unnumbered prose definition of the wiring-diagram language starts here (wires labelled by elements, parallel wires = monoidal product) and its 'valid' clause lands on printed 45, so the item spans the break."
+  },
+  {
+   "pdf_page": 57,
+   "book_page": "45",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.2:example14",
+    "7sketches:2.2.2:def-valid-wiring-diagram"
+   ],
+   "notes": "Top of page completes the unnumbered wiring-diagram definition recorded under printed 44 (a wire labelled I, or no wires at all, denotes the monoidal unit; validity = product of left labels <= product of right labels). No numbers are consumed on this page apart from Example 2.14 itself."
+  },
+  {
+   "pdf_page": 58,
+   "book_page": "46",
+   "empty": true,
+   "items": [],
+   "notes": "NO NUMBER OF ANY KIND appears on this page: the shared counter runs Example 2.14 (printed 45) straight to the display (2.15) (printed 47). Content is the informal dictionary between Definition 2.2(a)-(d) and diagram moves: (a) = stacking two valid boxes in parallel, (b) = blank space / no wires, (c) = bracketing of stacked wires is immaterial, (d) = crossing wires (a further icon). All of this is already covered by the unnumbered wiring-diagram definition and the graphical-proof construction, so no separate item is minted."
+  },
+  {
+   "pdf_page": 59,
+   "book_page": "47",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.2:construction-graphical-proof",
+    "7sketches:2.2.2:example19",
+    "7sketches:2.2.2:ex20"
+   ],
+   "notes": "Bold run-in lead 'Wiring diagrams as graphical proofs' (not a section, not an item). FOUR numbers CONSUMED BY DISPLAYS here: (2.15) the interior/exterior wiring diagram, (2.16) the three interior assertions t <= v+w, w+u <= x+z, v+x <= y, (2.17) the exterior assertion t+u <= y+z, (2.18) the chain t+u <= v+w+u <= v+x+z <= y+z. Each is an instance internal to the running illustration rather than a claim distinct from the surrounding text, so none is recorded as an 'equation' item; the general content they illustrate is recorded once as the unnumbered graphical-proof construction. Exercise 2.20's numbered parts run onto printed 48."
+  },
+  {
+   "pdf_page": 60,
+   "book_page": "48",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.3:construction-mat",
+    "7sketches:2.2.2:ex20"
+   ],
+   "notes": "Exercise 2.20's body (parts 1-3) continues here from printed 47 and is recorded under its starting page. Subsection 2.2.3 'Applied examples' opens, with bibliographic pointers [CFS16; Fri17] and footnote 1 (footnote counter is independent of the item counter). The bold run-in 'Chemistry' begins the unnumbered construction of the chemistry monoidal preorder, whose definition completes on printed 49, so that item is recorded here with the spans-page-break flag. No numbers consumed on this page."
+  },
+  {
+   "pdf_page": 61,
+   "book_page": "49",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.3:ex21",
+    "7sketches:2.2.3:def-catalysis",
+    "7sketches:2.2.3:construction-mat"
+   ],
+   "notes": "Three numbers CONSUMED BY DISPLAYS: (2.22) the three given reactions y+k -> y'+k', x+y' -> z', z'+k' -> z+k, (2.23) the composed reaction x+y+k -> x+y'+k' -> z'+k' -> z+k, (2.24) its wiring diagram. The general notion they carry (catalysis) is recorded once as an unnumbered prose definition rather than as three equation items. Bold run-in 'Manufacturing' opens at the foot."
+  },
+  {
+   "pdf_page": 62,
+   "book_page": "50",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.3:def-discard-axiom"
+   ],
+   "notes": "Number 2.25 is CONSUMED BY A DISPLAY: the wiring diagram introducing the discard icon. Note the ANOMALY that the discard axiom itself is a displayed formula tagged with the TEXT label '(discard axiom)', not with a number, so it consumes no counter value; it is nonetheless a genuine definition and is recorded as an unnumbered item. Also an unnumbered figure (the lemon-meringue-pie diagram redrawn 'keeping track of waste', with lemon peel / butter wrapper / egg shells as extra output wires)."
+  },
+  {
+   "pdf_page": 63,
+   "book_page": "51",
+   "empty": true,
+   "items": [],
+   "notes": "Bold run-in 'Informatics'. Motivational prose on why information can be copied but matter cannot, with three unnumbered figures (the two 'copy cd' boxes, and the 'write email' box feeding a wire-splitting icon). No numbers are consumed and nothing formalizable starts here; the copy axiom it is building toward is stated on printed 52 and recorded there."
+  },
+  {
+   "pdf_page": 64,
+   "book_page": "52",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.3:def-copy-axiom",
+    "7sketches:2.2.4:example27"
+   ],
+   "notes": "Number 2.26 is CONSUMED BY A DISPLAY (the send-to-Alice/send-to-Bob wiring diagram using the split-wire icon). Number 2.28 is likewise CONSUMED BY A DISPLAY SITTING INSIDE another item's shaded box: the paired truth tables for AND and for multiplication on {0,1}, right-flush-labelled (2.28), inside the green Example 2.27 box. Like the discard axiom, the copy axiom is displayed with the text tag '(copy axiom)' and consumes no counter value. Subsection 2.2.4 'Abstract examples' opens, with bold run-in 'The Booleans'."
+  },
+  {
+   "pdf_page": 65,
+   "book_page": "53",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.4:ex29",
+    "7sketches:2.2.4:example30",
+    "7sketches:2.2.4:ex31",
+    "7sketches:2.2.4:example32"
+   ],
+   "notes": "Bold run-in 'Some other monoidal preorders'. The OR truth tables inside Exercise 2.29 and the divisibility computations inside Example 2.32 are UNNUMBERED displays (exercises are unshaded and their displays are unlabelled here), so the counter runs 2.29, 2.30, 2.31, 2.32 with no numbers consumed by displays on this page."
+  },
+  {
+   "pdf_page": 66,
+   "book_page": "54",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.4:ex33",
+    "7sketches:2.2.4:ex34",
+    "7sketches:2.2.4:ex35",
+    "7sketches:2.2.4:ex36",
+    "7sketches:2.2.4:example37"
+   ],
+   "notes": "Four consecutive exercises then the bold run-in 'The monoidal preorder Cost' and the green Example 2.37 box, which OPENS at the foot and completes on printed 55 (spans-page-break). The min-table inside Exercise 2.34 and the Hasse diagram 'no -> maybe -> yes' are unnumbered displays; no numbers consumed by displays on this page."
+  },
+  {
+   "pdf_page": 67,
+   "book_page": "55",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.4:prop38",
+    "7sketches:2.2.4:ex39",
+    "7sketches:2.2.4:ex40",
+    "7sketches:2.2.5:def41",
+    "7sketches:2.2.4:example37"
+   ],
+   "notes": "Example 2.37's green box continues from printed 54 (the display 'Cost := ([0,inf], >=, 0, +)' is unnumbered). Bold run-in 'The opposite of a monoidal preorder', then the lavender Proposition 2.38 with an unnumbered 'Proof.' block (italic header, hollow-square terminator) that defers three of four conditions to Exercise 2.39. Subsection 2.2.5 'Monoidal monotone maps' opens; the pink Definition 2.41 box OPENS here and its strong/strict clauses run onto printed 56 (spans-page-break). No numbers consumed by displays."
+  },
+  {
+   "pdf_page": 68,
+   "book_page": "56",
+   "empty": false,
+   "items": [
+    "7sketches:2.2.5:remark-oplax",
+    "7sketches:2.2.5:example42",
+    "7sketches:2.2.5:construction-bool-to-cost",
+    "7sketches:2.2.5:ex43",
+    "7sketches:2.2.5:ex44",
+    "7sketches:2.2.5:ex45",
+    "7sketches:2.2.5:def41"
+   ],
+   "notes": "Definition 2.41's pink box continues from printed 55 with clauses (a'),(b') (strong) and (a''),(b'') (strict). The 'monoidal functors / lax / oplax' paragraph is an unnumbered run-in remark carrying the dual definition, recorded as a remark. Exercise 2.45's italic header sits at the very foot of the page with its three parts on printed 57 (spans-page-break). The piecewise definitions of d and u inside Exercise 2.44 are unnumbered displays; no numbers consumed by displays on this page."
+  },
+  {
+   "pdf_page": 69,
+   "book_page": "57",
+   "empty": false,
+   "items": [
+    "7sketches:2.3.1:def46",
+    "7sketches:2.3.1:example47",
+    "7sketches:2.2.5:ex45"
+   ],
+   "notes": "Exercise 2.45's three parts continue here from printed 56. Section 2.3 'Enrichment' and subsection 2.3.1 'V-categories' open; footnote 2 explains the word 'hom' (footnote counter independent of the item counter). The pink Definition 2.46 box, then the green Example 2.47 box which OPENS at the foot and runs onto printed 58 (spans-page-break), where its Hasse-diagram display consumes the number 2.48 and where the square-matrix representation of a V-category is introduced \u2014 that page is outside the owned range (its own new items, including Theorem 2.49, belong to the adjacent agent). Numbering continuity across the whole owned range is exact: 2.1-2.47 with equation numbers precisely {1,7,10,11,12,13,15,16,17,18,22,23,24,25,26,28}, matching the pagemap's chapter-2 equation set."
+  },
+  {
+   "pdf_page": 70,
+   "book_page": "58",
+   "empty": false,
+   "items": [
+    "7sketches:2.3.2:thm49",
+    "7sketches:2.3.1:example47"
+   ],
+   "notes": "Example 2.47 starts on PDF 69 (printed 57, other agent's range) and its shaded box runs onto this page; the numbered Hasse-diagram display (2.48) sits INSIDE that box, so number 2.48 is consumed by a display and is NOT a missing item. The Bool hom-matrix table for that preorder is also inside Example 2.47's box. Section 2.3.2 'Preorders as Bool-categories' header begins here."
+  },
+  {
+   "pdf_page": 71,
+   "book_page": "59",
+   "empty": false,
+   "items": [
+    "7sketches:2.3.2:ex50",
+    "7sketches:2.3.3:def51"
+   ],
+   "notes": "'Proof of Theorem 2.49' occupies the upper half (a proof, not a separate numbered item). Section 2.3.3 'Lawvere metric spaces' header appears here. Definition 2.51's shaded box continues onto PDF 72."
+  },
+  {
+   "pdf_page": 72,
+   "book_page": "60",
+   "empty": false,
+   "items": [
+    "7sketches:2.3.3:ex52",
+    "7sketches:2.3.3:def51"
+   ],
+   "notes": "Top of page is the continuation of Definition 2.51 (properties (a)-(d) and the extended-metric-space clause), recorded under PDF 71. Unnumbered triangle-inequality picture is illustrative only."
+  },
+  {
+   "pdf_page": 73,
+   "book_page": "61",
+   "empty": false,
+   "items": [
+    "7sketches:2.3.3:def53",
+    "7sketches:2.3.3:example54",
+    "7sketches:2.3.3:ex55"
+   ],
+   "notes": "The unnumbered 'translator' display X := Ob(X), d(x,y) := X(x,y) and the unpacking of the Cost-category axioms are prose exposition of Definition 2.53, not separate items."
+  },
+  {
+   "pdf_page": 74,
+   "book_page": "62",
+   "empty": false,
+   "items": [
+    "7sketches:2.3.3:construction-weighted-graph-metric",
+    "7sketches:2.3.3:ex58",
+    "7sketches:2.3.3:construction-graph-matrix"
+   ],
+   "notes": "Numbers 2.56 (the pair of Cost-weighted graphs X, Y) and 2.57 (the distance table for Y) are consumed by numbered DISPLAYS in running prose - not missing items, and neither carries a claim distinct from the surrounding construction, so no equation item was created. The bold run-in lead 'Presenting metric spaces with weighted graphs' is not a section and not an item."
+  },
+  {
+   "pdf_page": 75,
+   "book_page": "63",
+   "empty": false,
+   "items": [
+    "7sketches:2.3.3:ex60",
+    "7sketches:2.3.4:ex61",
+    "7sketches:2.3.4:ex62"
+   ],
+   "notes": "Number 2.59 is consumed by the display of the graph matrix M_Y - not a missing item. Section 2.3.4 header appears mid-page; Exercise 2.60 precedes it and so is filed under 2.3.3. Exercise 2.62 continues onto PDF 76."
+  },
+  {
+   "pdf_page": 76,
+   "book_page": "64",
+   "empty": false,
+   "items": [
+    "7sketches:2.3.4:ex63",
+    "7sketches:2.4.1:construction64",
+    "7sketches:2.3.4:ex62"
+   ],
+   "notes": "Top of page is the continuation of Exercise 2.62 (recorded under PDF 75). Section 2.4 and subsection 2.4.1 headers appear here. Construction 2.64 is typeset unshaded; its statement finishes on this page but the verification of the W-category axioms ((a) here, (b) on PDF 77) runs across the break, so the item is recorded as spanning."
+  },
+  {
+   "pdf_page": 77,
+   "book_page": "65",
+   "empty": false,
+   "items": [
+    "7sketches:2.4.1:example65",
+    "7sketches:2.4.1:ex67",
+    "7sketches:2.4.1:ex68",
+    "7sketches:2.4.2:def69",
+    "7sketches:2.4.1:construction64"
+   ],
+   "notes": "Number 2.66 is consumed by the display defining f (true if x=0, false if x>0) INSIDE Example 2.65's shaded box - not a missing item and not a distinct claim. Section 2.4.2 'Enriched functors' header appears near the foot."
+  },
+  {
+   "pdf_page": 78,
+   "book_page": "66",
+   "empty": false,
+   "items": [
+    "7sketches:2.4.2:example70",
+    "7sketches:2.4.2:remark71",
+    "7sketches:2.4.2:example72",
+    "7sketches:2.4.2:ex73"
+   ],
+   "notes": "Section 2.4.3 'Product V-categories' header at the page foot; Definition 2.74 begins on PDF 79."
+  },
+  {
+   "pdf_page": 79,
+   "book_page": "67",
+   "empty": false,
+   "items": [
+    "7sketches:2.4.3:def74",
+    "7sketches:2.4.3:ex75",
+    "7sketches:2.4.3:example76"
+   ],
+   "notes": "Number 2.77 is consumed by the display of the two weighted graphs INSIDE Example 2.76's shaded box - not a missing item. An unnumbered inter-item paragraph observes that the product of two preorders is exactly the Bool-product (AND as the monoidal product of Bool); recorded here as an observation on Definition 2.74 rather than as a separate item. Example 2.76 continues onto PDF 80."
+  },
+  {
+   "pdf_page": 80,
+   "book_page": "68",
+   "empty": false,
+   "items": [
+    "7sketches:2.4.3:ex78",
+    "7sketches:2.4.3:example76"
+   ],
+   "notes": "Top of page completes Example 2.76 (the product graph X x Y), recorded under PDF 79. An unnumbered discussion then identifies the hom-matrix of a V-product with a Kronecker-style block matrix and displays the 6x6 Cost example; it illustrates Definition 2.74 and was not recorded as a separate item. Section 2.5 header at the page foot."
+  },
+  {
+   "pdf_page": 81,
+   "book_page": "69",
+   "empty": false,
+   "items": [
+    "7sketches:2.5.1:def79",
+    "7sketches:2.5.1:ex82",
+    "7sketches:2.5.1:example83",
+    "7sketches:2.5.1:remark81"
+   ],
+   "notes": "Section 2.5.1 header here. Number 2.80 is consumed by the closedness display (a (x) v) <= w iff a <= (v -o w) INSIDE Definition 2.79's shaded box - it is the defining condition of the enclosing item, so no separate equation item. Remark 2.81 (number 2.81) is terminology plus forward pointers (compact closed Def 4.58, cartesian closed 7.2.1, Exercise 7.11) and the informal 'single-use converter' reading; it carries no formalizable claim and is RECORDED as an item with an OUT_OF_SCOPE classification (corrected on audit: formalizability is a CLASSIFICATION, never an inventory filter). Example 2.83 continues onto PDF 82. [CORRECTED ON AUDIT: this item IS now recorded, with an OUT_OF_SCOPE classification; the 'not recorded' wording above is retracted \u2014 formalizability is a CLASSIFICATION, never an inventory filter.]"
+  },
+  {
+   "pdf_page": 82,
+   "book_page": "70",
+   "empty": false,
+   "items": [
+    "7sketches:2.5.1:ex84",
+    "7sketches:2.5.1:example85",
+    "7sketches:2.5.1:example86",
+    "7sketches:2.5.1:prop87",
+    "7sketches:2.5.1:example83"
+   ],
+   "notes": "Top of page completes Example 2.83 (recorded under PDF 81). Number 2.88 is consumed by the distributivity display inside Proposition 2.87's shaded box (part of claim (b)), so no separate equation item. Proposition 2.87's statement is entirely on this page; its proof is on PDF 83."
+  },
+  {
+   "pdf_page": 83,
+   "book_page": "71",
+   "empty": false,
+   "items": [
+    "7sketches:2.5.1:remark89",
+    "7sketches:2.5.2:def90",
+    "7sketches:2.5.2:example91"
+   ],
+   "notes": "Upper half is the proof of Proposition 2.87 plus informal readings of (c)-(e). Section 2.5.2 'Quantales' header here. Example 2.91 continues onto PDF 84."
+  },
+  {
+   "pdf_page": 84,
+   "book_page": "72",
+   "empty": false,
+   "items": [
+    "7sketches:2.5.2:ex92",
+    "7sketches:2.5.2:ex93",
+    "7sketches:2.5.2:ex94",
+    "7sketches:2.5.2:prop96",
+    "7sketches:2.5.2:example91",
+    "7sketches:2.5.2:remark95"
+   ],
+   "notes": "Top of page completes Example 2.91 (recorded under PDF 83). Remark 2.95 (number 2.95) personifies a quantale as a 'navigator'; purely motivational, and is RECORDED as an item with an OUT_OF_SCOPE classification (corrected on audit: formalizability is a CLASSIFICATION, never an inventory filter). - its number is accounted for here. Proposition 2.96's statement and full proof are on this page."
+  },
+  {
+   "pdf_page": 85,
+   "book_page": "73",
+   "empty": false,
+   "items": [
+    "7sketches:2.5.2:remark97",
+    "7sketches:2.5.2:prop98",
+    "7sketches:2.5.3:def100"
+   ],
+   "notes": "The opening sentence ('a quantale has all meets and all joins') is a corollary of Proposition 2.96, folded into that item's summary. Section 2.5.3 header appears after Proposition 2.98's proof. Number 2.99 is consumed by the display of the CLASSICAL matrix-multiplication formula, recalled only for comparison with (2.101) - no in-book claim, so no equation item."
+  },
+  {
+   "pdf_page": 86,
+   "book_page": "74",
+   "empty": false,
+   "items": [
+    "7sketches:2.5.3:equation101",
+    "7sketches:2.5.3:def-identity-matrix",
+    "7sketches:2.5.3:example102",
+    "7sketches:2.5.3:ex103",
+    "7sketches:2.5.3:ex104",
+    "7sketches:2.5.3:construction-matrix-powers"
+   ],
+   "notes": "Number 2.101 IS recorded as an 'equation' item: the display carries the definition of V-matrix multiplication and has no enclosing numbered item, so it is a distinct formalizable claim (the qualifying case, analogous to (1.96) in chapter 1). The identity V-matrix I_X is defined by an UNNUMBERED display in running prose and is recorded as an unnumbered definition. The matrix-power construction begins in the last two paragraphs and runs onto PDF 87."
+  },
+  {
+   "pdf_page": 87,
+   "book_page": "75",
+   "empty": false,
+   "items": [
+    "7sketches:2.5.3:ex105",
+    "7sketches:2.5.3:construction-matrix-powers"
+   ],
+   "notes": "Upper two thirds complete the matrix-power construction (recorded under PDF 86), including the displays of M_Y^2 and M_Y^3 and footnote 7 on the infinite case. Section 2.6 'Summary and further reading' header at mid-page; the remaining prose is a chapter recap with no new claims. Exercise 2.105 is the last numbered item of chapter 2."
+  },
+  {
+   "pdf_page": 88,
+   "book_page": "76",
+   "empty": true,
+   "items": [],
+   "notes": "Continuation of section 2.6: bibliographic pointers only (CFS16, Fri17, Kel05, Law73, Ros90, Bro61, AV93) plus the remark that noncommutative quantales arise from power sets of monoids and from binary relations under relational composition. Historical/motivational prose - nothing inventoriable."
+  }
+ ],
+ "items": [
+  {
+   "id": "7sketches:2.2.1:def2",
+   "kind": "definition",
+   "number": "2.2",
+   "name": "symmetric monoidal structure on a preorder; symmetric monoidal preorder",
+   "statement_summary": "Data for a symmetric monoidal structure on a preorder (X, <=): (i) a distinguished element I in X, the monoidal unit; (ii) a binary operation (tensor) : X x X -> X, the monoidal product. Four axioms: (a) monotonicity \u2014 x1 <= y1 and x2 <= y2 imply x1 (tensor) x2 <= y1 (tensor) y2; (b) unitality \u2014 I (tensor) x = x and x (tensor) I = x; (c) associativity \u2014 (x (tensor) y) (tensor) z = x (tensor) (y (tensor) z); (d) symmetry \u2014 x (tensor) y = y (tensor) x. Crucially (b), (c), (d) are STRICT EQUALITIES OF ELEMENTS, not isomorphisms or equivalences, so no coherence data is carried. A preorder together with such a structure is written (X, <=, I, (tensor)) and called a symmetric monoidal preorder. Dropping (d) leaves a (non-symmetric) monoidal preorder; the book notes that anyone may propose (X, <=, I, (tensor)) and it is one exactly when (a)-(d) hold.",
+   "book_section": "2.2.1",
+   "book_page": "41",
+   "pdf_pages": [
+    53,
+    54
+   ],
+   "cross_refs": [],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.1:remark3",
+   "kind": "remark",
+   "number": "2.3",
+   "name": "weak monoidal structure (equality replaced by equivalence)",
+   "statement_summary": "Replacing the strict equalities of Definition 2.2(b), (c), (d) by the induced equivalence of the preorder (x equivalent to y iff x <= y and y <= x) yields an equally good notion, called a WEAK monoidal structure. Strict equality was chosen in the book only because it makes the displayed equations simpler for first-time readers. Formalizably: the axioms may be weakened from = to the two-sided-<= relation without loss.",
+   "book_section": "2.2.1",
+   "book_page": "42",
+   "pdf_pages": [
+    54
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.1:example4",
+   "kind": "example",
+   "number": "2.4",
+   "name": "the reals under addition as a symmetric monoidal preorder",
+   "statement_summary": "The real numbers with their usual order, monoidal unit 0 and monoidal product +, i.e. (R, <=, 0, +), satisfies every condition of Definition 2.2 and so is a symmetric monoidal preorder. Verification given: monotonicity because x1 <= y1 and x2 <= y2 imply x1 + x2 <= y1 + y2; unitality because 0 + x = x = x + 0; associativity and commutativity of + give (c) and (d).",
+   "book_section": "2.2.1",
+   "book_page": "42",
+   "pdf_pages": [
+    54
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.1:ex5",
+   "kind": "exercise",
+   "number": "2.5",
+   "name": "multiplication on the reals is not a monoidal product for <=",
+   "statement_summary": "On the same preorder (R, <=), someone proposes monoidal unit 1 and monoidal product ordinary multiplication; an expert says it will not work. The task is to find the reason or refute the expert. The obstruction is monotonicity, Definition 2.2(a): multiplying by a negative number reverses <=, so from x1 <= y1 and x2 <= y2 one cannot conclude x1 * x2 <= y1 * y2 (e.g. -1 <= 0 twice gives 1 not <= 0).",
+   "book_section": "2.2.1",
+   "book_page": "42",
+   "pdf_pages": [
+    54
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.1:example4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.1:example6",
+   "kind": "example",
+   "number": "2.6",
+   "name": "monoids; the discrete preorder on a commutative monoid",
+   "statement_summary": "Recalls the definition of a monoid: a set M, a multiplication * : M x M -> M and a unit e in M satisfying m * e = m, e * m = m and (m * n) * p = m * (n * p) for all m, n, p in M; commutative if also m * n = n * m. Then: every set S carries the discrete preorder Disc_S in which m <= n iff m = n, and the claim is that for a COMMUTATIVE monoid (M, *, e) the structure (Disc_M, =, e, *) is a symmetric monoidal preorder \u2014 monotonicity is automatic in a discrete preorder, and unitality/associativity/symmetry are exactly the monoid axioms plus commutativity.",
+   "book_section": "2.2.1",
+   "book_page": "42",
+   "pdf_pages": [
+    54
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.1:ex8"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.1:ex8",
+   "kind": "exercise",
+   "number": "2.8",
+   "name": "verify the discrete monoid preorder",
+   "statement_summary": "Asks the reader to actually check the claim of Example 2.6 \u2014 that for a commutative monoid (M, *, e) the discrete preorder with unit e and product * is a symmetric monoidal preorder \u2014 i.e. to verify Definition 2.2(a)-(d) for (Disc_M, =, *, e).",
+   "book_section": "2.2.1",
+   "book_page": "43",
+   "pdf_pages": [
+    55
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.1:example6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.1:example9",
+   "kind": "example",
+   "number": "2.9",
+   "name": "poker hands: a non-example failing monotonicity",
+   "statement_summary": "A NON-example. Let H be the set of poker hands (choices of five cards from a standard 52-card deck), preordered by h <= h' iff h' beats or ties h in poker. Proposed monoidal product: h1 (tensor) h2 is the best five-card hand formable from the ten cards of h1 and h2, duplicates discarded. This fails condition (a) of Definition 2.2: an explicit counterexample is given with h1 <= i1 and h2 <= i2 but h1 (tensor) h2 strictly beating i1 (tensor) i2 (h1 = {2h,3h,10s,Js,Qs}, h2 = {2s,3s,4d,Ks,As} against i1 = {4c,4s,6h,6d,10d}, i2 = {5s,5h,7h,Jd,Qd}), so monotonicity of the product is not automatic and must be checked.",
+   "book_section": "2.2.1",
+   "book_page": "43",
+   "pdf_pages": [
+    55
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.2:def-valid-wiring-diagram",
+   "kind": "definition",
+   "number": null,
+   "name": "wiring diagram over a monoidal preorder; validity",
+   "statement_summary": "Unnumbered definition given in running prose. Fix a monoidal preorder (X, <=, I, (tensor)). A wiring diagram has a family of parallel wires on the left and one on the right, each wire labelled by an element of X; a box between them asserts a <=-relation. Conventions: parallel wires labelled x and y denote the single element x (tensor) y (so a stack of wires denotes the monoidal product of its labels, in either bracketing); a wire labelled I and the total ABSENCE of wires both denote the monoidal unit (the unit is the empty monoidal product). The diagram is VALID iff the monoidal product of the left-hand labels is <= the monoidal product of the right-hand labels \u2014 e.g. a box with inputs x1, x2 and outputs y1, y2, y3 is valid iff x1 (tensor) x2 <= y1 (tensor) y2 (tensor) y3, and the single box x -> y is valid iff x <= y. Boxes, wires and (by symmetry) crossing wires are called the icons of the notation.",
+   "book_section": "2.2.2",
+   "book_page": "44",
+   "pdf_pages": [
+    56,
+    57
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.2:example14",
+   "kind": "example",
+   "number": "2.14",
+   "name": "wiring diagrams for the reals under addition",
+   "statement_summary": "Instantiates the wiring-diagram language in the symmetric monoidal preorder (R, <=, 0, +): wires are labelled by real numbers, putting wires in parallel adds their labels (wires 3.14 and -1 in parallel are equal to a single wire 2.14), and a wire labelled 0 is equivalent to no wire at all. Two facts about (R, <=, 0, +) are then expressed as valid boxes: 4 <= 7 as a one-in-one-out box, and 2 + 5 <= -1 + 5 + 3 as a box with inputs 2, 5 and outputs -1, 5, 3.",
+   "book_section": "2.2.2",
+   "book_page": "45",
+   "pdf_pages": [
+    57
+   ],
+   "cross_refs": [
+    "7sketches:2.2.2:def-valid-wiring-diagram",
+    "7sketches:2.2.1:example4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.2:construction-graphical-proof",
+   "kind": "construction",
+   "number": null,
+   "name": "wiring diagrams as graphical proofs (soundness of the graphical calculus)",
+   "statement_summary": "Unnumbered construction, developed in prose under the run-in lead 'Wiring diagrams as graphical proofs'. For a monoidal preorder X = (X, <=, I, (tensor)), a wiring diagram is read as a proof: each box with left side x and right side y is the assertion x <= y, and a diagram consisting of interior boxes wired together inside an exterior box asserts the IMPLICATION 'if all interior assertions hold then the exterior assertion holds'. The proof it encodes is obtained by taking successive vertical slices of the diagram, each slice being one inequality justified by monotonicity applied to the boxes and identity wires it cuts, and chaining the slices by transitivity. Worked instance: from t <= v + w, w + u <= x + z and v + x <= y the diagram yields t + u <= v + w + u <= v + x + z <= y + z. Reflexivity licenses a bare wire and transitivity licenses connecting boxes in series; a diagram with no crossing wires needs no appeal to symmetry.",
+   "book_section": "2.2.2",
+   "book_page": "47",
+   "pdf_pages": [
+    59
+   ],
+   "cross_refs": [
+    "7sketches:2.2.2:def-valid-wiring-diagram",
+    "7sketches:2.2.2:ex20",
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.2:example19",
+   "kind": "example",
+   "number": "2.19",
+   "name": "the lemon meringue pie diagram read as a proof",
+   "statement_summary": "Reads the recipe wiring diagram of display (2.1) as a graphical proof in a resource monoidal preorder: it has five interior boxes (separate egg, make lemon filling, make meringue, fill crust, add meringue), each asserting that the collection of resources on its left can be transformed into the collection on its right, and one exterior box 'prepare lemon meringue pie'. The diagram therefore proves the implication: if every interior transformation is available then the exterior transformation is available, i.e. from prepared crust, lemon, butter, sugar and egg one obtains an unbaked pie.",
+   "book_section": "2.2.2",
+   "book_page": "47",
+   "pdf_pages": [
+    59
+   ],
+   "cross_refs": [
+    "7sketches:2.2.2:construction-graphical-proof"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.2:ex20",
+   "kind": "exercise",
+   "number": "2.20",
+   "name": "formal derivation behind a wiring diagram; where reflexivity and transitivity enter",
+   "statement_summary": "Observes first that the informal chain t + u <= v + w + u <= v + x + z <= y + z is not literally a proof because there is no such element as v + w + u, only (v + w) + u and v + (w + u). Then three tasks: (1) prove formally, using only the symmetric-monoidal-preorder rules of Definition 2.2, that the hypotheses t <= v + w, w + u <= x + z, v + x <= y entail the conclusion t + u <= y + z; (2) make explicit where reflexivity and where transitivity of the preorder are used; (3) explain how one can see from the wiring diagram of display (2.12) that the symmetry axiom Definition 2.2(d) need not be invoked.",
+   "book_section": "2.2.2",
+   "book_page": "47",
+   "pdf_pages": [
+    59,
+    60
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.2:construction-graphical-proof"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.3:construction-mat",
+   "kind": "construction",
+   "number": null,
+   "name": "the chemistry monoidal preorder Mat of material collections",
+   "statement_summary": "Unnumbered construction in prose (run-in lead 'Chemistry'). Mat is the set of material collections \u2014 formal non-negative-integer combinations of atoms and molecules, e.g. NaCl, 2H2O + 2Na, 4H2O + 6Ne. Reaction equations such as 2H2O + 2Na -> 2NaOH + H2 are read as relations in a single symmetric monoidal preorder (Mat, ->, 0, +): the arrow -> is the preorder relation (playing the role of <=, with the left side the reactant and the right side the product), + is the monoidal product (playing the role of (tensor)) and 0 is the monoidal unit (the empty collection). Makes the general point that a monoidal preorder's <=, (tensor), I are written with whatever notation the application prefers.",
+   "book_section": "2.2.3",
+   "book_page": "48",
+   "pdf_pages": [
+    60,
+    61
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.3:ex21"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.3:def-catalysis",
+   "kind": "definition",
+   "number": null,
+   "name": "catalyst / catalyzes, in a monoidal preorder",
+   "statement_summary": "Unnumbered definition in running prose. Given reactions in a monoidal preorder, an element k is a CATALYST for the reaction x + y -> z when k occurs on both sides of a derivable reaction x + y + k -> z + k while x + y -> z is not itself derivable; one says k catalyzes x + y -> z. The book's derivation shows how the composite arises from the monoidal-preorder laws: from y + k -> y' + k', x + y' -> z' and z' + k' -> z + k one obtains, by monotonicity and transitivity, x + y + k -> x + y' + k' -> z' + k' -> z + k. Abstractly: x (tensor) y (tensor) k <= z (tensor) k can hold even though x (tensor) y <= z fails, i.e. tensoring both sides with k can create relations.",
+   "book_section": "2.2.3",
+   "book_page": "49",
+   "pdf_pages": [
+    61
+   ],
+   "cross_refs": [
+    "7sketches:2.2.3:construction-mat",
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.3:ex21",
+   "kind": "exercise",
+   "number": "2.21",
+   "name": "the chemistry preorder satisfies the monoidal axioms",
+   "statement_summary": "For readers familiar with reaction equations: check that conditions (a), (b), (c) and (d) of Definition 2.2 hold for the chemistry structure (Mat, ->, 0, +), i.e. that reactions are monotone under forming collections, that adding nothing changes nothing, and that + is associative and commutative on material collections.",
+   "book_section": "2.2.3",
+   "book_page": "49",
+   "pdf_pages": [
+    61
+   ],
+   "cross_refs": [
+    "7sketches:2.2.3:construction-mat",
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.3:def-discard-axiom",
+   "kind": "definition",
+   "number": null,
+   "name": "the discard axiom (e): x <= I",
+   "statement_summary": "Unnumbered definition, displayed with the text tag '(discard axiom)' rather than a number. To model waste in a resource theory one adds to Definition 2.2(a)-(d) the further axiom (e): x <= I for every x in X. It says every element can be converted into the monoidal unit \u2014 equivalently I is a top element of the preorder \u2014 written x -> 0 in chemistry notation. It is appropriate to manufacturing (anything can be thrown away, because each produced item can be grabbed and manipulated) but NOT to chemistry (one cannot discard a substance dissolved in something else). Diagrammatically it enlarges the wiring-diagram style with a discard icon that lets a wire terminate.",
+   "book_section": "2.2.3",
+   "book_page": "50",
+   "pdf_pages": [
+    62
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.3:def-copy-axiom"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.3:def-copy-axiom",
+   "kind": "definition",
+   "number": null,
+   "name": "the copy axiom (f): x <= x (tensor) x",
+   "statement_summary": "Unnumbered definition, displayed with the text tag '(copy axiom)' rather than a number. To model information rather than matter one adds to Definition 2.2(a)-(d) \u2014 optionally keeping the discard axiom (e) \u2014 the axiom (f): x <= x (tensor) x for every x in X. It says any element can be duplicated, and it is what makes mathematical sense of the wire-splitting icon in wiring diagrams (e.g. writing one email and sending copies to two recipients). Physical resources do not satisfy it (one cup of butter never becomes two); classical information does.",
+   "book_section": "2.2.3",
+   "book_page": "52",
+   "pdf_pages": [
+    64
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.3:def-discard-axiom"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.4:example27",
+   "kind": "example",
+   "number": "2.27",
+   "name": "Bool: the Booleans with AND",
+   "statement_summary": "Defines the monoidal preorder Bool := (B, <=, true, AND) where B = {true, false} is the two-element preorder with false <= true, the monoidal unit is true and the monoidal product is conjunction. Under the identification false = 0, true = 1 the AND table coincides with the multiplication table on {0, 1}. All conditions of Definition 2.2 hold. Bool is the base of enrichment used later to recover preorders, and the reading is: getting from a to b is a true/false question, true as unit says one can always get from a to a, AND as product says that getting from a to b and from b to c yields getting from a to c, and the <= supplies the if-then form.",
+   "book_section": "2.2.4",
+   "book_page": "52",
+   "pdf_pages": [
+    64
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.3.1:def46"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:ex29",
+   "kind": "exercise",
+   "number": "2.29",
+   "name": "the second monoidal structure on the Booleans (OR)",
+   "statement_summary": "Take (B, <=) with false <= true as before but with monoidal product OR (disjunction), whose table matches max on {0, 1}. Determine which element must be the monoidal unit for Definition 2.2 to be satisfied (namely false), and then decide whether the remaining conditions hold. Establishes that there are two distinct symmetric monoidal structures on the Boolean preorder, the AND one being the more useful in practice.",
+   "book_section": "2.2.4",
+   "book_page": "53",
+   "pdf_pages": [
+    65
+   ],
+   "cross_refs": [
+    "7sketches:2.2.4:example27",
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:example30",
+   "kind": "example",
+   "number": "2.30",
+   "name": "natural numbers with addition",
+   "statement_summary": "(N, <=, 0, +): the natural numbers with their usual order carry a monoidal structure with unit 0 and product +, e.g. 6 + 4 = 10. Monotonicity holds since x1 <= y1 and x2 <= y2 imply x1 + x2 <= y1 + y2, and the remaining conditions of Definition 2.2 are the unit, associativity and commutativity laws of addition.",
+   "book_section": "2.2.4",
+   "book_page": "53",
+   "pdf_pages": [
+    65
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:ex31",
+   "kind": "exercise",
+   "number": "2.31",
+   "name": "natural numbers with multiplication",
+   "statement_summary": "Show that the usual order (N, <=) also carries a monoidal structure whose product is multiplication (e.g. 6 * 4 = 24), and identify the monoidal unit (namely 1). Together with Example 2.30 this gives two different monoidal structures on the same preorder.",
+   "book_section": "2.2.4",
+   "book_page": "53",
+   "pdf_pages": [
+    65
+   ],
+   "cross_refs": [
+    "7sketches:2.2.4:example30",
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:example32",
+   "kind": "example",
+   "number": "2.32",
+   "name": "divisibility and multiplication",
+   "statement_summary": "On N take the divisibility preorder, m | n meaning m divides n without remainder (so 1 | m for all m, and 4 | 12). Then (N, |, 1, *) is a monoidal preorder: unit 1, product multiplication. Monotonicity is proved explicitly \u2014 if x1 | y1 and x2 | y2, witnessed by p1, p2 in N with x1 * p1 = y1 and x2 * p2 = y2, then (p1 * p2) * (x1 * x2) = y1 * y2, so (x1 * x2) | (y1 * y2).",
+   "book_section": "2.2.4",
+   "book_page": "53",
+   "pdf_pages": [
+    65
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:ex33",
+   "kind": "exercise",
+   "number": "2.33",
+   "name": "divisibility with addition is not monoidal",
+   "statement_summary": "On the divisibility preorder (N, |), someone proposes 0 as monoidal unit and + as monoidal product. Decide whether this satisfies the conditions of Definition 2.2, and say why or why not (monotonicity for | under + is the point at issue).",
+   "book_section": "2.2.4",
+   "book_page": "54",
+   "pdf_pages": [
+    66
+   ],
+   "cross_refs": [
+    "7sketches:2.2.4:example32",
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:ex34",
+   "kind": "exercise",
+   "number": "2.34",
+   "name": "NMY, the three-element preorder with min",
+   "statement_summary": "Let (P, <=) be the preorder with Hasse diagram no -> maybe -> yes. Proposed monoidal structure: unit yes and product 'min'. (1) Make 'min' precise by filling in its full 3x3 multiplication table with elements of P. (2) Check that the axioms of Definition 2.2 hold for NMY := (P, <=, yes, min) with that definition, revising the definition of min if they do not. (This is the three-valued analogue of Bool.)",
+   "book_section": "2.2.4",
+   "book_page": "54",
+   "pdf_pages": [
+    66
+   ],
+   "cross_refs": [
+    "7sketches:2.2.4:example27",
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:ex35",
+   "kind": "exercise",
+   "number": "2.35",
+   "name": "powerset with intersection",
+   "statement_summary": "For a set S let P(S) be its power set (including the empty subset and S itself), ordered by A <= B iff A is a subset of B. Proposed symmetric monoidal structure: monoidal unit S and monoidal product intersection A and B. Decide whether it satisfies the conditions of Definition 2.2.",
+   "book_section": "2.2.4",
+   "book_page": "54",
+   "pdf_pages": [
+    66
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:ex36",
+   "kind": "exercise",
+   "number": "2.36",
+   "name": "a monoidal structure on predicates over the naturals",
+   "statement_summary": "Let Prop^N be the set of mathematical statements about a natural number, two statements identified when each is true exactly when the other is (so 'n + 2 = 5' and 'n is the least odd prime' are the same element), preordered by P <= Q iff for every n in N, P(n) true implies Q(n) true. Task: define a monoidal unit and a monoidal product on Prop^N satisfying the conditions of Definition 2.2 (e.g. the always-true statement and conjunction).",
+   "book_section": "2.2.4",
+   "book_page": "54",
+   "pdf_pages": [
+    66
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.4:example27"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:example37",
+   "kind": "example",
+   "number": "2.37",
+   "name": "Cost, Lawvere's monoidal preorder",
+   "statement_summary": "Let [0, infinity] be the non-negative reals together with infinity, and take the preorder ([0, infinity], >=) with the REVERSED usual order (so infinity >= x for every x, i.e. infinity is the least element of the preorder). This carries a monoidal structure with monoidal unit 0 and monoidal product +, extended by x + infinity = infinity. The resulting symmetric monoidal preorder is Cost := ([0, infinity], >=, 0, +). Reading: getting from a to b is a question of cost; the unit 0 says one can always get from a to a at no cost; the product + together with the reversed order says the cost of getting from a to c is AT MOST the cost from a to b plus that from b to c. Cost is the base of enrichment for Lawvere metric spaces.",
+   "book_section": "2.2.4",
+   "book_page": "54",
+   "pdf_pages": [
+    66,
+    67
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.3.1:def46"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.4:prop38",
+   "kind": "proposition",
+   "number": "2.38",
+   "name": "the opposite of a symmetric monoidal preorder",
+   "statement_summary": "Let X = (X, <=) be a preorder and X^op = (X, >=) its opposite (same underlying set, reversed relation). If (X, <=, I, (tensor)) is a symmetric monoidal preorder then so is (X, >=, I, (tensor)) \u2014 the same unit and the same product work on the opposite order. Proof of monotonicity is given: if x1 >= y1 and x2 >= y2 in X^op then y1 <= x1 and y2 <= x2 in X, so y1 (tensor) y2 <= x1 (tensor) x2 in X, i.e. x1 (tensor) x2 >= y1 (tensor) y2 in X^op. The other three conditions are equations between elements and hence unaffected by reversing the order (left to Exercise 2.39).",
+   "book_section": "2.2.4",
+   "book_page": "55",
+   "pdf_pages": [
+    67
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.4:ex39",
+    "7sketches:2.2.4:ex40"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:ex39",
+   "kind": "exercise",
+   "number": "2.39",
+   "name": "complete the proof of Proposition 2.38",
+   "statement_summary": "Finish the proof of Proposition 2.38 by verifying the three remaining conditions of Definition 2.2 \u2014 unitality, associativity and symmetry \u2014 for the opposite symmetric monoidal preorder (X, >=, I, (tensor)).",
+   "book_section": "2.2.4",
+   "book_page": "55",
+   "pdf_pages": [
+    67
+   ],
+   "cross_refs": [
+    "7sketches:2.2.4:prop38",
+    "7sketches:2.2.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.4:ex40",
+   "kind": "exercise",
+   "number": "2.40",
+   "name": "identify Cost^op",
+   "statement_summary": "Since Cost is a symmetric monoidal preorder, Proposition 2.38 says Cost^op is too. Describe it explicitly: (1) what Cost^op is as a preorder (the usual <= order on [0, infinity]), (2) what its monoidal unit is, (3) what its monoidal product is.",
+   "book_section": "2.2.4",
+   "book_page": "55",
+   "pdf_pages": [
+    67
+   ],
+   "cross_refs": [
+    "7sketches:2.2.4:prop38",
+    "7sketches:2.2.4:example37"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.5:def41",
+   "kind": "definition",
+   "number": "2.41",
+   "name": "monoidal monotone; strong and strict monoidal monotone",
+   "statement_summary": "Let P = (P, <=_P, I_P, (tensor)_P) and Q = (Q, <=_Q, I_Q, (tensor)_Q) be monoidal preorders. A MONOIDAL MONOTONE from P to Q is a monotone map f : (P, <=_P) -> (Q, <=_Q) satisfying, for all p1, p2 in P: (a) I_Q <=_Q f(I_P), and (b) f(p1) (tensor)_Q f(p2) <=_Q f(p1 (tensor)_P p2). Two strengthenings, using the equivalence relation induced by the preorder (x equivalent to x' iff x <= x' and x' <= x): f is STRONG monoidal monotone if (a') I_Q is equivalent to f(I_P) and (b') f(p1) (tensor) f(p2) is equivalent to f(p1 (tensor) p2); and STRICT monoidal monotone if (a'') I_Q = f(I_P) and (b'') f(p1) (tensor) f(p2) = f(p1 (tensor) p2). Note the direction of the inequalities: this is the LAX notion.",
+   "book_section": "2.2.5",
+   "book_page": "55",
+   "pdf_pages": [
+    67,
+    68
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.5:remark-oplax"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.5:construction-bool-to-cost",
+   "kind": "construction",
+   "number": null,
+   "name": "the monoidal monotone g : Bool -> Cost",
+   "statement_summary": "Unnumbered construction in prose: the map g from Bool = (B, <=, true, AND) to Cost = ([0, infinity], >=, 0, +) defined by g(false) := infinity and g(true) := 0 is a monoidal monotone in the sense of Definition 2.41 \u2014 false <= true is sent to infinity >= 0, the unit condition holds since g(true) = 0 is the unit of Cost, and the product condition holds since g(p1) + g(p2) >= g(p1 AND p2). Verification is set as Exercise 2.43; the quasi-inverse maps in the other direction are Exercise 2.44. This is the bridge between the true/false and the cost readings of 'getting from a to b'.",
+   "book_section": "2.2.5",
+   "book_page": "56",
+   "pdf_pages": [
+    68
+   ],
+   "cross_refs": [
+    "7sketches:2.2.5:def41",
+    "7sketches:2.2.4:example27",
+    "7sketches:2.2.4:example37",
+    "7sketches:2.2.5:ex43"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.5:remark-oplax",
+   "kind": "remark",
+   "number": null,
+   "name": "monoidal monotones as monoidal functors; lax versus oplax",
+   "statement_summary": "Unnumbered run-in remark. Monoidal monotones are the preorder-level instance of MONOIDAL FUNCTORS, of which the book meets several incarnations later (forward reference to the Rough Definition of symmetric monoidal functor, 6.68). What Definition 2.41 calls a monoidal monotone could more precisely be called a LAX monoidal monotone; the dual notion, OPLAX monoidal monotone, is obtained by reversing both inequalities of conditions (a) and (b) \u2014 i.e. requiring f(I_P) <=_Q I_Q and f(p1 (tensor)_P p2) <=_Q f(p1) (tensor)_Q f(p2). Oplaxity is not used in the book.",
+   "book_section": "2.2.5",
+   "book_page": "56",
+   "pdf_pages": [
+    68
+   ],
+   "cross_refs": [
+    "7sketches:2.2.5:def41"
+   ],
+   "flags": [
+    "unnumbered-remark"
+   ]
+  },
+  {
+   "id": "7sketches:2.2.5:example42",
+   "kind": "example",
+   "number": "2.42",
+   "name": "inclusion and floor as monoidal monotones between N and R",
+   "statement_summary": "Two monoidal monotones in opposite directions between (N, <=, 0, +) and (R, <=, 0, +). (i) The inclusion i(n) = n is monotone (m <= n implies i(m) <= i(n)) and even STRICT monoidal, since i(0) = 0 and i(m + n) = i(m) + i(n). (ii) The floor map f(x) = floor(x) : R -> N (e.g. f(3.14) = 3) is monotone (x <= y implies f(x) <= f(y)) and satisfies f(0) = 0 and f(x) + f(y) <= f(x + y), so it is a (lax) monoidal monotone; but it is neither strict nor even strong, because f(0.5) + f(0.5) = 0 differs from f(0.5 + 0.5) = 1.",
+   "book_section": "2.2.5",
+   "book_page": "56",
+   "pdf_pages": [
+    68
+   ],
+   "cross_refs": [
+    "7sketches:2.2.5:def41",
+    "7sketches:2.2.4:example30",
+    "7sketches:2.2.1:example4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.5:ex43",
+   "kind": "exercise",
+   "number": "2.43",
+   "name": "verify g : Bool -> Cost is a monoidal monotone",
+   "statement_summary": "For the map g : (B, <=, true, AND) -> ([0, infinity], >=, 0, +) with g(false) = infinity, g(true) = 0: (1) check that it is monotonic, that it satisfies condition (a) of Definition 2.41, and that it satisfies condition (b); (2) decide whether g is strict.",
+   "book_section": "2.2.5",
+   "book_page": "56",
+   "pdf_pages": [
+    68
+   ],
+   "cross_refs": [
+    "7sketches:2.2.5:construction-bool-to-cost",
+    "7sketches:2.2.5:def41"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.5:ex44",
+   "kind": "exercise",
+   "number": "2.44",
+   "name": "the quasi-inverse maps d and u from Cost to Bool",
+   "statement_summary": "Consider the two maps d, u : [0, infinity] -> B defined by d(x) = false if x > 0 and true if x = 0; u(x) = false if x = infinity and true if x < infinity. For each of d and u decide: is it monotonic (as a map Cost -> Bool), does it satisfy conditions (a) and (b) of Definition 2.41, and is it strict? (Six questions, three per map.)",
+   "book_section": "2.2.5",
+   "book_page": "56",
+   "pdf_pages": [
+    68
+   ],
+   "cross_refs": [
+    "7sketches:2.2.5:def41",
+    "7sketches:2.2.4:example27",
+    "7sketches:2.2.4:example37"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.2.5:ex45",
+   "kind": "exercise",
+   "number": "2.45",
+   "name": "multiplicative monoidal preorders on N and Z, and a monotone between them",
+   "statement_summary": "Three questions. (1) Is (N, <=, 1, *) a monoidal preorder, with * ordinary multiplication of naturals? (2) If not, why not; if so, does a monoidal monotone (N, <=, 0, +) -> (N, <=, 1, *) exist \u2014 exhibit one or explain why none does? (3) Is (Z, <=, *, 1) a monoidal preorder (i.e. the integers with the usual order, unit 1 and multiplication)? The expected answer to (3) is negative because multiplication by a negative integer reverses <=, so monotonicity fails.",
+   "book_section": "2.2.5",
+   "book_page": "56",
+   "pdf_pages": [
+    68,
+    69
+   ],
+   "cross_refs": [
+    "7sketches:2.2.5:def41",
+    "7sketches:2.2.4:example30",
+    "7sketches:2.2.4:ex31"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.3.1:def46",
+   "kind": "definition",
+   "number": "2.46",
+   "name": "V-category (category enriched in a symmetric monoidal preorder)",
+   "statement_summary": "Let V = (V, <=, I, (tensor)) be a symmetric monoidal preorder. A V-CATEGORY X consists of: (i) a set Ob(X) whose elements are called objects; (ii) for every ordered pair of objects x, y an element X(x, y) of V, called the hom-object. Two axioms: (a) for every object x, I <= X(x, x) (identity/unit law); (b) for all objects x, y, z, X(x, y) (tensor) X(y, z) <= X(x, z) (composition law). V is called the base of the enrichment and X is said to be enriched in V. Note there is no equational data and no composition operation \u2014 only these two inequalities in V. The book remarks that V-categories can be defined when V satisfies only conditions (a)-(c) of Definition 2.2, i.e. symmetry is not needed for the definition itself, though it is needed later for products of V-categories.",
+   "book_section": "2.3.1",
+   "book_page": "57",
+   "pdf_pages": [
+    69
+   ],
+   "cross_refs": [
+    "7sketches:2.2.1:def2",
+    "7sketches:2.2.4:example27",
+    "7sketches:2.2.4:example37"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.3.1:example47",
+   "kind": "example",
+   "number": "2.47",
+   "name": "a Bool-category from a preorder; matrix presentation of a V-category",
+   "statement_summary": "Works Definition 2.46 out for V = Bool. Starting from the preorder generated by a given Hasse diagram on {p, q, r, s, t}, one builds a Bool-category X with Ob(X) the five elements and hom-objects X(x, y) := true if x <= y and false otherwise (so X(s, t) = true and X(t, s) = false); axiom (a), true <= X(x, x), is exactly reflexivity, and axiom (b), X(x, y) AND X(y, z) <= X(x, z), is exactly transitivity, so the two axioms are satisfied. Announces that this correspondence between preorders and Bool-categories runs both ways (proved in the next subsection). The example continues onto printed 58 with the general convention of presenting a V-category as a square matrix indexed by objects whose (x, y) entry is the hom-object X(x, y), displayed there for this preorder as a 5x5 true/false matrix.",
+   "book_section": "2.3.1",
+   "book_page": "57",
+   "pdf_pages": [
+    69,
+    70
+   ],
+   "cross_refs": [
+    "7sketches:2.3.1:def46",
+    "7sketches:2.2.4:example27"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.3.2:thm49",
+   "kind": "theorem",
+   "number": "2.49",
+   "name": "preorders are the same as Bool-categories",
+   "statement_summary": "There is a one-to-one correspondence between preorders and Bool-categories (categories enriched in Bool = (B, <=, true, AND)). Forward: a preorder (P, <=) gives a Bool-category with Ob = P and hom-object X(x,y) := true iff x <= y, false otherwise. Backward: a Bool-category X gives a preorder on Ob(X) by declaring x <= y iff X(x,y) = true; the enrichment axiom I <= X(x,x) forces X(x,x) = true hence reflexivity, and X(x,y) AND X(y,z) <= X(x,z) forces transitivity. The proof in the text supplies the backward direction; the mutual-inverseness is left to Exercise 2.50.",
+   "book_section": "2.3.2",
+   "book_page": "58",
+   "pdf_pages": [
+    70
+   ],
+   "cross_refs": [
+    "7sketches:2.3.1:def46",
+    "7sketches:2.3.1:example47",
+    "7sketches:2.3.2:ex50",
+    "7sketches:2.4.2:example70",
+    "7sketches:2.4.2:remark71"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.3.2:ex50",
+   "kind": "exercise",
+   "number": "2.50",
+   "name": "the preorder/Bool-category constructions are mutually inverse",
+   "statement_summary": "Show both round trips are identities: (1) starting from a preorder (P, <=), build the Bool-category as in Example 2.47 and then turn it back into a preorder by the recipe in the proof of Theorem 2.49 - you recover the original preorder; (2) starting from a Bool-category, pass to a preorder and back - you recover the original Bool-category.",
+   "book_section": "2.3.2",
+   "book_page": "59",
+   "pdf_pages": [
+    71
+   ],
+   "cross_refs": [
+    "7sketches:2.3.2:thm49",
+    "7sketches:2.3.1:example47"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.3.3:def51",
+   "kind": "definition",
+   "number": "2.51",
+   "name": "metric space; extended metric space",
+   "statement_summary": "A metric space (X, d) consists of a set X of points and a function d : X x X -> R_{>=0} (the distance from x to y), subject to four properties: (a) d(x,x) = 0; (b) if d(x,y) = 0 then x = y (separation); (c) d(x,y) = d(y,x) (symmetry); (d) d(x,y) + d(y,z) >= d(x,z) (the triangle inequality). If instead d is allowed to take values in [0, infinity] = R_{>=0} union {infinity}, (X, d) is called an EXTENDED metric space.",
+   "book_section": "2.3.3",
+   "book_page": "59",
+   "pdf_pages": [
+    71,
+    72
+   ],
+   "cross_refs": [
+    "7sketches:2.3.3:def53",
+    "7sketches:2.4.2:ex73"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.3.3:ex52",
+   "kind": "exercise",
+   "number": "2.52",
+   "name": "asymmetry of worst-case region distance",
+   "statement_summary": "Under the region-to-region distance where d(A,B) is the worst case over starting points in A of the distance needed to reach somewhere in B, decide which of d(Spain, US) and d(US, Spain) is larger. Exhibits failure of the symmetry axiom (and, via d(Boston, US) = 0, of separation) for a Hausdorff-like distance.",
+   "book_section": "2.3.3",
+   "book_page": "60",
+   "pdf_pages": [
+    72
+   ],
+   "cross_refs": [
+    "7sketches:2.3.3:def51",
+    "7sketches:2.4.1:ex67"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.3.3:def53",
+   "kind": "definition",
+   "number": "2.53",
+   "name": "Lawvere metric space",
+   "statement_summary": "A Lawvere metric space is by definition a Cost-category, where Cost = ([0, infinity], >=, 0, +) is the symmetric monoidal preorder of costs with the REVERSED order. Unpacked via Definition 2.46: a set X := Ob(X) together with d(x,y) := X(x,y) in [0, infinity] such that (a) 0 >= d(x,x), i.e. d(x,x) = 0, and (b) d(x,y) + d(y,z) >= d(x,z), the triangle inequality. Symmetry and separation (conditions (b),(c) of Definition 2.51) are dropped and infinite distances are allowed.",
+   "book_section": "2.3.3",
+   "book_page": "61",
+   "pdf_pages": [
+    73
+   ],
+   "cross_refs": [
+    "7sketches:2.3.1:def46",
+    "7sketches:2.3.3:def51",
+    "7sketches:2.4.2:example72",
+    "7sketches:2.4.2:ex73"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.3.3:example54",
+   "kind": "example",
+   "number": "2.54",
+   "name": "the reals as a Lawvere metric space",
+   "statement_summary": "The set R of real numbers carries the metric d(x,y) := |y - x|, hence is a metric space and therefore also a Lawvere metric space (Cost-category); e.g. d(3,7) = 4.",
+   "book_section": "2.3.3",
+   "book_page": "61",
+   "pdf_pages": [
+    73
+   ],
+   "cross_refs": [
+    "7sketches:2.3.3:def53",
+    "7sketches:2.4.3:ex78"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.3.3:ex55",
+   "kind": "exercise",
+   "number": "2.55",
+   "name": "enrichment in the finite-cost preorder",
+   "statement_summary": "Consider the symmetric monoidal preorder (R_{>=0}, >=, 0, +), which is Cost without the point infinity. Characterize the difference between a Lawvere metric space (Cost-category) and an (R_{>=0}, >=, 0, +)-category in the sense of Definition 2.46 - i.e. what the exclusion of infinite distances rules out.",
+   "book_section": "2.3.3",
+   "book_page": "61",
+   "pdf_pages": [
+    73
+   ],
+   "cross_refs": [
+    "7sketches:2.3.1:def46",
+    "7sketches:2.3.3:def53"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.3.3:construction-graph-matrix",
+   "kind": "construction",
+   "number": null,
+   "name": "the matrix M_G of a Cost-weighted graph",
+   "statement_summary": "Unnumbered construction developed in prose: for a Cost-weighted graph G, define the square matrix M_G indexed by the vertices of G by M_G(x,x) := 0 on the diagonal, M_G(x,y) := the edge weight when there is an edge x -> y, and M_G(x,y) := infinity when no edge is present. Unlike the distance matrix d_G this requires no computation, being read directly off the graph; it records lengths of paths traversing 0 or 1 edges. Section 2.5.3 later recovers d_G from M_G by iterated generalized matrix multiplication.",
+   "book_section": "2.3.3",
+   "book_page": "62",
+   "pdf_pages": [
+    74
+   ],
+   "cross_refs": [
+    "7sketches:2.3.3:construction-weighted-graph-metric",
+    "7sketches:2.3.3:ex60",
+    "7sketches:2.5.3:construction-matrix-powers"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:2.3.3:construction-weighted-graph-metric",
+   "kind": "construction",
+   "number": null,
+   "name": "the Lawvere metric space (shortest-path metric) of a Cost-weighted graph",
+   "statement_summary": "Unnumbered construction developed in prose: from any Cost-weighted graph G - a directed graph whose edges are labelled by elements of [0, infinity], read as one-way roads with a length/effort - one forms a Lawvere metric space on the vertex set X of G by setting d_G(p,q) := the total length of a SHORTEST directed path from p to q (0 via the empty path, infinity when no path exists). This is the graph-presentation analogue of generating a preorder from a Hasse diagram; a Hasse diagram is exactly the Bool-weighted case (edges weighted true, false-edges omitted). Worked out for the graph Y with the resulting distance table.",
+   "book_section": "2.3.3",
+   "book_page": "62",
+   "pdf_pages": [
+    74
+   ],
+   "cross_refs": [
+    "7sketches:2.3.3:def53",
+    "7sketches:2.3.3:construction-graph-matrix",
+    "7sketches:2.3.3:ex58",
+    "7sketches:2.5.3:construction-matrix-powers"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:2.3.3:ex58",
+   "kind": "exercise",
+   "number": "2.58",
+   "name": "distance table of a Cost-weighted graph",
+   "statement_summary": "For the four-vertex Cost-weighted graph X of Eq. (2.56) (vertices A, B, C, D with labelled directed edges), fill out the complete 4x4 table of shortest-path distances d_X(p,q), given the partial table with d(A,A) = 0, d(B,A) = 2, d(B,C) = 5.",
+   "book_section": "2.3.3",
+   "book_page": "62",
+   "pdf_pages": [
+    74
+   ],
+   "cross_refs": [
+    "7sketches:2.3.3:construction-weighted-graph-metric",
+    "7sketches:2.5.3:ex105"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.3.3:ex60",
+   "kind": "exercise",
+   "number": "2.60",
+   "name": "the matrix of the graph X",
+   "statement_summary": "Fill out the matrix M_X associated to the Cost-weighted graph X of Eq. (2.56), given the partial data 0 on the diagonal, M_X(B,A) = 2 and M_X(B,C) = infinity (i.e. record edge weights where edges exist and infinity elsewhere).",
+   "book_section": "2.3.3",
+   "book_page": "63",
+   "pdf_pages": [
+    75
+   ],
+   "cross_refs": [
+    "7sketches:2.3.3:construction-graph-matrix",
+    "7sketches:2.5.3:ex105"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.3.4:ex61",
+   "kind": "exercise",
+   "number": "2.61",
+   "name": "NMY-categories",
+   "statement_summary": "Recall the monoidal preorder NMY := (P, <=, yes, min) on the three truth values no/maybe/yes. Interpret what a category enriched in NMY is, i.e. what the hom-objects and the two enrichment axioms mean in that base.",
+   "book_section": "2.3.4",
+   "book_page": "63",
+   "pdf_pages": [
+    75
+   ],
+   "cross_refs": [
+    "7sketches:2.3.1:def46"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.3.4:ex62",
+   "kind": "exercise",
+   "number": "2.62",
+   "name": "power-set enrichment: modes of transportation",
+   "statement_summary": "Let M be a set and M := (P(M), subset-of, M, intersection) the monoidal preorder of subsets of M with intersection as tensor and M as unit. Reading M as modes of transport (car, boat, foot), an M-category records which modes get you all the way from a to b. (1) Draw a graph on four vertices with four or five edges labelled by subsets of {car, boat, foot}. (2) Build the M-category whose hom-object from x to y is the UNION over all paths p from x to y of the INTERSECTION of the labels of the edges in p; write the 4x4 hom matrix and check the enrichment axioms. (3) Decide whether the stated interpretation is right or subtly mistaken.",
+   "book_section": "2.3.4",
+   "book_page": "63",
+   "pdf_pages": [
+    75,
+    76
+   ],
+   "cross_refs": [
+    "7sketches:2.3.1:def46",
+    "7sketches:2.3.4:ex63",
+    "7sketches:2.5.2:remark97"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.3.4:ex63",
+   "kind": "exercise",
+   "number": "2.63",
+   "name": "enrichment in the bottleneck preorder",
+   "statement_summary": "Let W := (N union {infinity}, <=, infinity, min). (1) Draw a small graph labelled by elements of N union {infinity}. (2) Form the matrix indexed by the nodes whose (x,y) entry is the MAXIMUM over all paths p from x to y of the MINIMUM edge label along p (a bottleneck/capacity value). (3) Prove this matrix is the hom-object matrix of a W-category. (4) Give an interpretation of enrichment in W, in the style of Exercise 2.62.",
+   "book_section": "2.3.4",
+   "book_page": "64",
+   "pdf_pages": [
+    76
+   ],
+   "cross_refs": [
+    "7sketches:2.3.1:def46",
+    "7sketches:2.3.4:ex62"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.1:construction64",
+   "kind": "construction",
+   "number": "2.64",
+   "name": "change of base of enrichment along a monoidal monotone",
+   "statement_summary": "Given a monoidal monotone f : V -> W between symmetric monoidal preorders and a V-category C, the associated W-category C_f is defined by (i) Ob(C_f) := Ob(C) and (ii) C_f(c,d) := f(C(c,d)). The text verifies the two V-category axioms in W: (a) I_W <= f(I_V) <= f(C(c,c)) = C_f(c,c) using laxity of f at the unit and monotonicity; (b) C_f(c,d) (x)_W C_f(d,e) = f(C(c,d)) (x)_W f(C(d,e)) <= f(C(c,d) (x)_V C(d,e)) <= f(C(c,e)) = C_f(c,e) using laxity of f at the tensor and the composition axiom of C. Hence any monoidal monotone V -> W converts V-categories into W-categories.",
+   "book_section": "2.4.1",
+   "book_page": "64",
+   "pdf_pages": [
+    76,
+    77
+   ],
+   "cross_refs": [
+    "7sketches:2.3.1:def46",
+    "7sketches:2.2.5:def41",
+    "7sketches:2.4.1:example65",
+    "7sketches:2.4.1:ex68"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.4.1:example65",
+   "kind": "example",
+   "number": "2.65",
+   "name": "Cost -> Bool base change turning Lawvere metric spaces into preorders",
+   "statement_summary": "The function f : [0, infinity] -> {true, false} with f(x) = true if x = 0 and f(x) = false if x > 0 is monotone (for the reversed order of Cost) and preserves the monoidal unit and product, hence is a monoidal monotone Cost -> Bool. Change of base along f (Construction 2.64) therefore converts any Lawvere metric space into a preorder: x <= y iff d(x,y) = 0.",
+   "book_section": "2.4.1",
+   "book_page": "65",
+   "pdf_pages": [
+    77
+   ],
+   "cross_refs": [
+    "7sketches:2.4.1:construction64",
+    "7sketches:2.2.5:def41",
+    "7sketches:2.4.1:ex67",
+    "7sketches:2.4.1:ex68"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.1:ex67",
+   "kind": "exercise",
+   "number": "2.67",
+   "name": "preorder of world regions from the Hausdorff-like metric",
+   "statement_summary": "Apply the monoidal monotone f of Eq. (2.66) to the 'regions of the world' Lawvere metric space of Exercise 2.52; draw the Hasse diagram of the resulting preorder on the three regions US, Spain, Boston, and interpret what the preorder relation means (containment/zero-distance).",
+   "book_section": "2.4.1",
+   "book_page": "65",
+   "pdf_pages": [
+    77
+   ],
+   "cross_refs": [
+    "7sketches:2.3.3:ex52",
+    "7sketches:2.4.1:example65",
+    "7sketches:2.4.1:construction64"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.1:ex68",
+   "kind": "exercise",
+   "number": "2.68",
+   "name": "a second monoidal monotone Cost -> Bool distinguishing base changes",
+   "statement_summary": "(1) Find a monoidal monotone g : Cost -> Bool different from the f of Eq. (2.66). (2) Using Construction 2.64, both f and g convert a Lawvere metric space into a preorder; exhibit a Lawvere metric space X for which the two results differ, X_f =/= X_g.",
+   "book_section": "2.4.1",
+   "book_page": "65",
+   "pdf_pages": [
+    77
+   ],
+   "cross_refs": [
+    "7sketches:2.4.1:construction64",
+    "7sketches:2.4.1:example65"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.2:def69",
+   "kind": "definition",
+   "number": "2.69",
+   "name": "V-functor (enriched functor)",
+   "statement_summary": "For V-categories X and Y, a V-functor F : X -> Y consists of one constituent, a function F : Ob(X) -> Ob(Y), subject to one constraint: for all x1, x2 in Ob(X), X(x1, x2) <= Y(F(x1), F(x2)) in V. (No further data: enrichment over a preorder makes the action on homs a mere inequality.)",
+   "book_section": "2.4.2",
+   "book_page": "65",
+   "pdf_pages": [
+    77
+   ],
+   "cross_refs": [
+    "7sketches:2.3.1:def46",
+    "7sketches:2.4.2:example70",
+    "7sketches:2.4.2:example72"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.2:example70",
+   "kind": "example",
+   "number": "2.70",
+   "name": "Bool-functors are monotone maps",
+   "statement_summary": "Taking V = Bool, so that preorders are Bool-categories with X(x1,x2) = true written x1 <= x2, the V-functors of Definition 2.69 are exactly the monotone maps: a function F : X -> Y with x1 <=_X x2 implying F(x1) <=_Y F(x2) is precisely a function satisfying X(x1,x2) <= Y(F(x1), F(x2)) in Bool.",
+   "book_section": "2.4.2",
+   "book_page": "66",
+   "pdf_pages": [
+    78
+   ],
+   "cross_refs": [
+    "7sketches:2.4.2:def69",
+    "7sketches:2.3.2:thm49"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.2:remark71",
+   "kind": "remark",
+   "number": "2.71",
+   "name": "equivalence between preorders and Bool-categories",
+   "statement_summary": "The correspondence of Theorem 2.49 together with Example 2.70 is in fact an EQUIVALENCE of categories between the category of preorders (with monotone maps) and the category of Bool-categories (with Bool-functors); the vocabulary to state this precisely is developed in the next chapter (Remark 3.59).",
+   "book_section": "2.4.2",
+   "book_page": "66",
+   "pdf_pages": [
+    78
+   ],
+   "cross_refs": [
+    "7sketches:2.3.2:thm49",
+    "7sketches:2.4.2:example70"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.2:example72",
+   "kind": "example",
+   "number": "2.72",
+   "name": "Cost-functors are 1-Lipschitz (short) maps",
+   "statement_summary": "Taking V = Cost, so that Lawvere metric spaces are Cost-categories, a Cost-functor between Lawvere metric spaces (X, d_X) and (Y, d_Y) is exactly a function F : X -> Y with d_X(x1, x2) >= d_Y(F(x1), F(x2)) for all x1, x2 - i.e. a (1-)Lipschitz, distance-nonincreasing map.",
+   "book_section": "2.4.2",
+   "book_page": "66",
+   "pdf_pages": [
+    78
+   ],
+   "cross_refs": [
+    "7sketches:2.4.2:def69",
+    "7sketches:2.3.3:def53"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.2:ex73",
+   "kind": "exercise",
+   "number": "2.73",
+   "name": "opposite, dagger and skeletal V-categories; extended metric spaces",
+   "statement_summary": "Defines three notions for a V-category X (extending opposite, dagger and skeleton from preorders): the OPPOSITE X^op has Ob(X^op) := Ob(X) and X^op(x,y) := X(y,x); X is a DAGGER V-category when the identity function is a V-functor X -> X^op (equivalently X(x,y) <= X(y,x), i.e. symmetry); X is SKELETAL when I <= X(x,y) and I <= X(y,x) together imply x = y. Then: (1) show a skeletal dagger Cost-category is exactly an extended metric space (Definition 2.51 with the [0, infinity] codomain, i.e. with symmetry and separation restored); (2) make sense of the analogy 'preorders are to sets as Lawvere metric spaces are to extended metric spaces'.",
+   "book_section": "2.4.2",
+   "book_page": "66",
+   "pdf_pages": [
+    78
+   ],
+   "cross_refs": [
+    "7sketches:2.4.2:def69",
+    "7sketches:2.3.3:def51",
+    "7sketches:2.3.3:def53"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.3:def74",
+   "kind": "definition",
+   "number": "2.74",
+   "name": "V-product of V-categories",
+   "statement_summary": "For V-categories X and Y over a symmetric monoidal preorder V, their V-product (or product) is the V-category X x Y with (i) Ob(X x Y) := Ob(X) x Ob(Y) and (ii) (X x Y)((x,y),(x',y')) := X(x,x') (x) Y(y,y'), the tensor in V of the two component hom-objects. (Product of preorders is the Bool-case, with AND as the tensor; sum of distances is the Cost-case.) That this is a V-category is Exercise 2.75, and needs symmetry of V.",
+   "book_section": "2.4.3",
+   "book_page": "67",
+   "pdf_pages": [
+    79
+   ],
+   "cross_refs": [
+    "7sketches:2.3.1:def46",
+    "7sketches:2.4.3:ex75",
+    "7sketches:2.4.3:example76",
+    "7sketches:2.4.3:ex78"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.3:ex75",
+   "kind": "exercise",
+   "number": "2.75",
+   "name": "the V-product is a V-category and needs symmetry",
+   "statement_summary": "For the V-product X x Y of Definition 2.74: (1) check the unit axiom I <= (X x Y)((x,y),(x,y)); (2) check the composition axiom (X x Y)((x1,y1),(x2,y2)) (x) (X x Y)((x2,y2),(x3,y3)) <= (X x Y)((x1,y1),(x3,y3)); (3) point out exactly where the symmetry of V (condition (d) of Definition 2.2) is used - the promised reason symmetry is needed for products of V-categories to exist.",
+   "book_section": "2.4.3",
+   "book_page": "67",
+   "pdf_pages": [
+    79
+   ],
+   "cross_refs": [
+    "7sketches:2.4.3:def74",
+    "7sketches:2.2.1:def2",
+    "7sketches:2.3.1:def46"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.4.3:example76",
+   "kind": "example",
+   "number": "2.76",
+   "name": "product of two Lawvere metric spaces presented by weighted graphs",
+   "statement_summary": "Let X (a 3-vertex path A -2-> B -3-> C) and Y (a 2-vertex cycle p -8-> q, q -5-> p) be the Lawvere metric spaces given by the displayed Cost-weighted graphs. Their Cost-product has the six objects Ob(X) x Ob(Y), and the distance is the SUM of coordinate distances, d_{X x Y}((x,y),(x',y')) = d_X(x,x') + d_Y(y,y'); the product's weighted graph is displayed (a grid of X-copies and Y-copies).",
+   "book_section": "2.4.3",
+   "book_page": "67",
+   "pdf_pages": [
+    79,
+    80
+   ],
+   "cross_refs": [
+    "7sketches:2.4.3:def74",
+    "7sketches:2.3.3:construction-weighted-graph-metric",
+    "7sketches:2.3.3:def53"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.4.3:ex78",
+   "kind": "exercise",
+   "number": "2.78",
+   "name": "distance in the Cost-product R x R",
+   "statement_summary": "Regard R as a Lawvere metric space (Cost-category) as in Example 2.54 and form the Cost-product R x R of Definition 2.74. Compute the distance from (5,6) to (-1,4): it is the sum |(-1)-5| + |4-6| = 8 of the coordinatewise distances, NOT the Euclidean sqrt(40).",
+   "book_section": "2.4.3",
+   "book_page": "68",
+   "pdf_pages": [
+    80
+   ],
+   "cross_refs": [
+    "7sketches:2.4.3:def74",
+    "7sketches:2.3.3:example54"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.1:def79",
+   "kind": "definition",
+   "number": "2.79",
+   "name": "symmetric monoidal closed preorder; hom-element",
+   "statement_summary": "A symmetric monoidal preorder V = (V, <=, I, (x)) is called symmetric monoidal closed (or just closed) if for every two elements v, w in V there is an element v -o w of V, the hom-element, with the property that for all a, v, w in V: (a (x) v) <= w if and only if a <= (v -o w). (Eq. (2.80); an internal-hom / residuation axiom, i.e. an adjunction between -(x)v and v-o- at the level of the preorder.)",
+   "book_section": "2.5.1",
+   "book_page": "69",
+   "pdf_pages": [
+    81
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:ex82",
+    "7sketches:2.5.1:example83",
+    "7sketches:2.5.1:prop87",
+    "7sketches:2.5.2:def90"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.1:ex82",
+   "kind": "exercise",
+   "number": "2.82",
+   "name": "closedness as a Galois connection / right adjoint of tensoring",
+   "statement_summary": "Show that Eq. (2.80) says precisely that there is a Galois connection: for each v in V the monotone map (-(x)v) : V -> V has right adjoint (v -o -). Steps: (1) using the axioms of a symmetric monoidal preorder, show (-(x)v) is monotone; (2) assuming V closed, show ((v -o w) (x) v) <= w for all v, w; (3) using (2), show (v -o -) is monotone; (4) conclude that a symmetric monoidal preorder is closed if and only if (-(x)v) has a right adjoint for every v.",
+   "book_section": "2.5.1",
+   "book_page": "69",
+   "pdf_pages": [
+    81
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:def79",
+    "7sketches:2.5.1:prop87"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.1:example83",
+   "kind": "example",
+   "number": "2.83",
+   "name": "Cost is monoidal closed via truncated subtraction",
+   "statement_summary": "Cost = ([0, infinity], >=, 0, +) is monoidal closed: define x -o y := max(0, y - x). The chain a + x >= y iff a >= y - x iff max(0,a) >= max(0, y-x) iff a >= (x -o y) verifies Eq. (2.80). Note that subtraction was not part of the data of Cost - monoidal closure DEFINES truncated subtraction from the order and the monoidal structure alone.",
+   "book_section": "2.5.1",
+   "book_page": "69",
+   "pdf_pages": [
+    81,
+    82
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:def79",
+    "7sketches:2.5.2:example91"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.5.1:ex84",
+   "kind": "exercise",
+   "number": "2.84",
+   "name": "Bool is monoidal closed",
+   "statement_summary": "Show that Bool = (B, <=, true, AND) is monoidal closed; i.e. exhibit the hom-element p -o q (logical implication) satisfying (a AND p) <= q iff a <= (p -o q).",
+   "book_section": "2.5.1",
+   "book_page": "70",
+   "pdf_pages": [
+    82
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:def79",
+    "7sketches:2.5.2:ex93"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.1:example85",
+   "kind": "example",
+   "number": "2.85",
+   "name": "a non-closed symmetric monoidal preorder",
+   "statement_summary": "(B, <=, false, OR) is NOT monoidal closed. Any candidate -o would satisfy false <= p -o q for all p, q, since false is the bottom element; taking a = false, p = true, q = false gives (a OR p) = true, which is not <= q = false, while a <= (p -o q) holds - contradicting Eq. (2.80).",
+   "book_section": "2.5.1",
+   "book_page": "70",
+   "pdf_pages": [
+    82
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:def79"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.1:example86",
+   "kind": "example",
+   "number": "2.86",
+   "name": "resource-theoretic reading of monoidal closure; Mat is not closed",
+   "statement_summary": "Interprets closure in a resource theory: closedness would mean that for any two material collections c, d there is a collection c -o d with a + c -> d if and only if a -> (c -o d). Applied to chemistry, from the reaction 2H2O + 2Na -> 2NaOH + H2 one would need 2H2O -> (2Na -o (2NaOH + H2)); since no actual substance plays that role, the preorder Mat of chemical materials is NOT monoidal closed. The would-be element is a potential reaction (a converter) rather than a substance.",
+   "book_section": "2.5.1",
+   "book_page": "70",
+   "pdf_pages": [
+    82
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:def79"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.1:prop87",
+   "kind": "proposition",
+   "number": "2.87",
+   "name": "properties of a monoidal closed preorder",
+   "statement_summary": "Let V = (V, <=, I, (x), -o) be a closed symmetric monoidal preorder. Then: (a) for every v, the monotone map -(x)v : (V,<=) -> (V,<=) is LEFT ADJOINT to v -o - : (V,<=) -> (V,<=); (b) for any v in V and A subset of V, if the join \\/_{a in A} a exists then so does \\/_{a in A} (v (x) a), and v (x) (\\/_{a in A} a) is isomorphic (order-equivalent) to \\/_{a in A} (v (x) a) - Eq. (2.88), i.e. (x) distributes over joins; (c) v (x) (v -o w) <= w (evaluation); (d) v is isomorphic to (I -o v); (e) (u -o v) (x) (v -o w) <= (u -o w) (composition of converters). Proofs: (a) is Eq. (2.80) restated as a Galois connection; (b) because left adjoints preserve joins; (c) from reflexivity of (v -o w) <= (v -o w) plus symmetry; (d),(e) from (c).",
+   "book_section": "2.5.1",
+   "book_page": "70",
+   "pdf_pages": [
+    82
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:def79",
+    "7sketches:2.5.1:ex82",
+    "7sketches:2.5.1:remark89",
+    "7sketches:2.5.2:prop98",
+    "7sketches:2.5.3:ex104"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.1:remark89",
+   "kind": "remark",
+   "number": "2.89",
+   "name": "a monoidal closed preorder is enriched in itself",
+   "statement_summary": "Any symmetric monoidal closed preorder V may be regarded as a V-category with Ob(V) := V and hom-objects V(v,w) := (v -o w). The two axioms of Definition 2.46 hold: the unit axiom I <= (x -o x) because I (x) x <= x, and the composition axiom V(u,v) (x) V(v,w) <= V(u,w) is exactly Proposition 2.87(e). So closed preorders enrich themselves.",
+   "book_section": "2.5.1",
+   "book_page": "71",
+   "pdf_pages": [
+    83
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:def79",
+    "7sketches:2.5.1:prop87",
+    "7sketches:2.3.1:def46"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.2:def90",
+   "kind": "definition",
+   "number": "2.90",
+   "name": "unital commutative quantale",
+   "statement_summary": "A unital commutative quantale is a symmetric monoidal closed preorder V = (V, <=, I, (x), -o) that has ALL joins: \\/A exists for every subset A of V. The empty join is denoted 0 := \\/(empty set) (the bottom element). Throughout the book 'quantale' means unital commutative quantale; noncommutative quantales are mentioned in section 2.6.",
+   "book_section": "2.5.2",
+   "book_page": "71",
+   "pdf_pages": [
+    83
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:def79",
+    "7sketches:2.5.2:example91",
+    "7sketches:2.5.2:prop98",
+    "7sketches:2.5.3:def100"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.2:example91",
+   "kind": "example",
+   "number": "2.91",
+   "name": "Cost is a quantale",
+   "statement_summary": "Cost = ([0, infinity], >=, 0, +) is a unital commutative quantale. Joins in the REVERSED order (>=) are infima in the usual order: for A a subset of [0, infinity], \\/A is the greatest lower bound of A (e.g. \\/{2,3} = 2, and the infinite set {2.5, 2.05, 2.005, ...} has join 2). The empty join is \\/(empty set) = infinity, since the second join condition forces \\/(empty set) >= b for every b in [0, infinity]. Hence ([0, infinity], >=) has all joins and Cost, being monoidal closed by Example 2.83, is a quantale.",
+   "book_section": "2.5.2",
+   "book_page": "71",
+   "pdf_pages": [
+    83,
+    84
+   ],
+   "cross_refs": [
+    "7sketches:2.5.2:def90",
+    "7sketches:2.5.1:example83",
+    "7sketches:2.5.2:ex92"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.5.2:ex92",
+   "kind": "exercise",
+   "number": "2.92",
+   "name": "empty and binary joins in Bool and Cost",
+   "statement_summary": "(1) Identify \\/(empty set), generally denoted 0, in the cases (a) V = Bool = (B, <=, true, AND) and (b) V = Cost = ([0, infinity], >=, 0, +). (2) Identify the binary join x \\/ y in the cases (a) V = Bool with x, y booleans and (b) V = Cost with x, y distances.",
+   "book_section": "2.5.2",
+   "book_page": "72",
+   "pdf_pages": [
+    84
+   ],
+   "cross_refs": [
+    "7sketches:2.5.2:def90",
+    "7sketches:2.5.2:example91",
+    "7sketches:2.5.3:ex103"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.2:ex93",
+   "kind": "exercise",
+   "number": "2.93",
+   "name": "Bool is a quantale",
+   "statement_summary": "Show that Bool = (B, <=, true, AND) is a unital commutative quantale, i.e. that it is monoidal closed (Exercise 2.84) and has all joins (disjunctions, with \\/(empty set) = false).",
+   "book_section": "2.5.2",
+   "book_page": "72",
+   "pdf_pages": [
+    84
+   ],
+   "cross_refs": [
+    "7sketches:2.5.2:def90",
+    "7sketches:2.5.1:ex84"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.2:ex94",
+   "kind": "exercise",
+   "number": "2.94",
+   "name": "is the power-set monoidal preorder a quantale?",
+   "statement_summary": "For a set S, consider the power-set monoidal preorder (P(S), subset-of, S, intersection). Decide whether it is a unital commutative quantale (i.e. whether it is monoidal closed and has all joins).",
+   "book_section": "2.5.2",
+   "book_page": "72",
+   "pdf_pages": [
+    84
+   ],
+   "cross_refs": [
+    "7sketches:2.5.2:def90",
+    "7sketches:2.3.4:ex62"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.2:prop96",
+   "kind": "proposition",
+   "number": "2.96",
+   "name": "a preorder has all joins iff it has all meets",
+   "statement_summary": "Let P = (P, <=) be a preorder. P has all joins if and only if it has all meets. Proof: joins in P are meets in P^op, so the two claims are dual and it suffices to prove one direction. Given all joins and A a subset of P, put M_A := {p in P : p <= a for all a in A} (the lower bounds of A) and m_A := \\/_{p in M_A} p; then m_A is a meet of A - it is a lower bound since every p in M_A satisfies p <= a, and it is greatest since any lower bound m' lies in M_A and hence m' <= m_A. Corollary noted immediately after: a quantale therefore has all meets as well as all joins, though only joins are required in Definition 2.90.",
+   "book_section": "2.5.2",
+   "book_page": "72",
+   "pdf_pages": [
+    84
+   ],
+   "cross_refs": [
+    "7sketches:2.5.2:def90",
+    "7sketches:2.5.2:remark97"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.3:def100",
+   "kind": "definition",
+   "number": "2.100",
+   "name": "V-matrix over a quantale",
+   "statement_summary": "Let V = (V, <=, (x), I) be a quantale. For sets X and Y, a matrix with entries in V, or simply a V-matrix, is a function M : X x Y -> V. For x in X and y in Y, M(x,y) is called the (x,y)-entry.",
+   "book_section": "2.5.3",
+   "book_page": "73",
+   "pdf_pages": [
+    85
+   ],
+   "cross_refs": [
+    "7sketches:2.5.2:def90",
+    "7sketches:2.5.3:equation101",
+    "7sketches:2.5.3:def-identity-matrix"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.2:remark97",
+   "kind": "remark",
+   "number": "2.97",
+   "name": "Hausdorff distance generalized to an arbitrary quantale",
+   "statement_summary": "Hausdorff distance generalizes from Cost to any quantale V: if X is a V-category with object set X and U, V are subsets of X, define X(U,V) := /\\_{u in U} \\/_{v in V} X(u,v) (a meet of joins), generalizing d(U,V) := sup_{u in U} inf_{v in V} d(u,v). For V = Bool this says 'from every u in U one can get into V', i.e. for all u in U there exists v in V with u <= v; for V = P(M) with the modes-of-transport reading it returns the modes that get one into V from every point of U. Uses that a quantale has all meets (Proposition 2.96).",
+   "book_section": "2.5.2",
+   "book_page": "73",
+   "pdf_pages": [
+    85
+   ],
+   "cross_refs": [
+    "7sketches:2.5.2:prop96",
+    "7sketches:2.5.2:def90",
+    "7sketches:2.3.4:ex62",
+    "7sketches:2.3.3:ex52"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.2:prop98",
+   "kind": "proposition",
+   "number": "2.98",
+   "name": "closedness equals distributivity of tensor over joins",
+   "statement_summary": "Let V = (V, <=, I, (x)) be any symmetric monoidal preorder that has all joins. Then V is closed - i.e. it has a -o operation and hence is a quantale - if and only if (x) distributes over joins, i.e. Eq. (2.88), v (x) \\/A = \\/_{a in A} (v (x) a), holds for all v in V and all subsets A of V. Proof: the forward direction is Proposition 2.87(b); conversely, distributivity makes -(x)v : V -> V a join-preserving monotone map on a preorder with all joins, so by the adjoint functor theorem of Chapter 1 it has a right adjoint, explicitly v -o w := \\/{a in V : a (x) v <= w}.",
+   "book_section": "2.5.2",
+   "book_page": "73",
+   "pdf_pages": [
+    85
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:prop87",
+    "7sketches:2.5.1:def79",
+    "7sketches:2.5.2:def90"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.3:construction-matrix-powers",
+   "kind": "construction",
+   "number": null,
+   "name": "computing the V-category presented by a V-weighted graph via matrix powers",
+   "statement_summary": "Unnumbered construction/algorithm developed in prose: for a V-weighted graph G with matrix M_G (0 on the diagonal, edge weights where edges exist, 0 = \\/(empty set) - i.e. infinity in Cost - elsewhere), the n-th power M_G^n under the V-matrix multiplication of Eq. (2.101) records the best value over paths traversing n or fewer edges; for a finite vertex set the powers STABILIZE (once M^n = M^{n+1}, as shown by M_Y^2 = M_Y^3 in the worked example) and the stable matrix is exactly the hom-matrix d_G of the presented V-category, e.g. the shortest-path distance matrix for V = Cost. This gives an algorithm computing the V-category presented by any V-weighted graph by matrix multiplication; footnote 7 adds that in the infinite case one takes the infimum (join) of all powers, which still defines a Lawvere metric space.",
+   "book_section": "2.5.3",
+   "book_page": "74",
+   "pdf_pages": [
+    86,
+    87
+   ],
+   "cross_refs": [
+    "7sketches:2.5.3:equation101",
+    "7sketches:2.3.3:construction-graph-matrix",
+    "7sketches:2.3.3:construction-weighted-graph-metric",
+    "7sketches:2.5.3:ex105"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:2.5.3:def-identity-matrix",
+   "kind": "definition",
+   "number": null,
+   "name": "identity V-matrix",
+   "statement_summary": "Unnumbered definition given by a display in running prose: for a set X and quantale V, the identity V-matrix on X is I_X : X x X -> V with I_X(x,y) := I (the monoidal unit) if x = y, and I_X(x,y) := 0 = \\/(empty set) if x /= y. It is the unit for the V-matrix multiplication of Eq. (2.101) (Exercise 2.104(1)).",
+   "book_section": "2.5.3",
+   "book_page": "74",
+   "pdf_pages": [
+    86
+   ],
+   "cross_refs": [
+    "7sketches:2.5.3:def100",
+    "7sketches:2.5.3:equation101",
+    "7sketches:2.5.3:ex103",
+    "7sketches:2.5.3:ex104"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "7sketches:2.5.3:equation101",
+   "kind": "equation",
+   "number": "2.101",
+   "name": "multiplication of V-matrices over a quantale",
+   "statement_summary": "Numbered display in running prose defining generalized matrix multiplication: for V-matrices M : X x Y -> V and N : Y x Z -> V over a quantale V, the product M * N : X x Z -> V is the V-matrix with entries (M * N)(x,z) := \\/_{y in Y} M(x,y) (x) N(y,z) - joins replacing the summation and (x) replacing the product of the classical formula (2.99). Recorded as an item because the display carries a definition with no enclosing numbered environment; footnote: this works for noncommutative quantales too.",
+   "book_section": "2.5.3",
+   "book_page": "74",
+   "pdf_pages": [
+    86
+   ],
+   "cross_refs": [
+    "7sketches:2.5.3:def100",
+    "7sketches:2.5.3:def-identity-matrix",
+    "7sketches:2.5.3:ex104",
+    "7sketches:2.5.3:construction-matrix-powers"
+   ],
+   "flags": [
+    "number-consumed-by-display",
+    "distinct-claim"
+   ]
+  },
+  {
+   "id": "7sketches:2.5.3:example102",
+   "kind": "example",
+   "number": "2.102",
+   "name": "Bool-matrix multiplication worked out",
+   "statement_summary": "Worked instance of Eq. (2.101) for V = Bool: with X = {1,2,3}, Y = {1,2}, Z = {1,2,3}, a 3x2 boolean matrix M : X x Y -> B and a 2x3 boolean matrix N : Y x Z -> B are multiplied entrywise by (M*N)(x,z) = OR_y (M(x,y) AND N(y,z)); the displayed product is computed. This is boolean matrix multiplication, i.e. relational composition.",
+   "book_section": "2.5.3",
+   "book_page": "74",
+   "pdf_pages": [
+    86
+   ],
+   "cross_refs": [
+    "7sketches:2.5.3:equation101",
+    "7sketches:2.5.2:ex93"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.3:ex103",
+   "kind": "exercise",
+   "number": "2.103",
+   "name": "2x2 identity matrices in three quantales",
+   "statement_summary": "Write down the 2x2 identity V-matrix I_X for each of the quantales (N, <=, 1, *), Bool = (B, <=, true, AND) and Cost = ([0, infinity], >=, 0, +) - i.e. instantiate I on the diagonal and 0 = \\/(empty set) off it.",
+   "book_section": "2.5.3",
+   "book_page": "74",
+   "pdf_pages": [
+    86
+   ],
+   "cross_refs": [
+    "7sketches:2.5.3:def-identity-matrix",
+    "7sketches:2.5.2:ex92"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.3:ex104",
+   "kind": "exercise",
+   "number": "2.104",
+   "name": "identity and associativity laws for V-matrix multiplication",
+   "statement_summary": "Let V = (V, <=, I, (x), -o) be a quantale. Using Eq. (2.101) and Proposition 2.87 prove: (1) the identity law - for all sets X, Y and every V-matrix M : X x Y -> V, I_X * M = M; (2) the associative law - for V-matrices M : W x X -> V, N : X x Y -> V and P : Y x Z -> V, (M * N) * P = M * (N * P). (Together these make V-matrices the morphisms of a category with sets as objects.)",
+   "book_section": "2.5.3",
+   "book_page": "74",
+   "pdf_pages": [
+    86
+   ],
+   "cross_refs": [
+    "7sketches:2.5.3:equation101",
+    "7sketches:2.5.3:def-identity-matrix",
+    "7sketches:2.5.1:prop87"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.3:ex105",
+   "kind": "exercise",
+   "number": "2.105",
+   "name": "matrix powers reproduce the distance matrix",
+   "statement_summary": "Recall from Exercise 2.60 the matrix M_X of the Cost-weighted graph X of Eq. (2.56). Calculate the Cost-matrix powers M_X^2, M_X^3 and M_X^4 under Eq. (2.101), and check that M_X^4 agrees with the distance matrix obtained in Exercise 2.58.",
+   "book_section": "2.5.3",
+   "book_page": "75",
+   "pdf_pages": [
+    87
+   ],
+   "cross_refs": [
+    "7sketches:2.5.3:construction-matrix-powers",
+    "7sketches:2.3.3:ex60",
+    "7sketches:2.3.3:ex58"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:2.5.1:remark81",
+   "kind": "remark",
+   "number": "2.81",
+   "name": "why 'closed': the hom-element as a single-use converter",
+   "statement_summary": "Explains the term 'closed': a hom-element can be constructed for any two elements, so the preorder is closed under 'taking homs'. Forward-points to compact closed categories (Definition 4.58), cartesian closed categories (Section 7.2.1) and Exercise 7.11. Gives the reading of the hom-element v -o w as a 'single-use v-to-w converter', under which Eq. (2.80) says a and v suffice to get w iff a suffices to get such a converter \u2014 a restatement of (2.80), not an additional claim.",
+   "book_section": "2.5.1",
+   "book_page": "69",
+   "pdf_pages": [
+    81
+   ],
+   "cross_refs": [
+    "7sketches:2.5.1:def79"
+   ],
+   "flags": [
+    "minted-on-audit: range agent B declined to record this genuine numbered Remark as non-formalizable; formalizability is a CLASSIFICATION question, not an inventory filter"
+   ]
+  },
+  {
+   "id": "7sketches:2.5.2:remark95",
+   "kind": "remark",
+   "number": "2.95",
+   "name": "a unital commutative quantale personified as a navigator",
+   "statement_summary": "Motivational prose: personifies a unital commutative quantale as a 'navigator' who understands getting from one place to another \u2014 needing to read a map (compose routes A->B and B->C into A->C) and to search over way-points, corresponding to the monoidal product and the join operations respectively. No mathematical claim beyond that correspondence, which is already the quantale axioms.",
+   "book_section": "2.5.2",
+   "book_page": "72",
+   "pdf_pages": [
+    84
+   ],
+   "cross_refs": [],
+   "flags": [
+    "minted-on-audit: same reason as 7sketches:2.5.1:remark81"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,403 @@
+[
+  {
+    "id": "awodey:1.7:construction-free-monoid",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free monoid A*",
+      "M(A)",
+      "Kleene closure / word monoid",
+      "list monoid (lists over A)",
+      "free monoid = one-object free category on the single-vertex quiver with edge set A",
+      "FreeMonoid functor left adjoint to |-|:Mon->Sets"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coq/List.v",
+        "line": 24,
+        "symbol": "list / list_Alternative",
+        "intree_statement": "\"The functional-programming list type [list A] is, categorically, the underlying set of the free monoid on A: the coproduct of all finite powers of A, with concatenation [app] as multiplication and the empty list as unit.\"  list_Alternative (line 75): empty := []  (unit); choose := List.app (multiplication) -- ops-only FP instance, monoid laws NOT proven."
+      },
+      {
+        "file": "Construction/Free.v",
+        "line": 91,
+        "symbol": "Free (one-object case)",
+        "intree_statement": "Header: \"The one-object case is the free monoid ... on a single-vertex quiver the paths are words over the edge set under concatenation, the reading behind lists in Theory/Coq/List.v\".  Free (line 118): obj:=C, hom:=tlist hom, id:=tnil, compose:=path concatenation -- a genuine category (laws proven) whose single hom-monoid on a one-object base is the free monoid."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 431,
+        "symbol": "FreeOnQuiver / FreeForgetfulAdjunction",
+        "intree_statement": "FreeOnQuiver : Category with obj := nodes G, hom := tlist edges (finite composable paths); on a single-node quiver whose edge-set is A this is exactly the free monoid A* (words under concatenation, tnil the empty word).  FreeForgetfulAdjunction (line 550) gives its UMP -- but at the Quiv/StrictCat level, not specialised to monoids."
+      }
+    ],
+    "statement_record": {
+      "book": "For a set (alphabet) A, the free monoid A* = M(A) has finite words as elements, concatenation as multiplication, the empty word as unit; letters embed via i:A->A*.  M(A) is characterised by its UMP against |-|:Mon->Sets.  Consequence: the free monoid on a one-element set is (N,+).",
+      "intree": "The free-monoid DATA exists in two forms: (1) lists (Theory/Coq/List.v) as an ops-only FP instance (empty=[], choose=app) with no proven monoid-object structure; (2) the one-vertex specialisation of FreeOnQuiver/Free (Construction/Free{,/Quiver}.v), a genuine free category whose hom-monoid is the word monoid, carrying the FreeForgetfulAdjunction UMP at the quiver level.",
+      "strength_comparison": "intree-weaker: the word/concatenation/empty-word/insertion data is present, but it is never assembled as a monoid object M(A) in Mon (or CMon) with the insertion i:A->|M(A)| and its own UMP against the monoid forgetful functor.  The free/forgetful adjunction Set<->Mon is asserted only in prose (List.v header); the '(N,+) as free monoid on 1' consequence is not shown."
+    },
+    "gap": "No monoid-level packaging: M(A) is not built as an object of Mon(Sets)/CMon with insertion of generators i and the free-monoid universal property against the forgetful functor Mon->Sets.  The Set<->Mon free/forgetful adjunction is prose-only (Theory/Coq/List.v:26-32).  What exists is (a) lists as an ops-only class with monoid laws unenforced, and (b) the free monoid as the one-object case of FreeOnQuiver, whose UMP lives at the Quiv/StrictCat level and is not restricted to one-object categories = monoids in-tree.",
+    "negative_search_log": [
+      "grep -rinE 'FreeMonoid|Free_Monoid|free_monoid|FreeMon|MonFree' --include=*.v .  -> only prose comment hits (Theory/Coq/List.v, List/Proofs.v) and Construction/PROP*/Monoidal.v 'FreeMonoidal' (the monoidal structure of a free PROP, unrelated); no free-monoid functor or object",
+      "grep -rinE 'Kleene|\\bword\\b|free monoid on|N,\\s*\\+' --include=*.v .  -> prose only (List.v, ColouredPROP.v, Metacategory.v); no construction",
+      "grep -rinE 'Instance.*MonoidObject|Program Instance.*Monoid\\b' --include=*.v Instance/ Structure/ Theory/  -> only Product_Monoid, Hom_Monoid (closure under products/exponentials) and Theory/Coq/Maybe.v Monoid_option; none is a free monoid on a set, lists-as-monoid-object, or nat-as-free-monoid"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage) initially leaned ABSENT, then reconsidered to CONFIRM PARTIAL. Verified independently: FreeOnQuiver (Construction/Free/Quiver.v:431) on a one-node quiver with edge-set A IS the word monoid A* (morphisms = tlist edges = finite words, id = tnil = empty word, compose = concatenation), a laws-proven Category carrying the proven FreeForgetfulAdjunction UMP (:550) -- a genuine partial witness, not nothing. Construction/Free.v:91-95 header confirms 'the one-object case is the free monoid'. Theory/Coq/List.v:24 gives lists as the free-monoid underlying set but only via an ops-only Alternative instance (list_Alternative, :74) with monoid laws unproven -- the evidence caveat is accurate. Gap honest: A* is never packaged as an object of Mon(Sets)/CMon with insertion i and a monoid-level UMP against the forgetful functor; the Set<->Mon adjunction is prose-only. My rg for FreeMonoid/free_monoid/Kleene/word confirmed prose + the unrelated FreeMonoidal PROP structure only; no free-monoid object or Free-|-|Mon adjunction exists."
+    }
+  },
+  {
+    "id": "awodey:1.7:construction-forgetful-mon",
+    "classification": "PRESENT",
+    "aliases": [
+      "forgetful functor |-|:Mon->Sets",
+      "underlying-set functor of monoids",
+      "U:Mon->Set",
+      "Mon_Forget",
+      "internal-monoid forgetful functor Mon(C)->C at C=Sets",
+      "CMon_Forget (commutative concrete witness)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 93,
+        "symbol": "Mon_Forget",
+        "intree_statement": "Program Definition Mon_Forget : Mon ⟶ C := {| fobj := fun X => `1 X; fmap := fun _ _ f => `1 f |}.  (Mon (line 83): obj := { x : C & Monoid x }; hom := { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }.)  Mon_Forget_Faithful (line 101)."
+      },
+      {
+        "file": "Instance/CMon.v",
+        "line": 169,
+        "symbol": "CMon_Forget",
+        "intree_statement": "Program Definition CMon_Forget : CMon ⟶ Sets := {| fobj := fun M => cmon_setoid M; ... |}.  CMon (line 140) is 'the category of commutative monoids over Sets': objects are setoids with a commutative associative op and unit, morphisms are homomorphisms; CMon_Forget drops the structure to the underlying setoid."
+      },
+      {
+        "file": "Structure/Monoid.v",
+        "line": 173,
+        "symbol": "Monoid (cartesian) / CC_Monoidal",
+        "intree_statement": "Definition Monoid := @MonoidObject C CC_Monoidal.  Header: 'In Set with the cartesian product, [MonoidObject] yields ordinary monoids' -- so Mon(Sets, x, 1) is the ordinary category of monoids; Sets_Cartesian (Instance/Sets/Cartesian.v) + Sets_Terminal (Instance/Sets.v:248) make CC_Monoidal apply, so @Mon Sets and @Mon_Forget Sets typecheck."
+      }
+    ],
+    "statement_record": {
+      "book": "The forgetful functor |-|:Mon->Sets sends each monoid N to its underlying set |N| and each homomorphism f to its underlying function |f|, preserving identities and composition; the free monoid's UMP is stated against it.",
+      "intree": "Mon_Forget : Mon(C) ⟶ C projects an internal monoid to its underlying object and a monoid homomorphism to its underlying morphism, faithful by construction (Mon_Forget_Faithful).  Instantiated at C := Sets (cartesian monoidal via CC_Monoidal), Mon(Sets) is the category of ordinary (setoid) monoids and Mon_Forget is exactly |-|:Mon->Sets.  A concrete commutative witness is CMon_Forget : CMon ⟶ Sets.",
+      "strength_comparison": "same (in fact more general): the forgetful functor is written for internal monoids in any monoidal base and specialises to Awodey's |-|:Mon->Sets at C=Sets; faithfulness is proven.  Minor deviation: the general form is stated over an abstract C rather than materialised as an explicit `Mon Sets` object, and the only fully concrete category-of-monoids instance provided (CMon) is restricted to COMMUTATIVE monoids, whereas Awodey's Mon is all monoids."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed PRESENT. Verified Mon_Forget : Mon(C) -> C (Theory/Algebra/Monoid/Hom.v:93, faithful by Mon_Forget_Faithful:101) and CMon_Forget : CMon -> Sets (Instance/CMon.v:169) at cited lines. Confirmed the load-bearing specialization claim: @Mon Sets typechecks because Sets_Cartesian (Instance/Sets/Cartesian.v:32) + Sets_Terminal (Instance/Sets.v:248) supply @Monoidal Sets via CC_Monoidal, so Mon_Forget at C=Sets IS Awodey's |-|:Mon->Sets over ordinary (monoid-object) monoids. strength_comparison honestly flags the parametric-over-C presentation and that the only fully concrete category-of-monoids instance (CMon) is commutative-only. PRESENT in substance (matches up to presentation, in fact more general)."
+    }
+  },
+  {
+    "id": "awodey:1.7:prop9",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free monoid universal mapping property",
+      "fold is the unique monoid homomorphism",
+      "foldMap / catamorphism out of A*",
+      "(A*,*) has the free-monoid UMP",
+      "UMP of A* instance of the free-category-on-quiver UMP"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat / InducedFunctor",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful -- given any category C and quiver hom F:G ⇨ U(C), InducedFunctor F (line 464) is a functor FreeOnQuiver G ⟶ C with U(InducedFunctor F) ∘ unit ≈ F, and it is UNIQUE (the third component proves any S agreeing with F on generators equals InducedFunctor F, by induction on paths).  This is the free-category UMP; prop9 is its one-object specialisation."
+      },
+      {
+        "file": "Theory/Coq/Foldable.v",
+        "line": 30,
+        "symbol": "Foldable (prose)",
+        "intree_statement": "Header: 'Folding is the universal property of the free monoid ... A right fold [foldr (⊗) e] over a list is precisely the unique monoid homomorphism out of the free monoid [L x] determined, by that universal property, by the choice of where to send generators together with a target monoid structure.'  But Foldable is ops-only (line 48-50): 'records no laws', so the uniqueness/UMP is NOT proven."
+      }
+    ],
+    "statement_record": {
+      "book": "Proposition 1.9: the word monoid (A*,*) satisfies the free-monoid UMP on A -- given f:A->|N|, the assignment f-bar(a1...ai)=f(a1)*...*f(ai) (empty word to unit) is the UNIQUE monoid homomorphism M(A)->N agreeing with f on generators.  Proved by constructing f-bar and verifying uniqueness.",
+      "intree": "The structurally identical universal property is proven one level up, for the free category on a quiver: UniversalArrowQuiverCat gives, for every quiver hom F:G ⇨ U(C), a unique functor InducedFunctor F extending it.  Restricting to a single-node quiver (edge set A) and a one-object category (monoid N) yields prop9.  At the monoid level itself, fold=UMP is stated only in prose (Foldable.v) with no proof.",
+      "strength_comparison": "intree-different-level: what is proven is the free-category-on-a-quiver UMP (Free ⊣ Forgetful over StrictCat), a strictly more general statement of which prop9 is the one-object specialisation; the monoid-level instantiation (f-bar as the unique monoid hom with |f-bar|∘i=f) is not carried out, and the fold-based realisation in the Coq layer is unproven (ops-only class)."
+    },
+    "gap": "The free-monoid UMP is not stated or proven at the monoid level.  Only the general free-category UMP (UniversalArrowQuiverCat / FreeForgetfulAdjunction) is proven; deriving prop9 requires (i) a monoid-object packaging of A* (missing -- see construction-free-monoid) and (ii) the specialisation one-object-category = monoid, which is not wired up in-tree.  Foldable's 'fold = free-monoid UMP' is prose over an ops-only class with no uniqueness proof.",
+    "negative_search_log": [
+      "grep -rinE 'Mon_Forget|⊣.*Mon|Free.*Forget.*[Mm]on|LeftAdjoint.*[Mm]on' --include=*.v .  -> Mon_Forget exists (Theory/Algebra/Monoid/Hom.v:93) but NO left adjoint / Free ⊣ Mon_Forget; no monoid-level UMP",
+      "grep -rinE 'FreeMonoid|free_monoid' --include=*.v .  -> prose/PROP-monoidal only; no fold-as-unique-hom theorem for monoids"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass initially leaned ABSENT, reconsidered to CONFIRM PARTIAL. UniversalArrowQuiverCat (Construction/Free/Quiver.v:518) genuinely PROVES the free-category UMP -- a unique InducedFunctor extending any quiver hom, uniqueness by induction on paths (verified in the third component) -- and InducedFunctor (:464) IS the fold f-bar (it maps a path to the composite of the edge-images). prop9 is exactly its one-object (edge-set A, single-object monoid N) specialisation, which is not carried out in-tree. Foldable.v:30 'fold = free-monoid UMP' verified as prose over an explicitly ops-only class (:48 'records no laws'). Gap honest. PARTIAL is the accurate call: the substance is proven one level up but the monoid-level proposition is not instantiated (depends on the missing Mon-object packaging + one-object-category=monoid wiring)."
+    }
+  },
+  {
+    "id": "awodey:1.7:prop10",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free monoid unique up to isomorphism",
+      "uniqueness of UMP objects up to unique iso",
+      "initial object unique up to unique iso",
+      "universal arrow unique up to iso",
+      "any two free monoids on A are canonically isomorphic"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 51,
+        "symbol": "UniversalArrow (uniqueness up to iso)",
+        "intree_statement": "Header: universal arrows are 'unique up to isomorphism' because '(d, η) is initial in =(c) ↓ F' (line 157); the encoding carries 'the mediating morphism as data together with its uniqueness' (line 96-104).  This is the general principle 'an object with a UMP is unique up to unique iso', of which prop10 is the free-monoid instance."
+      },
+      {
+        "file": "Structure/Initial.v",
+        "line": 111,
+        "symbol": "zero_unique",
+        "intree_statement": "Definition zero_unique {x} (f g : initial_obj ~{C}~> x) : f ≈ g -- any two morphisms out of an initial object are equal; header (line 37): 'unique isomorphism, and this uniqueness up to unique isomorphism'.  Since a free monoid is by definition initial in the relevant comma category, its uniqueness up to unique iso is an instance of this."
+      }
+    ],
+    "statement_record": {
+      "book": "Proposition 1.10: if (M,i:A->|M|) and (N,j:A->|N|) both have the free-monoid UMP on A, there is a UNIQUE isomorphism h:M≅N with |h|∘i=j and |h^-1|∘j=i.  Proof: the two UMPs induce mutually inverse homomorphisms whose composites are identities by uniqueness.",
+      "intree": "The general theorem 'an object satisfying a universal mapping property (a universal arrow / initial object in the relevant comma category) is unique up to a unique isomorphism' is present: Theory/Universal/Arrow.v treats universal arrows as initial objects (unique up to iso), and Structure/Initial.v proves the uniqueness half (zero_unique).",
+      "strength_comparison": "intree-more-general-but-uninstantiated: the abstract UMP-uniqueness principle that makes prop10 true is proven, but it is never applied to the free monoid because the free monoid is not packaged as an in-tree universal arrow / initial object (see construction-free-monoid)."
+    },
+    "gap": "prop10 is not instantiated for free monoids.  The general 'UMP object unique up to unique iso' (universal-arrow initiality in Theory/Universal/Arrow.v; zero_unique in Structure/Initial.v) is present and would yield prop10 immediately once A* is exhibited as a universal arrow along Mon->Sets -- but that exhibition is missing, so the free-monoid uniqueness statement itself is not stated or proven in-tree.",
+    "negative_search_log": [
+      "grep -rinE 'unique up to|uniqueness|initial.*unique|Unique.*Iso' --include=*.v Theory/Universal/ Structure/Initial.v  -> general universal-arrow / initial-object uniqueness present; NO free-monoid-specific uniqueness statement",
+      "grep -rinE 'FreeMonoid|free_monoid' --include=*.v .  -> no free-monoid object to which the general uniqueness could attach"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass leaned ABSENT/PARTIAL; CONFIRM PARTIAL. Verified the general uniqueness machinery is genuinely PROVEN, not prose: Theory/Universal/Arrow.v defines UniversalArrow as an Initial object of the comma category (:127-132) with ump_universal_arrows (:139) and the header (:72-75) stating uniqueness up to unique iso IS the generic initial-object argument; Structure/Initial.v zero_unique (any two arrows out of an initial object are equal) confirmed at the cited location with its 'uniqueness up to unique isomorphism, shared by every universal construction' header. Universal/Arrow.v:91-93 further notes the free construction IS a universal arrow (UniversalArrowQuiverCat), so 'two free categories on a quiver are uniquely isomorphic' is essentially immediate and prop10 is its one-object case, not instantiated. Gap honest: no free-monoid-specific uniqueness because A* is not exhibited as a universal arrow along Mon->Sets. PARTIAL correct."
+    }
+  },
+  {
+    "id": "awodey:1.7:def-graph",
+    "classification": "PRESENT",
+    "aliases": [
+      "directed graph",
+      "directed multigraph",
+      "quiver",
+      "Quiver (nodes + edges)",
+      "presheaf on the parallel pair (V, E, s, t)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 54,
+        "symbol": "Quiver",
+        "intree_statement": "Class Quiver@{o h p} := { nodes : Type@{o}; uedges := Type@{h}; edges : nodes → nodes → uedges; edgeset : ∀ X Y, Setoid@{h p} (edges X Y) }.  Header (line 21-27): 'A quiver (directed multigraph) is a set of nodes (vertices) together with, for each ordered pair of nodes, a set of edges (arrows) ... In the classical presentation this is two sets V, E with source/target maps s, t : E → V; here the edges are indexed directly by their endpoints ... Parallel edges and loops are allowed.'"
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 159,
+        "symbol": "quiver = graph (prose)",
+        "intree_statement": "'a presheaf on the parallel-pair category x ⇉ y is a graph (quiver): G0 is the set of vertices, G1 the set of edges, and the two arrows [give] source and target' -- confirming the library identifies quiver with Awodey's (V,E,s,t) directed graph."
+      }
+    ],
+    "statement_record": {
+      "book": "A directed graph is a set V of vertices and a set E of edges with two functions s:E->V (source) and t:E->V (target).  It is like a category without composition or identity edges.",
+      "intree": "Quiver: a Type of nodes and, for each ordered pair (X,Y), a setoid edges X Y of arrows from X to Y (source/target implicit in the indexing).  Parallel edges and loops allowed.",
+      "strength_comparison": "same up to presentation: the library uses the fibred/indexed presentation (edges X Y) rather than a single edge set E with maps s,t:E->V; these are equivalent (E = Σ_{X,Y} edges X Y, and conversely edges X Y = s,t-fibre), and the header explicitly notes the correspondence.  Faithful setoid enrichment: each edge set carries ≈ (a set(oid)), richer than Awodey's bare set but consistent with the library's convention."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed PRESENT. Quiver class verified (Construction/Free/Quiver.v:54): nodes:Type, edges:nodes->nodes->Type, edgeset. Header (:21-27) explicitly relates the endpoint-indexed presentation to Awodey's classical (V,E,s,t) with s,t implicit in the indexing -- a faithful equivalent (E = Sigma_{X,Y} edges X Y). Cross-confirmed by Instance/Parallel.v:159 ('a presheaf on x=>y is a graph/quiver: G0 vertices, G1 edges, two arrows = source/target'). strength_comparison's indexed-vs-bundled + setoid-enrichment note is honest; the bundled single-edge-set-with-s,t form is not directly present, only the equivalent indexed form. PRESENT."
+    }
+  },
+  {
+    "id": "awodey:1.7:construction-free-category",
+    "classification": "PRESENT",
+    "aliases": [
+      "free category on a graph C(G)",
+      "path category",
+      "FreeOnQuiver",
+      "category of paths of a quiver",
+      "left adjoint to the underlying-graph functor (Free ⊣ Forgetful)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 431,
+        "symbol": "FreeOnQuiver",
+        "intree_statement": "Program Definition FreeOnQuiver : Category := {| obj := @nodes G; hom := tlist edges; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |}.  Nodes as objects, finite composable paths (tlist edges) as morphisms, empty path tnil the identity, path concatenation composition; associativity/unit laws discharged from tlist_app_* (obligations at 459-462)."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat / FreeForgetfulAdjunction",
+        "intree_statement": "UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful establishes the UMP -- every quiver hom G ⇨ U(D) factors uniquely as a functor InducedFunctor through UnitQuiverCatAdjunction; FreeForgetfulAdjunction (line 550): Adjunction FreeCatFunctor Forgetful packages Free ⊣ Forgetful."
+      }
+    ],
+    "statement_record": {
+      "book": "C(G) on a directed graph G has vertices as objects and finite paths (edge sequences e_n...e_1 with t(e_i)=s(e_{i+1})) as arrows; composition is concatenation, identity is the empty path.  UMP: a graph hom i:G->U(C(G)) such that every graph hom h:G->U(D) extends to a unique functor h-bar:C(G)->D with U(h-bar)∘i=h.",
+      "intree": "FreeOnQuiver G: objects = nodes, morphisms = type-aligned paths tlist edges, id = tnil, composition = concatenation; the UMP is proven as UniversalArrowQuiverCat and packaged as the adjunction FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful.",
+      "strength_comparison": "same, and in fact stronger: Awodey states the UMP; the library proves the full free-forgetful ADJUNCTION.  The adjunction/forgetful side lives over StrictCat rather than the weak Cat (a category's underlying quiver is not natural-iso-invariant; Test/Issue138.v locks this in), which is the mathematically correct home; the free-category object FreeOnQuiver itself is an ordinary Category with all laws proven."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed PRESENT. FreeOnQuiver (:431) verified -- nodes as objects, tlist edges (composable paths) as morphisms, tnil identity, concatenation composition, all category laws discharged (obligations :459-462). UMP proven as UniversalArrowQuiverCat (:518) and packaged as FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful (:550), strictly STRONGER than Awodey's bare UMP (full adjunction). Test/Issue138.v:80-96 independently Checks FreeCatFunctor and FreeForgetfulAdjunction on a concrete worked quiver. StrictCat home (vs weak Cat) is the mathematically correct one. Registered in _CoqProject (:72). PRESENT."
+    }
+  },
+  {
+    "id": "awodey:1.7:construction-forgetful-cat",
+    "classification": "PRESENT",
+    "aliases": [
+      "forgetful functor U:Cat->Graphs",
+      "underlying-graph functor",
+      "underlying quiver of a category",
+      "Forgetful : StrictCat ⟶ Quiv",
+      "QuiverOfCat"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 398,
+        "symbol": "QuiverOfCat",
+        "intree_statement": "Program Definition QuiverOfCat (C : Category) : Quiver := {| nodes := obj; edges := hom |}.  The underlying quiver of a category: objects become nodes, hom-sets become edges (composition and identities forgotten).  Defined for EVERY category at the object level."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 412,
+        "symbol": "Forgetful",
+        "intree_statement": "Definition Forgetful : @Functor StrictCat QuiverCategory -- fobj := QuiverOfCat, fmap := QuiverHomomorphismOfFunctor (a functor's action gives a quiver homomorphism, line 404), with fmap_id/fmap_comp discharged.  This is U : Cat -> Graphs."
+      }
+    ],
+    "statement_record": {
+      "book": "The forgetful functor U:Cat->Graphs sends a category to its underlying graph C1 ⇉ C0 (keeping dom/cod, discarding identities and composition) and functors to their graph-homomorphism part.",
+      "intree": "Forgetful : StrictCat ⟶ QuiverCategory with object map QuiverOfCat (nodes := objects, edges := homs) and morphism map QuiverHomomorphismOfFunctor (a functor's object+arrow action IS a quiver homomorphism).",
+      "strength_comparison": "same construction; the domain is StrictCat rather than the weak Cat.  This is not a weakening of Awodey's Chapter-1 Cat: with strict functors and object sets (Awodey's implicit reading), Cat = StrictCat, and the underlying-graph map genuinely CANNOT be a functor on the library's weak Cat because a category's underlying quiver is not invariant under natural isomorphism (Test/Issue138.v: `Fail Check (Forgetful : Cat ⟶ QuiverCategory)`).  So StrictCat is the honest home of Awodey's U, and QuiverOfCat additionally defines the object-level underlying graph for every Category."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed PRESENT. QuiverOfCat (:398, nodes:=obj, edges:=hom) and Forgetful : StrictCat -> QuiverCategory (:412, fmap = QuiverHomomorphismOfFunctor) verified. Test/Issue138.v:45,48-56 pins the computational behaviour (edges (Forgetful C) x y = x~>y; fedgemap = fmap) and the Fail-checks (:75-76) lock that Forgetful is NOT definable over weak Cat because a category's underlying quiver is not natural-iso-invariant -- so StrictCat is the honest home of Awodey's U:Cat->Graphs. strength_comparison honest. PRESENT."
+    }
+  },
+  {
+    "id": "awodey:1.7:def-graph-homomorphism",
+    "classification": "PRESENT",
+    "aliases": [
+      "homomorphism of graphs",
+      "graph morphism (h0,h1) preserving s,t",
+      "quiver homomorphism",
+      "QuiverHomomorphism",
+      "morphism of quivers; the category Graphs (Quiv)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 205,
+        "symbol": "QuiverHomomorphism",
+        "intree_statement": "Class QuiverHomomorphism (G G' : Quiver) := { fnodes : nodes G -> nodes G'; fedgemap : ∀ x y, edges x y -> edges (fnodes x) (fnodes y); fedgemap_respects : ∀ x y, Proper (equiv ==> equiv) (fedgemap x y) }.  Source/target preservation is automatic from the indexed typing edges x y -> edges (fnodes x)(fnodes y)."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 358,
+        "symbol": "QuiverCategory",
+        "intree_statement": "#[export] Instance QuiverCategory : Category built via Build_Category' on QuiverHomomorphism with QuiverId/QuiverComp -- the category Graphs (Quiv) of the literature, with morphism equivalence QuiverHomomorphismEquivalence (node equality + transported ≈ on edges)."
+      }
+    ],
+    "statement_record": {
+      "book": "A graph homomorphism h:G->H is a pair (h0:G0->H0, h1:G1->H1) preserving sources and targets (commuting with s and t) -- 'a functor without the identity/composition conditions'.  Graphs with these morphisms form the category Graphs.",
+      "intree": "QuiverHomomorphism G G': a node map fnodes together with, for each ordered pair, an edge map fedgemap : edges x y -> edges (fnodes x)(fnodes y) respecting the edge setoids; quivers and their homomorphisms form QuiverCategory.",
+      "strength_comparison": "same up to presentation: fnodes = h0, fedgemap = h1 in the fibred presentation, where 'commutes with s and t' is discharged automatically by the typing edges x y -> edges (fnodes x)(fnodes y); the extra fedgemap_respects (respecting ≈ on edges) is the faithful setoid-enrichment counterpart.  The category Graphs is present as QuiverCategory."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed PRESENT. QuiverHomomorphism (:205): fnodes + fedgemap (edges x y -> edges (fnodes x)(fnodes y), so source/target preservation is automatic from the indexed typing) + fedgemap_respects. QuiverCategory (:358) = the category Graphs/Quiv, built via Build_Category' with QuiverId/QuiverComp and QuiverHomomorphismEquivalence. fnodes=h0, fedgemap=h1; fedgemap_respects is the faithful setoid-enrichment counterpart of the bare set condition. PRESENT."
+    }
+  },
+  {
+    "id": "awodey:1.8:def11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "small category",
+      "large category",
+      "small vs large (C0, C1 are sets)",
+      "Cat is large / not an object of itself",
+      "universe-level size stratification",
+      "Grothendieck-universe smallness"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Class Category (universe-graded)",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; hom : obj → obj → Type@{h}; homset : ∀ X Y, Setoid@{h p} (X ~> Y); ... }.  A category at level {o h p} lives at a universe STRICTLY above its objects (o) and arrows (h)."
+      },
+      {
+        "file": "Instance/Cat.v",
+        "line": 110,
+        "symbol": "Cat size via universes (prose)",
+        "intree_statement": "'a category of all categories invites a Russell-style paradox, classically avoided by the small/large distinction or by Grothendieck universes.  Rather than adopt either device axiomatically, this library has a [Cat] at every universe level, each strictly above its own objects, so self-membership is a universe inconsistency caught by the elaborator rather than a paradox.'  (Cf. Metacategory.v:53 'the (large) category Cat of small categories'.)"
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 1.11: a category C is small if both C0 (objects) and C1 (arrows) are sets; otherwise large.  Examples: finite categories and Sets_fin are small; Pos, Groups, Sets are large; Cat (of all small categories) is itself large, hence not an object of itself.",
+      "intree": "There is no set-vs-proper-class predicate; size is carried by universe levels {o h p}: obj:Type@{o}, hom:Type@{h}, and the category itself at Type@{max(o+1,h+1,p+1)}.  Cat exists at every universe level, each strictly above its own objects, so 'Cat is not an object of itself' is realised as a universe inconsistency (Instance/Cat.v), and 'the large Cat of small categories' is used throughout in prose.",
+      "strength_comparison": "intree-different-foundations: type theory has no proper classes, so Awodey's small/large set-vs-class dichotomy is modelled by universe stratification rather than an explicit Small/Large predicate.  The distinctive consequences Awodey draws (Cat large; Cat not its own object) are realised and relied upon via universe polymorphism; but 'small category' as a definable, quantifiable property (a category whose obj and hom are U-small for a chosen U) is not packaged as an in-tree definition."
+    },
+    "gap": "No explicit Small/Large predicate or definition classifying a category by the size of its object/arrow collections.  Size is implicit in the universe parameters {o h p}; the library deliberately substitutes universe polymorphism for the small/large distinction (Instance/Cat.v:110-115).  A formal counterpart of Definition 1.11 (e.g. 'C is U-small iff o,h <= U') is not stated, so the definition itself has no in-tree symbol -- only its effects (Cat not self-membered) are captured.",
+    "negative_search_log": [
+      "grep -rinE '\\bSmall\\b|SmallCategory|is_small|Large' --include=*.v .  -> 'small'/'large' occur only in prose headers (Instance/Cat.v, Theory/Metacategory.v, Functor/Diagonal.v, Instance/Poset.v, ...); no Small/Large predicate, class, or definition",
+      "grep -rinE 'Setoid.*obj|obj.*Setoid|objects.*set' --include=*.v Theory/Category.v  -> obj is a bare Type@{o}, not a setoid; there is no 'objects form a set' hypothesis to toggle"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed PARTIAL. Verified Theory/Category.v:111 Class Category@{o h p | h<=p} : Type@{max(o+1,h+1,p+1)} with obj:Type@{o} a bare Type (no setoid -- the negative-log claim is accurate). Confirmed there is NO Small/Large/is_small/LocallySmall predicate anywhere (rg for Definition/Class/Record (Is)?(Locally)?(Small|Large) -> zero hits; 'small'/'large' occur only in prose: Instance/Cat.v, Metacategory.v, etc.). Size is carried by universe levels; Instance/Cat.v:108-114 prose confirms 'Cat at every universe level, self-membership a universe inconsistency' -- Awodey's 'Cat not an object of itself' realised structurally. Under the frozen guidance (universe polymorphism => size is PARTIAL/PRESENT, not OUT_OF_SCOPE), PARTIAL is correct: the distinctive effects are captured, but Definition 1.11 as a classifying predicate has no in-tree symbol."
+    }
+  },
+  {
+    "id": "awodey:1.8:def12",
+    "classification": "PARTIAL",
+    "aliases": [
+      "locally small category",
+      "hom-set",
+      "Hom_C(X,Y) is a set",
+      "every small category is locally small",
+      "Set-enriched / hom-setoid category"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 116,
+        "symbol": "homset field of Category",
+        "intree_statement": "Class Category ... := { ...; hom : obj → obj → Type@{h}; homset : ∀ X Y, Setoid@{h p} (X ~> Y); ... }.  Every category carries, for each pair (X,Y), a hom-SET(OID) hom X Y : Type@{h} with an equivalence ≈ -- Awodey's Hom_C(X,Y) as a set is exactly this field, present for every category by construction."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 18,
+        "symbol": "locally small (prose)",
+        "intree_statement": "'For a (locally small) category C, the hom-functor sends a pair of objects ...' -- the notion 'locally small' is named and used (also Functor/Representable.v:29 quoting 'Let C be a locally small category'), but only descriptively; there is no LocallySmall predicate because every in-tree Category already has hom-setoids."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 1.12: a category C is locally small if for any objects X,Y the collection Hom_C(X,Y) = {f in C1 : f:X->Y} is a set (a hom-set).  Sets is locally small (Hom(X,Y)=Y^X), as are Pos, Top, Group; every small category is locally small.",
+      "intree": "Local smallness is built into the definition of Category: hom X Y : Type@{h} is a fixed-universe type equipped with homset : Setoid (hom X Y), i.e. every category is Set(oid)-enriched and hence locally small by construction.  The phrase 'locally small' is used in the hom-functor / representable-functor headers.",
+      "strength_comparison": "intree-stronger-by-fiat: whereas Awodey makes local smallness a DISTINGUISHING property (some categories have it, some do not), the library only ever constructs locally-small categories -- the homset field forces every category to have genuine hom-sets at a fixed universe level h.  The concept 'hom-set' is thus definitionally present and universal, but as a classifying definition it is vacuous here (a non-locally-small category cannot even be expressed)."
+    },
+    "gap": "There is no LocallySmall predicate distinguishing locally-small from non-locally-small categories, because the library's Category is Setoid-enriched by definition (homset : ∀ X Y, Setoid (hom X Y) at a fixed universe h) -- local smallness holds universally and cannot be varied or stated as a separate hypothesis.  The defining CONTENT (each Hom(X,Y) is a set) is present as the homset field; the DEFINITION as a classification of categories is absent (and vacuous in this setting).",
+    "negative_search_log": [
+      "grep -rinE 'LocallySmall|locally small' --include=*.v .  -> only prose in Functor/Hom.v:18 and Functor/Representable.v:29; no predicate/class/definition",
+      "inspected Theory/Category.v:111-116  -> hom-setoid is a mandatory field of every Category, so no non-locally-small category is expressible to contrast against"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed PARTIAL. Verified Theory/Category.v:116 homset : forall X Y, Setoid@{h p} (X~>Y) -- every Category is hom-setoid-enriched at a fixed universe h, so local smallness holds by construction and cannot be varied or negated. No LocallySmall predicate exists (rg -> only prose Functor/Hom.v:18 'For a (locally small) category C', Functor/Representable.v:29). strength_comparison 'intree-stronger-by-fiat / vacuous as a classifier' is honest: the defining CONTENT (each Hom(X,Y) is a set) is the homset field; the DEFINITION as a classification is absent because a non-locally-small category is inexpressible here. PARTIAL correct."
+    }
+  }
+]

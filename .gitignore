@@ -36,3 +36,14 @@ log_*.txt
 /versions/
 /result
 build-timing.log
+
+# Claude Code session-local configuration (machine-specific, not shared)
+.claude/
+
+# Theory-gap campaign: raw QA intermediates. These were INPUTS to the synthesis
+# whose conclusions are committed as doc/plan/books/qa/plan-*.md, mf-final.json
+# and DECISIONS.md. Kept on disk for traceability, excluded to avoid ~1.9MB of
+# machine-generated scaffolding in the repo.
+doc/plan/books/qa/all-findings.json
+doc/plan/books/qa/all-verdicts.json
+doc/plan/books/qa/findings-tail-*.json

@@ -1,0 +1,234 @@
+[
+  {
+    "id": "awodey:2.1:def1",
+    "classification": "PRESENT",
+    "aliases": ["monomorphism", "epimorphism", "Monic", "Epic", "left-cancellable / right-cancellable arrow", "mono ↣ / epi ↠"],
+    "evidence": [
+      {"file": "Theory/Morphisms.v", "line": 116, "symbol": "Monic",
+       "intree_statement": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }  (* left cancellation *)"},
+      {"file": "Theory/Morphisms.v", "line": 104, "symbol": "Epic",
+       "intree_statement": "Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }  (* right cancellation *)"}
+    ],
+    "statement_record": {
+      "book": "In any category C, f:A→B is a monomorphism if left-cancellable (fg=fh ⇒ g=h) and an epimorphism if right-cancellable (if=jf ⇒ i=j). Notation f:A↣B for mono, f:A↠B for epi.",
+      "intree": "Class Monic {x y}(f:x~>y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }; Class Epic {x y}(f:x~>y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }.",
+      "strength_comparison": "same — exact left/right cancellation; hom-setoid ≈ replaces = (faithful setoid rephrasing). The ↣/↠ arrow notations are not introduced, which is presentation only; the substance (both classes plus id/composition-closure and section⇒monic, retraction⇒epic lemmas) is complete."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same evidence. Read Theory/Morphisms.v: Epic at line 104, Monic at line 116 — quotes are verbatim-accurate, both are the exact ≈-cancellation classes. File REGISTERED in _CoqProject. The ↣/↠ notations are indeed absent (cosmetic). Companion API (id_monic/id_epic, monic_compose/epic_compose, sections_are_monic/retractions_are_epic) is present. PRESENT is correct."}
+  },
+  {
+    "id": "awodey:2.1:prop2",
+    "classification": "PRESENT",
+    "aliases": ["monic iff injective in Sets", "injectivity_is_monic", "mono = injection in Set", "Sets monomorphism characterization", "injective ↔ Monic"],
+    "evidence": [
+      {"file": "Instance/Sets.v", "line": 369, "symbol": "injectivity_is_monic",
+       "intree_statement": "Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f.  (* Qed; reverse direction probes f with two constant maps out of the singleton unit_setoid_object *)"}
+    ],
+    "statement_record": {
+      "book": "A function f:A→B in Sets is a monomorphism iff it is injective; proof probes elements with maps out of a one-element set.",
+      "intree": "injectivity_is_monic : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f, proved by probing f with two constant maps const_x, const_y out of unit_setoid_object.",
+      "strength_comparison": "same — full biconditional, Qed-closed; the probe object is exactly Awodey's one-element set. Here 'Sets' is the category of setoids and injectivity is stated up to ≈, the library's faithful rephrasing; the element-probe proof method matches the book exactly."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same lemma. Read Instance/Sets.v:369-396: full ↔, Qed-closed, reverse direction probes with const_x/const_y out of unit_setoid_object — exactly Awodey's one-element probe. File REGISTERED. Injectivity phrased up to ≈ is the faithful setoid form. PRESENT is correct."}
+  },
+  {
+    "id": "awodey:2.1:example3",
+    "classification": "ABSENT",
+    "aliases": ["monos in structured-set categories are injective homomorphisms", "underlying function injective", "algebraic monomorphism", "forgetful functor reflects monos", "free object probes elements", "monic in Mon/Grp/Ring/Vect/Pos"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Monic|Epic|inject|surj' Instance/CMon.v Theory/Algebra/Monoid/Hom.v — 0 hits: neither the commutative-monoid category (Instance/CMon.v) nor the internal-monoid category Mon(C) (Theory/Algebra/Monoid/Hom.v) carries any 'monic ⟺ underlying-injective' characterization.",
+      "There is no in-tree category of ordinary structured sets (Mon, Grp, Ring, Vect over Sets). Structure/Group.v and Structure/Monoid.v define internal group/monoid OBJECTS in a monoidal category; Theory/Algebra/Monoid/Hom.v defines Mon(C) = internal monoids in C. None prove monos = injective-on-underlying.",
+      "grep -rniE 'reflect.*mon(ic|o)|preserv.*mon(ic|o)|faithful.*mon|forgetful.*mon' — only Theory/Adjunction.v:311 adj_monic (a faithful LEFT ADJOINT sends monic f to monic ⌊f⌋ via the transpose) and Mon_Forget_Faithful (faithfulness of the forgetful functor); no free-object argument establishing monic ⟺ injective in any algebraic category.",
+      "Closest analogue: Instance/Sets.v:369 injectivity_is_monic covers only the Sets (setoid) base case — precisely awodey:2.1:prop2, the case Example 2.3 is explicitly contrasted with. The distinctive content of Example 2.3 (the algebraic categories, via free objects like M(*)) is not formalized."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent blind search agrees. Confirmed Theory/Algebra/Monoid/Hom.v:83 defines Mon(C) = internal monoids in a monoidal category (with Mon_Forget faithful) but proves NO monic⟺injective result; Instance/CMon.v is commutative monoids only. No category of ordinary structured sets, no free-object (M(*)) probe. The distinctive algebraic-category content of Example 2.3 is genuinely absent; injectivity_is_monic (Sets) is the contrasted base case, not this example. ABSENT is correct."}
+  },
+  {
+    "id": "awodey:2.1:example4",
+    "classification": "PARTIAL",
+    "aliases": ["every arrow in a poset is mono and epi", "thin category arrows monic/epic", "preorder morphisms cancellable", "posetal category", "Proset arrows bimorphic"],
+    "evidence": [
+      {"file": "Instance/Proset.v", "line": 33, "symbol": "Proset",
+       "intree_statement": "Program Definition Proset {A}{R}(P:PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity; compose := fun x y z f g => transitivity g f |}  (* hom-setoid equivalence is `fun _ _ => True`: all parallel arrows equal *)"},
+      {"file": "Instance/Poset.v", "line": 43, "symbol": "(header)",
+       "intree_statement": "\"In a thin category all parallel morphisms are equal, so every diagram commutes and every coherence condition holds vacuously.\""}
+    ],
+    "statement_record": {
+      "book": "In a poset P regarded as a category, every arrow p≤q is both monic and epic, since each hom-set has at most one arrow so cancellation is automatic.",
+      "intree": "Proset builds the poset/preorder as a thin category whose hom-setoid equivalence is `fun _ _ => True`; hence for any parallel g1 g2 one has g1 ≈ g2, from which Monic and Epic (Theory/Morphisms.v) follow in a single step (their conclusion g1 ≈ g2 is literally `True`).",
+      "strength_comparison": "intree-weaker — the enabling category (Proset/Poset) and the Monic/Epic classes are both present, and the property holds definitionally, but the claim is never recorded as a lemma."
+    },
+    "gap": "No in-tree lemma asserts that arrows in Proset/Poset (or in any thin category) are Monic and Epic. Because the hom-setoid equivalence is `fun _ _ => True`, `Monic f` and `Epic f` are provable for every arrow by a one-line proof, but this fact is nowhere stated; only the trivial-hom category and the general Monic/Epic definitions exist.",
+    "negative_search_log": [
+      "grep -rniE 'every arrow.*monic|every morphism.*monic|preorder.*monic|thin.*monic|posetal.*monic|hom.*subsingleton' — 0 hits establishing the claim as a lemma."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass reached the same borderline PARTIAL/ABSENT judgment; PARTIAL is defensible and I do not overturn. Verified Instance/Proset.v (Program Definition Proset starts line 33; homset is `{| Setoid.equiv := fun _ _ => True |}`) and Poset.v:43 header quote — both accurate, files REGISTERED. With hom-equiv ≡ True, Monic and Epic hold definitionally for every arrow (their conclusion g1 ≈ g2 is literally True), so the enabling category and classes are genuinely present; only the explicit lemma is missing, exactly as the gap states. The item's substance is one trivial `constructor` away but unstated — PARTIAL honestly captures this."
+    }
+  },
+  {
+    "id": "awodey:2.1:example5",
+    "classification": "ABSENT",
+    "aliases": ["N↣Z is a non-surjective epi in Mon", "inclusion of naturals into integers", "epis need not be surjective", "additive monoid embedding epimorphism", "monoid epimorphism not surjective"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'integers|naturals as|additive monoid|N.*Z.*epi|monoid of natural' — no N or Z realized as monoid objects and no inclusion N↪Z anywhere; only header-essay mentions (Theory/Lawvere.v, Construction/PROP.v cite 'the additive monoid on ℕ' as motivation, not as an object).",
+      "There is no in-tree category Mon of ordinary monoids over Sets: Instance/CMon.v is commutative monoids and contains no such inclusion; Theory/Algebra/Monoid/Hom.v is Mon(C) internal monoids. Neither constructs (ℕ,+,0), (ℤ,+,0), nor a map between them.",
+      "grep -rniE 'non-surjective epi|epi.*not.*surj|surj.*not.*epi' — nothing; Instance/Ens.v only notes that in Ens the monos/epis/isos are the injective/surjective/bijective functions (the OPPOSITE of the phenomenon this example illustrates).",
+      "The conceptual takeaway 'epimorphisms need not be surjective outside Sets' is not recorded as any remark or lemma."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent blind search agrees — no ℕ or ℤ additive monoid objects, no ℕ↪ℤ map, no 'epi need not be surjective' remark. CMon (commutative monoids) and Mon(C) (internal monoids) both exist but neither instantiates this specific counterexample. ABSENT is correct."}
+  },
+  {
+    "id": "awodey:2.1:prop6",
+    "classification": "PRESENT",
+    "aliases": ["every iso is mono and epi", "iso_to_monic", "iso_to_epic", "invertible implies cancellable", "isomorphism is a bimorphism"],
+    "evidence": [
+      {"file": "Theory/Isomorphism.v", "line": 264, "symbol": "iso_to_monic",
+       "intree_statement": "Program Instance iso_to_monic {C}{x y}(iso : @Isomorphism C x y) : Monic iso.  (* proof: cancel with iso_from_to *)"},
+      {"file": "Theory/Isomorphism.v", "line": 286, "symbol": "iso_to_epic",
+       "intree_statement": "Program Instance iso_to_epic {C}{x y}(iso : @Isomorphism C x y) : Epic iso.  (* proof: cancel with iso_to_from *)"}
+    ],
+    "statement_record": {
+      "book": "Every isomorphism is both monic and epic: an iso m with inverse e left-cancels (mx=my ⇒ x=emx=emy=y) and dually right-cancels.",
+      "intree": "iso_to_monic : Monic iso and iso_to_epic : Epic iso (each the exact inverse-cancellation argument), plus iso_from_monic / iso_from_epic for the inverse leg.",
+      "strength_comparison": "intree-stronger — Awodey's Prop 2.6 is proven, and additionally the inverse direction (iso_from_monic at line 275, iso_from_epic at line 376) is provided, so both `to` and `from` of the isomorphism are shown monic and epic."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same evidence. Verified Theory/Isomorphism.v: iso_to_monic:264, iso_from_monic:275, iso_to_epic:286, and iso_from_epic:376 all exist (header comment line 259 'Every isomorphism is both monic and epic, in each direction'). The 'intree-stronger' claim is accurate — all four instances present. File REGISTERED. PRESENT is correct."}
+  },
+  {
+    "id": "awodey:2.1:remark-bimorphism-iso-sets",
+    "classification": "PARTIAL",
+    "aliases": ["Sets is balanced", "bimorphism is iso in Set", "mono+epi implies iso", "balanced category", "bijective_is_iso", "epi = surjective in Set"],
+    "evidence": [
+      {"file": "Instance/Sets.v", "line": 400, "symbol": "bijective_is_iso",
+       "intree_statement": "Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) : injective h -> surjective h -> IsIsomorphism h.  (* Defined; chosen preimage assembles a two-sided inverse *)"},
+      {"file": "Instance/Sets.v", "line": 369, "symbol": "injectivity_is_monic",
+       "intree_statement": "(∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f  (* full biconditional, Qed *)"},
+      {"file": "Instance/Sets.v", "line": 429, "symbol": "surjectivity_is_epic",
+       "intree_statement": "Lemma surjectivity_is_epic (h : A ~{Sets}~> B) : (∀ b, ∃ a, h a ≈ b) ↔ Epic h.  (* forward (surjective→epic) proved; reverse (epic→surjective) ends in `Abort` at line 476, so the lemma does NOT enter the environment *)"}
+    ],
+    "statement_record": {
+      "book": "In Sets the converse of Prop 2.6 holds: every arrow that is both monic and epic is an isomorphism (Sets is 'balanced'). This fails in general — the mono-epi N↣Z in Mon is not an iso.",
+      "intree": "bijective_is_iso : injective h → surjective h → IsIsomorphism h (proved); injectivity_is_monic : injective ↔ Monic (proved); surjectivity_is_epic : surjective ↔ Epic with only the forward direction proved and the reverse abandoned (Abort).",
+      "strength_comparison": "intree-weaker — 'injective ∧ surjective ⇒ iso' is proven, but the target statement 'Monic ∧ Epic ⇒ iso in Sets' is not, because the bridge epic ⇒ surjective is missing."
+    },
+    "gap": "The balancedness of Sets (Monic f ∧ Epic f ⇒ IsIsomorphism f) is not proven. Three of the four needed pieces exist — injective↔Monic (full), injective+surjective→iso (full), surjective→Epic (full) — but the crucial fourth, Epic→surjective, is explicitly abandoned: Instance/Sets.v line 476 ends in `Abort` because the constructive/classical argument needs a truth-value classifier object that suffers a size obstruction (it lives one universe up; the cross-universe classifier lives in Instance/Sets/Classifier.v). Hence Monic+Epic ⇒ injective+surjective ⇒ iso cannot be assembled. Also the 'fails in general' half of the remark (the non-iso mono-epi N↣Z in Mon) is absent (see awodey:2.1:example5).",
+    "negative_search_log": [
+      "grep -rniE 'balanced' --include=*.v — hits are all BalancedMonoidal categories (Structure/Monoidal/Balanced.v, Instance/Coq/Par.v), an unrelated notion; no 'balanced category' (mono+epi⇒iso) result.",
+      "grep -rniE 'Bimorphic' --include=*.v — Bimorphic := Epic f * Monic f is defined (Theory/Morphisms.v:125) but there is no lemma concluding an isomorphism from a Bimorphic hypothesis, in Sets or generally."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass reached the same conclusion; PARTIAL is defensible (borderline with ABSENT) and I do not overturn — the gap is stated precisely and genuine ingredients (injective↔Monic full; injective+surjective→iso full) exist. Verified: surjectivity_is_epic reverse direction (epic→surjective) genuinely ends in `Abort` at Instance/Sets.v:476, so it does NOT enter the environment; bijective_is_iso:400 and injectivity_is_monic:369 are proved. Minor caveat on strength wording: the gap counts 'surjective→Epic (full)' among helpful pieces, but that is the WRONG direction for balancedness — the balancedness bridge needs Epic→surjective (the aborted one) and Monic→injective; surjective→Epic is irrelevant to assembling Monic+Epic⇒iso. The bottom-line gap identification (Epic→surjective missing) is nonetheless correct. Bimorphic (Morphisms.v:125) is defined but never concludes an iso. The 'balanced' grep hits are all BalancedMonoidal (unrelated). PARTIAL stands."
+    }
+  },
+  {
+    "id": "awodey:2.2:def7",
+    "classification": "PRESENT",
+    "aliases": ["initial object", "terminal object", "Terminal class", "Initial (= Terminal in C^op)", "0 and 1 objects", "zero_unique / one_unique", "terminal = initial in the opposite category"],
+    "evidence": [
+      {"file": "Structure/Terminal.v", "line": 107, "symbol": "Terminal",
+       "intree_statement": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f ≈ g }."},
+      {"file": "Structure/Initial.v", "line": 96, "symbol": "Initial",
+       "intree_statement": "Notation \"'Initial' C\" := (@Terminal (C^op)); Definition initial_obj := @terminal_obj _ I; Definition zero {x} : initial_obj ~> x := @one _ I _; Definition zero_unique {x} (f g : initial_obj ~> x) : f ≈ g := @one_unique _ I _ _ _."}
+    ],
+    "statement_record": {
+      "book": "In any category C, 0 is initial if for every C there is a unique 0→C; 1 is terminal if for every C there is a unique C→1. A terminal object of C is exactly an initial object of C^op.",
+      "intree": "Class Terminal { terminal_obj; one {x}:x~>terminal_obj; one_unique:∀ f g:x~>1, f≈g }; and `Initial C` := `Terminal (C^op)`, with initial_obj/zero/zero_unique the recovered C-side names.",
+      "strength_comparison": "same, in fact intree-stronger on the duality clause — 'terminal in C = initial in C^op' is not merely remarked but is the DEFINITION: `Initial C` literally unfolds to `Terminal (C^op)`, so C^op^op = C by reflexivity makes the duality definitional. Uniqueness is stated as existence (one) + uniqueness up to ≈ (one_unique), the faithful setoid form of 'exactly one'."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same evidence. Verified Structure/Terminal.v:107-112 (Class Terminal with terminal_obj/one/one_unique) and Structure/Initial.v:96-113 (Notation `Initial C := Terminal (C^op)` plus initial_obj/zero/zero_unique projections). Both files REGISTERED. Duality is definitional exactly as claimed. 'Exactly one' = existence (one) + uniqueness up to ≈ (one_unique). PRESENT is correct."}
+  },
+  {
+    "id": "awodey:2.2:prop8",
+    "classification": "PARTIAL",
+    "aliases": ["initial/terminal unique up to unique isomorphism", "terminal object unique up to iso", "uniqueness of universal objects", "univ_property_unique_up_to_unique_iso", "limits unique up to iso"],
+    "evidence": [
+      {"file": "Structure/UniversalProperty.v", "line": 175, "symbol": "univ_property_unique_up_to_unique_iso",
+       "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s).  (* over H : IsUniversalProperty C P eqP; any two representing objects are uniquely isomorphic *)"},
+      {"file": "Structure/Limit/Terminal.v", "line": 33, "symbol": "Terminal_Limit",
+       "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : ...  (* a terminal object coincides with the limit of the empty diagram *)"},
+      {"file": "Structure/UniversalProperty/Limit.v", "line": 141, "symbol": "LimitIsUniversalProperty",
+       "intree_statement": "Proposition LimitIsUniversalProperty : ...  (* a limit is an instance of IsUniversalProperty *)"}
+    ],
+    "statement_record": {
+      "book": "Initial objects (and terminal objects) are unique up to a unique isomorphism: two initial (resp. terminal) objects have a unique iso between them commuting with the structure.",
+      "intree": "univ_property_unique_up_to_unique_iso : for any object carrying a universal property P (an IsUniversalProperty), any two representing objects c,d are uniquely isomorphic. Terminal objects connect via Terminal_Limit (terminal = limit of empty diagram) and LimitIsUniversalProperty (a limit is a universal property).",
+      "strength_comparison": "intree-weaker for the specific item — the general uniqueness-up-to-unique-iso theorem is fully proven (and is more general than Prop 2.8), but it is stated for representing objects of a universal property, and terminal/initial objects are never instantiated into that framework, so no statement of the exact shape 'two terminal (or initial) objects are uniquely isomorphic' exists."
+    },
+    "gap": "No standalone lemma states that any two terminal (resp. initial) objects are isomorphic by a unique isomorphism. The generic theorem univ_property_unique_up_to_unique_iso requires an `IsUniversalProperty` packaging that Terminal/Initial are never given (the only in-tree IsUniversalProperty instances are UniversalArrow, in Structure/UniversalProperty/Universal/Arrow.v, and Limit, in Structure/UniversalProperty/Limit.v). A derivation is possible in principle via Terminal_Limit → LimitIsUniversalProperty → univ_property_unique_up_to_unique_iso, and the headers of Structure/Terminal.v and Theory/Isomorphism.v call the terminal object 'the simplest instance' of this uniqueness, but the instantiation for bare terminal/initial objects is not carried out, and the trivial direct construction (iso with to := one, from := one, both composites forced by one_unique) is nowhere given.",
+    "negative_search_log": [
+      "grep -rniE 'Lemma|Proposition|Corollary|Definition|Theorem|Instance' with 'terminal.*iso|initial.*iso|iso.*terminal|iso.*initial|terminal.*unique|initial.*unique' (excluding one_unique/zero_unique/univ_property) — 0 direct terminal/initial uniqueness-up-to-iso lemma.",
+      "grep -rniE 'to *:= *one|from *:= *one|to *:= *zero|from *:= *zero' — the only isos built from `one`/`zero` are Cartesian/Cocartesian/BiCCC unit laws (e.g. Structure/Cartesian.v:454, Structure/Cocartesian.v:377), none of which is 'two terminals are isomorphic'.",
+      "grep -rniE 'IsUniversalProperty' instances — only UniversalArrowIsUniversalProperty and LimitIsUniversalProperty; Terminal/Initial not instantiated."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PARTIAL. Verified all three evidence anchors: univ_property_unique_up_to_unique_iso at Structure/UniversalProperty.v:175 (exact statement), Terminal_Limit at Structure/Limit/Terminal.v:33, and LimitIsUniversalProperty at Structure/UniversalProperty/Limit.v:141-142 (`IsUniversalProperty C^op (fun c => IsALimit F c)`). All files REGISTERED. Independently confirmed there is NO direct terminal/initial-objects-unique-up-to-iso lemma, NO Terminal/Initial `IsUniversalProperty` instance, and NO general 'two limits are isomorphic' theorem (only mediating-morphism uniqueness limit_med_unique in Structure/Limit/Preservation.v:82). The general principle is genuinely formalized but not specialized to def7's objects; the gap is precise and honest. PARTIAL is correct. See problems[] for the related Isomorphism.v:83 header overstatement."
+    }
+  },
+  {
+    "id": "awodey:2.2:example9",
+    "classification": "PARTIAL",
+    "aliases": ["initial/terminal objects across categories", "empty set initial, singleton terminal", "0 initial and 1 terminal in Cat", "zero object of Groups/Vect/Mon", "terminal in slice / initial in coslice", "least/greatest element in a poset"],
+    "evidence": [
+      {"file": "Instance/Sets.v", "line": 248, "symbol": "Sets_Terminal",
+       "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := { terminal_obj := {| carrier := poly_unit |}; one := fun _ => {| morphism := fun _ => ttt |}; ... }  (* singleton terminal *)"},
+      {"file": "Instance/Sets.v", "line": 265, "symbol": "Sets_Initial",
+       "intree_statement": "Program Instance Sets_Initial : @Initial Sets := { terminal_obj := {| carrier := False |}; ... }  (* empty setoid initial *)"},
+      {"file": "Instance/Zero.v", "line": 44, "symbol": "Cat_Initial",
+       "intree_statement": "Program Instance Cat_Initial : @Initial Cat := { terminal_obj := _0; ... }  (* the empty category is initial in Cat; the point category 1 is terminal, Instance/One.v *)"},
+      {"file": "Instance/CMon/Biproduct.v", "line": 161, "symbol": "CMon_Zero",
+       "intree_statement": "#[export] Instance CMon_Zero : ZeroObject CMon := @Build_ZeroObject CMon CMon_Terminal CMon_Initial iso_id.  (* trivial monoid is both initial (CMon_Initial:154) and terminal (CMon_Terminal:120) *)"}
+    ],
+    "statement_record": {
+      "book": "Enumerates initial/terminal objects: (1) Sets ∅ initial, singleton terminal; (2) Cat 0 initial, 1 terminal; (3) Groups/Vect/Mon the zero object is both, while Rings Z initial and the zero ring terminal; (4) Bool 2 initial, 1-element algebra terminal; (5) poset least = initial, greatest = terminal (and a poset may have neither); (6) for any C, 1_X terminal in the slice C/X and initial in the coslice X/C.",
+      "intree": "Sets_Terminal (singleton) + Sets_Initial (empty setoid); Cat_Initial (_0) + the terminal point category (Instance/One.v); CMon zero object (CMon_Terminal, CMon_Initial, CMon_Zero) — the trivial commutative monoid is both initial and terminal.",
+      "strength_comparison": "intree-weaker — three of the enumerated families have concrete witnesses (Sets; Cat; and a commutative-monoid zero object standing in for the Groups/Vect/Mon case of item 3), the remaining cases are absent."
+    },
+    "gap": "Present witnesses: item 1 (Sets ∅ initial / singleton terminal, Sets_Initial + Sets_Terminal), item 2 (Cat 0 initial / 1 terminal, Cat_Initial + Instance/One.v), and the zero-object half of item 3 realized for commutative monoids (CMon_Zero: trivial monoid initial and terminal). Absent: the Rings half of item 3 (no Ring category, no Z-initial / zero-ring-terminal); item 4 (no Boolean-algebra category Bool — see awodey:2.2:def-boolean-algebra); item 5 (poset least/greatest = initial/terminal appears only as prose in Instance/Poset.v:30, never as a lemma or instance) and the '(Z,≤) has neither' observation; item 6 (no in-tree instance exhibiting 1_X as terminal in the slice C/X or initial in the coslice X/C — grep over Construction/Slice.v and Construction/Slice/* found no Terminal/Initial instance).",
+    "negative_search_log": [
+      "grep -rniE 'slice.*[Tt]erminal|[Tt]erminal.*slice|coslice.*[Ii]nitial|Slice.*Terminal' — 0 hits: the identity 1_X terminal-in-slice / initial-in-coslice fact is not formalized.",
+      "grep -niE 'Terminal|Initial' Instance/Poset.v — only the header prose 'the smallest element ... is an initial object, and the largest element ... a terminal object' (line 30); no Program Instance.",
+      "No Ring / Grp / Vect category exists over Sets (Structure/Group.v is internal group OBJECTS); no Bool category (see def-boolean-algebra)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PARTIAL. Verified present witnesses: Sets_Terminal:248, Sets_Initial:265 (Instance/Sets.v), Cat_Initial:44 (Instance/Zero.v), CMon_Terminal:120 / CMon_Initial:154 / CMon_Zero:161 (Instance/CMon/Biproduct.v) — all accurate, files REGISTERED. Independently confirmed the absent cases: no Ring/Grp/Vect category over Sets, no Bool category, no slice/coslice Terminal/Initial instance, poset least/greatest only in Poset.v header prose. The CMon zero object is a faithful stand-in for item 3's Groups/Vect/Mon zero object. PARTIAL is correct."
+    }
+  },
+  {
+    "id": "awodey:2.2:def-boolean-algebra",
+    "classification": "ABSENT",
+    "aliases": ["Boolean algebra", "category Bool", "Boolean homomorphism", "complemented distributive lattice", "powerset algebra P(X)", "two-element algebra 2", "lattice / Heyting algebra"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Class.*Lattice|Definition.*Lattice|BooleanAlgebra|Boolean_Algebra|Structure.*Lattice|HeytingAlgebra' --include=*.v — 0 hits: no Boolean-algebra, lattice, or Heyting-algebra structure class anywhere.",
+      "ls Structure/ | grep -iE 'lattice|order|heyting|bool' — none; find . -iname '*lattice*' -o -iname '*heyting*' -o -iname '*boolean*' (excluding build artifacts) — none.",
+      "grep -rniE 'boolean|complement|supremum|infimum|join.*meet' --include=*.v — hits are (a) the Coq `bool` type used in programming (Theory/Coq/*, Tools/Represented.v), (b) header-essay mentions of Boolean algebras as motivation/history only (Theory/Lawvere.v:87 lists 'Boolean and Heyting algebras' among Lawvere-theory examples; Theory/Equivalence.v:120 cites Stone duality), and (c) `join`/`meet` occurrences that are monad multiplication μ, not lattice operations. None define the structure.",
+      "grep -rniE 'category of.*boolean|Instance.*Bool|Definition Bool ' — Instance/Comp.v:3 `Definition Bool : Group` defines the two-element GROUP (BoolOp satisfying the group equations), NOT a Boolean algebra and NOT the category Bool. No category Bool of Boolean algebras and Boolean homomorphisms exists.",
+      "Note: the meet/join = product/coproduct-in-a-poset dictionary is discussed in Instance/Poset.v prose (line 50-52) and products-in-a-poset are the intended semantics, but no Boolean-algebra object (with 0,1,∨,∧,¬ and the complement/double-negation laws) is defined."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent blind search agrees fully. Confirmed there is NO BooleanAlgebra/Lattice/HeytingAlgebra class, no meet/join/complement lattice operations, and no category Bool anywhere. 'Boolean' occurs only in header-essay prose (Theory/Lawvere.v, Theory/Equivalence.v Stone duality, Structure/Topos.v, Instance/Two.v's category-theoretic characterization). Instance/Comp.v:405 `Definition Bool : Group` is the two-element GROUP under xor, not a Boolean algebra. Note: the library HAS universe polymorphism, so this is a genuine content gap (a Boolean-algebra structure is fully formalizable here), not OUT_OF_SCOPE. ABSENT is correct."}
+  }
+]

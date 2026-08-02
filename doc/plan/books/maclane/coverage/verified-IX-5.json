@@ -1,0 +1,280 @@
+[
+  {
+    "id": "maclane:IX.6:ex1",
+    "classification": "PRESENT",
+    "aliases": ["wedges from a point", "Wedge(*,S) is the end", "compatible families", "end in Sets", "set of dinatural families", "Set-valued end"],
+    "evidence": [
+      {"file": "Instance/Sets/End.v", "line": 59, "symbol": "end_family",
+       "intree_statement": "Definition end_family : Type := { s : ∀ x : C, F (x, x) & ∀ (x y : C) (f : x ~{C}~> y), fmap[F] ((@id (C^op) x, f)) (s x) ≈ fmap[F] ((op f, @id C y)) (s y) }  (* the carrier is exactly the set of wedges from the one-point setoid: a choice s x ∈ F(x,x) per object satisfying the wedge/dinaturality law *)"},
+      {"file": "Instance/Sets/End.v", "line": 88, "symbol": "end_projection",
+       "intree_statement": "Program Definition end_projection (x : C) : Sets_End_obj ~{Sets}~> F (x, x) := {| morphism := fun s => `1 s x |}  (* the ending wedge ω ↦ ω_x, i.e. evaluate the family at x *)"},
+      {"file": "Instance/Sets/End.v", "line": 144, "symbol": "Sets_End",
+       "intree_statement": "Program Definition Sets_End : End F := {| end_wedge := Sets_End_Wedge |}  (* proves this set-of-wedges, with the projection legs, satisfies the end UMP for every F : C^op ∏ C ⟶ Sets *)"}
+    ],
+    "statement_record": {
+      "book": "Exercise IX.6.1: for S : C^op × C → Set, prove the set Wedge(*,S) of all wedges ω : * ⇒ S from the one-point set is an end of S, with ending wedge ω ↦ ω_c(*) ∈ S(c,c); compare with the explicit description of a limit in Set as a set of cones.",
+      "intree": "Instance/Sets/End.v realises ∫_x F(x,x) as the setoid [end_family] of compatible families { s : ∀x, F(x,x) & wedge-law }, with projection legs [end_projection x : s ↦ s x], and [Sets_End : End F] proves this satisfies the end UMP.",
+      "strength_comparison": "same — a wedge ω : Δ1 ⇒ S from the terminal setoid is precisely a family (ω_c(*) ∈ S(c,c)) satisfying the wedge condition, i.e. an element of [end_family]; the library constructs the end AS this set of wedges and discharges the universal property, which is exactly the exercise's content (the secondary 'compare with cones' remark is illustrative)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached Instance/Sets/End.v. Verified line/symbol/quote accuracy: end_family (59), end_projection (88), Sets_End (144) all correct, and the file is registered in _CoqProject (line 232). The end of any F : C^op ∏ C ⟶ Sets is realised as the setoid of compatible families {s : ∀x, F(x,x) & wedge-law}; a wedge from the terminal setoid Δ1 IS such a family (ω_c(*) ∈ F(x,x)), and end_projection is the ending wedge ω ↦ ω_x. Faithful realisation of the exercise's set-of-wedges (a blessed setoid rephrasing under the frozen definition); the 'compare with cones' clause is illustrative, correctly flagged. strength_comparison 'same' is honest. PRESENT confirmed."}
+  },
+  {
+    "id": "maclane:IX.6:ex2",
+    "classification": "ABSENT",
+    "aliases": ["ends from products and equalizers", "existence of ends via products and equalizers", "end as an equalizer of products", "small-complete ⇒ has ends (elementary construction)", "products+equalizers ⇒ ends"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'end.*product.*equali|products and equali' --include=*.v .  → only Structure/Limit.v, Structure/Complete.v, Structure/Equalizer.v, Adjunction/GAFT.v, all about building LIMITS (not ends) from products+equalizers; no end construction",
+      "grep -rniE 'end.*(is|as|=|equals|reduce).*limit|limit of.*section|end_is_limit' --include=*.v Structure/ Theory/ Instance/  → no end-as-limit reduction (Mac Lane IX.5 Prop 1 is not formalized), so the limit-of-products+equalizers is not transported to ends",
+      "read Structure/End.v (End defined directly as universal wedge, no products/equalizers construction) and Instance/Sets/End.v (end built as compatible-family subsetoid, NOT via products and equalizers, and only in Sets)",
+      "The general theorem 'X with small products and equalizers has all small ends' has no in-tree counterpart; the only concrete end (Instance/Sets/End.v) is a bespoke Sets subsetoid, not the products+equalizers construction over an abstract X."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent search corroborates: no 'products+equalizers ⇒ ends' theorem; no end-as-limit reduction (no subdivision category, no IX.5-Prop1 bridge); the only concrete end (Sets_End) is a direct Sets subsetoid, not the general construction over an abstract X. Negative log accurate. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:IX.6:ex3",
+    "classification": "ABSENT",
+    "aliases": ["twisted arrow category", "Tw(C)", "reduction of ends to limits", "subdivision category", "end = limit over twisted arrows", "cones over SK ↔ wedges"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'twisted' --include=*.v .  → only a Wikipedia cross-reference in Instance/Fact.v (line 10) and an unrelated hit in Construction/Grothendieck.v; NO twisted-arrow category is constructed",
+      "read Instance/Fact.v — it builds the factorization/interval category Fact(f) of a SINGLE morphism f (objects = factorizations of f), which is NOT the twisted arrow category Tw(C) whose objects are ALL arrows of C; and it is not connected to ends",
+      "grep -rniE 'subdivision|section.categ' --include=*.v .  → no subdivision category (Mac Lane IX.5) either",
+      "grep -rniE 'end.*(is|as|=|reduce).*limit|cones.*wedges|wedge.*cone' --include=*.v Structure/ Theory/ Instance/  → no reduction of ends to limits (IX.5 Prop 1) in any form, so the twisted-arrow re-proof of it is absent a fortiori",
+      "Both the twisted-arrow category and the end-to-limit reduction it is meant to re-establish are absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Instance/Fact.v directly: header line 7 reads 'The factorization category Fact(f) of a morphism', object = a factorization f = p2 ∘ p1 of a FIXED f (line 43 Program Definition Fact `(f : x ~> y)), which is not Tw(C) (objects = all arrows). The Wikipedia twisted-arrow link (line 10) sits beside prose that correctly describes Fact(f) and an nLab link to 'factorization+category' — a defensible related-concept cross-reference, not a false claim (not flagged as a defect). No subdivision category, no end-to-limit reduction anywhere. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:IX.6:ex4",
+    "classification": "ABSENT",
+    "aliases": ["free module as a coend", "free R-module", "∫^n X^n · R_(n)", "finite formal sums", "copower coend", "skeletal Fin and R-Mod"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'free module|R-Mod|RMod|Module|Modules' --include=*.v Instance/ Structure/ Theory/  → only Coq 'Module' keyword hits and prose mentions in Structure/Monoid.v; NO category of R-modules and no free-module construction",
+      "grep -rniE 'copower|tensoring|X-fold|coproduct.*copies' --include=*.v .  → no copower (S·A = ∐_S A) construction, which the coend ∫^n X^n·R_(n) requires",
+      "grep -rniE 'free module|geometric realiz|realization' --include=*.v .  → no free-module-as-coend; only Kan-extension prose mentions realization",
+      "The library has coends (Structure/Coend.v, Instance/Sets/Coend.v) but no module category, no copower, and no free-module-as-coend witness."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent search: no R-Mod category (only the Coq 'Module' keyword and Structure/Monoid.v prose; Instance/CMon.v is commutative monoids, not R-modules), no copower/tensoring construction, no free-module witness. The in-tree co-Yoneda reduction (Theory/Coend/Yoneda.v) is representables-in-Sets, not this example. Negative log accurate. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:IX.6:ex5",
+    "classification": "ABSENT",
+    "aliases": ["tensor product of functors", "functor tensor product over a cocomplete category", "∫^c (Sc)·(Tc)", "copower coend Set^{C^op} ∏ D^C ⟶ D", "weighted colimit / functor tensor", "S ⊗_C T"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'copower|tensoring|cotensor' --include=*.v .  → no copower/tensoring of an object by a set, which the integrand (Sc)·(Tc) requires",
+      "read Functor/Product.v — its header EXPLICITLY says the objectwise tensor is 'distinct from ... the coend tensor of functors ∫^c F c ⨂ G c (nLab \"tensor product of functors\"), which is not this pointwise construction' — i.e. the tensor-product-of-functors coend is acknowledged as NOT present",
+      "read Construction/Day.v — Day convolution is a DIFFERENT coend ∫^{a,b} C(a⨂b,c)×Fa×Gb (needs monoidal C, hom-weighted, Sets-valued), not the copower ∫^c Sc·Tc for S:C^op→Set, T:C→D with D cocomplete",
+      "read Structure/Limit/Weighted.v — WeightedColimit is defined abstractly by representability (Sets-valued weight), but does NOT construct the copower coend ∫^c Sc·Tc nor exhibit it as a bifunctor Set^{C^op} ∏ D^C ⟶ D",
+      "No in-tree functor tensor product of the form ∫^c (Sc)·(Tc) exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Functor/Product.v header (lines 26-31): the objectwise tensor 'is distinct from ... the coend tensor of functors ∫^c F c ⨂ G c (nLab \"tensor product of functors\"), which is not this pointwise construction' — an explicit in-tree disclaimer that this coend is absent. Day convolution is a different hom-weighted Sets-valued coend; no copower over an arbitrary cocomplete D. Negative log accurate. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:IX.7:prop1",
+    "classification": "PARTIAL",
+    "aliases": ["end of a natural transformation", "functoriality of ends", "∫_c γ_{c,c}", "induced map on ends/coends", "coend functorial in its integrand", "γ : S ⇒ S' induces ∫γ"],
+    "evidence": [
+      {"file": "Structure/Coend.v", "line": 190, "symbol": "coend_med",
+       "intree_statement": "Definition coend_med (E : Coend F) (w : D) (i : ∀ x, F(x,x) ~> w) (cond : Cowedge_cond F w i) : coend_obj E ~{D}~> w := unique_obj (coend_ump E w i cond)  (* the general coend UMP — the tool that makes the induced map ∫γ well-defined for any base category with coends; with coend_med_inj (196) giving ∫γ ∘ inj ≈ γ ∘ inj *)"},
+      {"file": "Construction/Day.v", "line": 835, "symbol": "DFG_c",
+       "intree_statement": "Definition DFG_c (F F' G G' : C ⟶ Sets) (α : F ⟹ F') (β : G ⟹ G') (c : C) : coend_obj (SetsCoend (DayI F G c)) ~> coend_obj (SetsCoend (DayI F' G' c)) := coend_med ... (fun ab => coend_inj ... ∘ transform[DFG_theta F F' G G' α β c] (ab,ab)) ...  (* a transformation of integrands DFG_theta induces a map of coends; DFG_c_inj (845) is the ω'∘g = γ∘ω commuting law *)"},
+      {"file": "Construction/Day.v", "line": 780, "symbol": "DFG_theta_id / DFG_theta_comp",
+       "intree_statement": "Lemma DFG_theta_id ... ≈ id  and  Lemma DFG_theta_comp ... : transform[DFG_theta F' F'' ...] ∘ transform[DFG_theta F F' ...] ≈ transform[DFG_theta F F'' (nat_compose ...) ...]  (* the identity and composition laws — functoriality of the induced coend map in the integrand transformation *)"}
+    ],
+    "statement_record": {
+      "book": "Proposition IX.7.1: given γ : S ⇒ S' between S, S' : C^op × C → X both with ends ⟨e,ω⟩, ⟨e',ω'⟩, there is a unique g = ∫_c γ_{c,c} : e → e' with ω'_c ∘ g = γ_{c,c} ∘ ω_c (eqn 1); moreover ∫_c(γ'∘γ) = (∫_c γ') ∘ (∫_c γ), so taking ends is functorial.",
+      "intree": "The general coend UMP [coend_med]/[coend_med_inj] (Structure/Coend.v, valid over any base) is the tool building the induced map; it is applied to build induced coend maps with identity and composition laws in Construction/Day.v ([DFG_c] via [DFG_theta], with [DFG_theta_id]/[DFG_theta_comp]).",
+      "strength_comparison": "intree-weaker: the induced-map-plus-functoriality is realised concretely only for the Day integrand family DayI (and, for the parameter, Fubini's Inner and Profunctor/Compose's prof_compose), for COENDS in Sets; there is no general lemma packaging (S ⟹ S') ↦ (Coend S ~> Coend S') / (End S ~> End S') with the commuting equation and functor laws, and no END-native or general-X form."
+    },
+    "gap": "No general 'functoriality of (co)ends in the integrand' lemma: the general coend UMP (coend_med) exists over any base and is used ad hoc (Day's DFG_c with id/comp laws; profunctor composition; Fubini's Inner) to induce maps from integrand-transformations, but the abstract statement '∫ : [C^op∏C, X] → X is functorial, with ω'∘∫γ ≈ γ∘ω' is never stated. Instances are coend-only and Sets-only; the end version is not native.",
+    "negative_search_log": [
+      "grep -rniE 'end_map|coend_map|End.*Transform|transform.*end|end_of|coend_of' --include=*.v .  → no general induced-map-on-(co)ends definition",
+      "grep -rnE 'nat_transform|⟹.*coend|⟹.*End|Transform.*(coend|End)' --include=*.v .  → no lemma of type (S ⟹ S') → (coend/end morphism)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My initial blind lean was ABSENT (no general functoriality-of-ends lemma), but verifying the cited Day evidence made PARTIAL the more accurate call, so I confirm rather than overturn. Verified: Structure/Coend.v coend_med (190) is the general UMP mediator (coend_med_inj at 196 gives the commuting law); Construction/Day.v DFG_c (835) is exactly coend_med of the legs (coend_inj ∘ transform[DFG_theta](ab,ab)) — the induced map on coends from a transformation of integrands — DFG_c_inj (845) is ω'∘g ≈ γ∘ω, and DFG_theta_id (780) / DFG_theta_comp (789), assembled into the genuine bifunctor Day_Tensor : ([C,Sets] ∏ [C,Sets]) ⟶ [C,Sets] (920) whose fmap_id/fmap_comp are discharged via those laws (947-948, 978), supply functoriality. This concretely realises Prop IX.7.1's induced-map + functor-laws content for the Day integrand family (coends, Sets). The general lemma is genuinely absent; the gap is precise and honest. PARTIAL confirmed."}
+  },
+  {
+    "id": "maclane:IX.7:thm2",
+    "classification": "PARTIAL",
+    "aliases": ["Parameter Theorem for ends", "parametrized end is a functor", "U p = ∫_c T(p,c,c)", "end functorial in a parameter", "wedge natural in the parameter", "∫_c T(-,c,c)"],
+    "evidence": [
+      {"file": "Theory/Coend/Fubini.v", "line": 226, "symbol": "Inner",
+       "intree_statement": "Program Definition Inner : C^op ∏ C ⟶ Sets := {| fobj := fun p => coend_apex_setoid (InnerIntegrand (fst p) (snd p)); fmap := fun p q uv => inner_fmap ... |}  (* the parametrized coend (c1,c2) ↦ ∫^d H((c1,d),(c2,d)) assembled into a functor of the parameter, with injections natural in the parameter — exactly the Parameter Theorem's conclusion, dualized to coends *)"},
+      {"file": "Construction/Day.v", "line": 315, "symbol": "Day",
+       "intree_statement": "Program Definition Day (F G : C ⟶ Sets) : C ⟶ Sets := {| fobj := fun c => coend_obj (SetsCoend (DayI F G c)); fmap := fun c1 c2 k => Day_map F G c1 c2 k |}  (* the parametrized coend c ↦ ∫^{a,b} DayI is a functor of the parameter c *)"},
+      {"file": "Construction/Profunctor/Compose.v", "line": 267, "symbol": "prof_compose",
+       "intree_statement": "Program Definition prof_compose : C ⇸ E := {| ... coend_obj (SetsCoend (prof_integrand c e)) ... |}  (* the parametrized coend (c,e) ↦ ∫^d P(c,d)×Q(d,e) is a functor of the parameters (c,e) *)"}
+    ],
+    "statement_record": {
+      "book": "Theorem IX.7.2 (Parameter Theorem): if T : P × C^op × C → X is such that T(p,-,-) has an end ω_p : ∫_c T(p,c,c) ⇒ T(p,-,-) for each object p, then there is a unique functor U : P → X with object map U p = ∫_c T(p,c,c) such that each wedge component (ω_p)_c : U p → T(p,c,c) is natural in p; written U = ∫_c T(-,c,c).",
+      "intree": "The parametrized-(co)end-as-a-functor construction is realized concretely in Sets: Fubini's [Inner : C^op ∏ C ⟶ Sets] (p ↦ ∫^d H(...)), Day's [Day : C ⟶ Sets] (c ↦ ∫^{a,b} ...), and [prof_compose : C ⇸ E], each a functor whose value is a coend and whose (co)injections are natural in the parameter (the functor's fmap).",
+      "strength_comparison": "intree-weaker: only the dual (coend) form, only in Sets, and only for specific hand-built integrands (H, DayI, prof_integrand); there is no general theorem taking 'each fibre T(p,-,-) has an end' as a hypothesis and concluding a functor U with natural wedge, and no end-native / general-X instance."
+    },
+    "gap": "No general Parameter Theorem: the 'parametrized (co)end assembles into a functor, (co)wedge natural in the parameter' pattern is proven only as bespoke Sets-valued coend functors (Fubini's Inner, Day, prof_compose), not as a reusable theorem hypothesizing pointwise existence of the fibre ends over an arbitrary parameter category P and target X. The end version (Theorem is stated for ends) is present only up to this library's Coend := End^op duality, with no end-native witness.",
+    "negative_search_log": [
+      "grep -rniE 'parameter theorem|parametrized end|parameter' --include=*.v . (excl. 'parametric')  → no Parameter Theorem; only unrelated 'parameter' prose",
+      "The three concrete parametrized-coend functors found (Inner, Day, prof_compose) are the closest witnesses but are not stated as a general theorem."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified all three witnesses are genuine functors whose value is a coend and whose fmap is the coend mediator (so the injections are natural in the parameter, the theorem's conclusion): Inner (Fubini.v:226, parameter C^op ∏ C, all pairs), Day (Day.v:315, parameter C), prof_compose (Compose.v:267, parameter C^op ∏ E). Caveat (honestly disclosed in the record): these are COEND-in-Sets witnesses credited to an END theorem via the library's systematic Coend := End^op convention, and they instantiate the conclusion for specific hand-built integrands rather than deriving it from a 'each fibre has an end' hypothesis over arbitrary P, X. This is a somewhat generous but defensible PARTIAL — the parameter-functoriality (the technical heart of the conclusion) is genuinely proven three times, and the gap is precise. Confirmed."}
+  },
+  {
+    "id": "maclane:IX.7:thm3",
+    "classification": "ABSENT",
+    "aliases": ["parametrized end is an end in X^P", "end in a functor category", "pointwise end", "transpose T-section : C^op × C → X^P", "(ω_c)_p = (ω_p)_c", "end computed in [P,X]"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'end in.*functor|coend in.*functor|pointwise end|pointwise coend' --include=*.v .  → no ends/coends computed in a functor category",
+      "read Theory/Coend/Fubini.v — [Inner] is built as a functor C^op ∏ C ⟶ Sets but is NEVER shown to be the coend of a transposed integrand computed IN a functor category [P, Sets]; there is no End/Coend instance over a functor-category target",
+      "grep -rniE 'creates? (an )?end|preserve.*end|End.*X\\^P|X\\^P.*end' --include=*.v .  → nothing; no theory of (co)ends valued in or created between functor categories",
+      "The refined statement 'U = ∫_c T̂(-,c,c) is the end of the transpose T̂ computed in X^P' has no in-tree counterpart (no (co)ends in functor categories at all)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent search corroborates: no (co)ends valued in a functor category anywhere in-tree. Inner is a functor into Sets, never exhibited as a Coend instance computed in [P,Sets]. thm3's specific content — U is the end of the transpose T-section computed IN X^P — is absent. Consistent with thm2=PARTIAL (the functor-assembly is concretely present) / thm3=ABSENT (the 'is an end in X^P' refinement is not). ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:IX.7:ex1",
+    "classification": "ABSENT",
+    "aliases": ["limit that is not a pointwise limit", "Dubuc example", "non-pointwise limit in a functor category X^P", "limit in [P,X] not computed pointwise", "counterexample C = 2"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'pointwise limit|pointwise (co)?limit|not a pointwise' --include=*.v .  → no pointwise-limit theory and no counterexample",
+      "grep -rniE 'pointwise|computed pointwise' --include=*.v Structure/ Instance/Fun/  → Structure/Cartesian/Product.v remarks (in prose) that a product category inherits limits pointwise, but there is no functor-category pointwise-limit theorem and no Dubuc-style non-pointwise counterexample",
+      "This exercise asks for a specific counterexample (a functor T : 2 → X^P with a non-pointwise limit); no such construction exists in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent search: no functor-category pointwise-limit theory and no Dubuc-style non-pointwise counterexample; only prose remarks about pointwise limits in product/functor categories. The exercise's specific counterexample construction is absent. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:IX.7:ex2",
+    "classification": "PARTIAL",
+    "aliases": ["parameter theorem for coends", "parametrized coend is a functor", "∫^c T(-,c,c)", "coend functorial in a parameter", "cowedge natural in the parameter", "dual of Theorems 2-3"],
+    "evidence": [
+      {"file": "Theory/Coend/Fubini.v", "line": 226, "symbol": "Inner",
+       "intree_statement": "Program Definition Inner : C^op ∏ C ⟶ Sets := {| fobj := fun p => coend_apex_setoid (InnerIntegrand (fst p) (snd p)); fmap := fun p q uv => inner_fmap ... |}  (* parametrized coend (c1,c2) ↦ ∫^d H((c1,d),(c2,d)) as a functor of the parameter — the coend Parameter Theorem's conclusion, concretely *)"},
+      {"file": "Construction/Day.v", "line": 315, "symbol": "Day",
+       "intree_statement": "Program Definition Day (F G : C ⟶ Sets) : C ⟶ Sets := {| fobj := fun c => coend_obj (SetsCoend (DayI F G c)); fmap := fun c1 c2 k => Day_map F G c1 c2 k |}  (* the parametrized coend c ↦ ∫^{a,b} DayI(F,G,c) is a functor, with the change-of-parameter map the coend mediator *)"},
+      {"file": "Construction/Profunctor/Compose.v", "line": 267, "symbol": "prof_compose",
+       "intree_statement": "Program Definition prof_compose : C ⇸ E := {| ... coend_obj (SetsCoend (prof_integrand c e)) ... |}  (* (c,e) ↦ ∫^d P(c,d)×Q(d,e) a functor of the parameter pair *)"}
+    ],
+    "statement_record": {
+      "book": "Exercise IX.7.2: state and prove the parameter theorem for coends (the dual of Theorems IX.7.2-3): a parametrized coend ∫^c T(p,c,c), existing for each p, assembles into a functor U : P → X (and, dually to Thm 3, is a coend in X^P).",
+      "intree": "The coend Parameter Theorem's conclusion is realized concretely for three Sets-valued integrands: [Inner] (parameter C^op ∏ C), [Day] (parameter C), and [prof_compose] (parameter C^op ∏ E), each a genuine functor whose value is a coend and whose fmap is the coend mediator of the transported injections (naturality of the coinjections in the parameter).",
+      "strength_comparison": "intree-weaker: the coend parameter construction is instantiated only for specific Sets-valued integrands, never as a general theorem hypothesizing pointwise coend existence over an arbitrary parameter category and cocomplete target; and the X^P-coend refinement (dual of Thm 3) is entirely absent."
+    },
+    "gap": "The functor-assembly half of the coend parameter theorem is present concretely (Inner, Day, prof_compose, all Sets-valued, specific integrands) but not as a general theorem; the second half (the parametrized coend IS a coend computed in X^P) is absent (no (co)ends in functor categories).",
+    "negative_search_log": [
+      "grep -rniE 'parameter theorem|parametrized (co)?end' --include=*.v .  → no general statement, for coends or ends"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "As the coend dual of thm2, the in-tree coend-in-Sets witnesses (Inner, Day, prof_compose — all verified: functors whose value is a coend, fmap = coend mediator, so coinjections natural in the parameter) match ex2's coend framing DIRECTLY, needing no Coend:=End^op bridge — so PARTIAL is better-supported here than for thm2. The general theorem and the X^P-coend half (dual of thm3) are genuinely absent; the gap is precise and honest. PARTIAL confirmed."}
+  },
+  {
+    "id": "maclane:IX.7:ex3",
+    "classification": "ABSENT",
+    "aliases": ["Lim is a functor", "limit functor Lim : X^C → X", "colim functor", "Lim as a right adjoint to Δ", "functoriality of limits"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'limit_functor|Lim_functor|LimF|colim_functor|Definition Lim |Lim :' --include=*.v .  → no Lim functor; the only 'Lim' hits are local section variables (Structure/Limit/Weighted.v line 234) and Kan-extension usages",
+      "read Structure/Limit.v — [Limit] (line 113) is a per-diagram CLASS, not a functor X^C → X; there is no assignment of a chosen limit object to each diagram assembled into a functor",
+      "grep -rniE 'colim.*Δ.*lim|Δ.*⊣|lim_adjoint' --include=*.v Functor/Diagonal.v  → Functor/Diagonal.v only mentions 'colim ⊣ Δ ⊣ lim' in PROSE (motivation), without building lim as a functor or the adjunction",
+      "This exercise (use Prop IX.7.1 to prove Lim : X^C → X is a functor) is unreachable: neither Prop 1 (functoriality of ends, PARTIAL) nor a Lim functor exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independently confirmed: no Lim : X^C ⟶ X functor construction. Structure/Limit.v's Limit is a per-diagram class; Functor/Diagonal.v mentions colim ⊣ Δ ⊣ lim only in prose (Diagonal Δ is built, but not lim as a functor nor the adjunction). Structure/Limit.v header even states the assembly-into-functors fact as a cited external proposition without constructing it. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:IX.7:ex4",
+    "classification": "ABSENT",
+    "aliases": ["discrete-subcategory inclusion creates ends and coends", "X^P → X^|P| creates ends/coends", "creation of ends", "|P| the discrete subcategory", "creation of (co)ends by evaluation"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'creates? (an )?end|preserve.*end|create.*coend|end.*creat' --include=*.v .  → only creation of COEQUALIZERS (Beck monadicity) and limits in comma categories; NO creation of ends/coends",
+      "grep -rniE 'end in.*functor|coend in.*functor|X\\^P|X\\^\\|P\\||discrete subcat.*(end|coend)' --include=*.v .  → no ends/coends in functor categories, hence no creation-of-(co)ends statement",
+      "The statement 'the inclusion X^P → X^{|P|} creates ends and coends' presupposes (co)ends valued in functor categories, which are entirely absent in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent search: 'creates/preserves ends/coends' appears nowhere (only creation of split coequalizers in Beck monadicity and of limits in comma categories). The statement presupposes (co)ends valued in functor categories, which are absent in-tree. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:IX.8:prop1",
+    "classification": "PARTIAL",
+    "aliases": ["Fubini theorem for ends", "double end equals iterated end", "∫_{(p,c)} ≅ ∫_p ∫_c", "interchange of ends", "Fubini for coends", "∫^{(c,d)} ≅ ∫^c ∫^d"],
+    "evidence": [
+      {"file": "Theory/Coend/Fubini.v", "line": 449, "symbol": "coend_fubini",
+       "intree_statement": "Definition coend_fubini : coend_obj (SetsCoend H) ≅[Sets] coend_obj (SetsCoend Inner) := {| to := fwd; from := bwd; iso_to_from := fubini_to_from; iso_from_to := fubini_from_to |}  (* the Fubini iso ∫^{(c,d)} H ≅ ∫^c ∫^d H in Sets, with both round trips proven *)"},
+      {"file": "Theory/Coend/Fubini.v", "line": 226, "symbol": "Inner",
+       "intree_statement": "Program Definition Inner : C^op ∏ C ⟶ Sets := ... coend_apex_setoid (InnerIntegrand (fst p) (snd p)) ...  (* Inner(c1,c2) = ∫^d H((c1,d),(c2,d)) is defined for ALL parameter pairs (c1,c2), matching the book's hypothesis that the inner (co)end exist for all pairs <p,q>, not just the diagonal *)"}
+    ],
+    "statement_record": {
+      "book": "Proposition IX.8.1 (Fubini): for S : P^op×P×C^op×C → X with the inner end ∫_c S(p,q,c,c) existing for all pairs ⟨p,q⟩, there is an isomorphism ∫_{⟨p,c⟩} S(p,p,c,c) ≅ ∫_p ∫_c S(p,p,c,c); the double end exists iff the iterated end does, and the comparison θ is an isomorphism.",
+      "intree": "Theory/Coend/Fubini.v proves [coend_fubini : ∫^{(c,d)} H ≅ ∫^c ∫^d H] in Sets, where the outer functor [Inner : C^op ∏ C ⟶ Sets] is the parametrized inner coend defined for ALL parameter pairs (matching the book's for-all-pairs hypothesis); both round trips are discharged.",
+      "strength_comparison": "intree-weaker: (a) the DUAL (coend) form, not ends; (b) only for X = Sets, built on the concrete Instance/Sets/Coend quotient — the file's own SCOPE note defers the abstract interchange 'for coends valued in an arbitrary cocomplete category' (ledger 6); (c) no end-native instance. The hypothesis structure (inner coend for all parameter pairs, via Inner) faithfully matches the book."
+    },
+    "gap": "The Fubini interchange is proven only as the coend form in Sets (coend_fubini), on the by-hand SetsCoend; the abstract statement for (co)ends valued in an arbitrary cocomplete category is explicitly deferred (Fubini.v SCOPE note, ledger 6), and there is no end-native double=iterated instance (only obtainable via the library's Coend := End^op duality).",
+    "negative_search_log": [
+      "grep -rniE 'Fubini|interchange' --include=*.v Theory/ Construction/  → Theory/Coend/Fubini.v (coend_fubini, Sets); Theory/Profunctor.v mentions a 'Fubini-style rebracketing' only in prose for profunctor associativity; no abstract or end-native Fubini"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified coend_fubini (Fubini.v:449) = ∫^{(c,d)} H ≅ ∫^c ∫^d H in Sets with both round trips proven (fubini_to_from/fubini_from_to at 428/440), and Inner (226) built for ALL parameter pairs (fobj := fun p => coend_apex_setoid (InnerIntegrand (fst p) (snd p))) — faithfully matching the book's for-all-pairs inner-end hypothesis. The file's own SCOPE note (lines 16-25) honestly defers the abstract cocomplete-X interchange (ledger 6). Gap = coend/Sets-only vs general X; precise and disclosed. PARTIAL confirmed. Note: crediting the coend form to the end-stated proposition is legitimate under the library's Coend:=End^op convention, and is disclosed."}
+  },
+  {
+    "id": "maclane:IX.8:cor1",
+    "classification": "ABSENT",
+    "aliases": ["interchange of iterated ends", "∫_p ∫_c ≅ ∫_c ∫_p", "Fubini corollary", "swap of iteration order for ends", "iterated end order-independence", "∫^c ∫^d ≅ ∫^d ∫^c"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'swap.*coend|coend.*swap|interchange' --include=*.v Theory/ Construction/  → no order-swap iso for iterated (co)ends; only the double=iterated Fubini (coend_fubini) and unrelated Displayed/DoubleCategory interchange",
+      "The nearest in-tree ingredient is [coend_fubini] (Theory/Coend/Fubini.v:449), which gives ∫^{(c,d)} H ≅ ∫^c ∫^d H; the corollary's actual statement ∫^c ∫^d ≅ ∫^d ∫^c requires composing coend_fubini with a second application through the product-swap C∏D ≅ D∏C — this composition is NOT performed anywhere in-tree",
+      "grep -rniE 'iterated|interchange.*(co)?end|(co)?end.*interchange' --include=*.v .  → no interchange-of-iteration-order statement for (co)ends",
+      "The order-swap corollary (both iteration orders isomorphic) is not stated for ends or coends."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "The corollary's actual iso ∫^c∫^d ≅ ∫^d∫^c is genuinely not stated in-tree, nor is the product-swap ∫^{(c,d)} ≅ ∫^{(d,c)}. coend_fubini (double=iterated) is prop1's content, a DISTINCT iso, and the composition through C∏D ≅ D∏C that would yield the interchange is not performed. The record honestly logs coend_fubini as the nearest ingredient. Borderline with PARTIAL, but since none of cor1's own iso is constructed, ABSENT is the honest call. Confirmed."}
+  },
+  {
+    "id": "maclane:IX.8:remark1",
+    "classification": "ABSENT",
+    "aliases": ["interchange of iterated limits and colimits", "Lim_p Lim_c ≅ Lim_c Lim_p", "limits commute with limits", "iterated limit interchange", "Lim_{(p,c)} ≅ Lim_p Lim_c", "colimits commute with colimits"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'iterated|interchange.*limit|limit.*interchange|commute.*limit|Lim.*Lim' --include=*.v .  → no interchange of iterated limits/colimits; only Adamek colimit chains, the Δ⊣lim prose in Functor/Diagonal.v, and unrelated hits",
+      "grep -rniE 'Lim_p Lim_c|iterated limit|double limit' --include=*.v .  → nothing",
+      "This is the limit specialization of the Fubini corollary (IX.8.cor1, also ABSENT) via 'every limit is an end' (Mac Lane IX.5.3, not formalized) and a Lim functor (IX.7.ex3, ABSENT); none of the prerequisites nor the interchange statement exist in-tree",
+      "read Structure/Cartesian/Product.v — remarks (prose) that a product category inherits limits pointwise, but proves no iterated-limit interchange theorem."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent search: no interchange of iterated limits/colimits anywhere. The prerequisites are also absent (every-limit-is-an-end / IX.5.3 not formalised; no Lim functor / IX.7.ex3). Only prose about pointwise limits in Structure/Cartesian/Product.v. ABSENT confirmed."}
+  }
+]

@@ -1,0 +1,247 @@
+[
+  {
+    "id": "maclane:X.3:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "direct image of a subset as a left Kan extension (K[T] = Lan_K T)",
+      "contravariant power set functor 2^M = P(M)",
+      "subset of M as a functor M -> 2 (the walking arrow / interval category)",
+      "coimage / dual image as Ran_K T",
+      "existential and universal quantification as Kan extension along a function of sets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'power ?set|direct image|inverse image|PowerSet|coimage' --include=*.v .  -> 0 relevant hits (all 'image' hits are prose like 'F-image of the unit', 'image of the tensor'; no power-set or direct-image functor)",
+      "grep -rniE 'copower|cotensor|set.*tensor|powering' --include=*.v .  -> no copower/tensoring-with-a-set construction; 'powering' hits are UIP-on-objects prose",
+      "grep -rnE '^(Lemma|Theorem|Definition|Corollary|Program Definition|Class|Instance|Program Instance)\\b.*(Lan|Ran|LeftKan|RightKan)\\b' --include=*.v .  -> only the 4 abstract classes in Theory/Kan/Extension.v and Kan_Limit in Structure/Limit/Kan/Extension.v",
+      "The walking arrow 2 (Instance/Two.v) and subsets (Instance/Ens.v, Coq Ensembles) exist, but no Kan extension is ever computed for a functor into 2, and there is no direct-image/power-set functor. The exercise's content (Lan/Ran of a subset-functor along a set map = direct image / coimage) has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search reproduced 0 counterparts: no power-set/direct-image functor, no Kan extension ever computed for a functor into Instance/Two.v; copower/set-tensor construction absent (0 hits). Direct-image-as-Lan has no in-tree counterpart. ABSENT confirmed; neg-log honest."
+    }
+  },
+  {
+    "id": "maclane:X.3:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "left Kan extension of a representable functor is representable",
+      "Lan_K M(m,-) = C(Km,-)",
+      "Lan_K Hom(m,-) isomorphic to Hom(Km,-) with unit eta(m)=1_{Km}",
+      "Yoneda / representable and left Kan extension",
+      "Kan extension of a hom-functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'representable.*(Lan|Kan|extension)|(Lan|Kan).*representable|Lan.*Hom|Hom.*Lan' --include=*.v .  -> 0 hits linking representables to Kan extensions (Functor/Hom.v, Functor/Representable.v define Hom/representables but never a Kan extension of one)",
+      "Theory/Coend/Yoneda.v provides the co-Yoneda reduction coend_obj(YoI) ~= F c and the Yoneda end reduction, but both are stated purely as coend/end isomorphisms (coyoneda_reduction, yoneda_reduction), never as a Lan/Ran of a representable; no unit eta(m)=1_{Km}",
+      "grep -rnE '^(Lemma|Theorem|Definition|...)\\b.*(Lan|Ran)\\b' --include=*.v .  -> no Lan/Ran of a representable functor anywhere; the only Lan/Ran occurrences are the abstract classes + Kan_Limit",
+      "The exercise's content (Lan of a representable equals a representable) has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no 'Lan of representable = representable' theorem anywhere. Theory/Coend/Yoneda.v gives co-Yoneda/Yoneda only as coend/end isomorphisms, never as a Lan/Ran of a representable, and no unit eta(m)=1_{Km}. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.3:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "non-existence of Kan extensions along a non-surjective function of sets",
+      "Lan_K T and Ran_K T fail to exist when K is not surjective",
+      "discrete-category (set) Kan extension counterexample",
+      "missing values have no canonical extension",
+      "Kan extension does not exist"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnE '^(Lemma|Theorem|Definition|...)\\b.*(Lan|Ran|LeftKan|RightKan)\\b' --include=*.v .  -> only the abstract classes (Theory/Kan/Extension.v) and Kan_Limit; no non-existence / counterexample lemma",
+      "grep -rniE 'not surjective|non-?surjective|does not exist|no.*Kan.*exist' --include=*.v .  -> 0 hits about Kan extensions failing to exist",
+      "The library treats Kan extensions only as (possibly-absent) universal-property classes; it never exhibits a concrete case where a Kan extension provably fails to exist. The exercise's content has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no non-existence/counterexample lemma for Kan extensions; the library treats Kan extensions only as possibly-absent universal-property classes and never exhibits provable non-existence along a non-surjective set map. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.3:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "Ulmer's refinement of the full-and-faithful Kan-counit corollary",
+      "K full and 'as faithful as T' implies invertible Kan counit",
+      "fully faithful K gives a natural isomorphism RK = T (Corollary X.3.3)",
+      "Kan extension counit is an isomorphism",
+      "as faithful as T : Kh = Kh' implies Th = Th'"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'as faithful as|Ulmer|full.*faithful.*(counit|Kan|iso)|(counit|Kan).*full.*faithful' --include=*.v .  -> 0 hits; the only 'fully faithful' + iso results (Theory/Functor.v:349 'fully faithful reflects isomorphisms', Theory/Equivalence/Limit.v) concern functors reflecting isos, NOT Kan-extension counits",
+      "The base result being refined (Corollary X.3.3: full+faithful K => counit RK => T is a natural iso) is itself ABSENT: no in-tree lemma states that the Kan-extension counit is invertible when K is fully faithful (searched Lan/Ran declarations; only Kan_Limit exists downstream).",
+      "Since neither Corollary X.3.3 nor any counit-inversion result is present, Ulmer's weakening of its hypothesis (X.3.4) has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: 0 hits for 'Ulmer' / 'as faithful as' / fully-faithful-K counit-iso. The base result (Corollary X.3.3: ff K => Kan counit is a natural iso) is itself absent in-tree, so its Ulmer weakening is a fortiori absent. The only ff+iso results concern functors reflecting isos, not Kan counits. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.3:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "colimit as a left Kan extension along the inclusion M -> M_infinity",
+      "adjoining a terminal object infinity to M (M_infinity)",
+      "colimiting cone for T equals Lan of T along M -> M_infinity (value at infinity)",
+      "Kan_Colimit (dual of Kan_Limit)",
+      "colimit = left Kan extension along a shape-collapsing functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'colimit.*(Lan|left Kan)|(Lan|left Kan).*colimit|Kan_Colimit' --include=*.v .  -> 0 hits; there is no colimit-as-left-Kan-extension result",
+      "grep -rniE 'adjoin.*(terminal|object)|M_infinity|freely adjoin' --include=*.v .  -> no construction adjoining a terminal object to a category to compute a colimit",
+      "Nearest in-tree result: Kan_Limit (Structure/Limit/Kan/Extension.v:46) proves Lim F ~= Ran (Erase J) F ttt, i.e. a LIMIT as a RIGHT Kan extension along the terminal functor Erase J : J -> 1. This is the DUAL variance (Ran/limit, not Lan/colimit) AND a different functor (J -> 1 collapse, not the inclusion M -> M_infinity). It does not cover ex5's content in either respect; the colimit/Lan direction is entirely absent and M_infinity is never built.",
+      "The exercise's content (colimiting cone <-> Lan along M -> M_infinity) has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently found Kan_Limit (Structure/Limit/Kan/Extension.v:46) as the nearest result and verified it is the DUAL (a LIMIT as a RIGHT Kan extension along Erase J:J->1), not the exercise's colimit-as-LEFT-Kan, and along a different functor than the M_infinity inclusion (never built). Colimit-as-Lan is entirely unproven; the mere existence of a dual theorem about a different construction does not make 'some of THIS item' present. ABSENT confirmed (PARTIAL considered and rejected); classifier's neg-log correctly distinguishes variance and functor."
+    }
+  },
+  {
+    "id": "maclane:X.4:thm1",
+    "classification": "ABSENT",
+    "aliases": [
+      "left Kan extension as a coend (Lan_K T)c = integral^m C(Km,c) . Tm",
+      "coend formula / pointwise Lan via a coend of copowers",
+      "Kelly's coend formula for the left Kan extension",
+      "Day convolution exhibited as a left Kan extension",
+      "T has a Lan along K iff the coend of copowers exists"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '(Lan|Ran).*(coend|copower)|(coend|copower).*(Lan|Ran)' --include=*.v .  -> 0 hits bridging Kan extensions and coends (all matches are internal to Theory/Profunctor.v, Theory/Coend/Fubini.v)",
+      "grep -rniE 'Day.*(Lan|LeftKan|Kan)|(Lan|LeftKan).*Day' --include=*.v .  -> 0 hits: Construction/Day.v builds (Day F G)c := coend ~a,b C(a(x)b,c) x F a x G b directly and its header calls it 'the left Kan extension of F (x) G along (x)', but line 118 states it 'does not prove the universal property itself' -- Day is never tied to the abstract Lan",
+      "grep -rniE 'copower|cotensor|set.*tensor|tensoring' --include=*.v .  -> no copower / tensor-of-an-object-with-a-set construction; the general RHS C(Km,c) . Tm cannot even be formed in an arbitrary target A",
+      "The ingredients exist SEPARATELY -- abstract Lan (Theory/Kan/Extension.v LeftKan class), the coend calculus (Structure/Coend.v, Instance/Sets/Coend.v), and one concrete coend-of-this-shape (Day) -- but the theorem equating a Lan with a coend is not proved, not even in the Sets special case. Theory/Kan/Extension.v header (lines 76-79) explicitly: the coend/end formulas are 'a bridge not yet formalized'. Structure/Coend.v header (lines 110-113) describes the pointwise Lan coend as 'the coend presentation of the extension that Theory/Kan/Extension.v instead builds through an adjunction' -- i.e. two disconnected presentations. The item's content has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed: copower ('C(Km,c) . Tm') absent (copower=0, cotensor=0 hits, and NO indexed coproduct exists in-tree, so the RHS cannot even be formed in a general A); no Kan<->coend bridge file (grep of files importing Kan.Extension that also touch Coend/End returns only the two header-cross-referencing files themselves). Theory/Kan/Extension.v:76-79 states the coend/end formulas are 'a bridge not yet formalized'; Structure/Coend.v:108-114 describes the pointwise-Lan coend as the presentation Kan builds 'instead through an adjunction'. Spot-checked and CONFIRMED the classifier's load-bearing Day citation: Construction/Day.v:117-118 'does not prove the universal property itself' -- Day is a coend but never tied to abstract Lan. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.4:thm2",
+    "classification": "ABSENT",
+    "aliases": [
+      "unit of the coend left Kan extension eta : T => LK",
+      "Kan-extension unit as copower coprojection composed with the coend wedge component",
+      "eta_n = omega . i_{1_{Kn}}",
+      "universal arrow (unit) of the coend Lan",
+      "coprojection into the copower C(Kn,Kn) . Tn then the coend injection"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "This theorem describes the UNIT of the coend left Kan extension of Theorem X.4.1. Since that coend Lan (X.4:thm1) is itself ABSENT (no Lan-as-coend theorem, no copower construction, Day never proven to be a Lan), its unit formula has no object to attach to.",
+      "grep -rniE '(Lan|Kan).*(unit|coprojection)|coend.*unit|copower.*coprojection' --include=*.v .  -> 0 hits describing a Kan-extension unit via a coend/copower",
+      "The abstract LeftKan class has a unit (lan_transform : X => L o F, Theory/Kan/Extension.v:237) but it is defined via the adjunction, never computed as a copower-coprojection-then-coend-wedge composite. The item's content has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Depends on the coend Lan of thm1, which is absent. The abstract LeftKan unit lan_transform (Theory/Kan/Extension.v:237) is defined via the adjunction, never computed as a copower-coprojection followed by a coend-wedge component. Blind search: 0 hits for a Kan-unit expressed via coend/copower. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.4:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "right Kan extension as an end (Ran_K T)c = integral_m Tm^{C(c,Km)}",
+      "end formula / pointwise Ran via an end of powers",
+      "Kelly's end formula for the right Kan extension",
+      "power a^X (set-indexed power) in the target category",
+      "T has a Ran along K iff the end of powers exists"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '(Lan|Ran).*(coend|end|power)|(end|power).*(Lan|Ran)' --include=*.v .  -> 0 hits bridging the right Kan extension and an end formula",
+      "grep -rniE '\\bpower\\b|\\bcotensor\\b|set.?indexed (product|power)' --include=*.v .  -> no set-indexed power a^X construction; 'power' matches are Lawvere-theory n-th products (Theory/Lawvere.v) and the operad finite power X^n (Theory/Multicategory/Endomorphism.v), neither a set-power",
+      "The end calculus exists (Structure/End.v, Instance/Sets/End.v with Sets_End_obj) but is never connected to the abstract Ran of Theory/Kan/Extension.v; Theory/Kan/Extension.v header (76-79) marks this bridge 'not yet formalized'. The general RHS Tm^{C(c,Km)} cannot be formed without a power construction. The item's content has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "End calculus exists (Structure/End.v, Instance/Sets/End.v) but is never connected to the abstract Ran; Kan header (76-79) marks this bridge unformalized. No NAMED set-power a^X construction (power hits are Lawvere n-th products / operad X^n). Minor imprecision noted: a^X is in principle expressible via iprod over Discrete(hom-set) (Structure/Limit/Product.v), so the neg-log phrase 'cannot even be formed' is slightly too strong -- but this does not affect the verdict: the Ran-as-end THEOREM is genuinely absent. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.4:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "additive (Ab-enriched) Kan extension via a cotensor",
+      "Ab-enriched right Kan extension R' with an Ab-natural Kan bijection",
+      "cotensor c^C defined by A(b, c^C) ~= Ab(C, A(b,c))",
+      "enriched / V-enriched Kan extension",
+      "Ab-category valued end formula with power replaced by cotensor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'enriched.*kan|kan.*enriched|Ab.?enriched.*(kan|extension)' --include=*.v .  -> 0 hits; no enriched Kan extension exists",
+      "grep -rniE '\\bcotensor\\b' --include=*.v .  -> 0 hits; no cotensor construction",
+      "ls Construction/Enriched/ -> Compose, Fun, Natural, Sets, Two only; grep for kan/cotensor/copower/weighted in that directory -> 0 hits (enriched functor categories exist but no enriched Kan extension, no (co)tensor/weighted-limit machinery). Structure/Limit/Weighted.v has no 'kan' mention.",
+      "Ab-categories are present (Structure/Preadditive.v, Structure/Additive.v, Instance/CMon.v) but the abstract Kan extension (Theory/Kan/Extension.v) is Set-based (Cat-enriched), with no enriched refinement and no cotensor. The item's content has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed cotensor=0 hits, no enriched Kan extension (enriched.*kan / kan.*enriched = 0). Construction/Enriched/ (Compose, Fun, Natural, Sets, Two) has no kan/cotensor/weighted-Kan machinery. Ab-categories exist (Preadditive/Additive/CMon) but the abstract Kan extension is Cat/Set-enriched with no enriched refinement and no cotensor. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.4:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "left derived functors T_n as a right Ab-Kan extension",
+      "derived functor packaged as an additive functor T_* on an Ext-graded category E",
+      "connected (universal / delta-) sequence of functors",
+      "Ext-graded Ab-category with Yoneda product; Ext_R^n(C,B)",
+      "Nat(S_* K, T) ~= Nat(S_*, T_*) exhibiting T_* as Ran of T_0 along the embedding"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'derived functor|\\bExt\\b|\\bTor\\b|projective resolution|connected sequence|homolog' --include=*.v .  -> 0 code hits; all matches are historical background-essay prose (paper titles 'Group Extensions and Homology', mentions of 'homological algebra' in Theory/Category.v, Theory/Functor.v, Theory/Adjunction.v, Theory/Sheaf.v)",
+      "No derived functors, no Ext/Tor groups, no resolutions, no Ext-graded category, no connected/universal sequence of functors anywhere in the tree.",
+      "Since neither the homological-algebra apparatus nor the coend/Ab-Kan bridge (X.4:construction1) exists, this example (derived functors as an Ab-Kan extension) has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed: 'derived functor', Ext, Tor, 'connected sequence', 'homological' appear ONLY in background-essay prose (paper titles, historical remarks); 0 code hits. No derived functors, no Ext/Tor groups, no resolutions, no Ext-graded category, no universal/connected delta-sequence anywhere. ABSENT confirmed."
+    }
+  }
+]

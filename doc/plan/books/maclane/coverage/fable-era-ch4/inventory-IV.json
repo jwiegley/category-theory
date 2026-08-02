@@ -1,0 +1,2132 @@
+{
+  "book": "maclane",
+  "range": {
+    "pdf_start": 88,
+    "pdf_end": 117
+  },
+  "pages": [
+    {
+      "pdf_page": 88,
+      "book_page": "79",
+      "empty": false,
+      "items": [
+        "maclane:IV.1:construction1"
+      ],
+      "notes": "Chapter IV opener; section IV.1 begins. Motivational free-vector-space example only."
+    },
+    {
+      "pdf_page": 89,
+      "book_page": "80",
+      "empty": false,
+      "items": [
+        "maclane:IV.1:construction2",
+        "maclane:IV.1:construction3",
+        "maclane:IV.1:construction4",
+        "maclane:IV.1:def1"
+      ],
+      "notes": "The unnumbered Definition block for adjunction starts here; its naturality diagrams (2) continue onto printed 81."
+    },
+    {
+      "pdf_page": 90,
+      "book_page": "81",
+      "empty": false,
+      "items": [
+        "maclane:IV.1:def2"
+      ],
+      "notes": "Also contains the prose development of the unit eta_x as a universal arrow, folded into Theorem 1's content."
+    },
+    {
+      "pdf_page": 91,
+      "book_page": "82",
+      "empty": false,
+      "items": [
+        "maclane:IV.1:thm1"
+      ],
+      "notes": "Counit development and Theorem 1 statement."
+    },
+    {
+      "pdf_page": 92,
+      "book_page": "83",
+      "empty": false,
+      "items": [
+        "maclane:IV.1:thm2"
+      ],
+      "notes": "Unit/counit terminology named at top; Theorem 2 statement and start of proof."
+    },
+    {
+      "pdf_page": 93,
+      "book_page": "84",
+      "empty": false,
+      "items": [
+        "maclane:IV.1:construction5"
+      ],
+      "notes": "Proof of Theorem 2 continues; products/coproducts-as-adjoints example."
+    },
+    {
+      "pdf_page": 94,
+      "book_page": "85",
+      "empty": false,
+      "items": [
+        "maclane:IV.1:cor1",
+        "maclane:IV.1:cor2",
+        "maclane:IV.1:thm3"
+      ],
+      "notes": "Triangular identities display (9) named here (folded into thm2). Theorem 3 proof continues to printed 86."
+    },
+    {
+      "pdf_page": 95,
+      "book_page": "86",
+      "empty": false,
+      "items": [
+        "maclane:IV.1:ex1",
+        "maclane:IV.1:ex2",
+        "maclane:IV.1:ex3",
+        "maclane:IV.1:ex4"
+      ],
+      "notes": "End of Theorem 3 proof; IV.1 exercises 1-4; section IV.2 heading and intro sentence (no IV.2 items start on this page)."
+    },
+    {
+      "pdf_page": 96,
+      "book_page": "87",
+      "empty": false,
+      "items": [
+        "maclane:IV.2:construction1",
+        "maclane:IV.2:construction2"
+      ],
+      "notes": "Two tables: forgetful-functor left adjoints; diagonal-functor adjoints (second table continues onto printed 88)."
+    },
+    {
+      "pdf_page": 97,
+      "book_page": "88",
+      "empty": false,
+      "items": [
+        "maclane:IV.2:def1",
+        "maclane:IV.2:construction3"
+      ],
+      "notes": "Diagonal-adjoint table concludes; connected-category definition in prose; vector-space duality example starts (continues to printed 89)."
+    },
+    {
+      "pdf_page": 98,
+      "book_page": "89",
+      "empty": false,
+      "items": [
+        "maclane:IV.2:def2",
+        "maclane:IV.2:ex1",
+        "maclane:IV.2:ex2",
+        "maclane:IV.2:ex3",
+        "maclane:IV.2:ex4"
+      ],
+      "notes": "Duality example concludes; 'adjoint on the right' defined; forward pointers to reflections/equivalences and the Goguen mention are motivational prose (skipped); IV.2 exercises 1-4."
+    },
+    {
+      "pdf_page": 99,
+      "book_page": "90",
+      "empty": false,
+      "items": [
+        "maclane:IV.2:ex5",
+        "maclane:IV.2:ex6",
+        "maclane:IV.2:ex7",
+        "maclane:IV.2:ex8",
+        "maclane:IV.2:ex9",
+        "maclane:IV.2:ex10",
+        "maclane:IV.2:ex11",
+        "maclane:IV.2:ex12",
+        "maclane:IV.3:thm1"
+      ],
+      "notes": "IV.2 exercises 5-12; section IV.3 begins with Theorem 1 (proof deferred to the lemma on printed 91)."
+    },
+    {
+      "pdf_page": 100,
+      "book_page": "91",
+      "empty": false,
+      "items": [
+        "maclane:IV.3:lem1",
+        "maclane:IV.3:remark1",
+        "maclane:IV.3:def1",
+        "maclane:IV.3:remark2",
+        "maclane:IV.3:def2"
+      ],
+      "notes": "Unnumbered Lemma; pointwise epi/monic observation; reflective/coreflective subcategory definitions."
+    },
+    {
+      "pdf_page": 101,
+      "book_page": "92",
+      "empty": false,
+      "items": [
+        "maclane:IV.3:construction1",
+        "maclane:IV.3:ex1",
+        "maclane:IV.3:ex2",
+        "maclane:IV.3:ex3",
+        "maclane:IV.3:ex4",
+        "maclane:IV.3:ex5",
+        "maclane:IV.3:ex6",
+        "maclane:IV.3:ex7",
+        "maclane:IV.4:def1"
+      ],
+      "notes": "Reflective/coreflective examples; IV.3 exercises 1-7; section IV.4 begins at bottom with isomorphism-of-categories definition (continues onto printed 93)."
+    },
+    {
+      "pdf_page": 102,
+      "book_page": "93",
+      "empty": false,
+      "items": [
+        "maclane:IV.4:def2",
+        "maclane:IV.4:def3",
+        "maclane:IV.4:remark1",
+        "maclane:IV.4:def4",
+        "maclane:IV.4:thm1"
+      ],
+      "notes": "Equivalence, skeleton, adjoint equivalence definitions; Theorem 1 of IV.4 stated, proof continues onto printed 94 (PDF 103, other agent's range). Proposition 2 of IV.4 starts on printed 94 and belongs to the other agent."
+    },
+    {
+      "pdf_page": 103,
+      "book_page": "94",
+      "empty": false,
+      "items": [
+        "maclane:IV.4:prop2",
+        "maclane:IV.4:def-left-adjoint-left-inverse"
+      ],
+      "notes": "Top half completes the proof of Theorem IV.4.1, which starts on PDF 102 (other agent's range); not recorded here."
+    },
+    {
+      "pdf_page": 104,
+      "book_page": "95",
+      "empty": false,
+      "items": [
+        "maclane:IV.4:remark-duality-examples",
+        "maclane:IV.4:ex1",
+        "maclane:IV.4:ex2",
+        "maclane:IV.4:ex3",
+        "maclane:IV.4:ex4",
+        "maclane:IV.4:ex5",
+        "maclane:IV.5:thm1"
+      ],
+      "notes": "Section IV.5 (Adjoints for Preorders) begins; Theorem IV.5.1 stated here, proof on PDF 105."
+    },
+    {
+      "pdf_page": 105,
+      "book_page": "96",
+      "empty": false,
+      "items": [
+        "maclane:IV.5:def1",
+        "maclane:IV.5:construction1",
+        "maclane:IV.5:construction2",
+        "maclane:IV.5:construction3",
+        "maclane:IV.5:construction4"
+      ],
+      "notes": "Proof of Theorem IV.5.1 at top; quantifier construction spans onto PDF 106."
+    },
+    {
+      "pdf_page": 106,
+      "book_page": "97",
+      "empty": false,
+      "items": [
+        "maclane:IV.5:ex1",
+        "maclane:IV.5:ex2",
+        "maclane:IV.5:ex3",
+        "maclane:IV.6:def1"
+      ],
+      "notes": "Quantifier-adjoint discussion concludes ('adjoints are everywhere' slogan, motivational). Section IV.6 begins; cartesian-closed definition spans onto PDF 107."
+    },
+    {
+      "pdf_page": 107,
+      "book_page": "98",
+      "empty": false,
+      "items": [
+        "maclane:IV.6:def2",
+        "maclane:IV.6:remark1",
+        "maclane:IV.6:remark2",
+        "maclane:IV.6:construction1",
+        "maclane:IV.6:ex1",
+        "maclane:IV.6:ex2",
+        "maclane:IV.6:ex3",
+        "maclane:IV.6:ex4",
+        "maclane:IV.6:ex5"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 108,
+      "book_page": "99",
+      "empty": false,
+      "items": [
+        "maclane:IV.7:def1",
+        "maclane:IV.7:prop1",
+        "maclane:IV.7:def2"
+      ],
+      "notes": "Section IV.7 begins. Conjugate-transformation definition spans onto PDF 109."
+    },
+    {
+      "pdf_page": 109,
+      "book_page": "100",
+      "empty": false,
+      "items": [
+        "maclane:IV.7:thm2"
+      ],
+      "notes": "Proof of Theorem IV.7.2 begins here, continues on PDF 110."
+    },
+    {
+      "pdf_page": 110,
+      "book_page": "101",
+      "empty": false,
+      "items": [
+        "maclane:IV.7:construction1",
+        "maclane:IV.7:remark1"
+      ],
+      "notes": "Proof of Theorem IV.7.2 concludes. Parameter-example remark spans onto PDF 111."
+    },
+    {
+      "pdf_page": 111,
+      "book_page": "102",
+      "empty": false,
+      "items": [
+        "maclane:IV.7:thm3",
+        "maclane:IV.7:ex1",
+        "maclane:IV.7:ex2",
+        "maclane:IV.7:ex3"
+      ],
+      "notes": "Exercises IV.7 continue onto PDF 112."
+    },
+    {
+      "pdf_page": 112,
+      "book_page": "103",
+      "empty": false,
+      "items": [
+        "maclane:IV.7:ex4",
+        "maclane:IV.7:ex5",
+        "maclane:IV.8:thm1"
+      ],
+      "notes": "Section IV.8 (Composition of Adjoints) begins."
+    },
+    {
+      "pdf_page": 113,
+      "book_page": "104",
+      "empty": false,
+      "items": [
+        "maclane:IV.8:construction1",
+        "maclane:IV.8:thm2",
+        "maclane:IV.8:remark1",
+        "maclane:IV.8:ex1",
+        "maclane:IV.8:ex2",
+        "maclane:IV.8:ex3"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 114,
+      "book_page": "105",
+      "empty": false,
+      "items": [
+        "maclane:IV.9:construction1",
+        "maclane:IV.9:def1",
+        "maclane:IV.9:construction2"
+      ],
+      "notes": "Section IV.9 begins. Category-of-functions classifier example spans onto PDF 115."
+    },
+    {
+      "pdf_page": 115,
+      "book_page": "106",
+      "empty": false,
+      "items": [
+        "maclane:IV.9:remark1",
+        "maclane:IV.10:def1"
+      ],
+      "notes": "Completion of the Sets^2 classifier construction. Section IV.10 begins; topos definition spans onto PDF 116. IV.9 ends with no exercises."
+    },
+    {
+      "pdf_page": 116,
+      "book_page": "107",
+      "empty": false,
+      "items": [
+        "maclane:IV.10:remark1",
+        "maclane:IV.10:def2",
+        "maclane:IV.10:remark2"
+      ],
+      "notes": "IV.10 prose ends (no exercises); the unnumbered end-of-chapter 'Notes.' historical block begins here \u2014 not inventoriable per campaign rules. Passing mention that a presheaf on opens of a space 'is said to be a sheaf' carries no sheaf condition; not inventoried as a definition."
+    },
+    {
+      "pdf_page": 117,
+      "book_page": "108",
+      "empty": true,
+      "items": [],
+      "notes": "Entire page is the continuation of the end-of-chapter 'Notes.' historical block (Kan, Bourbaki, history of adjunctions); nothing inventoriable."
+    }
+  ],
+  "items": [
+    {
+      "id": "maclane:IV.1:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "free vector space adjoint to forgetful (motivating example)",
+      "statement_summary": "For a field K, the free vector-space functor V : Set -> Vct_K (X maps to the space with basis X) and the forgetful functor U give a bijection Vct_K(V(X), W) = Set(X, U(W)): linear extension of a function on the basis, inverse restriction to the basis; the bijection is natural in X and in W (naturality verified in each variable separately).",
+      "book_section": "IV.1",
+      "book_page": "79",
+      "pdf_pages": [
+        88
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.1:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "free category on a graph adjoint to forgetful",
+      "statement_summary": "The free-category functor Grph -> Cat (graph G maps to C = FG) and the forgetful U : Cat -> Grph satisfy a natural isomorphism Cat(FG, B) = Grph(G, UB), because each graph morphism D : G -> UB extends to a unique functor FG -> B.",
+      "book_section": "IV.1",
+      "book_page": "80",
+      "pdf_pages": [
+        89
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.1:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "currying bijection in Set",
+      "statement_summary": "In the category of small sets, a two-variable function g : S x T -> R corresponds to phi(g) : S -> hom(T, R); this gives hom(S x T, R) = hom(T, hom(T,R)) -- precisely hom(S x T, R) = hom(S, hom(T, R)) -- natural in S, T, and R; fixing T and setting F = (- x T), G = hom(T, -), it takes the adjunction form hom(FS, R) = hom(S, GR) natural in S and R.",
+      "book_section": "IV.1",
+      "book_page": "80",
+      "pdf_pages": [
+        89
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.1:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "tensor-hom isomorphism for modules",
+      "statement_summary": "For modules A, B, C over a commutative ring K there is an isomorphism hom(A tensor_K B, C) = hom(A, hom_K(B, C)) natural in all three arguments.",
+      "book_section": "IV.1",
+      "book_page": "80",
+      "pdf_pages": [
+        89
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.1:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "adjunction",
+      "statement_summary": "For categories X and A, an adjunction from X to A is a triple <F, G, phi> with functors F : X -> A and G : A -> X, and phi assigning to each pair of objects x in X, a in A a bijection of sets phi_{x,a} : A(Fx, a) = X(x, Ga) natural in x and a. Both sides are bifunctors X^op x A -> Set (left side hom after F^op x Id), and naturality means phi commutes with post-composition by every k : a -> a' and with pre-composition by every h : x' -> x (the two squares of display (2)). Hom-sets are assumed small; otherwise replace Set by a larger category Ens.",
+      "book_section": "IV.1",
+      "book_page": "80",
+      "pdf_pages": [
+        89,
+        90
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.1:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "adjuncts; left and right adjoint (arrows-only description)",
+      "statement_summary": "Equivalent hom-set-free description of an adjunction: a bijection assigning to each arrow f : Fx -> a its right adjunct phi(f) : x -> Ga, subject to phi(k . f) = Gk . phi(f) and phi(f . Fh) = phi(f) . h for all h : x' -> x, k : a -> a' (display (3)); equivalently phi^{-1} is natural: phi^{-1}(g . h) = phi^{-1}(g) . Fh and phi^{-1}(Gk . g) = k . phi^{-1}(g) (display (4)). Terminology: F is a left adjoint for G, and G a right adjoint for F.",
+      "book_section": "IV.1",
+      "book_page": "81",
+      "pdf_pages": [
+        90
+      ],
+      "cross_refs": [
+        "maclane:IV.1:def1"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.1:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "unit and counit of an adjunction",
+      "statement_summary": "Every adjunction <F, G, phi> : X -> A determines: (i) a natural transformation eta : I_X -> GF (the unit) whose component eta_x = phi(1_{Fx}) : x -> GFx is a universal arrow from x to G for every x, with the right adjunct of any f : Fx -> a given by phi(f) = Gf . eta_x (display (6)); (ii) a natural transformation epsilon : FG -> I_A (the counit) whose component epsilon_a = phi^{-1}(1_{Ga}) : FGa -> a is universal from F to a for every a, with phi^{-1}(g) = epsilon_a . Fg (display (7)). Moreover both composites G -> GFG -> G (G-epsilon after eta-G) and F -> FGF -> F (epsilon-F after F-eta) are identity transformations (display (8)). Universality of eta_x is obtained via the Yoneda-style Proposition III.2.1.",
+      "book_section": "IV.1",
+      "book_page": "82",
+      "pdf_pages": [
+        91
+      ],
+      "cross_refs": [
+        "maclane:IV.1:def1",
+        "maclane:III.2:prop1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.1:thm2",
+      "kind": "theorem",
+      "number": "2",
+      "name": "five equivalent determinations of an adjunction",
+      "statement_summary": "Each adjunction <F, G, phi> : X -> A is completely determined by the data in any one of five lists: (i) functors F, G and eta : I_X -> GF with each eta_x universal to G from x (phi recovered by phi f = Gf . eta_x); (ii) the functor G alone together with, for each object x, an object F_0 x and a universal arrow eta_x : x -> G F_0 x (the arrow function of F is then uniquely determined by G F h . eta_x = eta_{x'} . h); (iii) functors F, G and epsilon : FG -> I_A with each epsilon_a universal to a from F (phi^{-1} g = epsilon_a . Fg); (iv) the functor F alone with, for each a, an object G_0 a and a universal arrow epsilon_a : F G_0 a -> a; (v) functors F, G and natural transformations eta, epsilon such that both composites (8) are identities. Hence the notation <F, G, eta, epsilon> : X -> A. The two identities of (v), displayed as (9), are named the triangular identities (eta a 'quasi-inverse' of epsilon); they mention no objects and suffice to manipulate adjunctions.",
+      "book_section": "IV.1",
+      "book_page": "83",
+      "pdf_pages": [
+        92,
+        93,
+        94
+      ],
+      "cross_refs": [
+        "maclane:IV.1:def1",
+        "maclane:IV.1:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.1:construction5",
+      "kind": "construction",
+      "number": null,
+      "name": "product and coproduct functors as adjoints of the diagonal",
+      "statement_summary": "Application of Theorem 2 (ii)/(iv): if C has a binary product for each pair (universal arrow from the diagonal Delta : C -> C x C to <a,b>), then product becomes a functor C x C -> C right adjoint to Delta, with phi : C(c,a) x C(c,b) = C(c, a x b); the counit at a x b is the pair of projections p, q, and phi^{-1} f = <pf, qf>, so phi is determined by the counit. Dually binary coproducts define a functor C x C -> C left adjoint to Delta: C(a + b, c) = (C x C)(<a,b>, Delta c). All other limits, when they always exist, similarly become adjoints.",
+      "book_section": "IV.1",
+      "book_page": "84",
+      "pdf_pages": [
+        93
+      ],
+      "cross_refs": [
+        "maclane:IV.1:thm2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.1:cor1",
+      "kind": "corollary",
+      "number": "1",
+      "name": "uniqueness of left adjoints up to natural isomorphism",
+      "statement_summary": "Any two left adjoints F and F' of the same functor G : A -> X are naturally isomorphic: the two universal arrows x -> GFx and x -> GF'x give a unique isomorphism theta_x : Fx -> F'x compatible with the units, and theta is natural.",
+      "book_section": "IV.1",
+      "book_page": "85",
+      "pdf_pages": [
+        94
+      ],
+      "cross_refs": [
+        "maclane:IV.1:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.1:cor2",
+      "kind": "corollary",
+      "number": "2",
+      "name": "left adjoint exists iff hom-functors representable",
+      "statement_summary": "A functor G : A -> X has a left adjoint if and only if, for each x in X, the functor X(x, G-) : A -> Set is representable; if phi : A(F_0 x, -) = X(x, G-) is a representation, then F_0 is the object function of a left adjoint of G for which the bijection phi, chosen natural in a, gives the adjunction. Equivalently: G has a left adjoint iff there is a universal arrow to G from every x (restatement of Theorem 2(ii)). Duals left to the reader.",
+      "book_section": "IV.1",
+      "book_page": "85",
+      "pdf_pages": [
+        94
+      ],
+      "cross_refs": [
+        "maclane:IV.1:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.1:thm3",
+      "kind": "theorem",
+      "number": "3",
+      "name": "adjoints of additive functors are additive",
+      "statement_summary": "If G : A -> M is an additive functor between Ab-categories and has a left adjoint F : M -> A, then F is additive and the adjunction bijections phi : A(Fm, a) = M(m, Ga) are isomorphisms of abelian groups for all m, a. Proof via phi f = Gf . eta_m, additivity of G, and the universal property of eta_m. Dually, any right adjoint of an additive functor is additive.",
+      "book_section": "IV.1",
+      "book_page": "85",
+      "pdf_pages": [
+        94,
+        95
+      ],
+      "cross_refs": [
+        "maclane:IV.1:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.1:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "sixth clause for Theorem 2",
+      "statement_summary": "Show Theorem 2 admits an added equivalent clause (and its dual): (vi) a functor G : A -> X together with, for each x in X, a representation phi_x of the functor X(x, G-) : A -> Set.",
+      "book_section": "IV.1",
+      "book_page": "86",
+      "pdf_pages": [
+        95
+      ],
+      "cross_refs": [
+        "maclane:IV.1:thm2",
+        "maclane:IV.1:cor2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.1:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "Lawvere: adjunction as isomorphism of comma categories",
+      "statement_summary": "(Lawvere) Given functors G : A -> X and F : X -> A, each adjunction <F, G, phi> can be described as an isomorphism theta : (F down I_A) = (I_X down G) of comma categories such that the square over X x A commutes, the vertical maps being built from the projection functors P and Q of II.6(5).",
+      "book_section": "IV.1",
+      "book_page": "86",
+      "pdf_pages": [
+        95
+      ],
+      "cross_refs": [
+        "maclane:IV.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.1:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "unit of the product adjunction is the diagonal arrow",
+      "statement_summary": "For the adjunction <Delta, x, phi> (product right adjoint to diagonal), the unit delta_c : c -> c x c at each object c is the unique arrow with both projections composed with delta_c equal to the identity (the diagonal arrow of c); when C = Set, delta_c x = <x, x>.",
+      "book_section": "IV.1",
+      "book_page": "86",
+      "pdf_pages": [
+        95
+      ],
+      "cross_refs": [
+        "maclane:IV.1:construction5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.1:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "Pare: left adjoint from a split idempotent",
+      "statement_summary": "(Pare) Given functors G : A -> X, K : X -> A and natural transformations epsilon : KG -> id_A, rho : id_X -> GK with G-epsilon after rho-G equal to 1_G, prove that epsilon-K composed with K-rho is an idempotent in the functor category A^X, and that G has a left adjoint if and only if this idempotent splits; explicitly, if it splits as alpha . beta with beta . alpha = 1 and beta : K -> F, then F is a left adjoint of G with unit G-beta . rho and counit epsilon . alpha-G.",
+      "book_section": "IV.1",
+      "book_page": "86",
+      "pdf_pages": [
+        95
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "table of left adjoints of forgetful functors",
+      "statement_summary": "Table of eleven forgetful functors with left adjoints and units (typically 'insertion of generators'): free R-module on a set (U : R-Mod -> Set); free category on a graph (U : Cat -> Grph); free group (U : Grp -> Set); free abelian group (U : Ab -> Set); abelianization G to G/[G,G] left adjoint to U : Ab -> Grp with unit the quotient projection; scalar extension A to R tensor A for U : R-Mod -> Ab; A to A tensor S for restriction U : R-Mod-S -> R-Mod; integral monoid ring Z(M) for U : Rng -> Mon; tensor algebra TV for U : K-Alg -> K-Mod; field of quotients QD for U : Fld -> Dom_m (domains with monomorphisms); completion of a metric space for U : Compmet -> Met. Counits described for free R-modules: epsilon_A : FUA -> A sends a formal combination to the actual combination, the canonical epimorphism presenting an arbitrary R-module as a quotient of the free module on its own elements.",
+      "book_section": "IV.2",
+      "book_page": "87",
+      "pdf_pages": [
+        96
+      ],
+      "cross_refs": [
+        "maclane:IV.1:def1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "table-of-examples"
+      ]
+    },
+    {
+      "id": "maclane:IV.2:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "table of adjoints of diagonal functors",
+      "statement_summary": "Table of left and right adjoints (which need not exist in every C) of diagonal-type functors, with units and counits (units in Set where given): Delta : C -> C x C has left adjoint coproduct (unit the pair of injections, counit the folding map) and right adjoint product (unit the diagonal arrow, counit the pair of projections); C -> 1 has left adjoint an initial object s and right adjoint a terminal object t; Delta : C -> C^{parallel-pair} has left adjoint coequalizer (unit the coequalizing arrow, counit identity, cf. III.3.6) and right adjoint equalizer (unit identity, counit the equalizing arrow, cf. III.4.7); the span/cospan diagonal has left adjoint pushout vertex (III.3.7) and right adjoint pullback vertex (III.4.8); Delta : C -> C^J has left adjoint colimit object (unit the universal cone) and right adjoint limit object (counit the universal cone). Notes that the form of the unit for limits depends on the number of connected components of J.",
+      "book_section": "IV.2",
+      "book_page": "87",
+      "pdf_pages": [
+        96,
+        97
+      ],
+      "cross_refs": [
+        "maclane:IV.1:construction5"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "table-of-examples"
+      ]
+    },
+    {
+      "id": "maclane:IV.2:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "connected category",
+      "statement_summary": "A category J is connected when any two objects j, k of J can be joined by a finite sequence of arrows j = j_0, j_1, ..., j_{2n} = k in which consecutive objects are connected by an arrow pointing in either direction (a finite zigzag).",
+      "book_section": "IV.2",
+      "book_page": "88",
+      "pdf_pages": [
+        97
+      ],
+      "cross_refs": [],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.2:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "vector-space duality adjunction D^op left adjoint to D",
+      "statement_summary": "For vector spaces over a field K, the contravariant dual functor on Vct (V to Vct(V, K), acting on h : V -> W by precomposition) determines two covariant functors with the same object function, D : Vct^op -> Vct and D^op : Vct -> Vct^op. The bijection phi_{V,W} : Vct(V, dual W) = Vct(W, dual V), with phi_{W,V} phi_{V,W} the identity, rewrites as Vct^op(D^op W, V) = Vct(W, D V) natural in V and W, so D^op is the left adjoint of D (warning: it is not a right adjoint of D, cf. section V.5 Exercise 2). The unit is the canonical map kappa_W : W -> D D^op W into the double dual, and the counit epsilon_V : D^op D V -> V in Vct^op is (kappa_V)^op for the same kappa. Remarks: for finite-dimensional spaces D and D^op are isomorphisms of categories; in general the adjunction replaces the isomorphism, D being right adjoint of D^op.",
+      "book_section": "IV.2",
+      "book_page": "88",
+      "pdf_pages": [
+        97,
+        98
+      ],
+      "cross_refs": [
+        "maclane:IV.1:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.2:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "adjoint on the right (Freyd)",
+      "statement_summary": "Two contravariant functors, S-bar from A to X and T-bar from X to A, are adjoint on the right when there is a bijection A(a, T-bar x) = X(x, S-bar a) natural in a and x. Replacing them by the covariant functors S : A^op -> X and T : X^op -> A, the bijection becomes X^op(S^op a, x) = A(a, T x), which says exactly that S^op is left adjoint to T (equivalently T^op is left adjoint to S). Being adjoint on the right is not in general equivalent to the pair being adjoint on the left.",
+      "book_section": "IV.2",
+      "book_page": "89",
+      "pdf_pages": [
+        98
+      ],
+      "cross_refs": [
+        "maclane:IV.2:construction3"
+      ],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.2:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "exterior algebra as a left adjoint",
+      "statement_summary": "For K a field and V a K-vector space, the exterior algebra E(V) is a graded anticommutative algebra; show E is the left adjoint of a suitable forgetful functor, one which is not faithful.",
+      "book_section": "IV.2",
+      "book_page": "89",
+      "pdf_pages": [
+        98
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "forgetful R-Mod to Ab has both adjoints",
+      "statement_summary": "Show the forgetful functor U : R-Mod -> Ab has not only a left adjoint A to R tensor A but also a right adjoint A to hom_Z(R, A).",
+      "book_section": "IV.2",
+      "book_page": "89",
+      "pdf_pages": [
+        98
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "universal enveloping algebra left adjoint",
+      "statement_summary": "For K a field, with Lie_K the category of small Lie algebras over K (morphisms the K-module maps preserving the bracket) and V : Alg_K -> Lie_K the functor putting on each associative algebra the bracket [a,b] = ab - ba, show, using the Poincare-Birkhoff-Witt theorem, that the universal enveloping algebra functor E (L to EL) is a left adjoint for V.",
+      "book_section": "IV.2",
+      "book_page": "89",
+      "pdf_pages": [
+        98
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "adjoining a ring identity as a left adjoint",
+      "statement_summary": "With Rng' the category of rings not necessarily having an identity element, show the standard process of adjoining an identity to a ring R provides a left adjoint for the forgetful functor Rng -> Rng' which forgets the presence of the identity.",
+      "book_section": "IV.2",
+      "book_page": "89",
+      "pdf_pages": [
+        98
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "groups via adjoints to translation functors",
+      "statement_summary": "Regard a monoid M as a discrete category with objects its elements, so multiplication is a bifunctor mu : M x M -> M. If M is a group, show the group inverse provides right adjoints for the translation functors mu(x, -) and mu(-, y) : M -> M. Conversely, does the presence of such adjoints make a monoid into a group?",
+      "book_section": "IV.2",
+      "book_page": "90",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "units and counits for pushout and pullback",
+      "statement_summary": "Describe the units and counits for the pushout adjunction (pushout vertex left adjoint to the appropriate diagonal) and the pullback adjunction (pullback vertex right adjoint).",
+      "book_section": "IV.2",
+      "book_page": "90",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [
+        "maclane:IV.2:construction2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "limits over disjoint unions; connected components",
+      "statement_summary": "If J is a disjoint union (coproduct) of categories J_k with injections I_k : J_k -> J, each functor F : J -> C determines F_k = F I_k. (a) Prove Lim F is the product over k of Lim F_k, when the limits on the right exist. (b) Show every category J is a disjoint union of connected categories, called its connected components. (c) Conclude that all limits can be obtained from products and limits over connected categories.",
+      "book_section": "IV.2",
+      "book_page": "90",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [
+        "maclane:IV.2:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex8",
+      "kind": "exercise",
+      "number": "8",
+      "name": "limits of constant functors over connected index",
+      "statement_summary": "(a) If the category J is connected, prove for any c in C that Lim of the constant functor Delta c : J -> C is c, and Colim of Delta c is c. (b) Describe the unit for the right adjoint (limit) of Delta : C -> C^J.",
+      "book_section": "IV.2",
+      "book_page": "90",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [
+        "maclane:IV.2:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex9",
+      "kind": "exercise",
+      "number": "9",
+      "name": "Smythe: adjoint string on the objects functor",
+      "statement_summary": "(Smythe) Show the functor O : Cat -> Set assigning to each category its set of objects has a left adjoint D assigning to each set X the discrete category on X; that D in turn has a left adjoint assigning to each category the set of its connected components; and that O also has a right adjoint assigning to each set X the category with objects X and exactly one arrow in every hom-set.",
+      "book_section": "IV.2",
+      "book_page": "90",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [
+        "maclane:IV.2:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex10",
+      "kind": "exercise",
+      "number": "10",
+      "name": "cokernel pair left adjoint to equalizer",
+      "statement_summary": "If a category C has both cokernel pairs and equalizers, show that the functor K : C^2 -> C^{parallel-pair} which assigns to each arrow of C its cokernel pair has as right adjoint the functor which assigns to each parallel pair of arrows its equalizing arrow.",
+      "book_section": "IV.2",
+      "book_page": "90",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex11",
+      "kind": "exercise",
+      "number": "11",
+      "name": "left adjoint to the coslice projection",
+      "statement_summary": "If C has finite coproducts and a is an object of C, prove that the projection Q : (a down C) -> C of the comma category, Q(a -> c) = c, has a left adjoint sending c to the coproduct injection a -> a + c.",
+      "book_section": "IV.2",
+      "book_page": "90",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.2:ex12",
+      "kind": "exercise",
+      "number": "12",
+      "name": "copower left adjoint to power",
+      "statement_summary": "If X is a set and C a category with powers and copowers, prove that the copower functor c to X . c (X-fold copower) is left adjoint to the power functor c to c^X.",
+      "book_section": "IV.2",
+      "book_page": "90",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.3:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "faithful/full right adjoint via counit components",
+      "statement_summary": "For an adjunction <F, G, eta, epsilon> : X -> A: (i) G is faithful if and only if every component epsilon_a of the counit is epi; (ii) G is full if and only if every epsilon_a is a split monic. Hence G is full and faithful if and only if each epsilon_a is an isomorphism FGa = a. Motivating general fact stated first in prose: whenever a right adjoint G is faithful, every counit component is epi (for the forgetful functors of section 2, epsilon_a is the standard presentation of a as quotient of a free object).",
+      "book_section": "IV.3",
+      "book_page": "90",
+      "pdf_pages": [
+        99,
+        100
+      ],
+      "cross_refs": [
+        "maclane:IV.3:lem1",
+        "maclane:IV.1:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.3:lem1",
+      "kind": "lemma",
+      "number": null,
+      "name": "monic/epi transfer along Yoneda-induced transformation",
+      "statement_summary": "Let f* : A(a, -) -> A(b, -) be the natural transformation induced (via the Yoneda bijection Nat(A(a,-), A(b,-)) = A(b,a)) by an arrow f : b -> a of A. Then f* is monic if and only if f is epi, while f* is epi if and only if f is a split monic (i.e. has a left inverse).",
+      "book_section": "IV.3",
+      "book_page": "91",
+      "pdf_pages": [
+        100
+      ],
+      "cross_refs": [
+        "maclane:IV.3:thm1"
+      ],
+      "flags": [
+        "unnumbered-lemma"
+      ]
+    },
+    {
+      "id": "maclane:IV.3:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "pointwise epi/monic natural transformations",
+      "statement_summary": "For functors S, T : C -> B, a natural transformation tau : S -> T is epi (respectively monic) in the functor category B^C if every component tau_c is epi (monic) in B; for B = Set this is if-and-only-if, by computing the relevant pushout pointwise (cited to Exercises III.4.4 and III.5.5).",
+      "book_section": "IV.3",
+      "book_page": "91",
+      "pdf_pages": [
+        100
+      ],
+      "cross_refs": [
+        "maclane:III.4:ex4",
+        "maclane:III.5:ex5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.3:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "reflective subcategory, reflector, reflection",
+      "statement_summary": "A subcategory A of B is reflective in B when the inclusion functor K : A -> B has a left adjoint F : B -> A, called a reflector; the adjunction <F, K, phi> is a reflection of B in its subcategory A. Since K is always faithful, the counit of a reflection is always epi. Equivalent descriptions: A in B is reflective iff there is a functor R : B -> B with values in A and a bijection A(Rb, a) = B(b, a) natural in b in B and a in A (then R = KF up to the evident identification); iff for each b in B there exist an object Rb of A and an arrow eta_b : b -> Rb such that every arrow g : b -> a with a in A factors as g = f . eta_b for a unique f : Rb -> a (universal-arrow description; R is then the object function of a functor B -> B with values in A).",
+      "book_section": "IV.3",
+      "book_page": "91",
+      "pdf_pages": [
+        100
+      ],
+      "cross_refs": [
+        "maclane:IV.1:thm2"
+      ],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.3:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "full reflective subcategory: counit iso on A",
+      "statement_summary": "If a full subcategory A of B is reflective in B, then by Theorem 1 each object a of A is isomorphic to FKa, and hence Ra is isomorphic to a for all a in A (the reflector restricted to A is naturally isomorphic to the identity).",
+      "book_section": "IV.3",
+      "book_page": "91",
+      "pdf_pages": [
+        100
+      ],
+      "cross_refs": [
+        "maclane:IV.3:thm1",
+        "maclane:IV.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.3:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "coreflective subcategory",
+      "statement_summary": "Dually, a subcategory A of B is coreflective in B when the inclusion functor A -> B has a right adjoint. (Warning noted: Mitchell [1965] interchanges the meanings of 'reflection' and 'coreflection'.)",
+      "book_section": "IV.3",
+      "book_page": "91",
+      "pdf_pages": [
+        100
+      ],
+      "cross_refs": [
+        "maclane:IV.3:def1"
+      ],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.3:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "examples of reflective and coreflective subcategories",
+      "statement_summary": "Concrete examples: Ab is a full reflective subcategory of Grp, the reflector being abelianization G to G/[G,G] with hom(G/[G,G], A) = hom(G, A) for A abelian; the full subcategory of complete metric spaces is reflective in metric spaces with uniformly continuous maps, the reflector being completion; the full subcategory of compact Hausdorff spaces is reflective in completely regular spaces (continuous maps), the reflector being Stone-Cech compactification; the full subcategory of torsion abelian groups is coreflective in Ab, the coreflector sending A to its torsion subgroup TA.",
+      "book_section": "IV.3",
+      "book_page": "92",
+      "pdf_pages": [
+        101
+      ],
+      "cross_refs": [
+        "maclane:IV.3:def1",
+        "maclane:IV.3:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.3:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "extending the duality table to adjunctions",
+      "statement_summary": "Show the table of dual statements of section II.1 extends by rows: 'S, T : C -> B are functors' (self-dual); 'T is full' (self-dual); 'T is faithful' (self-dual); 'eta : S -> T is a natural transformation' dualizes to 'eta : T -> S is a natural transformation'; '<F, G, phi> : X -> A is an adjunction' dualizes to '<G, F, phi^{-1}> : A -> X is an adjunction'; 'eta is the unit of <F, G, phi>' dualizes to 'eta is the counit of <G, F, phi^{-1}>'.",
+      "book_section": "IV.3",
+      "book_page": "92",
+      "pdf_pages": [
+        101
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.3:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "torsion-free abelian groups reflective",
+      "statement_summary": "Show that the torsion-free abelian groups form a full reflective subcategory of Ab.",
+      "book_section": "IV.3",
+      "book_page": "92",
+      "pdf_pages": [
+        101
+      ],
+      "cross_refs": [
+        "maclane:IV.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.3:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "full left adjoint: monic units are epi",
+      "statement_summary": "If <G, F, phi> : X -> A is an adjunction with G full and every unit component eta_x monic, then every eta_x is also epi. (Interpreted per Mac Lane's convention that the first-listed functor G : X -> A is the left adjoint, with units eta_x : x -> FGx.)",
+      "book_section": "IV.3",
+      "book_page": "92",
+      "pdf_pages": [
+        101
+      ],
+      "cross_refs": [],
+      "flags": [
+        "notation-ambiguity"
+      ]
+    },
+    {
+      "id": "maclane:IV.3:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "partial orders and T_0-spaces reflective",
+      "statement_summary": "Show reflective: (a) the full subcategory of all partial orders in the category Preord of all preorders with monotone maps; (b) the full subcategory of T_0-spaces in Top.",
+      "book_section": "IV.3",
+      "book_page": "92",
+      "pdf_pages": [
+        101
+      ],
+      "cross_refs": [
+        "maclane:IV.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.3:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "faithfulness via phi-inverse preserving epis",
+      "statement_summary": "Given an adjunction <F, G, phi> : X -> A, prove that G is faithful if and only if phi^{-1} carries epis to epis.",
+      "book_section": "IV.3",
+      "book_page": "92",
+      "pdf_pages": [
+        101
+      ],
+      "cross_refs": [
+        "maclane:IV.3:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.3:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "G-epsilon invertible when F or G full",
+      "statement_summary": "Given an adjunction <F, G, eta, epsilon> with either F or G full, prove that G-epsilon : GFG -> G is invertible with inverse eta-G : G -> GFG.",
+      "book_section": "IV.3",
+      "book_page": "92",
+      "pdf_pages": [
+        101
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.3:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "full reflective subcategories have inherited limits",
+      "statement_summary": "If A is a full and reflective subcategory of B, prove that every functor S : J -> A which has a limit in B has a limit in A.",
+      "book_section": "IV.3",
+      "book_page": "92",
+      "pdf_pages": [
+        101
+      ],
+      "cross_refs": [
+        "maclane:IV.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.4:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "isomorphism of categories",
+      "statement_summary": "A functor S : A -> C is an isomorphism of categories when there is a functor T : C -> A with ST = I_C and TS = I_A (strict equalities). In that case the identity natural transformations make <T, S; eta, epsilon> : C -> A an adjunction, so a two-sided inverse T of S is a left adjoint of S and also a right adjoint of S.",
+      "book_section": "IV.4",
+      "book_page": "92",
+      "pdf_pages": [
+        101,
+        102
+      ],
+      "cross_refs": [
+        "maclane:IV.1:def1"
+      ],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.4:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "equivalence of categories",
+      "statement_summary": "A functor S : A -> C is an equivalence of categories (and A and C are equivalent) when there is a functor T : C -> A and natural isomorphisms ST = I_C and TS = I_A. In this case T : C -> A is also an equivalence of categories (and, per Theorem 1, T is both a left adjoint and a right adjoint of S).",
+      "book_section": "IV.4",
+      "book_page": "93",
+      "pdf_pages": [
+        102
+      ],
+      "cross_refs": [
+        "maclane:IV.4:def1",
+        "maclane:IV.4:thm1"
+      ],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.4:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "skeleton; skeletal category",
+      "statement_summary": "A skeleton of a category C is any full subcategory A such that each object of C is isomorphic (in C) to exactly one object of A. A category is skeletal when any two isomorphic objects are identical, i.e. when the category is its own skeleton.",
+      "book_section": "IV.4",
+      "book_page": "93",
+      "pdf_pages": [
+        102
+      ],
+      "cross_refs": [],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.4:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "a category is equivalent to each of its skeletons",
+      "statement_summary": "The inclusion K : A -> C of a skeleton is an equivalence of categories: selecting for each c in C an isomorphism theta_c : c = Tc with Tc the unique isomorphic object of A determines T as a functor C -> A in exactly one way making theta : I = KT a natural isomorphism, and moreover TK = I; hence every category is equivalent to any one of its skeletons. Example: the full subcategory of all finite ordinals n = {0, 1, ..., n-1} is a skeleton of the category of all finite sets.",
+      "book_section": "IV.4",
+      "book_page": "93",
+      "pdf_pages": [
+        102
+      ],
+      "cross_refs": [
+        "maclane:IV.4:def2",
+        "maclane:IV.4:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.4:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "adjoint equivalence",
+      "statement_summary": "An adjoint equivalence of categories is an adjunction <T, S; eta, epsilon> : C -> A in which both the unit eta : I = ST and the counit epsilon : TS = I are natural isomorphisms. Then eta^{-1} and epsilon^{-1} are natural isomorphisms, the triangular identities take the forms T-eta^{-1} . epsilon^{-1}-T = 1 and eta^{-1}-S . S-epsilon^{-1} = 1, and hence <S, T, epsilon^{-1}, eta^{-1}> : A -> C is also an adjunction with unit epsilon^{-1} and counit eta^{-1}: in an adjoint equivalence, T is simultaneously the left adjoint of S (with unit eta) and the right adjoint of S (with unit epsilon^{-1}).",
+      "book_section": "IV.4",
+      "book_page": "93",
+      "pdf_pages": [
+        102
+      ],
+      "cross_refs": [
+        "maclane:IV.1:thm2",
+        "maclane:IV.4:def2"
+      ],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.4:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "characterization of equivalences of categories",
+      "statement_summary": "For a functor S : A -> C the following are logically equivalent: (i) S is an equivalence of categories; (ii) S is part of an adjoint equivalence <T, S; eta, epsilon> : C -> A; (iii) S is full and faithful and each object c of C is isomorphic to Sa for some object a of A (essential surjectivity). The proof of (iii) implies (ii) constructs T by choosing for each c an object T_0 c and an isomorphism eta_c : c = S(T_0 c), showing eta_c is universal from c to S because S is full and faithful, then invoking the adjunction machinery and the invertibility of the counit.",
+      "book_section": "IV.4",
+      "book_page": "93",
+      "pdf_pages": [
+        102,
+        103
+      ],
+      "cross_refs": [
+        "maclane:IV.4:def2",
+        "maclane:IV.4:def4",
+        "maclane:IV.1:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.4:prop2",
+      "kind": "proposition",
+      "number": "IV.4.2",
+      "name": "isomorphism-dense full subcategory gives adjoint equivalence with identity counit",
+      "statement_summary": "If A is a full subcategory of C and every object of C is isomorphic (in C) to some object of A, then the inclusion K : A -> C is an equivalence of categories and is part of an adjoint equivalence <T, K; eta, 1> : C -> A whose counit is the identity; therefore A is reflective in C. Includes the special case where A is a skeleton of C.",
+      "book_section": "IV.4",
+      "book_page": "94",
+      "pdf_pages": [
+        103
+      ],
+      "cross_refs": [
+        "maclane:IV.4:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.4:def-left-adjoint-left-inverse",
+      "kind": "definition",
+      "number": null,
+      "name": "left-adjoint-left-inverse",
+      "statement_summary": "A functor F : X -> A is a left-adjoint-left-inverse of G : A -> X when there is an adjunction <F, G; eta, 1> : X -> A whose counit is the identity (so F is simultaneously a left adjoint and a left inverse of G). By Exercise 4 this means G is an isomorphism of A onto a reflective subcategory of X; by Proposition 2 the insertion of a full isomorphism-dense subcategory A -> C has a left-adjoint-left-inverse.",
+      "book_section": "IV.4",
+      "book_page": "94",
+      "pdf_pages": [
+        103
+      ],
+      "cross_refs": [
+        "maclane:IV.4:prop2",
+        "maclane:IV.4:ex4"
+      ],
+      "flags": [
+        "prose-definition",
+        "cross-boundary-section-slug-id"
+      ]
+    },
+    {
+      "id": "maclane:IV.4:remark-duality-examples",
+      "kind": "remark",
+      "number": null,
+      "name": "Pontryagin duality and Gelfand-Naimark as equivalences",
+      "statement_summary": "Duality theorems of functional analysis are instances of equivalence of categories: the character-group functor P : CAb -> Ab^op (compact topological abelian groups; P G = continuous homomorphisms G -> R/Z) is an equivalence (Pontryagin duality), and the functor sending a compact Hausdorff space X to its abelian C*-algebra of continuous complex-valued functions is an equivalence (Gelfand-Naimark).",
+      "book_section": "IV.4",
+      "book_page": "95",
+      "pdf_pages": [
+        104
+      ],
+      "cross_refs": [],
+      "flags": [
+        "cross-boundary-section-slug-id"
+      ]
+    },
+    {
+      "id": "maclane:IV.4:ex1",
+      "kind": "exercise",
+      "number": "IV.4.ex1",
+      "name": "skeletons and equivalence",
+      "statement_summary": "(a) Any two skeletons of a category C are isomorphic categories. (b) If A0 is a skeleton of A and C0 a skeleton of C, then A and C are equivalent if and only if A0 and C0 are isomorphic.",
+      "book_section": "IV.4",
+      "book_page": "95",
+      "pdf_pages": [
+        104
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.4:ex2",
+      "kind": "exercise",
+      "number": "IV.4.ex2",
+      "name": "composites of equivalences",
+      "statement_summary": "(a) The composite of two equivalences of categories D -> C and C -> A is an equivalence. (b) State and prove the corresponding fact for adjoint equivalences (they compose to an adjoint equivalence).",
+      "book_section": "IV.4",
+      "book_page": "95",
+      "pdf_pages": [
+        104
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.4:ex3",
+      "kind": "exercise",
+      "number": "IV.4.ex3",
+      "name": "full+faithful+surjective-on-objects gives adjoint equivalence with identity unit",
+      "statement_summary": "If S : A -> C is full, faithful, and surjective on objects (every c in C equals S a for some a), then there is an adjoint equivalence <T, S; 1, epsilon> : C -> A with unit the identity, and hence T is a left-adjoint-right-inverse of S.",
+      "book_section": "IV.4",
+      "book_page": "95",
+      "pdf_pages": [
+        104
+      ],
+      "cross_refs": [
+        "maclane:IV.4:def-left-adjoint-left-inverse"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.4:ex4",
+      "kind": "exercise",
+      "number": "IV.4.ex4",
+      "name": "characterizations of having a left-adjoint-left-inverse",
+      "statement_summary": "For a functor G : A -> X the following are equivalent: (a) G has a left-adjoint-left-inverse; (b) G has a left adjoint and is full, faithful, and injective on objects; (c) there is a full reflective subcategory Y of X and an isomorphism of categories H : A ~ Y with G = K H, where K : Y -> X is the insertion.",
+      "book_section": "IV.4",
+      "book_page": "95",
+      "pdf_pages": [
+        104
+      ],
+      "cross_refs": [
+        "maclane:IV.4:def-left-adjoint-left-inverse"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.4:ex5",
+      "kind": "exercise",
+      "number": "IV.4.ex5",
+      "name": "colimit over a connected category as left-adjoint-left-inverse",
+      "statement_summary": "If J is a connected category and the diagonal functor Delta : C -> C^J has a left adjoint (colimit), that left adjoint can be chosen to be a left-adjoint-left-inverse of Delta.",
+      "book_section": "IV.4",
+      "book_page": "95",
+      "pdf_pages": [
+        104
+      ],
+      "cross_refs": [
+        "maclane:IV.4:def-left-adjoint-left-inverse"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.5:thm1",
+      "kind": "theorem",
+      "number": "IV.5.1",
+      "name": "Galois connections are adjoint pairs",
+      "statement_summary": "Let P, Q be preorders and L : P -> Q^op, R : Q^op -> P order-preserving functions (viewed as functors). L is left adjoint to R iff for all p, q: L p >= q in Q iff p <= R q in P. In that case the adjunction is unique; the unit is p <= R L p, the counit L R q >= q, and for all p, q one has L p >= L R L p >= L p and R q <= R L R q <= R q (so when P and Q are posets, L = L R L and R = R L R). The adjunction bijection is automatically natural because each hom-set has at most one element.",
+      "book_section": "IV.5",
+      "book_page": "95",
+      "pdf_pages": [
+        104,
+        105
+      ],
+      "cross_refs": [
+        "maclane:IV.5:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.5:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "Galois connection",
+      "statement_summary": "A Galois connection from P to Q (preorders) is a pair of order-preserving functions L : P -> Q^op, R : Q^op -> P satisfying the equivalence L p >= q in Q iff p <= R q in P; by Theorem 1 this is exactly an adjoint pair between the preorders regarded as categories, with L order-reversing as a map P -> Q.",
+      "book_section": "IV.5",
+      "book_page": "96",
+      "pdf_pages": [
+        105
+      ],
+      "cross_refs": [
+        "maclane:IV.5:thm1"
+      ],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.5:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "Galois connection of a group action (classical Galois theory)",
+      "statement_summary": "For a group G acting on a set U, take P = powerset of U and Q = powerset of G, both ordered by inclusion. L X = the set of sigma in G fixing every x in X (a subgroup) and R S = the set of points fixed by every sigma in S. Then L X >= S iff X <= R S, so (L, R) is a Galois connection (adjoint pair). The original instance: G a group of automorphisms of a field U.",
+      "book_section": "IV.5",
+      "book_page": "96",
+      "pdf_pages": [
+        105
+      ],
+      "cross_refs": [
+        "maclane:IV.5:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.5:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "direct image adjoint to inverse image on powersets",
+      "statement_summary": "For a function f : U -> V, the direct image f_* : P(U) -> P(V), X |-> {f(x) | x in X}, and the inverse image f^* : P(V) -> P(U), Y |-> {x | f x in Y}, are order-preserving functors between the powerset preorders, and f_* is left adjoint to f^* because f_* X <= Y iff X <= f^* Y.",
+      "book_section": "IV.5",
+      "book_page": "96",
+      "pdf_pages": [
+        105
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.5:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "Boolean connectives as adjoints",
+      "statement_summary": "In the preorder P(U): the diagonal Delta : P(U) -> P(U) x P(U) has right adjoint intersection (X, Y) |-> X n Y and left adjoint union (X, Y) |-> X u Y. For fixed X, the functor X n - : P(U) -> P(U) has right adjoint X' u - (X' the complement of X), since X n Y <= Z iff Y <= X' u Z. Thus 'and', 'or', 'not'/implication arise as adjoints.",
+      "book_section": "IV.5",
+      "book_page": "96",
+      "pdf_pages": [
+        105
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.5:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "existential and universal quantifiers as adjoints to substitution",
+      "statement_summary": "For the first projection P : U x V -> U, each S <= U x V yields P_* S = {x | exists y, (x,y) in S} and P_# S = {x | forall y, (x,y) in S}. For all X <= U: S <= P^* X iff P_* S <= X, and P^* X <= S iff X <= P_# S. Hence the inverse-image (substitution) functor P^* : P(U) -> P(U x V) has left adjoint P_* (the existential quantifier, which is also direct image under P) and right adjoint P_# (the universal quantifier). Geometric reading: P^* X is the cylinder over X, P_* S its projection, P_# S the largest X whose cylinder lies in S.",
+      "book_section": "IV.5",
+      "book_page": "96",
+      "pdf_pages": [
+        105,
+        106
+      ],
+      "cross_refs": [
+        "maclane:IV.5:construction2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.5:ex1",
+      "kind": "exercise",
+      "number": "IV.5.ex1",
+      "name": "orthogonal complement as a Galois connection",
+      "statement_summary": "Let H be a space with an inner product (e.g. a Hilbert space) and P = Q = the set of all subsets of H ordered by inclusion. Show that L S = R S = the orthogonal complement of S gives a Galois connection from P to Q.",
+      "book_section": "IV.5",
+      "book_page": "97",
+      "pdf_pages": [
+        106
+      ],
+      "cross_refs": [
+        "maclane:IV.5:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.5:ex2",
+      "kind": "exercise",
+      "number": "IV.5.ex2",
+      "name": "closed elements of a Galois connection",
+      "statement_summary": "In a Galois connection between posets, show the subset {p | p = R L p} of P equals {p | p = R q for some q}, and give a bijection from this set to {q | q = L R q} in Q. Ask whether this generalizes to an arbitrary adjunction (fixed points of the monad/comonad).",
+      "book_section": "IV.5",
+      "book_page": "97",
+      "pdf_pages": [
+        106
+      ],
+      "cross_refs": [
+        "maclane:IV.5:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.5:ex3",
+      "kind": "exercise",
+      "number": "IV.5.ex3",
+      "name": "pullback right adjoint to composition on slices",
+      "statement_summary": "For C a category with pullbacks, each arrow f : a -> a' defines the functor f_* : (C down a) -> (C down a') carrying x -> a to the composite x -> a -> a'. Show f_* has a right adjoint f^* sending (x' -> a') to y -> a, where y is the vertex of the pullback of a -> a' <- x'.",
+      "book_section": "IV.5",
+      "book_page": "97",
+      "pdf_pages": [
+        106
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.6:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "cartesian closed category",
+      "statement_summary": "A category C with all finite products specifically given is cartesian closed when each of the three functors C -> 1, the diagonal C -> C x C, and - x b : C -> C (for each object b) has a specified right adjoint with a specified adjunction: respectively a terminal object t, a binary product a x b whose projections form the counit (making x a bifunctor), and an exponential c^b with a bijection hom(a x b, c) ~ hom(a, c^b) natural in a and c. (Preamble: 'all finite products and coproducts' means C -> 1 and the diagonal have both left and right adjoints \u2014 left adjoints give initial object and coproduct.)",
+      "book_section": "IV.6",
+      "book_page": "97",
+      "pdf_pages": [
+        106,
+        107
+      ],
+      "cross_refs": [],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.6:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "evaluation map",
+      "statement_summary": "In a cartesian closed category, the counit of the exponential adjunction e = e_{b,c} : c^b x b -> c is called the evaluation map; it is natural in c and universal from - x b to c, and specifying the exponential adjunction is equivalent to specifying such an e for each b, c. In Set and Cat it is ordinary evaluation (f, x) |-> f x. By the parameter theorem (IV.7 Theorem 3), (b, c) |-> c^b then becomes a bifunctor C^op x C -> C.",
+      "book_section": "IV.6",
+      "book_page": "98",
+      "pdf_pages": [
+        107
+      ],
+      "cross_refs": [
+        "maclane:IV.6:def1",
+        "maclane:IV.7:thm3"
+      ],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.6:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "Set is cartesian closed",
+      "statement_summary": "Set is a cartesian closed category, with exponential c^b = hom(b, c) the set of functions from b to c and evaluation the ordinary evaluation of a function at an argument.",
+      "book_section": "IV.6",
+      "book_page": "98",
+      "pdf_pages": [
+        107
+      ],
+      "cross_refs": [
+        "maclane:IV.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.6:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "Cat is cartesian closed",
+      "statement_summary": "Cat is cartesian closed, with exponential C^B the functor category (functors B -> C and natural transformations).",
+      "book_section": "IV.6",
+      "book_page": "98",
+      "pdf_pages": [
+        107
+      ],
+      "cross_refs": [
+        "maclane:IV.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.6:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "tensor-hom adjunction for modules",
+      "statement_summary": "For a commutative ring K, the functor - tensor_K B : K-Mod -> K-Mod has right adjoint hom_K(B, -); the adjunction is determined by the evaluation counit hom_K(B, A) tensor_K B -> A.",
+      "book_section": "IV.6",
+      "book_page": "98",
+      "pdf_pages": [
+        107
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.6:ex1",
+      "kind": "exercise",
+      "number": "IV.6.ex1",
+      "name": "powersets and Boolean algebras are cartesian closed",
+      "statement_summary": "(a) For any set U, the preorder P(U) of all subsets of U is a cartesian closed category. (b) Any Boolean algebra, regarded as a preorder, is cartesian closed.",
+      "book_section": "IV.6",
+      "book_page": "98",
+      "pdf_pages": [
+        107
+      ],
+      "cross_refs": [
+        "maclane:IV.6:def1",
+        "maclane:IV.5:construction3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.6:ex2",
+      "kind": "exercise",
+      "number": "IV.6.ex2",
+      "name": "sentences of a theory under entailment form a CCC",
+      "statement_summary": "For an elementary theory T, the set S of sentences of T preordered by entailment (p <= q meaning p entails q on the basis of T's axioms) is a cartesian closed category, with product given by conjunction and exponential q^p given by 'p implies q'.",
+      "book_section": "IV.6",
+      "book_page": "98",
+      "pdf_pages": [
+        107
+      ],
+      "cross_refs": [
+        "maclane:IV.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.6:ex3",
+      "kind": "exercise",
+      "number": "IV.6.ex3",
+      "name": "exponential laws",
+      "statement_summary": "In any cartesian closed category, prove c^1 ~ c and c^(b x b') ~ (c^b)^(b').",
+      "book_section": "IV.6",
+      "book_page": "98",
+      "pdf_pages": [
+        107
+      ],
+      "cross_refs": [
+        "maclane:IV.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.6:ex4",
+      "kind": "exercise",
+      "number": "IV.6.ex4",
+      "name": "internal composition and its associativity",
+      "statement_summary": "In any cartesian closed category, construct a natural transformation c^b x b^a -> c^a which in Set agrees with composition of functions, and prove it associative (like composition).",
+      "book_section": "IV.6",
+      "book_page": "98",
+      "pdf_pages": [
+        107
+      ],
+      "cross_refs": [
+        "maclane:IV.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.6:ex5",
+      "kind": "exercise",
+      "number": "IV.6.ex5",
+      "name": "functor categories need not inherit cartesian closure",
+      "statement_summary": "Show that A cartesian closed need not imply the functor category A^J cartesian closed.",
+      "book_section": "IV.6",
+      "book_page": "98",
+      "pdf_pages": [
+        107
+      ],
+      "cross_refs": [
+        "maclane:IV.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.7:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "map of adjunctions",
+      "statement_summary": "Given adjunctions <F, G, phi, eta, epsilon> : X -> A and <F', G', phi', eta', epsilon'> : X' -> A', a map of adjunctions from the first to the second is a pair of functors K : A -> A', L : X -> X' such that both functor squares commute (K F = F' L and L G = G' K) and the hom-set square comparing the two adjunction bijections commutes for all x in X, a in A: applying phi then L equals applying K then phi' (as maps A(F x, a) -> X'(L x, G' K a), using K_{Fx,a} : f |-> K f and L_{x,Ga}).",
+      "book_section": "IV.7",
+      "book_page": "99",
+      "pdf_pages": [
+        108
+      ],
+      "cross_refs": [],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.7:prop1",
+      "kind": "proposition",
+      "number": "IV.7.1",
+      "name": "map of adjunctions via units or counits",
+      "statement_summary": "Given the two adjunctions and functors K, L making both functor squares commute, the hom-set compatibility condition is equivalent to the unit condition L eta = eta' L, and also equivalent to the counit condition epsilon' K = K epsilon.",
+      "book_section": "IV.7",
+      "book_page": "99",
+      "pdf_pages": [
+        108
+      ],
+      "cross_refs": [
+        "maclane:IV.7:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.7:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "conjugate natural transformations",
+      "statement_summary": "Given two adjunctions <F, G, phi, eta, epsilon> and <F', G', phi', eta', epsilon'> between the same categories X -> A, natural transformations sigma : F -> F' and tau : G' -> G are conjugate (for the given adjunctions) when for every pair of objects x in X, a in A the square commutes: phi composed with precomposition by sigma_x, i.e. A(F' x, a) ~ X(x, G' a) then postcomposition by tau_a, equals precomposition A(sigma_x, a) then phi \u2014 that is, phi(f . sigma_x) = tau_a . phi'(f) for f : F' x -> a.",
+      "book_section": "IV.7",
+      "book_page": "99",
+      "pdf_pages": [
+        108,
+        109
+      ],
+      "cross_refs": [],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.7:thm2",
+      "kind": "theorem",
+      "number": "IV.7.2",
+      "name": "four characterizations of conjugacy; sigma-tau bijection",
+      "statement_summary": "For two adjunctions between X and A, sigma : F -> F' and tau : G' -> G are conjugate iff any one of four diagrams of natural transformations commutes: (i) tau = G epsilon' . G sigma G' . eta G' (tau as the composite G' -> G F G' -> G F' G' -> G); (ii) sigma = epsilon F' . F tau F' . F eta' (sigma as F -> F G' F' -> F G F' -> F'); (iii) epsilon . F tau = epsilon' . sigma G' (as F G' -> I_A); (iv) G sigma . eta = tau F' . eta' (as I_X -> G F'). Moreover, given sigma there is a unique tau making the pair conjugate, and dually given tau there is a unique sigma \u2014 a bijection between such natural transformations (proved via the Yoneda lemma and universality of the counit).",
+      "book_section": "IV.7",
+      "book_page": "100",
+      "pdf_pages": [
+        109,
+        110
+      ],
+      "cross_refs": [
+        "maclane:IV.7:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.7:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "the category of adjunctions A^(adj)X",
+      "statement_summary": "A conjugate pair <sigma, tau> is regarded as a transformation (morphism) of adjunctions. Vertical composition <sigma', tau'> . <sigma, tau> = <sigma' . sigma, tau . tau'> of conjugate pairs is again conjugate, giving the category A^(adj)X of adjunctions from X to A: objects the adjunctions <F, G; eta, epsilon>, arrows the conjugate pairs. Two forgetful functors: A^(adj)X -> A^X sending an adjunction to F and <sigma, tau> to sigma, and [A^(adj)X]^op -> X^A sending it to G and tau.",
+      "book_section": "IV.7",
+      "book_page": "101",
+      "pdf_pages": [
+        110
+      ],
+      "cross_refs": [
+        "maclane:IV.7:def2",
+        "maclane:IV.7:thm2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.7:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "adjunctions with a parameter: Set and Mod_K examples",
+      "statement_summary": "The bijection hom(S x T, R) ~ hom(S, hom(T, R)) in Set is an adjunction with parameter T: each function t : T -> T' gives a natural transformation - x t : - x T -> - x T' whose conjugate is hom(t, -) : hom(T', -) -> hom(T, -), in the reverse direction (S x T covariant, hom(T, R) contravariant in T). Likewise for a commutative ring K, Mod_K(A tensor_K B, C) ~ Mod_K(A, Hom_K(B, C)) is an adjunction with parameter B in Mod_K.",
+      "book_section": "IV.7",
+      "book_page": "101",
+      "pdf_pages": [
+        110,
+        111
+      ],
+      "cross_refs": [
+        "maclane:IV.7:thm3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.7:thm3",
+      "kind": "theorem",
+      "number": "IV.7.3",
+      "name": "adjunctions with a parameter",
+      "statement_summary": "Given a bifunctor F : X x P -> A such that for each p in P the functor F(-, p) : X -> A has a right adjoint G(p, -) : A -> X via a bijection hom(F(x,p), a) ~ hom(x, G(p,a)) natural in x and a, there is a unique way to assign to each arrow h : p -> p' and object a an arrow G(h, a) : G(p', a) -> G(p, a) so that G becomes a bifunctor P^op x A -> X for which the adjunction bijection is natural in all three variables x, p, a. Equivalently, G(h, -) is the unique natural transformation conjugate to F(-, h); uniqueness of conjugates gives functoriality G(h' h, -) = G(h, -) . G(h', -). Dually, a bifunctor G : P^op x A -> X where each G(p, -) has a right adjoint F(-, p) makes F a bifunctor X x P -> A in a unique such way.",
+      "book_section": "IV.7",
+      "book_page": "102",
+      "pdf_pages": [
+        111
+      ],
+      "cross_refs": [
+        "maclane:IV.7:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.7:ex1",
+      "kind": "exercise",
+      "number": "IV.7.ex1",
+      "name": "copowers as adjunction with parameter",
+      "statement_summary": "Interpret the definition of copowers C(X . a, c) ~ Set(X, C(a, c)) (X a set, a, c objects of C) as an adjunction with parameter a.",
+      "book_section": "IV.7",
+      "book_page": "102",
+      "pdf_pages": [
+        111
+      ],
+      "cross_refs": [
+        "maclane:IV.7:thm3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.7:ex2",
+      "kind": "exercise",
+      "number": "IV.7.ex2",
+      "name": "parameter-naturality via the unit",
+      "statement_summary": "Let eta_x : x -> G(p, F(x, p)) be the unit of an adjunction with parameter; it is natural in x. Determine what property of eta corresponds to naturality of the adjunction bijection in the parameter p.",
+      "book_section": "IV.7",
+      "book_page": "102",
+      "pdf_pages": [
+        111
+      ],
+      "cross_refs": [
+        "maclane:IV.7:thm3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.7:ex3",
+      "kind": "exercise",
+      "number": "IV.7.ex3",
+      "name": "choosing right adjoints functorially",
+      "statement_summary": "In the functor category A^X, let S be the full subcategory whose objects are the functors F : X -> A having a right adjoint R F : A -> X. Choosing one R F for each F, and defining R sigma as the conjugate of sigma, makes R a functor S^op -> X^A.",
+      "book_section": "IV.7",
+      "book_page": "102",
+      "pdf_pages": [
+        111
+      ],
+      "cross_refs": [
+        "maclane:IV.7:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.7:ex4",
+      "kind": "exercise",
+      "number": "IV.7.ex4",
+      "name": "adjoint squares (Kelly)",
+      "statement_summary": "An adjoint square consists of adjunctions <F, G, phi> : X -> A and <F', G', phi'> : X' -> A', functors H : X -> X' and K : A -> A', and natural transformations sigma : F' H -> K F, tau : H G -> G' K, such that a hom-set diagram always commutes: A(F x, a) -> (K, then precompose sigma) -> A'(F' H x, K a) -> phi' -> X'(H x, G' K a) equals phi then H then postcompose tau. Express this condition variously in terms of the units and counits, and prove each of sigma, tau determines the other. (The case H = K = identity is the conjugate-pair theory of the text.)",
+      "book_section": "IV.7",
+      "book_page": "103",
+      "pdf_pages": [
+        112
+      ],
+      "cross_refs": [
+        "maclane:IV.7:def2",
+        "maclane:IV.7:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.7:ex5",
+      "kind": "exercise",
+      "number": "IV.7.ex5",
+      "name": "mates bijection (Palmquist)",
+      "statement_summary": "Given functors H, K and the two adjunctions of Exercise 4, establish a bijection between natural transformations alpha : F' H G -> K and natural transformations beta : H -> G' K F.",
+      "book_section": "IV.7",
+      "book_page": "103",
+      "pdf_pages": [
+        112
+      ],
+      "cross_refs": [
+        "maclane:IV.7:ex4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.8:thm1",
+      "kind": "theorem",
+      "number": "IV.8.1",
+      "name": "composition of adjunctions",
+      "statement_summary": "Given adjunctions <F, G, eta, epsilon> : X -> A and <F2, G2, eta2, epsilon2> : A -> D, the composite functors yield an adjunction <F2 F, G G2, (G eta2 F) . eta, epsilon2 . (F2 epsilon G2)> : X -> D. Proof via the composite hom-set isomorphism D(F2 F x, d) ~ A(F x, G2 d) ~ X(x, G G2 d); the composite unit is x -> G F x -> G G2 F2 F x, the counit dual; alternatively the triangular identities can be checked directly.",
+      "book_section": "IV.8",
+      "book_page": "103",
+      "pdf_pages": [
+        112
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.8:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "the category Adj of small categories and adjunctions",
+      "statement_summary": "Using Theorem 1's composition, form the category Adj whose objects are all small categories and whose arrows X -> A are the adjunctions <F, G, eta, epsilon> : X -> A, composed as composite adjunctions, with the identity adjunction as identity arrow for each category.",
+      "book_section": "IV.8",
+      "book_page": "104",
+      "pdf_pages": [
+        113
+      ],
+      "cross_refs": [
+        "maclane:IV.8:thm1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.8:thm2",
+      "kind": "theorem",
+      "number": "IV.8.2",
+      "name": "horizontal composition of conjugate pairs",
+      "statement_summary": "Given conjugate pairs <sigma, tau> : <F, G, eta, epsilon> -> <F', G', eta', epsilon'> between adjunctions X -> A, and <sigma2, tau2> : <F2, G2, eta2, epsilon2> -> <F2', G2', eta2', epsilon2'> between adjunctions A -> D, the horizontal (Godement) composites sigma2 sigma : F2 F -> F2' F' and tau tau2 : G' G2' -> G G2 form a conjugate pair for the composite adjunctions (visualized by a hom-set diagram).",
+      "book_section": "IV.8",
+      "book_page": "104",
+      "pdf_pages": [
+        113
+      ],
+      "cross_refs": [
+        "maclane:IV.8:thm1",
+        "maclane:IV.7:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.8:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "Adj is a two-dimensional category",
+      "statement_summary": "Each hom-set Adj(X, A) is itself a category, namely the category A^(adj)X of adjunctions and conjugate pairs under vertical composition, and horizontal composition is a bifunctor Adj(A, D) x Adj(X, A) -> Adj(X, D); hence Adj is a 'two-dimensional' category, as is Cat (further discussion in Chapter XII).",
+      "book_section": "IV.8",
+      "book_page": "104",
+      "pdf_pages": [
+        113
+      ],
+      "cross_refs": [
+        "maclane:IV.8:construction1",
+        "maclane:IV.7:construction1",
+        "maclane:IV.8:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.8:ex1",
+      "kind": "exercise",
+      "number": "IV.8.ex1",
+      "name": "bifunctoriality and interchange for conjugate pairs",
+      "statement_summary": "Prove that horizontal composition of conjugate pairs is a bifunctor Adj(A, D) x Adj(X, A) -> Adj(X, D), and that this implies an interchange law between horizontal and vertical composition of conjugate pairs.",
+      "book_section": "IV.8",
+      "book_page": "104",
+      "pdf_pages": [
+        113
+      ],
+      "cross_refs": [
+        "maclane:IV.8:thm2",
+        "maclane:IV.8:remark1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.8:ex2",
+      "kind": "exercise",
+      "number": "IV.8.ex2",
+      "name": "free ring adjunction as a composite two ways",
+      "statement_summary": "Show that the adjunction whose right adjoint is the forgetful functor Rng -> Set can be obtained as a composite adjunction in two ways: through Rng -> Ab -> Set and through Rng -> Mon -> Set.",
+      "book_section": "IV.8",
+      "book_page": "104",
+      "pdf_pages": [
+        113
+      ],
+      "cross_refs": [
+        "maclane:IV.8:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.8:ex3",
+      "kind": "exercise",
+      "number": "IV.8.ex3",
+      "name": "bimodule tensor adjunctions and their composites",
+      "statement_summary": "Let R, S, T be rings. (a) For a bimodule E (left R, right S action), show - tensor_R E : Mod_R -> Mod_S has right adjoint hom_S(E, -). (b) Show this is an adjunction with parameter E in R-Mod-S. (c) Describe the composite of this adjunction with a similar adjunction Mod_S -> Mod_T.",
+      "book_section": "IV.8",
+      "book_page": "104",
+      "pdf_pages": [
+        113
+      ],
+      "cross_refs": [
+        "maclane:IV.8:thm1",
+        "maclane:IV.7:thm3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.9:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "characteristic functions: the subobject classifier of Set",
+      "statement_summary": "The characteristic function of S <= X is psi_S : X -> {0,1} with psi_S x = 0 for x in S and 1 otherwise (0 plays 'truth'). Each subset S <= X is the pullback of the monomorphism t : {0} -> {0,1} along psi_S, and this square determines S; thus t : {0} -> {0,1} is a subobject classifier for the category of sets.",
+      "book_section": "IV.9",
+      "book_page": "105",
+      "pdf_pages": [
+        114
+      ],
+      "cross_refs": [
+        "maclane:IV.9:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.9:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "subobject classifier",
+      "statement_summary": "For a category C with a terminal object 1, a subobject classifier is a monomorphism t : 1 -> Omega such that every monomorphism m : S -> X in C is a pullback of t in a unique way: for each m there is a unique arrow psi : X -> Omega (the characteristic function of m) making the square with the unique map S -> 1 a pullback. The universal monomorphism t may be called 'truth'.",
+      "book_section": "IV.9",
+      "book_page": "105",
+      "pdf_pages": [
+        114
+      ],
+      "cross_refs": [],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.9:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "subobject classifier for the category of functions",
+      "statement_summary": "In the category of functions (objects f : X -> Y, arrows commuting squares), a monomorphism into f is g : S -> T with S <= X, T <= Y, g the restriction of f. Its characteristic map is three-valued on X: psi x = 0 if x in S, 1 if x not in S but f x in T, 2 if f x not in T (then psi on Y takes values 0, 2). The classifier object is the function j : {0,1,2} -> {0,2} with j0 = 0, j1 = 0, j2 = 2, and every subobject of f arises as a unique double pullback of the truth inclusion along the pair (psi_S, psi_T).",
+      "book_section": "IV.9",
+      "book_page": "105",
+      "pdf_pages": [
+        114,
+        115
+      ],
+      "cross_refs": [
+        "maclane:IV.9:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:IV.9:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "classifiers for functor categories Sets^C",
+      "statement_summary": "Since the arrow category 2 has two objects 0, 1 and one non-identity arrow, a function is the same as a functor 2 -> Sets, so the previous construction is the subobject classifier for the functor category Sets^2. For any category C, the functor category Sets^C has a subobject classifier (posed to the reader: 'find it!').",
+      "book_section": "IV.9",
+      "book_page": "106",
+      "pdf_pages": [
+        115
+      ],
+      "cross_refs": [
+        "maclane:IV.9:construction2",
+        "maclane:IV.9:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.10:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "elementary topos",
+      "statement_summary": "An (elementary) topos is a category E such that (i) E has all finite limits, (ii) E has a subobject classifier, and (iii) E is cartesian closed \u2014 i.e. each functor - x b has a right adjoint c |-> c^b with hom(a x b, c) ~ hom(a, c^b), so E has exponentials.",
+      "book_section": "IV.10",
+      "book_page": "106",
+      "pdf_pages": [
+        115,
+        116
+      ],
+      "cross_refs": [
+        "maclane:IV.9:def1",
+        "maclane:IV.6:def1"
+      ],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.10:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "Sets and presheaf categories are toposes",
+      "statement_summary": "The category Sets of all small sets is a topos, and so is the category Sets^(C^op) of all set-valued contravariant functors (presheaves) on any small category C.",
+      "book_section": "IV.10",
+      "book_page": "107",
+      "pdf_pages": [
+        116
+      ],
+      "cross_refs": [
+        "maclane:IV.10:def1",
+        "maclane:IV.9:remark1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:IV.10:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "presheaf",
+      "statement_summary": "A functor F : C^op -> Sets is called a presheaf on C. Motivating topological case: C the poset of open sets of a space X, so F assigns to each open U a set F(U), functorially for inclusions (e.g. continuous real-valued functions on U); the sheaves among these play a central role in algebraic geometry and topology (the sheaf condition itself is not stated here).",
+      "book_section": "IV.10",
+      "book_page": "107",
+      "pdf_pages": [
+        116
+      ],
+      "cross_refs": [
+        "maclane:IV.10:remark1"
+      ],
+      "flags": [
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:IV.10:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "toposes have finite colimits",
+      "statement_summary": "The topos axioms have many useful consequences; in particular, every (elementary) topos has all finite colimits (asserted without proof).",
+      "book_section": "IV.10",
+      "book_page": "107",
+      "pdf_pages": [
+        116
+      ],
+      "cross_refs": [
+        "maclane:IV.10:def1"
+      ],
+      "flags": []
+    }
+  ]
+}

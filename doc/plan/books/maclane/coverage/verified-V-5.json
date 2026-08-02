@@ -1,0 +1,547 @@
+[
+  {
+    "id": "maclane:V.6:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "existence of an initial object",
+      "initial object from a weakly initial family",
+      "Freyd initial object theorem",
+      "initial_from_weakly_initial",
+      "WeaklyInitialFamily + product + equalizer of all endomorphisms",
+      "dual: terminal object from a weakly terminal family / final object theorem"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 89,
+        "symbol": "initial_from_weakly_initial",
+        "intree_statement": "Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C) (P : Limit (DiscreteCat_Functor (wif_obj W))) (Pe : Limit (DiscreteCat_Functor (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P) => iprod (wif_obj W) P))) (E : HasEqualizers C) : @Initial C."
+      },
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 58,
+        "symbol": "WeaklyInitialFamily",
+        "intree_statement": "Record WeaklyInitialFamily (C : Category) := { wif_index : Type; wif_obj : wif_index -> C; wif_cover (c : C) : { i : wif_index & wif_obj i ~> c } }."
+      },
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 119,
+        "symbol": "endo_absorb (inside the proof)",
+        "intree_statement": "assert (endo_absorb : ∀ u : P0 ~> P0, u ∘ e ≈ e).  (* the equalizer of the two tuplings absorbs EVERY endomorphism of the product object — Mac Lane's \"equalizer of the set of all endomorphisms of w\" step *)"
+      },
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 154,
+        "symbol": "Hk / Hkr (uniqueness chase)",
+        "intree_statement": "assert (Hk : (k ∘ s) ∘ e ≈ id[I]). ... assert (Hkr : k ∘ (s ∘ e) ≈ id[I]).  (* Mac Lane's chase: e₁ s e is an endomorphism of w, absorbed by e; e monic makes the equalizer e₁ split epi, forcing f ≈ g *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Let D be small-complete with small hom-sets. D has an initial object IF AND ONLY IF it satisfies the Solution Set Condition (a small weakly initial family k_i). Sufficiency: form w = ∏_i k_i (weakly initial), let e : v → w equalize the SET of all endomorphisms of w; v is initial, uniqueness of arrows out of v coming from the equalizer/monic/split-epi chase.",
+      "intree": "Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C) (P : Limit (DiscreteCat_Functor (wif_obj W))) (Pe : Limit (DiscreteCat_Functor (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P) => iprod (wif_obj W) P))) (E : HasEqualizers C) : @Initial C.",
+      "strength_comparison": "intree-weaker: only the sufficiency (⇐) direction is formalized — the necessity direction (an initial object k, indexed by a one-point set, is itself a weakly initial family) is not stated anywhere in-tree, so the biconditional is absent. On the hypothesis side the in-tree form is genuinely LEANER (hence the sufficiency direction is stronger): instead of `Complete D` + small hom-sets it takes exactly the two limits and the equalizer supply that the proof consumes, deliberately leaving the endomorphism-index universe to the caller (documented at Theory/WeaklyInitial.v:44-52 — 'routing it through a class that quantifies over every index [Type] would over-commit the ambient universes'). One constructive strengthening of the hypothesis: `wif_cover` returns a Type-valued sigma (a CHOICE of covering index and arrow) where Mac Lane asks only for existence. The proof itself matches the book step for step, including the 'equalize all endomorphisms' trick (Theory/WeaklyInitial.v:107-133) and the split-epi uniqueness chase (:145-177)."
+    },
+    "gap": "The necessity half of the biconditional (D has an initial object ⇒ D satisfies the Solution Set Condition, via the one-element family) is nowhere in-tree: grep for 'weakly initial'/'WeaklyInitialFamily' over all *.v finds producers only in Adjunction/GAFT.v (wif_of_sols, from a SolutionSet) — nothing builds a WeaklyInitialFamily from an Initial object, and there is no iff-shaped statement. Consequently Mac Lane's Theorem 1 as a characterisation is not available; only its hard direction is.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -i 'weakly initial|WeaklyInitial|weakly_initial' . — hits only Theory/WeaklyInitial.v, Adjunction/GAFT.v, and prose cross-references in Structure/{Terminal,Complete,Equalizer,Initial}.v; no converse construction",
+      "grep -rn --include=*.v -iE 'converse|necessity|only if|iff|↔|<->' Adjunction/GAFT.v Theory/WeaklyInitial.v — no biconditional statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same evidence independently: rg -n 'SolutionSet|solution set|weakly[_ ]?initial|WeaklyInitial' over all *.v returned Theory/WeaklyInitial.v, Adjunction/GAFT.v and prose-only cross-references in Structure/{Terminal,Complete,Equalizer,Initial}.v. Read Theory/WeaklyInitial.v in full: line 89 is Theorem initial_from_weakly_initial with exactly the quoted signature (W : WeaklyInitialFamily C) (P : Limit (DiscreteCat_Functor (wif_obj W))) (Pe : Limit (DiscreteCat_Functor (fun _ : (iprod ... ~> iprod ...) => iprod ...))) (E : HasEqualizers C) : @Initial C; :119 endo_absorb, :154 Hk, :160 Hkr all quoted accurately; the proof closes by @Build_Terminal (C^op) I at :136. Confirmed the gap by construction-direction search: nothing in-tree produces a WeaklyInitialFamily from an Initial object (the only producer anywhere is wif_of_sols at Adjunction/GAFT.v:210, which consumes a SolutionSet), so the necessity half of the biconditional is genuinely absent and PARTIAL is right. Adversarial check on the hypothesis-strength claim: the record calls the explicit (P, Pe, E) form 'leaner' than Complete while the file header at Theory/WeaklyInitial.v:50-52 says supplying Pe separately 'strengthens the hypotheses'. These are not in conflict — the header compares against a variant that would derive Pe from a HasIndexedProducts class, the record compares against @Complete C, and both readings are correct relative to their baselines. File is registered in _CoqProject (line 476) and Theory/WeaklyInitial.vo exists, so this is compiled code, not an orphan."
+    }
+  },
+  {
+    "id": "maclane:V.6:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Solution Set Condition (object form)",
+      "small weakly initial family",
+      "weakly initial set of objects",
+      "pre-adjointness (Freyd–Scedrov)",
+      "WeaklyInitialFamily",
+      "dual: weakly terminal / weakly final family"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 58,
+        "symbol": "WeaklyInitialFamily",
+        "intree_statement": "Record WeaklyInitialFamily (C : Category) := { wif_index : Type; wif_obj : wif_index -> C; wif_cover (c : C) : { i : wif_index & wif_obj i ~> c } }."
+      },
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 54,
+        "symbol": "(header comment on WeaklyInitialFamily)",
+        "intree_statement": "(* A weakly initial family: an index [Type], a family of objects, and for every object [c] a *choice* of covering member together with an arrow into [c].  No uniqueness of the covering arrow is required — that is what makes the family only *weakly* initial. *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A category D satisfies the SOLUTION SET CONDITION when there is a small set I and an I-indexed family of objects k_i of D such that for every object d there is some index i and some arrow k_i → d; i.e. D has a small weakly initial family of objects.",
+      "intree": "Record WeaklyInitialFamily (C : Category) := { wif_index : Type; wif_obj : wif_index -> C; wif_cover (c : C) : { i : wif_index & wif_obj i ~> c } }.",
+      "strength_comparison": "same, up to two recorded presentational choices. (1) 'small set I' is `wif_index : Type`; the library carries no smallness predicate, and size is tracked by universe polymorphism — the file explicitly keeps the index universe in the caller's hands (Theory/WeaklyInitial.v:44-52), which is the library-wide convention (cf. Structure/Complete.v:27-37). (2) `wif_cover` is a Type-valued sigma (a choice function producing the index and the arrow) rather than Mac Lane's mere existence; constructively that is a slightly stronger datum, which makes the DEFINITION stronger and any theorem consuming it correspondingly weaker — but this is the library's uniform convention for existential data (cf. SolutionSet in Adjunction/GAFT.v:159, Cleaving in Theory/Fibration.v)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent search found the same and only counterpart: Record WeaklyInitialFamily at Theory/WeaklyInitial.v:58, quoted verbatim and accurately (wif_index : Type; wif_obj : wif_index -> C; wif_cover (c : C) : { i : wif_index & wif_obj i ~> c }). The header comment at :54-57 quoted in the evidence is verbatim correct. Both recorded deviations are real and are honestly stated: (a) 'small set I' becomes an unconstrained wif_index : Type with size left to universe polymorphism — the file argues this explicitly at :44-52; (b) wif_cover is a Type-valued sigma (a choice of index AND arrow) rather than mere existence, which strengthens the definition and correspondingly weakens every consumer — the same convention SolutionSet uses. No same-name-weaker variant exists elsewhere in the tree. _CoqProject-registered, .vo present."
+    }
+  },
+  {
+    "id": "maclane:V.6:thm2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Freyd Adjoint Functor Theorem",
+      "General Adjoint Functor Theorem",
+      "GAFT",
+      "AFT",
+      "left adjoint exists iff continuous + solution set",
+      "dual: right adjoint from cocontinuity + co-solution set"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 241,
+        "symbol": "GAFT",
+        "intree_statement": "Theorem GAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }."
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 180,
+        "symbol": "GAFT_from_initials",
+        "intree_statement": "Theorem GAFT_from_initials {C D : Category} (U : C ⟶ D) (H : forall d : D, @Initial (=(d) ↓ U)) : { F : D ⟶ C & F ⊣ U }."
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 210,
+        "symbol": "wif_of_sols",
+        "intree_statement": "Definition wif_of_sols {C D : Category} (U : C ⟶ D) (d : D) (S : SolutionSet U d) : WeaklyInitialFamily (=(d) ↓ U)."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 264,
+        "symbol": "right_adjoint_PreservesImageLimit",
+        "intree_statement": "Definition right_adjoint_PreservesImageLimit {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : @PreservesImageLimit C D U.  (* the continuity half of Mac Lane's NECESSITY direction *)"
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 202,
+        "symbol": "right_adjoint_preserves_limits",
+        "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G.  (* RAPL *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Let A be small-complete with small hom-sets. A functor G : A → X has a left adjoint IF AND ONLY IF G preserves all small limits and satisfies the Solution Set Condition. Sufficiency: it suffices to build a universal arrow x → Ga for each x, i.e. an initial object of D = (x ↓ G); D has small hom-sets, is small-complete because Q : (x ↓ G) → A creates products and equalizers, and the SSC for G is exactly the SSC for D; Theorem 1 supplies the initial object.",
+      "intree": "Theorem GAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }.  — proved by exactly Mac Lane's route: `Comma_Complete` makes [=(d) ↓ U] complete, `wif_of_sols` turns the solution set into a weakly initial family there, and `initial_from_weakly_initial` (Theorem 1) yields the initial object fed to `GAFT_from_initials`.",
+      "strength_comparison": "intree-weaker: only the sufficiency (⇐) direction is formalized as the theorem; the biconditional is not stated. Of the necessity direction, exactly one of the two clauses is in-tree — 'a left adjoint preserves limits' is `right_adjoint_preserves_limits` (Adjunction/Continuity.v:202) and, in the cone-level form GAFT actually consumes, `right_adjoint_PreservesImageLimit` (Construction/Comma/Limit.v:264). The other clause, that the unit η_x : x ~> U (F x) is a one-member solution set, is nowhere constructed. Otherwise the sufficiency direction is faithful and in two respects stronger/leaner: (a) `PreservesImageLimit` (Construction/Comma/Limit.v:110) is the CONE-level statement that the image cone (U L, fmap[U] π) is universal — the mathematically correct reading, and strictly stronger than the library's own apex-only `PreservesAllLimits`, so the hypothesis is heavier but honest and inhabited by every right adjoint; (b) 'small hom-sets' is not a hypothesis — its role (the endomorphism-indexed product over the comma hom-type) is discharged by applying `Complete` at a DiscreteCat over `iprod ... ~> iprod ...` (GAFT.v:250-254), with size tracked by universe polymorphism. One constructive strengthening of the hypothesis: `SolutionSet.sol_covers` returns a Type-valued sigma (choice) rather than Mac Lane's mere existence."
+    },
+    "gap": "The necessity half is incomplete and the iff is unpackaged: nothing in-tree builds a `SolutionSet U d` from an adjunction F ⊣ U (the unit η_d : d ~> U (F d) as a one-element solution set). grep shows the ONLY producers of `SolutionSet` in the whole tree are `SAFT_solution_set` (Adjunction/SAFT.v:252) and the caller-supplied hypothesis of `GAFT`. Consequently Mac Lane's Theorem 2 as a CHARACTERISATION of right adjoints is not available in-tree — only Freyd's sufficient condition.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -i 'solutionset|solution set|solution_set' . — producers are only SAFT_solution_set (Adjunction/SAFT.v:252) and GAFT/wif_of_sols consumers; no adjunction-to-solution-set direction",
+      "grep -rn --include=*.v -iE 'converse|necessity|only if|iff' Adjunction/GAFT.v Adjunction/SAFT.v Adjunction/Continuity.v — GAFT.v:72,85 discuss the converse only in prose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Reproduced every cited location before reading the coverage file. Adjunction/GAFT.v:241 GAFT with exactly the quoted signature (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }; :180 GAFT_from_initials; :210 wif_of_sols; the proof body at :245-255 runs precisely Mac Lane's route (Comma_Complete → wif_of_sols → initial_from_weakly_initial → GAFT_from_initials). Necessity-side citations both check out: Adjunction/Continuity.v:202 right_adjoint_preserves_limits : PreservesAllLimits U (and rapl_is_alimit at :183, rapl_ump at :176), Construction/Comma/Limit.v:264 right_adjoint_PreservesImageLimit. PreservesAllLimits itself is real (Structure/Limit/Preservation.v:229), so the apex-only-vs-cone-level contrast in the strength_comparison is accurate rather than rhetorical. Independently confirmed the stated gap: a whole-tree rg for SolutionSet yields producers only at Adjunction/SAFT.v:252 (SAFT_solution_set, verified at that exact line) and caller hypotheses; nothing derives a SolutionSet from an adjunction unit, so the biconditional is unavailable and PARTIAL is correct."
+    }
+  },
+  {
+    "id": "maclane:V.6:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "Solution Set Condition for a functor",
+      "SSC for G : A → X",
+      "solution set at x",
+      "pre-adjointness (Freyd–Scedrov)",
+      "SolutionSet record",
+      "weakly initial family in the comma category (x ↓ G)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 159,
+        "symbol": "SolutionSet",
+        "intree_statement": "Record SolutionSet {C D : Category} (U : C ⟶ D) (d : D) := { sol_index : Type; sol_obj : sol_index -> C; sol_arr : forall i, d ~> U (sol_obj i); sol_covers {c} (h : d ~> U c) : { i : sol_index & { t : sol_obj i ~> c & fmap[U] t ∘ sol_arr i ≈ h } } }."
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 154,
+        "symbol": "(header comment on SolutionSet)",
+        "intree_statement": "(* A solution set at [d : D] for [U : C ⟶ D]: a small [Type] of indices, a family of objects [sol_obj i : C] with arrows [sol_arr i : d ~> U (sol_obj i)], such that every [h : d ~> U c] factors through some member, [fmap[U] t ∘ sol_arr i ≈ h].  No uniqueness of the factorization is asked — this is a *weakly* initial family in the comma category [=(d) ↓ U]. *)"
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 210,
+        "symbol": "wif_of_sols",
+        "intree_statement": "Definition wif_of_sols {C D : Category} (U : C ⟶ D) (d : D) (S : SolutionSet U d) : WeaklyInitialFamily (=(d) ↓ U).  (* Mac Lane's identification of the SSC for G with the SSC for the comma D = (x ↓ G) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A functor G : A → X satisfies the SOLUTION SET CONDITION when for each object x of X there is a small set I and an I-indexed family of arrows f_i : x → G a_i such that EVERY arrow h : x → Ga factors as h = (Gt) ∘ f_i for some i and some t : a_i → a of A.",
+      "intree": "Record SolutionSet (U : C ⟶ D) (d : D) := { sol_index : Type; sol_obj : sol_index -> C; sol_arr : forall i, d ~> U (sol_obj i); sol_covers {c} (h : d ~> U c) : { i & { t : sol_obj i ~> c & fmap[U] t ∘ sol_arr i ≈ h } } }.",
+      "strength_comparison": "same. The factorisation equation `fmap[U] t ∘ sol_arr i ≈ h` is literally h = (Gt)f_i in setoid form; the variance is Mac Lane's (family indexed at the X-object d, members landing in U of A-objects). Two presentational notes, both library-wide conventions and neither changing the mathematics: 'small set I' is `sol_index : Type` with size carried by universe polymorphism (no smallness predicate exists in the library — Adjunction/SAFT.v:56-59 records this explicitly), and `sol_covers` is a Type-valued sigma (choice) rather than a Prop-valued existence, so constructively the definition is slightly stronger than the book's. Mac Lane's identification of this condition with the SSC for the comma category (x ↓ G) is also proven, as `wif_of_sols`."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Same evidence found blind. Adjunction/GAFT.v:159 Record SolutionSet quoted verbatim and correct, including sol_covers {c} (h : d ~> U c) : { i & { t : sol_obj i ~> c & fmap[U] t ∘ sol_arr i ≈ h } } — literally Mac Lane's h = (Gt)·f_i in setoid form, with the book's variance (family indexed at the X-object d). The header comment at :154-158 is quoted accurately. wif_of_sols (:210) really does prove Mac Lane's identification of the SSC for G with the SSC for the comma (x ↓ G); I read the proof — it builds Build_WeaklyInitialFamily over the same index type with the factorization equation as the comma triangle, the left leg collapsing by id_right. The two flagged conventions (Type-valued index, Type-valued choice in sol_covers) are the same ones flagged for def1 and are honest. No weaker same-named variant in the tree."
+    }
+  },
+  {
+    "id": "maclane:V.6:lem1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the comma projection creates products and equalizers",
+      "Q : (x ↓ G) → A creates limits",
+      "creation of limits in a comma category",
+      "Comma_Complete",
+      "comma_proj2 creates limits",
+      "limits in comma categories are computed on the base",
+      "dual: coslice/opposite projection creates colimits"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 238,
+        "symbol": "comma_limit",
+        "intree_statement": "Definition comma_limit : Limit K := @Build_Limit J (=(d) ↓ U) K apex_cone comma_ump.  (* under Section Create's Context (HC : @Complete C) and Context (HU : PreservesImageLimit) *)"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 245,
+        "symbol": "Comma_Complete",
+        "intree_statement": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 159,
+        "symbol": "apex_obj / apex_leg",
+        "intree_statement": "Definition apex_obj : (=(d) ↓ U) := ((ttt, vertex_obj[Ldiag]); phi).  ...  Definition apex_leg (j : J) : apex_obj ~{=(d) ↓ U}~> K j := ((ttt, limit_leg (limit_is_alimit Ldiag) j); _).  (* the constructed comma limit lies OVER the C-limit Ldiag := HC J Gdiag, with the projected legs — the lifting half of 'creates' *)"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 110,
+        "symbol": "PreservesImageLimit",
+        "intree_statement": "Definition PreservesImageLimit : Type := ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ○ G)), ∃! φ : vertex_obj[N] ~{D}~> U L, ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 32,
+        "symbol": "(header comment)",
+        "intree_statement": "(* Standard fact: if [C] has and [U] preserves [J]-limits, then [=(d) ↓ U] has [J]-limits, and the projection [comma_proj2 : =(d) ↓ U ⟶ C] creates them. *)"
+      }
+    ],
+    "statement_record": {
+      "book": "If G : A → X preserves all small products (respectively, all equalizers), then for each x the projection Q : (x ↓ G) → A, sending (s : x → Ga) to a, CREATES all small products (respectively, all equalizers). Mac Lane notes the same argument creates ANY limit (Exercise V.6.1).",
+      "intree": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K.  — where the constructed apex is `((ttt, vertex_obj[Ldiag]); phi)` with `Ldiag := HC J Gdiag` and the legs are the projected C-legs.",
+      "strength_comparison": "mixed. intree-stronger in shape coverage: it directly realises Mac Lane's Exercise V.6.1 generalisation — ALL limit shapes at once, not just products and equalizers, and the proof is his (build the C-limit, transport the d-legs through the preserved image cone to a mediating φ, pair up). intree-weaker in two respects: (a) GRANULARITY — both hypotheses quantify over every diagram shape (`HC : @Complete C` and `HU : PreservesImageLimit`, itself a ∀ J G L N statement), so Mac Lane's per-shape implications ('G preserves small products ⇒ Q creates small products'; 'G preserves equalizers ⇒ Q creates equalizers') cannot be recovered by instantiation — there is no way in-tree to conclude anything about the comma category from product-preservation alone; (b) CREATION — what is proven is a construction of the comma limit over the CHOSEN base limit `HC J Gdiag`, not the creation property proper. The hypothesis on U is the cone-level `PreservesImageLimit` rather than the library's apex-only `PreservesLimit`, a documented and correct strengthening (Construction/Comma/Limit.v:47-66) that is inhabited by every right adjoint."
+    },
+    "gap": "Two precise gaps. (1) No per-shape statement: `Comma_Complete` consumes all-shapes completeness of C and all-shapes image-limit preservation by U, so 'U preserves products ⇒ the comma has products' and 'U preserves equalizers ⇒ the comma has equalizers' — the two clauses Mac Lane actually needs, and the only ones his proof of Theorem 2 uses — are not derivable from what is in-tree. (2) 'Creates' is claimed in the header comment (Construction/Comma/Limit.v:32-33 and Construction/Comma.v:99-100) but not stated as a theorem: the file constructs a limit lying over the chosen base limit, whereas creation additionally asserts that for ANY limit cone of comma_proj2 ○ K in C there is a UNIQUE cone in [=(d) ↓ U] lying over it and that this cone is a limit. The library does have genuine creation predicates elsewhere with that uniqueness clause (Monad/Monadicity/Beck.v `CreatesUSplitCoequalizers`, Theory/Equivalence/Limit.v:486 `equivalence_creates_limits`), so this is a real missing packaging rather than a naming quibble.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -iE 'creates|creation' . — creation predicates exist only in Monad/Monadicity/{Beck,BeckObjects}.v and Theory/Equivalence/Limit.v; for comma categories the word appears only in header prose (Construction/Comma/Limit.v:17,32,120; Construction/Comma.v:99)",
+      "grep -n 'Definition|Class|Record|Theorem|Lemma' Structure/Limit/Preservation.v — has PreservesLimit / PreservesAllLimits / ReflectsIsos, but no CreatesLimit class"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Read Construction/Comma/Limit.v end to end before the coverage file. All five citations are accurate at the exact lines: :110 PreservesImageLimit (the ∃! cone-level statement), :159 apex_obj := ((ttt, vertex_obj[Ldiag]); phi), :238 comma_limit, :245 Comma_Complete, :32 the header 'creates them' sentence. Independently confirmed gap (1): Section Create takes Context (HC : @Complete C) and Context (HU : PreservesImageLimit), both all-shapes quantified, and Complete = ∀ (D : Category) (F : D ⟶ C), Limit F (Structure/Complete.v:115), so there is genuinely no way to instantiate a product-only or equalizer-only hypothesis — Mac Lane's two per-shape implications are not recoverable. Independently confirmed gap (2): rg for 'creates|creation' over the tree finds real creation predicates only in Monad/Monadicity/{Beck,BeckObjects}.v and Theory/Equivalence/Limit.v; Structure/Limit/Preservation.v has PreservesLimit (:48), PreservesAllLimits (:229) and ReflectsIsos but no CreatesLimit class. ONE CORRECTION to the record's prose (not enough to move the classification, so the classification field is left as PARTIAL): the gap text claims the library has 'genuine creation predicates elsewhere with that uniqueness clause (Monad/Monadicity/Beck.v CreatesUSplitCoequalizers, Theory/Equivalence/Limit.v:486 equivalence_creates_limits)'. That is true of Beck.v — CreatesUSplitCoequalizers (Beck.v:164) really does carry create_coeq_reflects plus the corollary create_coeq_unique — but FALSE of equivalence_creates_limits, which is merely Limit (F ◯ G) → Limit G by transport (Theory/Equivalence/Limit.v:486-489) with no uniqueness-of-lift clause at all. The precedent argument survives on Beck.v alone. Own view for the downstream issue: the mathematical substance Mac Lane needs at V.6 IS fully in-tree and IS used exactly there (GAFT.v:247 pose (HCat := @Comma_Complete ...)), so the PARTIAL rests entirely on packaging (per-shape granularity + an unstated creation predicate); scope any filed issue accordingly. See also the LIBRARY-DEFECT entry on the 'creates' over-claim in the same file and in Construction/Comma.v."
+    }
+  },
+  {
+    "id": "maclane:V.6:thm3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Representability Theorem",
+      "Freyd representability theorem",
+      "General Representability Theorem",
+      "K : D → Set representable iff continuous + solution set",
+      "representable functor theorem",
+      "universal arrow from the one-point set to K / initial object of (* ↓ K)",
+      "dual: corepresentability of a presheaf from cocontinuity"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin --include=*.v 'representab' . — 45 hits, ALL either (a) the bare definition Functor/Representable.v:46 `Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }`, (b) Yoneda / universal-property prose (Functor/Hom/Yoneda.v, Structure/UniversalProperty.v, Theory/Isomorphism.v), (c) representable profunctors (Theory/Profunctor.v:155-158, Theory/Profunctor/Adjunction.v:70), (d) representable multicategories (Theory/Multicategory/Representable.v), or (e) the representability form of the double-category companion zigzag (Theory/DoubleCategory/Companion.v). None is a criterion for representability.",
+      "grep -rn --include=*.v -iE 'representability theorem|Freyd represent|representable.*continuous|continuous.*representable|is representable' . — the only hit is prose in Adjunction/GAFT.v:122 mentioning 'a product of representables over the simple groups that is continuous yet not representable' (a counterexample cited, nothing formalized)",
+      "grep -rn --include=*.v -iE 'universal element' . — Structure/UniversalProperty.v:67-72 `representability_by_yoneda` relates universal elements to representations (Yoneda content, V.4), not a representability CRITERION from continuity + SSC",
+      "grep -rn --include=*.v -E '⟶ Sets' . | grep -iE 'theorem|initial|complete|solution' — 0 hits",
+      "Checked the natural derivation route: `GAFT_from_initials` / `initial_from_weakly_initial` applied to K : D ⟶ Sets at d := `terminal_obj Sets` (Instance/Sets.v:248 `Sets_Terminal` exists) would give exactly Theorem 3, but that corollary is nowhere drawn — grep of Adjunction/GAFT.v and Adjunction/GAFT/Examples.v shows the only worked instantiation is Δ ⊣ (×) (`diagonal_product_via_gaft`, Adjunction/GAFT/Examples.v:108)",
+      "grep -rn --include=*.v -iE 'hom.*preserv|preserves.*hom' Structure/ Functor/ — no 'representable functors are continuous' lemma either, so neither direction of the biconditional is in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and by the same route. rg -in 'representability theorem|representable.*continuous|continuous.*representable|not representable' over all *.v returns exactly ONE hit, the prose at Adjunction/GAFT.v:122 about the product-of-representables-over-simple-groups counterexample — nothing formalized. The only representability vocabulary in-tree is Class Representable at Functor/Representable.v:46 ({ repr_obj : C; represented : [Hom repr_obj,─] ≅ F }), which is the DEFINITION, not a criterion; the neighbouring machinery (Structure/UniversalProperty.v:72 representability_by_yoneda, Theory/Universal/Arrow.v) is Yoneda/V.4 content. Neither direction of Mac Lane's biconditional is present: there is no 'representable ⇒ continuous' lemma either. Confirmed the record's derivation-route note: Sets_Terminal really is at Instance/Sets.v:248 and GAFT_from_initials would specialise, but Adjunction/GAFT/Examples.v's only worked instantiation is diagonal_product_via_gaft (verified at :108). ABSENT is correct under the frozen definitions — the Representable class is vocabulary for the statement, not part of its content, so this is not PARTIAL."
+    }
+  },
+  {
+    "id": "maclane:V.6:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Solution Set Condition for a Set-valued functor",
+      "SSC for K : D → Set",
+      "small set S of objects generating all elements of K",
+      "generating family of elements",
+      "solution set at the one-point set",
+      "SolutionSet K (terminal setoid)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 159,
+        "symbol": "SolutionSet",
+        "intree_statement": "Record SolutionSet {C D : Category} (U : C ⟶ D) (d : D) := { sol_index : Type; sol_obj : sol_index -> C; sol_arr : forall i, d ~> U (sol_obj i); sol_covers {c} (h : d ~> U c) : { i : sol_index & { t : sol_obj i ~> c & fmap[U] t ∘ sol_arr i ≈ h } } }."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 248,
+        "symbol": "Sets_Terminal",
+        "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := { terminal_obj := ... (* the singleton setoid; instantiating SolutionSet K terminal_obj is the only route to the book's element-wise form *) }."
+      }
+    ],
+    "statement_record": {
+      "book": "A functor K : D → Set satisfies the SOLUTION SET CONDITION when there exists a small set S of objects of D such that for every object d of D and every element x of Kd there are an object s in S, an element y of Ks, and an arrow f : s → d with (Kf) y = x.",
+      "intree": "Record SolutionSet (U : C ⟶ D) (d : D) := { sol_index : Type; sol_obj : sol_index -> C; sol_arr : forall i, d ~> U (sol_obj i); sol_covers {c} (h : d ~> U c) : { i & { t : sol_obj i ~> c & fmap[U] t ∘ sol_arr i ≈ h } } }  — taking C := D (the book's D), D := Sets, U := K, d := @terminal_obj Sets Sets_Terminal.",
+      "strength_comparison": "same content ONLY after an unrecorded instantiation and translation. `SolutionSet K (terminal_obj Sets)` reads: a Type of indices, objects sol_obj i of D, GLOBAL POINTS sol_arr i : 1 ~{Sets}~> K (sol_obj i), and for every global point h : 1 ~> K c an index i and t : sol_obj i ~> c with fmap[K] t ∘ sol_arr i ≈ h. That is Mac Lane's def3 with 'element of the setoid K a' replaced by 'morphism from the terminal setoid into K a'. The two are equivalent in Sets, but the library records no such bridge, and the element-wise phrasing (∀ d, ∀ x ∈ K d, ∃ s ∈ S, ∃ y ∈ K s, ∃ f, K f y = x) appears nowhere. As with def2, `sol_covers` is a Type-valued choice rather than an existence, and 'small set S' is `sol_index : Type` with size carried by universe polymorphism."
+    },
+    "gap": "The Set-valued, element-wise form of the solution set condition is not stated in-tree, and neither is the instantiation that would produce it. What exists is the general hom-shaped `SolutionSet U d` (Adjunction/GAFT.v:159), which specialises to Mac Lane's def3 only at d := the terminal setoid; the library nowhere (a) performs that instantiation, (b) records the elements-vs-global-points bridge for `Sets` (no lemma of the form `(1 ~{Sets}~> X) ≅ carrier X` — grep over Instance/Sets*.v and Structure/Limit/Weighted.v finds only ad hoc uses of `Δ[J](terminal_obj Sets)` as a weight, never the general correspondence), or (c) defines the condition element-wise. Its only consumer, Mac Lane's Theorem 3, is itself absent.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -i 'solutionset|solution set|solution_set' . — only the hom-shaped record and SAFT's producer; no Set-valued/element-wise variant",
+      "grep -rn --include=*.v -iE 'element of Kd|Kf y = x|generating set|generator.*element' . — no element-wise solution-set phrasing anywhere",
+      "grep -rn --include=*.v -E 'Terminal Sets|Sets_Terminal|@Terminal Sets' . — Sets_Terminal exists (Instance/Sets.v:248) and is used in Structure/Limit/Weighted.v and Theory/Lawvere/Sets.v, but never to instantiate SolutionSet"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Agreed with my own preliminary (PARTIAL) and the reasoning checks out. I verified the specialisation claim by hand: SolutionSet K (@terminal_obj Sets Sets_Terminal) unfolds to a Type of indices, objects sol_obj i : D, arrows sol_arr i : 1 ~{Sets}~> K (sol_obj i) — i.e. elements y ∈ K s up to ≈ — and sol_covers turning every h : 1 ~> K c (an element x ∈ K c) into i, t : sol_obj i ~> c with fmap[K] t ∘ sol_arr i ≈ h, which is exactly (Kf) y = x. So the content is reachable but the instantiation is nowhere performed. Independently confirmed the missing bridge: rg for 'global element' finds the notion only in Structure/Constant.v, Tools/{Represented,Abstraction}.v and Functor/Structure/Constant.v — generic, never a Sets-specific (1 ~{Sets}~> X) ≅ carrier X lemma; and rg for Sets_Terminal shows uses only in Structure/Limit/Weighted.v (as the weight Δ[J](terminal_obj Sets)) and Theory/Lawvere/Sets.v:118 (via one_unique), never with SolutionSet. Both cited evidence lines are accurate (Adjunction/GAFT.v:159, Instance/Sets.v:248)."
+    }
+  },
+  {
+    "id": "maclane:V.6:remark-ord-counterexample",
+    "classification": "ABSENT",
+    "aliases": [
+      "ordinals counterexample",
+      "Ord / Ord^op as a thin category of small ordinals",
+      "continuous but not representable functor",
+      "no largest ordinal / Burali-Forti",
+      "necessity of the solution set condition",
+      "constant functor at the one-point set is not representable",
+      "dual: cocontinuous but not corepresentable"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin --include=*.v 'ordinal' . — 7 files, all incidental: Instance/Omega.v (the ordinal ω as a thin category), Instance/Two.v + Instance/Two/Monoidal.v (2 as the ordinal {0<1}), Construction/{FAlg,Chain}.v (the ω-chain), Structure/Complete.v (ω for Adámek), Theory/Algebra/Frobenius.v (Lawvere's 'Ordinal sums and equational doctrines'). No category of ALL small ordinals exists.",
+      "grep -rn --include=*.v -E '\\bOrd\\b|OrdCat|Ordinals' . — single hit, a prose cross-reference in Instance/Proset.v:19 ('See also [Ord], for the category of preordered sets') which points at nothing in-tree",
+      "grep -rin --include=*.v 'von Neumann|transfinite' . — 0 hits",
+      "grep -rn --include=*.v -iE 'counterexample|counter-example|no left adjoint|not representable' . — 5 hits, none about ordinals or representability except the PROSE mention at Adjunction/GAFT.v:120-123 (the Joyal/Mac Lane product-of-representables-over-simple-groups counterexample, cited from nLab and not formalized); the others are the Construction/Indexed.v twist countermodel, Construction/Funny/Bifunctor.v, Structure/Terminal.v, Structure/Monoidal.v",
+      "grep -rn --include=*.v -E 'Definition Ord|Program Definition Ord|Instance Ord' . — 0 hits",
+      "Also checked Instance/Poset.v and Instance/Proset.v: they define the Poset/Proset CONSTRUCTIONS turning a (pre)ordered type into a thin category, but no ordinal instance and no continuous-non-representable witness."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. rg -in 'ordinal' over all *.v hits only Instance/Omega.v (the ordinal ω as a thin category), Instance/Two{,/Monoidal}.v (2 as {0<1}), Construction/{FAlg,Chain}.v, Structure/Complete.v and a title citation in Theory/Algebra/Frobenius.v; rg for '\\bOrd\\b' returns the single dangling prose cross-reference at Instance/Proset.v:19 ('See also [Ord], for the category of preordered sets'), which points at nothing in-tree. No category of all small ordinals, no continuous-but-not-representable witness, no Burali-Forti argument. ABSENT rather than OUT_OF_SCOPE is the right call: the library is universe-polymorphic, so a poset of ordinals below a universe is expressible in principle — the obstruction is that nobody built it, not that it cannot be stated."
+    }
+  },
+  {
+    "id": "maclane:V.6:remark-comp-bool",
+    "classification": "ABSENT",
+    "aliases": [
+      "complete Boolean algebras",
+      "no free complete Boolean algebra",
+      "Solovay / Gaifman / Hales result",
+      "continuous forgetful functor with no left adjoint",
+      "CABA / cBool / category of complete Boolean algebras",
+      "failure of GAFT without the solution set condition",
+      "dual: no cofree co-complete co-Boolean structure"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin --include=*.v 'solovay' . — 0 hits",
+      "grep -rin --include=*.v 'complete boolean|cBool|CABA' . — 0 hits",
+      "grep -rin --include=*.v 'boolean|heyting|lattice' . — hits are Instance/Props.v (Heyting prealgebra of Props), Instance/Two.v (2 as a Boolean algebra, in prose), Instance/FinSet/Classifier.v + Instance/FinSet/Pushout.v (decidable boolean predicates on Fin.t), Instance/Sets/Par.v, Instance/Comp.v:386 (the booleans as a group under xor), and prose citations in Theory/{Lawvere,Equivalence,Sheaf,Adjunction}.v and Instance/Poset.v. No category of Boolean algebras, complete or otherwise.",
+      "grep -rn --include=*.v -iE 'no left adjoint|fails to be|counterexample' . — nothing exhibiting a continuous functor out of a complete category without a left adjoint",
+      "grep -rn --include=*.v -iE 'free monoid|free algebra|free object' . — free constructions in-tree are Instance/Comp.v `Free` (term algebras over an OpSignature), Construction/Free/Quiver.v (free category on a quiver), Construction/PROP/Free.v and Construction/ColouredPROP/Free.v; none is a completion-type structure and none has a non-existence result attached"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: rg -in 'ordinal|Boolean algebra|Solovay|complete Boolean' over all *.v yields zero hits for Solovay, zero for 'complete Boolean'/'CABA'/'cBool', and the Boolean hits are only Instance/Props.v (Heyting prealgebra), Instance/Two.v (2 as a Boolean algebra, in prose at :85-87), Instance/FinSet/Classifier.v (decidable predicates), Instance/Comp.v (booleans as a group under xor, :388-410) and prose citations in Theory/Equivalence.v:120-121 and Structure/Cocartesian.v:100. There is no category of Boolean algebras of any kind, and nothing in-tree exhibits a continuous functor out of a complete category lacking a left adjoint. ABSENT accepted rather than OUT_OF_SCOPE: the remark's category-theoretic content (a continuous forgetful functor with no left adjoint) is expressible here; only its set-theoretic input (Solovay's unbounded-generation result) lies outside, and the frozen guidance asks for OUT_OF_SCOPE to be used sparingly."
+    }
+  },
+  {
+    "id": "maclane:V.6:construction-free-group",
+    "classification": "ABSENT",
+    "aliases": [
+      "free group functor F : Set → Grp",
+      "forgetful functor U : Grp → Set has a left adjoint",
+      "Grp / Group category / category of groups",
+      "solution set for groups via generated subgroups",
+      "free group on a set without word equivalence classes",
+      "unit X → UFX is injective",
+      "dual: cofree structure on a set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=*.v -E 'Grp|GroupCat|Groups|free group|FreeGroup' . — 8 hits, ALL prose: Structure/Group.v:63-72 (group OBJECTS internal to a category, citing Grp), Structure/Terminal.v:34, Structure/Complete.v:55, Theory/Universal/Arrow.v:45, Adjunction/GAFT.v (header), Construction/Opposite.v:56 (a Mac Lane citation). There is no category of groups in the tree.",
+      "grep -rn --include=*.v -iE 'free functor|free object|free algebra|Free[A-Z]' . — the free/forgetful adjunctions that DO exist are `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful` (Construction/Free/Quiver.v:550, quivers → strict categories) and the free PROP / free coloured PROP universal properties; neither is an algebraic-variety example and neither is obtained via an adjoint functor theorem (Construction/Free/Quiver.v:518 builds a UniversalArrow directly)",
+      "grep -rn --include=*.v 'CMon_Forget|CMon_Free' . — Instance/CMon.v:169 defines `CMon_Forget : CMon ⟶ Sets` but NO left adjoint is ever constructed for it (the nearest algebraic forgetful functor in-tree is left without its free companion)",
+      "grep -n 'Theorem|Definition|Lemma' Adjunction/GAFT/Examples.v — the only worked GAFT application is `diagonal_product_via_gaft` recovering Δ ⊣ (×), not a free-algebra example",
+      "NEAR MISSES examined and rejected as counterparts: Instance/Comp.v defines `Group := Algebra GroupOp GroupEq` (:382) — a TYPE of groups, with `Bool : Group` (:405) as a witness — but the category `Algs` (:151) is of OpAlgebras for a signature WITHOUT equations, so there is no category of groups; `Free S X` (:92) is the free TERM algebra (Tree), i.e. exactly the explicit word-style construction Mac Lane's argument is designed to AVOID, is not quotiented by the equations of a variety, and carries no adjunction to Sets/Coq. Nothing in-tree exhibits the solution set for groups (the generated-subgroup cardinality bound), the free group functor, or the injectivity of the unit X → UFX."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees, and the record's near-miss analysis is the strongest part of it — I checked every claim in it. ls Instance/ confirms there is no Grp/Groups module; Structure/Group.v is group OBJECTS internal to a monoidal category, not the category of groups. Instance/Comp.v really does define Group := Algebra GroupOp GroupEq (:382) with Bool : Group (:405), but Algs (verified at :151) has obj := OpAlgebra S — algebras for a signature WITHOUT equations — so there is indeed no category of groups; and Free S X (:92) is the raw term algebra Tree (:88), unquotiented by GroupEq, hence not a free group and carrying no adjunction. The two genuine free/forgetful adjunctions in-tree are Construction/Free/Quiver.v:550 FreeForgetfulAdjunction (built from UniversalArrowQuiverCat at :518, i.e. directly, not via an adjoint functor theorem) and the free-PROP universal property; Instance/CMon.v:169 CMon_Forget exists with no left adjoint. All line numbers verified. Nothing exhibits the generated-subgroup solution set or the injectivity of X → UFX."
+    }
+  },
+  {
+    "id": "maclane:V.6:def-algebraic-type",
+    "classification": "PRESENT",
+    "aliases": [
+      "type of an algebraic system",
+      "graded set of operators / signature with arities",
+      "arity function Ω → ℕ",
+      "action of Ω on a set S / n-ary operation S^n → S",
+      "algebraic theory, variety of algebras, equational theory (Ω, E)",
+      "OpSignature / OpAlgebra / EqSignature / Signature / SMT"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Comp.v",
+        "line": 45,
+        "symbol": "OpSignature",
+        "intree_statement": "Record OpSignature := { operation : Type ; (* (Names of) operations. *) arity : operation → Type (* Each operation has an arity. *) }."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 54,
+        "symbol": "OpAlgebra",
+        "intree_statement": "Record OpAlgebra (S : OpSignature) := { carrier :> Type ; op : ∀ o : operation S, (arity o → carrier) → carrier (* no equations *) }."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 240,
+        "symbol": "EqSignature",
+        "intree_statement": "Record EqSignature (S : OpSignature) := { eq :> Type ; eq_arity : eq → Type ; lhs : ∀ (A : OpAlgebra S) (e : eq), (eq_arity e → A) → A ; rhs : ∀ (A : OpAlgebra S) (e : eq), (eq_arity e → A) → A ; lhs_natural : ∀ A B (f : AlgHom A B) e args, f (lhs A e args) = lhs B e (fun i => f (args i)) ; rhs_natural : ... }."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 268,
+        "symbol": "Algebra",
+        "intree_statement": "Record Algebra (S : OpSignature) (E : EqSignature S) := { alg :> OpAlgebra S ; equations : ∀ (e : E) (args : eq_arity e → alg), lhs e args = rhs e args }."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 274,
+        "symbol": "nullary / unary / binary / ternary",
+        "intree_statement": "Inductive nullary : Set := . Inductive unary : Set := Only. Inductive binary : Set := Fst | Snd. Inductive ternary : Set := One | Two | Three.  (* the finite arities Mac Lane names: arity 2 = binary, arity 3 = ternary *)"
+      },
+      {
+        "file": "Construction/PROP/Signature.v",
+        "line": 50,
+        "symbol": "Signature",
+        "intree_statement": "Definition Signature : Type := nat -> nat -> Type.  (* the nat-graded variant: [Sig m n] is the Type of generator names with m input wires (the domain/arity) and n output wires *)"
+      },
+      {
+        "file": "Construction/PROP/Presentation.v",
+        "line": 113,
+        "symbol": "SMT",
+        "intree_statement": "Record SMT : Type := { smt_sig : Signature; smt_eqs : EqSystem smt_sig }.  (* 'A symmetric monoidal theory: generators plus equations' — the (Ω, E) pair *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A type τ of an algebraic system consists of a set Ω of operators together with a set E of identities. Ω is a GRADED SET: a set with a function assigning to each ω ∈ Ω a natural number n, its arity (arity 2 = binary, 3 = ternary, ...). An ACTION A of Ω on a set S assigns to each operator ω of arity n an n-ary operation ω_A : S^n → S, where S^n is the n-fold cartesian product.",
+      "intree": "Record OpSignature := { operation : Type ; arity : operation → Type }.  Record OpAlgebra (S : OpSignature) := { carrier :> Type ; op : ∀ o : operation S, (arity o → carrier) → carrier }.  Record EqSignature (S : OpSignature) := { eq :> Type ; eq_arity : eq → Type ; lhs, rhs : ∀ (A : OpAlgebra S) (e : eq), (eq_arity e → A) → A ; lhs_natural ; rhs_natural }.  Record Algebra (S : OpSignature) (E : EqSignature S) := { alg :> OpAlgebra S ; equations : ∀ e args, lhs e args = rhs e args }.",
+      "strength_comparison": "intree-stronger, with two presentational deviations. STRONGER: `arity : operation → Type` grades by an arbitrary TYPE rather than by a natural number, so infinitary operations are admitted (the file says so explicitly: 'The main trick is that the arity of an operation is *not* a number but rather a type. For instance, the arity of a binary operation is a type with two elements. (And nothing prevents us from having an infinite type as arity.)'); Mac Lane's finite case is recovered by the supplied `nullary/unary/binary/ternary` arities, and the nat-graded reading is available separately as `Signature : nat -> nat -> Type` (Construction/PROP/Signature.v:50, itself bigraded so a generator may have any output coarity, a further generalisation of Mac Lane's single-output operators). DEVIATIONS, both recorded rather than hidden: (1) the n-ary operation S^n → S is written in exponential form `(arity o → carrier) → carrier` rather than as an n-fold cartesian product — isomorphic, and the standard dependently-typed encoding; (2) `carrier :> Type` is a bare Type with Leibniz `=`, not one of the library's hom-setoids, and `AlgHom.op_commute` / `Algebra.equations` are stated with `=` — a deliberate departure from the library's setoid discipline confined to this Coq-native instance file (which also costs it functional extensionality at Instance/Comp.v:130). `EqSignature` moreover REQUIRES lhs/rhs to be natural in the algebra, a well-formedness condition Mac Lane leaves implicit ('This way it's impossible to write down strange equations that involve something other than the operations') — i.e. it forces the two sides of an identity to be derived operators, which is exactly his intent."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "I OVERTURN MY OWN preliminary here, in the classifier's favour. My blind pass started from the PROP spine (Construction/PROP/Signature.v's Signature : nat -> nat -> Type and Presentation.v's SMT) and was heading for PARTIAL on the grounds that a PROP generator is many-in/many-out and its valuations land in an arbitrary PROP rather than acting on a SET. The classifier found the better counterpart, which I then read in full: Instance/Comp.v's universal-algebra module is a direct match for Mac Lane's τ = (Ω, E). Verified at the cited lines — OpSignature (:45) is the graded set of operators (operation : Type, arity : operation → Type); OpAlgebra (:54) is exactly an ACTION of Ω on a carrier, op : ∀ o, (arity o → carrier) → carrier, i.e. ω_A : S^n → S in exponential form; EqSignature (:240) is the set E of identities with lhs/rhs plus naturality; Algebra S E (:268) is the algebraic system of type τ; and nullary/unary/binary/ternary (:274-277) supply Mac Lane's named finite arities. The strength_comparison is honest about all three deviations (Type-graded rather than nat-graded arity, exponential rather than cartesian-power form, and the Leibniz-equality/bare-Type departure from the library's setoid discipline that costs functional extensionality at :130). Instance/Comp.v is _CoqProject-registered (line 177) with a .vo present. PRESENT is right."
+    }
+  },
+  {
+    "id": "maclane:V.6:def-derived-operator",
+    "classification": "PARTIAL",
+    "aliases": [
+      "derived operators Λ of a graded set Ω",
+      "derived operations / term operations / polynomial operations",
+      "closure under composition and substitution",
+      "term algebra / free algebra on generators / Tree",
+      "clone of operations, free Lawvere theory on a signature",
+      "unique extension of an action of Ω to an action of Λ"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Comp.v",
+        "line": 88,
+        "symbol": "Tree / Free",
+        "intree_statement": "Inductive Tree : Type := | generator : X → Tree | node : ∀ (o : operation S), (arity o → Tree) → Tree.  Definition Free : OpAlgebra S := {| carrier := Tree; op := node |}.  (* Mac Lane's composition clause ω(λ₁,...,λₙ) is `node` *)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 102,
+        "symbol": "induced_map",
+        "intree_statement": "Fixpoint induced_map (t : Tree) : A := match t with | generator x => h x | node o arg => op A o (fun i => induced_map (arg i)) end.  (* h : X → A; taking A := Free S Y and h := fun i => generator (f i) is substitution along an arbitrary f : X → Y *)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 108,
+        "symbol": "induced_hom",
+        "intree_statement": "Definition induced_hom : AlgHom Free A.  (* existence half: every action A of S on a set, plus a valuation h of the variables, extends to a homomorphism out of the term algebra *)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 116,
+        "symbol": "from_free_unique",
+        "intree_statement": "Theorem from_free_unique (f g : AlgHom Free A) : (∀ x : X, f (generator x) = g (generator x)) → f ≈ g.  (* uniqueness half of 'every action of Ω extends uniquely' *)"
+      },
+      {
+        "file": "Construction/PROP/Term.v",
+        "line": 39,
+        "symbol": "Term",
+        "intree_statement": "Inductive Term : nat -> nat -> Type := | T_id : forall n, Term n n | T_braid : forall m n, Term (m + n) (n + m) | T_comp : forall {m n p}, Term n p -> Term m n -> Term m p | T_tens : forall {m1 n1 m2 n2}, Term m1 n1 -> Term m2 n2 -> Term (m1 + m2) (n1 + n2) | T_gen : forall {m n}, S m n -> Term m n.  (* the ARITY-GRADED derived-operator candidate — but the only variable-rearranging generator is the braid *)"
+      },
+      {
+        "file": "Construction/PROP/Universal.v",
+        "line": 603,
+        "symbol": "interp_unique",
+        "intree_statement": "Theorem interp_unique : ∀ m n (t : Term S m n), ...  (* any strict symmetric competitor agreeing with the valuation v on generators agrees on all terms — the unique-extension property at the arity-graded level *)"
+      }
+    ],
+    "statement_record": {
+      "book": "From Ω one forms the set Λ of all DERIVED OPERATORS, closed under: (composition) given ω of arity n and derived λ₁,...,λₙ of arities m₁,...,mₙ, the composite ω(λ₁,...,λₙ) is derived of arity m₁+...+mₙ; (substitution) given λ of arity n and ANY function f : n → m between finite sets, substitution of f into λ yields a derived operator θ of arity m with θ(x₁,...,x_m) = λ(x_{f1},...,x_{fn}). Every action A of Ω on a set S extends uniquely to an action of Λ on S.",
+      "intree": "Inductive Tree := generator : X → Tree | node : ∀ o, (arity o → Tree) → Tree;  Definition Free := {| carrier := Tree; op := node |};  Definition induced_hom : AlgHom Free A;  Theorem from_free_unique (f g : AlgHom Free A) : (∀ x : X, f (generator x) = g (generator x)) → f ≈ g.  Separately, arity-graded: Inductive Term : nat -> nat -> Type (T_id / T_braid / T_comp / T_tens / T_gen) with Theorem interp_unique.",
+      "strength_comparison": "intree-weaker in packaging and, for the graded version, in the substitution clause. The Comp.v term algebra realises Mac Lane's clauses in substance — composition is `node`, substitution along an arbitrary f (including duplication and deletion of variables) is `induced_map` at A := Free S Y with h := generator ∘ f, and the unique-extension claim is `induced_hom` + `from_free_unique` — but `Tree` is a single unindexed type, never presented as an arity-GRADED set Λ, and no 'action of Λ on S' is ever packaged as a structure. The arity-graded in-tree candidate, `Term S m n`, is strictly the SYMMETRIC MONOIDAL (linear) closure: its only variable-rearranging generator is `T_braid`, a bijection, so substitution along a non-injective or non-surjective f : n → m is not expressible — the cartesian closure Mac Lane means is not what `Term` computes. `from_free_unique` also costs functional extensionality (Instance/Comp.v:124-130, flagged in-file: 'How to remove this axiom? ... genuinely needs functional extensionality')."
+    },
+    "gap": "Three precise gaps. (1) The arity-graded set Λ of derived operators is never defined: `Instance/Comp.v`'s `Tree` is unindexed (an element is a term over a whole variable type X, not an operator of a specific arity n), and no operation on it is named as 'composition' or 'substitution' — both are available only by instantiating `induced_map`. (2) No 'action of Λ on S' is packaged, so 'every action of Ω extends uniquely to an action of Λ' exists only in its free-algebra guise (`induced_hom` + `from_free_unique`), never in the form of the book's statement. (3) The only arity-graded term development in the tree, `Construction/PROP/Term.v`'s `Term S m n`, closes under composition, tensor and BRAIDS only, so Mac Lane's substitution clause along an arbitrary f : n → m (duplication/deletion of variables) is not available there; the cartesian counterpart — a free Lawvere theory or free cartesian PROP on a signature, whose hom n → 1 would BE Λ_n — is not constructed: `Theory/Lawvere.v:116` `LawvereTheory` is a class over an abstract cartesian category, and the only in-tree instance `FinSetOp_Lawvere` (Instance/FinSet/Lawvere.v) is the base theory on FinSet^op with no generating operations.",
+    "negative_search_log": [
+      "grep -rin --include=*.v 'derived operator|derived operation|term operation|polynomial operation|clone' . — 0 hits for any of these names",
+      "grep -rn --include=*.v -iE 'arity|Signature|graded set' . — arity/signature machinery is Instance/Comp.v (OpSignature), Construction/PROP/Signature.v + Construction/ColouredPROP/Signature.v, Theory/Multicategory/*; 'graded set' appears nowhere",
+      "grep -n 'Class LawvereTheory' -A 25 Theory/Lawvere.v — the class carries law_cat / law_terminal / law_cartesian / law_of_nat with strictness equalities; there is no free-Lawvere-theory-on-a-signature construction, so no arity-graded Λ with cartesian substitution",
+      "find . -name '*.v' -path '*PROP*' — 42 files; the free and presented PROP towers quotient only by strict-SMC (and, for presentations, user axioms), never by cartesian copy/discard on a bare signature"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, for the same reason the record gives as gap (3): Construction/PROP/Term.v:39's Term S m n closes under T_comp, T_tens and T_braid only, and a braid is a bijection, so Mac Lane's substitution along an arbitrary f : n → m (which duplicates and deletes variables, and therefore needs cartesian copy/discard) is not expressible there. I verified the Comp.v half after the fact: Tree/Free (:88, :92), induced_map (:102), induced_hom (:108) and from_free_unique (:116) are all at the cited lines and quoted accurately, and the substitution reading is genuinely available — induced_map at A := Free S Y with h := generator ∘ f is renaming/substitution — but is nowhere named or packaged. Confirmed the funext cost: the in-file comment at :124-130 flags it ('How to remove this axiom? ... genuinely needs functional extensionality'). Confirmed the Lawvere leg of the gap: LawvereTheory (Theory/Lawvere.v:116) is a class over an abstract cartesian category and rg for ': LawvereTheory' shows FinSetOp_Lawvere (Instance/FinSet/Lawvere.v:39) is the ONLY instance in the tree — no free Lawvere theory on a signature exists, so the arity-graded Λ with cartesian substitution is genuinely missing. Construction/PROP/Universal.v:603 interp_unique is real and correctly described. Also checked ColouredPROP: its signatures are list-of-colour-graded and equally braid-only, so it does not close the gap either."
+    }
+  }
+]

@@ -1,0 +1,594 @@
+{
+  "book": "awodey",
+  "range": {"pdf_start": 66, "pdf_end": 87},
+  "pages": [
+    {
+      "pdf_page": 66,
+      "book_page": "57",
+      "empty": true,
+      "items": [],
+      "notes": "Chapter 3 title 'Duality', opening motivation, and section 3.1 header. Restates the category definition (two sorts objects/arrows; operations dom, cod, 1_A, g o f; the seven axioms) and the partiality side-condition dom(g)=cod(f). Pure recap of the Chapter-1 category definition; no new inventoriable item."
+    },
+    {
+      "pdf_page": 67,
+      "book_page": "58",
+      "empty": false,
+      "items": ["awodey:3.1:prop1"],
+      "notes": "Introduces the syntactic dual-statement operation Sigma* (replace g o f by f o g, cod by dom, dom by cod) and observes CT* = CT (the category axioms are self-dual). This construction is folded into Proposition 3.1's summary."
+    },
+    {
+      "pdf_page": 68,
+      "book_page": "59",
+      "empty": false,
+      "items": ["awodey:3.1:remark-op-involution", "awodey:3.1:prop2", "awodey:3.2:def3"],
+      "notes": "End of 3.1 (opposite-category interpretation of duality, eq (3.1)), Prop 3.2 with proof, section 3.2 Coproducts header, and Definition 3.3 (product)."
+    },
+    {
+      "pdf_page": 69,
+      "book_page": "60",
+      "empty": false,
+      "items": ["awodey:3.2:def-coproduct", "awodey:3.2:example4"],
+      "notes": "Dualizes the product to the coproduct (called 'dual-product' then 'coproduct'); introduces injections i1,i2 and copairing [f,g]. Example 3.4 gives the Sets coproduct."
+    },
+    {
+      "pdf_page": 70,
+      "book_page": "61",
+      "empty": false,
+      "items": ["awodey:3.2:remark-finite-copower", "awodey:3.2:example5"],
+      "notes": "Explicit copairing formula and its uniqueness in Sets (continuation of Example 3.4); remark that every finite set is a copower of 1; Example 3.5 (free monoids) begins."
+    },
+    {
+      "pdf_page": 71,
+      "book_page": "62",
+      "empty": false,
+      "items": ["awodey:3.2:example6"],
+      "notes": "Conclusion of Example 3.5 (UMP diagram; free monoid functor M : Sets -> Mon preserves coproducts). Example 3.6 (Top coproduct)."
+    },
+    {
+      "pdf_page": 72,
+      "book_page": "63",
+      "empty": false,
+      "items": ["awodey:3.2:example7", "awodey:3.2:example8", "awodey:3.2:example9"],
+      "notes": "Example 3.7 (poset coproduct = join), Example 3.8 (sum types = coproducts in the category of types), Example 3.9 (coproduct of monoids) begins."
+    },
+    {
+      "pdf_page": 73,
+      "book_page": "64",
+      "empty": false,
+      "items": ["awodey:3.2:construction-free-product-groups", "awodey:3.2:example10"],
+      "notes": "Conclusion of Example 3.9 (copairing homomorphism universal property); the free product = coproduct in Groups; Example 3.10 (coproduct of abelian groups in Ab)."
+    },
+    {
+      "pdf_page": 74,
+      "book_page": "65",
+      "empty": false,
+      "items": ["awodey:3.2:prop11", "awodey:3.2:construction-coproduct-functor"],
+      "notes": "Proposition 3.11 with computed proof. Historical Mac Lane / abelian-categories remark (motivational, skipped). Empty coproduct = initial object 0; coproduct of arrows f+f' and the coproduct functor + : C x C -> C."
+    },
+    {
+      "pdf_page": 75,
+      "book_page": "66",
+      "empty": false,
+      "items": ["awodey:3.2:prop12", "awodey:3.2:remark-coproduct-assoc", "awodey:3.3:def13"],
+      "notes": "Proposition 3.12 (coproducts unique up to iso, proof by duality); coproduct associativity up to iso; section 3.3 Equalizers header; Definition 3.13 (equalizer)."
+    },
+    {
+      "pdf_page": 76,
+      "book_page": "67",
+      "empty": false,
+      "items": ["awodey:3.3:example14", "awodey:3.3:construction-char-function"],
+      "notes": "Example 3.14 (equalizer in Sets = inclusion of the equationally-defined subset) and the characteristic-function development (2 = {T,F}, chi_U, variety V_phi, U as an equalizer of T! and chi_U). This material continues onto PDF 77 (Hom(A,2) iso P(A)) which is inside the adjacent agent's range but recorded here since it starts on page 76. Proposition 3.15 (equalizers are monic) starts on PDF 77 and is recorded by the adjacent agent."
+    },
+    {
+      "pdf_page": 77,
+      "book_page": "68",
+      "empty": false,
+      "items": ["awodey:3.3:prop15"],
+      "notes": "Top of page continues Example 3.14 (started PDF 76, printed 67 — the characteristic-function / Hom(A,2) iso P(A) isomorphism); that example starts outside this owned range, so it is recorded by the other agent (item awodey:3.3:example14). Proposition 3.15 starts on this page."
+    },
+    {
+      "pdf_page": 78,
+      "book_page": "69",
+      "empty": false,
+      "items": ["awodey:3.4:example16"],
+      "notes": "Example 3.16 (equalizers in posets/monoids/top; kernel in Ab). Section 3.4 Coequalizers begins near bottom with a set-theory review of equivalence relations (reflexive/symmetric/transitive) — skipped as standard review, not a categorical construction."
+    },
+    {
+      "pdf_page": 79,
+      "book_page": "70",
+      "empty": false,
+      "items": ["awodey:3.4:def17"],
+      "notes": "Review of equivalence class [x], partition, quotient X/~ (skipped as standard set-theory review). Definition 3.17 (coequalizer) starts near bottom."
+    },
+    {
+      "pdf_page": 80,
+      "book_page": "71",
+      "empty": false,
+      "items": ["awodey:3.4:prop18", "awodey:3.4:example19"],
+      "notes": "Proposition 3.18 and Example 3.19 (Example 3.19 continues onto PDF 81)."
+    },
+    {
+      "pdf_page": 81,
+      "book_page": "72",
+      "empty": false,
+      "items": ["awodey:3.4:construction-sets-coeq", "awodey:3.4:example20"],
+      "notes": "Continuation of Example 3.19 (recorded under PDF 80). In-prose claim that Sets has coequalizers via generated equivalence relation (recorded as construction; details left as exercise = Ex 4). Example 3.20 (Presentations of Algebras) starts here and continues onto PDF 82-83."
+    },
+    {
+      "pdf_page": 82,
+      "book_page": "73",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation of Example 3.20 (recorded under PDF 81): forcing both relations simultaneously, UMP of the presented algebra, notation Q iso F(x,y,z)/(xy=z,y^2=1), general finite presentation, 'finitely presented'."
+    },
+    {
+      "pdf_page": 83,
+      "book_page": "74",
+      "empty": false,
+      "items": ["awodey:3.4:remark21", "awodey:3.4:prop22"],
+      "notes": "Warning 3.21 (numbered environment, recorded as remark). General generators/relations coequalizer F(R) => F(G) -> F(G)/(r1=r2). Proposition 3.22 starts here; proof continues onto PDF 84."
+    },
+    {
+      "pdf_page": 84,
+      "book_page": "75",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation: proof of Proposition 3.22 (recorded under PDF 83), including the resolution diagram (3.2) T^2M => TM -> M with epsilon,mu,pi and computation (3.3)."
+    },
+    {
+      "pdf_page": 85,
+      "book_page": "76",
+      "empty": false,
+      "items": ["awodey:3:ex1", "awodey:3:ex2", "awodey:3:ex3", "awodey:3:ex4", "awodey:3:ex5", "awodey:3:ex6"],
+      "notes": "Section 3.5 Exercises. Exercises 1(a,b), 2, 3, 4, 5(starred), 6(a). Exercise 6 continues onto PDF 86 (parts b,c,d)."
+    },
+    {
+      "pdf_page": 86,
+      "book_page": "77",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation of Exercise 6 (recorded under PDF 85): parts (b) kernel of quotient A->A/R is R; (c) quotient A->A/<R> is coequalizer of projections R => A; (d) <R> as kernel of the coequalizer."
+    },
+    {
+      "pdf_page": 87,
+      "book_page": "78",
+      "empty": true,
+      "items": [],
+      "notes": "Blank verso (only running head 'CHAPTER 3. DUALITY'). End of chapter 3."
+    }
+  ],
+  "items": [
+    {
+      "id": "awodey:3.1:prop1",
+      "kind": "proposition",
+      "number": "3.1",
+      "name": "Formal duality",
+      "statement_summary": "The dual Sigma* of an elementary category-theory sentence Sigma is obtained by swapping composition order (g o f <-> f o g) and swapping dom with cod. Because the category axioms are self-dual (CT* = CT), whenever the axioms for categories prove Sigma they also prove Sigma*: if C |- Sigma then C |- Sigma*.",
+      "book_section": "3.1",
+      "book_page": "58",
+      "pdf_pages": [67],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.1:remark-op-involution",
+      "kind": "remark",
+      "number": null,
+      "name": "opposite category is an involution",
+      "statement_summary": "For every category C, taking the opposite twice returns the same category: (C^op)^op = C (equation (3.1)). An interpretation of Sigma in C yields an interpretation of the dual Sigma* in C^op.",
+      "book_section": "3.1",
+      "book_page": "59",
+      "pdf_pages": [68],
+      "cross_refs": [],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "awodey:3.1:prop2",
+      "kind": "proposition",
+      "number": "3.2",
+      "name": "Conceptual duality",
+      "statement_summary": "If a statement Sigma about categories holds for all categories, then its dual Sigma* also holds for all categories. Proof: Sigma holds in every C^op, so Sigma* holds in every (C^op)^op = C.",
+      "book_section": "3.1",
+      "book_page": "59",
+      "pdf_pages": [68],
+      "cross_refs": ["awodey:3.1:remark-op-involution"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:def3",
+      "kind": "definition",
+      "number": "3.3",
+      "name": "product",
+      "statement_summary": "A diagram A <-p1- P -p2-> B is a product of A and B if for every object Z with maps z1 : Z -> A and z2 : Z -> B there is a unique u : Z -> P with p_i o u = z_i (i = 1,2).",
+      "book_section": "3.2",
+      "book_page": "59",
+      "pdf_pages": [68],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:def-coproduct",
+      "kind": "definition",
+      "number": null,
+      "name": "coproduct",
+      "statement_summary": "The dual of a product: a diagram A -q1-> Q <-q2- B is a coproduct of A and B if for every object Z with z1 : A -> Z and z2 : B -> Z there is a unique u : Q -> Z with u o q_i = z_i. Written A -i1-> A+B <-i2- B; the copairing of z1,z2 is [z1,z2] : A+B -> Z; the coprojections i1,i2 are called injections. A coproduct in C is exactly a product in C^op.",
+      "book_section": "3.2",
+      "book_page": "60",
+      "pdf_pages": [69],
+      "cross_refs": ["awodey:3.2:def3"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:3.2:example4",
+      "kind": "example",
+      "number": "3.4",
+      "name": "coproduct in Sets (disjoint union)",
+      "statement_summary": "In Sets the coproduct A+B is the disjoint union {(a,1) | a in A} union {(b,2) | b in B}, with injections i1(a) = (a,1), i2(b) = (b,2). The copairing [f,g] : A+B -> Z is defined by [f,g](x,1)=f(x), [f,g](x,2)=g(x), and is the unique map with [f,g] o i1 = f, [f,g] o i2 = g.",
+      "book_section": "3.2",
+      "book_page": "60",
+      "pdf_pages": [69, 70],
+      "cross_refs": ["awodey:3.2:def-coproduct"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:remark-finite-copower",
+      "kind": "remark",
+      "number": null,
+      "name": "finite set as copower of 1",
+      "statement_summary": "In Sets every finite set A is a coproduct of copies of the singleton: A iso 1 + 1 + ... + 1 (n times) where n = card(A), since a function out of A is determined by its values on the elements. Motivates the notation 2 = 1+1, 3 = 1+1+1, etc.",
+      "book_section": "3.2",
+      "book_page": "61",
+      "pdf_pages": [70],
+      "cross_refs": ["awodey:3.2:example4"],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "awodey:3.2:example5",
+      "kind": "example",
+      "number": "3.5",
+      "name": "coproduct of free monoids",
+      "statement_summary": "For free monoids M(A) and M(B) on sets A and B, their coproduct in Mon is M(A) + M(B) iso M(A+B). Proved abstractly by combining the UMPs of M(A), M(B), the set coproduct A+B, and M(A+B) via the generator insertions eta. Consequence: the free-monoid functor M : Sets -> Mon preserves coproducts.",
+      "book_section": "3.2",
+      "book_page": "61",
+      "pdf_pages": [70, 71],
+      "cross_refs": ["awodey:3.2:def-coproduct"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:example6",
+      "kind": "example",
+      "number": "3.6",
+      "name": "coproduct in Top (disjoint union space)",
+      "statement_summary": "In Top the coproduct X+Y of two spaces is their disjoint union with open sets O(X+Y) iso O(X) x O(Y); for discrete spaces this matches O(X) = P(X) iso 2^X, giving O(X+Y) iso 2^{X+Y} iso 2^X x 2^Y iso O(X) x O(Y). Also: coproducts of posets by juxtaposition, and rooted posets Pos_0 with coproduct A +_{Pos0} B = (A +_Pos B)/(0_A = 0_B) identifying the two basepoints.",
+      "book_section": "3.2",
+      "book_page": "62",
+      "pdf_pages": [71],
+      "cross_refs": ["awodey:3.2:def-coproduct"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:example7",
+      "kind": "example",
+      "number": "3.7",
+      "name": "coproduct in a poset is the join",
+      "statement_summary": "In a poset P viewed as a category, the coproduct of elements p, q is their join (least upper bound) p v q: p <= p+q and q <= p+q, and whenever p <= z and q <= z then p+q <= z.",
+      "book_section": "3.2",
+      "book_page": "63",
+      "pdf_pages": [72],
+      "cross_refs": ["awodey:3.2:def-coproduct"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:example8",
+      "kind": "example",
+      "number": "3.8",
+      "name": "sum types are coproducts in the category of types",
+      "statement_summary": "Sum types in the lambda-calculus, formulated with case terms, are coproducts in the category of types defined in subsection 2.6.",
+      "book_section": "3.2",
+      "book_page": "63",
+      "pdf_pages": [72],
+      "cross_refs": ["awodey:3.2:def-coproduct"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:example9",
+      "kind": "example",
+      "number": "3.9",
+      "name": "coproduct of monoids",
+      "statement_summary": "Two monoids A, B have coproduct A+B = M(|A|+|B|)/~, the free monoid on words over the disjoint union of underlying sets, quotiented by the least congruence identifying the two units with the empty word and collapsing adjacent same-side letters to their monoid product. Unit is the class of the empty word; multiplication is concatenation of representatives; injections i_A(a)=[a], i_B(b)=[b]; the copairing [f,g] : A+B -> M for homomorphisms f : A -> M, g : B -> M is the unique homomorphism with [f,g] o i_A = f, [f,g] o i_B = g, obtained by lifting [|f|,|g|] to the free monoid and checking it respects ~.",
+      "book_section": "3.2",
+      "book_page": "63",
+      "pdf_pages": [72, 73],
+      "cross_refs": ["awodey:3.2:def-coproduct", "awodey:3.2:example5"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:construction-free-product-groups",
+      "kind": "construction",
+      "number": null,
+      "name": "free product of groups",
+      "statement_summary": "The monoid-coproduct construction also gives coproducts in Groups, where the coproduct of A and B is called the free product, written A (+) B.",
+      "book_section": "3.2",
+      "book_page": "64",
+      "pdf_pages": [73],
+      "cross_refs": ["awodey:3.2:example9"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:3.2:example10",
+      "kind": "example",
+      "number": "3.10",
+      "name": "coproduct of abelian groups in Ab",
+      "statement_summary": "For abelian groups A, B the free product A (+) B need not be abelian; the coproduct in Ab is instead the direct sum on the underlying product set |A+B| = |A x B|, with injections i_A(a) = (a, 0_B) and i_B(b) = (0_A, b), and copairing [f,g](a,b) = f(a) +_X g(b) for homomorphisms f : A -> X, g : B -> X (that this is the unique homomorphism satisfying the coproduct UMP is left as an exercise).",
+      "book_section": "3.2",
+      "book_page": "64",
+      "pdf_pages": [73],
+      "cross_refs": ["awodey:3.2:construction-free-product-groups", "awodey:3.2:prop11"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:prop11",
+      "kind": "proposition",
+      "number": "3.11",
+      "name": "coproduct iso product in Ab",
+      "statement_summary": "In the category Ab of abelian groups there is a canonical isomorphism between the binary coproduct and the binary product, A+B iso A x B. The witnessing arrow is theta = [<1_A, 0_B>, <0_A, 1_B>] : A+B -> A x B, verified by computing theta(a,b) = (a,b).",
+      "book_section": "3.2",
+      "book_page": "65",
+      "pdf_pages": [74],
+      "cross_refs": ["awodey:3.2:example10", "awodey:3.2:def3", "awodey:3.2:def-coproduct"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:construction-coproduct-functor",
+      "kind": "construction",
+      "number": null,
+      "name": "coproduct functor",
+      "statement_summary": "In a category C with binary coproducts: the empty coproduct is an initial object 0; the coproduct of two arrows is f + f' : A + A' -> B + B'; and these assemble into a coproduct functor + : C x C -> C, all obtained by duality from the corresponding product facts.",
+      "book_section": "3.2",
+      "book_page": "65",
+      "pdf_pages": [74],
+      "cross_refs": ["awodey:3.2:def-coproduct"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:3.2:prop12",
+      "kind": "proposition",
+      "number": "3.12",
+      "name": "coproducts unique up to isomorphism",
+      "statement_summary": "Coproducts are unique up to isomorphism. Proved by duality from the uniqueness of products, using that the dual of 'isomorphism' is 'isomorphism'.",
+      "book_section": "3.2",
+      "book_page": "66",
+      "pdf_pages": [75],
+      "cross_refs": ["awodey:3.2:def-coproduct"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.2:remark-coproduct-assoc",
+      "kind": "remark",
+      "number": null,
+      "name": "coproduct associativity up to iso",
+      "statement_summary": "Binary coproducts are associative up to isomorphism: (A+B)+C iso A+(B+C), shown by duality from associativity of products.",
+      "book_section": "3.2",
+      "book_page": "66",
+      "pdf_pages": [75],
+      "cross_refs": ["awodey:3.2:def-coproduct"],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "awodey:3.3:def13",
+      "kind": "definition",
+      "number": "3.13",
+      "name": "equalizer",
+      "statement_summary": "In any category C, given parallel arrows f, g : A -> B, an equalizer of f and g consists of an object E and e : E -> A with f o e = g o e, universal: for any z : Z -> A with f o z = g o z there is a unique u : Z -> E with e o u = z.",
+      "book_section": "3.3",
+      "book_page": "66",
+      "pdf_pages": [75],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.3:example14",
+      "kind": "example",
+      "number": "3.14",
+      "name": "equalizer in Sets (equational subset)",
+      "statement_summary": "In Sets the equalizer of f, g : A -> B is the inclusion i : {x in A | f(x) = g(x)} -> A: any h : Z -> A with f o h = g o h factors uniquely through i via h-bar : Z -> {x | f(x)=g(x)}, uniqueness because i is monic.",
+      "book_section": "3.3",
+      "book_page": "67",
+      "pdf_pages": [76, 77],
+      "cross_refs": ["awodey:3.3:def13"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.3:construction-char-function",
+      "kind": "construction",
+      "number": null,
+      "name": "characteristic function and Hom(A,2) iso P(A)",
+      "statement_summary": "Every subset U of A arises as an equalizer, canonically via the two-element set 2 = {T, F} and the characteristic function chi_U : A -> 2 (chi_U(x) = T iff x in U), so that U is the equalizer of chi_U and the constant map T! = T o ! : A -> 1 -> 2. Conversely any phi : A -> 2 yields the variety (equational subset) V_phi = {x in A | phi(x) = T}. The operations chi and V are mutually inverse, giving a bijection Hom(A,2) iso P(A) (the powerset). Note: the Hom(A,2) iso P(A) conclusion and Proposition 3.15 lie on PDF 77; this construction is recorded here because it begins on PDF 76.",
+      "book_section": "3.3",
+      "book_page": "67",
+      "pdf_pages": [76, 77],
+      "cross_refs": ["awodey:3.3:example14"],
+      "flags": ["unnumbered-construction", "continued-past-owned-range"]
+    },
+    {
+      "id": "awodey:3.3:prop15",
+      "kind": "proposition",
+      "number": "3.15",
+      "name": "an equalizer is monic",
+      "statement_summary": "In any category, if e : E -> A is an equalizer of some parallel pair of arrows f,g : A => B, then e is a monomorphism. Proof: from ex=ey put z=ex=ey, then fz=gz gives a unique u:Z->E with eu=z, and both x and y satisfy this, so x=y.",
+      "book_section": "3.3",
+      "book_page": "68",
+      "pdf_pages": [77],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.4:example16",
+      "kind": "example",
+      "number": "3.16",
+      "name": "equalizers in posets, monoids, spaces; kernel in Ab",
+      "statement_summary": "Equalizers in concrete categories are constructed on the underlying-function equalizer subset A(f=g) = {x in A : f(x)=g(x)} subset A with inherited structure: induced order (posets), subspace topology (Top), submonoid with restricted operations (monoids, inclusion is a homomorphism). In abelian groups, since f(x)=g(x) iff (f-g)(x)=0, the equalizer of f,g equals the kernel ker(f-g) = A(h,0) into A of the homomorphism h=f-g, i.e. the equalizer of h against the zero map.",
+      "book_section": "3.4",
+      "book_page": "69",
+      "pdf_pages": [78],
+      "cross_refs": ["awodey:3.3:prop15"],
+      "flags": ["construction-in-example"]
+    },
+    {
+      "id": "awodey:3.4:def17",
+      "kind": "definition",
+      "number": "3.17",
+      "name": "coequalizer",
+      "statement_summary": "For a parallel pair f,g : A -> B in a category C, a coequalizer is an object Q with a morphism q : B -> Q satisfying qf = qg, universal with this property: for every object Z and z : B -> Z with zf = zg there exists a unique u : Q -> Z with uq = z. Dual notion to equalizer.",
+      "book_section": "3.4",
+      "book_page": "70",
+      "pdf_pages": [79],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.4:prop18",
+      "kind": "proposition",
+      "number": "3.18",
+      "name": "a coequalizer is epic",
+      "statement_summary": "If q : B -> Q is a coequalizer of some parallel pair of arrows, then q is an epimorphism. Obtained by duality: a coequalizer in C is an equalizer in C^op, hence monic there, hence epic in C (dual of Proposition 3.15).",
+      "book_section": "3.4",
+      "book_page": "71",
+      "pdf_pages": [80],
+      "cross_refs": ["awodey:3.3:prop15", "awodey:3.4:def17"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.4:example19",
+      "kind": "example",
+      "number": "3.19",
+      "name": "quotient by an equivalence relation as a coequalizer",
+      "statement_summary": "For an equivalence relation R subset X x X on a set X, with r1,r2 : R => X the two projections (r_k = p_k o i for the inclusion i : R into X x X), the canonical projection pi : X -> X/R, x |-> [x], is the coequalizer of r1 and r2 in Sets. A function f : X -> Y factors through pi (as f = f-bar pi) iff f respects R, i.e. (x,x') in R implies f(x)=f(x'), which is exactly fr1 = fr2; the mediating f-bar is unique because pi is epic.",
+      "book_section": "3.4",
+      "book_page": "71",
+      "pdf_pages": [80, 81],
+      "cross_refs": ["awodey:3.4:def17"],
+      "flags": ["construction-in-example"]
+    },
+    {
+      "id": "awodey:3.4:construction-sets-coeq",
+      "kind": "construction",
+      "number": null,
+      "name": "Sets has all coequalizers",
+      "statement_summary": "The coequalizer in Sets of an arbitrary parallel pair f,g : A => B is constructed by quotienting B by the equivalence relation generated by the equations f(x)=g(x) for all x in A; the quotient map is the coequalizer. Stated in prose with details deferred to an exercise (see Exercise 4).",
+      "book_section": "3.4",
+      "book_page": "72",
+      "pdf_pages": [81],
+      "cross_refs": ["awodey:3.4:def17", "awodey:3:ex4"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:3.4:example20",
+      "kind": "example",
+      "number": "3.20",
+      "name": "presentations of algebras by generators and relations",
+      "statement_summary": "In a category of algebras with free algebras F(n) on all sets and all coequalizers, an algebra presented by generators g_1,...,g_n and relations l_1=r_1,...,l_m=r_m is constructed as the coequalizer q : F(n) -> Q = F(n)/(l=r) of the pair l=[l_1,...,l_m], r=[r_1,...,r_m] : F(m) => F(n). The coequalizer forces the relations to hold in Q and satisfies the UMP: any algebra A with chosen elements satisfying the stipulated relations receives a unique homomorphism u : Q -> A. Worked example Q iso F(x,y,z)/(xy=z, y^2=1). Such algebras are called finitely presented.",
+      "book_section": "3.4",
+      "book_page": "72",
+      "pdf_pages": [81, 82, 83],
+      "cross_refs": ["awodey:3.4:def17"],
+      "flags": ["construction-in-example"]
+    },
+    {
+      "id": "awodey:3.4:remark21",
+      "kind": "remark",
+      "number": "3.21",
+      "name": "presentations are not unique",
+      "statement_summary": "Warning: presentations by generators and relations are not unique — the same algebra can have distinct presentations, F(n)/(l=r) iso F(n')/(l'=r') (e.g. add a redundant generator g_{n+1} with relation g_n=g_{n+1}). The finiteness condition is inessential: any sets of generators G and relations R yield an algebra F(G)/(r1=r2) as the coequalizer F(R) => F(G) -> F(G)/(r1=r2).",
+      "book_section": "3.4",
+      "book_page": "74",
+      "pdf_pages": [83],
+      "cross_refs": ["awodey:3.4:example20"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3.4:prop22",
+      "kind": "proposition",
+      "number": "3.22",
+      "name": "every monoid has a free-monoid coequalizer presentation",
+      "statement_summary": "For every monoid M there exist sets G and R and a coequalizer diagram F(R) => F(G) -> M with F(G) and F(R) free monoids, so M iso F(G)/(r1=r2). Proof uses the free-monoid functor T = M(|-|) and the two-step bar-resolution diagram (3.2) T^2M => TM -> M with epsilon (concatenation multiplication in TM), mu = Tpi (fold using multiplication in M), and pi : TM -> M the counit; given h : TM -> N with h epsilon = h mu, the mediator h-bar = h o i (i = insertion of generators) satisfies h-bar pi = h and is the unique homomorphism, exhibiting (3.2) as a coequalizer of monoids.",
+      "book_section": "3.4",
+      "book_page": "74",
+      "pdf_pages": [83, 84],
+      "cross_refs": ["awodey:3.4:def17", "awodey:3.4:example20"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "coproduct via representable hom-isomorphism",
+      "statement_summary": "(a) In any category C, show that A -c1-> C <-c2- B is a coproduct diagram iff for every object Z the map Hom(C,Z) -> Hom(A,Z) x Hom(B,Z), f |-> <f o c1, f o c2>, is an isomorphism (bijection of hom-sets); may be derived by duality from the corresponding product fact. (b) If part (a) was proved directly, derive the corresponding product statement by duality.",
+      "book_section": "3.5",
+      "book_page": "76",
+      "pdf_pages": [85],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:3:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "Ab has all equalizers",
+      "statement_summary": "Show that the category Ab of abelian groups has all equalizers.",
+      "book_section": "3.5",
+      "book_page": "76",
+      "pdf_pages": [85],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:3:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "forgetful functor preserves the canonical monoid coequalizer",
+      "statement_summary": "For the specific coequalizer presentation T^2M => TM -> M of a monoid M from the proof of Proposition 3.22, show that coequalizers of this particular form are preserved by the forgetful functor Mon -> Sets.",
+      "book_section": "3.5",
+      "book_page": "76",
+      "pdf_pages": [85],
+      "cross_refs": ["awodey:3.4:prop22"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "Sets has all coequalizers",
+      "statement_summary": "Prove that Sets has all coequalizers by constructing the coequalizer of a parallel pair f,g : A => B as the quotient Q = B/(f=g), i.e. B quotiented by the equivalence relation R on B defined as the intersection of all equivalence relations on B containing the pairs (f(x),g(x)) for all x in A.",
+      "book_section": "3.5",
+      "book_page": "76",
+      "pdf_pages": [85],
+      "cross_refs": ["awodey:3.4:construction-sets-coeq"],
+      "flags": []
+    },
+    {
+      "id": "awodey:3:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "posets have all coequalizers",
+      "statement_summary": "(Starred exercise.) Show that the category of posets has all coequalizers.",
+      "book_section": "3.5",
+      "book_page": "76",
+      "pdf_pages": [85],
+      "cross_refs": [],
+      "flags": ["starred"]
+    },
+    {
+      "id": "awodey:3:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "kernel relation, quotient, and generated equivalence relation in Sets",
+      "statement_summary": "In Sets: (a) for f : A -> B, describe the equalizer of f o p1, f o p2 : A x A -> B as a binary relation on A (the kernel of f) and show it is an equivalence relation; (b) show the kernel of a quotient map A -> A/R by an equivalence relation R is R itself; (c) for any binary relation R subset A x A with <R> the least equivalence relation containing R, show the quotient A -> A/<R> is the coequalizer of the two projections R => A; (d) using the foregoing, characterize the generated equivalence relation <R> as the kernel of the coequalizer of the two projections of R.",
+      "book_section": "3.5",
+      "book_page": "76",
+      "pdf_pages": [85, 86],
+      "cross_refs": ["awodey:3.4:example19"],
+      "flags": []
+    }
+  ]
+}

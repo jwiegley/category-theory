@@ -1,0 +1,299 @@
+[
+  {
+    "id": "7sketches:1.3.1:prop91",
+    "classification": "ABSENT",
+    "aliases": [
+      "meet is antitone in the subset (A ⊆ B ⇒ ⋀B ≤ ⋀A)",
+      "join is monotone in the subset (A ⊆ B ⇒ ⋁A ≤ ⋁B)",
+      "canonical map from the limit of a diagram to the limit of a subdiagram, lim F ~> lim (F ◯ K) along an index inclusion K : J' ⟶ J",
+      "indexed product reindexed along an index inclusion (IsIndexedProduct / iprod in the index type)",
+      "glb/lub of a subset: infimum antitone, supremum monotone",
+      "cofinal / final functor comparison map"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bmeet\\b|\\bjoin\\b|infimum|supremum|greatest lower|least upper|\\bglb\\b|\\blub\\b' --include='*.v' . — every 'join' hit is the monad multiplication μ (Theory/Monad.v:100-118, Theory/Coq/Monad.v:48, Comonad/Core.v:135); the only order-theoretic 'meet' is two_meet, the cartesian tensor of Instance/Two/Monoidal.v. No greatest lower bound / least upper bound of a SUBSET of a preorder exists in-tree, so neither ⋀A nor ⋀B is expressible.",
+      "grep -rniE 'antitone|order.?reversing|order.?preserving' --include='*.v' . — 'antitone' occurs twice and both are prose comments (Theory/Adjunction.v:79, Instance/Poset.v:59); 'order-preserving' hits concern FinSet rank/unrank and Lambda thinnings, not this claim.",
+      "grep -rnE 'Cone \\(.*◯|Cocone \\(.*◯|◯ K|K ⟶ J' --include='*.v' . — cones are only ever formed over F ◯ G with the FUNCTOR applied to the diagram (Adjunction/Continuity.v:102, Construction/Comma/Limit.v:104, Theory/Equivalence/Limit.v:283 fmap_cone). There is no restriction of a cone along an index functor K : J' ⟶ J, hence no canonical comparison lim F ~> lim (F ◯ K) — the categorical form of Prop 1.91.",
+      "grep -rniE 'cofinal|final functor' --include='*.v' . — 0 hits.",
+      "read Structure/Limit/Product.v — IsIndexedProduct (line 51), iprod (93), iprod_proj (98), iprod_ump (105), HasIndexedProducts (128) are all stated at ONE fixed index type A; nothing relates an indexed product over B to one over a sub-index A ↪ B. (Prop 1.91 would follow in one step from iprod_desc by taking pi a := iprod_proj (i a), but that statement occurs nowhere in the tree.)",
+      "grep -rn 'Proset' --include='*.v' . — the only consumers of Instance/Proset.v are Instance/Poset.v and Test/Poset.v; neither mentions subsets, meets or joins, and no functor between Prosets is ever built, so the order-theoretic reading of the claim is also absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently before opening the coverage file. Cited log claims re-run and true: rg -in 'antitone' -> exactly 2 hits, both prose (Theory/Adjunction.v:79, Instance/Poset.v:59); rg -in 'cofinal|final functor' -> 0 hits; Structure/Limit/Product.v line numbers all exact (Record IsIndexedProduct:51, iprod:93, iprod_proj:98, iprod_ump:105, HasIndexedProducts:128) and nothing there relates an indexed product over B to one over a sub-index; the only Require-Import consumers of Instance/Proset.v are Instance/Poset.v and Test/Poset.v (verified by rg -ln 'Require Import Category.Instance.Proset'). ONE LOG OVERSTATEMENT (verdict unaffected): '...so neither the meet of A nor of B is expressible' is too strong. A subset A of P is a family A -> obj[Proset P], and its meet IS expressible with existing definitions as iprod f L / Limit (DiscreteCat_Functor f) (Structure/Limit/Product.v:93) -- in a thin category a discrete-diagram limit IS the glb. What is absent is the order-theoretic naming and the antitonicity STATEMENT, which as the log's own parenthesis says would follow in one step from iprod_desc. Additional check the log did not make: the image-of-a-cone construction fmap_cone exists (Theory/Equivalence/Limit.v:283), but only for functor images -- there is still no restriction of a cone along an index functor K : J' -> J, so the categorical form of 1.91 (lim F ~> lim (F o K)) is genuinely unstated. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:1.3.2:def92",
+    "classification": "PARTIAL",
+    "aliases": [
+      "preserves meets / meet-preserving monotone map",
+      "preserves joins / join-preserving monotone map",
+      "product-preserving functor (CartesianFunctor); coproduct-preserving functor (CocartesianFunctor)",
+      "PreservesLimit / PreservesColimit; continuous / cocontinuous functor",
+      "comparison map F (a × b) ~> F a × F b invertible (fobj_prod_iso, prod_out)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Cartesian.v",
+        "line": 49,
+        "symbol": "CartesianFunctor",
+        "intree_statement": "Class CartesianFunctor := { fobj_prod_iso {x y : C} : F (x × y) ≅ F x × F y; prod_in := fun x y => from (@fobj_prod_iso x y); prod_out := fun x y => to (@fobj_prod_iso x y); fmap_exl {x y : C} : fmap (@exl C _ x y) ≈ exl ∘ prod_out _ _; fmap_exr {x y : C} : fmap (@exr C _ x y) ≈ exr ∘ prod_out _ _; fmap_fork {x y z : C} (f : x ~> y) (g : x ~> z) : fmap (f △ g) ≈ prod_in _ _ ∘ fmap f △ fmap g }"
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 205,
+        "symbol": "preserves_colimit",
+        "intree_statement": "Definition preserves_colimit {J C D : Category} {G : J ⟶ C} {F : C ⟶ D} (P : PreservesColimit G F) (L : Colimit G) : IsAColimit (F ◯ G) (F (colimit_apex L))"
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 48,
+        "symbol": "PreservesLimit",
+        "intree_statement": "Class PreservesLimit `(G : J ⟶ C) `(F : C ⟶ D) := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }"
+      }
+    ],
+    "statement_record": {
+      "book": "A monotone map f : P → Q PRESERVES MEETS when f(a ∧ b) ≅ f(a) ∧ f(b) for all a, b ∈ P, and PRESERVES JOINS when f(a ∨ b) ≅ f(a) ∨ f(b); stated for binary meets/joins and only up to the preorder's induced isomorphism, not equality.",
+      "intree": "Class CartesianFunctor := { fobj_prod_iso {x y : C} : F (x × y) ≅ F x × F y; fmap_exl : fmap exl ≈ exl ∘ prod_out; fmap_exr : fmap exr ≈ exr ∘ prod_out; fmap_fork ... } — and for arbitrary shapes: Definition preserves_colimit (P : PreservesColimit G F) (L : Colimit G) : IsAColimit (F ◯ G) (F (colimit_apex L)); Class PreservesLimit := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }.",
+      "strength_comparison": "intree-stronger in generality but never brought to the book's setting: the in-tree notions concern functors between arbitrary categories (the book's monotone map is the thin-category instance) and pin the comparison to the CANONICAL map via fmap_exl/fmap_exr, which is exactly what the book intends, since in a preorder an isomorphism is mutual ≤ and the canonical comparison always exists. Two mismatches to record: (a) CartesianFunctor requires the whole of C and D to be Cartesian, where Def 1.92 needs only the individual binary meets to exist; (b) the arbitrary-shape form PreservesLimit/PreservesColimit is apex-only — the IsALimit it yields carries its own cone rather than the image of the original cone — which is genuinely weaker than cone-level preservation in a general category (cf. PreservesImageLimit in Construction/Comma/Limit.v), though it coincides with the book's condition in a thin category, where 'is a meet' is a property of the object."
+    },
+    "gap": "No order-theoretic instantiation exists. (i) Nothing in-tree identifies products/coproducts in `Proset P` (Instance/Proset.v:33) with binary meets/joins of the preorder — that dictionary appears only as prose in Instance/Poset.v:50-52. (ii) No construction turns a monotone map into a functor between Prosets: the `MonotoneMap` record (Construction/Enriched/Two.v:175) belongs to the Two-ENRICHED presentation, additionally assumes decidability of the order (TwoPreorder.tpre_dec, line 65), and is never linked to Proset — so CartesianFunctor / preserves_colimit cannot be applied to a monotone map without new code. (iii) Preservation of the SUBSET-indexed meets/joins of Def 1.81 is not stated, because those meets are themselves absent in-tree (see 7sketches:1.3.1:prop91). (iv) Binary coproduct preservation exists only as the unused Notation `CocartesianFunctor` (Functor/Structure/Cartesian.v:130), never as a used class with instances.",
+    "negative_search_log": [
+      "grep -rniE '\\bmeet\\b|\\bjoin\\b|lattice' --include='*.v' . — no order-theoretic meet/join in-tree (all 'join' hits are the monad μ); the book's own vocabulary is unavailable.",
+      "grep -rn 'CocartesianFunctor' --include='*.v' . — 4 hits: the definition is a Notation (Functor/Structure/Cartesian.v:130,132) plus two prose mentions; there are no instances and no consumers.",
+      "grep -rn 'Proset' --include='*.v' . — no functor between Prosets anywhere, so preservation cannot be predicated of a monotone map."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence opened and verified verbatim: Functor/Structure/Cartesian.v:49 Class CartesianFunctor with exactly the quoted fields (lines 49-62, fobj_prod_iso/prod_in/prod_out/fmap_exl/fmap_exr/fmap_fork); Structure/Limit/Preservation.v:48 Class PreservesLimit and :205 Definition preserves_colimit, both quotes exact. Registration checked: Functor/Structure/Cartesian.v is _CoqProject:148, Structure/Limit/Preservation.v is :327 (no unregistered-file trap). Gap claims checked one by one: rg 'CocartesianFunctor' -> 4 tree-wide hits, a Notation at :130/:132 plus two prose mentions, no instances and no consumers (TRUE); MonotoneMap is at Construction/Enriched/Two.v:175 over TwoPreorder, whose tpre_dec decidability field is at :65, and it is never related to Proset (TRUE); the apex-only caveat is fair -- the cone-level PreservesImageLimit really is defined at Construction/Comma/Limit.v:110. MY BLIND PASS FIRST CLASSIFIED THIS PRESENT: CartesianFunctor/CocartesianFunctor is the faithful categorification of Def 1.92, and in a thin category the mere existence of an iso F(a/\\b) = Fa /\\ Fb forces the canonical comparison to be invertible, so the class is not actually stronger there. I let PARTIAL stand because gap items (i)-(ii) are real and verified: no Functor between Prosets exists anywhere in-tree, so the class cannot be predicated of a monotone map without new code. TWO LOG INACCURACIES to carry into the issue: (a) 'no order-theoretic meet/join in-tree (all join hits are the monad mu)' is false and contradicts this batch's own prop91 log -- two_meet (Instance/Two/Monoidal.v:37) is a genuine order meet and is literally the product of Two_Cartesian (:80); (b) gap (i) is true as scoped to Proset, but Instance/Props.v DOES identify products with meets and coproducts with joins in a preorder (Props_Cartesian:69, P x Q = P /\\ Q; Props_Cocartesian:80, P + Q = P \\/ Q), so the dictionary is instantiated in-tree for two concrete orders, just never for Proset/Poset."
+    }
+  },
+  {
+    "id": "7sketches:1.3.2:def93",
+    "classification": "ABSENT",
+    "aliases": [
+      "generative effect (of a monotone map / of an observation)",
+      "fails to preserve joins / does not preserve joins",
+      "non-cocontinuous functor; functor not preserving a colimit",
+      "join comparison map not invertible (f(a) ∨ f(b) ≇ f(a ∨ b))",
+      "emergence / non-compositional observation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'generative' --include='*.v' . — exactly 1 hit, Instance/Poset.v:96-100, a prose citation of Fong & Spivak's Seven Sketches ('takes a generative effect to be an observation that does not preserve joins'). It is a comment inside a background essay; nothing in-tree defines or uses the notion.",
+      "grep -rniE 'does not preserve|fails to preserve|non-?preserv|counterexample' --include='*.v' . — only prose (Theory/Equivalence.v:91) and unrelated countermodel notes (Construction/Indexed.v:59 twist counterexample, Construction/Funny/Bifunctor.v:26, Structure/Terminal.v:79, Adjunction/GAFT.v:121). No functor is ever exhibited as FAILING to preserve a colimit.",
+      "grep -rn 'PreservesColimit\\|PreservesAllColimits' --include='*.v' . — every occurrence is a positive hypothesis or conclusion (Structure/Limit/Preservation.v:196-233, Adjunction/Continuity.v:219-225, Theory/Equivalence/Limit.v:432-436, Theory/Adamek.v:35-43); the negation of a preservation predicate is never formed, so there is no in-tree counterpart to 'has a generative effect'.",
+      "grep -rniE '\\bjoin\\b|\\bmeet\\b|lattice|GaloisConnection' --include='*.v' . — no order-theoretic joins exist in-tree (all 'join' hits are the monad multiplication), so the defining inequality f(a) ∨ f(b) ≇ f(a ∨ b) cannot even be written with existing definitions.",
+      "grep -rn 'CocartesianFunctor' --include='*.v' . — the positive property whose negation Def 1.93 needs exists only as an unused Notation (Functor/Structure/Cartesian.v:130), with no instances and hence no non-instances."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. rg -in 'generative' -> 2 lines, not the 'exactly 1 hit' the log claims (Instance/Poset.v:97 and :98, the same prose sentence of the background essay) -- immaterial to the verdict. Re-verified that no preservation predicate is ever negated and that CocartesianFunctor has no instances (hence no non-instances). Same overstatement to carry forward as in prop91: binary joins ARE expressible in-tree in concrete orders (Props_Cocartesian, Instance/Props.v:80 with P + Q = P \\/ Q), so the defining failure f(a) \\/ f(b) != f(a \\/ b) could be written at Props today; what is genuinely absent is the notion 'has a generative effect' and any in-tree witness of a functor FAILING to preserve a colimit."
+    }
+  },
+  {
+    "id": "7sketches:1.3.2:ex94",
+    "classification": "ABSENT",
+    "aliases": [
+      "canonical comparison map F a + F b ~> F (a + b) (fmap inl ▽ fmap inr)",
+      "f(a) ∨ f(b) ≤ f(a ∨ b) for a monotone map",
+      "lax/oplax structure map for the (co)cartesian monoidal structure (lax_ap)",
+      "mediating map out of the image cocone (colimit_med applied to fmap of the injections)",
+      "dual: prod_out : F (x × y) ~> F x × F y for an arbitrary (not-yet-preserving) functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnE 'fmap.*(△|▽)|(△|▽).*fmap' --include='*.v' . — 5 hits, none of them a comparison map for an arbitrary functor: Functor/Product/Internal.v:37, Instance/Fun/Cartesian.v:30, Construction/DecoratedCospan.v:297, Adjunction/GAFT/Examples.v:68, and Functor/Structure/Cartesian.v:61 (the fmap_fork FIELD of CartesianFunctor). The map `fmap inl ▽ fmap inr : F a + F b ~> F (a + b)` is never defined.",
+      "read Functor/Structure/Cartesian.v:49-65 — prod_in/prod_out exist only as class-local abbreviations INSIDE CartesianFunctor, i.e. only once the comparison has been ASSUMED invertible (fobj_prod_iso). Nothing defines the comparison for a functor that is not already product/coproduct-preserving, so the content of Ex 1.94 — that the comparison always exists and always points one way — is unstated.",
+      "grep -rn -iE 'lax' Functor/Structure/Monoidal.v — LaxMonoidalFunctor (line 110) makes lax_ap : F x ⨂ F y ~> F (x ⨂ y) DATA subject to coherence (lines 117-135); no instance derives it from a cartesian or cocartesian monoidal structure, so there is no 'every functor is lax monoidal for coproducts' statement from which Ex 1.94 would follow.",
+      "grep -rniE 'CocartesianMonoidal' --include='*.v' . — 0 hits (only SemicocartesianMonoidal, Structure/Monoidal/Semicocartesian.v:48, which merely asks the unit to be initial); the cocartesian monoidal structure under which the comparison map would be the canonical lax structure map is not built.",
+      "read Structure/Limit/Preservation.v:147-176 — colimit_med (line 152) would produce the map from the image cocone in one step (colimit_med applied to the cocone with legs fmap inl, fmap inr), but that composite is never formed, and no lemma orients an unpreserved (co)limit comparison.",
+      "grep -rniE '\\bjoin\\b|\\bmeet\\b' --include='*.v' . — no order-theoretic joins, so the order-level reading f(a) ∨ f(b) ≤ f(a ∨ b) is not expressible either."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Log claims re-run and true: the 5 'fmap with △/▽' hits are exactly as listed (Adjunction/GAFT/Examples.v:68, Functor/Structure/Cartesian.v:61, Functor/Product/Internal.v:37, Construction/DecoratedCospan.v:297, Instance/Fun/Cartesian.v:30) and none is a comparison map for an arbitrary functor; LaxMonoidalFunctor is at Functor/Structure/Monoidal.v:110 with lax_ap at :117; 'CocartesianMonoidal' -> 0 hits and I also checked 'Cocartesian_Monoidal' -> 0 hits, so there is no cocartesian monoidal structure to be lax over (only SemicocartesianMonoidal, Structure/Monoidal/Semicocartesian.v:48, confirmed); colimit_med at Structure/Limit/Preservation.v:152. ADDITIONAL FINDING the log missed, which sharpens rather than overturns the verdict: the DUAL comparison IS formed once in-tree, as a proof-internal composite limit_med HL (fmap_cone F M) (Theory/Equivalence/Limit.v:358, over fmap_cone at :283) -- the canonical F(lim G) ~> lim(F o G). It is a local term inside the equivalence-transport proof, never stated as a lemma, never oriented as 'the comparison always exists and points this way', and there is no covariant fmap_cocone, so Ex 1.94's content (join direction, arbitrary monotone map / functor) remains unstated. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:1.4.1:def95",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Galois connection (monotone/covariant form)",
+      "adjoint pair of monotone maps; lower adjoint / upper adjoint",
+      "adjunction between preorders (thin categories): f ⊣ g",
+      "hom-set adjunction F x ~> y ≅ x ~> U y (Adjunction, Adjunction_Hom)",
+      "residuated map; antitone Galois connection (classical polarity)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 130,
+        "symbol": "Adjunction",
+        "intree_statement": "Class Adjunction := { adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |} {| carrier := @hom D x (U y); is_setoid := @homset D x (U y) |} where \"⌊ f ⌋\" := (to adj f) and \"⌈ f ⌉\" := (from adj f); to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) : ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g; to_adj_nat_r {x y z} (f : y ~> z) (g : F x ~> y) : ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋; from_adj_nat_l ...; from_adj_nat_r ... }"
+      },
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => @reflexivity A R (@PreOrder_Reflexive A R P) x; compose := fun x y z f g => @transitivity A R (@PreOrder_Transitive A R P) x y z g f |}"
+      }
+    ],
+    "statement_record": {
+      "book": "A Galois connection between preorders P and Q is a pair of monotone maps f : P → Q and g : Q → P such that for all p ∈ P and q ∈ Q, f(p) ≤ q if and only if p ≤ g(q) (the numbered display (1.96)); f is the left adjoint, g the right adjoint.",
+      "intree": "Class Adjunction := { adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y |} {| carrier := @hom D x (U y) |}; to_adj_nat_l ...; to_adj_nat_r ...; from_adj_nat_l ...; from_adj_nat_r ... } — over Program Definition Proset (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| equiv := fun _ _ => True |}; id := reflexivity; compose := transitivity |}.",
+      "strength_comparison": "same in substance at thin categories, intree-stronger in general. Instantiating Adjunction at Proset P / Proset Q makes `adj` an isomorphism in Sets between the hom-setoids `f p ≤ q` and `p ≤ g q`, i.e. exactly the biconditional (1.96) in both directions; and because Proset's hom-setoid identifies all parallel proofs (equiv := fun _ _ => True), the four naturality fields hold vacuously, so nothing beyond the book's condition is demanded in the order case. For general categories the class is properly stronger than a bare bijection of hom-sets (naturality in both variables is required), which is the correct categorification rather than a mismatch."
+    },
+    "gap": "There is no Galois connection in-tree. `grep -rniE 'GaloisConnection'` gives 0 hits and all 16 'Galois' hits are prose (Theory/Adjunction.v:78-79 'Between posets, an adjunction is exactly a Galois connection'; Instance/Poset.v:37-63; Instance/Adjoints.v:280; Adjunction/GAFT.v:136). Decisively, no Functor between two Prosets is ever constructed, so the term `@Adjunction (Proset P) (Proset Q) F U` that WOULD be a Galois connection cannot be written without new code: Instance/Proset.v has only the category, and its only consumers are Instance/Poset.v and Test/Poset.v (objects, homs, skeletality). The one monotone-map record in-tree, `MonotoneMap` (Construction/Enriched/Two.v:175), lives in the Two-ENRICHED presentation, additionally requires a DECIDABLE order (TwoPreorder.tpre_dec, line 65), and is never related to Proset or to Adjunction. Also missing: the order-theoretic naming (lower/upper adjoint), and the (1.96)-shaped biconditional as a standalone statement about ≤.",
+    "negative_search_log": [
+      "grep -rniE 'GaloisConnection' --include='*.v' . — 0 hits.",
+      "grep -rniE 'Galois' --include='*.v' . — 16 hits, every one a comment (Theory/Adjunction.v:78-79, Instance/Poset.v:37-63, Instance/Adjoints.v:280, Adjunction/GAFT.v:136).",
+      "grep -rniE 'residuat|lower adjoint|upper adjoint' --include='*.v' . — 0 hits.",
+      "grep -rn 'Proset' --include='*.v' . — no Functor, Adjunction, or Isomorphism instance over Proset anywhere; only Instance/Poset.v and Test/Poset.v consume it."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence opened and verified: Theory/Adjunction.v:130 Class Adjunction, quote accurate including the hom-setoid Isomorphism in Sets and the four naturality fields (lines 130-155); Instance/Proset.v:33 Proset, quote accurate. Both files registered (_CoqProject:387, :224). Gap re-verified independently: rg -in 'Galois' -> exactly 16 hits, every one inside a comment (Theory/Adjunction.v:78-79; Instance/Poset.v:37,38,47,56,58,63,92,95,97,100; Instance/Adjoints.v:280; Adjunction/GAFT.v:136; plus Structure/Factorization.v:69 and Structure/Limit.v:53, which the record does not list -- also prose); 'GaloisConnection', 'residuat', 'lower adjoint', 'upper adjoint' -> 0 hits; no Functor/Adjunction/Isomorphism is ever built over Proset. My blind pass reached PARTIAL for the same reason. ONE NEARBY WITNESS THE CLASSIFIER MISSED, useful for the issue draft: Instance/Props.v:94 Props_Closed instantiates exp_iso {x y z} : x x y ~> z ~= x ~> z^y (Structure/Cartesian/Closed.v:51) at the preorder of propositions under entailment -- i.e. the residuation biconditional (R /\\ P |- Q) <-> (R |- P -> Q), a Galois connection between preorders IN SUBSTANCE, whose own comment (Instance/Props.v:91-92) already reads it as '(- /\\ P) -| (P -> -)'. It is a Closed instance rather than an Adjunction term, so the gap sentence stays literally true, but 'there is no order-level adjoint pair in-tree' should be softened to 'none packaged as an Adjunction'."
+    }
+  },
+  {
+    "id": "7sketches:1.4.1:example97",
+    "classification": "ABSENT",
+    "aliases": [
+      "⌈−/3⌉ ⊣ (3 × −) : the ceiling-of-a-third left adjoint",
+      "Galois connection between ℤ and ℝ",
+      "ceiling/floor adjunctions (⌈−⌉ ⊣ inclusion ⊣ ⌊−⌋)",
+      "monotone map (3 × −) : ℤ → ℝ and its left adjoint",
+      "⌈x/3⌉ ≤ y ⟺ x ≤ 3y"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Coq\\.Reals|Rdefinitions|Raxioms|real number' --include='*.v' . — 1 hit, Instance/ZX.v:178, prose about phases being 'a real number modulo 2π'; the reals are never imported and no real-valued order exists.",
+      "grep -rniE 'ceiling|ceil|floor' --include='*.v' . — 0 hits.",
+      "grep -rniE 'BinInt|Z\\.le|Zle|Zdiv|Z\\.div|Int_part' --include='*.v' . — 0 hits; the integers do not appear. The only numeric orders in-tree are on nat: LessThanEqualTo_Category := @Proset nat Nat.le Nat.le_preorder (Instance/Proset.v:47), its poset form (Instance/Poset.v:120-122), and the ordinal ω (Instance/Omega.v:28 le_t).",
+      "grep -rnE '⊣' --include='*.v' . | grep -E 'Instance|Definition|Theorem|Program' — all adjunction witnesses are structural: adj_id (Instance/Adjoints.v:42), Adjunction_Id/Adjunction_Compose (Adjunction/Compose.v:65,173), Kleisli_Adjunction (Monad/Kleisli/Adjunction.v:125), EM_Adjunction (Monad/Eilenberg/Moore/Adjunction.v:183), CoKleisli/CoEM (Comonad/Duality.v:233,324), adjoint_triangle (Monad/Lifting.v:456), Comma and GAFT examples. None is between order categories and none involves numbers.",
+      "grep -rniE 'Galois|GaloisConnection' --include='*.v' . — no order-level adjunction exists (see 7sketches:1.4.1:def95), so the example has no frame to be stated in."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified: rg -in 'ceiling|ceil|floor' -> 0 hits; rg -n 'Coq.Reals|Rdefinitions|Raxioms|ZArith|BinInt' -> 0 hits; the single 'real number' occurrence is prose at Instance/ZX.v:177-178 (the record cites :178; the phrase spans two lines, immaterial). Numeric orders in-tree are exactly as listed: Instance/Proset.v:47 and Instance/Poset.v:120-122 over (nat, <=), and Instance/Omega.v:28 le_t for omega. ABSENT rather than OUT_OF_SCOPE is right: R and Z are stdlib-available and the library already builds a Proset over (nat, <=), so Example 1.97 is formalizable here, merely absent."
+    }
+  },
+  {
+    "id": "7sketches:1.4.1:ex98",
+    "classification": "ABSENT",
+    "aliases": [
+      "right adjoint of (3 × −) : ℤ → ℝ, namely ⌊−/3⌋",
+      "floor-division right adjoint; (3 × −) ⊣ ⌊−/3⌋",
+      "3y ≤ x ⟺ y ≤ ⌊x/3⌋",
+      "upper adjoint of multiplication by a positive integer",
+      "constructing/computing the right adjoint of a given monotone map"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'ceiling|ceil|floor' --include='*.v' . — 0 hits; the floor function needed for the answer does not exist in-tree.",
+      "grep -rniE 'Coq\\.Reals|Rdefinitions|BinInt|Z\\.le|Zdiv|Z\\.div' --include='*.v' . — 0 hits (apart from the ZX prose mention of 'real number'); neither ℝ nor ℤ is in-tree, so the map (3 × −) : ℤ → ℝ cannot be written.",
+      "grep -n 'right_adjoint_iso\\|left_adjoint_iso' Theory/Adjunction.v — the general uniqueness-of-adjoints theorems exist (lines 364, 404), but no adjoint is ever COMPUTED for a concrete map, and there is no machinery for producing adjoints of maps between order categories (no Galois connection at all: see 7sketches:1.4.1:def95).",
+      "grep -rn 'Proset' --include='*.v' . — no functor between Prosets, hence no order-level adjunction to exhibit a right adjoint for."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified: no floor/ceiling and no Z/R anywhere (0 hits for 'ceiling|ceil|floor' and for 'Coq.Reals|Rdefinitions|BinInt|Z.le|Zdiv|Z.div'), so the map (3 x -) : Z -> R cannot be written; the general uniqueness-of-adjoints theorems are where the record says (Theorem right_adjoint_iso at Theory/Adjunction.v:364, Theorem left_adjoint_iso at :404 -- the statement bodies on 365/405), and no adjoint is ever computed for a concrete map; no Functor over Proset exists."
+    }
+  },
+  {
+    "id": "7sketches:1.4.1:ex99",
+    "classification": "ABSENT",
+    "aliases": [
+      "the three-element chain 3 = {1 ≤ 2 ≤ 3} as a category",
+      "finite total order (chain) category; ordinal categories 2, 3",
+      "checking f(p) ≤ q ⟺ p ≤ g(q) pointwise on a finite preorder",
+      "candidate adjoint pair between finite posets (decide adjointness)",
+      "monotone maps between finite chains"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -E '^Inductive' --include='*.v' Instance/ — the finite shape categories in-tree are TwoObj (two objects, Instance/Two.v:103-105), ParObj (parallel pair, Instance/Parallel.v:28-30), RoofObj (Instance/Roof.v:28-36, whose homs ZeroNeg/ZeroPos make it the SPAN • ← • → •, NOT a 3-chain) and DiscreteCat (Instance/Discrete.v:37). No three-element total-order category exists; Instance/Omega.v:28 gives the infinite chain ω but no finite initial segment is packaged as a category.",
+      "grep -rniE 'three.?element|3.?chain|TotalOrder|linear order' --include='*.v' . — 0 hits.",
+      "grep -rn 'Proset' --include='*.v' . — no functor between Prosets is ever built, and there is no Galois-connection/order-adjunction predicate (see 7sketches:1.4.1:def95), so neither candidate pair of Exercise 1.99 can be stated, let alone decided.",
+      "read Test/Poset.v — the only concrete finite-order file in the tree (a 2-element poset, lines 117-153) contains just inhabitation, hom and skeletality checks; no monotone maps between finite orders and no adjointness check anywhere.",
+      "grep -rn 'adj_univ' Theory/Adjunction.v — the biconditional is available in general form (adj field line 130, adj_univ line 195), but no in-tree example ever decides adjointness for a concrete pair of maps between finite orders."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Finite-shape inventory re-verified: TwoObj Instance/Two.v:103, ParObj Instance/Parallel.v:28, RoofObj Instance/Roof.v:28-36 whose homs are IdNeg/ZeroNeg/IdZero/ZeroPos/IdPos -- the span * <- * -> *, exactly as the record says and as Roof.v's own header states, NOT a 3-chain -- and DiscreteCat Instance/Discrete.v:37. rg -in 'three.?element|3.?chain|TotalOrder|linear order' -> 0 hits. Instance/Omega.v is the infinite omega-chain with no finite initial segment packaged as a category. adj_univ is at Theory/Adjunction.v:195 as cited. The nearest in-tree object is the 2-chain _2 (Instance/Two.v:134) with Two_Cartesian/Two_Terminal (Instance/Two/Monoidal.v:80,98); a 3-chain plus the two candidate map pairs would all be new code."
+    }
+  },
+  {
+    "id": "7sketches:1.4.1:remark100",
+    "classification": "ABSENT",
+    "aliases": [
+      "non-crossing criterion: f ⊣ g iff no drawn arrows cross",
+      "adjunction criterion for monotone maps between total orders",
+      "planarity / non-crossing condition on a two-column arrow diagram",
+      "counterclockwise-bending arrow picture for an adjoint pair",
+      "combinatorial characterization of adjoints between finite chains"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'TotalOrder|linear order' --include='*.v' . — 0 hits; there is no total-order class in-tree, so the hypothesis 'P and Q are total orders' is not expressible. The 101 '\\bchain\\b' hits are the ω-chain diagram Chain F (Construction/Chain.v:23) for initial algebras, unrelated to orders of arrows.",
+      "grep -rniE 'crossing|planar' --include='*.v' . — all hits are monoidal string-diagram wire crossings (Instance/ZX.v:205 zx_swap, Instance/ZX.v:47,427, Construction/PROP/Symmetric.v:29, Theory/Multicategory.v:85); nothing describes arrows drawn between two ordered columns, and no planarity/non-crossing predicate exists.",
+      "grep -rniE 'Galois|adjoint pair' --include='*.v' . — the left-hand side of the claimed biconditional (an adjunction between preorders) is itself absent in-tree (see 7sketches:1.4.1:def95), so neither side is expressible. NOTE: the book leaves the criterion informal, but it IS formalizable (a decidable condition on monotone maps between finite chains), which is why this is ABSENT rather than OUT_OF_SCOPE."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified: rg -in 'TotalOrder|linear order' -> 0 hits; rg -inw 'chain' -> 101 hits, all the omega-chain/diagram sense; rg -in 'crossing|planar' -> 10 hits, all monoidal string-diagram wire crossings. ONE CITATION SLIP in the log: it lists 'Instance/ZX.v:205 zx_swap, Instance/ZX.v:47,427' among the 'crossing|planar' hits, but those lines match only the broader stem 'cross' (ZX.v:47 'wire crossing', :205 comment on zx_swap, :427 'many-wire-crossing'); the substantive claim -- no predicate anywhere about arrows drawn between two ordered columns -- holds. I independently weighed OUT_OF_SCOPE and agree with the record's own justification for ABSENT: the criterion is informal in the book but is a decidable condition on monotone maps between finite chains, hence meaningfully formalizable in this library once a chain and an order-level adjunction exist."
+    }
+  },
+  {
+    "id": "7sketches:1.4.1:ex101",
+    "classification": "ABSENT",
+    "aliases": [
+      "left adjoint of ⌈−/3⌉ : ℝ → ℤ (does one exist?)",
+      "iterated adjoints / adjoint string L ⊣ ⌈−/3⌉ ⊣ ...",
+      "non-existence of an adjoint (obstruction: a left adjoint preserves joins)",
+      "adjoint tower / adjoint triple",
+      "L(n) ≤ x ⟺ n ≤ ⌈x/3⌉"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Coq\\.Reals|Rdefinitions|ceiling|ceil|floor|BinInt|Z\\.le|Z\\.div|Zdiv' --include='*.v' . — 0 hits apart from the ZX prose mention of 'a real number'; neither ℝ, ℤ, nor ⌈−⌉ exists in-tree, so the map whose adjoints are asked about cannot be written.",
+      "grep -rniE 'has no (left|right) adjoint|no left adjoint|not have a left adjoint' --include='*.v' . — 1 hit, Construction/ColouredPROP/LNL.v:53, a prose aside about a comonoid-hom functor; no theorem in the tree ever REFUTES the existence of an adjoint. The obstruction tools do exist (Adjunction/Continuity.v:217-225 left_adjoint_preserves_colimit(s), :198-202 right_adjoint_preserves_limit(s)) and GAFT (Adjunction/GAFT.v) gives existence criteria, but no non-existence argument is carried out.",
+      "grep -rniE 'adjoint (string|tower|triple)' --include='*.v' . — 5 hits, all prose (Comonad/Coalgebra.v:97, Theory/Adjunction.v:75, Instance/Poset.v:70, Construction/Arrow.v:61-62 'cod ⊣ ids ⊣ dom (nLab, adjoint string)'). Construction/Arrow.v contains only `Definition Arrow := (Id[C] ↓ Id[C])` (line 110); the adjoint triple is never constructed, so iterated adjoints are not developed in-tree.",
+      "grep -rn 'Monad/Lifting.v:516' — `Theorem adjoint_lifting : ∃ L : C ⟶ B, L ⊣ R` is the only existential-adjoint statement in the tree; it is a positive lifting theorem under Dubuc's hypotheses, not a criterion applicable to a concrete monotone map.",
+      "grep -rn 'Proset' --include='*.v' . — no functor between Prosets and no order-level adjunction (see 7sketches:1.4.1:def95), so neither part of the exercise has an in-tree frame."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Log spot-checks all true: Construction/ColouredPROP/LNL.v:52-54 reads '[Comon_Forget] of Theory/Algebra/Comonoid/Hom.v has no right adjoint in-tree' -- prose, matching the record's regex hit and its description; Adjunction/Continuity.v:198-203 right_adjoint_preserves_limit(s) and :217-226 left_adjoint_preserves_colimit(s) exist as the obstruction tools; Construction/Arrow.v:61-62 carries the 'cod -| ids -| dom (nLab, adjoint string)' prose while :110 is only Definition Arrow := (Id[C] |> Id[C]), so the triple is indeed never constructed; Monad/Lifting.v:516 is Theorem adjoint_lifting : exists L : C -> B, L -| R, a positive lifting theorem. No R/Z/ceiling in-tree and no non-existence-of-adjoint argument anywhere."
+    }
+  }
+]

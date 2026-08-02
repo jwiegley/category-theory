@@ -1,0 +1,202 @@
+[
+  {
+    "id": "maclane:I.4:remark1",
+    "classification": "ABSENT",
+    "aliases": ["character group", "Pontryagin dual", "dual group", "non-natural isomorphism", "unnatural isomorphism", "hom(G, R/Z)", "finite abelian groups Ab_f", "counterexample to naturality"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -il 'character group|Pontryagin|dual group' --glob '*.v' -- 0 hits",
+      "rg -in 'R/Z|circle group|finite abelian' --glob '*.v' -- 0 hits (only 'Ab' as prose in Structure/Abelian.v's essay about the category Ab; no Ab instance exists in Instance/)",
+      "rg -in 'unnatural|not natural|non.natural' --glob '*.v' -- hits only Construction/Funny*.v (the 'unnatural transformation' hom of the funny tensor, i.e. component families without naturality -- unrelated to this counterexample) and Structure/Monoidal/Markov.v (comonoid supply 'NOT natural', unrelated)",
+      "ls Instance/*.v -- no category of (abelian) groups at all (CMon.v is commutative monoids); the covariant-restriction-to-isomorphisms functor D' and the sigma : I -> D' non-naturality statement have no possible carrier in-tree",
+      "rg -in 'inner automorphism|automorphism' --glob '*.v' -- only limit/monoidal apex-automorphism prose, unrelated",
+      "verifier blind pass additionally checked: Construction/Groupoid.v (the core, i.e. the maximal subgroupoid -- the restrict-to-isomorphisms ingredient of the remark's D' construction) exists but carries nothing about duals or non-naturality; Construction/Opposite.v:51 mentions the single-vs-double-dual naturality contrast in its essay, prose only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached ABSENT with the same aliases and 0 formalized hits. Two nuances added to the log: Construction/Groupoid.v provides the iso-only core construction (an ingredient of the remark's covariant D' setup) and Construction/Opposite.v's essay cites the Eilenberg-Mac Lane dual/double-dual contrast -- both prose-adjacent only, neither formalizes any part of the statement. Re-ran the 'unnatural|not natural' sweep: only Funny (lawless families) and Markov (supply non-naturality), as claimed."}
+  },
+  {
+    "id": "maclane:I.4:remark2",
+    "classification": "PARTIAL",
+    "aliases": ["double dual", "bidual", "double dualization", "dual vector space", "FdVect", "evaluation into the double dual", "star-autonomous double-dual iso"],
+    "evidence": [
+      {"file": "Structure/Monoidal/StarAutonomous.v", "line": 252, "symbol": "double_dual",
+       "intree_statement": "Definition double_dual (d : C) : C ⟶ C := dual d ◯ (dual d)^op."},
+      {"file": "Structure/Monoidal/StarAutonomous.v", "line": 269, "symbol": "star_double_dual",
+       "intree_statement": "star_double_dual {x : C} : x ≅ double_dual dualizer x;  (class field of StarAutonomous)"},
+      {"file": "Structure/Monoidal/StarAutonomous.v", "line": 273, "symbol": "star_natural",
+       "intree_statement": "star_natural {a b : C} (f : a ~> b) : to (star_double_dual (x:=b)) ∘ f << a ~~> double_dual dualizer b >> fmap[double_dual dualizer] f ∘ to (star_double_dual (x:=a))"}
+    ],
+    "statement_record": {
+      "book": "Parallel example to the character-group discussion: a finite-dimensional vector space is naturally isomorphic to its double dual (whereas the isomorphism to the single dual is basis-dependent and not natural).",
+      "intree": "In a symmetric monoidal closed category with a dualizing object, the double-dual endofunctor `double_dual d := dual d ◯ (dual d)^op` is constructed, and the StarAutonomous class posits `star_double_dual : x ≅ double_dual dualizer x` together with its naturality square `star_natural` (Structure/Monoidal/StarAutonomous.v).",
+      "strength_comparison": "intree-weaker: the double-dual natural isomorphism appears only as ASSUMED data (a field of the StarAutonomous class, whose header explicitly names FdVect as a motivating example that is not formalized); it is never proven for any concrete category, and no category of (finite-dimensional) vector spaces exists in-tree, so the book's concrete natural isomorphism is not witnessed."
+    },
+    "gap": "No category of vector spaces (finite-dimensional or otherwise) exists in-tree (rg -il 'Vect|vector space|linear map' finds only prose essays, e.g. Theory/Functor.v:68); the double-dual natural iso exists only as a hypothesis of the star-autonomous structure, with no in-tree instance of StarAutonomous, hence no proven example of the book's phenomenon.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified all three evidence entries at the cited lines; corrected the third symbol from 'star_double_dual_natural' to its actual name 'star_natural' (quote was accurate). Independently confirmed no StarAutonomous instance exists anywhere (rg 'StarAutonomous' across the tree: only prose cross-references in Structure/Closed.v, Structure/Monoidal.v, Structure/Monoidal/Symmetric.v, Structure/Monoidal/CompactClosed.v); file registered in _CoqProject:360. Blind pass initially leaned ABSENT, but PARTIAL is right: double_dual IS genuinely constructed and proven functorial (not merely assumed), and the naturality square is stated verbatim; only its proof and the FdVect carrier are missing, exactly as the gap says. StarAutonomous.v:71-78 further notes star_double_dual posits SOME iso rather than the canonical map, reinforcing the intree-weaker reading."}
+  },
+  {
+    "id": "maclane:I.4:construction4",
+    "classification": "PARTIAL",
+    "aliases": ["skeleton", "skeletal category", "FinSet", "Finord", "cardinal functor", "equivalence of a category with its skeleton", "finite sets Set_f", "inclusion functor"],
+    "evidence": [
+      {"file": "Instance/FinSet.v", "line": 116, "symbol": "FinSet",
+       "intree_statement": "Program Definition FinSet : Category := {| ... |}  -- header (line 15): 'FinSet, the skeletal category of finite sets': objects are natural numbers, n standing for the canonical n-element set Fin.t n, morphisms m ~> n all functions Fin.t m -> Fin.t n."},
+      {"file": "Theory/Equivalence.v", "line": 151, "symbol": "EquivalenceOfCategories",
+       "intree_statement": "Class EquivalenceOfCategories {C D : Category} (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F }."}
+    ],
+    "statement_record": {
+      "book": "Comparison of Finord (finite ordinals, all functions) with Set_f (all finite sets in a universe): the inclusion S : Finord -> Set_f is a functor; choosing a bijection theta_X : X -> #X for each finite set X makes the cardinal # : Set_f -> Finord a functor with # . S = Id_Finord and theta : Id_{Set_f} iso S . # a natural isomorphism -- the motivating example of an equivalence between categories of different sizes.",
+      "intree": "The Finord side exists as the skeletal category FinSet (Instance/FinSet.v:116, objects nat, morphisms all functions Fin.t m -> Fin.t n), and the general notion of equivalence the example motivates exists (Theory/Equivalence.v:151); but no non-skeletal category of all finite sets, no inclusion functor, no cardinal functor, and no proof of the equivalence exist.",
+      "strength_comparison": "intree-weaker: only one of the two categories being compared (the skeleton) is constructed; the comparison itself -- the inclusion functor, the choice-of-bijections cardinal functor, the equations # ∘ S ≈ Id and theta : Id ≅ S ∘ #, i.e. the equivalence -- has no counterpart."
+    },
+    "gap": "No in-tree category of all finite sets/setoids (Set_f) distinct from the skeleton; no inclusion functor FinSet -> Set_f, no cardinal functor # with chosen bijections theta, and no theorem exhibiting FinSet as equivalent to a non-skeletal finite-set category (rg -in 'skelet' finds only the FinSet family describing itself as skeletal; rg 'Skeleton' as a construction: 0 hits; rg -in 'equival|skeleton' over Instance/FinSet* finds no equivalence statement).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified FinSet at Instance/FinSet.v:116 (registered _CoqProject:193) and EquivalenceOfCategories at Theory/Equivalence.v:151. Blind pass additionally ruled out Instance/Ens.v as a Set_f candidate: it is the category of Coq Ensembles (subsets with membership-preserving-and-reflecting carrier maps), not a category of finite sets, and has no stated relationship to FinSet. No skeleton construction or category-equivalent-to-its-skeleton theorem exists in any generality. PARTIAL with this gap is exactly right."}
+  },
+  {
+    "id": "maclane:I.4:def3",
+    "classification": "PRESENT",
+    "aliases": ["equivalence of categories", "quasi-inverse", "EquivalenceOfCategories", "adjoint equivalence", "full faithful essentially surjective"],
+    "evidence": [
+      {"file": "Theory/Equivalence.v", "line": 151, "symbol": "EquivalenceOfCategories",
+       "intree_statement": "Class EquivalenceOfCategories {C D : Category} (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F }."},
+      {"file": "Theory/Equivalence.v", "line": 141, "symbol": "EssentiallySurjective",
+       "intree_statement": "Class EssentiallySurjective {C D : Category} (F : C ⟶ D) := { eso_obj : D → C; eso_iso (d : D) : F (eso_obj d) ≅ d }."}
+    ],
+    "statement_record": {
+      "book": "An equivalence between categories C and D is a pair of functors S : C -> D, T : D -> C together with natural isomorphisms I_C iso T . S and I_D iso S . T.",
+      "intree": "Class EquivalenceOfCategories (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F } -- where ≈ on functors is Functor_Setoid, i.e. bundled natural isomorphism (a family of isos F x ≅ G x with the conjugation coherence on morphisms), as the file's header essay states explicitly.",
+      "strength_comparison": "same: the two cells are exactly the two natural isomorphisms of the book's definition, in the library's setoid presentation (functor-setoid equality = bundled natural iso); the surrounding files additionally supply what MacLane defers to IV.4 -- refinement to an adjoint equivalence (Theory/Equivalence/Adjoint.v) and the full+faithful+essentially-surjective characterization (Theory/Equivalence/FullFaithful.v)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified both classes at the cited lines (Theory/Equivalence.v:141, :151; _CoqProject:435). Independently checked the load-bearing claim that functor-≈ is a bundled natural isomorphism: Theory/Functor.v:148 Functor_Setoid defines equiv F G as { iso : ∀ x, F x ≅ G x & ∀ f, fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) } -- precisely a natural isomorphism, so the setoid rephrasing is faithful and 'same' is honest. Bridges to bundled ≅[Fun] cells exist via equivalence_counit_iso/equivalence_unit_iso and Nat_Isos_to_Equivalence, so the book's literal two-natural-isos form is also directly recoverable."}
+  },
+  {
+    "id": "maclane:I.4:ex1",
+    "classification": "PARTIAL",
+    "aliases": ["exponential functor", "internal hom functor", "X^S", "eval natural transformation", "evaluation map", "cartesian closed", "curry/uncurry", "currying adjunction counit"],
+    "evidence": [
+      {"file": "Functor/Hom/Internal.v", "line": 40, "symbol": "InternalHomFunctor",
+       "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => exponent_obj (fst p) (snd p); fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}  -- fixing the first argument at S yields the exercise's object function X ↦ X^S with its morphism action."},
+      {"file": "Structure/Cartesian/Closed.v", "line": 75, "symbol": "eval",
+       "intree_statement": "Definition eval {x y} : y^x × x ~> y := uncurry id.  (counit of exp_iso : x × y ~> z ≊ x ~> z^y; beta law ump_exponents' : eval' ∘ first (curry' f) ≈ f)"},
+      {"file": "Structure/Cartesian/Closed.v", "line": 185, "symbol": "uncurry_comp_r",
+       "intree_statement": "Corollary uncurry_comp_r {x y z w : C} (f : z ~> w) (g : x ~> z^y) : f ∘ uncurry g ≈ uncurry (curry (f ∘ eval) ∘ g).  -- with eval_first (line 141: eval ∘ first f ≈ uncurry f), specializing g := id yields eval's naturality square in the target variable, but that specialization is nowhere stated in-tree."},
+      {"file": "Instance/Sets/Cartesian/Closed.v", "line": 38, "symbol": "Sets_Closed",
+       "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ... |}; exp_iso := ... from := {| morphism := fun f => {| morphism := fun p => f (fst p) (snd p) |} |} ... }  -- so eval in Sets is literally application e(h, s) = h s."}
+    ],
+    "statement_record": {
+      "book": "For a fixed set S, X ↦ X^S (all functions S -> X) is the object function of a functor Set -> Set, and evaluation e_X : X^S × S -> X, e(h, s) = h(s), is natural in X.",
+      "intree": "For any cartesian closed category the internal hom is a bifunctor [-,-] : C^op ∏ C ⟶ C (InternalHomFunctor) whose partial application at fixed exponent S is the exercise's functor; eval := uncurry id carries the UMP eval ∘ first (curry f) ≈ f, and the substitution-law suite (eval_first, uncurry_comp_r, curry_comp) contains the naturality content in transposed form; Sets is an instance via Sets_Closed, where eval is literally e(h,s) = h s.",
+      "strength_comparison": "intree-stronger on part (a): exponentiation is proven jointly bifunctorial in both arguments for every CCC (Sets included), subsuming the fixed-S functor mathematically; intree-weaker on part (b): the exercise's actual conclusion -- e is a natural transformation in X -- is never stated: the square f ∘ eval ≈ eval ∘ first (fmap f) exists only as a two-rewrite consequence of uncurry_comp_r (g := id) + eval_first + uncurry_curry, with no named lemma, no bundled Transform, and no packaged currying adjunction whose counit it would be."
+    },
+    "gap": "Three related absences: (1) eval's naturality in X is nowhere stated -- no lemma instance of the square f ∘ eval ≈ eval ∘ first (fmap f) and no Transform bundling (-)^S × S ⟹ Id (rg 'natural.*eval|eval.*natural' over *.v: prose hits only; rg for 'eval ∘ first (fmap': 0 hits); (2) the single-variable exponential endofunctor X ↦ X^S : C ⟶ C is not materialized -- only the bifunctor InternalHomFunctor exists, and the PartialApply_* partial-application functors that would produce it sit in a commented-out 'retained exploratory code' block in Theory/Naturality.v:63-115; (3) the currying adjunction (- × S) ⊣ (-)^S, whose counit IS the exercise's natural transformation, is never packaged as an Adjunction record (Comonad/Duality.v:95 and Instance/Coq.v:164 cite it in prose; exp_iso is a per-homset iso with no naturality field).",
+    "negative_search_log": [
+      "rg 'natural.*eval|eval.*natural' --glob '*.v' -- prose hits only (Functor/Hom.v:83 essay, Construction/Enriched/Sets.v comments); no stated naturality square for eval",
+      "rg 'eval ∘ first \\(fmap|fmap.*∘ eval' --glob '*.v' -- only InternalHomFunctor's fmap definition itself (Functor/Hom/Internal.v:44); the square is never an equation in-tree",
+      "swept Structure/Cartesian/Closed.v, Structure/Cartesian/Closed/Product.v, Structure/Monoidal/Closed.v, Functor/Structure/Cartesian/Closed.v (fmap_eval is about closed FUNCTORS, a different statement), Instance/Sets/Cartesian/Closed.v, Instance/Coq.v -- no eval-naturality lemma and no (- × y) ⊣ (- ^ y) Adjunction record anywhere (⊣ appears in these files only inside comments)",
+      "Theory/Naturality.v:63-115 -- PartialApply_Product_Left/Right and PartialApply_Curried_Left/Right, which would materialize X ↦ X^S as a C ⟶ C functor, are commented out ('Retained exploratory code ... kept for reference')"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "OVERTURNED:PARTIAL", "notes": "The cited evidence is all real and accurately quoted (verified InternalHomFunctor at Functor/Hom/Internal.v:40, eval at Closed.v:75, uncurry_comp_r at Closed.v:185, Sets_Closed at Instance/Sets/Cartesian/Closed.v:38; all files in _CoqProject), and the classifier's derivation of the naturality square from uncurry_comp_r (g := id) + eval_first is mathematically correct. But PRESENT overstates it: the exercise's part (b) conclusion -- evaluation IS a natural transformation -- matches no in-tree statement even up to presentation; it must be assembled by specialization and rewriting, the exponential endofunctor X ↦ X^S exists only as an unnamed partial application (the machinery for naming it is commented out in Theory/Naturality.v), and the currying adjunction whose counit would package eval as a Transform is never constructed despite being cited in prose in three places. This is the definition-without-required-API pattern; part (a) is present and stronger, part (b) is a genuine gap, hence PARTIAL."}
+  },
+  {
+    "id": "maclane:I.4:ex2",
+    "classification": "PARTIAL",
+    "aliases": ["product with fixed object functor", "H × -", "product bifunctor", "first/second", "f × id natural transformation", "binoidal tensoring functors inj_left/inj_right", "category of groups Grp"],
+    "evidence": [
+      {"file": "Functor/Product/Internal.v", "line": 34, "symbol": "InternalProductFunctor",
+       "intree_statement": "Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} : C ∏ C ⟶ C := { fobj := fun p => fst p × snd p; fmap := fun _ _ p => (fst p ∘ exl) △ (snd p ∘ exr) }."},
+      {"file": "Structure/Cartesian.v", "line": 346, "symbol": "second_comp",
+       "intree_statement": "Theorem second_comp {x y z w : C} (f : y ~> z) (g : x ~> y) : second (z:=w) (f ∘ g) ≈ second f ∘ second g.  (with second_id, line 340: functoriality of the fixed-left-factor action z × -)"},
+      {"file": "Structure/Cartesian.v", "line": 386, "symbol": "first_second",
+       "intree_statement": "Theorem first_second {x y z w : C} (f : x ~> y) (g : z ~> w) : first f ∘ second g ≈ second g ∘ first f.  -- exactly the naturality square of the family (f × id) : H × X ~> K × X in X."},
+      {"file": "Structure/Binoidal.v", "line": 49, "symbol": "inj_left/inj_right",
+       "intree_statement": "inj_left (y' : C) : C ⟶ C := FromAFunctor (left_functor y')  (and inj_right: the one-variable tensoring functors x ⋉ - / x ⋊ - : C ⟶ C, materialized as bona fide functors in the binoidal/premonoidal development)"}
+    ],
+    "statement_record": {
+      "book": "For a fixed group H, G ↦ H × G defines a functor H × - : Grp -> Grp, and each group morphism f : H -> K defines a natural transformation H × - -> K × -.",
+      "intree": "In any cartesian category the product is a bifunctor (InternalProductFunctor); the fixed-factor action is functorial (second_id/second_comp; and in the binoidal vocabulary x ⋊ - is a literal C ⟶ C functor, inj_right); the induced family f × id = first f satisfies the naturality square first f ∘ second g ≈ second g ∘ first f (first_second).",
+      "strength_comparison": "intree-weaker for the book's statement, intree-stronger in generality: the categorical content (fixed-factor product functor + naturality of f × id in the moving factor) is fully proven for an arbitrary cartesian category, subsuming Grp mathematically -- but no category of groups exists in-tree to instantiate the exercise's actual setting, and the family f × id is not packaged as a named Transform between the two partial-application functors."
+    },
+    "gap": "No category Grp in-tree (Instance/ has no groups; CMon.v is commutative monoids), so the exercise's concrete setting cannot be instantiated; also the induced natural transformation H × - ⟹ K × - is not bundled as a Transform object -- its components (first f) and naturality square (first_second) exist as standalone lemmas.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "All four evidence entries verified verbatim at their lines (InternalProductFunctor at Functor/Product/Internal.v:34, second_id/second_comp/first_second at Structure/Cartesian.v:340/346/386, inj_left at Structure/Binoidal.v:49 -- record said 50, the where-clause line; trivial). Orientation of first_second as the naturality square of (f × id) in the moving factor checked and correct (H × - has fmap = second g; component first f). Blind pass agrees no Grp exists (Structure/Group.v is group OBJECTS in a cartesian monoidal category, a different animal) and no morphism-induced Transform between partial applications is packaged anywhere (checked Structure/Premonoidal/Monoidal.v, Monad/Kleisli/Premonoidal.v). PARTIAL with this two-part gap is exactly right."}
+  },
+  {
+    "id": "maclane:I.4:ex3",
+    "classification": "ABSENT",
+    "aliases": ["group as one-object category", "delooping BG", "natural transformation between group homomorphisms", "conjugacy", "conjugate homomorphisms", "inner automorphism", "intertwiner"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'conjuga' --glob '*.v' -- all hits are false positives: hom_cast conjugation in Construction/ColouredPROP*, braid conjugation in Monad/Kleisli/Commutative.v and Monad/Strong/Symmetric.v, unitor conjugation prose; nothing about conjugate group homomorphisms",
+      "rg -in 'one object|one-object|single object' --glob '*.v' -- deloopings exist only one level up (Theory/Bicategory/OneObject.v deloops a monoidal category to a one-object BICATEGORY; Monad/Graded.v uses it); the remaining hits are essays (Theory/Functor.v:68 'functor from a one-object category BG ... is precisely a representation' is prose, not a construction); no GENERAL monoid- or group-to-one-object-category construction exists",
+      "rg -iln 'deloop' --glob '*.v' -- Monad/Graded.v, Structure/Monoidal.v, Theory/Bicategory.v, Theory/Bicategory/OneObject.v only (all bicategory-level)",
+      "rg -iln '\\bGrp\\b|group' --glob '*.v' + ls Instance/*.v -- no category of groups anywhere in Instance/ (Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX); group hits elsewhere are background essays",
+      "rg -in 'inner automorphism|automorphism' --glob '*.v' -- only apex-automorphism prose in Adamek/limit files, unrelated",
+      "verifier blind pass additionally found Construction/Funny/Comparison.v:81 ListMon -- the free monoid on bool hard-coded as a one-object category (obj := poly_unit, hom := list bool, compose := app) as a discriminating interpretation for the funny tensor; a single ad-hoc delooping with no functors-between-deloopings or transformation-level statements, so it does not touch this exercise"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached ABSENT. One correction of nuance folded into the log: the claim 'no monoid-to-one-object-category construction exists' was slightly too strong -- Construction/Funny/Comparison.v's ListMon deloops one specific monoid (list bool) ad hoc; but there is no general delooping, no groups, and no conjugacy characterization of transformations, so the classification stands."}
+  },
+  {
+    "id": "maclane:I.4:ex4",
+    "classification": "ABSENT",
+    "aliases": ["natural transformation into a preorder", "thin category", "posetal functor category", "pointwise order on functors", "unique transformation", "Proset/Poset instance"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'thin' --glob '*.v' -- Instance/Proset.v, Instance/Poset.v, Instance/Two.v, Instance/Roof.v, Construction/Enriched.v describe their own hom-sets as thin/subsingleton; no lemma about functors INTO a thin category or their transformations",
+      "rg -in 'at most one|unique.*transform|transform.*unique' --glob '*.v' -- no hit states existence-iff-pointwise-<= or uniqueness of natural transformations into a preorder (hits are Kan-extension mediating-arrow uniqueness and hom-subsingleton remarks)",
+      "rg -n 'Transform|natural' Instance/Proset.v Instance/Poset.v -- 0 hits: the thin category of a preorder exists (Instance/Proset.v:33, Program Definition Proset ... hom := R, homset equiv := True), but nothing is proven about functor categories over it",
+      "Construction/Enriched/Two.v checked (Enriched_Two_preorder line 165, EnrichedFunctor_Two_monotone line 183): the 2-enrichment story covers the category and functor levels only -- no transformation-level statement (the analogue of this exercise) exists",
+      "note: the setting (Proset, functor categories Instance/Fun.v) is in-tree, and the uniqueness half would be trivial over Proset's proof-irrelevant homs, but the exercise's actual theorem (a transformation S -> T exists iff Sc <= Tc for all c, and is then unique) is nowhere stated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached ABSENT via the same route: Proset verified at Instance/Proset.v:33 with homset equiv := fun _ _ => True (so uniqueness would be trivial), and Construction/Enriched/Two.v verified to stop at the functor level (Enriched_Two_preorder :165, EnrichedFunctor_Two_monotone :183 -- no EnrichedTransform-level result for Two). The existence-iff-pointwise-≤ characterization has no in-tree counterpart."}
+  },
+  {
+    "id": "maclane:I.4:ex5",
+    "classification": "ABSENT",
+    "aliases": ["arrows-only natural transformation", "arrow function presentation of a transformation", "tau f : Sc -> Tc'", "diagonal/graph of a natural transformation", "Metacategory ArrowsOnly"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'arrows.only' --glob '*.v' -- only Theory/Metacategory.v, Theory/Metacategory/ArrowsOnly.v, Theory/Metacategory/DecideExample.v: these formalize MacLane's I.1 arrows-only CATEGORIES (composable-pairs axiomatization), not the arrows-only presentation of natural transformations",
+      "rg -n 'Transform' Theory/Metacategory/ArrowsOnly.v -- 0 hits in the 612-line file",
+      "rg -in 'arrows.only|arrow function|on arrows' Theory/Natural/Transformation.v -- 0 hits: the library's Transform class is the componentwise definition (transform c : F c ~> G c with naturality and naturality_sym); no alternative single-function-on-arrows presentation, and no round-trip theorem tau_c = tau(1_c) recovering components",
+      "rg -in 'unnatural|mere' Construction/Funny/Hom.v -- the funny-tensor hom's 'unnatural transformations' are bare component families WITHOUT any law, which is the opposite of this exercise's law-bearing arrow-indexed presentation"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached ABSENT: the arrows-only development covers categories only (verified: 0 'Transform' hits in ArrowsOnly.v, which is indeed 612 lines), and Theory/Natural/Transformation.v carries only the componentwise Transform class. No arrow-indexed presentation tau f : Sc -> Tc' with the two-sided splice law, and no round-trip theorem, anywhere in-tree."}
+  },
+  {
+    "id": "maclane:I.4:ex6",
+    "classification": "ABSENT",
+    "aliases": ["matrix category Matr_K", "Matr_F", "finite-dimensional vector spaces", "FdVect/VectF", "linear transformations", "equivalence with the matrix category", "skeleton of Vect"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -iln 'Matr|matrices' --glob '*.v' -- content hits only in prose: Instance/ZX.v lines 108/120/169 mention 'matrix bookkeeping'/'matrix identities' as motivation for the ZX-calculus (no matrix category is constructed there); remaining files match 'matrices' only inside unrelated words/essays; no category with natural-number objects and K-matrices as morphisms exists",
+      "rg -iln 'Vect|vector space|linear map|linear transformation|field ' --glob '*.v' -- all hits are background essays (e.g. Theory/Functor.v:68 representation prose, Structure/Monoidal/StarAutonomous.v:52 naming FdVect as a non-formalized example) or false positives ('linear fan-out' in ColouredPROP); no category of vector spaces over a field",
+      "ls Instance/*.v -- no Vect, no Matr, no field/module instances (closest algebraic instance is CMon.v, commutative monoids)",
+      "rg -in 'skelet' --glob '*.v' -- skeletal development exists only for FinSet; no skeleton-equivalence theorem of any kind (see maclane:I.4:construction4), so a fortiori not this one"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached ABSENT with the same aliases (Matr, matrix category, Vect, FdVect, linear): all hits are prose (ZX-calculus motivation, star-autonomous examples). Neither category in the exercise exists in-tree, and the general equivalence machinery (Theory/Equivalence.v, present) has no such instance. Consistent with the construction4 verdict: no skeleton-equivalence witness of any kind exists."}
+  }
+]

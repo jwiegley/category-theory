@@ -1,0 +1,57 @@
+[
+  {
+    "item_id": "awodey:4.1:remark-generalized-elements",
+    "issue": 341,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.1 (printed p. 81, PDF p. 90), item `awodey:4.1:remark-generalized-elements` — the functor-of-points / generalized-elements reformulation of the group-object axioms. Awodey observes that the commuting-diagram laws hold iff the ordinary group equations hold for all generalized elements `x,y,z : Z → G` (`m(m(x,y),z) = m(x,m(y,z))`, `m(x,u)=x=m(u,x)`, `m(x,ix)=u=m(ix,x)`), i.e. `Hom(Z,G)` is a group naturally in `Z`. This is the same mathematical obligation as MacLane III.6's characterization of group objects through their representable functors; no additional deliverable — the element-wise form is the same statement as the representable-functor form already scoped here."
+  },
+  {
+    "item_id": "awodey:4.1:def2",
+    "issue": 343,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.1 Definition 4.2 (printed p. 81, PDF p. 90), item `awodey:4.1:def2` — a homomorphism of group objects is a `C`-arrow preserving multiplication, unit, and inverse. This is the morphism part of the category of internal groups already scoped here. One increment Awodey's presentation exposes that this issue's category assembly should settle:\n\n- [ ] (from Awodey §4.1) a morphism of the underlying monoid objects between two group objects automatically preserves the inverse, so the internal-group hom class needs no separate inverse-preservation axiom"
+  },
+  {
+    "item_id": "awodey:4.1:construction-group-cat",
+    "issue": 343,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.1 (printed p. 82, PDF p. 91), item `awodey:4.1:construction-group-cat` — the category `Group(C)` of group objects in `C` and their homomorphisms, with identities and composites inherited from `C`. This is the same category-of-internal-groups assembly scoped by this issue's finite-products result; the existing Definition-of-Done (assembling the categories of internal monoids and groups) already covers it, so no additional checkbox — recording the Awodey §4.1 citation only."
+  },
+  {
+    "item_id": "awodey:4.2:def-normal-subgroup",
+    "issue": 301,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.2 (printed p. 83, PDF p. 92), item `awodey:4.2:def-normal-subgroup` — a normal subgroup is a subgroup closed under conjugation, and the kernel of a group homomorphism is always normal. The definition of a normal subgroup is a prerequisite of the group-congruences-are-normal-subgroups correspondence already scoped here. One increment to gate closure:\n\n- [ ] (from Awodey §4.2) the kernel of a group homomorphism is a normal subgroup"
+  },
+  {
+    "item_id": "awodey:4.2:construction-factor-group",
+    "issue": 313,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.2 (printed p. 83, PDF pp. 92–93), item `awodey:4.2:construction-factor-group` — the factor group `G/N` for a normal subgroup `N`, with coset multiplication well-defined by normality and the quotient map `π : G → G/N`. Awodey presents `G/N` explicitly as a colimit, which this quotient-groups issue should include:\n\n- [ ] (from Awodey §4.2) the factor group `G/N` presented as the coequalizer of the inclusion `N → G` and the constant map (equivalently as the cokernel), with well-definedness of coset multiplication from normality"
+  },
+  {
+    "item_id": "awodey:4.2:thm4",
+    "issue": 313,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.2 Theorem 4.4 (Homomorphism Theorem for Groups; printed p. 84, PDF pp. 93–94), item `awodey:4.2:thm4` — every group homomorphism has a normal kernel, and for any normal `N ⊆ G`, `N ⊆ ker(h)` iff `h` factors uniquely through the quotient. This is the universal property underlying the isomorphism theorems already scoped here. Increment to gate closure:\n\n- [ ] (from Awodey §4.2) the homomorphism-theorem biconditional: for a normal subgroup `N ⊆ G`, `N ⊆ ker(h)` iff `h` factors (uniquely) through the quotient `π : G → G/N`"
+  },
+  {
+    "item_id": "awodey:4.2:cor5",
+    "issue": 313,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.2 Corollary 4.5 (printed p. 85, PDF p. 94), item `awodey:4.2:cor5` — every group homomorphism factors as a surjection onto `G/ker(h)` followed by an injection, with `G/ker(h) ≅ im(h)` (the first isomorphism theorem), hence `h` is injective iff its kernel is trivial. The first isomorphism theorem is the core of this issue; increment:\n\n- [ ] (from Awodey §4.2) the epi-mono factorization `G ↠ G/ker(h) ≅ im(h) ↪ H` and the corollary `h` is injective iff `ker(h)` is trivial"
+  },
+  {
+    "item_id": "awodey:4.3:remark-functor-group-hom",
+    "issue": 234,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.3 (printed p. 86, PDF p. 95), item `awodey:4.3:remark-functor-group-hom` — viewing groups as one-object categories in which every arrow is invertible, a functor between two such groups is exactly a group homomorphism. This is the same obligation as the groups-part of MacLane I.3's functors-between-groups treatment already scoped here; no additional deliverable — recording the Awodey §4.3 citation only."
+  },
+  {
+    "item_id": "awodey:4.3:def-representation",
+    "issue": 234,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.3 (printed p. 86, PDF p. 95), item `awodey:4.3:def-representation` — a representation of a group `G` in a category `C` is a functor `R : G → C` out of the one-object delooping of `G`, specializing to a linear representation when `C` is a category of vector spaces. This is the representation-categories part of the issue already scoped here. Increment (if not already in this issue's Definition of Done):\n\n- [ ] (from Awodey §4.3) the notion of a representation of a group as a functor `G → C` out of its one-object delooping, with the linear-representation case (`C` a category of vector spaces) called out"
+  },
+  {
+    "item_id": "awodey:4.4:def-finitely-presented",
+    "issue": 299,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.4 (printed p. 89, PDF p. 98), item `awodey:4.4:def-finitely-presented` — the finitely presented category `C(G,Σ)`: the free category on a finite graph `G` quotiented by the least congruence `~_Σ` identifying the two sides of each relation in a finite set `Σ`, with its generators-and-relations universal property. This is the same mathematical obligation (least congruence generated by relations + presented category with its UMP) as MacLane II.8's least-congruence-and-presented-categories development already scoped here; no additional deliverable — recording the Awodey §4.4 citation only."
+  },
+  {
+    "item_id": "awodey:4:ex1",
+    "issue": 301,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §4.5 Exercise 1 (printed p. 91, PDF p. 100), item `awodey:4:ex1` — regarding a group `G` as a one-object groupoid, categorical congruences on `G` correspond bijectively to normal subgroups, the quotient category `G/~` is the factor group `G/N`, and the group homomorphism theorem is thereby a special case of the one for categories. This is exactly the group-congruences-are-normal-subgroups correspondence scoped here (the same statement as MacLane II.8 Exercise 2). Increment tying it to the categorical homomorphism theorem:\n\n- [ ] (from Awodey §4.5 Ex 1) exhibit the group homomorphism theorem as the specialization of the categorical homomorphism theorem to a group viewed as a one-object groupoid (`G/~` = factor group `G/N`)"
+  }
+]

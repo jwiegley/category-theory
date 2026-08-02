@@ -1,0 +1,518 @@
+[
+ {
+  "id": "riehl:2.3:def-representable-isomorphism",
+  "classification": "PARTIAL",
+  "aliases": [
+   "representably isomorphic objects",
+   "representable isomorphism",
+   "natural isomorphism of represented functors / hom-functors",
+   "[Hom ─,x] ≅ [Hom ─,y] in Presheaves (and [Hom x,─] ≅ [Hom y,─] in Copresheaves)",
+   "Yoneda embedding on isomorphisms; isomorphic presheaves of points"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Hom/Yoneda.v",
+    "line": 231,
+    "symbol": "Yoneda_Embedding",
+    "intree_statement": "Program Instance Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B."
+   },
+   {
+    "file": "Functor/Hom.v",
+    "line": 109,
+    "symbol": "Yoneda_Embedding'",
+    "intree_statement": "Corollary Yoneda_Embedding' (C: Category) (c d : C) : @IsIsomorphism Sets {| carrier := hom d c |} {| carrier := hom (fobj[C] c) (fobj[C] d) |} {| morphism := @fmap _ _ (Curried_Hom C) c d; proper_morphism := fmap_respects _ _ |}."
+   },
+   {
+    "file": "Theory/Functor.v",
+    "line": 227,
+    "symbol": "fobj_iso",
+    "intree_statement": "Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F])."
+   }
+  ],
+  "statement_record": {
+   "book": "In a locally small C, x and y are representably isomorphic when the represented functors C(-,x) ≅ C(-,y) (and dually C(x,-) ≅ C(y,-)) are naturally isomorphic; such a natural isomorphism is called a representable isomorphism. Isomorphic objects are automatically representably isomorphic.",
+   "intree": "Yoneda_Embedding : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B  (with the covariant dual Covariant_Yoneda_Embedding, and fobj_iso : Proper (Isomorphism ==> Isomorphism) (fobj[F]) supplying 'isomorphic ⇒ representably isomorphic' at F := Curried_Hom C)",
+   "strength_comparison": "intree-weaker: the object of study — a natural isomorphism between represented functors — is directly formable (`Isomorphism [Hom ─,x] [Hom ─,y]` in Presheaves) and the library asserts the full hom-setoid bijection over it in both variances, but the relation 'x and y are representably isomorphic' is never defined as a named predicate and the two-variance conjunction Riehl states is never packaged."
+  },
+  "gap": "No in-tree name or predicate for 'representably isomorphic' / 'representable isomorphism'; the notion exists only as the ad-hoc term `Isomorphism [Hom ─,x] [Hom ─,y]` (resp. `Isomorphism [Hom x,─] [Hom y,─]`). Riehl's conjunction of the two variances is never stated together, and the observation 'isomorphic objects are representably isomorphic' exists only as the generic fobj_iso, never instantiated at the Yoneda embedding.",
+  "negative_search_log": [
+   "grep -rIn --include='*.v' -i 'representably' . -- 0 hits",
+   "grep -rIn --include='*.v' 'Representable\\b|repr_obj|represented\\b' . -- only Functor/Representable.v's Representable class (covariant) and unrelated prose"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same evidence set independently (Functor/Hom.v Curried_Hom/Curried_CoHom with the [Hom A,─]/[Hom ─,A] notations, Functor/Hom/Yoneda.v:231 Yoneda_Embedding + :253 Covariant_Yoneda_Embedding, Theory/Functor.v:227 fobj_iso) and independently reached PARTIAL on the same ground: 'representably isomorphic' is nowhere a named predicate. All three citations verified verbatim at the cited lines; all cited files are in _CoqProject; no Admitted/admit in any of them. Elaboration of the quoted `Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B` checked: Functor/Hom.v:78 `Coercion Curried_Hom : Category >-> Functor` plus Theory/Functor.v:123 `Coercion fobj : Functor >-> Funclass` make `Presheaves X Y` the hom-SETOID of the presheaf category, so the statement really is the hom-setoid bijection the record claims (Functor/Hom/Yoneda.glob confirms `Presheaves` resolves to Category.Theory.Sheaf's definition). Additional datum the classifier did not cite, and which supports rather than overturns PARTIAL: Functor/Hom/Yoneda.v:76 asserts in PROSE that full faithfulness 'yields that [Hom ─,A] ≅ [Hom ─,B] exactly when A ≅ B' — i.e. the library itself records the notion only at documentation level, never as a definition or lemma."
+  }
+ },
+ {
+  "id": "riehl:2.3:prop1",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Yoneda embedding reflects (and creates) isomorphisms",
+   "fully faithful functor reflects isomorphisms / conservative functor",
+   "x ≅ y ⟺ C(-,x) ≅ C(-,y)",
+   "Yoneda_Full + Yoneda_Faithful + FullyFaithful",
+   "ReflectsIsos, ff_reflects_isos"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Functor.v",
+    "line": 355,
+    "symbol": "FullyFaithful",
+    "intree_statement": "Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y."
+   },
+   {
+    "file": "Functor/Hom.v",
+    "line": 96,
+    "symbol": "Yoneda_Full",
+    "intree_statement": "#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C)."
+   },
+   {
+    "file": "Functor/Hom.v",
+    "line": 85,
+    "symbol": "Yoneda_Faithful",
+    "intree_statement": "#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C)."
+   },
+   {
+    "file": "Theory/Functor.v",
+    "line": 227,
+    "symbol": "fobj_iso",
+    "intree_statement": "Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F])."
+   }
+  ],
+  "statement_record": {
+   "book": "Proposition 2.3.1: for objects x, y of a locally small C the three kinds of DATA are equivalent — an isomorphism x ≅ y in C; a natural isomorphism C(-,x) ≅ C(-,y); a natural isomorphism C(y,-) ≅ C(x,-). Proof: the Yoneda embeddings are full and faithful, hence preserve, reflect and create isomorphisms; explicitly αx(id_x) and (α⁻¹)y(id_y) are mutually inverse.",
+   "intree": "FullyFaithful : ∀ x y, F x ≅ F y → x ≅ y (for F full+faithful), together with Yoneda_Full : Full (Curried_Hom C) and Yoneda_Faithful : Faithful (Curried_Hom C); the converse direction is fobj_iso : Proper (Isomorphism ==> Isomorphism) (fobj[F]). Also ff_reflects_isos : ReflectsIsos F (Theory/Equivalence/Limit.v:335) for any full+faithful F.",
+   "strength_comparison": "intree-weaker: both halves are present as general lemmas plus the two instances that make them apply to the Yoneda embedding, so the proposition is one instantiation away, but the composite is never asserted. Riehl's 'creates isomorphisms' (equivalence of DATA, with the explicit inverse pair αx(id_x), (α⁻¹)y(id_y)) is stronger than the in-tree 'reflects' form; the explicit construction is performed only inline inside Structure/UniversalProperty.v's univ_property_unique (via Yoneda_Embedding'), not exposed as a lemma."
+  },
+  "gap": "No in-tree lemma states x ≅ y ⟺ [Hom ─,x] ≅ [Hom ─,y] (nor the covariant form), and neither Yoneda_Full/Yoneda_Faithful nor FullyFaithful is ever composed into that corollary. The 'creates' strength — that the reflected isomorphism IS αx(id_x) with inverse (α⁻¹)y(id_y), so the three kinds of data correspond bijectively — is not asserted anywhere; only the one-way reflection F x ≅ F y → x ≅ y is available.",
+  "negative_search_log": [
+   "grep -rIn --include='*.v' 'FullyFaithful (Curried_Hom' . -- 0 hits (the instantiation is never taken)",
+   "grep -rIn --include='*.v' '\\[Hom ─,' . filtered to Lemma/Theorem/Corollary/Proposition lines -- only Structure/UniversalProperty.v:54 preyoneda"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind pass produced the same four citations and the same PARTIAL verdict with the same gap (both halves present as general lemmas, the Yoneda instantiation never taken). Verified verbatim: Theory/Functor.v:355 `Lemma FullyFaithful \\`(F : C ⟶ D) \\`{@Full _ _ F} \\`{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y`; Functor/Hom.v:85 Yoneda_Faithful; Functor/Hom.v:96 Yoneda_Full; Theory/Functor.v:227 fobj_iso; and the cross-check Theory/Equivalence/Limit.v:335 `Definition ff_reflects_isos : ReflectsIsos F`. I re-ran the negative search: no occurrence of FullyFaithful applied to Curried_Hom/Curried_CoHom anywhere in the tree. The one place the explicit construction happens is inline in Structure/UniversalProperty.v:118-121 (`two_sided_inverse (Yoneda_Embedding' C v c) (from b1 ∘ to b2)`), exactly as the record says — consumed, never exposed. The 'creates isomorphisms' / equivalence-of-DATA strength is genuinely absent: no bijection between the setoid of isos x ≅ y and the setoid of natural isos is stated. Also relevant: Functor/Hom/Yoneda.v:76 states this corollary in the header prose only."
+  }
+ },
+ {
+  "id": "riehl:2.3:cor2",
+  "classification": "PRESENT",
+  "aliases": [
+   "representing object unique up to unique isomorphism",
+   "essential uniqueness of representing objects",
+   "univ_property_unique_up_to_unique_iso",
+   "uniqueness of universal objects / initial objects up to unique iso",
+   "IsUniversalProperty"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/UniversalProperty.v",
+    "line": 175,
+    "symbol": "univ_property_unique_up_to_unique_iso",
+    "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s)."
+   },
+   {
+    "file": "Structure/UniversalProperty.v",
+    "line": 112,
+    "symbol": "univ_property_unique",
+    "intree_statement": "Proposition univ_property_unique (c : C) (t : P c) : @Unique obj[C] (ob_setoid) P."
+   },
+   {
+    "file": "Structure/UniversalProperty/Universal/Arrow.v",
+    "line": 61,
+    "symbol": "UniversalArrowIsUniversalProperty",
+    "intree_statement": "Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _."
+   }
+  ],
+  "statement_record": {
+   "book": "Corollary 2.3.2: if x and y both represent the same functor then x ≅ y, and there is a UNIQUE isomorphism x ≅ y commuting with the given representation data (uniqueness is of the isomorphism making the triangle of natural transformations commute; other isomorphisms x ≅ y may exist). This licenses 'THE representing object'.",
+   "intree": "univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s) — over Context (H : IsUniversalProperty C P eqP), where IsUniversalProperty packages repr_functor : C ⟶ Sets together with repr_equivalence : ∀ c, (P c) ≅ (Isomorphism [Hom c,─] repr_functor) in Sets.",
+   "strength_comparison": "same. `Unique` (Lib/Setoid.v:97) is unique existence up to ≈, so the statement is exactly 'there is an isomorphism carrying the representation t to the representation s, and it is the only one doing so' — Riehl's 'unique isomorphism commuting with the representations', not the false 'unique isomorphism x ≅ y'. The in-tree form is stated for the covariant packaging [Hom c,─] ≅ F; Riehl states it variance-agnostically (the contravariant case is the same statement in C^op). Non-vacuous: three instantiations exist (products, limits, universal arrows)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently landed on Structure/UniversalProperty.v as the counterpart and on PRESENT. Citations verified verbatim at Structure/UniversalProperty.v:175 (univ_property_unique_up_to_unique_iso), :112 (univ_property_unique), Structure/UniversalProperty/Universal/Arrow.v:61. Adversarial checks all clear: (a) `Unique` really is unique-existence — Lib/Setoid.v:97-100 has unique_obj / unique_property / uniqueness : ∀ v, P v → unique_obj ≈ v — so the statement is not a weaker 'merely isomorphic'; (b) the predicate quantified over is `p : c ≅ d` with `univ_property_respects_iso c d p t ≈ s`, i.e. the iso CARRIES the representation t to the representation s — Riehl's compatibility triangle, not the false 'unique iso x ≅ y'; (c) non-vacuity confirmed: three IsUniversalProperty instances exist (Structure/UniversalProperty/Cartesian.v:60, .../Limit.v:141, .../Universal/Arrow.v:61); (d) no Admitted/admit in the file; file registered in _CoqProject. The disclosed narrowing (in-tree form is the covariant packaging [Hom c,─] ≅ F) is accurate and is stated in the strength_comparison rather than hidden."
+  }
+ },
+ {
+  "id": "riehl:2.3:def3",
+  "classification": "PRESENT",
+  "aliases": [
+   "universal element of a set-valued functor",
+   "element (c, x) with x ∈ Fc",
+   "representation determined by a universal element",
+   "Yoneda image of an element is an isomorphism",
+   "representability_by_yoneda"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/UniversalProperty.v",
+    "line": 72,
+    "symbol": "representability_by_yoneda",
+    "intree_statement": "Proposition representability_by_yoneda (C : Category) (F : C^op ⟶ Sets) (c : C): @Isomorphism Sets {| carrier := { x : F c & IsIsomorphism (from (Yoneda_Lemma C F c) x) } |} (Build_SetoidObject (Isomorphism [Hom ─,c] F) _)."
+   },
+   {
+    "file": "Functor/Hom/Yoneda.v",
+    "line": 133,
+    "symbol": "Yoneda_Lemma",
+    "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; from := {| morphism := fun y : F A => {| transform := fun x : C => {| morphism := fun phi => @fmap (C^op) Sets F A x phi y |} |} |} }."
+   },
+   {
+    "file": "Structure/UniversalProperty.v",
+    "line": 54,
+    "symbol": "preyoneda",
+    "intree_statement": "Lemma preyoneda {C : Category} {c d: C} {P : C^op ⟶ Sets} (τ : [Hom ─ , c] ⟹ P) : forall f : d ~> c, transform τ d f ≈ fmap[P] f (transform τ c id{C})."
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 2.3.3: an ELEMENT of a Set-valued functor F on C is a pair (c, x) with x ∈ Fc; it is UNIVERSAL when the natural transformation Ψ(x) supplied by the Yoneda lemma (C(c,-) ⇒ F covariantly, C(-,c) ⇒ F contravariantly) is a natural ISOMORPHISM. Then c represents F and Ψ(x) is the representation determined by x.",
+   "intree": "{ x : F c & IsIsomorphism (from (Yoneda_Lemma C F c) x) }  ≅  Isomorphism [Hom ─,c] F   (an isomorphism of setoids in Sets), where `from (Yoneda_Lemma C F c) x` is exactly Ψ(x) : [Hom ─,c] ⟹ F.",
+   "strength_comparison": "intree-stronger on the content, intree-narrower on variance: the sigma type IS Riehl's 'element x of Fc whose Yoneda image is an isomorphism', and the library additionally PROVES that universal elements and representations are the same data (Riehl only remarks this). Riehl states the definition in both variances; the in-tree correspondence is proved only contravariantly (F : C^op ⟶ Sets), although Covariant_Yoneda_Lemma (Functor/Hom/Yoneda.v:182) supplies the covariant Ψ and the covariant representation packaging is Functor/Representable.v's Representable class."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass reached the same evidence (Structure/UniversalProperty.v:72 representability_by_yoneda, Functor/Hom/Yoneda.v:133 Yoneda_Lemma, Structure/UniversalProperty.v:54 preyoneda) but leaned PARTIAL; on re-reading the frozen definition I CONFIRM PRESENT, because the sigma `{ x : F c & IsIsomorphism (from (Yoneda_Lemma C F c) x) }` IS literally Riehl's 'element of Fc whose Yoneda image Ψ(x) is a natural isomorphism', and the library additionally proves the element↔representation correspondence Riehl only asserts. Two caveats a downstream reader should carry, both already disclosed in strength_comparison and neither sufficient to overturn: (i) the notion has NO standalone name — there is no `UniversalElement` definition, only the anonymous sigma inside one Proposition, and `representability_by_yoneda` has zero call sites in the tree (rg over all *.v: one hit, its own definition), so it is a stated theorem rather than reusable API; (ii) only the CONTRAVARIANT variance is written down — the covariant Ψ exists (Functor/Hom/Yoneda.v:182 Covariant_Yoneda_Lemma) and Functor/Representable.v carries the covariant representation class, but the covariant universal-element correspondence is never stated. Line numbers verified; no Admitted/admit; files in _CoqProject."
+  }
+ },
+ {
+  "id": "riehl:2.3:example4",
+  "classification": "ABSENT",
+  "aliases": [
+   "forgetful functor Ring → Set represented by Z[x]",
+   "polynomial ring / free unital ring on one generator",
+   "underlying-set functor is representable by the free object on one generator",
+   "free algebra universal property (maps out of the free object = functions on generators)",
+   "Ring(Z[x], R) ≅ UR, universal element the indeterminate x"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIn --include='*.v' -i 'polynomial ring' . -- 0 hits",
+   "grep -rIn --include='*.v' -i 'unital ring' . -- 0 hits; 'Category Ring' / 'Ring :' -- 0 hits",
+   "grep -rIn --include='*.v' -i 'Z\\[x\\]' . -- 0 hits",
+   "ls Instance/ -- Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX: no category of rings, groups, modules or vector spaces",
+   "NEAR-MISS, DELIBERATELY NOT COUNTED (Phase D): Instance/Comp.v:108 induced_hom and :116 from_free_unique give the free-algebra universal property for an arbitrary OpSignature and generating TYPE X, in existence+uniqueness form (with functional extensionality, per the file's own jww note at :122-127, and Leibniz = on generators). It is not a weakened form of Example 2.3.4: Instance/Comp.v defines NO functor Algs ⟶ Sets (Algs is built at :151 with only Terminal/Cartesian/Initial; Algs_Closed at :190 and Algs_Cocartesian at :224 are commented out), so no representable functor, no representation and no universal element can be stated there, and the X := unit specialisation is never taken.",
+   "OTHER NEAR-MISSES CHECKED: Instance/CMon.v:169 `Program Definition CMon_Forget : CMon ⟶ Sets` is a genuine underlying-set functor but is never shown representable; Theory/Lawvere/Sets.v:83 `Program Definition ev1 : Models T Sets ⟶ Sets` likewise (its left adjoint is a HYPOTHESIS in Theory/Lawvere/Monad.v, not a construction)."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:ABSENT",
+   "notes": "OVERTURNED PARTIAL → ABSENT. The cited evidence cannot state any part of the item, by the record's own admission: its gap says 'Instance/Comp.v's Algs has no forgetful functor into Sets, so \"U is representable\" cannot even be stated there; there is no representation, no universal element', and its strength_comparison ends 'Riehl's concrete instance (Ring, Z[x], universal element x) has no in-tree counterpart at all'. That is the definition of ABSENT, not PARTIAL. I read Instance/Comp.v in full: it defines OpSignature/OpAlgebra/AlgHom, the free algebra `Free` on a generating TYPE X with induced_hom (:108) and from_free_unique (:116, verified verbatim, and using functional extensionality per its own jww note at :122-127), and the category `Algs` (:151) with Terminal/Cartesian/Initial; `Algs_Closed` (:190) and `Algs_Cocartesian` (:224) are COMMENTED OUT. There is no functor Algs ⟶ Sets anywhere in the file, hence no representable functor, no representation and no universal element — the free-algebra UMP is a different theorem (existence+uniqueness of an extension), not a weakened form of Example 2.3.4. The overturn also restores internal consistency with this same batch: the classifier explicitly REFUSED to count structurally closer near-misses as coverage for riehl:2.3:prop10 (Structure/Cartesian.v:479 prod_comm, an iso genuinely derived from a universal property in a real in-tree category) and for riehl:2.3:exii (Structure/Cartesian.v:451/465/485), calling both ABSENT. The Instance/Comp.v material is preserved as a documented near-miss in negative_search_log."
+  },
+  "phase_c_classification": "PARTIAL"
+ },
+ {
+  "id": "riehl:2.3:example6",
+  "classification": "PARTIAL",
+  "aliases": [
+   "contravariant power set functor represented by Ω = {⊤,⊥}",
+   "subobject classifier; characteristic / classifying function",
+   "Set(A, Ω) ≅ P(A), f ↦ f⁻¹(⊤)",
+   "generic subobject; truth : 1 ~> Ω; truth_subobject",
+   "classifier_classifies : SubObj x ≅ (x ~> Ω)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/SubobjectClassifier.v",
+    "line": 187,
+    "symbol": "classifier_classifies",
+    "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}."
+   },
+   {
+    "file": "Structure/SubobjectClassifier.v",
+    "line": 174,
+    "symbol": "classifier_pullback_roundtrip",
+    "intree_statement": "Lemma classifier_pullback_roundtrip {x : C} (s : SubObj x) : sub_reindex (char (sub_mono s) (sub_is_monic s)) truth_subobject ≈ s."
+   },
+   {
+    "file": "Instance/FinSet/Classifier.v",
+    "line": 353,
+    "symbol": "FinSet_Classifier",
+    "intree_statement": "#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; truth := fun _ => fin_true; char := fun u x (m : u ~{FinSet}~> x) (_ : Monic m) (b : Fin.t x) => fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |}."
+   }
+  ],
+  "statement_record": {
+   "book": "Example 2.3.6: the contravariant power set functor P : Set^op → Set is represented by the two-element set Ω = {⊤,⊥}, via Set(A, Ω) ≅ P(A) sending f to f⁻¹(⊤). The universal element is the SUBSET {⊤} ∈ P(Ω), not the point ⊤.",
+   "intree": "classifier_classifies (x : C) : SubObj x ≅ (x ~> Ω) in Sets — the representation of the subobject 'power set' by Ω; classifier_pullback_roundtrip shows that pulling truth_subobject (the generic subobject {⊤} ⊆ Ω, Structure/SubobjectClassifier.v:72) back along char m recovers m, i.e. truth_subobject is the universal element and the inverse map is preimage-of-⊤; FinSet_Classifier realizes Ω concretely as the two-element set 2 with truth = fin_true.",
+   "strength_comparison": "intree-weaker in two respects: (a) classifier_classifies is a FAMILY of setoid isomorphisms indexed by x, not a natural isomorphism Sub ≅ [Hom ─,Ω] in [C^op, Sets] — Riehl's naturality clause ('precomposing a classifying map with f computes the preimage') is never stated; (b) the concrete witness is FinSet, not Set. It is intree-stronger in generality: the statement holds in any category with a terminal object, pullbacks and a classifier, not only Set, and works with subobjects-as-a-setoid-quotient rather than literal subsets."
+  },
+  "gap": "The isomorphism SubObj x ≅ (x ~> Ω) is proved pointwise in x only; there is no in-tree natural isomorphism Sub ≅ [Hom ─,Ω] in [C^op, Sets] (no lemma char (sub_reindex f s) ≈ char s ∘ f — the file's only lemmas are truth_monic, char_respects and the two round trips), so 'Ω REPRESENTS the power set functor' in Riehl's sense is not asserted. Sets itself carries no SubobjectClassifier instance: Instance/Sets/Classifier.v is deliberately a set of cross-universe theorems (PropSetoid lives one level up), so the example's actual category, Set, is not covered; only FinSet is.",
+  "negative_search_log": [
+   "grep -n '^Lemma|^Theorem|^Definition|^Corollary|^Proposition|^Program|^Class' Structure/SubobjectClassifier.v -- no naturality lemma for char",
+   "grep -rIn --include='*.v' -i 'power set' . -- 1 hit, Structure/Topos.v:75 (prose, on Pow a := Ω ^ a)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently identified the subobject-classifier development as the counterpart and independently reached PARTIAL with the same two gaps. Citations verified verbatim: Structure/SubobjectClassifier.v:187 `Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}`, :174 classifier_pullback_roundtrip, :72 truth_subobject, Instance/FinSet/Classifier.v:353-354 FinSet_Classifier with Ω := 2%nat and truth := fin_true. Gap (a) re-verified independently: I enumerated every top-level declaration in Structure/SubobjectClassifier.v (lines 44, 64, 72, 82, 108, 143, 159, 174, 187) — there is no naturality lemma, and an rg for `char .* sub_reindex` across the tree returns only the two round-trip lemmas, so no natural iso Sub ≅ [Hom ─,Ω] exists even though Sub IS a functor (Theory/Subobject/Functor.v:180 `Program Definition Sub : C^op ⟶ Sets`). Gap (b) re-verified: FinSet_Classifier is the ONLY SubobjectClassifier instance in the tree; Instance/Sets/Classifier.v:21 states in its own header that it is deliberately NOT a `SubobjectClassifier Sets` instance (the truth-value setoid lives one universe up), so Riehl's actual category is not covered. No power-set functor P : Set^op ⟶ Set exists (only Structure/Topos.v:75's Pow a := Ω ^ a, prose). No Admitted/admit; both files in _CoqProject."
+  }
+ },
+ {
+  "id": "riehl:2.3:example7",
+  "classification": "ABSENT",
+  "aliases": [
+   "G-torsor; principal homogeneous space",
+   "representable G-set; free and transitive action",
+   "functor BG → Set; left G-set; one-object category of a group",
+   "affine space as a torsor for R^n; choice of origin as universal element",
+   "delooping of a group; stabilizer, orbit"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIn --include='*.v' -i 'torsor' . -- 0 hits",
+   "grep -rIn --include='*.v' -i 'principal homogeneous' . -- 0 hits",
+   "grep -rIn --include='*.v' -i 'G-set' . -- 5 hits, all matching the substring in 'underlying-set functor', none about group actions",
+   "grep -rIn --include='*.v' -i 'free.*transitive' . -- 0 hits",
+   "grep -rIn --include='*.v' -i 'orbit' . -- 0 hits; -i 'stabilizer' -- 1 hit (unrelated prose)",
+   "grep -rIn --include='*.v' 'BG' . -- 16 hits, all a BraidedMonoidalFunctor variable name in Construction/*PROP/Universal.v plus one prose mention in Theory/Functor.v:68",
+   "grep -rIn --include='*.v' -i 'delooping.*group' . -- 0 hits (Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY, not a group)",
+   "ls Instance/ -- no group, G-set or group-action instance; Structure/Group.v defines only GroupObject internal to a cartesian monoidal category, with no category of G-sets and no action",
+   "NOTE: no in-tree counterpart of any clause — neither BG as a one-object category, nor left G-sets, nor freeness/transitivity, nor affine space."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind search found nothing: rg -i for torsor / 'principal homogeneous' / orbit / stabilizer / 'free.*transitive' / 'group action' → no formalization (the only 'group action' hits are prose in Theory/Isomorphism.v:96 and Construction/Groupoid.v:57). `ls Instance/` confirms the record's claim: the instance layer is Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX — no category of groups, no G-sets, no BG. Structure/Group.v defines only a GroupObject internal to a cartesian monoidal category, with no action and no delooping. ABSENT is correct and the negative_search_log is accurate as written."
+  }
+ },
+ {
+  "id": "riehl:2.3:example8",
+  "classification": "ABSENT",
+  "aliases": [
+   "tensor product of vector spaces as a representation of Bilin(V,W;-)",
+   "universal bilinear map ⊗ : V × W → V ⊗_k W",
+   "Vect_k(V ⊗_k W, U) ≅ Bilin(V,W;U)",
+   "universal property of the tensor product; unique linear factorization f = f̄ ∘ ⊗",
+   "bilinear maps; currying V → Hom(W,U)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIn --include='*.v' -i 'bilinear' . -- 7 hits, ALL prose in headers (Theory/Displayed.v, Theory/Algebra/Frobenius.v, Construction/Indexed.v, Construction/Enriched.v, Structure/Preadditive.v, Structure/Additive.v); no bilinear-maps functor, no Bilin",
+   "grep -rIn --include='*.v' -i 'universal bilinear' . -- 0 hits",
+   "grep -rIn --include='*.v' -i 'Vect_k' . -- 1 hit (prose); -i 'k-vector' -- 0 hits; no category of vector spaces or modules exists in Instance/",
+   "grep -rIn --include='*.v' -i 'tensor product of vector' . -- 1 hit, Structure/Monoidal.v (prose motivation only)",
+   "NOTE: the in-tree ⊗ of Structure/Monoidal.v is PRIMITIVE STRUCTURE with no universal property; the only universal-property-defined tensor-like construction is Structure/Cartesian/Closed.v's exponential adjunction (a different functor — see riehl:2.3:exiii)."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind search agrees. rg -i 'bilinear' returns 7 hits, every one of them header prose (Structure/Additive.v:30, Theory/Algebra/Frobenius.v:56, Theory/Displayed.v:49, Construction/Enriched.v:28/67, Construction/Indexed.v:121, Structure/Preadditive.v:16) — there is no Bilin functor and no category of vector spaces or modules anywhere in Instance/. The record's refusal to count Structure/Monoidal.v's ⊗ (primitive structure, no universal property) is exactly right."
+  }
+ },
+ {
+  "id": "riehl:2.3:prop10",
+  "classification": "ABSENT",
+  "aliases": [
+   "commutativity of the tensor product V ⊗_k W ≅ W ⊗_k V",
+   "symmetry of ⊗ derived from a representation",
+   "Bilin(V,W;-) ≅ Bilin(W,V;-) via f ↦ f∘swap",
+   "braiding / symmetry isomorphism of a monoidal category",
+   "isomorphism of representing objects from a natural iso of represented functors"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIn --include='*.v' -i 'bilinear' . -- 7 prose-only hits; no Bilin functor to build the natural isomorphism from",
+   "grep -rIn --include='*.v' -i 'Vect' . -- no category of vector spaces; the proposition's objects do not exist in-tree",
+   "grep -rIn --include='*.v' 'V ⊗ W ≅ W ⊗ V' . -- 0 hits",
+   "NOTE ON NEAR-MISSES (deliberately NOT counted as coverage): Structure/Monoidal/Braided.v/Symmetric.v give x ⨂ y ≅ y ⨂ x as AXIOMATIC STRUCTURE, not derived from any representation; Structure/Cartesian.v:479 prod_comm : x × y ≅ y × x IS derived from a universal property, but of the categorical product, a different functor from Bilin. Neither is the book's statement or its proof route.",
+   "The generic machinery the proof invokes IS present (Structure/UniversalProperty.v:175 univ_property_unique_up_to_unique_iso for Cor 2.3.2, Theory/Functor.v:355 FullyFaithful for Prop 2.3.1); only the instance is missing."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind search agrees, and I verified the two near-misses the record deliberately declines to count: Structure/Cartesian.v:479 `#[export] Program Instance prod_comm {x y : C} : x × y ≅ y × x := { to := swap; from := swap ... }` is about the categorical PRODUCT, and the braided/symmetric braiding is an axiom of the class rather than a derived isomorphism. Neither is the book's statement (no Vect_k, no Bilin), and declining them is the correct and consistent call — it is the same standard I applied when overturning riehl:2.3:example4."
+  }
+ },
+ {
+  "id": "riehl:2.3:remark12",
+  "classification": "ABSENT",
+  "aliases": [
+   "explicit commutativity isomorphism φ(w ⊗ v) = v ⊗ w",
+   "tracing the identity through the Yoneda correspondence",
+   "the unique linear map induced by the swapped universal bilinear map",
+   "image of id under Vect_k(V⊗W, V⊗W) ≅ Bilin(V,W;V⊗W) ≅ Bilin(W,V;V⊗W) ≅ Vect_k(W⊗V, V⊗W)",
+   "symmetry witness computed by evaluation at the identity"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIn --include='*.v' -i 'bilinear' . -- 7 prose-only hits; the swapped universal bilinear map does not exist in-tree",
+   "grep -rIn --include='*.v' -i 'Vect' / 'k-vector' / 'linear map' . -- prose only; no vector spaces, no elements v ⊗ w",
+   "NOTE: the general technique the remark applies — 'evaluate the natural isomorphism at the identity to compute the induced map' — is in-tree as Structure/UniversalProperty.v:54 preyoneda and the `to` direction of Functor/Hom/Yoneda.v:133 Yoneda_Lemma, but the remark's specific computation has no counterpart, being downstream of riehl:2.3:example8 and riehl:2.3:prop10 (both ABSENT)."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind search agrees; the remark is downstream of example8 and prop10, both ABSENT. The record's note that the general technique (evaluate at the identity) IS in-tree — Structure/UniversalProperty.v:54 preyoneda and the `to` direction of Functor/Hom/Yoneda.v:133 — is accurate and correctly excluded from coverage of this specific computation."
+  }
+ },
+ {
+  "id": "riehl:2.3:example13",
+  "classification": "ABSENT",
+  "aliases": [
+   "group ring Z[G] represents Group(G, (-)^×)",
+   "group of units functor Ring → Set / Ring → Group",
+   "Ring(Z[G], R) ≅ Group(G, R^×)",
+   "monoid ring / K-algebra generalization",
+   "universal element η : G → Z[G]^×"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIn --include='*.v' -i 'group ring' . -- 0 hits",
+   "grep -rIn --include='*.v' 'Z\\[G\\]' . -- 0 hits",
+   "grep -rIn --include='*.v' -i 'group of units' . -- 0 hits; -i 'unital ring' -- 0 hits; 'Category Ring' / 'Ring :' -- 0 hits",
+   "grep -rIn --include='*.v' 'Grp' . -- 42 hits, all prose or the groupoid abbreviation Grpd; no category of groups exists",
+   "ls Instance/ -- no Ring, Group, Ab or Alg instance (Instance/CMon.v is commutative monoids only); Structure/Group.v defines GroupObject internal to a cartesian monoidal category and neither the category of groups nor a units functor",
+   "NOTE: the adjunction Z[-] ⊣ (-)^× would be expressible over Theory/Universal/Arrow.v, but neither side's category exists in-tree."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind search agrees: rg -i 'group ring' / 'group of units' / 'unital ring' / 'Laurent' / 'K-algebra' → 0 hits each. No category of rings or groups exists in Instance/ (CMon.v is commutative monoids only), so neither side of Ring(Z[G], R) ≅ Group(G, R^×) is expressible."
+  }
+ },
+ {
+  "id": "riehl:2.3:exi",
+  "classification": "ABSENT",
+  "aliases": [
+   "universal element of mor : Cat → Set represented by the walking arrow 2",
+   "universal element of O : Top^op → Set represented by the Sierpinski space",
+   "universal element of C : Top^op → Set (closed subsets) represented by Sierpinski",
+   "generic arrow; generic open subset; classifying object for opens",
+   "Cat(2, C) ≅ mor C, [2, C] ≅ Arr(C)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIn --include='*.v' -i 'Sierpinski' . -- 0 hits",
+   "grep -rIn --include='*.v' -i 'open subset functor' / 'closed subset functor' / 'continuous map' . -- 0 hits; ls Instance/ -- no category of topological spaces",
+   "grep -rIn --include='*.v' 'mor :.*Sets' / -i 'morphisms functor' . -- 0 hits: there is no functor mor : Cat ⟶ Sets in-tree, so the representation whose universal element is asked for does not exist",
+   "grep -rn --include='*.v' 'Instance.Two' . and grep -n on Instance/Two.v -- _2 (the walking arrow) exists, and _2_as_Set : _2 ⟶ Sets, but nothing states Cat(2, C) ≅ mor C",
+   "Construction/Arrow.v:104-108 states explicitly in its header that 'The [2, C] equivalence of the header ... remains documentation-level: no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree'",
+   "NOTE: all three clauses of the exercise are therefore uncovered; clause (i)'s representing OBJECT (_2) exists but its representation does not, and clauses (ii)/(iii) need Top, which is absent."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind search agrees on all three clauses. rg -i 'sierpinski' → 0 hits; there is no category of topological spaces. For clause (i) I verified both halves of the record's claim: Instance/Two.v:174 does define `Program Definition _2_as_Set : _2 ⟶ Sets`, but there is no functor mor : Cat ⟶ Sets and no statement Cat(2, C) ≅ mor C; and Construction/Arrow.v:104-108 does say verbatim that 'The [2, C] equivalence of the header, by contrast, remains documentation-level: no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree'. So the representing object exists but the representation — the thing whose universal element the exercise asks for — does not."
+  }
+ },
+ {
+  "id": "riehl:2.3:exii",
+  "classification": "ABSENT",
+  "aliases": [
+   "unit law of the tensor product k ⊗_k V ≅ V",
+   "associativity of the tensor product U ⊗ (V ⊗ W) ≅ (U ⊗ V) ⊗ W",
+   "monoidal unitors and associator derived from a universal property",
+   "structural isomorphisms from the representation of Bilin / trilinear maps",
+   "λ, ρ, α of Vect_k"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIn --include='*.v' -i 'bilinear' . -- 7 prose-only hits; no Bilin functor, hence no 'defining universal property of the tensor product' to argue from",
+   "grep -rIn --include='*.v' -i 'Vect' / 'k-vector' . -- prose only; no ground field, no k ⊗_k V",
+   "NOTE ON NEAR-MISSES (deliberately NOT counted): Structure/Monoidal.v posits unit_left/unit_right/tensor_assoc as AXIOMS of the class, so they are not derived from anything; Structure/Cartesian.v:451/465/485 (prod_one_l, prod_one_r, prod_assoc) ARE derived from a universal property, but of the categorical product, not of a tensor representing bilinear maps."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind search agrees. No Bilin, no Vect_k, no ground field. Verified the declined near-misses: Structure/Monoidal.v posits unit_left/unit_right/tensor_assoc as CLASS FIELDS (so they are derived from nothing), and Structure/Cartesian.v:451/465/485 (prod_one_l, prod_one_r, prod_assoc) are derived, but from the universal property of the categorical product, not from a representation of bilinear maps. Correctly ABSENT."
+  }
+ },
+ {
+  "id": "riehl:2.3:exiii",
+  "classification": "PRESENT",
+  "aliases": [
+   "evaluation map ev : B^A × A → B as universal element",
+   "B^A represents Set(- × A, B) : Set^op → Set; currying",
+   "exponential object, internal hom, cartesian closure",
+   "exp_iso : Hom(x × y, z) ≅ Hom(x, z^y); ump_exponents",
+   "counit of (- × A) ⊣ (-)^A"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 78,
+    "symbol": "ump_exponents",
+    "intree_statement": "Definition ump_exponents {x y z} (f : x × y ~> z) : eval ∘ first (curry f) ≈ f := @ump_exponents' _ x y z f.   (* with Definition eval {x y} : y^x × x ~> y := uncurry id, line 75 *)"
+   },
+   {
+    "file": "Instance/Sets/Cartesian/Closed.v",
+    "line": 38,
+    "symbol": "Sets_Closed",
+    "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}; exp_iso := fun _ _ _ => {| to := ... fun f => fun x => fun y => f (x, y) ...; from := ... fun f => fun p => f (fst p) (snd p) ... |} }."
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 101,
+    "symbol": "curry_uncurry",
+    "intree_statement": "Corollary curry_uncurry {x y z} (f : x ~> z^y) : curry (uncurry f) ≈ f.   (* with uncurry_curry at line 107: uncurry (curry f) ≈ f — together, uniqueness of the transpose *)"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 165,
+    "symbol": "curry_comp_l",
+    "intree_statement": "Corollary curry_comp_l {x y z w : C} (f : y × z ~> w) (g : x ~> y) : curry f ∘ g ≈ curry (f ∘ first g)."
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise 2.3.iii: B^A represents the contravariant functor Set(- × A, B) : Set^op → Set; its universal element is the evaluation map ev : B^A × A → B. Define ev and describe the universal property it satisfies, in analogy with the universal bilinear map ⊗ of Example 2.3.8 (every f : X × A → B factors uniquely through ev along a map X → B^A).",
+   "intree": "Class Closed carries exp_iso {x y z} : x × y ~> z ≊ x ~> z^y (Structure/Cartesian/Closed.v:51); eval {x y} : y^x × x ~> y := uncurry id (line 75); ump_exponents (f : x × y ~> z) : eval ∘ first (curry f) ≈ f (line 78); uniqueness from curry_uncurry / uncurry_curry (lines 101/107); naturality in the varying argument from curry_comp_l : curry f ∘ g ≈ curry (f ∘ first g) (line 165). Sets_Closed instantiates all of it with z^y = the setoid of ≈-respecting maps and exp_iso = literal currying.",
+   "strength_comparison": "same, and constructively instantiated in the exercise's own category. exp_iso IS the representation Hom(- × y, z) ≅ Hom(-, z^y); eval is the universal element (the image of id under uncurry, i.e. the Yoneda image of the identity); ump_exponents + curry_uncurry are exactly 'every f factors uniquely through ev'; curry_comp_l is the naturality Riehl's 'represents' requires in the varying contravariant argument. The only presentational differences: Sets is setoids rather than bare sets (faithful, per the frozen rule), and naturality appears as a substitution law rather than as a packaged natural transformation."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind pass reached PRESENT on the same evidence. Every citation verified verbatim at the cited line: Structure/Cartesian/Closed.v:51 `exp_iso {x y z} : x × y ~> z ≊ x ~> z^y` (a class field), :75 `Definition eval {x y} : y^x × x ~> y := uncurry id`, :78 ump_exponents, :101 curry_uncurry, :107 uncurry_curry, :165 curry_comp_l, and Instance/Sets/Cartesian/Closed.v:38 `Program Instance Sets_Closed : @Closed Sets _`. Adversarial checks: this is the LIVE cartesian-closed development (CLAUDE.md flags Structure/Closed.v as the incomplete Eilenberg–Kelly stub, which is NOT what is cited here); the exercise's own category is instantiated and, per Instance/Coq.v:81, Sets_Closed is the axiom-free exponential (the one axiom is spent in Coq_Closed, a different instance); no Admitted/admit; both files in _CoqProject. The single honest caveat, already disclosed in strength_comparison: naturality in the varying (contravariant) argument is a THEOREM (curry_comp_l, proved from ump_exponents plus the cartesian laws) rather than a packaged natural isomorphism of functors — the class field carries no naturality condition. That is presentation, not strength, so PRESENT stands."
+  }
+ },
+ {
+  "id": "riehl:2.3:exiv",
+  "classification": "ABSENT",
+  "aliases": [
+   "non-uniqueness of universal elements",
+   "a representable functor with several distinct representations",
+   "alternate universal element; non-unique initial/terminal object of the category of elements",
+   "{⊥} ⊆ Ω is also universal for the power set functor",
+   "any other free generator of Z[x] is universal for U : Ring → Set"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIn --include='*.v' -i 'several universal' / 'distinct universal element' / 'not unique.*universal' / 'alternate universal' . -- 0 hits each",
+   "grep -rIn --include='*.v' -i 'universal element' . -- 6 hits, all in Functor/Representable.v, Structure/UniversalProperty.v and Structure/UniversalProperty/Universal/Arrow.v, and all about the correspondence element ↔ representation, never about multiplicity",
+   "Structure/UniversalProperty.v:72 representability_by_yoneda gives a BIJECTION between universal elements and representations but asserts nothing about how many there are; Structure/UniversalProperty.v:175 univ_property_unique_up_to_unique_iso asserts uniqueness of the connecting isomorphism, which is the opposite emphasis",
+   "The two functors the exercise names are themselves not in-tree in the required form: no Ring (see riehl:2.3:example4) and no Sets-level power set functor with a classifier instance (see riehl:2.3:example6), so no concrete alternate universal element is exhibited anywhere."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind search agrees: nothing in-tree discusses multiplicity of universal elements. rg -i 'universal element' returns 6 hits, all in Functor/Representable.v, Structure/UniversalProperty.v and Structure/UniversalProperty/Universal/Arrow.v, and every one is about the element↔representation correspondence. Both functors the exercise names are themselves unavailable (see the ABSENT example4 — which I overturned to ABSENT — and the PARTIAL example6, where Sets carries no classifier instance)."
+  }
+ }
+]

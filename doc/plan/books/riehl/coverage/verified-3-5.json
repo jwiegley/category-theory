@@ -1,0 +1,502 @@
+[
+ {
+  "id": "riehl:3.3:exii",
+  "classification": "PARTIAL",
+  "aliases": [
+   "associativity of binary products",
+   "associator alpha_{X,Y,Z} : X x (Y x Z) = (X x Y) x Z",
+   "prod_assoc / product associator iso",
+   "monoidal associator tensor_assoc for the cartesian tensor",
+   "pentagon identity / pentagon coherence for iterated products",
+   "unique iso commuting with the product projections (ump_products)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/Internal/Product.v",
+    "line": 54,
+    "symbol": "CC_Monoidal",
+    "intree_statement": "Program Definition CC_Monoidal : @Monoidal C := {| tensor := InternalProductFunctor C; I := 1 |}  (* all Monoidal obligations discharged, including to_tensor_assoc_natural / from_tensor_assoc_natural and pentagon_identity, at tensor_assoc := prod_assoc *)"
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 485,
+    "symbol": "prod_assoc",
+    "intree_statement": "#[export] Program Instance prod_assoc {x y z : C} : (x × y) × z ≅ x × (y × z) := { to := (exl ∘ exl) △ ((exr ∘ exl) △ exr); from := (exl △ (exl ∘ exr)) △ (exr ∘ exr) }"
+   },
+   {
+    "file": "Structure/Monoidal.v",
+    "line": 167,
+    "symbol": "pentagon_identity",
+    "intree_statement": "pentagon_identity {x y z w} : bimap id tensor_assoc ∘ tensor_assoc ∘ bimap tensor_assoc id << ((x ⨂ y) ⨂ z) ⨂ w ~~> x ⨂ (y ⨂ (z ⨂ w)) >> tensor_assoc ∘ tensor_assoc"
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise 3.3.ii: prove Lemma 3.3.6 — for any X, Y, Z in a category with binary products there is a UNIQUE natural isomorphism alpha_{X,Y,Z} : X x (Y x Z) ≅ (X x Y) x Z commuting with the projections to X, Y and Z — and show in addition that for any quadruple W, X, Y, Z these associators assemble into a commuting pentagon relating the five bracketings.",
+   "intree": "prod_assoc : (x × y) × z ≅ x × (y × z) is the explicit associator built from the projections; CC_Monoidal instantiates the whole Monoidal class at (tensor := ×, I := 1), so its discharged obligations prove exactly to_tensor_assoc_natural / from_tensor_assoc_natural (naturality of prod_assoc in all three arguments) and pentagon_identity (the fourfold reassociation pentagon).",
+   "strength_comparison": "intree-weaker: existence, naturality and the pentagon are all proved for the cartesian associator, but the UNIQUENESS half of Lemma 3.3.6 is never stated — there is no lemma saying prod_assoc is the only isomorphism commuting with the three projections, and even the projection-compatibility equations (exl ∘ to prod_assoc ≈ exl ∘ exl, etc.) are left implicit in the fork definition rather than recorded. The associator orientation is also the mirror of Riehl's, which is immaterial (inverses)."
+  },
+  "gap": "The uniqueness clause of Lemma 3.3.6 is absent: no in-tree statement that prod_assoc is the UNIQUE (natural) isomorphism between the two bracketings commuting with the projections to x, y and z, and no lemmas recording the projection-compatibility equations that characterise it. (The tool for it, ump_products in Structure/Cartesian.v:136, exists but is never applied to the associator.) The pentagon and the naturality are fully present via CC_Monoidal.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same evidence independently (rg 'prod_assoc' -> Structure/Cartesian.v:485; rg -i 'pentagon' -> Structure/Monoidal.v:167 pentagon_identity; Structure/Monoidal/Cartesian.v:24 header names CC_Monoidal as the carrier). Line checks: Structure/Monoidal/Internal/Product.v:54 = 'Program Definition CC_Monoidal : @Monoidal C := {|' OK; Structure/Cartesian.v:485 = prod_assoc OK; Structure/Monoidal.v:167 = 'pentagon_identity {x y z w} :' OK; Structure/Cartesian.v:136 = ump_products OK (the gap's cited tool exists). All files registered in _CoqProject. CAVEAT on the evidence quote: the parenthetical 'at tensor_assoc := prod_assoc' is NOT lexically checkable. CC_Monoidal supplies only { tensor := InternalProductFunctor C; I := 1 }; unit_left/unit_right/tensor_assoc are left to the global Obligation Tactic (Lib/Tactics.v:225 'cat_simpl', whose program_simpl leaf runs eauto with typeclass_instances, which is what picks up the #[export] Instance prod_assoc), and Structure/Monoidal/Internal/Product.glob records no reference to prod_assoc. I could not run coqc (no toolchain on PATH; the two nix-store coq-9.1.1 binaries fail on this tree's .vo files with an OCaml 4.14.3-vs-4.14.4 mismatch and a missing Stdlib path). The claim is corroborated only by the library's own header (Structure/Monoidal/Cartesian.v:24). This does not move the verdict: whatever term inhabits the field, its TYPE is (x x y) x z ~= x x (y x z) for the product tensor, and to_tensor_assoc_natural / from_tensor_assoc_natural / pentagon_identity are proved of it, which is the exercise's substance. PARTIAL confirmed: the uniqueness half of Lemma 3.3.6 (prod_assoc is the ONLY iso commuting with the three projections) is genuinely unstated, as is the projection-compatibility equation pack."
+  }
+ },
+ {
+  "id": "riehl:3.4:construction-canonical-comparison",
+  "classification": "PARTIAL",
+  "aliases": [
+   "image of a cone under a functor / whiskered cone F.lambda",
+   "fmap_cone, image_acone, image_leg",
+   "canonical comparison map kappa : F(lim K) -> lim (F K)",
+   "comparison morphism F(X x_Z Y) -> FX x_{FZ} FY for pullbacks",
+   "F ∘ Delta c = Delta (F c) (functor commutes with the constant diagram)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence/Limit.v",
+    "line": 283,
+    "symbol": "fmap_cone",
+    "intree_statement": "Definition fmap_cone (N : Cone G) : Cone (F ◯ G) := @Build_Cone J D (F ◯ G) (F (vertex_obj[N])) (@Build_ACone J D (F (vertex_obj[N])) (F ◯ G) (fmap_cone_leg N) (fun x y f => fmap_cone_coherence N f))   (* with fmap_cone_leg N x := fmap[F] (cone_leg N x) and fmap_cone_coherence : fmap[F ◯ G] f ∘ fmap_cone_leg N x ≈ fmap_cone_leg N y *)"
+   },
+   {
+    "file": "Construction/Comma/Limit.v",
+    "line": 103,
+    "symbol": "image_acone",
+    "intree_statement": "Definition image_acone {J : Category} {G : J ⟶ C} (L : Limit G) : ACone (U L) (U ◯ G) := @Build_ACone J D (U L) (U ◯ G) (image_leg L) (@image_coherence J G L)   (* image_leg L x := fmap[U] (limit_leg (limit_is_alimit L) x) *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Unnumbered construction opening §3.4: the image of a diagram K : J -> C under F : C -> D is FK; the image of a cone lambda : Delta c => K is the whiskered F.lambda : Delta Fc => FK (using F . Delta c = Delta Fc), a cone with summit Fc and legs F lambda_j. The image of a limit cone need not be a limit cone; when lim FK exists there is a canonical comparison map kappa : F lim K -> lim FK, the unique factorisation of the image cone through the limit cone of FK. Dually for colimits. Warm-up: F sends a pullback square to a commutative square, giving F(X x_Z Y) -> FX x_{FZ} FY.",
+   "intree": "fmap_cone F N : Cone (F ◯ G) with apex F (vertex_obj[N]) and legs fmap[F] (cone_leg N x), proved to be a cone by fmap_cone_coherence; image_acone L is the same construction applied to the legs of a chosen limit, packaged as the cone whose universality is the hypothesis PreservesImageLimit.",
+   "strength_comparison": "intree-weaker: the image-of-a-cone half is present in full (and in the correct generality — any functor, any cone), but the canonical comparison map itself is never constructed. Nothing in the tree names a morphism F (lim K) ~> lim (F ◯ G), nor the pullback warm-up map F(X ×_Z Y) ~> FX ×_{FZ} FY."
+  },
+  "gap": "The canonical comparison map kappa : F (lim K) ~> lim (F ◯ K) is not constructed anywhere: the tree has the image cone (fmap_cone / image_acone) and the universality hypothesis (PreservesImageLimit), but never mediates the image cone through a limit of F ◯ K to obtain kappa, and never states its colimit dual or the pullback special case F(X ×_Z Y) ~> FX ×_{FZ} FY. Shape-specific stand-ins exist only as CLASS FIELDS taken as data (fobj_prod_iso in Functor/Structure/Cartesian.v:51, fobj_one_iso in Functor/Structure/Terminal.v:45), not as a construction from limit data.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -iE 'canonical (comparison|map).*lim|kappa|κ' . — only Instance/Lambda/Eval.v continuation variables, no limit comparison map",
+   "grep -rn --include=*.v -i 'comparison' . — hits are monoidal/lax comparisons, the Eilenberg–Moore comparison functor, and the Karoubi/factorization comparisons; none is a limit comparison morphism"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently found exactly the two image-cone constructions cited (fmap_cone at Theory/Equivalence/Limit.v:283; image_leg/image_acone at Construction/Comma/Limit.v:90/103) and independently failed to find any kappa. My own searches: rg -i 'canonical comparison|comparison map|kappa' over *.v -> Functor/Structure/Cartesian.v:17 (binary-product phi), Structure/BiCCC.v:33, Structure/Abelian.v:89/125, Monad/Monadicity/Beck.v:472 (algebra comparison), Monad/Comparison.v (EM comparison FUNCTOR) -- none is a limit comparison morphism. Line checks OK (283 = 'Definition fmap_cone (N : Cone G) : Cone (F o G) :='; 103 = 'Definition image_acone ...'). Both files in _CoqProject. The record's cross-reference to fobj_prod_iso / fobj_one_iso as 'class FIELDS taken as data, not a construction from limit data' is accurate and is the right honest framing. One addition for Phase E scoping: the OTHER half of the construction Riehl uses, the identity F . Delta c = Delta (F c), is likewise not stated in-tree -- Functor/Diagonal.v defines Delta[J] but no lemma relates it to postcomposition with F; fmap_cone sidesteps it by rebuilding the cone by hand."
+  }
+ },
+ {
+  "id": "riehl:3.4:def1",
+  "classification": "PARTIAL",
+  "aliases": [
+   "preserves limits / continuous functor",
+   "reflects limits / conservative on cones",
+   "creates limits (created limit)",
+   "PreservesLimit, PreservesColimit, PreservesAllLimits",
+   "PreservesImageLimit (cone-level preservation)",
+   "ReflectsLimit / CreatesLimit classes"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Comma/Limit.v",
+    "line": 110,
+    "symbol": "PreservesImageLimit",
+    "intree_statement": "Definition PreservesImageLimit : Type := ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ◯ G)), ∃! φ : vertex_obj[N] ~{D}~> U L, ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x"
+   },
+   {
+    "file": "Structure/Limit/Preservation.v",
+    "line": 48,
+    "symbol": "PreservesLimit",
+    "intree_statement": "Class PreservesLimit `(G : J ⟶ C) `(F : C ⟶ D) := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }"
+   },
+   {
+    "file": "Structure/Limit/Preservation.v",
+    "line": 196,
+    "symbol": "PreservesColimit",
+    "intree_statement": "Definition PreservesColimit `(G : J ⟶ C) `(F : C ⟶ D) : Type := @PreservesLimit (J^op) (C^op) (G^op) (D^op) (F^op)"
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 3.4.1, three clauses. For a diagram K : J -> C, F : C -> D (i) PRESERVES limits of K if the image of any limit cone over K is a limit cone over FK; (ii) REFLECTS limits of K if every cone over K whose image is a limit cone for FK was already a limit cone; (iii) CREATES limits of K if, whenever FK has a limit in D, K has a limit too, and a cone over K is a limit cone iff its image is. Extended to classes of diagrams and dualised to colimits.",
+   "intree": "PreservesLimit G F := preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) (apex-only); the honest cone-level form PreservesImageLimit says the IMAGE cone over U L is universal; PreservesColimit / PreservesAllLimits / PreservesAllColimits dualise and quantify over all shapes.",
+   "strength_comparison": "intree-weaker: only clause (i) is defined, and it is defined twice at different strengths — the registered class PreservesLimit is APEX-ONLY (it asserts only that F L carries SOME limit structure of F ◯ G, leaving the legs unconstrained, a documented weakness in Construction/Comma/Limit.v lines 47-66), while the cone-level PreservesImageLimit matching Riehl's clause (i) lives in a comma-category file and is stated for one fixed functor U rather than as reusable vocabulary. Clauses (ii) and (iii) have no in-tree definition at all."
+  },
+  "gap": "Clauses (ii) 'reflects' and (iii) 'creates' are not defined: there is no ReflectsLimit/CreatesLimit class or definition anywhere (Structure/Limit/Preservation.v defines only ReflectsIsos). Both properties appear only as ad hoc statements about particular functors — ff_reflects_limit (Theory/Equivalence/Limit.v:401), equivalence_creates_limits (Theory/Equivalence/Limit.v:486), CreatedSplitCoequalizer (Monad/Monadicity/BeckObjects.v:385) — so the definition cannot be quantified over a class of diagrams or applied to a new functor. Additionally, clause (i)'s reusable class is the apex-only weakening; the cone-level PreservesImageLimit is not in the shared preservation vocabulary.",
+  "negative_search_log": [
+   "grep -rn --include=*.v 'ReflectsLimit|CreatesLimit|reflects_limit|creates_limit' . — the only definitions are ff_reflects_limit / equivalence_reflects_limits / equivalence_creates_limits in Theory/Equivalence/Limit.v; no class or general definition",
+   "grep -rn --include=*.v -i 'creat' ./Monad ./Theory ./Construction ./Structure — only Monad/Monadicity/BeckObjects.v's CreatedSplitCoequalizer for EM_Forget"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same three-way split before reading the coverage file: rg 'Preserves|Reflects|Creates' over *.v yields exactly Structure/Limit/Preservation.v (PreservesLimit:48, PreservesColimit:196, PreservesAllLimits/PreservesAllColimits, ReflectsIsos:243), Construction/Comma/Limit.v:110 (PreservesImageLimit) and Monad/Monadicity/Beck.v:164 (CreatesUSplitCoequalizers). No ReflectsLimit and no CreatesLimit class exists. Line checks OK; files in _CoqProject. strength_comparison is honest and unusually good: it names the apex-only weakness of the registered PreservesLimit class and cites the in-tree countermodel discussion (Construction/Comma/Limit.v:47-66), which I re-read and confirm says exactly that. One evidence item the record could have added (does not change PARTIAL): Monad/Monadicity/Beck.v:164 Class CreatesUSplitCoequalizers is a second bespoke creation predicate alongside BeckObjects.v:385 CreatedSplitCoequalizer, and Beck.v:265 derives ReflectsIsos from it -- the closest in-tree thing to 'creation implies reflection', but only for isos and only for that one diagram class."
+  }
+ },
+ {
+  "id": "riehl:3.4:def4",
+  "classification": "PARTIAL",
+  "aliases": [
+   "sheaf on a topological space",
+   "open cover / covering family / coverage / Grothendieck topology / site",
+   "O(X), poset of open subsets, frame, locale",
+   "presheaf preserving covering colimits",
+   "equalizer form F(U) -> prod F(U_i) => prod F(U_i ∩ U_j), descent"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Sheaf.v",
+    "line": 192,
+    "symbol": "Sheaf",
+    "intree_statement": "Class Sheaf `{@Site C} (X : Presheaf C Sets) := { restriction : ∀ u : C, let '(i; f) := coverage u in ForallT (λ '(uᵢ; fᵢ), ∀ xᵢ : X uᵢ, (∀ (v : C) (g : v ~> uᵢ), ForallT (λ '(uⱼ; fⱼ), ∀ h : v ~> uⱼ, fᵢ ∘ g ≈ fⱼ ∘ h → ∀ xⱼ : X uⱼ, fmap[X] g xᵢ ≈ fmap[X] h xⱼ) f) → ∃! x : X u, fmap[X] fᵢ x ≈ xᵢ) f }"
+   },
+   {
+    "file": "Theory/Sheaf.v",
+    "line": 159,
+    "symbol": "Site",
+    "intree_statement": "Class Site (C : Category) := { covering_family (u : C) := sigT (Vector.t (∃ uᵢ, uᵢ ~> u)); coverage (u : C) : covering_family u; coverage_condition (u : C) (fs : covering_family u) (v : C) (g : v ~> u) : ∃ hs : covering_family v, ForallT (λ '(vⱼ; hⱼ), ExistsT (λ '(uᵢ; fᵢ), ∃ k : vⱼ ~> uᵢ, fᵢ ∘ k ≈ g ∘ hⱼ) (`2 fs)) (`2 hs) }"
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 3.4.4: for a space X let O(X) be the poset of opens under inclusion. A family {U_i ⊆ U} COVERS U when the diagram of the U_i together with the inclusions of their pairwise intersections has colimit U in O(X). A presheaf F : O(X)^op -> Set is a SHEAF if it preserves these colimits, i.e. carries them to limits in Set; by Theorem 3.2.11 this is equivalent to F(U) -> prod_i F(U_i) => prod_{i,j} F(U_i ∩ U_j) being an equalizer diagram.",
+   "intree": "Sheaf X asks, for the single coverage family {fᵢ : uᵢ ~> u} chosen at each object u of an abstract Site C, that a compatible local section glue to a unique global section: '∃! x : X u, fmap[X] fᵢ x ≈ xᵢ'.",
+   "strength_comparison": "intree-weaker in three independent ways. (1) No O(X): there is no poset-of-opens instance and no topological space anywhere in the tree, so the item's actual setting is not instantiated. (2) The 'covers' notion is a chosen coverage family with pullback stability, NOT 'the pairwise-intersection diagram has colimit U in O(X)' — covers are never characterised as colimits, and Site picks exactly ONE covering family per object (its own header calls this less general than a coverage). (3) The sheaf condition is stated as unique gluing, never as preservation of the covering colimit nor as the equalizer diagram; worse, Theory/Sheaf/Category.v lines 27-43 document that this predicate is PER-LEG and its compatibility antecedent forces xᵢ ≈ xⱼ for every section of the other leg, so it is satisfiable only when the fibres are subsingletons and vacuous at any covered object with two inequivalent sections."
+  },
+  "gap": "Missing: (a) O(X), the poset of open subsets of a topological space, as a category — no topological space is formalised in-tree at all; (b) the definition of 'covers' as 'the diagram of the U_i and their pairwise intersections has colimit U', i.e. covers-as-colimits; (c) the sheaf condition in Riehl's form, 'the presheaf carries these colimits to limits', and equivalently the equalizer diagram F(U) -> prod F(U_i) => prod F(U_i ∩ U_j) — the in-tree Sheaf is an unrelated unique-gluing encoding, itself documented (Theory/Sheaf/Category.v) as a per-leg approximation that is vacuous beyond subsingleton fibres.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -iE 'open cover|Opens|OpenSet|Frame|Locale' . — no poset of opens, no topological space",
+   "grep -rn --include=*.v -i 'topolog' . — only background-essay prose in Theory/Sheaf.v, Theory/Category.v, Theory/Monad.v etc.",
+   "grep -rln --include=*.v -i 'sheaf' . — Theory/Sheaf.v and Theory/Sheaf/Category.v carry the only Sheaf/Site definitions"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently confirmed all three legs of the gap. rg -i 'topolog' over *.v returns only background-essay prose (Theory/Sheaf.v, Theory/Category.v, Theory/Monad.v, Structure/Terminal.v, ...); ls Instance/ shows no topological space and no O(X); Instance/Poset.v and Instance/Proset.v build posets as categories but nothing about opens. Theory/Sheaf.v:159 Site and :192 Sheaf are the only definitions, and I re-read Theory/Sheaf/Category.v:27-49, which does state verbatim the per-leg vacuity the record quotes (antecedent instantiated at v := u_i, g := h := id, j := i forces x_i ~= x_j for every x_j : X u_i, so the condition is satisfiable only for subsingleton fibres). Line checks OK; both files in _CoqProject. strength_comparison is honest and, if anything, understates nothing."
+  }
+ },
+ {
+  "id": "riehl:3.4:lem3",
+  "classification": "PARTIAL",
+  "aliases": [
+   "preservation iff the canonical comparison map is invertible",
+   "kappa : F(lim K) -> lim FK is an isomorphism",
+   "CartesianFunctor / product-preserving functor comparison phi",
+   "TerminalFunctor / preservation of the empty product",
+   "strong monoidal functor comparison is invertible"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Structure/Cartesian.v",
+    "line": 49,
+    "symbol": "CartesianFunctor",
+    "intree_statement": "Class CartesianFunctor := { fobj_prod_iso {x y : C} : F (x × y) ≅ F x × F y; prod_in := fun x y => from (@fobj_prod_iso x y); prod_out := fun x y => to (@fobj_prod_iso x y); fmap_exl {x y : C} : fmap (@exl C _ x y) ≈ exl ∘ prod_out _ _; fmap_exr {x y : C} : fmap (@exr C _ x y) ≈ exr ∘ prod_out _ _; fmap_fork {x y z : C} (f : x ~> y) (g : x ~> z) : fmap (f △ g) ≈ prod_in _ _ ∘ fmap f △ fmap g }"
+   },
+   {
+    "file": "Functor/Structure/Terminal.v",
+    "line": 43,
+    "symbol": "TerminalFunctor",
+    "intree_statement": "Class TerminalFunctor := { fobj_one_iso : 1 ≅ F 1; fmap_one {X : C} : fmap one ≈ to fobj_one_iso ∘ @one _ _ (F X) }"
+   }
+  ],
+  "statement_record": {
+   "book": "Lemma 3.4.3: for F : C -> D between categories admitting J-shaped limits, F preserves the J-shaped limit of K : J -> C IF AND ONLY IF the canonical comparison map kappa : F(lim_J K) -> lim_J FK — induced by factoring the image of the C-limit cone through the D-limit cone — is an isomorphism.",
+   "intree": "CartesianFunctor records the binary-product comparison as an isomorphism field fobj_prod_iso : F (x × y) ≅ F x × F y, with fmap_exl / fmap_exr pinning its forward map as the canonical ⟨fmap exl, fmap exr⟩; TerminalFunctor does the same for the empty product, fobj_one_iso : 1 ≅ F 1 with fmap_one.",
+   "strength_comparison": "intree-weaker: the general kappa and the biconditional are absent. What exists is the invertibility side of two SHAPE-SPECIFIC comparisons (binary product, terminal object), and there it is taken as the DEFINITION of preservation rather than proved equivalent to preservation of the limit cone — no lemma anywhere relates CartesianFunctor or TerminalFunctor to PreservesLimit / IsALimit, so neither direction of Riehl's 'iff' is proved even in the special case."
+  },
+  "gap": "No canonical comparison map kappa : F (lim_J K) ~> lim_J (F ◯ K) is constructed for a general shape J, and no lemma states 'F preserves the limit of K iff kappa is an isomorphism' (nor its colimit dual, Exercise 3.4.i). The only in-tree comparison maps are the class FIELDS fobj_prod_iso (binary products) and fobj_one_iso (terminal object), where invertibility is postulated as the definition of preservation and is never connected to the limit-cone notion of preservation in Structure/Limit/Preservation.v.",
+  "negative_search_log": [
+   "grep -rn --include=*.v 'CartesianFunctor' . — used by Lawvere models, Cayley, Tools/Abstraction; never related to PreservesLimit or IsALimit",
+   "grep -rn --include=*.v -iE 'canonical (comparison|map).*lim|kappa' . — no limit comparison morphism in the tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agrees: no kappa for a general shape, no biconditional. My independent searches (rg -i 'canonical comparison|kappa|comparison map'; rg 'CartesianFunctor') found the same two shape-specific classes and confirmed neither is ever related to PreservesLimit/IsALimit -- CartesianFunctor's consumers are Theory/Lawvere/Model.v, Construction/Cayley.v and Tools/Abstraction.v, none of which mentions limits. Line checks OK (Functor/Structure/Cartesian.v:49 = 'Class CartesianFunctor := {'; Functor/Structure/Terminal.v:43 = 'Class TerminalFunctor := {', :45 = 'fobj_one_iso : 1 ~= F 1;'). Files in _CoqProject. Judgement call recorded: ABSENT would also have been defensible, since the item is a LEMMA (an iff) and neither direction is proved even in the special case. PARTIAL is the more useful reading because the comparison MORPHISM itself does exist for the binary-product shape -- prod_out is pinned to <fmap exl, fmap exr> by fmap_exl/fmap_exr -- so the item is not wholly uncounterparted. Confirming as classified. Related prose to be aware of when drafting: Functor/Structure/Cartesian.v:26 asserts 'A functor preserves the product exactly when this comparison is invertible' as background, correctly attributed to general theory, not claimed as an in-tree theorem -- so it is not a defect, but it is the exact statement the issue should ask to be proved."
+  }
+ },
+ {
+  "id": "riehl:3.4:remark2",
+  "classification": "ABSENT",
+  "aliases": [
+   "creation implies preservation and reflection",
+   "creates limits => reflects limits",
+   "upstairs/downstairs picture for preserve/reflect/create",
+   "created limit, conditional preservation",
+   "CreatesLimit -> PreservesLimit"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=*.v 'ReflectsLimit|CreatesLimit|reflects_limit|creates_limit' . — no creation predicate exists, so 'creation implies reflection and (conditional) preservation' is not stateable in-tree",
+   "grep -rn --include=*.v -i 'creat' ./Monad ./Theory ./Construction ./Structure — only the bespoke CreatedSplitCoequalizer record (Monad/Monadicity/BeckObjects.v:385) for EM_Forget and split coequalizers; no implication to preservation or reflection is drawn from it",
+   "grep -rn --include=*.v -i 'upstairs|downstairs' . — 0 hits",
+   "read Structure/Limit/Preservation.v in full — defines only PreservesLimit, PreservesColimit, PreservesAllLimits, PreservesAllColimits, ReflectsIsos; no relation among preserve/reflect/create is proved",
+   "read Theory/Equivalence/Limit.v in full — equivalence_preserves_limits, equivalence_reflects_limits and equivalence_creates_limits are proved INDEPENDENTLY (via RAPL, full-faithfulness, and limit_transport respectively); creation is never derived from, nor shown to imply, the other two"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently found nothing: no creation predicate exists in general form, so 'creates => preserves + reflects' is not stateable. I re-ran rg -i 'upstairs|downstairs' (0 hits) and read Structure/Limit/Preservation.v end to end (only PreservesLimit, PreservesColimit, PreservesAllLimits, PreservesAllColimits, ReflectsIsos -- no relation among the three notions is proved) and Theory/Equivalence/Limit.v end to end (preservation via RAPL, reflection via full faithfulness, creation via limit_transport -- three independent routes, no implication drawn between them). The negative_search_log is accurate and its cited hits check out. The nearest in-tree analogue -- Monad/Monadicity/Beck.v:265, creation of U-split coequalizers implies ReflectsIsos -- is an iso-reflection consequence for one diagram class, not the remark's content. ABSENT confirmed."
+  }
+ },
+ {
+  "id": "riehl:3.4:def-connected",
+  "classification": "ABSENT",
+  "aliases": [
+   "connected category",
+   "connected diagram / connected indexing category",
+   "zig-zag of morphisms joining objects",
+   "connected components of a category (pi_0)",
+   "non-empty category whose underlying quiver is connected"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=*.v -i 'connected' . — every hit is prose: background essays (Theory/Multicategory.v, Theory/Algebra/Frobenius.v, Instance/ZX.v, Construction/Groupoid.v:43 'the connected case'), 'connected by an isomorphism' in Span/Cospan/DoubleCategory, and Instance/FinSet/Pushout.v's connected-components computation on FINITE SETS (a coequalizer construction on Fin, not the categorical predicate). No Definition/Class/Record of a connected category anywhere.",
+   "grep -rn --include=*.v -iE 'connected (categor|diagram|index)|ConnectedCat|is_connected|Connectedness' . — 0 hits",
+   "grep -rn --include=*.v -i 'zig.zag|zigzag' . — all hits are adjunction/companion triangle identities, unrelated to connectedness of an indexing category",
+   "grep -rn --include=*.v 'Nonempty|non-empty' . — only Lib/NETList.v, Solver/Normal.v, Test/Poset.v; nothing about categories"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently found zero counterpart. rg -i 'connected' over *.v returns only prose: Structure/Factorization.v:33 and Construction/Span|Cospan|DoubleCategory ('connected by an isomorphism'), Construction/Groupoid.v:43 (Brandt's 'connected case', a background essay on groupoid history -- I read lines 35-70 and it defines nothing), Theory/Multicategory.v:139, Theory/Algebra/Frobenius.v:107, Instance/ZX.v, and Instance/FinSet/Pushout.v's connected-components computation on Fin (a coequalizer construction on finite sets, not the categorical predicate). rg -i 'zig.?zag' returns only adjunction/companion triangle identities. No Definition/Class/Record of a connected category, connected diagram, or pi_0 of a category exists. ABSENT confirmed; the negative_search_log is accurate."
+  }
+ },
+ {
+  "id": "riehl:3.4:def7",
+  "classification": "PARTIAL",
+  "aliases": [
+   "strictly creates limits",
+   "strict creation of limits/colimits",
+   "unique lift of a limit cone",
+   "CreatedSplitCoequalizer / creates coequalizers of split pairs",
+   "created algebra structure is unique"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Monadicity/BeckObjects.v",
+    "line": 385,
+    "symbol": "CreatedSplitCoequalizer",
+    "intree_statement": "Record CreatedSplitCoequalizer : Type := { created_alg : @TAlgebra D T H (scoeq_obj SC); created_hom : b ~{EilenbergMoore T}~> (scoeq_obj SC; created_alg); created_hom_carrier : t_alg_hom[created_hom] ≈ scoeq_e SC; created_coequalizes : IsCoequalizer f g (scoeq_obj SC; created_alg) created_hom; created_alg_unique (alg' : @TAlgebra D T H (scoeq_obj SC)) : scoeq_e SC ∘ t_alg[`2 b] ≈ t_alg[alg'] ∘ fmap[T] (scoeq_e SC) → t_alg[alg'] ≈ t_alg[created_alg] }"
+   },
+   {
+    "file": "Monad/Monadicity/BeckObjects.v",
+    "line": 396,
+    "symbol": "em_forget_creates_split",
+    "intree_statement": "Theorem em_forget_creates_split : CreatedSplitCoequalizer"
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 3.4.7: F : C -> D STRICTLY CREATES limits for a given class of diagrams if for every diagram K : J -> C in the class and every limit cone over FK there is a UNIQUE lift of that cone to a cone over K in C, and that lift is itself a limit cone in C. Flagged as an 'evil' (non-isomorphism-invariant) strictification of creation.",
+   "intree": "CreatedSplitCoequalizer packages, for the Eilenberg–Moore forgetful functor and one U-split parallel pair, exactly the two clauses of strict creation: a lift of the downstairs colimit (created_alg + created_hom with created_hom_carrier pinning the leg to e on the nose), uniqueness of that lift (created_alg_unique), and the fact that the lift IS a colimit upstairs (created_coequalizes). em_forget_creates_split inhabits it.",
+   "strength_comparison": "intree-weaker: the two defining clauses appear only as an instance, never as a definition. CreatedSplitCoequalizer is hard-wired to one functor (EM_Forget), one shape (a split parallel pair), and the colimit side; it cannot be quantified over a class of diagrams, cannot be applied to another functor, and there is no limit-side statement."
+  },
+  "gap": "There is no general definition of strict creation: no predicate 'F strictly creates limits for the class of J-shaped diagrams' parameterised by F, J or a class of diagrams, and nothing on the limit side. The only in-tree realisation of the pattern (unique lift + the lift is universal upstairs) is CreatedSplitCoequalizer, a bespoke record for EM_Forget and U-split coequalizers, so nothing in the tree can consume 'strictly creates' as a hypothesis or conclusion — which is precisely what Propositions 3.4.8 and 3.4.9 need.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -iE 'strictly creat|StrictlyCreat|strict creation|unique lift' . — 0 hits for creation (the two 'unique lifting' hits are the orthogonality lifting property in Theory/Orthogonality.v and Structure/Regular/Factorization.v)",
+   "grep -rn --include=*.v 'CreatesLimit|creates_limit' . — only equivalence_creates_limits / equivalence_creates_colimits, which are existence-transports Limit (F ◯ G) → Limit G with no uniqueness-of-lift clause"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agrees there is no general strict-creation predicate: the only creation vocabulary in the tree is Monad/Monadicity/Beck.v:164 (Class CreatesUSplitCoequalizers) and Monad/Monadicity/BeckObjects.v:385 (Record CreatedSplitCoequalizer), both hard-wired to EM_Forget and U-split parallel pairs. Line checks OK: BeckObjects.v:385 = 'Record CreatedSplitCoequalizer : Type := {' and :396 = 'Theorem em_forget_creates_split : CreatedSplitCoequalizer.'; the quoted fields (created_alg, created_hom, created_hom_carrier, created_coequalizes, created_alg_unique) are verbatim. File in _CoqProject. Judgement call recorded: the cited evidence is on the COLIMIT side, for one shape, for one functor, and the uniqueness clause it offers (created_alg_unique) is uniqueness of the ALGEBRA STRUCTURE on a fixed carrier, which is the strict-creation uniqueness clause only in that special setting. ABSENT would have been defensible; PARTIAL is confirmed because the two defining clauses of strict creation (unique on-the-nose lift + the lift is universal upstairs) do genuinely occur, and the record's strength_comparison says so plainly rather than overselling. The record could also have cited Beck.v:164 CreatesUSplitCoequalizers, whose create_coeq/create_coeq_reflects pair is the same pattern in class form."
+  }
+ },
+ {
+  "id": "riehl:3.4:lem5",
+  "classification": "PARTIAL",
+  "aliases": [
+   "fully faithful functors reflect limits",
+   "full and faithful reflects colimits",
+   "ff_reflects_limit",
+   "conservative / reflects isomorphisms",
+   "reflection of limit cones along a full embedding"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence/Limit.v",
+    "line": 401,
+    "symbol": "ff_reflects_limit",
+    "intree_statement": "Definition ff_reflects_limit : IsALimit G (vertex_obj[N]) := @Build_IsALimit J C G (vertex_obj[N]) (@coneFrom _ _ _ N) ff_reflect_ump   (* in a section with Context `{HF : @Full C D F}, `{HfF : @Faithful C D F}, (N : Cone G), (HL : IsALimit (F ◯ G) (F (vertex_obj[N]))), (Hlegs : ∀ x : J, limit_leg HL x ≈ fmap[F] (cone_leg N x)) *)"
+   },
+   {
+    "file": "Theory/Equivalence/Limit.v",
+    "line": 335,
+    "symbol": "ff_reflects_isos",
+    "intree_statement": "Definition ff_reflects_isos : ReflectsIsos F := @Build_ReflectsIsos C D F (fun x y f I => @Build_IsIsomorphism C x y f (ff_iso_inverse f I) (ff_iso_inverse_right f I) (ff_iso_inverse_left f I))"
+   }
+  ],
+  "statement_record": {
+   "book": "Lemma 3.4.5: any full and faithful functor F : C -> D reflects any limits AND colimits that are present in its codomain. Proof: a cone lambda over K is a limit exactly when every cone mu factors uniquely through it; if F lambda is a limit cone then F mu factors uniquely through F lambda, and full faithfulness lifts the factorisation uniquely to C.",
+   "intree": "ff_reflects_limit: under Full F and Faithful F, given a cone N over G whose image apex carries a limit witness HL of F ◯ G with legs the image legs (Hlegs), the cone N itself is a limit of G — the mediator being the prefmap-preimage of the D-mediator, with both laws recovered from faithfulness.",
+   "strength_comparison": "intree-weaker on the colimit half only. The limit half is faithful (the extra hypothesis Hlegs is not a weakening but the honest reading of 'the image cone is a limit cone' — the file's header explains that an arbitrary witness at the image apex says nothing about the legs). The colimit half is NOT proved for a merely full-and-faithful functor: the only colimit reflection in the tree, equivalence_reflects_colimits (line 568), needs a full EQUIVALENCE, because it obtains Full/Faithful for F^op from EquivalenceOfCategories_op and the tree has no lemma transporting Full/Faithful along (-)^op."
+  },
+  "gap": "The colimit half of Lemma 3.4.5 is missing for full-and-faithful functors. ff_reflects_limit covers limits only; the dual is available solely as equivalence_reflects_colimits (Theory/Equivalence/Limit.v:568), which assumes an equivalence rather than mere full faithfulness, because no in-tree lemma derives Full (F^op) / Faithful (F^op) from Full F / Faithful F (Functor/Opposite.v provides only Opposite_Functor).",
+  "negative_search_log": [
+   "grep -rn --include=*.v 'Full.*\\^op|Faithful.*\\^op|Opposite_Full|Full_Opposite|Faithful_Opposite' . — 0 relevant hits; Functor/Opposite.v defines only Opposite_Functor and contramap"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached the same asymmetry: Theory/Equivalence/Limit.v:401 ff_reflects_limit (limits, under Full+Faithful) exists, and there is NO ff_reflects_colimit anywhere -- the only colimit reflection is :568 equivalence_reflects_colimits, which needs a full EquivalenceOfCategories. Line checks OK (:401, :335, :568). File in _CoqProject. I independently verified the stated cause: rg for Full/Faithful transported along (-)^op returns nothing; Functor/Opposite.v contains no Full or Faithful occurrence at all, and the only Full/Faithful instances in the tree are Yoneda, Karoubi_Embed, idem_G, RT_Comparison, FunnyToProduct, Cat_Iso_* and the Test/FullIssue118.v identity witnesses -- none is an opposite-transport lemma. So the gap's diagnosis is exact. Also confirmed honest: the record correctly declines to call the Hlegs side condition a weakening; it is the cone-level reading of 'the image cone is a limit cone', and the file header (lines 41-52) argues the point at length."
+  }
+ },
+ {
+  "id": "riehl:3.4:lem6",
+  "classification": "PRESENT",
+  "aliases": [
+   "equivalences preserve reflect and create limits",
+   "equivalence of categories and (co)limits",
+   "equivalence_preserves_limits / equivalence_reflects_limits / equivalence_creates_limits",
+   "RAPL/LAPC applied to an adjoint equivalence",
+   "transport of limits along a natural isomorphism of diagrams"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence/Limit.v",
+    "line": 486,
+    "symbol": "equivalence_creates_limits",
+    "intree_statement": "Definition equivalence_creates_limits {J : Category} (G : J ⟶ C) (L : Limit (F ◯ G)) : Limit G := limit_transport (equivalence_diagram_iso G) (rapl_limit (equiv_adjunction E) (F ◯ G) L)   (* under Context (E : @EquivalenceOfCategories C D F) *)"
+   },
+   {
+    "file": "Theory/Equivalence/Limit.v",
+    "line": 421,
+    "symbol": "equivalence_preserves_limits",
+    "intree_statement": "Definition equivalence_preserves_limits : PreservesAllLimits F := right_adjoint_preserves_limits (AdjointEquivalence_swap_adjunction (Equivalence_to_AdjointEquivalence E))"
+   },
+   {
+    "file": "Theory/Equivalence/Limit.v",
+    "line": 460,
+    "symbol": "equivalence_reflects_limits",
+    "intree_statement": "Definition equivalence_reflects_limits {J : Category} {G : J ⟶ C} (N : Cone G) (HL : IsALimit (F ◯ G) (F (vertex_obj[N]))) (Hlegs : ∀ x : J, limit_leg HL x ≈ fmap[F] (cone_leg N x)) : IsALimit G (vertex_obj[N]) := ff_reflects_limit (HF := Equivalence_Full E) (HfF := Equivalence_Faithful E) N HL Hlegs"
+   },
+   {
+    "file": "Theory/Equivalence/Limit.v",
+    "line": 582,
+    "symbol": "equivalence_creates_colimits",
+    "intree_statement": "Definition equivalence_creates_colimits {J : Category} (G : J ⟶ C) (L : Colimit (F ◯ G)) : Colimit G := equivalence_creates_limits (EquivalenceOfCategories_op E) (G^op) (isalimit_to_limit (isalimit_op_comp (limit_is_alimit L)))"
+   }
+  ],
+  "statement_record": {
+   "book": "Lemma 3.4.6: any equivalence of categories F : C -> D preserves, reflects, and creates any limits and colimits present in its domain or codomain. Proof uses Lemma 3.4.5 for reflection and essential surjectivity plus full faithfulness for preservation and creation.",
+   "intree": "All six statements are proved for E : EquivalenceOfCategories F — equivalence_preserves_limits : PreservesAllLimits F and equivalence_preserves_colimits : PreservesAllColimits F (via RAPL/LAPC on the refined adjoint equivalence), equivalence_reflects_limits and equivalence_reflects_colimits (via ff_reflects_limit at Equivalence_Full/Equivalence_Faithful), equivalence_creates_limits : Limit (F ◯ G) → Limit G and equivalence_creates_colimits : Colimit (F ◯ G) → Colimit G (via the quasi-inverse's RAPL and limit_transport along quasi_inverse ◯ (F ◯ G) ≈ G).",
+   "strength_comparison": "same. Creation is delivered in the operative form Riehl's proof produces — every limit of F ◯ G yields an actual limit of G — with the 'a cone is a limit iff its image is' half supplied by the separately proved preservation and reflection results in the same file; the file's header says exactly this ('combined with preservation and reflection it is the practical content of \"equivalences create limits\"'). The Hlegs side condition on reflection is the honest cone-level reading, not an extra hypothesis. Preservation is stated for ALL shapes (PreservesAllLimits/PreservesAllColimits), matching Riehl's unrestricted claim."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently found all six statements and would have classified PRESENT as well. Line checks OK: :421 equivalence_preserves_limits, :460 equivalence_reflects_limits, :486 equivalence_creates_limits, :582 equivalence_creates_colimits, plus :432 equivalence_preserves_colimits and :568 equivalence_reflects_colimits which the record's statement_record names. Theory/Equivalence/Limit.v is in _CoqProject. Every quoted definition body is verbatim. HONESTY CORRECTION (does not move the verdict, recorded so it is not lost): strength_comparison says 'same' and defends creation and reflection in detail, but says nothing about the PRESERVATION clause being stated through the APEX-ONLY class PreservesLimit / PreservesAllLimits. As the same classifier noted on riehl:3.4:def1, and as Construction/Comma/Limit.v:53-66 argues with a countermodel, 'IsALimit (F o G) (F L)' constrains only the apex and leaves the legs unconstrained, so PreservesAllLimits F is strictly weaker AS A PROPOSITION than Riehl's clause (i) ('the image of a limit cone is a limit cone'). Why PRESENT still stands: (a) the underlying proof term is cone-level -- equivalence_preserves_limits routes through right_adjoint_preserves_limits, whose witness rapl_is_alimit is built from rapl_acone whose legs ARE the image legs fmap[U] (limit_leg ...) (Adjunction/Continuity.v:91-102, 183); (b) the cone-level statement is one line away and uninstantiated only for want of vocabulary (right_adjoint_PreservesImageLimit at Construction/Comma/Limit.v:264 applied to AdjointEquivalence_swap_adjunction (Equivalence_to_AdjointEquivalence E)); and (c) the vocabulary defect is already carried as the gap of riehl:3.4:def1, so nothing is lost by keeping lem6 PRESENT. A drafter should not, however, cite equivalence_preserves_limits as literally Riehl's clause (i)."
+  }
+ },
+ {
+  "id": "riehl:3.4:prop8",
+  "classification": "PARTIAL",
+  "aliases": [
+   "coslice projection creates limits",
+   "under category c/C has limits and connected colimits",
+   "forgetful functor from a comma category creates limits",
+   "Comma_Complete / comma_limit",
+   "pointed objects: limits computed in the base"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Comma/Limit.v",
+    "line": 245,
+    "symbol": "Comma_Complete",
+    "intree_statement": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K"
+   },
+   {
+    "file": "Construction/Comma/Limit.v",
+    "line": 238,
+    "symbol": "comma_limit",
+    "intree_statement": "Definition comma_limit : Limit K := @Build_Limit J (=(d) ↓ U) K apex_cone comma_ump   (* apex_obj := ((ttt, vertex_obj[Ldiag]); phi) with Ldiag := HC J (comma_proj2 ◯ K) the C-limit and apex_leg j := ((ttt, limit_leg (limit_is_alimit Ldiag) j); _), so the projection of the comma limit cone IS the chosen C-limit cone *)"
+   },
+   {
+    "file": "Construction/Slice.v",
+    "line": 181,
+    "symbol": "Comma_Coslice",
+    "intree_statement": "Program Instance Comma_Coslice `(C : Category) `(c : C) : c ̸co C ≅[Cat] (=(c) ↓ Id) := { to := {| fobj := _; fmap := _ |}; from := {| fobj := _; fmap := _ |} }"
+   }
+  ],
+  "statement_record": {
+   "book": "Proposition 3.4.8: for any object c of C the projection Pi : c/C -> C strictly creates limits and connected colimits; hence c/C has any limits and any connected colimits that C admits. The colimit half needs J connected, so that the lifted nadir mu_j . kappa_j is independent of j.",
+   "intree": "Comma_Complete: if C is complete and U : C ⟶ D preserves image limits, then the comma category =(d) ↓ U is complete, the limit being comma_limit whose apex is the C-limit paired with the unique mediator phi and whose legs project to the C-limit legs. Comma_Coslice identifies the coslice c ̸co C with =(c) ↓ Id in Cat.",
+   "strength_comparison": "intree-weaker in three ways. (1) The result is stated for the general comma =(d) ↓ U and never instantiated at U := Id to give the coslice — no witness of PreservesImageLimit for the identity functor is produced, and Comma_Coslice is never used to transport completeness to c ̸co C. (2) The conclusion is COMPLETENESS of the comma category, not strict creation by the projection: nothing states that comma_proj2 lifts a given limit cone uniquely, nor that it preserves or reflects limits (the construction does exhibit the unique lift, but that fact is not a theorem). (3) The connected-colimit half is entirely absent: there is no colimit analogue of Comma_Complete and no notion of a connected category at all."
+  },
+  "gap": "Missing: (a) the instantiation at the coslice — Comma_Complete is never specialised to U := Id (no PreservesImageLimit Id witness) and never transported along Comma_Coslice, so 'c/C has the limits C has' is not stated for the coslice; (b) the strict-creation content — the theorem asserts only Complete (=(d) ↓ U), never that the projection creates (uniquely lifts) limit cones, nor that it preserves or reflects them; (c) the whole connected-colimit half of Proposition 3.4.8, which is doubly blocked, since neither a colimit analogue of Comma_Complete nor the definition of a connected category exists in-tree; (d) the Exercise 3.4.ii generalisation to categories of elements.",
+  "negative_search_log": [
+   "grep -rn --include=*.v 'Coslice|coslice' . — Construction/Slice.v defines Coslice and Comma_Coslice; no limit or colimit result about either",
+   "grep -rn --include=*.v -i 'connected' . — no connected-category definition, so the connected-colimit clause is not stateable",
+   "grep -rn --include=*.v 'Cocomplete' . — only Structure/Complete.v:119 and Theory/Adamek/Corollaries.v; no comma/coslice cocompleteness"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same three-way gap independently (rg -i 'coslice' -> Construction/Slice.v:169 Coslice, :181 Comma_Coslice, and no limit/colimit result about either; Construction/Comma/Limit.v:245 Comma_Complete is the only comma limit theorem; rg -i 'connected' -> no connected-category definition). Line checks OK: Comma/Limit.v:245 = 'Definition Comma_Complete', :238 = 'Definition comma_limit : Limit K :=', Slice.v:181 = 'Program Instance Comma_Coslice'. All three files in _CoqProject. SCOPING REFINEMENT for gap (a), which the record slightly overstates as difficulty: the coslice specialisation is a genuine one-liner, not missing machinery. Instance/Adjoints.v:42 provides adj_id : Id -| Id (re-exported as Adjunction_Id, Adjunction/Compose.v:65), and Construction/Comma/Limit.v:264 right_adjoint_PreservesImageLimit turns any adjunction into a PreservesImageLimit witness, so 'Comma_Complete_right_adjoint Adjunction_Id c HC : Complete (=(c) down Id)' already type-checks; only the transport along Comma_Coslice into c/C and the statement itself are absent. Gaps (b) strict creation by the projection and (c) the whole connected-colimit half remain exactly as described, and (c) is doubly blocked as the record says. PARTIAL confirmed."
+  }
+ },
+ {
+  "id": "riehl:3.4:prop9",
+  "classification": "PARTIAL",
+  "aliases": [
+   "limits in functor categories are computed pointwise",
+   "objectwise limits in C^A, [A, C] complete when C is",
+   "evaluation functor ev : C^A -> C^{ob A} strictly creates limits",
+   "ev_a preserves limits, presheaf categories have pointwise limits",
+   "Functor_Category_Cartesian (pointwise products in [C, D])"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Fun/Cartesian.v",
+    "line": 111,
+    "symbol": "Functor_Category_Cartesian",
+    "intree_statement": "Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)   (* product_obj F G := fun c => fobj[F] c × fobj[G] c, fmap := fun f => Cartesian.split (fmap[F] f) (fmap[G] f), with exl/exr the componentwise projections and ump_products discharged componentwise *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Proposition 3.4.9: if A is small, the evaluation functor ev : C^A -> C^{ob A} strictly creates all limits and colimits. Hence (i) C^A admits any limits and colimits that C possesses, and (ii) these are POINTWISE-DEFINED, i.e. for each a in A the evaluation ev_a : C^A -> C preserves all limits and colimits existing in C.",
+   "intree": "Functor_Category_Cartesian: whenever D is cartesian, so is the functor category [C, D], with the product formed objectwise, (F × G) c = F c × G c, and the projections and pairing given componentwise.",
+   "strength_comparison": "intree-weaker: only the BINARY PRODUCT case of clause (i)+(ii) is proved, and only for products (not for the terminal object, equalizers, pullbacks, general limits, or any colimit). There is no completeness/cocompleteness result for [C, D], no evaluation functor C^A ⟶ C^{ob A} anywhere, no strict-creation statement, and no lemma that ev_a : [C, D] ⟶ D preserves limits — the componentwise UMP is discharged inside the instance rather than exposed as 'limits in [C, D] are pointwise'."
+  },
+  "gap": "Missing: (a) the evaluation functor ev : C^A ⟶ C^{ob A} (nothing in the tree builds C^{ob A} or such a functor — Instance/Discrete.v has DiscreteCat but it is never used to form C^{ob A}); (b) the strict-creation theorem for ev; (c) clause (i) in general — no proof that Complete D implies Complete [C, D] (nor the cocomplete dual); (d) clause (ii) in general — no lemma that the evaluation ev_a preserves limits/colimits. Only binary products in [C, D] are shown pointwise (Functor_Category_Cartesian). Instance/Fun.v:102 states the general fact in prose, but as a comment only.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -iE 'limits.*computed pointwise|pointwise limit|objectwise limit' . — the single hit is the prose comment Instance/Fun.v:102, not an assertion",
+   "grep -rn --include=*.v 'Complete' . — no Complete/Cocomplete instance for @Fun or [C, D]; Comma/Limit.v and GAFT/SAFT are the only consumers",
+   "grep -rn --include=*.v -i 'evaluation functor|Definition ev\\b|ev_a|Eval_Functor' . — no evaluation functor out of a functor category",
+   "ls Instance/Fun/ — Cartesian.v is the only pointwise-structure file for functor categories"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently found the same single piece of evidence and the same absences: rg -i 'pointwise' over *.v hits only header prose (Instance/Fun/Cartesian.v:10-42, Structure/Cartesian/Product.v:33, Instance/Fun.v:102); ls Instance/Fun/ contains Cartesian.v alone; there is no Complete/Cocomplete instance for @Fun; there is no evaluation functor out of a functor category; Instance/Discrete.v's DiscreteCat is never used to form C^{ob A}. Line check OK: Instance/Fun/Cartesian.v:111 = '#[export] Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).', and I read its proof script -- product_obj is 'fun c => fobj[F] c x fobj[G] c' with fmap 'Cartesian.split (fmap[F] f) (fmap[G] f)' and exl/exr the componentwise projections, exactly as quoted. File in _CoqProject. One reinforcement of the gap the record did not note: there is not even a Terminal instance for [C, D] anywhere in the tree, so the nullary-product case of clause (i) is missing too -- see the LIBRARY-DEFECT filed against Instance/Fun/Cartesian.v:36, whose header says that piece 'is supplied separately'. PARTIAL confirmed."
+  }
+ },
+ {
+  "id": "riehl:3.4:example10",
+  "classification": "ABSENT",
+  "aliases": [
+   "non-pointwise limits in a diagram category",
+   "counterexample: limits in C^2 that are not computed pointwise",
+   "poset n -> w, n -> e, s -> w, s -> e without meets or joins",
+   "arrow category of a poset, accidental products",
+   "incomplete D with accidental limits in [C, D]"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=*.v -iE 'limits.*computed pointwise|pointwise limit|objectwise limit' . — the only hit is Instance/Fun.v:102, a background-essay comment that mentions the caveat ('an incomplete D can possess accidental limits that are not pointwise') without formalising it; comments are not evidence",
+   "grep -rn --include=*.v 'Arrow' ./Construction/Arrow.v — the arrow category exists (Construction/Arrow.v) but carries no product/limit results, pointwise or otherwise",
+   "grep -rn --include=*.v -i 'counterexample|counter-example|countermodel' . — every hit is a comment about a DIFFERENT counterexample (the displayed-category 2-cocycle countermodel, the Indexed.v twist, Joyal's no-go, Mac Lane's product counterexample cited in Adjunction/GAFT.v); none concerns non-pointwise limits",
+   "grep -rn --include=*.v 'Instance/Poset|Poset' ./Instance/Poset.v — Instance/Poset.v builds posets as categories but constructs no four-element poset lacking meets/joins and no diagram-category counterexample",
+   "ls Instance/Fun/ ; grep -rn --include=*.v 'Functor_Category' . — Functor_Category_Cartesian is the only functor-category structure result; no negative result accompanies it"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently found nothing: no four-object poset, no arrow-category product/limit result (Construction/Arrow.v carries no limit theory), no counterexample about non-pointwise limits. Instance/Poset.v and Instance/Proset.v build posets as categories generically but construct no such witness; Instance/Roof.v and Instance/Shapes.v carry no diagram-category counterexample either. The negative_search_log is accurate, including the point that Instance/Fun.v:102-103 mentions the caveat ('an incomplete D can possess accidental limits that are not pointwise') in a background essay only -- I re-read that passage and it is prose citing nLab, not a formalisation. ABSENT confirmed."
+  }
+ }
+]

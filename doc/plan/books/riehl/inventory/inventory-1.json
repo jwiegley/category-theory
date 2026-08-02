@@ -1,0 +1,3489 @@
+{
+ "book": "riehl",
+ "range": {
+  "pdf_start": 21,
+  "pdf_end": 72
+ },
+ "pages": [
+  {
+   "pdf_page": 21,
+   "book_page": "1",
+   "empty": false,
+   "items": [
+    "riehl:1.0:def-group-extension",
+    "riehl:1.0:eq1"
+   ],
+   "notes": "Chapter 1 opener (no running head, folio centered at foot). Eilenberg-Mac Lane epigraph is not an item. Unnumbered displays 0 -> G -> E -> H -> 0 and Ext(Z[1/p]/Z, Z) = Z_p carry no tag. Numbered display (1.0.1) is the only section-index-0 tag in the book. Footnote 1 explains exactness."
+  },
+  {
+   "pdf_page": 22,
+   "book_page": "2",
+   "empty": false,
+   "items": [],
+   "notes": "Pure roadmap/historical prose: Eilenberg-Mac Lane's route from naturality to natural transformation to functor to category, and a section-by-section preview of Chapter 1. The passing gloss of the dual space V* and of 'natural' is motivation, not a definition. Footnotes 2-3. No numbered environment."
+  },
+  {
+   "pdf_page": 23,
+   "book_page": "3",
+   "empty": false,
+   "items": [
+    "riehl:1.1:def1",
+    "riehl:1.1:def-quiver",
+    "riehl:1.1:def-commute"
+   ],
+   "notes": "Roadmap prose concludes; heading '1.1. Abstract and concrete categories' with a Mazur epigraph (not an item). Footnote 4 on the g.f notation for composition."
+  },
+  {
+   "pdf_page": 24,
+   "book_page": "4",
+   "empty": false,
+   "items": [
+    "riehl:1.1:def-commute",
+    "riehl:1.1:remark2",
+    "riehl:1.1:example3"
+   ],
+   "notes": "The unnumbered prose definition of 'commute' (riehl:1.1:def-commute, started on PDF 23) concludes in the first sentence. Footnote 7 defines chain complex and boundary homomorphisms in support of Example 1.1.3(vi); footnotes 5-6 gloss functions-with-specified-codomain and basepoint. Recorded inside the example rather than as separate items."
+  },
+  {
+   "pdf_page": 25,
+   "book_page": "5",
+   "empty": false,
+   "items": [
+    "riehl:1.1:example3",
+    "riehl:1.1:example4"
+   ],
+   "notes": "Example 1.1.3 concludes with clause (xii) (Model_T of a first-order theory). Intervening prose glosses 'concrete category' informally and explicitly defers the precise definition to 1.6.18 (outside this range) - deliberately NOT recorded as a separate item to avoid duplicating 1.6.18. Footnote 9 defines monoid, footnote 10 defines preorder and poset. Alt-text page per the pagemap (BS_3 diagram)."
+  },
+  {
+   "pdf_page": 26,
+   "book_page": "6",
+   "empty": false,
+   "items": [
+    "riehl:1.1:example4",
+    "riehl:1.1:remark5"
+   ],
+   "notes": "Example 1.1.4 concludes with clauses (v) discrete categories, (vi) Htpy/Htpy_*, (vii) Measure. Footnote 11 defines homotopy; footnotes 12-14 are foundational asides (inaccessible cardinals, Grothendieck universes) supporting Remark 1.1.5."
+  },
+  {
+   "pdf_page": 27,
+   "book_page": "7",
+   "empty": false,
+   "items": [
+    "riehl:1.1:def6",
+    "riehl:1.1:def7",
+    "riehl:1.1:def8",
+    "riehl:1.1:def10"
+   ],
+   "notes": "NUMBERING: 1.1.9 is consumed by the numbered display (1.1.9) of the hom-set notation C(X,Y) / Hom(X,Y) inside Notation 1.1.8. It is NOT a missing environment and no item was invented for it; it is a bare notational display back-referenced only as 'the notation (1.1.9)', below the bar for an 'equation' item. Footnote 15 is historical (Noether, Hurewicz, Hom notation)."
+  },
+  {
+   "pdf_page": 28,
+   "book_page": "8",
+   "empty": false,
+   "items": [
+    "riehl:1.1:def-endomorphism",
+    "riehl:1.1:example11",
+    "riehl:1.1:def12",
+    "riehl:1.1:example13",
+    "riehl:1.1:def-subcategory",
+    "riehl:1.1:lem14",
+    "riehl:1.1:exi",
+    "riehl:1.1:exii"
+   ],
+   "notes": "Section 1.1's arabic counter ends at Lemma 1.1.14; the unnumbered 'Exercises.' heading follows and the exercises restart on the lowercase-roman counter (1.1.i, 1.1.ii here). Footnote 16 notes that 'a group is a groupoid with one object' is a definition, not merely an example; footnote 17 on unital vs non-unital rings."
+  },
+  {
+   "pdf_page": 29,
+   "book_page": "9",
+   "empty": false,
+   "items": [
+    "riehl:1.1:exiii",
+    "riehl:1.1:exiv",
+    "riehl:1.2:def1"
+   ],
+   "notes": "Section 1.1 has exactly four exercises (i-iv), matching the pagemap. Heading '1.2. Duality' with a Mac Lane epigraph (not an item). Definition 1.2.1 begins at the foot and continues onto PDF 30."
+  },
+  {
+   "pdf_page": 30,
+   "book_page": "10",
+   "empty": false,
+   "items": [
+    "riehl:1.2:def1",
+    "riehl:1.2:example2",
+    "riehl:1.2:lem3"
+   ],
+   "notes": "Definition 1.2.1 concludes at the head of the page. Unnumbered prose introduces the 'dual theorem' two-for-one principle (pure methodology, not recorded). Footnote 18 counts 2^n duals for an n-category-variable statement. Lemma 1.2.3 begins at the foot and continues onto PDF 31."
+  },
+  {
+   "pdf_page": 31,
+   "book_page": "11",
+   "empty": false,
+   "items": [
+    "riehl:1.2:lem3",
+    "riehl:1.2:remark4"
+   ],
+   "notes": "NUMBERING: 1.2.5 and 1.2.6 are consumed by the numbered displays (1.2.5) and (1.2.6) inside the proof of Lemma 1.2.3 - the C^op-side and C-side forms of the same statement used to run the duality translation. They are NOT missing environments and no items were invented; each is an intermediate step of the enclosing proof, below the bar for an 'equation' item. Footnote 19."
+  },
+  {
+   "pdf_page": 32,
+   "book_page": "12",
+   "empty": false,
+   "items": [
+    "riehl:1.2:def7",
+    "riehl:1.2:lem-mono-epi-representable",
+    "riehl:1.2:example8",
+    "riehl:1.2:example9"
+   ],
+   "notes": "Footnote 20 warns that duality applies to a generic C, not to a specific category like Set."
+  },
+  {
+   "pdf_page": 33,
+   "book_page": "13",
+   "empty": false,
+   "items": [
+    "riehl:1.2:remark10",
+    "riehl:1.2:lem11",
+    "riehl:1.2:exi",
+    "riehl:1.2:exii",
+    "riehl:1.2:exiii",
+    "riehl:1.2:exiv",
+    "riehl:1.2:exv",
+    "riehl:1.2:exvi",
+    "riehl:1.2:exvii"
+   ],
+   "notes": "Section 1.2's arabic counter ends at Lemma 1.2.11; 'Exercises.' heading then 1.2.i-1.2.vii here, 1.2.viii on PDF 34 (eight total, matching the pagemap). Footnote 21 on C/c vs (c/(C^op))^op being isomorphic rather than equal."
+  },
+  {
+   "pdf_page": 34,
+   "book_page": "14",
+   "empty": false,
+   "items": [
+    "riehl:1.2:exviii",
+    "riehl:1.3:def1",
+    "riehl:1.3:example2"
+   ],
+   "notes": "Heading '1.3. Functoriality' with a Baez epigraph and an Eilenberg-Mac Lane block quotation (neither is an item). Footnote 22 on parenthesis conventions; footnote 23 defines endofunctor."
+  },
+  {
+   "pdf_page": 35,
+   "book_page": "15",
+   "empty": false,
+   "items": [
+    "riehl:1.3:example2"
+   ],
+   "notes": "Wholly a continuation of Example 1.3.2, clauses (iii)-(x) (intermediate forgetful functors, Group/Ring -> Set_*, Q: Top -> Htpy, pi_1, Pi_1, cycles/boundaries/homology on Ch_R, free group functor, the chain rule as functoriality of the derivative). No item starts on this page. Footnote 24 recasts the derivative as the tangent-space functor on Man_*."
+  },
+  {
+   "pdf_page": 36,
+   "book_page": "16",
+   "empty": false,
+   "items": [
+    "riehl:1.3:example2",
+    "riehl:1.3:thm3"
+   ],
+   "notes": "Example 1.3.2 concludes with clause (xi), the Segal-style functor M^- : Fin_* -> Set built from a commutative monoid M. Theorem 1.3.3 with its proof begins here and finishes on PDF 37."
+  },
+  {
+   "pdf_page": 37,
+   "book_page": "17",
+   "empty": false,
+   "items": [
+    "riehl:1.3:thm3",
+    "riehl:1.3:example4"
+   ],
+   "notes": "Proof of Theorem 1.3.3 concludes. Footnote 25 generalizes the argument to D^n via pi_n; footnotes 26-27 quote Kleinberg's axioms and Ghrist."
+  },
+  {
+   "pdf_page": 38,
+   "book_page": "18",
+   "empty": false,
+   "items": [
+    "riehl:1.3:def5",
+    "riehl:1.3:def6",
+    "riehl:1.3:example7"
+   ],
+   "notes": "riehl:1.3:def6 is the SMALL-CAPS 'NOTATION 1.3.6' environment; the schema has no 'notation' kind, so it is recorded with kind 'definition' and flagged 'notation-environment' (see problems[]). Footnote 28 defends writing F: C^op -> D explicitly; footnote 29 on the relativity of 'opposite category'. Alt-text page per the pagemap."
+  },
+  {
+   "pdf_page": 39,
+   "book_page": "19",
+   "empty": false,
+   "items": [
+    "riehl:1.3:example7",
+    "riehl:1.3:lem8",
+    "riehl:1.3:example9"
+   ],
+   "notes": "Example 1.3.7 concludes with clauses (ii)-(vi) (dual vector space, O: Top^op -> Poset, Spec, presheaves, simplicial sets on the simplex category). Footnote 30 forward-references the sheaf axiom at Definition 3.4.4."
+  },
+  {
+   "pdf_page": 40,
+   "book_page": "20",
+   "empty": false,
+   "items": [
+    "riehl:1.3:example9",
+    "riehl:1.3:cor10",
+    "riehl:1.3:lem-preserves-split",
+    "riehl:1.3:def11",
+    "riehl:1.3:def12"
+   ],
+   "notes": "Example 1.3.9 concludes with the left-action/right-action discussion. Definition 1.3.12 begins at the foot and continues onto PDF 41."
+  },
+  {
+   "pdf_page": 41,
+   "book_page": "21",
+   "empty": false,
+   "items": [
+    "riehl:1.3:def12",
+    "riehl:1.3:def13",
+    "riehl:1.3:construction-cat",
+    "riehl:1.3:def-iso-categories",
+    "riehl:1.3:example14"
+   ],
+   "notes": "Definition 1.3.12 concludes at the head. The bifunctoriality square for C(-,-) and its factorization (id_w,h).(f^op,id_y) are unnumbered displays. Example 1.3.14 begins at the foot ('For instance:') and its clauses run on PDF 42."
+  },
+  {
+   "pdf_page": 42,
+   "book_page": "22",
+   "empty": false,
+   "items": [
+    "riehl:1.3:example14",
+    "riehl:1.3:example15",
+    "riehl:1.3:construction-set-partial"
+   ],
+   "notes": "Example 1.3.14 concludes with clauses (i)-(vi). The Set_partial construction begins at the foot and continues onto PDF 43."
+  },
+  {
+   "pdf_page": 43,
+   "book_page": "23",
+   "empty": false,
+   "items": [
+    "riehl:1.3:construction-set-partial",
+    "riehl:1.3:exi",
+    "riehl:1.3:exii",
+    "riehl:1.3:exiii",
+    "riehl:1.3:exiv",
+    "riehl:1.3:exv",
+    "riehl:1.3:exvi"
+   ],
+   "notes": "The Set_partial construction concludes, with the motivating observation that U(-)_+ = id but (U-)_+ is only isomorphic to the identity - the setup for equivalence of categories and for natural transformations. Section 1.3's arabic counter ended at Example 1.3.15; 'Exercises.' heading then 1.3.i-1.3.vi here. Footnote 31 (axiom of regularity justifying X_+ := X u {X})."
+  },
+  {
+   "pdf_page": 44,
+   "book_page": "24",
+   "empty": false,
+   "items": [
+    "riehl:1.3:exvi",
+    "riehl:1.3:exvii",
+    "riehl:1.3:exviii",
+    "riehl:1.3:exix",
+    "riehl:1.3:exx"
+   ],
+   "notes": "Exercise 1.3.vi concludes at the head (morphisms of the comma category and the projection functors dom/cod). Section 1.3 has exactly ten exercises (i-x), matching the pagemap. Heading '1.4. Naturality' with a Freyd epigraph opens at the foot, followed by unnumbered prose beginning the dual-basis construction; that prose runs onto PDF 45 and the first numbered item of the section, Definition 1.4.1 (natural transformation), starts on PDF 45 - OUTSIDE this range and left to the adjoining agent. Footnote 32 (epimorphisms in Group are the surjections)."
+  },
+  {
+   "pdf_page": 45,
+   "book_page": "25",
+   "empty": false,
+   "items": [
+    "riehl:1.4:def1",
+    "riehl:1.4:def3"
+   ],
+   "notes": "Top half is the unnumbered dual-basis / double-dual motivation that STARTED on PDF 44 (other agent's page) - not recorded here. Number 1.4.2 is CONSUMED BY A NUMBERED DISPLAY (the naturality square inside Definition 1.4.1); it is not a missing environment."
+  },
+  {
+   "pdf_page": 46,
+   "book_page": "26",
+   "empty": false,
+   "items": [
+    "riehl:1.4:example4"
+   ],
+   "notes": "Globular-diagram depiction of a natural transformation (unnumbered). Example 1.4.4 parts (i)-(iv) begin here and continue on PDF 47. Footnotes 34, 35."
+  },
+  {
+   "pdf_page": 47,
+   "book_page": "27",
+   "empty": false,
+   "items": [
+    "riehl:1.4:example4"
+   ],
+   "notes": "No item STARTS here. Carries Example 1.4.4 parts (v)-(vii) (recorded under PDF 46) plus the unnumbered torsion-subgroup TA / torsion-free-part discussion. Number 1.4.5 is CONSUMED BY A NUMBERED DISPLAY (the short exact sequence 0 -> TA -> A -> A/TA -> 0); it is not a missing environment. Footnote 36."
+  },
+  {
+   "pdf_page": 48,
+   "book_page": "28",
+   "empty": false,
+   "items": [
+    "riehl:1.4:prop6",
+    "riehl:1.4:example8"
+   ],
+   "notes": "Number 1.4.7 is CONSUMED BY A NUMBERED DISPLAY (the composite A -> A/TA >-> TA+(A/TA) -> A inside the proof of Proposition 1.4.6); not a missing environment."
+  },
+  {
+   "pdf_page": 49,
+   "book_page": "29",
+   "empty": false,
+   "items": [
+    "riehl:1.4:example9",
+    "riehl:1.4:example11"
+   ],
+   "notes": "Numbers 1.4.10 and 1.4.12 are CONSUMED BY NUMBERED DISPLAYS (the hom-set naturality square inside Example 1.4.9; the four cartesian-closed natural isomorphisms inside Example 1.4.11). Neither is a missing environment. Footnote 37."
+  },
+  {
+   "pdf_page": 50,
+   "book_page": "30",
+   "empty": false,
+   "items": [
+    "riehl:1.4:exi",
+    "riehl:1.4:exii",
+    "riehl:1.4:exiii",
+    "riehl:1.4:exiv",
+    "riehl:1.4:exv",
+    "riehl:1.4:exvi",
+    "riehl:1.4:exvii",
+    "riehl:1.4:exviii",
+    "riehl:1.4:exix"
+   ],
+   "notes": "Unnumbered 'Exercises.' heading; the whole 1.4 exercise block (i-ix, 9 exercises, matching the pagemap count) sits on this page, with 1.4.ix running over onto PDF 51. Section 1.4 therefore ends at number 12 (Example 1.4.11 + display (1.4.12)) and the exercises do NOT advance the arabic counter. The pagemap flags this as an alt-text page; the rendered image shows no interleaving problem."
+  },
+  {
+   "pdf_page": 51,
+   "book_page": "31",
+   "empty": false,
+   "items": [
+    "riehl:1.4:exix",
+    "riehl:1.5:lem1"
+   ],
+   "notes": "Top of page carries the three commuting diagrams that finish Exercise 1.4.ix (recorded under PDF 50). Section 1.5 'Equivalence of categories' begins mid-page with a Poincare epigraph (not an item). The walking arrow 2 and the functors i0, i1: 1 => 2 are set up in prose immediately before Lemma 1.5.1 and are folded into that item. Numbers 1.5.2 and 1.5.3 are CONSUMED BY NUMBERED DISPLAYS (the restriction triangle inside Lemma 1.5.1; the 2x2 quiver picture illustrating it); neither is a missing environment. Footnote 38."
+  },
+  {
+   "pdf_page": 52,
+   "book_page": "32",
+   "empty": false,
+   "items": [
+    "riehl:1.5:def4",
+    "riehl:1.5:lem5",
+    "riehl:1.5:example6",
+    "riehl:1.5:def7"
+   ],
+   "notes": "Prose defines the 'walking arrow'/'free arrow' 2 and the 'walking isomorphism'/'free isomorphism' I (folded into the surrounding discussion of Lemma 1.5.1). Definition 1.5.7 begins here and its third bullet finishes on PDF 53. Footnote 39."
+  },
+  {
+   "pdf_page": 53,
+   "book_page": "33",
+   "empty": false,
+   "items": [
+    "riehl:1.5:def7",
+    "riehl:1.5:remark8",
+    "riehl:1.5:thm9",
+    "riehl:1.5:lem10"
+   ],
+   "notes": "First bullet of Definition 1.5.7 (essentially surjective on objects) completes here. Proof of Theorem 1.5.9 starts on this page and runs through PDF 55. Footnote 40."
+  },
+  {
+   "pdf_page": 54,
+   "book_page": "34",
+   "empty": false,
+   "items": [
+    "riehl:1.5:thm9"
+   ],
+   "notes": "No item starts here. Entire page is the continuation of the proof of Theorem 1.5.9 (functoriality of G, construction of eta from full faithfulness). Not empty."
+  },
+  {
+   "pdf_page": 55,
+   "book_page": "35",
+   "empty": false,
+   "items": [
+    "riehl:1.5:thm9",
+    "riehl:1.5:def-connected",
+    "riehl:1.5:example11",
+    "riehl:1.5:example12",
+    "riehl:1.5:prop13"
+   ],
+   "notes": "Proof of Theorem 1.5.9 ends at the top. 'A category is connected if ...' is an UNNUMBERED definition made in running prose, recorded. Proof of Proposition 1.5.13 continues onto PDF 56."
+  },
+  {
+   "pdf_page": 56,
+   "book_page": "36",
+   "empty": false,
+   "items": [
+    "riehl:1.5:prop13",
+    "riehl:1.5:cor14",
+    "riehl:1.5:remark15",
+    "riehl:1.5:def16",
+    "riehl:1.5:remark17"
+   ],
+   "notes": "Remark 1.5.17 begins here and continues onto PDF 57. Footnote 41."
+  },
+  {
+   "pdf_page": 57,
+   "book_page": "37",
+   "empty": false,
+   "items": [
+    "riehl:1.5:remark17",
+    "riehl:1.5:example18",
+    "riehl:1.5:example19",
+    "riehl:1.5:remark-equivalence-invariance"
+   ],
+   "notes": "Remark 1.5.17 completes at the top (skeletal-to-skeletal equivalences are isomorphisms). The unnumbered 'guiding principle' paragraph on equivalence-invariance begins at the foot and its bullet list finishes on PDF 58; recorded as an unnumbered remark. Footnote 42."
+  },
+  {
+   "pdf_page": 58,
+   "book_page": "38",
+   "empty": false,
+   "items": [
+    "riehl:1.5:remark-equivalence-invariance",
+    "riehl:1.5:def-essentially-small",
+    "riehl:1.5:exi",
+    "riehl:1.5:exii",
+    "riehl:1.5:exiii",
+    "riehl:1.5:exiv",
+    "riehl:1.5:exv",
+    "riehl:1.5:exvi",
+    "riehl:1.5:exvii",
+    "riehl:1.5:exviii",
+    "riehl:1.5:exix"
+   ],
+   "notes": "Last two bullets of the equivalence-invariance list (recorded under PDF 57). Unnumbered prose definitions 'essentially small' / 'essentially discrete' recorded as one item. 'Evil' discussion is pure exposition. Exercise block 1.5.i-ix (9, matching the pagemap); 1.5.ix runs onto PDF 59. Section 1.5 ends at number 19 and exercises do not advance the arabic counter. Footnote 43."
+  },
+  {
+   "pdf_page": 59,
+   "book_page": "39",
+   "empty": false,
+   "items": [
+    "riehl:1.5:exix",
+    "riehl:1.6:def-commutes",
+    "riehl:1.6:def2"
+   ],
+   "notes": "Exercise 1.5.ix completes at the top (recorded under PDF 58). Section 1.6 'The art of the diagram chase' begins with an Eilenberg-Steenrod epigraph (not an item). The informal prose definitions of 'diagram' (as a quiver of morphisms) and of a diagram COMMUTING are recorded as one unnumbered definition. Number 1.6.1 is CONSUMED BY A NUMBERED DISPLAY (the commutative triangle h = gf); it is not a missing environment."
+  },
+  {
+   "pdf_page": 60,
+   "book_page": "40",
+   "empty": false,
+   "items": [
+    "riehl:1.6:def3",
+    "riehl:1.6:def4"
+   ],
+   "notes": "Definition 1.6.3 is a single numbered block that also carries the unnumbered definitions of 'unital ring' (monoid in Ab under tensor over Z) and 'k-algebra' (monoid in Vect_k); all three are folded into that item. The pagemap flags this as an alt-text page; the image is clean."
+  },
+  {
+   "pdf_page": 61,
+   "book_page": "41",
+   "empty": false,
+   "items": [
+    "riehl:1.6:lem5",
+    "riehl:1.6:example6",
+    "riehl:1.6:remark7",
+    "riehl:1.6:example8"
+   ],
+   "notes": "Example 1.6.8 begins here and its discussion finishes on PDF 62. The pagemap flags this as an alt-text page; the image is clean."
+  },
+  {
+   "pdf_page": 62,
+   "book_page": "42",
+   "empty": false,
+   "items": [
+    "riehl:1.6:example8",
+    "riehl:1.6:example9",
+    "riehl:1.6:lem11"
+   ],
+   "notes": "Number 1.6.10 is CONSUMED BY A NUMBERED DISPLAY (the two-adjacent-squares rectangle hf = kg, lj = mh); it is not a missing environment, though later text (Remark 1.6.21, Lemma 1.6.22) back-references it. The definition of 'commutative rectangle' sits inside Example 1.6.9."
+  },
+  {
+   "pdf_page": 63,
+   "book_page": "43",
+   "empty": false,
+   "items": [
+    "riehl:1.6:lem12",
+    "riehl:1.6:lem13"
+   ],
+   "notes": "Unnumbered terminology only: 'commutative cube', 'minimal subdiagram', 'directed polygon', 'equational reasoning'. Descriptive diagram-chasing vocabulary, no standalone formalizable claim; not recorded as items."
+  },
+  {
+   "pdf_page": 64,
+   "book_page": "44",
+   "empty": false,
+   "items": [
+    "riehl:1.6:def14",
+    "riehl:1.6:example15",
+    "riehl:1.6:lem16"
+   ],
+   "notes": "Lemma 1.6.16 statement begins here; its explanatory paragraph (contractible groupoid, chaotic, repleteness) and its proof are on PDF 65. Footnote 44."
+  },
+  {
+   "pdf_page": 65,
+   "book_page": "45",
+   "empty": false,
+   "items": [
+    "riehl:1.6:lem16",
+    "riehl:1.6:def-replete",
+    "riehl:1.6:lem17",
+    "riehl:1.6:def18"
+   ],
+   "notes": "'Contractible groupoid' and 'chaotic category' are defined inside the Lemma 1.6.16 block and folded into that item. Footnote 45 defines a REPLETE subcategory - recorded as an unnumbered prose (footnote) definition. Footnote 46."
+  },
+  {
+   "pdf_page": 66,
+   "book_page": "46",
+   "empty": false,
+   "items": [
+    "riehl:1.6:example19",
+    "riehl:1.6:lem20",
+    "riehl:1.6:remark21",
+    "riehl:1.6:lem22"
+   ],
+   "notes": "Lemma 1.6.22 statement begins here; its proof is at the top of PDF 67."
+  },
+  {
+   "pdf_page": 67,
+   "book_page": "47",
+   "empty": false,
+   "items": [
+    "riehl:1.6:lem22",
+    "riehl:1.6:exi",
+    "riehl:1.6:exii",
+    "riehl:1.6:exiii",
+    "riehl:1.6:exiv",
+    "riehl:1.6:exv",
+    "riehl:1.6:exvi",
+    "riehl:1.7:construction-functor-category"
+   ],
+   "notes": "Proof of Lemma 1.6.22 completes at the top. Exercise block 1.6.i-vi (6, matching the pagemap); section 1.6 ends at number 22 and the exercises do not advance the arabic counter. Section 1.7 'The 2-category of categories' begins mid-page; the FUNCTOR CATEGORY D^C is built in unnumbered prose here (objects, morphisms, identity natural transformation) and is recorded as an unnumbered construction."
+  },
+  {
+   "pdf_page": 68,
+   "book_page": "48",
+   "empty": false,
+   "items": [
+    "riehl:1.7:lem1",
+    "riehl:1.7:cor2",
+    "riehl:1.7:remark3",
+    "riehl:1.7:lem4"
+   ],
+   "notes": "'Vertical composition' and 'horizontal composition' are named in prose and folded into Lemmas 1.7.1 and 1.7.4. Lemma 1.7.4's statement begins at the foot and completes on PDF 69."
+  },
+  {
+   "pdf_page": 69,
+   "book_page": "49",
+   "empty": false,
+   "items": [
+    "riehl:1.7:lem4",
+    "riehl:1.7:remark6"
+   ],
+   "notes": "Statement and proof of Lemma 1.7.4 complete here (recorded under PDF 68). Number 1.7.5 is CONSUMED BY A NUMBERED DISPLAY (the square defining the component of the horizontal composite); it is not a missing environment."
+  },
+  {
+   "pdf_page": 70,
+   "book_page": "50",
+   "empty": false,
+   "items": [
+    "riehl:1.7:lem7",
+    "riehl:1.7:def8"
+   ],
+   "notes": "The pagemap flags this as an alt-text page; the image is clean. Section 1.7 ends at number 8."
+  },
+  {
+   "pdf_page": 71,
+   "book_page": "51",
+   "empty": false,
+   "items": [
+    "riehl:1.7:exi",
+    "riehl:1.7:exii",
+    "riehl:1.7:exiii",
+    "riehl:1.7:exiv",
+    "riehl:1.7:exv",
+    "riehl:1.7:exvi",
+    "riehl:1.7:exvii"
+   ],
+   "notes": "Exercise block 1.7.i-vii (7, matching the pagemap). Last text page of Chapter 1; page is only half full."
+  },
+  {
+   "pdf_page": 72,
+   "book_page": "52",
+   "empty": true,
+   "items": [],
+   "notes": "Blank trailing verso of Chapter 1, exactly as predicted by the pagemap (one of the seven counted blanks). No text, no folio."
+  }
+ ],
+ "items": [
+  {
+   "id": "riehl:1.0:def-group-extension",
+   "kind": "definition",
+   "number": null,
+   "name": "group extension; equivalence of extensions; Ext(H,G)",
+   "statement_summary": "In running prose: a group extension of an abelian group H by an abelian group G is a group E together with an inclusion of G as a normal subgroup of E and a surjection E -> H exhibiting H as the quotient E/G, displayed as a short exact sequence 0 -> G -> E -> H -> 0. Two extensions E, E' of the same G and H are equivalent when there is an isomorphism E = E' commuting with the inclusions of G and with the quotient maps to H. The set of equivalence classes of ABELIAN extensions of H by G is itself given an abelian group structure, written Ext(H,G).",
+   "book_section": "1.0",
+   "book_page": "1",
+   "pdf_pages": [
+    21
+   ],
+   "cross_refs": [
+    "riehl:1.0:eq1"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "prose-definition",
+    "motivational-context"
+   ]
+  },
+  {
+   "id": "riehl:1.0:eq1",
+   "kind": "equation",
+   "number": "1.0.1",
+   "name": "universal coefficient theorem (displayed short exact sequence)",
+   "statement_summary": "Numbered display stating the universal coefficient theorem: for a space X, an abelian group G and each n there is a short exact sequence 0 -> Ext(H_{n-1}(X), G) -> H^n(X,G) -> Hom(H_n(X), G) -> 0 relating singular homology to cohomology. The surrounding text asserts that the two outer homomorphisms are NATURAL with respect to continuous maps of spaces, which is the historical origin of the naturality notion; the display is back-referenced by number on printed p. 2.",
+   "book_section": "1.0",
+   "book_page": "1",
+   "pdf_pages": [
+    21
+   ],
+   "cross_refs": [
+    "riehl:1.0:def-group-extension"
+   ],
+   "flags": [
+    "numbered-display",
+    "section-index-zero",
+    "motivational-context"
+   ]
+  },
+  {
+   "id": "riehl:1.1:def1",
+   "kind": "definition",
+   "number": "1.1.1",
+   "name": "category",
+   "statement_summary": "A category consists of a collection of objects and a collection of morphisms such that: each morphism f has specified domain and codomain objects, written f: X -> Y; each object X has a designated identity morphism id_X : X -> X; each composable pair f: X -> Y, g: Y -> Z has a specified composite gf: X -> Z. Two axioms: unitality, id_Y f = f = f id_X for every f: X -> Y; and associativity, h(gf) = (hg)f for every composable triple, the common value written hgf. So composition is associative and unital with identities as two-sided units.",
+   "book_section": "1.1",
+   "book_page": "3",
+   "pdf_pages": [
+    23
+   ],
+   "cross_refs": [
+    "riehl:1.1:remark2",
+    "riehl:1.1:def6",
+    "riehl:1.1:def7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.1:def-quiver",
+   "kind": "definition",
+   "number": null,
+   "name": "quiver; reflexive quiver; underlying quiver of a category",
+   "statement_summary": "In running prose: a quiver is a directed graph that may contain parallel arrows and loops; a reflexive quiver additionally specifies a distinguished 'identity' endoarrow at each vertex. The objects and morphisms of a category form a reflexive quiver, and every finite directed path of composable arrows in that quiver has a well-defined composite - well-defined by associativity and unchanged by inserting or deleting identity arrows. Composites of distinct parallel paths are in general distinct arrows.",
+   "book_section": "1.1",
+   "book_page": "3",
+   "pdf_pages": [
+    23
+   ],
+   "cross_refs": [
+    "riehl:1.1:def1",
+    "riehl:1.1:example3",
+    "riehl:1.1:def-commute"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "prose-definition"
+   ]
+  },
+  {
+   "id": "riehl:1.1:def-commute",
+   "kind": "definition",
+   "number": null,
+   "name": "commuting (parallel paths / commutative diagram)",
+   "statement_summary": "In running prose spanning the page break: two parallel directed paths of composable arrows in a category are said to COMMUTE when they have the same composite. This is the notion of commutativity used for all subsequent diagrams in the book.",
+   "book_section": "1.1",
+   "book_page": "3-4",
+   "pdf_pages": [
+    23,
+    24
+   ],
+   "cross_refs": [
+    "riehl:1.1:def-quiver"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "prose-definition",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.1:remark2",
+   "kind": "remark",
+   "number": "1.1.2",
+   "name": "objects correspond bijectively to identity morphisms",
+   "statement_summary": "The objects of a category are in bijective correspondence with its identity morphisms, an identity being uniquely characterized by being a two-sided unit for composition. Consequently a category may equivalently be defined as a single collection of morphisms with a partially defined composition operation having certain specified morphisms (used both to recognize which pairs are composable and to serve as two-sided identities); references Ehresmann and Freyd-Scedrov. Riehl nonetheless specifies objects and morphisms separately. Used later to say a small category has only a set's worth of objects.",
+   "book_section": "1.1",
+   "book_page": "4",
+   "pdf_pages": [
+    24
+   ],
+   "cross_refs": [
+    "riehl:1.1:def1",
+    "riehl:1.1:def6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.1:example3",
+   "kind": "example",
+   "number": "1.1.3",
+   "name": "concrete categories of mathematical objects",
+   "statement_summary": "Twelve concrete categories, each given by objects and structure-preserving morphisms: (i) Set (sets, functions with specified domain and codomain); (ii) Top (spaces, continuous maps); (iii) Set_* and Top_* (based sets/spaces, basepoint-preserving maps); (iv) Group, plus Ring (associative unital rings) and Field; (v) R-Mod for a unital not-necessarily-commutative ring R, with Vect_k when R is a field, Ab = Z-Mod, and Mod_R for right modules; (vi) Ch_R (chain complexes of R-modules with d^2 = 0, chain maps); (vii) Graph (simple graphs, graph homomorphisms); (viii) Quiver (quivers and source/target-preserving maps); (ix) Man (smooth manifolds, smooth maps); (x) Meas (measurable spaces, measurable functions); (xi) Poset (posets, order-preserving functions); (xii) Model_T for a first-order signature s and theory T (s-structures modelling T, functions preserving the constants, relations and functions), specializing to (iv),(v),(vi),(vii),(xi).",
+   "book_section": "1.1",
+   "book_page": "4-5",
+   "pdf_pages": [
+    24,
+    25
+   ],
+   "cross_refs": [
+    "riehl:1.1:def1",
+    "riehl:1.1:example11"
+   ],
+   "flags": [
+    "spans-page-break",
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.1:example4",
+   "kind": "example",
+   "number": "1.1.4",
+   "name": "abstract categories",
+   "statement_summary": "Seven categories whose morphisms are not functions: (i) Mat_R for a unital ring R, with objects the positive integers and morphisms n -> m the m x n matrices over R, composition matrix multiplication, identities the identity matrices; (ii) BG for a group (or monoid) G: one object whose endomorphisms are the elements of G, composition given by multiplication and identity the unit e; (iii) a poset (P, <=) or preorder as a category with a unique morphism x -> y iff x <= y, transitivity giving composition and reflexivity giving identities; (iv) an ordinal a = {b | b < a} as the category of smaller ordinals, giving 0 (empty), 1 (one object and its identity), 2 (0 -> 1) and w, the category freely generated by the quiver 0 -> 1 -> 2 -> ... , meaning every non-identity morphism factors uniquely as a composite of displayed arrows; (v) a set as a DISCRETE category, one in which every morphism is an identity; (vi) Htpy (spaces, homotopy classes of continuous maps) and Htpy_*; (vii) Measure (measure spaces, a.e.-equivalence classes of measurable functions, where two parallel maps agree if their difference-set has measure zero).",
+   "book_section": "1.1",
+   "book_page": "5-6",
+   "pdf_pages": [
+    25,
+    26
+   ],
+   "cross_refs": [
+    "riehl:1.1:example3",
+    "riehl:1.2:example2"
+   ],
+   "flags": [
+    "spans-page-break",
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.1:remark5",
+   "kind": "remark",
+   "number": "1.1.5",
+   "name": "size and set-theoretic foundations",
+   "statement_summary": "Russell's paradox forbids a set of all sets, which is why Definition 1.1.1 says 'collection': in each of the categories of Example 1.1.3 the objects do not form a set. Quotes Eilenberg-Mac Lane on categories being an auxiliary notion, and records the working convention adopted in the book: sweep foundational issues aside, assuming if pressed a countable sequence of inaccessible cardinals, so that each V_k is a Grothendieck universe and one can 'do set theory' inside a universe and enlarge it as needed rather than parametrizing every definition by universe levels.",
+   "book_section": "1.1",
+   "book_page": "6",
+   "pdf_pages": [
+    26
+   ],
+   "cross_refs": [
+    "riehl:1.1:def1",
+    "riehl:1.1:def6",
+    "riehl:1.1:def7"
+   ],
+   "flags": [
+    "foundations"
+   ]
+  },
+  {
+   "id": "riehl:1.1:def6",
+   "kind": "definition",
+   "number": "1.1.6",
+   "name": "small category",
+   "statement_summary": "A category is SMALL if it has only a set's worth of arrows. By Remark 1.1.2 a small category also has only a set's worth of objects, so a small category C is equivalently the data of a set ob C, a set mor C, and functions dom, cod : mor C -> ob C and id : ob C -> mor C (dom and cod both retracting id), all of which are objects and morphisms of Set.",
+   "book_section": "1.1",
+   "book_page": "7",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "riehl:1.1:remark2",
+    "riehl:1.1:def7",
+    "riehl:1.3:construction-cat"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.1:def7",
+   "kind": "definition",
+   "number": "1.1.7",
+   "name": "locally small category",
+   "statement_summary": "A category is LOCALLY SMALL if between any pair of objects there is only a set's worth of morphisms. None of the categories of Example 1.1.3 is small, but each is locally small.",
+   "book_section": "1.1",
+   "book_page": "7",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "riehl:1.1:def6",
+    "riehl:1.1:def8"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.1:def8",
+   "kind": "definition",
+   "number": "1.1.8",
+   "name": "(Notation 1.1.8) hom-set notation C(X,Y) and Hom(X,Y)",
+   "statement_summary": "Notation environment: for a locally small category C the set of morphisms from X to Y is written C(X,Y) or Hom(X,Y) (numbered display (1.1.9)), and is called the HOM-SET whether or not its elements are homomorphisms of any kind. The same notation is adopted for the collection of morphisms between a fixed pair of objects even when the category is not locally small.",
+   "book_section": "1.1",
+   "book_page": "7",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "riehl:1.1:def7",
+    "riehl:1.3:def11",
+    "riehl:1.3:def13"
+   ],
+   "flags": [
+    "notation-environment",
+    "kind-coerced-to-definition",
+    "consumes-display-number-1.1.9"
+   ]
+  },
+  {
+   "id": "riehl:1.1:def10",
+   "kind": "definition",
+   "number": "1.1.10",
+   "name": "isomorphism; isomorphic objects",
+   "statement_summary": "An ISOMORPHISM in a category is a morphism f: X -> Y for which there exists g: Y -> X with gf = id_X and fg = id_Y. Objects X and Y are ISOMORPHIC, written X = Y (iso), when some isomorphism between them exists; a morphism f is said to define an isomorphism when it is one, written f: X -> Y with an iso decoration.",
+   "book_section": "1.1",
+   "book_page": "7",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "riehl:1.1:example11",
+    "riehl:1.2:lem3",
+    "riehl:1.3:lem8"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.1:def-endomorphism",
+   "kind": "definition",
+   "number": null,
+   "name": "endomorphism; automorphism",
+   "statement_summary": "In running prose: an ENDOMORPHISM is a morphism whose domain equals its codomain; an endomorphism that is an isomorphism is an AUTOMORPHISM.",
+   "book_section": "1.1",
+   "book_page": "8",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "riehl:1.1:def10",
+    "riehl:1.3:cor10"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "prose-definition"
+   ]
+  },
+  {
+   "id": "riehl:1.1:example11",
+   "kind": "example",
+   "number": "1.1.11",
+   "name": "isomorphisms in familiar categories",
+   "statement_summary": "(i) The isomorphisms in Set are exactly the bijections. (ii) In Group, Ring, Field and R-Mod they are the bijective homomorphisms. (iii) In Top they are the homeomorphisms - continuous maps with continuous inverse, strictly stronger than being a bijective continuous map. (iv) In Htpy they are the homotopy equivalences. (v) In a poset (P,<=), antisymmetry forces the only isomorphisms to be identities. Clauses (ii) and (iii) raise the question, answered at Lemma 5.6.1, of when the isomorphisms of a concrete category are precisely the maps inducing bijections of underlying sets.",
+   "book_section": "1.1",
+   "book_page": "8",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "riehl:1.1:def10",
+    "riehl:1.1:example3"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.1:def12",
+   "kind": "definition",
+   "number": "1.1.12",
+   "name": "groupoid",
+   "statement_summary": "A GROUPOID is a category in which every morphism is an isomorphism.",
+   "book_section": "1.1",
+   "book_page": "8",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "riehl:1.1:def10",
+    "riehl:1.1:example13",
+    "riehl:1.1:lem14"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.1:example13",
+   "kind": "example",
+   "number": "1.1.13",
+   "name": "groups and fundamental groupoids as groupoids",
+   "statement_summary": "(i) A group IS a groupoid with a single object (flagged in a footnote as a definition, not merely an example). (ii) For any space X the FUNDAMENTAL GROUPOID Pi_1 X is the category whose objects are the points of X and whose morphisms are endpoint-preserving homotopy classes of paths; it is a groupoid.",
+   "book_section": "1.1",
+   "book_page": "8",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "riehl:1.1:def12",
+    "riehl:1.1:example4",
+    "riehl:1.3:example2"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.1:def-subcategory",
+   "kind": "definition",
+   "number": null,
+   "name": "subcategory",
+   "statement_summary": "In running prose: a SUBCATEGORY D of a category C is given by a subcollection of the objects and a subcollection of the morphisms of C, subject to closure conditions - D contains the domain and codomain of each of its morphisms, contains the identity of each of its objects, and contains the composite of any composable pair of its morphisms. Examples: CRing is a subcategory of Ring; both are subcategories of Rng, the category of not-necessarily-unital rings and homomorphisms not required to preserve the unit.",
+   "book_section": "1.1",
+   "book_page": "8",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "riehl:1.1:lem14",
+    "riehl:1.1:exii",
+    "riehl:1.2:exii"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "prose-definition"
+   ]
+  },
+  {
+   "id": "riehl:1.1:lem14",
+   "kind": "lemma",
+   "number": "1.1.14",
+   "name": "maximal subgroupoid",
+   "statement_summary": "Every category C contains a MAXIMAL SUBGROUPOID: the subcategory with all of the objects of C and exactly those morphisms of C that are isomorphisms. Proof deferred to Exercise 1.1.ii. Illustrated by Fin_iso, finite sets and bijections, the maximal subgroupoid of Fin.",
+   "book_section": "1.1",
+   "book_page": "8",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "riehl:1.1:def12",
+    "riehl:1.1:def-subcategory",
+    "riehl:1.1:exii"
+   ],
+   "flags": [
+    "proof-deferred-to-exercise"
+   ]
+  },
+  {
+   "id": "riehl:1.1:exi",
+   "kind": "exercise",
+   "number": "1.1.i",
+   "name": "two-sided inverses and uniqueness of inverses",
+   "statement_summary": "For f: x -> y: (i) show that if there exist g, h: y -> x with gf = id_x and fh = id_y, then g = h and f is an isomorphism; (ii) show that a morphism has at most one inverse isomorphism.",
+   "book_section": "1.1",
+   "book_page": "8",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "riehl:1.1:def10"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.1:exii",
+   "kind": "exercise",
+   "number": "1.1.ii",
+   "name": "isomorphisms form the maximal subgroupoid",
+   "statement_summary": "Show that the collection of isomorphisms of a category C defines a subcategory of C, the maximal subgroupoid inside C. (This is the deferred proof of Lemma 1.1.14.)",
+   "book_section": "1.1",
+   "book_page": "8",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "riehl:1.1:lem14",
+    "riehl:1.1:def-subcategory"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.1:exiii",
+   "kind": "exercise",
+   "number": "1.1.iii",
+   "name": "slice categories under and over an object",
+   "statement_summary": "For a category C and object c, show that (i) there is a category c/C whose objects are morphisms f: c -> x out of c and whose morphisms from f: c -> x to g: c -> y are maps h: x -> y with g = hf; and (ii) there is a category C/c whose objects are morphisms f: x -> c into c and whose morphisms from f to g: y -> c are maps h: x -> y with f = gh. These are the SLICE CATEGORIES of C under and over c respectively.",
+   "book_section": "1.1",
+   "book_page": "9",
+   "pdf_pages": [
+    29
+   ],
+   "cross_refs": [
+    "riehl:1.2:exi",
+    "riehl:1.3:exvii"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.1:exiv",
+   "kind": "exercise",
+   "number": "1.1.iv",
+   "name": "congruences and quotient categories; homotopy is a congruence",
+   "statement_summary": "Defines a CONGRUENCE as a binary equivalence relation ~ on the hom-sets of a category respected by pre- and postcomposition (f ~ g implies hfk ~ hgk). Then: (i) show that for a congruence ~ on C there is a quotient category with the same objects as C and with morphisms the ~-equivalence classes of parallel morphisms of C; (ii) prove that the homotopy relation is a congruence on Top - if f, g: X -> Y are homotopic and k: W -> X, h: Y -> Z are continuous, then hfk and hgk are homotopic. This exhibits Htpy as a quotient of Top.",
+   "book_section": "1.1",
+   "book_page": "9",
+   "pdf_pages": [
+    29
+   ],
+   "cross_refs": [
+    "riehl:1.1:example4"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.2:def1",
+   "kind": "definition",
+   "number": "1.2.1",
+   "name": "opposite category",
+   "statement_summary": "For any category C the OPPOSITE CATEGORY C^op has the same objects as C, and one morphism f^op : Y -> X for each morphism f: X -> Y of C (domain and codomain exchanged). Identities are id_X^op, and composition is defined by f^op . g^op := (g . f)^op, which is defined exactly when g . f is defined in C. The data so described satisfies associativity and unitality precisely because C does; C^op therefore carries exactly the same information as C, exhibiting the syntactic self-duality of the category axioms.",
+   "book_section": "1.2",
+   "book_page": "9-10",
+   "pdf_pages": [
+    29,
+    30
+   ],
+   "cross_refs": [
+    "riehl:1.1:def1",
+    "riehl:1.2:example2",
+    "riehl:1.3:def5"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.2:example2",
+   "kind": "example",
+   "number": "1.2.2",
+   "name": "opposites of matrix, preorder and one-object categories",
+   "statement_summary": "(i) Mat_R^op has the positive integers as objects with a morphism m -> n an m x n matrix over R, so the opposite handedness convention for Mat_R loses nothing. (ii) The opposite of a preorder (P,<=) regarded as a category is the category with a morphism x -> y iff y <= x; e.g. w^op is freely generated by ... -> 3 -> 2 -> 1 -> 0. (iii) For a group G, (BG)^op is isomorphic to B(G^op), again a one-object groupoid and hence a group; G^op is the OPPOSITE GROUP, used to present right actions as a special case of left actions.",
+   "book_section": "1.2",
+   "book_page": "10",
+   "pdf_pages": [
+    30
+   ],
+   "cross_refs": [
+    "riehl:1.2:def1",
+    "riehl:1.1:example4",
+    "riehl:1.3:example9"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.2:lem3",
+   "kind": "lemma",
+   "number": "1.2.3",
+   "name": "representable characterization of isomorphisms",
+   "statement_summary": "For a morphism f: x -> y in a category C the following are equivalent: (i) f is an isomorphism in C; (ii) for every object c, postcomposition f_* : C(c,x) -> C(c,y) is a bijection; (iii) for every object c, precomposition f^* : C(y,c) -> C(x,c) is a bijection. Proved (i) <=> (ii) directly and (i) <=> (iii) by duality, translating the C^op-statement (1.2.5) into the C-statement (1.2.6). The proof applies also to non-locally-small categories.",
+   "book_section": "1.2",
+   "book_page": "10-11",
+   "pdf_pages": [
+    30,
+    31
+   ],
+   "cross_refs": [
+    "riehl:1.1:def10",
+    "riehl:1.2:remark4",
+    "riehl:1.3:def11"
+   ],
+   "flags": [
+    "spans-page-break",
+    "consumes-display-numbers-1.2.5-1.2.6"
+   ]
+  },
+  {
+   "id": "riehl:1.2:remark4",
+   "kind": "remark",
+   "number": "1.2.4",
+   "name": "isomorphisms are defined representably",
+   "statement_summary": "Lemma 1.2.3 says that isomorphisms in a locally small category are defined REPRESENTABLY in terms of isomorphisms in Set: f: x -> y is an isomorphism iff for each object c the postcomposition function f_* : C(c,x) -> C(c,y) is an isomorphism in Set. In set-theoretic foundations permitting functions between large sets the proof applies to non-locally-small categories too; smallness hypotheses are invoked only where genuinely needed, and this is not such an occasion.",
+   "book_section": "1.2",
+   "book_page": "11",
+   "pdf_pages": [
+    31
+   ],
+   "cross_refs": [
+    "riehl:1.2:lem3",
+    "riehl:1.1:def7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.2:def7",
+   "kind": "definition",
+   "number": "1.2.7",
+   "name": "monomorphism; epimorphism",
+   "statement_summary": "A morphism f: x -> y is (i) a MONOMORPHISM if for every parallel pair h, k: w -> x, fh = fk implies h = k (left cancellable); (ii) an EPIMORPHISM if for every parallel pair h, k: y -> z, hf = kf implies h = k (right cancellable). A monomorphism in C is exactly an epimorphism in C^op and vice versa. Adjectival forms: monic/mono, epic/epi; monos are drawn with a tail, epis with a double head.",
+   "book_section": "1.2",
+   "book_page": "12",
+   "pdf_pages": [
+    32
+   ],
+   "cross_refs": [
+    "riehl:1.2:def1",
+    "riehl:1.2:lem-mono-epi-representable",
+    "riehl:1.2:example8"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.2:lem-mono-epi-representable",
+   "kind": "lemma",
+   "number": null,
+   "name": "representable reformulation of mono and epi",
+   "statement_summary": "Unnumbered pair of dual statements re-expressing Definition 1.2.7: (i) f: x -> y is a monomorphism in C iff for every object c, postcomposition f_* : C(c,x) -> C(c,y) is an injection; (ii) f: x -> y is an epimorphism in C iff for every object c, precomposition f^* : C(y,c) -> C(x,c) is an injection. (Compare Lemma 1.2.3, where bijections characterize isomorphisms.)",
+   "book_section": "1.2",
+   "book_page": "12",
+   "pdf_pages": [
+    32
+   ],
+   "cross_refs": [
+    "riehl:1.2:def7",
+    "riehl:1.2:lem3"
+   ],
+   "flags": [
+    "unnumbered-claim"
+   ]
+  },
+  {
+   "id": "riehl:1.2:example8",
+   "kind": "example",
+   "number": "1.2.8",
+   "name": "monos and epis in Set are injections and surjections",
+   "statement_summary": "In Set a function f: X -> Y is a monomorphism iff it is injective (necessity by probing with maps from a singleton; sufficiency by direct cancellation), and is an epimorphism iff it is surjective (hf = kf forces h = k only on the image of f, so cancellation holds exactly when the image is all of Y). Monomorphisms and epimorphisms are thus the categorical analogues of injections and surjections; in general concrete categories this correspondence can fail in both directions (Exercises 1.6.iv, 1.6.v).",
+   "book_section": "1.2",
+   "book_page": "12",
+   "pdf_pages": [
+    32
+   ],
+   "cross_refs": [
+    "riehl:1.2:def7",
+    "riehl:1.2:remark10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.2:example9",
+   "kind": "example",
+   "number": "1.2.9",
+   "name": "sections, retractions, split monos and split epis, retracts",
+   "statement_summary": "Given x -s-> y -r-> x with rs = id_x: s is a SECTION or right inverse of r, r is a RETRACTION or left inverse of s, and x is a RETRACT of y. Such an s is always a monomorphism and dually such an r is always an epimorphism; to record the one-sided inverse one calls s a SPLIT MONOMORPHISM and r a SPLIT EPIMORPHISM. Consequently an isomorphism is necessarily both monic and epic, but the converse fails in general (Exercise 1.2.iv).",
+   "book_section": "1.2",
+   "book_page": "12",
+   "pdf_pages": [
+    32
+   ],
+   "cross_refs": [
+    "riehl:1.2:def7",
+    "riehl:1.2:remark10",
+    "riehl:1.2:exvi",
+    "riehl:1.3:lem-preserves-split"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.2:remark10",
+   "kind": "remark",
+   "number": "1.2.10",
+   "name": "axiom of choice as splitting of epimorphisms in Set",
+   "statement_summary": "The axiom of choice can be stated categorically: every epimorphism in Set is a split epimorphism. A function p: A -> I encodes the indexed family of fibers A_i := p^{-1}(i); p is an epimorphism exactly when every A_i is non-empty (Example 1.2.8), and requiring all epimorphisms to split is exactly requiring a section s: I -> A of p, i.e. a choice function with s(i) in A_i for all i.",
+   "book_section": "1.2",
+   "book_page": "13",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "riehl:1.2:example8",
+    "riehl:1.2:example9",
+    "riehl:1.2:exviii"
+   ],
+   "flags": [
+    "foundations"
+   ]
+  },
+  {
+   "id": "riehl:1.2:lem11",
+   "kind": "lemma",
+   "number": "1.2.11",
+   "name": "closure and cancellation properties of monos and epis",
+   "statement_summary": "(i) If f: x -> y and g: y -> z are monomorphisms then so is gf: x -> z. (ii) If f: x -> y and g: y -> z are morphisms with gf monic, then f is monic. Dually: (i') if f and g are epimorphisms then so is gf; (ii') if gf is epic then g is epic. Proof deferred to Exercise 1.2.ii.",
+   "book_section": "1.2",
+   "book_page": "13",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "riehl:1.2:def7",
+    "riehl:1.2:exii"
+   ],
+   "flags": [
+    "multi-part",
+    "proof-deferred-to-exercise"
+   ]
+  },
+  {
+   "id": "riehl:1.2:exi",
+   "kind": "exercise",
+   "number": "1.2.i",
+   "name": "over-slice as the opposite of an under-slice",
+   "statement_summary": "Defining C/c to be (c/(C^op))^op, deduce the statement of Exercise 1.1.iii(ii) from that of Exercise 1.1.iii(i), i.e. obtain the over-slice by duality from the under-slice. (A footnote notes the two are isomorphic categories rather than literally equal, in a sense made precise in section 1.3.)",
+   "book_section": "1.2",
+   "book_page": "13",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "riehl:1.1:exiii",
+    "riehl:1.2:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.2:exii",
+   "kind": "exercise",
+   "number": "1.2.ii",
+   "name": "prove Lemma 1.2.11 and its dual; monos and epis form subcategories",
+   "statement_summary": "Prove Lemma 1.2.11 by proving either (i) or (i') and either (ii) or (ii') and deducing the remainder by duality. Conclude that the monomorphisms of any category define a subcategory of it, and dually that the epimorphisms define a subcategory.",
+   "book_section": "1.2",
+   "book_page": "13",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "riehl:1.2:lem11",
+    "riehl:1.1:def-subcategory"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.2:exiii",
+   "kind": "exercise",
+   "number": "1.2.iii",
+   "name": "monomorphisms in Field",
+   "statement_summary": "Determine the monomorphisms in the category Field of fields and field homomorphisms.",
+   "book_section": "1.2",
+   "book_page": "13",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "riehl:1.2:def7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.2:exiv",
+   "kind": "exercise",
+   "number": "1.2.iv",
+   "name": "Z -> Q is monic and epic but not an isomorphism",
+   "statement_summary": "Show that the inclusion Z -> Q is both a monomorphism and an epimorphism in Ring, and conclude that a map that is both monic and epic need not be an isomorphism, since there are no ring homomorphisms Q -> Z.",
+   "book_section": "1.2",
+   "book_page": "13",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "riehl:1.2:example9",
+    "riehl:1.2:def7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.2:exv",
+   "kind": "exercise",
+   "number": "1.2.v",
+   "name": "representable characterization of split epis and split monos",
+   "statement_summary": "(i) Show that f: x -> y is a split epimorphism in C iff for every object c the postcomposition function f_* : C(c,x) -> C(c,y) is surjective. (ii) Argue by duality that f is a split monomorphism iff for every c the precomposition function f^* : C(y,c) -> C(x,c) is surjective.",
+   "book_section": "1.2",
+   "book_page": "13",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "riehl:1.2:example9",
+    "riehl:1.2:lem-mono-epi-representable"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.2:exvi",
+   "kind": "exercise",
+   "number": "1.2.vi",
+   "name": "split epis are epis; mono + split epi implies iso",
+   "statement_summary": "Prove the following and then state and prove their duals: (i) split epimorphisms are epimorphisms; (ii) a morphism that is both a monomorphism and a split epimorphism is an isomorphism.",
+   "book_section": "1.2",
+   "book_page": "13",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "riehl:1.2:example9",
+    "riehl:1.2:def7"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.2:exvii",
+   "kind": "exercise",
+   "number": "1.2.vii",
+   "name": "suprema and infima in a poset by duality",
+   "statement_summary": "Regarding a poset (P,<=) as a category, define the supremum of a subcollection of objects A in P in such a way that the dual statement defines the infimum, and prove that a supremum of a subset of objects is unique whenever it exists, in such a way that the dual proof establishes uniqueness of the infimum.",
+   "book_section": "1.2",
+   "book_page": "13",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "riehl:1.1:example4",
+    "riehl:1.2:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.2:exviii",
+   "kind": "exercise",
+   "number": "1.2.viii",
+   "name": "external axiom of choice",
+   "statement_summary": "The statement 'every epimorphism is a split epimorphism' in a general category is called the EXTERNAL AXIOM OF CHOICE. Find examples of categories in which this holds and categories in which it fails.",
+   "book_section": "1.2",
+   "book_page": "14",
+   "pdf_pages": [
+    34
+   ],
+   "cross_refs": [
+    "riehl:1.2:remark10",
+    "riehl:1.2:example9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:def1",
+   "kind": "definition",
+   "number": "1.3.1",
+   "name": "functor",
+   "statement_summary": "A FUNCTOR F: C -> D consists of an object Fc of D for each object c of C, and a morphism Ff: Fc -> Fc' of D for each morphism f: c -> c' of C, with domain and codomain of Ff obtained by applying F to the domain and codomain of f. Two FUNCTORIALITY AXIOMS: F(g.f) = Fg.Ff for every composable pair f, g in C, and F(id_c) = id_{Fc} for every object c. Thus a functor is a pair of mappings on objects and morphisms preserving domains, codomains, composition and identities.",
+   "book_section": "1.3",
+   "book_page": "14",
+   "pdf_pages": [
+    34
+   ],
+   "cross_refs": [
+    "riehl:1.1:def1",
+    "riehl:1.3:def5",
+    "riehl:1.3:lem8"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:example2",
+   "kind": "example",
+   "number": "1.3.2",
+   "name": "covariant functors across mathematics",
+   "statement_summary": "Eleven functors: (i) the covariant power set endofunctor P: Set -> Set, A |-> PA, f |-> direct image f_*; (ii) forgetful functors out of the concrete categories of Example 1.1.3, e.g. U: Group -> Set, U: Top -> Set, and V, A: Quiver -> Set sending a quiver to its vertex or arrow set; (iii) intermediate forgetful functors U: R-Mod -> Ab, U: Ring -> Ab, and the inclusions Ab -> Group, Field -> Ring, which are injective on objects while the former two are not; (iv) forgetful functors Group -> Set_* and Ring -> Set_* taking the basepoint to be the identity resp. the zero element; (v) Q: Top -> Htpy and Q: Top_* -> Htpy_*, identity on objects, sending a map to its homotopy class; (vi) the fundamental group pi_1 : Top_* -> Group, which factors through Q, giving pi_1 : Htpy_* -> Group - a precise form of 'the fundamental group is a homotopy invariant'; (vii) Pi_1 : Top -> Groupoid, the fundamental groupoid; (viii) for each n the cycle Z_n, boundary B_n and homology H_n = Z_n/B_n functors Ch_R -> R-Mod, assembling into Z_*, B_*, H_* : Ch_R -> GrMod_R, with singular homology obtained by precomposing H_* with Sing: Top -> Ch_R; (ix) the free group functor F: Set -> Group, X |-> reduced words in X and formal inverses; (x) the derivative as a functor D: Euclid_* -> Mat_R sending a pointed differentiable map to its Jacobian at the basepoint, functoriality being exactly the multivariable chain rule; (xi) for a commutative monoid M, the functor M^- : Fin_* -> Set with M^{(A,a)} = M^{A minus a} and transition maps given by summing over fibers (empty fiber |-> unit) - Segal's route to 'commutative monoid' in algebraic topology.",
+   "book_section": "1.3",
+   "book_page": "14-16",
+   "pdf_pages": [
+    34,
+    35,
+    36
+   ],
+   "cross_refs": [
+    "riehl:1.3:def1",
+    "riehl:1.3:thm3",
+    "riehl:1.1:example3"
+   ],
+   "flags": [
+    "spans-page-break",
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.3:thm3",
+   "kind": "theorem",
+   "number": "1.3.3",
+   "name": "Brouwer Fixed Point Theorem",
+   "statement_summary": "Every continuous endomorphism of the 2-dimensional disk D^2 has a fixed point. Proof: a fixed-point-free f yields a retraction r: D^2 -> S^1 of the inclusion i: S^1 -> D^2 (send x to where the ray from f(x) through x meets the boundary), so ri = id_{S^1}; applying pi_1 at a basepoint gives pi_1(r) . pi_1(i) = id on pi_1(S^1) = Z, but this composite factors through pi_1(D^2) = 0, so it cannot send the generator 1 to itself since 0 is not 1 - a contradiction. A footnote extends the argument to D^n via pi_n.",
+   "book_section": "1.3",
+   "book_page": "16-17",
+   "pdf_pages": [
+    36,
+    37
+   ],
+   "cross_refs": [
+    "riehl:1.3:example2",
+    "riehl:1.3:def1"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.3:example4",
+   "kind": "example",
+   "number": "1.3.4",
+   "name": "in search of a clustering functor",
+   "statement_summary": "Titled example on functorial data analysis. A clustering algorithm partitions a finite metric space; Kleinberg's impossibility theorem says no algorithm satisfies three reasonable axioms simultaneously. Carlsson and Memoli reformulate: FinMetric (finite metric spaces, distance non-increasing maps) and Cluster (partitioned sets, functions of underlying sets under which the domain partition refines the pullback of the codomain partition). The only scale-invariant functors FinMetric -> Cluster are the discrete and indiscrete partitions, both failing surjectivity. Replacing clusters by PERSISTENT clusters - a functor from ([0,inf), <=) to the poset of partitions of X, ordered by refinement - gives the category PCluster, and Carlsson-Memoli prove there is a UNIQUE functor FinMetric -> PCluster sending a two-point space at distance r to the persistent cluster that is one cluster for t >= r and two clusters for 0 <= t < r, subject to two further conditions.",
+   "book_section": "1.3",
+   "book_page": "17",
+   "pdf_pages": [
+    37
+   ],
+   "cross_refs": [
+    "riehl:1.3:def1"
+   ],
+   "flags": [
+    "titled-example"
+   ]
+  },
+  {
+   "id": "riehl:1.3:def5",
+   "kind": "definition",
+   "number": "1.3.5",
+   "name": "contravariant functor",
+   "statement_summary": "A CONTRAVARIANT FUNCTOR F from C to D is a functor F: C^op -> D. Explicitly: an object Fc of D for each object c of C, and for each f: c -> c' of C a morphism Ff: Fc' -> Fc of D, the domain and codomain of Ff being F of the codomain and domain of f respectively; subject to the functoriality axioms F(g.f) = Ff . Fg for composable f, g in C and F(id_c) = id_{Fc}. Functors as in Definition 1.3.1 are called COVARIANT by contrast.",
+   "book_section": "1.3",
+   "book_page": "18",
+   "pdf_pages": [
+    38
+   ],
+   "cross_refs": [
+    "riehl:1.3:def1",
+    "riehl:1.2:def1",
+    "riehl:1.3:example7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:def6",
+   "kind": "definition",
+   "number": "1.3.6",
+   "name": "(Notation 1.3.6) drawing conventions for contravariant functors",
+   "statement_summary": "Notation environment: a morphism in the domain of F: C^op -> D is always drawn as an arrow f: c -> c' in C and its image as an arrow Ff: Fc' -> Fc in D, so that domain/codomain positions swap left-to-right; consequently for f: c -> c' and g: c' -> c'' the composite is written gf: c -> c'' and F(gf) = Ff . Fg. The text always writes the 'op' explicitly (F: C^op -> D) rather than leaving variance to context.",
+   "book_section": "1.3",
+   "book_page": "18",
+   "pdf_pages": [
+    38
+   ],
+   "cross_refs": [
+    "riehl:1.3:def5"
+   ],
+   "flags": [
+    "notation-environment",
+    "kind-coerced-to-definition"
+   ]
+  },
+  {
+   "id": "riehl:1.3:example7",
+   "kind": "example",
+   "number": "1.3.7",
+   "name": "contravariant functors across mathematics",
+   "statement_summary": "(i) The contravariant power set functor P: Set^op -> Set, A |-> PA, f |-> inverse image f^{-1}; (ii) the dual vector space functor (-)^* : Vect_k^op -> Vect_k, V |-> Hom(V,k), acting on maps by precomposition; (iii) O: Top^op -> Poset sending a space to its poset of open sets and a continuous map f to the preimage function f^{-1} - this being the definition of continuity - with a similar functor C to closed sets; (iv) Spec: CRing^op -> Top sending a commutative ring to its prime spectrum with the Zariski topology, a ring homomorphism inducing a continuous map on prime ideals by preimage; (v) for a small category C, a functor F: C^op -> Set is a (set-valued) PRESHEAF on C, typified by the sheaf of continuous real-valued functions O(X)^op -> Set with restriction maps; (vi) presheaves on the simplex category Delta of finite non-empty ordinals and order-preserving maps are the SIMPLICIAL SETS, with n+1 = {0,...,n} written [n].",
+   "book_section": "1.3",
+   "book_page": "18-19",
+   "pdf_pages": [
+    38,
+    39
+   ],
+   "cross_refs": [
+    "riehl:1.3:def5",
+    "riehl:1.3:def11"
+   ],
+   "flags": [
+    "spans-page-break",
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.3:lem8",
+   "kind": "lemma",
+   "number": "1.3.8",
+   "name": "functors preserve isomorphisms",
+   "statement_summary": "Functors preserve isomorphisms: if f: x -> y is an isomorphism in C with inverse g and F: C -> D is a functor, then Ff is an isomorphism with inverse Fg. Proof by the two functoriality axioms: F(g)F(f) = F(gf) = F(id_x) = id_{Fx}, and symmetrically (or by duality) for the other composite. Described as arguably the first lemma in category theory, appearing immediately after functors are defined in Eilenberg-Mac Lane.",
+   "book_section": "1.3",
+   "book_page": "19",
+   "pdf_pages": [
+    39
+   ],
+   "cross_refs": [
+    "riehl:1.3:def1",
+    "riehl:1.1:def10",
+    "riehl:1.3:cor10",
+    "riehl:1.3:exviii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:example9",
+   "kind": "example",
+   "number": "1.3.9",
+   "name": "group actions as functors out of BG",
+   "statement_summary": "For a group G regarded as the one-object category BG, a functor X: BG -> C picks out an object X of C together with an endomorphism g_* : X -> X for each g in G, and functoriality says exactly (i) h_* g_* = (hg)_* for all g, h in G and (ii) e_* = id_X. Such a functor is an ACTION of G on X: a G-SET when C = Set, a G-REPRESENTATION when C = Vect_k, a G-SPACE when C = Top. A functor X: BG -> C is a LEFT ACTION; a RIGHT ACTION is a functor X: BG^op -> C, where each g determines g^* : X -> X with the reversed rule (hg)^* = g^* h^*.",
+   "book_section": "1.3",
+   "book_page": "19-20",
+   "pdf_pages": [
+    39,
+    40
+   ],
+   "cross_refs": [
+    "riehl:1.1:example4",
+    "riehl:1.2:example2",
+    "riehl:1.3:cor10"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.3:cor10",
+   "kind": "corollary",
+   "number": "1.3.10",
+   "name": "group elements act by automorphisms",
+   "statement_summary": "When a group G acts functorially on an object X of a category C, each element g must act by an AUTOMORPHISM g_* : X -> X, and moreover (g_*)^{-1} = (g^{-1})_*. Immediate from Lemma 1.3.8, since every morphism of BG is an isomorphism.",
+   "book_section": "1.3",
+   "book_page": "20",
+   "pdf_pages": [
+    40
+   ],
+   "cross_refs": [
+    "riehl:1.3:lem8",
+    "riehl:1.3:example9",
+    "riehl:1.1:def-endomorphism"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:lem-preserves-split",
+   "kind": "lemma",
+   "number": null,
+   "name": "functors preserve split monomorphisms and split epimorphisms",
+   "statement_summary": "Unnumbered prose claim: a functor need not preserve monomorphisms or epimorphisms, but an argument similar to the proof of Lemma 1.3.8 shows that every functor preserves SPLIT monomorphisms and SPLIT epimorphisms, because the retraction or section supplies an equational witness (rs = id) that functoriality transports. Exercise 1.3.v asks for a precise statement and proof together with its four dual variants.",
+   "book_section": "1.3",
+   "book_page": "20",
+   "pdf_pages": [
+    40
+   ],
+   "cross_refs": [
+    "riehl:1.3:lem8",
+    "riehl:1.2:example9",
+    "riehl:1.3:exv"
+   ],
+   "flags": [
+    "unnumbered-claim",
+    "proof-sketched-only"
+   ]
+  },
+  {
+   "id": "riehl:1.3:def11",
+   "kind": "definition",
+   "number": "1.3.11",
+   "name": "functors represented by an object (covariant and contravariant hom functors)",
+   "statement_summary": "For C locally small and c an object of C, the FUNCTORS REPRESENTED BY c are the covariant C(c,-): C -> Set, sending x to the hom-set C(c,x) and f: x -> y to postcomposition f_* : C(c,x) -> C(c,y), and the contravariant C(-,c): C^op -> Set, sending x to C(x,c) and f: x -> y to precomposition f^* : C(y,c) -> C(x,c). Postcomposition is always a covariant operation on hom-sets and precomposition always a contravariant one. Functoriality is left to the reader (Exercise 1.3.iv). Lemma 1.3.8 applied to these functors proves the implications (i) => (ii) and (i) => (iii) of Lemma 1.2.3.",
+   "book_section": "1.3",
+   "book_page": "20",
+   "pdf_pages": [
+    40
+   ],
+   "cross_refs": [
+    "riehl:1.1:def8",
+    "riehl:1.2:lem3",
+    "riehl:1.3:def13",
+    "riehl:1.3:exiv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:def12",
+   "kind": "definition",
+   "number": "1.3.12",
+   "name": "product category",
+   "statement_summary": "For any categories C and D there is a category C x D, their PRODUCT, whose objects are ordered pairs (c,d) with c in C and d in D, whose morphisms (c,d) -> (c',d') are ordered pairs (f,g) with f: c -> c' in C and g: d -> d' in D, and in which composition and identities are defined componentwise.",
+   "book_section": "1.3",
+   "book_page": "20-21",
+   "pdf_pages": [
+    40,
+    41
+   ],
+   "cross_refs": [
+    "riehl:1.3:def13"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.3:def13",
+   "kind": "definition",
+   "number": "1.3.13",
+   "name": "two-sided represented functor (hom bifunctor)",
+   "statement_summary": "For C locally small there is a TWO-SIDED REPRESENTED FUNCTOR C(-,-): C^op x C -> Set sending a pair of objects (x,y) to the hom-set C(x,y) and a pair of morphisms f: w -> x, h: y -> z to the function C(x,y) -> C(w,z), g |-> hgf (precompose with f, postcompose with h). Associativity and unitality of composition make this assignment BIFUNCTORIAL; the bifunctorial action factors as a composite of the covariant and contravariant represented functors' actions in two ways, since (f^op, h) = (id_w,h).(f^op,id_y) = (f^op,id_z).(id_x,h) in C^op x C. A functor of two variables is called a BIFUNCTOR, its domain being a product of categories.",
+   "book_section": "1.3",
+   "book_page": "21",
+   "pdf_pages": [
+    41
+   ],
+   "cross_refs": [
+    "riehl:1.3:def11",
+    "riehl:1.3:def12",
+    "riehl:1.3:exiv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:construction-cat",
+   "kind": "construction",
+   "number": null,
+   "name": "Cat and CAT, the categories of categories",
+   "statement_summary": "Unnumbered construction in running prose: categories and functors themselves assemble into a category. Cat is defined to have small categories as objects and functors between them as morphisms; Cat is locally small but not small, and contains Set, Poset, Monoid, Group, Groupoid as proper subcategories (Exercises 1.3.i, 1.3.ii) - though none of those is an OBJECT of Cat. CAT is defined to have LOCALLY SMALL categories as objects and functors as morphisms; requiring local smallness of its objects keeps Russell's paradox at bay (CAT is itself not locally small, so is not an object of CAT). There is an inclusion functor Cat -> CAT, and Cat is an object of CAT.",
+   "book_section": "1.3",
+   "book_page": "21",
+   "pdf_pages": [
+    41
+   ],
+   "cross_refs": [
+    "riehl:1.1:def6",
+    "riehl:1.1:def7",
+    "riehl:1.3:def-iso-categories",
+    "riehl:1.3:exi",
+    "riehl:1.3:exii"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "prose-construction"
+   ]
+  },
+  {
+   "id": "riehl:1.3:def-iso-categories",
+   "kind": "definition",
+   "number": null,
+   "name": "isomorphism of categories",
+   "statement_summary": "Unnumbered prose definition: an ISOMORPHISM OF CATEGORIES is an isomorphism in Cat or in CAT in the sense of Definition 1.1.10 - a pair of functors F: C -> D and G: D -> C whose composites GF and FG are EQUAL to the identity functors on C and on D respectively. Such an isomorphism induces a bijection on objects and likewise on morphisms. This strict notion is later relaxed to equivalence of categories.",
+   "book_section": "1.3",
+   "book_page": "21",
+   "pdf_pages": [
+    41
+   ],
+   "cross_refs": [
+    "riehl:1.1:def10",
+    "riehl:1.3:construction-cat",
+    "riehl:1.3:example14",
+    "riehl:1.3:construction-set-partial"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "prose-definition"
+   ]
+  },
+  {
+   "id": "riehl:1.3:example14",
+   "kind": "example",
+   "number": "1.3.14",
+   "name": "isomorphisms of categories",
+   "statement_summary": "(i) For any group G, BG and BG^op are isomorphic via the identity-on-objects functor (-)^{-1} sending each g to its inverse, converting right actions to left actions by 'inserting inverses'; (ii) more generally any groupoid is isomorphic to its opposite via the functor that is the identity on objects and sends a morphism to its inverse; (iii) any ring R has an opposite ring R^op with r.s in R^op defined as s.r in R, and a left R-module is the same as a right R^op-module, giving a covariant isomorphism R-Mod = Mod_{R^op}; (iv) for a space X there is a CONTRAVARIANT isomorphism of poset categories O(X) = C(X)^op sending an open subset to its closed complement; (v) Mat_R is isomorphic to Mat_R^op via the identity-on-objects transpose functor; (vi) (-)^op : CAT -> CAT is a non-trivial automorphism of the category of categories, and a functor F: C -> D also defines a functor C^op -> D^op. A closing remark warns that a category is NOT typically isomorphic to its opposite - compare w and w^op.",
+   "book_section": "1.3",
+   "book_page": "21-22",
+   "pdf_pages": [
+    41,
+    42
+   ],
+   "cross_refs": [
+    "riehl:1.3:def-iso-categories",
+    "riehl:1.2:def1",
+    "riehl:1.1:example4"
+   ],
+   "flags": [
+    "spans-page-break",
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.3:example15",
+   "kind": "example",
+   "number": "1.3.15",
+   "name": "fundamental theorem of Galois theory as an isomorphism of categories",
+   "statement_summary": "For a finite Galois extension E/F (F a finite-index subfield of E with |Aut(E/F)| equal to the index [E:F]), let G := Aut(E/F) be the Galois group. The ORBIT CATEGORY O_G has as objects the subgroups H of G, identified with the left G-sets G/H, and as morphisms the G-equivariant maps G/H -> G/K, each of the form gH |-> g.gamma.K for some gamma in G with gamma^{-1} H gamma contained in K. Let Field_F^E be the subcategory of F/Field whose objects are the intermediate fields F <= K <= E and whose morphisms are field homomorphisms fixing F pointwise; the automorphism group of the object E is exactly G. The functor Phi: O_G^op -> Field_F^E sends a subgroup H to the subfield of E fixed by H, and sends the map induced by gamma to the homomorphism x |-> gamma x. The FUNDAMENTAL THEOREM OF GALOIS THEORY asserts that Phi is not merely a bijection on objects but an ISOMORPHISM OF CATEGORIES O_G^op = Field_F^E.",
+   "book_section": "1.3",
+   "book_page": "22",
+   "pdf_pages": [
+    42
+   ],
+   "cross_refs": [
+    "riehl:1.3:def-iso-categories",
+    "riehl:1.3:example9",
+    "riehl:1.1:exiii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:construction-set-partial",
+   "kind": "construction",
+   "number": null,
+   "name": "Set_partial (sets and partial functions) and the free-basepoint functor",
+   "statement_summary": "Unnumbered construction motivating equivalence of categories. A PARTIAL FUNCTION f: X -> Y is a function from a possibly empty subset X' of X (its DOMAIN OF DEFINITION) to Y; the composite of partial functions f: X -> Y and g: Y -> Z is the partial function whose domain of definition is the intersection of dom(f) with f^{-1}(dom(g)). Set_partial is the category of sets and partial functions. There is a functor (-)_+ : Set_partial -> Set_* sending X to X_+ := X u {X} with the added element as basepoint (well-defined by the axiom of regularity) and extending a partial function by sending everything outside its domain of definition to the added basepoint; and an inverse-direction forgetful functor U: Set_* -> Set_partial discarding the basepoint and sending a based map (X,x) -> (Y,y) to the partial function X\\{x} -> Y\\{y} with maximal domain of definition. The composite U(-)_+ is the IDENTITY endofunctor of Set_partial, but (U-)_+ sends (X,x) to a merely ISOMORPHIC, not identical, pointed set, and no construction can make U injective on objects - so Set_partial and Set_* cannot be isomorphic categories, which motivates relaxing GF = id and FG = id to natural isomorphism and hence motivates the definition of natural transformation.",
+   "book_section": "1.3",
+   "book_page": "22-23",
+   "pdf_pages": [
+    42,
+    43
+   ],
+   "cross_refs": [
+    "riehl:1.3:def-iso-categories",
+    "riehl:1.3:example14"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "prose-construction",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.3:exi",
+   "kind": "exercise",
+   "number": "1.3.i",
+   "name": "functors between one-object categories",
+   "statement_summary": "Determine what a functor between two groups, regarded as one-object categories, amounts to.",
+   "book_section": "1.3",
+   "book_page": "23",
+   "pdf_pages": [
+    43
+   ],
+   "cross_refs": [
+    "riehl:1.1:example4",
+    "riehl:1.3:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:exii",
+   "kind": "exercise",
+   "number": "1.3.ii",
+   "name": "functors between preorders",
+   "statement_summary": "Determine what a functor between two preorders, regarded as categories, amounts to (i.e. that it is a monotone map).",
+   "book_section": "1.3",
+   "book_page": "23",
+   "pdf_pages": [
+    43
+   ],
+   "cross_refs": [
+    "riehl:1.1:example4",
+    "riehl:1.3:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:exiii",
+   "kind": "exercise",
+   "number": "1.3.iii",
+   "name": "the image of a functor need not be a subcategory",
+   "statement_summary": "Find an example showing that the objects and morphisms in the image of a functor F: C -> D do not necessarily define a subcategory of D.",
+   "book_section": "1.3",
+   "book_page": "23",
+   "pdf_pages": [
+    43
+   ],
+   "cross_refs": [
+    "riehl:1.1:def-subcategory",
+    "riehl:1.3:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:exiv",
+   "kind": "exercise",
+   "number": "1.3.iv",
+   "name": "functoriality of the represented functors",
+   "statement_summary": "Verify that the constructions introduced in Definitions 1.3.11 and 1.3.13 are functorial, i.e. that C(c,-), C(-,c) and the two-sided C(-,-) satisfy the functoriality axioms.",
+   "book_section": "1.3",
+   "book_page": "23",
+   "pdf_pages": [
+    43
+   ],
+   "cross_refs": [
+    "riehl:1.3:def11",
+    "riehl:1.3:def13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:exv",
+   "kind": "exercise",
+   "number": "1.3.v",
+   "name": "variance conventions; functors and split epimorphisms",
+   "statement_summary": "Explain the difference between a functor C^op -> D and a functor C -> D^op, and between a functor C -> D and a functor C^op -> D^op. Then state and prove a result describing the interaction between functors and split epimorphisms, and explain all four dual variants.",
+   "book_section": "1.3",
+   "book_page": "23",
+   "pdf_pages": [
+    43
+   ],
+   "cross_refs": [
+    "riehl:1.3:def5",
+    "riehl:1.3:lem-preserves-split",
+    "riehl:1.2:example9"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.3:exvi",
+   "kind": "exercise",
+   "number": "1.3.vi",
+   "name": "comma category",
+   "statement_summary": "Given functors F: D -> C and G: E -> C, show that there is a category F/G (the COMMA CATEGORY) whose objects are triples (d in D, e in E, f: Fd -> Ge in C) and whose morphisms (d,e,f) -> (d',e',f') are pairs (h: d -> d', k: e -> e') making the square f'.Fh = Gk.f commute in C. Define the projection functors dom: F/G -> D and cod: F/G -> E.",
+   "book_section": "1.3",
+   "book_page": "23-24",
+   "pdf_pages": [
+    43,
+    44
+   ],
+   "cross_refs": [
+    "riehl:1.3:exvii",
+    "riehl:1.1:exiii"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.3:exvii",
+   "kind": "exercise",
+   "number": "1.3.vii",
+   "name": "slice categories as comma categories",
+   "statement_summary": "Define functors exhibiting the slice categories c/C and C/c of Exercise 1.1.iii as special cases of the comma categories constructed in Exercise 1.3.vi, and identify the resulting projection functors.",
+   "book_section": "1.3",
+   "book_page": "24",
+   "pdf_pages": [
+    44
+   ],
+   "cross_refs": [
+    "riehl:1.3:exvi",
+    "riehl:1.1:exiii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:exviii",
+   "kind": "exercise",
+   "number": "1.3.viii",
+   "name": "functors need not reflect isomorphisms",
+   "statement_summary": "Lemma 1.3.8 shows functors preserve isomorphisms; find an example showing functors need not REFLECT isomorphisms, i.e. a functor F: C -> D and a morphism f of C such that Ff is an isomorphism in D but f is not an isomorphism in C.",
+   "book_section": "1.3",
+   "book_page": "24",
+   "pdf_pages": [
+    44
+   ],
+   "cross_refs": [
+    "riehl:1.3:lem8",
+    "riehl:1.1:def10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.3:exix",
+   "kind": "exercise",
+   "number": "1.3.ix",
+   "name": "functoriality of center, commutator subgroup and automorphism group",
+   "statement_summary": "For a group G consider the center Z(G) = {h in G | hg = gh for all g}, the commutator subgroup C(G) generated by the elements ghg^{-1}h^{-1}, and the automorphism group Aut(G) of isomorphisms G -> G in Group. All three trivially define functors from the DISCRETE category of groups to Group; determine which of them extend to functors Group_iso -> Group (along isomorphisms), which to Group_epi -> Group (along epimorphisms, which by a footnote are the surjective homomorphisms), and which to Group -> Group (along all homomorphisms).",
+   "book_section": "1.3",
+   "book_page": "24",
+   "pdf_pages": [
+    44
+   ],
+   "cross_refs": [
+    "riehl:1.3:def1",
+    "riehl:1.1:lem14"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.3:exx",
+   "kind": "exercise",
+   "number": "1.3.x",
+   "name": "conjugacy classes functor",
+   "statement_summary": "Show that sending a group to the set of conjugacy classes of its elements is functorial, defining Conj: Group -> Set, and conclude that two groups whose sets of conjugacy classes have different cardinalities cannot be isomorphic.",
+   "book_section": "1.3",
+   "book_page": "24",
+   "pdf_pages": [
+    44
+   ],
+   "cross_refs": [
+    "riehl:1.3:def1",
+    "riehl:1.3:lem8"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:def1",
+   "kind": "definition",
+   "number": "1.4.1",
+   "name": "natural transformation",
+   "statement_summary": "For categories C, D and a parallel pair of functors F, G : C -> D, a natural transformation alpha : F => G is a family of arrows alpha_c : Fc -> Gc in D, one per object c of C (its components), such that for every morphism f : c -> c' of C the naturality square commutes, i.e. alpha_{c'} . Ff = Gf . alpha_c as morphisms Fc -> Gc' in D.",
+   "book_section": "1.4",
+   "book_page": "25",
+   "pdf_pages": [
+    45
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:def3",
+   "kind": "definition",
+   "number": "1.4.3",
+   "name": "natural isomorphism",
+   "statement_summary": "A natural isomorphism is a natural transformation alpha : F => G every component of which is an isomorphism in the target category; written alpha : F ~= G.",
+   "book_section": "1.4",
+   "book_page": "25",
+   "pdf_pages": [
+    45
+   ],
+   "cross_refs": [
+    "riehl:1.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:example4",
+   "kind": "example",
+   "number": "1.4.4",
+   "name": "seven examples and non-examples of naturality",
+   "statement_summary": "Seven worked cases. (i) The evaluation maps ev_V : V -> V**, v |-> ev_v, are the components of a natural transformation from the identity endofunctor on Vect_k to the double-dual functor (-)**; naturality is checked on a generic vector. (ii) The identity and single-dual functors on finite-dimensional vector spaces are NOT naturally isomorphic: the variance clashes, and more essentially any V ~= V* requires a choice of basis preserved by essentially no linear map. (iii) eta : id_Set => P into the covariant power-set functor with components eta_A(a) = {a} is natural. (iv) For a group G, a natural transformation between functors X, Y : BG -> C is exactly a single morphism alpha : X -> Y of C that is G-equivariant (g_* . alpha = alpha . g_* for all g in G). (v) The open- and closed-subset functors O, C : Top^op -> Set are naturally isomorphic via complementation, since taking preimages commutes with complements. (vi) The opposite-group construction gives a covariant endofunctor (-)^op : Group -> Group naturally isomorphic to the identity, with component eta_G : G -> G^op the inversion map g |-> g^{-1} (a homomorphism into the opposite, not an automorphism). (vii) For the endofunctor V |-> V (x) V on Vect_k the only natural transformation from the identity is the family of zero maps - a basis-independent delta_V : V -> V (x) V does not exist; likewise for Hilbert spaces, giving the 'no cloning theorem'.",
+   "book_section": "1.4",
+   "book_page": "26",
+   "pdf_pages": [
+    46,
+    47
+   ],
+   "cross_refs": [
+    "riehl:1.4:def1",
+    "riehl:1.4:def3"
+   ],
+   "flags": [
+    "spans-page-break",
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.4:prop6",
+   "kind": "proposition",
+   "number": "1.4.6",
+   "name": "the torsion splitting of a finitely generated abelian group is not natural",
+   "statement_summary": "There is no family of isomorphisms A ~= TA (+) (A/TA) natural in A over the category Ab_fg of finitely generated abelian groups; equivalently, the short exact sequence 0 -> TA -> A -> A/TA -> 0 has no natural splitting. The proof first shows that every natural endomorphism of the identity functor on Ab_fg is multiplication by a fixed integer n (because homomorphisms Z -> A correspond to elements of A, forcing alpha_A(a) = n . a), then derives a contradiction: at A = Z the component must be invertible so n = +-1, while at A = Z/2 the component must be 0 so n is even.",
+   "book_section": "1.4",
+   "book_page": "28",
+   "pdf_pages": [
+    48
+   ],
+   "cross_refs": [
+    "riehl:1.4:def3",
+    "riehl:1.7:exiv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:example8",
+   "kind": "example",
+   "number": "1.4.8",
+   "name": "the Riesz representation theorem as a natural isomorphism",
+   "statement_summary": "Let Sigma : cHaus -> Ban send a compact Hausdorff space X to the Banach space of signed Baire measures on X (with f : X -> Y acting by pushforward mu |-> mu . f^{-1}), and let C* : cHaus -> Ban send X to the continuous dual of the Banach space C(X) of continuous real-valued functions. Integration mu |-> phi_mu, phi_mu(g) = integral over X of g dmu, gives the components of a natural transformation eta : Sigma => C*; the change-of-variables identity for hf and h . f^{-1} is exactly the naturality square. The Riesz representation theorem is the assertion that eta is a natural ISOMORPHISM.",
+   "book_section": "1.4",
+   "book_page": "28",
+   "pdf_pages": [
+    48
+   ],
+   "cross_refs": [
+    "riehl:1.4:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:example9",
+   "kind": "example",
+   "number": "1.4.9",
+   "name": "post- and precomposition as natural transformations of represented functors",
+   "statement_summary": "In a locally small category C, a morphism h : y -> z induces postcomposition maps on hom-sets that assemble into a natural transformation h_* : C(-,y) => C(-,z) between contravariant represented functors, and a morphism f : w -> x induces a natural transformation f^* : C(x,-) => C(w,-) between covariant represented functors. Both naturality conditions are exactly the commuting square C(x,y) -> C(x,z), C(w,y) -> C(w,z) whose commutativity is associativity of composition (the common image of g : x -> y is hgf).",
+   "book_section": "1.4",
+   "book_page": "29",
+   "pdf_pages": [
+    49
+   ],
+   "cross_refs": [
+    "riehl:1.4:def1",
+    "riehl:1.4:exvi",
+    "riehl:1.7:exvii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:example11",
+   "kind": "example",
+   "number": "1.4.11",
+   "name": "a categorification of the natural numbers",
+   "statement_summary": "In Set, cartesian product, disjoint union and function sets are related by natural isomorphisms A x (B + C) ~= (A x B) + (A x C), A^{B+C} ~= A^B x A^C, (A x B)^C ~= A^C x B^C and (A^B)^C ~= A^{B x C}. The first is a natural isomorphism of functors Set x Set x Set -> Set; the exponential ones are contravariant in the exponent variable, arising from the two-sided represented bifunctor Set^op x Set -> Set. Restricting along the groupoid Fin_iso of finite sets and bijections and applying the cardinality functor |-| : Fin_iso -> N (into the discrete category of naturals) DECATEGORIFIES these isomorphisms into the arithmetic laws a x (b + c) = ab + ac, a^{b+c} = a^b a^c, (ab)^c = a^c b^c, (a^b)^c = a^{bc}; conversely Fin_iso is a categorification of N.",
+   "book_section": "1.4",
+   "book_page": "29",
+   "pdf_pages": [
+    49
+   ],
+   "cross_refs": [
+    "riehl:1.4:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:exi",
+   "kind": "exercise",
+   "number": "1.4.i",
+   "name": "inverse of a natural isomorphism",
+   "statement_summary": "Show that if alpha : F => G is a natural isomorphism then the inverses of its components are themselves the components of a natural isomorphism alpha^{-1} : G => F.",
+   "book_section": "1.4",
+   "book_page": "30",
+   "pdf_pages": [
+    50
+   ],
+   "cross_refs": [
+    "riehl:1.4:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:exii",
+   "kind": "exercise",
+   "number": "1.4.ii",
+   "name": "natural transformations between group homomorphisms",
+   "statement_summary": "Identify what a natural transformation between a parallel pair of functors between groups, regarded as one-object categories, amounts to.",
+   "book_section": "1.4",
+   "book_page": "30",
+   "pdf_pages": [
+    50
+   ],
+   "cross_refs": [
+    "riehl:1.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:exiii",
+   "kind": "exercise",
+   "number": "1.4.iii",
+   "name": "natural transformations between monotone maps",
+   "statement_summary": "Identify what a natural transformation between a parallel pair of functors between preorders, regarded as categories, amounts to.",
+   "book_section": "1.4",
+   "book_page": "30",
+   "pdf_pages": [
+    50
+   ],
+   "cross_refs": [
+    "riehl:1.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:exiv",
+   "kind": "exercise",
+   "number": "1.4.iv",
+   "name": "natural transformations to and from the add-a-point functor",
+   "statement_summary": "Characterize all natural transformations from the identity functor on Set to the functor (-)_+ : Set -> Set that adjoins a new disjoint point, and determine whether there are any natural transformations in the other direction.",
+   "book_section": "1.4",
+   "book_page": "30",
+   "pdf_pages": [
+    50
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:exv",
+   "kind": "exercise",
+   "number": "1.4.v",
+   "name": "naturality of the torsion short exact sequence",
+   "statement_summary": "Prove that the inclusion iota_A : TA >-> A and the quotient pi_A : A ->> A/TA appearing in the short exact sequence display (1.4.5) each define the components of a natural transformation between endofunctors of the category Ab of abelian groups.",
+   "book_section": "1.4",
+   "book_page": "30",
+   "pdf_pages": [
+    50
+   ],
+   "cross_refs": [
+    "riehl:1.4:prop6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:exvi",
+   "kind": "exercise",
+   "number": "1.4.vi",
+   "name": "faithfulness of the represented-functor construction",
+   "statement_summary": "In the setting of Example 1.4.9, prove that distinct parallel morphisms f, g : c -> d induce distinct natural transformations f_*, g_* : C(-,c) => C(-,d) by postcomposition and distinct f^*, g^* : C(d,-) => C(c,-) by precomposition.",
+   "book_section": "1.4",
+   "book_page": "30",
+   "pdf_pages": [
+    50
+   ],
+   "cross_refs": [
+    "riehl:1.4:example9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:exvii",
+   "kind": "exercise",
+   "number": "1.4.vii",
+   "name": "the canonical natural transformation on a comma category",
+   "statement_summary": "For functors F : D -> C and G : E -> C, construct from the comma category F|G a canonical natural transformation alpha : F.dom => G.cod between the two composite functors F|G -> C formed from the projections dom : F|G -> D and cod : F|G -> E, filling the square whose other two sides are F and G.",
+   "book_section": "1.4",
+   "book_page": "30",
+   "pdf_pages": [
+    50
+   ],
+   "cross_refs": [
+    "riehl:1.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:exviii",
+   "kind": "exercise",
+   "number": "1.4.viii",
+   "name": "dinatural transformation",
+   "statement_summary": "For functors F, G : C^op x C -> D, a family alpha_c : F(c,c) -> G(c,c) indexed by objects c of C defines a DINATURAL transformation alpha : F => G if for every f : c -> c' in C the displayed hexagon commutes, i.e. G(id,f) . alpha_c . F(f,id) = G(f,id) . alpha_{c'} . F(id,f) as maps F(c',c) -> G(c,c'). Specialize this condition to the case where F and G arise by restricting a covariant H : C -> D and a contravariant K : C^op -> D along the projection pi_2 : C^op x C -> C and pi_1 : C^op x C -> C^op.",
+   "book_section": "1.4",
+   "book_page": "30",
+   "pdf_pages": [
+    50
+   ],
+   "cross_refs": [
+    "riehl:1.4:exix"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.4:exix",
+   "kind": "exercise",
+   "number": "1.4.ix",
+   "name": "extranatural transformation",
+   "statement_summary": "For functors F : A x B x B^op -> D and G : A x C x C^op -> D, a family alpha_{a,b,c} : F(a,b,b) -> G(a,c,c) indexed by objects a of A, b of B, c of C defines an EXTRANATURAL transformation alpha : F => G if three displayed squares commute for all f : a -> a', g : b -> b', h : c -> c': the first asserts ordinary naturality of alpha_{-,b,c} in the variable a, while the other two assert that alpha_{a,-,c} and alpha_{a,b,-} are extranatural (dinatural with a trivial covariant/contravariant leg) in b and in c. Explain how ordinary and dinatural transformations are both special cases.",
+   "book_section": "1.4",
+   "book_page": "30",
+   "pdf_pages": [
+    50,
+    51
+   ],
+   "cross_refs": [
+    "riehl:1.4:exviii"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.5:lem1",
+   "kind": "lemma",
+   "number": "1.5.1",
+   "name": "natural transformations as functors out of C x 2",
+   "statement_summary": "Fix a parallel pair F, G : C -> D. Natural transformations alpha : F => G correspond bijectively to functors H : C x 2 -> D (where 2 is the walking arrow, the category with objects 0, 1 and one non-identity morphism 0 -> 1) whose restrictions along the two inclusions i_0, i_1 : C -> C x 2 (c |-> (c,0) and c |-> (c,1)) are F and G respectively. The proof is deferred to Exercise 1.5.i.",
+   "book_section": "1.5",
+   "book_page": "31",
+   "pdf_pages": [
+    51
+   ],
+   "cross_refs": [
+    "riehl:1.4:def1",
+    "riehl:1.5:exi"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:def4",
+   "kind": "definition",
+   "number": "1.5.4",
+   "name": "equivalence of categories",
+   "statement_summary": "An equivalence of categories consists of functors F : C -> D and G : D -> C together with natural isomorphisms eta : id_C ~= GF and epsilon : FG ~= id_D. Categories C and D are equivalent, written C ~ D, when such data exists; a functor F : C -> D 'defines an equivalence' if it extends to one. (The unit/counit isomorphisms are not required to satisfy triangle identities here; that adjoint form appears later as Proposition 4.3.5.)",
+   "book_section": "1.5",
+   "book_page": "32",
+   "pdf_pages": [
+    52
+   ],
+   "cross_refs": [
+    "riehl:1.4:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:lem5",
+   "kind": "lemma",
+   "number": "1.5.5",
+   "name": "equivalence of categories is an equivalence relation",
+   "statement_summary": "The relation 'is equivalent to' on categories is reflexive, symmetric and transitive; in particular if C ~ D and D ~ E then C ~ E. Proof deferred to Exercise 1.5.vi.",
+   "book_section": "1.5",
+   "book_page": "32",
+   "pdf_pages": [
+    52
+   ],
+   "cross_refs": [
+    "riehl:1.5:def4",
+    "riehl:1.5:exvi",
+    "riehl:1.7:exv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:example6",
+   "kind": "example",
+   "number": "1.5.6",
+   "name": "pointed sets are equivalent to sets and partial functions",
+   "statement_summary": "The functors (-)_+ : Set_partial -> Set_* (adjoin a disjoint basepoint) and U : Set_* -> Set_partial (forget the basepoint, sending a based map to the partial function defined away from the preimage of the basepoint) form an equivalence of categories. The composite U(-)_+ is literally the identity on Set_partial, and there is a natural isomorphism eta : id_{Set_*} ~= (U-)_+ with components eta_{(X,x)} : (X,x) -> (X \\ {x} + {X \\ {x}}, X \\ {x}) acting as the identity on X \\ {x}.",
+   "book_section": "1.5",
+   "book_page": "32",
+   "pdf_pages": [
+    52
+   ],
+   "cross_refs": [
+    "riehl:1.5:def4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:def7",
+   "kind": "definition",
+   "number": "1.5.7",
+   "name": "full, faithful, essentially surjective on objects",
+   "statement_summary": "A functor F : C -> D is FULL if for each pair of objects x, y of C the action on hom-sets C(x,y) -> D(Fx,Fy) is surjective; FAITHFUL if that map is injective for each pair; and ESSENTIALLY SURJECTIVE ON OBJECTS if every object d of D is isomorphic to Fc for some object c of C.",
+   "book_section": "1.5",
+   "book_page": "32",
+   "pdf_pages": [
+    52,
+    53
+   ],
+   "cross_refs": [],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.5:remark8",
+   "kind": "remark",
+   "number": "1.5.8",
+   "name": "locality of fullness and faithfulness; embeddings and full subcategories",
+   "statement_summary": "Fullness and faithfulness are LOCAL conditions: faithfulness gives f = g only for parallel morphisms with the same domain and codomain, and fullness only requires an arrow k : Fx -> Fy of D whose domain and codomain are already in the image to be hit. Globally, a faithful functor need not be injective on morphisms and a full functor need not be surjective on morphisms. A faithful functor that is injective on objects is an EMBEDDING and exhibits the domain as a subcategory; a functor that is full and faithful is FULLY FAITHFUL, and a fully faithful functor injective on objects is a FULL EMBEDDING, exhibiting the domain as a FULL SUBCATEGORY of the codomain.",
+   "book_section": "1.5",
+   "book_page": "33",
+   "pdf_pages": [
+    53
+   ],
+   "cross_refs": [
+    "riehl:1.5:def7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:thm9",
+   "kind": "theorem",
+   "number": "1.5.9",
+   "name": "characterizing equivalences of categories",
+   "statement_summary": "A functor that defines an equivalence of categories is full, faithful and essentially surjective on objects; conversely, ASSUMING THE AXIOM OF CHOICE, any functor with these three properties defines an equivalence of categories. The converse proof uses choice to pick, for each object d of D, an object Gd of C and an isomorphism epsilon_d : FGd ~= d, then uses full faithfulness of F plus Lemma 1.5.10 to define G on morphisms, to prove G functorial, and to produce eta : id_C ~= GF.",
+   "book_section": "1.5",
+   "book_page": "33",
+   "pdf_pages": [
+    53,
+    54,
+    55
+   ],
+   "cross_refs": [
+    "riehl:1.5:def4",
+    "riehl:1.5:def7",
+    "riehl:1.5:lem10",
+    "riehl:1.6:lem22",
+    "riehl:1.5:exiv"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.5:lem10",
+   "kind": "lemma",
+   "number": "1.5.10",
+   "name": "transporting a morphism along isomorphisms",
+   "statement_summary": "Given a morphism f : a -> b and isomorphisms u : a ~= a' and v : b ~= b', there is a unique morphism f' : a' -> b' making any one - equivalently all - of the four displayed squares (built from u or u^{-1} and v or v^{-1}) commute; explicitly f' := v f u^{-1}. The equivalence of the four commutativity conditions is left to Exercise 1.5.iii.",
+   "book_section": "1.5",
+   "book_page": "33",
+   "pdf_pages": [
+    53
+   ],
+   "cross_refs": [
+    "riehl:1.5:exiii",
+    "riehl:1.6:lem13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:def-connected",
+   "kind": "definition",
+   "number": null,
+   "name": "connected category",
+   "statement_summary": "Stated as an unnumbered sentence in running prose: a category is CONNECTED if any pair of its objects can be joined by a finite zig-zag of morphisms (arrows in either direction).",
+   "book_section": "1.5",
+   "book_page": "35",
+   "pdf_pages": [
+    55
+   ],
+   "cross_refs": [
+    "riehl:1.5:prop13"
+   ],
+   "flags": [
+    "unnumbered-prose-definition"
+   ]
+  },
+  {
+   "id": "riehl:1.5:example11",
+   "kind": "example",
+   "number": "1.5.11",
+   "name": "a fully faithful functor is an equivalence onto its essential image",
+   "statement_summary": "By Theorem 1.5.9, a full and faithful functor F : C -> D defines an equivalence between C and its ESSENTIAL IMAGE: the full subcategory of D spanned by all objects isomorphic to Fc for some object c of C.",
+   "book_section": "1.5",
+   "book_page": "35",
+   "pdf_pages": [
+    55
+   ],
+   "cross_refs": [
+    "riehl:1.5:thm9",
+    "riehl:1.5:remark8"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:example12",
+   "kind": "example",
+   "number": "1.5.12",
+   "name": "an equivalence between abstract and concrete linear algebra",
+   "statement_summary": "The category Mat_k of k-matrices (objects natural numbers, morphisms m x n matrices) is equivalent to the category Vect_k^fd of finite-dimensional k-vector spaces. The comparison passes through an intermediate category Vect_k^basis of finite-dimensional spaces with a chosen basis and arbitrary (not basis-preserving) linear maps: the forgetful U : Vect_k^basis -> Vect_k^fd is fully faithful (its hom-sets are defined to be linear maps) and surjective on objects, hence an equivalence with a choice-of-basis inverse C; and k^{(-)} : Mat_k -> Vect_k^basis, n |-> k^n with the standard basis and A |-> the induced linear map, is fully faithful (a matrix is exactly the coordinate description of a linear map) and essentially surjective (any basis v_1..v_n of V induces k^n ~= V), hence an equivalence with inverse H taking dimensions and matrices of maps. Composing via Lemma 1.5.5, Mat_k ~ Vect_k^basis ~ Vect_k^fd.",
+   "book_section": "1.5",
+   "book_page": "35",
+   "pdf_pages": [
+    55
+   ],
+   "cross_refs": [
+    "riehl:1.5:thm9",
+    "riehl:1.5:lem5",
+    "riehl:1.5:example18"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:prop13",
+   "kind": "proposition",
+   "number": "1.5.13",
+   "name": "a connected groupoid is equivalent to any of its automorphism groups",
+   "statement_summary": "Any connected groupoid G is equivalent, as a category, to the one-object category BG determined by the automorphism group G = G(g,g) of any chosen object g of G. Proof: the inclusion BG -> G hitting g is full and faithful by definition of G, and essentially surjective because connectedness of a groupoid means every object is isomorphic to g (a finite zig-zag of isomorphisms composes); apply Theorem 1.5.9.",
+   "book_section": "1.5",
+   "book_page": "35",
+   "pdf_pages": [
+    55,
+    56
+   ],
+   "cross_refs": [
+    "riehl:1.5:def-connected",
+    "riehl:1.5:thm9",
+    "riehl:1.5:cor14",
+    "riehl:1.5:example18"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.5:cor14",
+   "kind": "corollary",
+   "number": "1.5.14",
+   "name": "basepoint independence of the fundamental group",
+   "statement_summary": "For a path-connected space X, any two choices of basepoint x, x' in X yield isomorphic fundamental groups pi_1(X,x) ~= pi_1(X,x'). Proof: the fundamental groupoid Pi_1 X is a connected groupoid whose automorphism group at x is pi_1(X,x); Proposition 1.5.13 gives equivalences B pi_1(X,x) ~ Pi_1 X ~ B pi_1(X,x'), and an equivalence between one-object categories is an isomorphism, which for groups regarded as one-object categories is a group isomorphism.",
+   "book_section": "1.5",
+   "book_page": "36",
+   "pdf_pages": [
+    56
+   ],
+   "cross_refs": [
+    "riehl:1.5:prop13",
+    "riehl:1.5:remark15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:remark15",
+   "kind": "remark",
+   "number": "1.5.15",
+   "name": "one direction of an equivalence can be canonical while its inverse needs choice",
+   "statement_summary": "Frequently one functor of an equivalence is canonical while the inverse requires the axiom of choice, and the asymmetry is detectable by naturality. Regard pi_1 and Pi_1 as parallel functors Top_*^pc -> Cat (via Group -> Cat and Groupoid -> Cat respectively). The inclusion iota : pi_1 => Pi_1, whose component iota_{(X,x)} : pi_1(X,x) -> Pi_1 X is itself an equivalence of categories, is a genuine natural transformation. The inverse equivalences Pi_1 X -> pi_1(X,x) require choosing, for each point p, a path from p to the basepoint, and these choices are not preserved by based maps - so the inverse equivalences do NOT assemble into a natural transformation.",
+   "book_section": "1.5",
+   "book_page": "36",
+   "pdf_pages": [
+    56
+   ],
+   "cross_refs": [
+    "riehl:1.5:cor14",
+    "riehl:1.5:thm9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:def16",
+   "kind": "definition",
+   "number": "1.5.16",
+   "name": "skeletal category and the skeleton",
+   "statement_summary": "A category C is SKELETAL if it contains exactly one object in each isomorphism class. The SKELETON skC of a category C is the (unique up to isomorphism) skeletal category that is equivalent to C.",
+   "book_section": "1.5",
+   "book_page": "36",
+   "pdf_pages": [
+    56
+   ],
+   "cross_refs": [
+    "riehl:1.5:remark17",
+    "riehl:1.5:example18"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:remark17",
+   "kind": "remark",
+   "number": "1.5.17",
+   "name": "construction of the skeleton and its failure to be functorial",
+   "statement_summary": "skC may be built by choosing one object in each isomorphism class of C and taking the full subcategory on those objects; by Theorem 1.5.9 the inclusion skC -> C is an equivalence. The construction is not functorial as sk(-) : CAT -> CAT, since a functor F : C -> D need not restrict to the chosen skeletal subcategories - one can choose skF : skC -> skD whose inclusion into D is naturally isomorphic to the restriction of F, but the choices are not strictly functorial (only a pseudofunctor sk(-) exists). Moreover an equivalence between SKELETAL categories is necessarily an isomorphism of categories, so two categories are equivalent if and only if their skeletons are isomorphic - which justifies speaking of 'the' skeleton despite the non-canonical construction.",
+   "book_section": "1.5",
+   "book_page": "36",
+   "pdf_pages": [
+    56,
+    57
+   ],
+   "cross_refs": [
+    "riehl:1.5:def16",
+    "riehl:1.5:thm9"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.5:example18",
+   "kind": "example",
+   "number": "1.5.18",
+   "name": "four skeletons",
+   "statement_summary": "(i) The skeleton of a connected groupoid is the automorphism group of any of its objects (Proposition 1.5.13). (ii) The skeleton of the category defined by a preorder is a poset. (iii) The skeleton of Vect_k^fd is Mat_k. (iv) The skeleton of the groupoid Fin_iso is the groupoid whose objects are the natural numbers, with Hom(n,n) the symmetric group S_n and no morphisms between distinct numbers.",
+   "book_section": "1.5",
+   "book_page": "37",
+   "pdf_pages": [
+    57
+   ],
+   "cross_refs": [
+    "riehl:1.5:def16",
+    "riehl:1.5:prop13",
+    "riehl:1.5:example12"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.5:example19",
+   "kind": "example",
+   "number": "1.5.19",
+   "name": "a categorification of the orbit-stabilizer theorem",
+   "statement_summary": "For a left G-set X : BG -> Set, the ACTION GROUPOID X//G has the elements of X as objects and a morphism x -> y for each g in G with g . x = y. The objects of its skeleton sk(X//G) are in bijection with the connected components of X//G, i.e. the ORBITS of the action. Choosing a representative x of its orbit O_x, equivalence to the skeleton forces Hom_{sk(X//G)}(O_x,O_x) ~= Hom_{X//G}(x,x) = G_x, the STABILIZER of x; in particular elements of the same orbit have isomorphic stabilizers, and the skeleton is the disjoint union of the stabilizer groups indexed by orbits. Since the set of morphisms of X//G out of x is isomorphic to G and decomposes as a disjoint union of hom-sets Hom(x,y) ~= G_x over y in O_x, one gets |G| = |O_x| . |G_x| - the orbit-stabilizer theorem.",
+   "book_section": "1.5",
+   "book_page": "37",
+   "pdf_pages": [
+    57
+   ],
+   "cross_refs": [
+    "riehl:1.5:def16",
+    "riehl:1.5:prop13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:remark-equivalence-invariance",
+   "kind": "remark",
+   "number": null,
+   "name": "equivalence-invariance of categorical notions",
+   "statement_summary": "Unnumbered guiding principle plus a bulleted list of claims: categorically-defined concepts should be invariant under equivalence. An arrow of C is an isomorphism if and only if its image under an equivalence C -> D is; objects of C are isomorphic if and only if their images under an equivalence are. Also stated: any category equivalent to a locally small category is locally small; any category equivalent to a groupoid is a groupoid; C ~ D implies C^op ~ D^op; and the product of a pair of categories is equivalent to the product of any pair of equivalent categories. The surrounding prose calls a definition 'evil' if it is not equivalence-invariant, citing isomorphism-of-objects (versus the non-evil counterpart) and discreteness as the only evil notions introduced so far.",
+   "book_section": "1.5",
+   "book_page": "37",
+   "pdf_pages": [
+    57,
+    58
+   ],
+   "cross_refs": [
+    "riehl:1.5:def4",
+    "riehl:1.6:exii"
+   ],
+   "flags": [
+    "unnumbered-prose-claim",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.5:def-essentially-small",
+   "kind": "definition",
+   "number": null,
+   "name": "essentially small and essentially discrete categories",
+   "statement_summary": "Stated as unnumbered sentences in running prose: a category is ESSENTIALLY SMALL if it is equivalent to a small category, equivalently if its skeleton is small; a category is ESSENTIALLY DISCRETE if it is equivalent to a discrete category. These are the equivalence-invariant repairs of smallness and discreteness.",
+   "book_section": "1.5",
+   "book_page": "38",
+   "pdf_pages": [
+    58
+   ],
+   "cross_refs": [
+    "riehl:1.5:def16",
+    "riehl:1.5:exvii"
+   ],
+   "flags": [
+    "unnumbered-prose-definition"
+   ]
+  },
+  {
+   "id": "riehl:1.5:exi",
+   "kind": "exercise",
+   "number": "1.5.i",
+   "name": "prove Lemma 1.5.1",
+   "statement_summary": "Prove Lemma 1.5.1: natural transformations F => G correspond bijectively to functors C x 2 -> D restricting along i_0 and i_1 to F and G.",
+   "book_section": "1.5",
+   "book_page": "38",
+   "pdf_pages": [
+    58
+   ],
+   "cross_refs": [
+    "riehl:1.5:lem1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:exii",
+   "kind": "exercise",
+   "number": "1.5.ii",
+   "name": "Segal's category Gamma is equivalent to the opposite of finite pointed sets",
+   "statement_summary": "Segal's category Gamma has all finite sets as objects, with morphisms S -> T the maps theta : S -> P(T) into the power set such that theta(alpha) and theta(beta) are disjoint whenever alpha =/= beta, and composite psi(alpha) = union over beta in theta(alpha) of phi(beta). Prove that Gamma is equivalent to Fin_*^op, the opposite of the category of finite pointed sets; deduce that the functors of Example 1.3.2(xi) define presheaves on Gamma.",
+   "book_section": "1.5",
+   "book_page": "38",
+   "pdf_pages": [
+    58
+   ],
+   "cross_refs": [
+    "riehl:1.5:def4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:exiii",
+   "kind": "exercise",
+   "number": "1.5.iii",
+   "name": "prove Lemma 1.5.10",
+   "statement_summary": "Prove Lemma 1.5.10, i.e. that the four displayed commutativity conditions relating f, f', u and v are equivalent and determine f' = v f u^{-1} uniquely.",
+   "book_section": "1.5",
+   "book_page": "38",
+   "pdf_pages": [
+    58
+   ],
+   "cross_refs": [
+    "riehl:1.5:lem10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:exiv",
+   "kind": "exercise",
+   "number": "1.5.iv",
+   "name": "fully faithful functors reflect and create isomorphisms",
+   "statement_summary": "Show that a full and faithful functor F : C -> D both REFLECTS and CREATES isomorphisms: (i) if f is a morphism of C with Ff an isomorphism in D, then f is an isomorphism in C; (ii) if x, y are objects of C with Fx ~= Fy in D, then x ~= y in C. By Lemma 1.3.8 the converse statements hold for any functor.",
+   "book_section": "1.5",
+   "book_page": "38",
+   "pdf_pages": [
+    58
+   ],
+   "cross_refs": [
+    "riehl:1.5:def7",
+    "riehl:1.5:exv"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.5:exv",
+   "kind": "exercise",
+   "number": "1.5.v",
+   "name": "full or faithful alone does not suffice",
+   "statement_summary": "Find examples showing that a functor that is full but not faithful, or faithful but not full, need not reflect or create isomorphisms.",
+   "book_section": "1.5",
+   "book_page": "38",
+   "pdf_pages": [
+    58
+   ],
+   "cross_refs": [
+    "riehl:1.5:exiv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:exvi",
+   "kind": "exercise",
+   "number": "1.5.vi",
+   "name": "composition of full/faithful/essentially surjective functors; transitivity of equivalence",
+   "statement_summary": "(i) Prove that a composite of a pair of full functors is full, of faithful functors is faithful, and of essentially surjective functors is essentially surjective. (ii) Prove that C ~ D and D ~ E imply C ~ E, concluding that equivalence of categories is an equivalence relation. (A second, more direct proof avoiding Theorem 1.5.9 is Exercise 1.7.v.)",
+   "book_section": "1.5",
+   "book_page": "38",
+   "pdf_pages": [
+    58
+   ],
+   "cross_refs": [
+    "riehl:1.5:lem5",
+    "riehl:1.7:exv"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.5:exvii",
+   "kind": "exercise",
+   "number": "1.5.vii",
+   "name": "categories equivalent to discrete categories",
+   "statement_summary": "Characterize the categories that are equivalent to discrete categories (i.e. the essentially discrete categories).",
+   "book_section": "1.5",
+   "book_page": "38",
+   "pdf_pages": [
+    58
+   ],
+   "cross_refs": [
+    "riehl:1.5:def-essentially-small"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:exviii",
+   "kind": "exercise",
+   "number": "1.5.viii",
+   "name": "affine and projective planes (Klein's Erlangen program)",
+   "statement_summary": "Prove that the groupoid Affine of affine planes is equivalent to the groupoid Proj^l of projective planes equipped with a distinguished 'line at infinity', where the morphisms in each groupoid are bijections on both points and lines (preserving the distinguished line in the projective case) that preserve and reflect the incidence relation. The functor Proj^l -> Affine removes the line at infinity and its points; describe an inverse equivalence explicitly.",
+   "book_section": "1.5",
+   "book_page": "38",
+   "pdf_pages": [
+    58
+   ],
+   "cross_refs": [
+    "riehl:1.5:def4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.5:exix",
+   "kind": "exercise",
+   "number": "1.5.ix",
+   "name": "classify a list of forgetful functors",
+   "statement_summary": "For the functors I : Ab -> Group (inclusion), I : Ring -> Ab (forget multiplication), (-)^x : Ring -> Group (group of units), I : Ring -> Rng (inclusion), I : Field -> Ring (inclusion) and U : R-Mod -> Ab (forgetful), determine which are full, which are faithful, which are essentially surjective, and which define equivalences of categories. (The text warns that a few of these conceal research-level problems.)",
+   "book_section": "1.5",
+   "book_page": "38",
+   "pdf_pages": [
+    58,
+    59
+   ],
+   "cross_refs": [
+    "riehl:1.5:def7",
+    "riehl:1.5:thm9"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.6:def-commutes",
+   "kind": "definition",
+   "number": null,
+   "name": "diagram (informal) and commuting diagram",
+   "statement_summary": "Given informally in running prose ahead of the formal Definition 1.6.4: a DIAGRAM is presented as a quiver of morphisms in a category, and the diagram COMMUTES if any two paths of composable arrows in the quiver with a common source and a common target have the same composite. Illustrated by the commutative triangle display, which asserts that the hypotenuse h equals the composite gf of the two legs.",
+   "book_section": "1.6",
+   "book_page": "39",
+   "pdf_pages": [
+    59
+   ],
+   "cross_refs": [
+    "riehl:1.6:def4",
+    "riehl:1.6:lem11"
+   ],
+   "flags": [
+    "unnumbered-prose-definition",
+    "informal"
+   ]
+  },
+  {
+   "id": "riehl:1.6:def2",
+   "kind": "definition",
+   "number": "1.6.2",
+   "name": "monoid (in Set, diagrammatically)",
+   "statement_summary": "A MONOID is an object M of Set together with morphisms mu : M x M -> M and eta : * -> M (with * a singleton) such that the associativity square (mu . (M x mu) = mu . (mu x M) as maps M x M x M -> M) and the two unit triangles (mu . (eta x M) = id_M = mu . (M x eta)) commute. The point of the diagrammatic phrasing is that it generalizes verbatim to other categories.",
+   "book_section": "1.6",
+   "book_page": "39",
+   "pdf_pages": [
+    59
+   ],
+   "cross_refs": [
+    "riehl:1.6:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:def3",
+   "kind": "definition",
+   "number": "1.6.3",
+   "name": "topological monoid, unital ring, k-algebra",
+   "statement_summary": "A TOPOLOGICAL MONOID is an object M of Top with continuous mu : M x M -> M and eta : * -> M satisfying the same associativity and unit diagrams as Definition 1.6.2. In the same block: a UNITAL RING is an object R of Ab with mu : R (x)_Z R -> R and eta : Z -> R making the corresponding diagrams commute (so mu is a bilinear multiplication, i.e. multiplication distributes over addition), and a k-ALGEBRA is an object R of Vect_k with mu : R (x)_k R -> R and eta : k -> R doing likewise. All four notions are special cases of a monoid in a monoidal category, with the unit maps out of the singleton space, Z, and k picking out the multiplicative identity.",
+   "book_section": "1.6",
+   "book_page": "40",
+   "pdf_pages": [
+    60
+   ],
+   "cross_refs": [
+    "riehl:1.6:def2"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.6:def4",
+   "kind": "definition",
+   "number": "1.6.4",
+   "name": "diagram, indexing category, shape",
+   "statement_summary": "A DIAGRAM in a category C is a functor F : J -> C; its domain J is the INDEXING CATEGORY or SHAPE of the diagram. No size restriction is imposed on J (small diagrams are defined separately later), and the composition relations holding in J must hold in the image, which is what it means to say the resulting quiver in C is commutative.",
+   "book_section": "1.6",
+   "book_page": "40",
+   "pdf_pages": [
+    60
+   ],
+   "cross_refs": [
+    "riehl:1.6:def-commutes",
+    "riehl:1.6:lem5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:lem5",
+   "kind": "lemma",
+   "number": "1.6.5",
+   "name": "functors preserve commutative diagrams",
+   "statement_summary": "Functors preserve commutative diagrams. Proof: a diagram in C is a functor F : J -> C, and for any G : C -> D the composite GF : J -> D is the image diagram in D, which therefore satisfies all the composition relations holding in J.",
+   "book_section": "1.6",
+   "book_page": "41",
+   "pdf_pages": [
+    61
+   ],
+   "cross_refs": [
+    "riehl:1.6:def4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:example6",
+   "kind": "example",
+   "number": "1.6.6",
+   "name": "the category 2 x 2 indexes a commutative square",
+   "statement_summary": "The category 2 x 2 has four objects and the displayed non-identity morphisms; its diagonal morphism is simultaneously the composite of the top-then-right and of the left-then-bottom edges, so those composites are equal. A diagram indexed by 2 x 2, drawn without the diagonal, is precisely a COMMUTATIVE SQUARE.",
+   "book_section": "1.6",
+   "book_page": "41",
+   "pdf_pages": [
+    61
+   ],
+   "cross_refs": [
+    "riehl:1.6:def4",
+    "riehl:1.6:remark7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:remark7",
+   "kind": "remark",
+   "number": "1.6.7",
+   "name": "indexing categories presented as quivers with relations",
+   "statement_summary": "In practice an indexing category is specified as a quiver together with imposed commutativity relations, and in the image the composite arrows are usually omitted. To give a functor out of 2 x 2 it suffices to name four objects and four morphisms f, g, h, k subject to hf = kg. The relations are essential data: they distinguish 2 x 2, which indexes a commutative square, from the quiver-generated category (with two distinct diagonals) that indexes a not-necessarily-commutative square.",
+   "book_section": "1.6",
+   "book_page": "41",
+   "pdf_pages": [
+    61
+   ],
+   "cross_refs": [
+    "riehl:1.6:example6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:example8",
+   "kind": "example",
+   "number": "1.6.8",
+   "name": "the category 4 indexes three composable morphisms",
+   "statement_summary": "The category 4 (the ordinal with four objects) has six non-identity morphisms and is a preorder, so each of the four displayed triangular faces commutes. Consequently a diagram of shape 4 in C is exactly a sequence of three composable morphisms f, g, h together with the composites gf, hg, hgf; associativity of composition supplies the commutativity of the remaining faces. The category 4 is free on the quiver . -> . -> . -> . .",
+   "book_section": "1.6",
+   "book_page": "41",
+   "pdf_pages": [
+    61,
+    62
+   ],
+   "cross_refs": [
+    "riehl:1.6:def4"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.6:example9",
+   "kind": "example",
+   "number": "1.6.9",
+   "name": "the category 2 x 3 indexes a commutative rectangle",
+   "statement_summary": "The category 2 x 3 has six objects; its long diagonal asserts that the outer rectangle commutes, its short diagonals that the left- and right-hand squares commute, and the inner parallelogram also commutes. A diagram indexed by 2 x 3, drawn without diagonals, is a COMMUTATIVE RECTANGLE. In particular, a configuration a -> b -> c over a' -> b' -> c' with vertical maps g, h, l defines a 2 x 3-shaped diagram provided hf = kg and lj = mh - two commutative squares paste to a commutative rectangle.",
+   "book_section": "1.6",
+   "book_page": "42",
+   "pdf_pages": [
+    62
+   ],
+   "cross_refs": [
+    "riehl:1.6:lem11",
+    "riehl:1.6:remark21",
+    "riehl:1.6:lem22"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:lem11",
+   "kind": "lemma",
+   "number": "1.6.11",
+   "name": "substitution of composition relations along a path",
+   "statement_summary": "Let f_1,...,f_n be a composable path of morphisms in a category. If some contiguous sub-composite f_k f_{k-1} ... f_{i+1} f_i equals g_m ... g_1 for another composable sequence g_1,...,g_m, then f_n ... f_1 = f_n ... f_{k+1} g_m ... g_1 f_{i-1} ... f_1. Proof: composition is well defined, so pre- and postcomposing equal arrows with the same sequences yields equal arrows. This is the elementary principle underlying most diagram chases: commutativity of a whole diagram may be verified by checking each minimal subdiagram.",
+   "book_section": "1.6",
+   "book_page": "42",
+   "pdf_pages": [
+    62
+   ],
+   "cross_refs": [
+    "riehl:1.6:def-commutes"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:lem12",
+   "kind": "lemma",
+   "number": "1.6.12",
+   "name": "cancelling an isomorphism in a commutative triangle",
+   "statement_summary": "For a triple of morphisms with the displayed domains and codomains in which f is an isomorphism, the left-hand triangle commutes if and only if the right-hand triangle (with f replaced by f^{-1}, reversing that edge) commutes; explicitly h = gf if and only if h f^{-1} = g. Dually, for a triple in which k is an isomorphism the analogous two triangles are equivalent.",
+   "book_section": "1.6",
+   "book_page": "43",
+   "pdf_pages": [
+    63
+   ],
+   "cross_refs": [
+    "riehl:1.6:lem13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:lem13",
+   "kind": "lemma",
+   "number": "1.6.13",
+   "name": "inverting a commutative square of isomorphisms",
+   "statement_summary": "For a commutative square hf = kg in which every one of the four morphisms is an isomorphism, the inverses define a commutative square f^{-1} h^{-1} = g^{-1} k^{-1}. Proof: apply Lemma 1.6.12 four times, or Lemma 1.5.10 twice.",
+   "book_section": "1.6",
+   "book_page": "43",
+   "pdf_pages": [
+    63
+   ],
+   "cross_refs": [
+    "riehl:1.6:lem12",
+    "riehl:1.5:lem10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:def14",
+   "kind": "definition",
+   "number": "1.6.14",
+   "name": "initial object, terminal object, zero object",
+   "statement_summary": "In a category C: an object i is INITIAL if for every object c there is a unique morphism i -> c; dually an object t is TERMINAL if for every object c there is a unique morphism c -> t. An object that is both initial and terminal is a ZERO OBJECT.",
+   "book_section": "1.6",
+   "book_page": "44",
+   "pdf_pages": [
+    64
+   ],
+   "cross_refs": [
+    "riehl:1.6:example15",
+    "riehl:1.6:lem16",
+    "riehl:1.6:lem17"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:example15",
+   "kind": "example",
+   "number": "1.6.15",
+   "name": "initial and terminal objects in familiar categories",
+   "statement_summary": "Nine cases. (i) In Set the empty set is initial and every singleton is terminal. (ii) In Top the empty space is initial and the one-point space terminal. (iii) In Set_* any singleton is both, a zero object; by the equivalence Set_* ~ Set_partial the category of sets and partial functions also has a zero object (Exercise 1.6.iii). (iv) In R-Mod the zero module is a zero object, and the trivial group is a zero object in Group. (v) The zero ring is terminal in Ring; Z is initial in Ring (unital rings, unit-preserving homomorphisms) but not in Rng, where the zero ring is initial instead - so Ring is a non-full subcategory of Rng. (vi) Field has neither an initial nor a terminal object, since there are no homomorphisms between fields of different characteristic. (vii) The category Graph of simple graphs has the empty graph as initial object but no terminal object (a terminal graph would need exactly one vertex, hence no edges, and any graph with an edge admits no homomorphism to it). (viii) The empty category is initial in Cat and the terminal category 1 is terminal. (ix) In a preorder (P, <=) an initial object is a global minimum and a terminal object a global maximum; these may or may not exist.",
+   "book_section": "1.6",
+   "book_page": "44",
+   "pdf_pages": [
+    64
+   ],
+   "cross_refs": [
+    "riehl:1.6:def14",
+    "riehl:1.6:exiii"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.6:lem16",
+   "kind": "lemma",
+   "number": "1.6.16",
+   "name": "terminal objects are unique up to unique isomorphism",
+   "statement_summary": "The full subcategory of C spanned by its terminal objects is either empty or a CONTRACTIBLE GROUPOID (a non-empty category with exactly one morphism in each hom-set, equivalently a category equivalent to the terminal category 1; also called CHAOTIC after Lawvere); in particular any two terminal objects of C are uniquely isomorphic. The block also records that this subcategory is REPLETE - any object isomorphic to a terminal object is terminal (Exercise 1.6.ii). Proof: for terminal t, t' the unique maps f : t -> t' and g : t' -> t satisfy gf = id_t and fg = id_{t'} by uniqueness of maps into a terminal object. Dual statement for initial objects. Footnote: this is why the 'universal cover' of a space is not initial among connected covers unless the space is simply connected.",
+   "book_section": "1.6",
+   "book_page": "44",
+   "pdf_pages": [
+    64,
+    65
+   ],
+   "cross_refs": [
+    "riehl:1.6:def14",
+    "riehl:1.6:def-replete",
+    "riehl:1.6:exii"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.6:def-replete",
+   "kind": "definition",
+   "number": null,
+   "name": "replete subcategory",
+   "statement_summary": "Given in footnote 45: a subcategory D of C is REPLETE if for every isomorphism f : c ~= d of C with d in D, the object c, the morphism f and its inverse f^{-1} all belong to D as well.",
+   "book_section": "1.6",
+   "book_page": "45",
+   "pdf_pages": [
+    65
+   ],
+   "cross_refs": [
+    "riehl:1.6:lem16"
+   ],
+   "flags": [
+    "unnumbered-prose-definition",
+    "footnote-definition"
+   ]
+  },
+  {
+   "id": "riehl:1.6:lem17",
+   "kind": "lemma",
+   "number": "1.6.17",
+   "name": "diagrams with initial domain or terminal codomain commute automatically",
+   "statement_summary": "Let f_1,...,f_n and g_1,...,g_m be composable sequences with the domain of f_1 equal to the domain of g_1 and the codomain of f_n equal to the codomain of g_m. If that common codomain is a terminal object, or that common domain is an initial object, then f_n ... f_1 = g_m ... g_1. Proof: the uniqueness clause of Definition 1.6.14. Illustrated by: any diagram of unital ring homomorphisms out of Z commutes, because Z is the initial unital ring.",
+   "book_section": "1.6",
+   "book_page": "45",
+   "pdf_pages": [
+    65
+   ],
+   "cross_refs": [
+    "riehl:1.6:def14",
+    "riehl:1.6:example15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:def18",
+   "kind": "definition",
+   "number": "1.6.18",
+   "name": "concrete category",
+   "statement_summary": "A CONCRETE CATEGORY is a category C equipped with a faithful functor U : C -> Set, thought of as taking each object to its underlying set. Faithfulness says that parallel morphisms inducing the same function of underlying sets are equal, so being a morphism is a property (e.g. continuity) of the underlying function; a forgetful functor is not faithful when the morphisms carry structure invisible on underlying sets. Footnote: Freyd shows the homotopy category Htpy_* admits no faithful functor to Set.",
+   "book_section": "1.6",
+   "book_page": "45",
+   "pdf_pages": [
+    65
+   ],
+   "cross_refs": [
+    "riehl:1.5:def7",
+    "riehl:1.6:example19",
+    "riehl:1.6:lem20",
+    "riehl:1.6:exvi"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:example19",
+   "kind": "example",
+   "number": "1.6.19",
+   "name": "concreteness of the standard categories; the Quiver forgetful functor",
+   "statement_summary": "Every category listed in Example 1.1.3 is concrete, but multi-sorted cases need care: for Quiver and Ch_R the obvious forgetful functors sending a quiver to its set of vertices, or to its set of arrows, are NOT faithful. An alternative functor V + A : Quiver -> Set sending a quiver to the disjoint union of its vertex and arrow sets IS faithful, so Quiver is concrete.",
+   "book_section": "1.6",
+   "book_page": "46",
+   "pdf_pages": [
+    66
+   ],
+   "cross_refs": [
+    "riehl:1.6:def18"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:lem20",
+   "kind": "lemma",
+   "number": "1.6.20",
+   "name": "faithful functors reflect commutativity of diagrams",
+   "statement_summary": "If U : C -> D is faithful, then any diagram in C whose image under U commutes in D already commutes in C. Proof: for parallel composable sequences f_1..f_n and g_1..g_m in C, U f_n ... U f_1 = U g_m ... U g_1 in D gives f_n ... f_1 = g_m ... g_1 by functoriality and faithfulness. Consequence: in a concrete category, commutativity of a diagram can be checked elementwise on underlying sets.",
+   "book_section": "1.6",
+   "book_page": "46",
+   "pdf_pages": [
+    66
+   ],
+   "cross_refs": [
+    "riehl:1.6:def18",
+    "riehl:1.5:def7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:remark21",
+   "kind": "remark",
+   "number": "1.6.21",
+   "name": "on cancelability in diagram chases",
+   "statement_summary": "Commutativity of a pair of adjacent squares implies commutativity of the exterior rectangle, but the converse fails: a counterexample in Ab is given by the 2 x 3 diagram with rows Z -id-> Z -> 0 and 0 -> Z -id-> Z, whose outer rectangle commutes though neither square does. Likewise, commutativity of one of the two squares plus the outer rectangle does not in general give the other. The obstruction is that a relation g h_n ... h_1 = g k_m ... k_1 may not be cancelled unless g is left-cancelable (a monomorphism) - and dually a common right factor f may not be cancelled unless f is an epimorphism.",
+   "book_section": "1.6",
+   "book_page": "46",
+   "pdf_pages": [
+    66
+   ],
+   "cross_refs": [
+    "riehl:1.6:example9",
+    "riehl:1.6:lem22"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:lem22",
+   "kind": "lemma",
+   "number": "1.6.22",
+   "name": "cancellation criterion for a commutative rectangle",
+   "statement_summary": "Given a -f-> b -j-> c over a' -k-> b' -m-> c' with vertical maps g, h, l, and supposing that the outer rectangle commutes (l j f = m k g), the data defines a COMMUTATIVE RECTANGLE (i.e. both squares commute) if either (i) the right-hand square commutes and m is a monomorphism, or (ii) the left-hand square commutes and f is an epimorphism. Proof: assuming (i), m k g = l j f = m h f by the outer rectangle and the right square, and monicity of m cancels m to give k g = h f; (ii) is dual.",
+   "book_section": "1.6",
+   "book_page": "46",
+   "pdf_pages": [
+    66,
+    67
+   ],
+   "cross_refs": [
+    "riehl:1.6:remark21",
+    "riehl:1.6:example9",
+    "riehl:1.5:thm9"
+   ],
+   "flags": [
+    "spans-page-break",
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.6:exi",
+   "kind": "exercise",
+   "number": "1.6.i",
+   "name": "a map from terminal to initial is an isomorphism",
+   "statement_summary": "Show that any morphism from a terminal object to an initial object in a category is an isomorphism, and conclude that if such a map exists then both objects are zero objects.",
+   "book_section": "1.6",
+   "book_page": "47",
+   "pdf_pages": [
+    67
+   ],
+   "cross_refs": [
+    "riehl:1.6:def14"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:exii",
+   "kind": "exercise",
+   "number": "1.6.ii",
+   "name": "initial and terminal objects are not evil",
+   "statement_summary": "(i) Argue that any object isomorphic to an initial (respectively terminal) object is again initial (respectively terminal). (ii) Prove that for a pair of equivalent categories, if either one has an initial or a terminal object then so does the other.",
+   "book_section": "1.6",
+   "book_page": "47",
+   "pdf_pages": [
+    67
+   ],
+   "cross_refs": [
+    "riehl:1.6:def14",
+    "riehl:1.6:def-replete",
+    "riehl:1.5:remark-equivalence-invariance"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.6:exiii",
+   "kind": "exercise",
+   "number": "1.6.iii",
+   "name": "the zero object of sets and partial functions",
+   "statement_summary": "Identify the zero object in the category Set_partial of sets and partial functions.",
+   "book_section": "1.6",
+   "book_page": "47",
+   "pdf_pages": [
+    67
+   ],
+   "cross_refs": [
+    "riehl:1.6:example15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:exiv",
+   "kind": "exercise",
+   "number": "1.6.iv",
+   "name": "faithful functors reflect monomorphisms and epimorphisms",
+   "statement_summary": "Show that a faithful functor F : C -> D reflects monomorphisms: if Ff is monic in D then f is monic in C. Argue by duality that faithful functors also reflect epimorphisms. Conclude that in any concrete category, a morphism whose underlying function is injective is a monomorphism and one whose underlying function is surjective is an epimorphism.",
+   "book_section": "1.6",
+   "book_page": "47",
+   "pdf_pages": [
+    67
+   ],
+   "cross_refs": [
+    "riehl:1.6:def18",
+    "riehl:1.6:exv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.6:exv",
+   "kind": "exercise",
+   "number": "1.6.v",
+   "name": "faithful functors need not preserve monos or epis",
+   "statement_summary": "(i) Find an example showing a faithful functor need not preserve epimorphisms, and argue by duality or a further counterexample that it need not preserve monomorphisms. (ii) More specifically, find a concrete category containing a monomorphism whose underlying function is not injective, and one containing an epimorphism whose underlying function is not surjective.",
+   "book_section": "1.6",
+   "book_page": "47",
+   "pdf_pages": [
+    67
+   ],
+   "cross_refs": [
+    "riehl:1.6:exiv",
+    "riehl:1.6:def18"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.6:exvi",
+   "kind": "exercise",
+   "number": "1.6.vi",
+   "name": "every small category is concrete via generalized elements",
+   "statement_summary": "Show that any small category C admits a faithful functor to Set sending an object c to its set of GENERALIZED ELEMENTS, i.e. the set of all morphisms of C with codomain c. Extend this assignment to a functor and prove it is faithful, using the 'universal generalized element' id_c.",
+   "book_section": "1.6",
+   "book_page": "47",
+   "pdf_pages": [
+    67
+   ],
+   "cross_refs": [
+    "riehl:1.6:def18"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:construction-functor-category",
+   "kind": "construction",
+   "number": null,
+   "name": "the functor category D^C",
+   "statement_summary": "Built in unnumbered prose opening section 1.7: for any fixed pair of categories C and D there is a FUNCTOR CATEGORY D^C whose objects are the functors C -> D and whose morphisms are the natural transformations between them; the identity morphism on F is the natural transformation id_F : F => F whose components (id_F)_c := id_{Fc} are identities. Composition of morphisms is supplied by Lemma 1.7.1 and the category axioms are verified in Corollary 1.7.2.",
+   "book_section": "1.7",
+   "book_page": "47",
+   "pdf_pages": [
+    67
+   ],
+   "cross_refs": [
+    "riehl:1.7:lem1",
+    "riehl:1.7:cor2",
+    "riehl:1.7:remark3"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "riehl:1.7:lem1",
+   "kind": "lemma",
+   "number": "1.7.1",
+   "name": "vertical composition of natural transformations",
+   "statement_summary": "For natural transformations alpha : F => G and beta : G => H between parallel functors F, G, H : C -> D, there is a natural transformation beta . alpha : F => H with components (beta . alpha)_c := beta_c . alpha_c. Proof: naturality of alpha and beta makes each of two adjacent squares commute for any f : c -> c', hence so does the composite rectangle. This operation is called VERTICAL COMPOSITION and is displayed by a pasting diagram.",
+   "book_section": "1.7",
+   "book_page": "48",
+   "pdf_pages": [
+    68
+   ],
+   "cross_refs": [
+    "riehl:1.4:def1",
+    "riehl:1.7:cor2",
+    "riehl:1.7:lem7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:cor2",
+   "kind": "corollary",
+   "number": "1.7.2",
+   "name": "the functor category is a category",
+   "statement_summary": "For any pair of categories C and D, the functors C -> D together with the natural transformations between them form a category D^C. Proof: it remains only to check that the vertical composition of Lemma 1.7.1 is associative and unital, which holds componentwise because composition in D is associative and unital.",
+   "book_section": "1.7",
+   "book_page": "48",
+   "pdf_pages": [
+    68
+   ],
+   "cross_refs": [
+    "riehl:1.7:lem1",
+    "riehl:1.7:construction-functor-category",
+    "riehl:1.7:remark3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:remark3",
+   "kind": "remark",
+   "number": "1.7.3",
+   "name": "on sizes of functor categories",
+   "statement_summary": "Forming a functor category can increase size. If C and D are small then D^C is small; if C and D are large but locally small then D^C need not be locally small; it suffices for local smallness of D^C that C be SMALL and D be locally small (proved in Exercise 1.7.i).",
+   "book_section": "1.7",
+   "book_page": "48",
+   "pdf_pages": [
+    68
+   ],
+   "cross_refs": [
+    "riehl:1.7:cor2",
+    "riehl:1.7:exi"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:lem4",
+   "kind": "lemma",
+   "number": "1.7.4",
+   "name": "horizontal composition of natural transformations",
+   "statement_summary": "Given natural transformations alpha : F => G between F, G : C -> D and gamma : J => K between J, K : D -> E, there is a natural transformation gamma * alpha : JF => KG whose component at c is the common diagonal composite of the square J F c -> K F c -> K G c = J F c -> J G c -> K G c, which commutes by naturality of gamma applied to alpha_c. Naturality of gamma * alpha is proved by a commutative cube whose front and back faces commute by naturality of alpha plus functoriality of J and K, and whose top, bottom and side faces commute by naturality of gamma.",
+   "book_section": "1.7",
+   "book_page": "48",
+   "pdf_pages": [
+    68,
+    69
+   ],
+   "cross_refs": [
+    "riehl:1.7:remark6",
+    "riehl:1.7:lem7",
+    "riehl:1.7:exii"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:1.7:remark6",
+   "kind": "remark",
+   "number": "1.7.6",
+   "name": "whiskering",
+   "statement_summary": "The natural transformations J alpha : JF => JG, K alpha : KF => KG, gamma F : JF => KF and gamma G : JG => KG appearing in Lemma 1.7.4 are obtained by WHISKERING alpha and gamma with the functors J, K, F, G. In general, for alpha : F => G with F, G : C -> D and functors I : B -> C and J : D -> E, the whiskered composite J alpha I : JFI => JGI has components (J alpha I)_b := J alpha_{Ib}; its naturality squares are the images under J of the naturality squares of alpha at morphisms in the image of I, and commute by naturality of alpha and functoriality of J. Whiskering is the special case of horizontal composition where one of the two transformations is an identity.",
+   "book_section": "1.7",
+   "book_page": "49",
+   "pdf_pages": [
+    69
+   ],
+   "cross_refs": [
+    "riehl:1.7:lem4",
+    "riehl:1.7:exii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:lem7",
+   "kind": "lemma",
+   "number": "1.7.7",
+   "name": "middle four interchange",
+   "statement_summary": "Given functors F, G, H : C -> D and J, K, L : D -> E and natural transformations alpha : F => G, beta : G => H, gamma : J => K, delta : K => L, the natural transformation JF => LH obtained by first composing vertically and then horizontally equals the one obtained by first composing horizontally and then vertically: (delta . gamma) * (beta . alpha) = (delta * beta) . (gamma * alpha). Proof deferred to Exercise 1.7.iii.",
+   "book_section": "1.7",
+   "book_page": "50",
+   "pdf_pages": [
+    70
+   ],
+   "cross_refs": [
+    "riehl:1.7:lem1",
+    "riehl:1.7:lem4",
+    "riehl:1.7:def8",
+    "riehl:1.7:exiii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:def8",
+   "kind": "definition",
+   "number": "1.7.8",
+   "name": "2-category",
+   "statement_summary": "A 2-CATEGORY comprises objects, 1-morphisms between pairs of objects, and 2-morphisms between parallel pairs of 1-morphisms, such that: the objects and 1-morphisms form a category with identities id; for each fixed pair of objects the 1-morphisms and 2-morphisms between them form a category under VERTICAL composition, with identities id_F; there is also a category whose objects are the objects and whose morphisms are the 2-cells, under HORIZONTAL composition, with identities id_{id_C}, the source and target 1-morphisms of a horizontal composite being as in Lemma 1.7.4; the horizontal composite id_H * id_F of vertical identities is the identity id_{HF} on the composite 1-morphism; and the MIDDLE FOUR INTERCHANGE law of Lemma 1.7.7 holds. Lemmas 1.7.1, 1.7.4 and 1.7.7 show that categories, functors and natural transformations assemble into a 2-category.",
+   "book_section": "1.7",
+   "book_page": "50",
+   "pdf_pages": [
+    70
+   ],
+   "cross_refs": [
+    "riehl:1.7:lem1",
+    "riehl:1.7:lem4",
+    "riehl:1.7:lem7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:exi",
+   "kind": "exercise",
+   "number": "1.7.i",
+   "name": "local smallness of a functor category",
+   "statement_summary": "Prove that if C is small and D is locally small then D^C is locally small, by exhibiting a monomorphism from the collection of natural transformations between a fixed parallel pair F, G : C -> D into a set (hint: send a natural transformation to its collection of components).",
+   "book_section": "1.7",
+   "book_page": "51",
+   "pdf_pages": [
+    71
+   ],
+   "cross_refs": [
+    "riehl:1.7:remark3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:exii",
+   "kind": "exercise",
+   "number": "1.7.ii",
+   "name": "horizontal composition from vertical composition and whiskering",
+   "statement_summary": "Redefine the horizontal composition of Lemma 1.7.4 in terms of vertical composition and whiskering.",
+   "book_section": "1.7",
+   "book_page": "51",
+   "pdf_pages": [
+    71
+   ],
+   "cross_refs": [
+    "riehl:1.7:lem4",
+    "riehl:1.7:remark6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:exiii",
+   "kind": "exercise",
+   "number": "1.7.iii",
+   "name": "prove middle four interchange",
+   "statement_summary": "Prove Lemma 1.7.7, the middle four interchange law relating vertical and horizontal composition of natural transformations.",
+   "book_section": "1.7",
+   "book_page": "51",
+   "pdf_pages": [
+    71
+   ],
+   "cross_refs": [
+    "riehl:1.7:lem7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:exiv",
+   "kind": "exercise",
+   "number": "1.7.iv",
+   "name": "the center of a category",
+   "statement_summary": "Show that for any category C the collection of natural endomorphisms of the identity functor id_C forms a COMMUTATIVE monoid, called the CENTER OF THE CATEGORY. Note that the proof of Proposition 1.4.6 shows the center of Ab_fg to be the multiplicative monoid (Z, x, 1).",
+   "book_section": "1.7",
+   "book_page": "51",
+   "pdf_pages": [
+    71
+   ],
+   "cross_refs": [
+    "riehl:1.4:prop6",
+    "riehl:1.7:lem7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:exv",
+   "kind": "exercise",
+   "number": "1.7.v",
+   "name": "composing equivalences directly",
+   "statement_summary": "Given equivalences C ~ D (functors F, G with eta : id_C ~= GF, epsilon : FG ~= id_D) and D ~ E (functors F', G' with eta' : id_D ~= G'F', epsilon' : F'G' ~= id_E), prove directly that C ~ E by constructing composite natural isomorphisms id_C ~= GG'F'F and F'FGG' ~= id_E. This is a second, choice-free proof of Lemma 1.5.5 not routed through Theorem 1.5.9.",
+   "book_section": "1.7",
+   "book_page": "51",
+   "pdf_pages": [
+    71
+   ],
+   "cross_refs": [
+    "riehl:1.5:lem5",
+    "riehl:1.5:exvi",
+    "riehl:1.7:remark6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:1.7:exvi",
+   "kind": "exercise",
+   "number": "1.7.vi",
+   "name": "currying bifunctors",
+   "statement_summary": "Prove that a bifunctor F : C x D -> E is determined by, and uniquely determined by, the data of (i) a functor F(c,-) : D -> E for each object c of C and (ii) a natural transformation F(f,-) : F(c,-) => F(c',-) for each morphism f : c -> c' of C, assigned functorially in C. In other words, prove there is a bijection between functors C x D -> E and functors C -> E^D; by symmetry of the product these are also in bijection with functors D -> E^C.",
+   "book_section": "1.7",
+   "book_page": "51",
+   "pdf_pages": [
+    71
+   ],
+   "cross_refs": [
+    "riehl:1.7:cor2",
+    "riehl:1.7:exvii"
+   ],
+   "flags": [
+    "multi-part"
+   ]
+  },
+  {
+   "id": "riehl:1.7:exvii",
+   "kind": "exercise",
+   "number": "1.7.vii",
+   "name": "the two-sided represented bifunctor as a curried functor",
+   "statement_summary": "Revisit the two-sided represented bifunctor of Definition 1.3.13 and the families of natural transformations of Example 1.4.9 from the perspective of Exercise 1.7.vi (currying). This previews the Yoneda embedding (Corollary 2.2.8).",
+   "book_section": "1.7",
+   "book_page": "51",
+   "pdf_pages": [
+    71
+   ],
+   "cross_refs": [
+    "riehl:1.7:exvi",
+    "riehl:1.4:example9"
+   ],
+   "flags": []
+  }
+ ]
+}

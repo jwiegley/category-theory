@@ -1,0 +1,1139 @@
+{
+  "book": "awodey",
+  "range": {
+    "pdf_start": 136,
+    "pdf_end": 159
+  },
+  "pages": [
+    {
+      "pdf_page": 136,
+      "book_page": "127",
+      "empty": false,
+      "items": [
+        "awodey:6.1:construction-exponential-in-sets"
+      ],
+      "notes": "Chapter 6 title page + opening motivational prose (adjoints teaser) which is skipped as non-formalizable; section 6.1 heading; the Sets currying development starts here."
+    },
+    {
+      "pdf_page": 137,
+      "book_page": "128",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation of awodey:6.1:construction-exponential-in-sets (transpose f-tilde, uniqueness, the bijection Sets(AxB,C) = Sets(A,C^B), the eval function, start of its UMP statement). No new item starts here."
+    },
+    {
+      "pdf_page": 138,
+      "book_page": "129",
+      "empty": false,
+      "items": [
+        "awodey:6.1:def1"
+      ],
+      "notes": "End of the Sets construction (numbered equation (6.1) and its diagram - an EQUATION number, not an item number); Definition 6.1 begins."
+    },
+    {
+      "pdf_page": 139,
+      "book_page": "130",
+      "empty": false,
+      "items": [
+        "awodey:6.1:remark-transposition-bijection",
+        "awodey:6.2:def2"
+      ],
+      "notes": "Definition 6.1's diagram completes at the top; terminology block (evaluation/transpose) recorded as the transposition-bijection remark; section 6.2 heading and Definition 6.2."
+    },
+    {
+      "pdf_page": 140,
+      "book_page": "131",
+      "empty": false,
+      "items": [
+        "awodey:6.2:example3",
+        "awodey:6.2:example4"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 141,
+      "book_page": "132",
+      "empty": false,
+      "items": [
+        "awodey:6.2:example5",
+        "awodey:6.2:remark-transpose-of-evaluation"
+      ],
+      "notes": "Example 6.4's monotonicity verification concludes at the top."
+    },
+    {
+      "pdf_page": 142,
+      "book_page": "133",
+      "empty": false,
+      "items": [
+        "awodey:6.2:prop6"
+      ],
+      "notes": "Diagram completing the transpose-of-evaluation remark, then Proposition 6.6 and the Sets case of its proof."
+    },
+    {
+      "pdf_page": 143,
+      "book_page": "134",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation of the Proposition 6.6 proof: functor laws in Sets, then the general-CCC definition of beta^A as the transpose of beta after epsilon, with diagrams. No new item starts here."
+    },
+    {
+      "pdf_page": 144,
+      "book_page": "135",
+      "empty": false,
+      "items": [
+        "awodey:6.2:construction-eta"
+      ],
+      "notes": "Proposition 6.6 proof concludes (composition law via the stacked epsilon diagram); the eta = transpose of the identity construction begins."
+    },
+    {
+      "pdf_page": 145,
+      "book_page": "136",
+      "empty": false,
+      "items": [
+        "awodey:6.3:construction-boolean-exponential"
+      ],
+      "notes": "Top: eta construction concludes with the equation f-tilde = f^A after eta (left to the reader). Section 6.3 heading; Boolean algebras as cartesian closed posets."
+    },
+    {
+      "pdf_page": 146,
+      "book_page": "137",
+      "empty": false,
+      "items": [
+        "awodey:6.3:def7",
+        "awodey:6.3:remark-ha-ump-equivalence",
+        "awodey:6.3:prop-heyting-distributive",
+        "awodey:6.3:def8",
+        "awodey:6.3:remark-complete-iff-cocomplete",
+        "awodey:6.3:prop9"
+      ],
+      "notes": "Dense page: Definition 6.7, two prose results, Definition 6.8, Proposition 6.9 and the start of its proof."
+    },
+    {
+      "pdf_page": 147,
+      "book_page": "138",
+      "empty": false,
+      "items": [
+        "awodey:6.3:example10",
+        "awodey:6.3:def-heyting-negation",
+        "awodey:6.3:remark-ha-not-boolean",
+        "awodey:6.3:def-ipc"
+      ],
+      "notes": "Proposition 6.9's proof concludes at the top; Example 6.10; the negation/non-Boolean discussion; the IPC entailment-rule system starts (rules 1-4 here, 5-6 continue on PDF 148 outside this range)."
+    },
+    {
+      "pdf_page": 148,
+      "book_page": "139",
+      "empty": false,
+      "items": [
+        "awodey:6.3:remark-ipc-derived-rules",
+        "awodey:6.3:remark-positive-ipc-axioms"
+      ],
+      "notes": "Continuation of the six-rule entailment presentation of IPC begun on PDF 147 (rules 5 and 6 land here); that rule system itself STARTS on PDF 147 and is left to the owner of the previous range. The claim 'this is a complete system for IPC, equivalent to the more standard presentations' is asserted here without proof and is treated as a property of that PDF-147 item."
+    },
+    {
+      "pdf_page": 149,
+      "book_page": "140",
+      "empty": false,
+      "items": [
+        "awodey:6.3:remark-implication-distributes",
+        "awodey:6.3:remark-implication-monotone",
+        "awodey:6.3:remark-positive-fragment"
+      ],
+      "notes": "Derivation page; carries displayed equation (6.2) \u2014 an EQUATION number, not an item number."
+    },
+    {
+      "pdf_page": 150,
+      "book_page": "141",
+      "empty": false,
+      "items": [
+        "awodey:6.3:construction-lindenbaum-tarski",
+        "awodey:6.3:prop11"
+      ],
+      "notes": "Displayed equations (6.3) and (6.4) here are equation numbers, not item numbers."
+    },
+    {
+      "pdf_page": 151,
+      "book_page": "142",
+      "empty": false,
+      "items": [
+        "awodey:6.3:remark-ha-presentation-ump",
+        "awodey:6.4:prop12"
+      ],
+      "notes": "Section 6.4 'Equational definition' opens on this page; Proposition 6.12's bullet list continues onto PDF 152."
+    },
+    {
+      "pdf_page": 152,
+      "book_page": "143",
+      "empty": false,
+      "items": [],
+      "notes": "No item STARTS here. Carries the tail of Proposition 6.12 (the exponential bullet: object B^A, evaluation epsilon, transpose, the two equations) and the opening motivational prose of section 6.5 ('HA ~ IPC'), which is covered by the items on PDF 149-150."
+    },
+    {
+      "pdf_page": 153,
+      "book_page": "144",
+      "empty": false,
+      "items": [
+        "awodey:6.5:def-typed-lambda-calculus",
+        "awodey:6.5:construction-category-of-types"
+      ],
+      "notes": "Opens with the slogan 'CCC ~ lambda-calculus' (motivational, not inventoried separately); the lambda-calculus recap is explicitly a recall from chapter 2."
+    },
+    {
+      "pdf_page": 154,
+      "book_page": "145",
+      "empty": false,
+      "items": [
+        "awodey:6.5:prop-category-of-types-ccc"
+      ],
+      "notes": "Carries the tail of the C(L) definition (arrows as equivalence classes of closed terms, eq. (6.5); identities; composition) recorded under PDF 153."
+    },
+    {
+      "pdf_page": 155,
+      "book_page": "146",
+      "empty": false,
+      "items": [
+        "awodey:6.5:def-lambda-theory",
+        "awodey:6.5:def-model-in-ccc",
+        "awodey:6.5:example-monoid-theory"
+      ],
+      "notes": "Opens with the one-line tail of the cartesian-closure verification of C(L) ('the second equation is proved similarly'); displayed equation (6.6) is an equation number."
+    },
+    {
+      "pdf_page": 156,
+      "book_page": "147",
+      "empty": false,
+      "items": [
+        "awodey:6.5:prop13",
+        "awodey:6.5:remark-sets-incomplete",
+        "awodey:6.5:prop-cl-universal-property",
+        "awodey:6.5:construction-internal-language"
+      ],
+      "notes": "Carries the tail of the monoid-theory example (models = monoid objects) recorded under PDF 155."
+    },
+    {
+      "pdf_page": 157,
+      "book_page": "148",
+      "empty": false,
+      "items": [
+        "awodey:6.5:prop-lambda-ccc-equivalence"
+      ],
+      "notes": "Carries the body of the L(C) definition (basic types, basic terms, identifying equations) recorded under PDF 156. Last text page of section 6.5."
+    },
+    {
+      "pdf_page": 158,
+      "book_page": "149",
+      "empty": false,
+      "items": [
+        "awodey:6:ex1",
+        "awodey:6:ex2",
+        "awodey:6:ex3",
+        "awodey:6:ex4",
+        "awodey:6:ex5",
+        "awodey:6:ex6"
+      ],
+      "notes": "Section 6.6 Exercises, complete: exactly six exercises, all beginning and ending on this page. Exercise 1 is starred."
+    },
+    {
+      "pdf_page": 159,
+      "book_page": "150",
+      "empty": true,
+      "items": [],
+      "notes": "Blank verso; carries only the folio '150' and the running head 'CHAPTER 6. EXPONENTIALS'. End of chapter 6."
+    }
+  ],
+  "items": [
+    {
+      "id": "awodey:6.1:construction-exponential-in-sets",
+      "kind": "construction",
+      "number": null,
+      "name": "exponential (function set) and evaluation in Sets; currying bijection",
+      "statement_summary": "For sets A, B, C, writes C^B for the set of all functions B -> C. Given f : A x B -> C, currying yields f-tilde : A -> C^B determined uniquely by f-tilde(a)(b) = f(a,b), and conversely every phi : A -> C^B arises this way from f(a,b) := phi(a)(b); hence a bijection Sets(A x B, C) = Sets(A, C^B). The bijection is mediated by the evaluation function eval : C^B x B -> C, eval(g,b) = g(b), which has the universal property: for every set A and every f : A x B -> C there is a unique f-tilde : A -> C^B with eval . (f-tilde x 1_B) = f, equivalently eval(f-tilde(a), b) = f(a,b) (displayed equation (6.1)).",
+      "book_section": "6.1",
+      "book_page": "127-129",
+      "pdf_pages": [
+        136,
+        137,
+        138
+      ],
+      "cross_refs": [
+        "awodey:6.1:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:6.1:def1",
+      "kind": "definition",
+      "number": "6.1",
+      "name": "exponential of two objects in a category",
+      "statement_summary": "Let C be a category with binary products. An exponential of objects B and C consists of an object C^B together with an arrow epsilon : C^B x B -> C (evaluation) such that for every object Z and every arrow f : Z x B -> C there exists a UNIQUE arrow f-tilde : Z -> C^B with epsilon . (f-tilde x 1_B) = f. Presented as a universal mapping property (a universal that is not a limit), with the accompanying commuting triangle diagram.",
+      "book_section": "6.1",
+      "book_page": "129-130",
+      "pdf_pages": [
+        138,
+        139
+      ],
+      "cross_refs": [
+        "awodey:6.1:construction-exponential-in-sets"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.1:remark-transposition-bijection",
+      "kind": "remark",
+      "number": null,
+      "name": "transpose terminology; transposition is involutive and gives the hom-set bijection",
+      "statement_summary": "Terminology and a formalizable consequence of Definition 6.1: epsilon is called evaluation; f-tilde : Z -> C^B is the (exponential) transpose of f : Z x B -> C; dually, for g : Z -> C^B one sets g-bar := epsilon . (g x 1_B) : Z x B -> C, also called the transpose of g. By the uniqueness clause, transposition of transposition is the identity in both directions: (g-bar)-tilde = g and (f-tilde)-bar = f. Hence transposition is a bijection Hom_C(Z x B, C) = Hom_C(Z, C^B) given by f |-> f-tilde with inverse g |-> g-bar.",
+      "book_section": "6.1",
+      "book_page": "130",
+      "pdf_pages": [
+        139
+      ],
+      "cross_refs": [
+        "awodey:6.1:def1"
+      ],
+      "flags": [
+        "unnumbered-result"
+      ]
+    },
+    {
+      "id": "awodey:6.2:def2",
+      "kind": "definition",
+      "number": "6.2",
+      "name": "cartesian closed category (CCC)",
+      "statement_summary": "A category is called cartesian closed if it has all finite products (hence in particular a terminal object and binary products) and exponentials C^B for all pairs of objects, in the sense of Definition 6.1.",
+      "book_section": "6.2",
+      "book_page": "130",
+      "pdf_pages": [
+        139
+      ],
+      "cross_refs": [
+        "awodey:6.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.2:example3",
+      "kind": "example",
+      "number": "6.3",
+      "name": "Sets and Sets_fin are cartesian closed",
+      "statement_summary": "Sets is cartesian closed (by the construction of section 6.1); so is the full subcategory Sets_fin of FINITE sets, because for finite M, N the function set N^M again has finite cardinality |N^M| = |N|^|M| and so the same exponential object stays inside the subcategory.",
+      "book_section": "6.2",
+      "book_page": "131",
+      "pdf_pages": [
+        140
+      ],
+      "cross_refs": [
+        "awodey:6.1:construction-exponential-in-sets",
+        "awodey:6.2:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.2:example4",
+      "kind": "example",
+      "number": "6.4",
+      "name": "Pos (posets and monotone maps) is cartesian closed",
+      "statement_summary": "In Pos, whose arrows f : P -> Q are the monotone functions, the product P x Q is the set of pairs ordered componentwise ((p,q) <= (p',q') iff p <= p' and q <= q'); the projections and any pairing <f,g> of monotone maps are monotone, so this is the categorical product. The exponential Q^P is the set of monotone functions P -> Q ordered POINTWISE (f <= g iff f(p) <= g(p) for all p), with evaluation and transposition inherited from the underlying functions; the example verifies the two facts needing proof, namely that evaluation epsilon : Q^P x P -> Q is monotone and that the transpose f-tilde : X -> Q^P of a monotone f : X x P -> Q is monotone.",
+      "book_section": "6.2",
+      "book_page": "131-132",
+      "pdf_pages": [
+        140,
+        141
+      ],
+      "cross_refs": [
+        "awodey:6.2:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.2:example5",
+      "kind": "example",
+      "number": "6.5",
+      "name": "the category of omega-CPOs is cartesian closed",
+      "statement_summary": "Restricting from posets to omega-CPOs, the proposed exponential of omega-CPOs P and Q is the subset Q^P of functions P -> Q that are monotone AND omega-continuous, with evaluation and transposition again those of the underlying functions; since the required equations already hold, only three things remain: that Q^P is itself an omega-CPO, that evaluation is omega-continuous, and that f-tilde is omega-continuous whenever f is. These three checks are explicitly left to the reader as a homework exercise.",
+      "book_section": "6.2",
+      "book_page": "132",
+      "pdf_pages": [
+        141
+      ],
+      "cross_refs": [
+        "awodey:6.2:example4",
+        "awodey:6.2:def2"
+      ],
+      "flags": [
+        "proof-left-to-reader"
+      ]
+    },
+    {
+      "id": "awodey:6.2:remark-transpose-of-evaluation",
+      "kind": "remark",
+      "number": null,
+      "name": "the transpose of evaluation is the identity",
+      "statement_summary": "For epsilon : B^A x A -> B in a category with exponentials, its transpose epsilon-tilde : B^A -> B^A is the unique arrow with epsilon . (epsilon-tilde x 1_A) = epsilon; since 1_{B^A} x 1_A = 1_{B^A x A} visibly has this property, uniqueness forces epsilon-tilde = 1_{B^A}. Equivalently, epsilon is the (other-direction) transpose of the identity, epsilon = (1_{B^A})-bar.",
+      "book_section": "6.2",
+      "book_page": "132-133",
+      "pdf_pages": [
+        141,
+        142
+      ],
+      "cross_refs": [
+        "awodey:6.1:remark-transposition-bijection",
+        "awodey:6.1:def1"
+      ],
+      "flags": [
+        "unnumbered-result"
+      ]
+    },
+    {
+      "id": "awodey:6.2:prop6",
+      "kind": "proposition",
+      "number": "6.6",
+      "name": "exponentiation by a fixed object is a functor",
+      "statement_summary": "In any cartesian closed category C, exponentiation by a fixed object A is a functor (-)^A : C -> C. On objects B |-> B^A; on an arrow beta : B -> C the action beta^A : B^A -> C^A is defined as the transpose of the composite (beta . epsilon) : B^A x A -> B -> C, i.e. beta^A := (beta . epsilon)-tilde, which is the unique arrow making epsilon . (beta^A x 1_A) = beta . epsilon commute. The proof checks the functor laws, guided first by the Sets case (where beta^A(f) = beta . f, postcomposition): (1_B)^A = 1_{B^A}, using 1_{B^A} x 1_A = 1_{B^A x A}; and (gamma . beta)^A = gamma^A . beta^A for B -> C -> D, obtained from the stacked evaluation diagram together with (gamma^A x 1_A) . (beta^A x 1_A) = ((gamma^A . beta^A) x 1_A) and uniqueness of transposes.",
+      "book_section": "6.2",
+      "book_page": "133-135",
+      "pdf_pages": [
+        142,
+        143,
+        144
+      ],
+      "cross_refs": [
+        "awodey:6.2:def2",
+        "awodey:6.2:remark-transpose-of-evaluation"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.2:construction-eta",
+      "kind": "construction",
+      "number": null,
+      "name": "the arrow eta as transpose of the identity; transposes computed from the functor (-)^A",
+      "statement_summary": "A second universal arrow: the transpose of the identity 1_{A x B} : A x B -> A x B, written eta := (1_{A x B})-tilde : A -> (A x B)^B. In Sets its values are eta(a)(b) = (a,b). Its use: for f : Z x A -> B, the transpose can be computed from the exponentiation functor as f-tilde = f^A . eta, where eta : Z -> (Z x A)^A and f^A : (Z x A)^A -> B^A; verifying this equation is left to the reader. (This eta is the unit of the product/exponential adjunction, presented here without adjunction vocabulary.)",
+      "book_section": "6.2",
+      "book_page": "135-136",
+      "pdf_pages": [
+        144,
+        145
+      ],
+      "cross_refs": [
+        "awodey:6.2:prop6",
+        "awodey:6.1:remark-transposition-bijection"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "proof-left-to-reader"
+      ]
+    },
+    {
+      "id": "awodey:6.3:construction-boolean-exponential",
+      "kind": "construction",
+      "number": null,
+      "name": "a Boolean algebra is a cartesian closed poset; exponential b^a = (not a) or b",
+      "statement_summary": "Any Boolean algebra B viewed as a poset category has finite products, namely the top element 1 and binary meets a and b; and it has exponentials given by b^a := (not a) or b, written a => b. Verification: the evaluation arrow is the inequality (a => b) and a <= b, which always holds since ((not a) or b) and a = ((not a) and a) or (b and a) = 0 or (b and a) = b and a <= b; and transposition holds, i.e. a and b <= c implies a <= b => c, by the computation (not b) or (a and b) <= (not b) or c = b => c together with a <= (not b) or a <= ((not b) or a) and ((not b) or b) = (not b) or (a and b). So the notion of Boolean algebra generalizes to that of a cartesian closed poset.",
+      "book_section": "6.3",
+      "book_page": "136",
+      "pdf_pages": [
+        145
+      ],
+      "cross_refs": [
+        "awodey:6.1:def1",
+        "awodey:6.3:def7"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:6.3:def7",
+      "kind": "definition",
+      "number": "6.7",
+      "name": "Heyting algebra",
+      "statement_summary": "A Heyting algebra is a poset with (1) finite meets: a top element 1 and binary meets p and q; (2) finite joins: a bottom element 0 and binary joins p or q; (3) exponentials: for each pair a, b an element a => b satisfying the adjunction condition a and b <= c iff a <= b => c.",
+      "book_section": "6.3",
+      "book_page": "137",
+      "pdf_pages": [
+        146
+      ],
+      "cross_refs": [
+        "awodey:6.1:def1",
+        "awodey:6.3:construction-boolean-exponential"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.3:remark-ha-ump-equivalence",
+      "kind": "remark",
+      "number": null,
+      "name": "the Heyting condition is equivalent to the exponential UMP for posets",
+      "statement_summary": "In the poset case the stated two-sided condition a and b <= c iff a <= b => c is equivalent to the universal mapping property of an exponential: given the condition, the transpose of a and b <= c is a <= b => c, and the evaluation inequality (a => b) and a <= b follows immediately from the reflexivity instance a => b <= a => b; the converse implication is equally immediate. (Uniqueness of transposes is automatic because hom-sets in a poset are subsingletons.)",
+      "book_section": "6.3",
+      "book_page": "137",
+      "pdf_pages": [
+        146
+      ],
+      "cross_refs": [
+        "awodey:6.3:def7",
+        "awodey:6.1:def1"
+      ],
+      "flags": [
+        "unnumbered-result"
+      ]
+    },
+    {
+      "id": "awodey:6.3:prop-heyting-distributive",
+      "kind": "proposition",
+      "number": null,
+      "name": "every Heyting algebra is a distributive lattice",
+      "statement_summary": "Unnumbered result proved in prose: in any Heyting algebra the distributive law (a or b) and c = (a and c) or (b and c) holds. Proof by a chain of equivalences valid for every z: (a or b) and c <= z iff a or b <= c => z iff (a <= c => z and b <= c => z) iff (a and c <= z and b and c <= z) iff (a and c) or (b and c) <= z; then instantiating z at each of the two sides gives the two inequalities and hence equality. (The converse fails: not every distributive lattice is a Heyting algebra - see Proposition 6.9 for a class that is.)",
+      "book_section": "6.3",
+      "book_page": "137",
+      "pdf_pages": [
+        146
+      ],
+      "cross_refs": [
+        "awodey:6.3:def7",
+        "awodey:6.3:prop9"
+      ],
+      "flags": [
+        "unnumbered-result"
+      ]
+    },
+    {
+      "id": "awodey:6.3:def8",
+      "kind": "definition",
+      "number": "6.8",
+      "name": "(co)complete poset; complete lattice / Heyting algebra / Boolean algebra",
+      "statement_summary": "A poset is complete (resp. cocomplete) if it is so as a category, i.e. if it has all set-indexed meets /\\_{i in I} a_i (resp. all set-indexed joins \\/_{i in I} a_i). A lattice, Heyting algebra, Boolean algebra, etc. is called complete if it is complete as a poset.",
+      "book_section": "6.3",
+      "book_page": "137",
+      "pdf_pages": [
+        146
+      ],
+      "cross_refs": [
+        "awodey:6.3:prop9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.3:remark-complete-iff-cocomplete",
+      "kind": "remark",
+      "number": null,
+      "name": "for posets, completeness and cocompleteness are equivalent",
+      "statement_summary": "Stated inside Definition 6.8 and left to the reader as an exercise: a poset has all set-indexed meets if and only if it has all set-indexed joins (each is constructible from the other, e.g. a join as the meet of all upper bounds).",
+      "book_section": "6.3",
+      "book_page": "137",
+      "pdf_pages": [
+        146
+      ],
+      "cross_refs": [
+        "awodey:6.3:def8"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "proof-left-to-reader"
+      ]
+    },
+    {
+      "id": "awodey:6.3:prop9",
+      "kind": "proposition",
+      "number": "6.9",
+      "name": "complete lattice is a Heyting algebra iff the infinite distributive law holds",
+      "statement_summary": "A complete lattice is a Heyting algebra if and only if it satisfies the infinite distributive law a and (\\/_i b_i) = \\/_i (a and b_i). Proof: the forward direction argues as in the finite distributivity case; conversely, given the infinite distributive law, define a => b := \\/ { x : x and a <= b }. Then y and a <= b implies y <= \\/{x : x and a <= b} = a => b; and conversely if y <= a => b then y and a <= (\\/_{x and a <= b} x) and a = \\/_{x and a <= b} (x and a) <= \\/ b = b. So the defining adjunction condition of a Heyting algebra holds.",
+      "book_section": "6.3",
+      "book_page": "137-138",
+      "pdf_pages": [
+        146,
+        147
+      ],
+      "cross_refs": [
+        "awodey:6.3:def7",
+        "awodey:6.3:def8",
+        "awodey:6.3:prop-heyting-distributive"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.3:example10",
+      "kind": "example",
+      "number": "6.10",
+      "name": "powersets and open-set lattices are (complete) Heyting algebras",
+      "statement_summary": "For any set A the powerset P(A), with unions as joins and intersections as meets, is a COMPLETE Heyting algebra, because it satisfies the infinite distributive law (via Proposition 6.9). More generally, the lattice of open sets of a topological space is a Heyting algebra, since open sets are closed under finite intersections and arbitrary unions (so the infinite distributive law holds there too).",
+      "book_section": "6.3",
+      "book_page": "138",
+      "pdf_pages": [
+        147
+      ],
+      "cross_refs": [
+        "awodey:6.3:prop9",
+        "awodey:6.3:def7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.3:def-heyting-negation",
+      "kind": "definition",
+      "number": null,
+      "name": "negation in a Heyting algebra",
+      "statement_summary": "Definition made in running prose: in a Heyting algebra the negation of a is defined as not a := a => 0 (the exponential into the bottom element). This is forced by the Boolean case, where not a = (not a) or 0 = a => 0 under the identification of the Boolean exponential with (not a) or b.",
+      "book_section": "6.3",
+      "book_page": "138",
+      "pdf_pages": [
+        147
+      ],
+      "cross_refs": [
+        "awodey:6.3:def7",
+        "awodey:6.3:construction-boolean-exponential"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "awodey:6.3:remark-ha-not-boolean",
+      "kind": "remark",
+      "number": null,
+      "name": "Heyting algebras are intuitionistic: double negation and excluded middle can fail",
+      "statement_summary": "Every Boolean algebra is a Heyting algebra with a => b = (not a) or b, but not conversely. In any Heyting algebra a <= not not a, since a and (a => 0) <= 0; the converse inequality not not a <= a need NOT hold, nor need the law of excluded middle 1 <= a or (not a). Counterexample: in the Heyting algebra of open subsets of a topological space X, the negation of an open U is the INTERIOR of the complement X - U; e.g. in the real interval [0,1], not not (0,1) = [0,1] which strictly exceeds (0,1). The point: a Heyting algebra is the algebraic counterpart of intuitionistic propositional calculus exactly as a Boolean algebra is of classical propositional calculus.",
+      "book_section": "6.3",
+      "book_page": "138",
+      "pdf_pages": [
+        147
+      ],
+      "cross_refs": [
+        "awodey:6.3:def-heyting-negation",
+        "awodey:6.3:example10",
+        "awodey:6.3:construction-boolean-exponential"
+      ],
+      "flags": [
+        "unnumbered-result"
+      ]
+    },
+    {
+      "id": "awodey:6.3:def-ipc",
+      "kind": "definition",
+      "number": null,
+      "name": "the entailment rule system for intuitionistic propositional calculus (IPC)",
+      "statement_summary": "Definition given in running prose as a numbered list of rules: a deductive system for IPC formulated with entailments p |- q between formulas, with (1) |- reflexive and transitive; (2) p |- top; (3) bottom |- p; (4) p |- q and p |- r iff p |- q and-formula r; (5) p |- r and q |- r iff (p or q) |- r; (6) (p and q) |- r iff p |- (q => r). The list continues past this page (rules 5 and 6 are on the following PDF page 148); the text asserts this system is complete for IPC and equivalent to the more standard Hilbert-style presentations, and then derives evaluation/modus ponens, the product axioms, and the usual implication axioms from it - that derivation lies outside this page range.",
+      "book_section": "6.3",
+      "book_page": "138-139",
+      "pdf_pages": [
+        147,
+        148
+      ],
+      "cross_refs": [
+        "awodey:6.3:def7",
+        "awodey:6.3:remark-ha-not-boolean"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "continues-past-range"
+      ]
+    },
+    {
+      "id": "awodey:6.3:remark-ipc-derived-rules",
+      "kind": "remark",
+      "number": null,
+      "name": "derived rules of the entailment calculus (evaluation, modus ponens, projections)",
+      "statement_summary": "From the six primitive entailment rules for IPC (reflexivity/transitivity of the turnstile; p entails top; bottom entails p; the meet adjunction 'p entails q and p entails r iff p entails q meet r'; the join adjunction; and the implication adjunction 'p meet q entails r iff p entails q implies r'), the following are derived: an evaluation entailment (q-implies-r conjoined with q entails r, equivalently (p implies q) meet p entails q, obtained from reflexivity plus the implication adjunction); modus ponens as a rule (top entails p implies q, together with top entails p, yields top entails q); the two projections (p meet q entails p, resp. q); the equivalence p is interderivable with top meet p; and the internalized projection top entails (p meet q) implies p. Formalizably: these are the standard consequences of the meet/implication adjunctions in a cartesian closed poset.",
+      "book_section": "6.3",
+      "book_page": "139",
+      "pdf_pages": [
+        148
+      ],
+      "cross_refs": [
+        "awodey:6.3:remark-positive-ipc-axioms",
+        "awodey:6.3:remark-positive-fragment"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "derived-in-prose"
+      ]
+    },
+    {
+      "id": "awodey:6.3:remark-positive-ipc-axioms",
+      "kind": "remark",
+      "number": null,
+      "name": "the three Hilbert axioms for implication hold in a cartesian closed poset",
+      "statement_summary": "The three usual implication axioms of positive propositional logic \u2014 (i) p implies p; (ii) p implies (q implies p); (iii) (p implies (q implies r)) implies ((p implies q) implies (p implies r)) \u2014 are all derivable from the six entailment rules, i.e. hold in every cartesian closed poset. (i) and (ii) are derived immediately from reflexivity, the projections and the implication adjunction; (iii) is derived on the following page using the fact that implication distributes over meet on the right together with the monotonicity rule 'a entails b implies (p implies a) entails (p implies b)'. Awodey proves (i) and (ii) in the text and derives (iii) in full; exercise 5 of the chapter asks the reader to reprove (iii).",
+      "book_section": "6.3",
+      "book_page": "139",
+      "pdf_pages": [
+        148,
+        149
+      ],
+      "cross_refs": [
+        "awodey:6.3:remark-implication-distributes",
+        "awodey:6.3:remark-implication-monotone",
+        "awodey:6:ex5"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "derived-in-prose",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "awodey:6.3:remark-implication-distributes",
+      "kind": "remark",
+      "number": null,
+      "name": "implication distributes over meet on the right",
+      "statement_summary": "In a Heyting algebra (equivalently a cartesian closed poset), a implies (b meet c) is interderivable with (a implies b) meet (a implies c). Awodey notes this is the poset shadow of the general cartesian-closed isomorphism (B x C)^A congruent to B^A x C^A, which is set as exercise 1(a) of the chapter.",
+      "book_section": "6.3",
+      "book_page": "140",
+      "pdf_pages": [
+        149
+      ],
+      "cross_refs": [
+        "awodey:6:ex1",
+        "awodey:6.3:remark-positive-ipc-axioms"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:6.3:remark-implication-monotone",
+      "kind": "remark",
+      "number": null,
+      "name": "monotonicity of implication in its right argument (eq. 6.2)",
+      "statement_summary": "If a entails b then p implies a entails p implies b; displayed as equation (6.2) and identified as the poset special case of Proposition 6.6 (exponentiation by a fixed object is a functor), i.e. the action of the functor (p implies -) on morphisms specialized to a preorder.",
+      "book_section": "6.3",
+      "book_page": "140",
+      "pdf_pages": [
+        149
+      ],
+      "cross_refs": [
+        "awodey:6.2:prop6"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "equation-numbered-6.2"
+      ]
+    },
+    {
+      "id": "awodey:6.3:remark-positive-fragment",
+      "kind": "remark",
+      "number": null,
+      "name": "positive fragment of IPC = cartesian closed poset; full IPC = Heyting algebra",
+      "statement_summary": "The positive fragment of intuitionistic propositional calculus \u2014 the operations top, meet and implication only \u2014 corresponds exactly to the notion of a cartesian closed poset; adjoining falsum and disjunction on the logical side corresponds to adjoining finite joins on the algebraic side, giving a correspondence between full IPC and Heyting algebras. Awodey states that the correspondence is exact, effected by two mutually inverse constructions (calculus to algebra, algebra to calculus), and develops only the calculus-to-algebra direction (the Lindenbaum-Tarski algebra), leaving the other to the reader.",
+      "book_section": "6.3",
+      "book_page": "140",
+      "pdf_pages": [
+        149,
+        150
+      ],
+      "cross_refs": [
+        "awodey:6.3:construction-lindenbaum-tarski",
+        "awodey:6.3:prop11"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "stated-without-proof",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "awodey:6.3:construction-lindenbaum-tarski",
+      "kind": "construction",
+      "number": null,
+      "name": "Lindenbaum-Tarski algebra HA(L) of an intuitionistic propositional calculus",
+      "statement_summary": "Given an intuitionistic propositional calculus L \u2014 propositional formulas over a set of variables, closed under the connectives, with the six entailment rules and possibly some distinguished formulas as extra axioms \u2014 one constructs a Heyting algebra HA(L) whose elements are equivalence classes [p] of formulas under interderivability ([p] = [q] iff p entails q and q entails p, eq. (6.3)), ordered by [p] <= [q] iff p entails q (eq. (6.4)). The order is well defined on classes, and the operations are induced by the connectives: 1 = [top], 0 = [bottom], [p] meet [q] = [p and q], [p] join [q] = [p or q], [p] implies [q] = [p implies q]. These are well defined and satisfy the Heyting-algebra laws because the logical rules imply them. Key property: a formula p is provable in L exactly when [p] = 1.",
+      "book_section": "6.3",
+      "book_page": "141",
+      "pdf_pages": [
+        150,
+        151
+      ],
+      "cross_refs": [
+        "awodey:6.3:prop11",
+        "awodey:6.3:remark-ha-presentation-ump",
+        "awodey:6.3:remark-positive-fragment"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "awodey:6.3:prop11",
+      "kind": "proposition",
+      "number": "6.11",
+      "name": "completeness of IPC for Heyting-algebra models",
+      "statement_summary": "Intuitionistic propositional calculus is complete with respect to models in Heyting algebras: if a formula p is true (equal to the top element) in every Heyting algebra, then p is provable. Proof: apply the hypothesis to the Lindenbaum-Tarski algebra HA(L) of the calculus itself, where p = 1 forces top entails p, hence provability.",
+      "book_section": "6.3",
+      "book_page": "141",
+      "pdf_pages": [
+        150
+      ],
+      "cross_refs": [
+        "awodey:6.3:construction-lindenbaum-tarski",
+        "awodey:6.5:prop13"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.3:remark-ha-presentation-ump",
+      "kind": "remark",
+      "number": null,
+      "name": "HA(L) as a Heyting algebra presented by generators and relations (universal property)",
+      "statement_summary": "A particular calculus L is a presentation by generators (the propositional variables) and relations (the extra axioms) of the Heyting algebra HA(L), analogous to presented monoids, and HA(L) enjoys a corresponding universal mapping property. Worked illustration: if L has just two generators a, b and the single axiom 'a or b implies a and b', then in HA(L) the elements [a], [b] satisfy [a] join [b] <= [a] meet [b] (equivalently ([a] join [b]) implies ([a] meet [b]) = 1), and for ANY Heyting algebra A containing elements x, y with x join y <= x meet y there is a UNIQUE Heyting-algebra homomorphism h : HA(L) -> A with h([a]) = x and h([b]) = y.",
+      "book_section": "6.3",
+      "book_page": "142",
+      "pdf_pages": [
+        151
+      ],
+      "cross_refs": [
+        "awodey:6.3:construction-lindenbaum-tarski",
+        "awodey:6.5:prop-cl-universal-property"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:6.4:prop12",
+      "kind": "proposition",
+      "number": "6.12",
+      "name": "equational characterization of cartesian closed categories",
+      "statement_summary": "A category C is cartesian closed if and only if it carries the following operations-and-equations structure. (1) A distinguished object 1 together with, for every object C, an arrow !_C : C -> 1, such that every arrow f : C -> 1 equals !_C. (2) For every pair of objects A, B an object A x B with arrows p1 : A x B -> A and p2 : A x B -> B, and for every pair f : Z -> A, g : Z -> B an arrow <f,g> : Z -> A x B, satisfying p1 <f,g> = f, p2 <f,g> = g, and <p1 h, p2 h> = h for all h : Z -> A x B. (3) For every pair A, B an object B^A with an arrow epsilon : B^A x A -> B, and for every f : Z x A -> B a transpose f~ : Z -> B^A, satisfying epsilon o (f~ x 1_A) = f and (epsilon o (g x 1_A))~ = g for all g : Z -> B^A, where g x 1_A is defined as <g p1, p2>. Awodey states the proof is entirely routine and leaves it to the reader, and remarks that checking these equations is often easier than verifying the universal mapping properties directly.",
+      "book_section": "6.4",
+      "book_page": "142",
+      "pdf_pages": [
+        151,
+        152
+      ],
+      "cross_refs": [
+        "awodey:6.5:prop-category-of-types-ccc"
+      ],
+      "flags": [
+        "proof-omitted",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "awodey:6.5:def-typed-lambda-calculus",
+      "kind": "definition",
+      "number": null,
+      "name": "(typed) lambda-calculus: types, terms, equations",
+      "statement_summary": "Recalled from chapter 2. A typed lambda-calculus consists of: TYPES, built from basic types and closed under products A x B and function types A -> B; TERMS, namely variables x, y, z of each type, possibly some typed constants, and the formation rules <a,b> : A x B (for a : A, b : B), fst(c) : A and snd(c) : B (for c : A x B), application c a : B (for c : A -> B, a : A), and abstraction lambda x. b : A -> B (for x : A a variable and b : B); and EQUATIONS between terms, namely fst<a,b> = a, snd<a,b> = b, <fst(c), snd(c)> = c (surjective pairing), the beta rule (lambda x. b) a = b[a/x], and the eta rule lambda x. c x = c when x does not occur in c.",
+      "book_section": "6.5",
+      "book_page": "144",
+      "pdf_pages": [
+        153
+      ],
+      "cross_refs": [
+        "awodey:6.5:construction-category-of-types",
+        "awodey:6.5:def-lambda-theory"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "recalled-from-chapter-2"
+      ]
+    },
+    {
+      "id": "awodey:6.5:construction-category-of-types",
+      "kind": "construction",
+      "number": null,
+      "name": "category of types C(L) of a lambda-calculus",
+      "statement_summary": "For a lambda-calculus L, the category of types C(L) has: as objects, the types of L; as arrows A -> B, equivalence classes [c] of closed terms c : A -> B, where [a] = [b] iff the equation a = b is provable in L (eq. (6.5)); identity 1_A = [lambda x. x] with x : A; and composition c o b = lambda x. c (b x). Awodey recalls that this is a well-defined category with binary products (from the product types and pairing/projection terms) and notes that a terminal object is easily added.",
+      "book_section": "6.5",
+      "book_page": "144",
+      "pdf_pages": [
+        153,
+        154
+      ],
+      "cross_refs": [
+        "awodey:6.5:def-typed-lambda-calculus",
+        "awodey:6.5:prop-category-of-types-ccc"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "recalled-from-chapter-2",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "awodey:6.5:prop-category-of-types-ccc",
+      "kind": "proposition",
+      "number": null,
+      "name": "the category of types C(L) is cartesian closed",
+      "statement_summary": "The category of types C(L) of any lambda-calculus L is cartesian closed. Exponentials are given by the function types, B^A := A -> B; the evaluation arrow is epsilon = lambda z. fst(z) snd(z) : B^A x A -> B (z of the product type); and the transpose of f : Z x A -> B is f~ = lambda z lambda x. f<z,x> : Z -> B^A. Awodey verifies the two equations of the equational characterization (Proposition 6.12) \u2014 epsilon o (f~ x 1_A) = f and (epsilon o (g x 1_A))~ = g \u2014 by an explicit lambda-calculus computation using alpha x beta = lambda w. <alpha fst(w), beta snd(w)>, carrying out the first in full detail and stating that the second is analogous.",
+      "book_section": "6.5",
+      "book_page": "145",
+      "pdf_pages": [
+        154,
+        155
+      ],
+      "cross_refs": [
+        "awodey:6.4:prop12",
+        "awodey:6.5:construction-category-of-types"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "awodey:6.5:def-lambda-theory",
+      "kind": "definition",
+      "number": null,
+      "name": "theory in the lambda-calculus; C(L) as the CCC presented by L",
+      "statement_summary": "A THEORY in the lambda-calculus is a set of basic types and basic terms together with a set of equations between terms. For such a theory L, the cartesian closed category C(L) built from the lambda-calculus over L is asserted to be the cartesian closed category presented by the generators and relations stated by L \u2014 the CCC analogue of the presentation of a Heyting algebra by an intuitionistic propositional calculus.",
+      "book_section": "6.5",
+      "book_page": "146",
+      "pdf_pages": [
+        155
+      ],
+      "cross_refs": [
+        "awodey:6.5:construction-category-of-types",
+        "awodey:6.5:prop-cl-universal-property",
+        "awodey:6.3:remark-ha-presentation-ump"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "awodey:6.5:def-model-in-ccc",
+      "kind": "definition",
+      "number": null,
+      "name": "model of a lambda-theory in a cartesian closed category (denotational semantics)",
+      "statement_summary": "A model of a lambda-theory L in an arbitrary cartesian closed category C is an interpretation assigning to each basic type X an object [[X]] of C and to each basic term b : A -> B an arrow [[b]] : [[A]] -> [[B]], extended to all types and terms so that the lambda-calculus operations are carried to the corresponding CCC structure ([[A x B]] = [[A]] x [[B]], [[<f,g>]] = <[[f]],[[g]]>, and likewise for projections, application/evaluation and abstraction/transposition), and required to satisfy every equation of L: if L proves a = b for terms of type A -> B then [[a]] = [[b]] as arrows [[A]] -> [[B]] (eq. (6.6)). Awodey identifies this with denotational semantics \u2014 conventional set-theoretic semantics for equational theories, extended to higher types and generalized from Sets to arbitrary CCCs.",
+      "book_section": "6.5",
+      "book_page": "146",
+      "pdf_pages": [
+        155,
+        156
+      ],
+      "cross_refs": [
+        "awodey:6.5:def-lambda-theory",
+        "awodey:6.5:prop13",
+        "awodey:6.5:prop-cl-universal-property"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "awodey:6.5:example-monoid-theory",
+      "kind": "example",
+      "number": null,
+      "name": "the lambda-theory of monoids; its models are monoid objects",
+      "statement_summary": "Let L be the lambda-theory with one basic type X and two basic terms u : X and m : X x X -> X, subject to the usual unit and associativity equations m<u,x> = x, m<x,u> = x, m<x, m<y,z>> = m<m<x,y>, z>; this is exactly the usual equational theory of monoids. A model of L in a cartesian closed category C is then precisely a monoid object in C: an object M = [[X]] equipped with a point [[u]] : 1 -> M and a binary operation [[m]] : M x M -> M satisfying the unit and associativity laws.",
+      "book_section": "6.5",
+      "book_page": "146",
+      "pdf_pages": [
+        155,
+        156
+      ],
+      "cross_refs": [
+        "awodey:6.5:def-model-in-ccc"
+      ],
+      "flags": [
+        "unnumbered-example",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "awodey:6.5:prop13",
+      "kind": "proposition",
+      "number": "6.13",
+      "name": "CCC completeness theorem for the lambda-calculus",
+      "statement_summary": "For any theory L in the lambda-calculus and any terms a, b of L: L proves a = b if and only if for every model M of L in a cartesian closed category the interpretations agree, [[a]]_M = [[b]]_M. That is, the lambda-calculus is deductively complete for models in cartesian closed categories. The soundness direction is the definition of a model; completeness follows because, by (6.5) and (6.6), the generic model in C(L) satisfies [[a]] = [[b]] exactly when a = b is provable in L.",
+      "book_section": "6.5",
+      "book_page": "147",
+      "pdf_pages": [
+        156
+      ],
+      "cross_refs": [
+        "awodey:6.5:def-model-in-ccc",
+        "awodey:6.5:construction-category-of-types",
+        "awodey:6.3:prop11",
+        "awodey:6.5:remark-sets-incomplete"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6.5:remark-sets-incomplete",
+      "kind": "remark",
+      "number": null,
+      "name": "failure of completeness for models in Sets alone",
+      "statement_summary": "The completeness of Proposition 6.13 genuinely requires quantifying over models in all cartesian closed categories: it fails if one restricts to models in the single category Sets. There are many lambda-theories with equations that hold in every Sets-model yet are not provable; exercise 6 of the chapter (Dana Scott's reflexive-domain theory) supplies such an example.",
+      "book_section": "6.5",
+      "book_page": "147",
+      "pdf_pages": [
+        156
+      ],
+      "cross_refs": [
+        "awodey:6.5:prop13",
+        "awodey:6:ex6"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:6.5:prop-cl-universal-property",
+      "kind": "proposition",
+      "number": null,
+      "name": "universal mapping property of C(L) (free CCC on a lambda-theory)",
+      "statement_summary": "C(L) has the universal property of an algebra presented by generators and relations: given any model M of the theory L in any cartesian closed category C, there is a UNIQUE functor [[-]]_M : C(L) -> C preserving the cartesian closed structure and extending the model, i.e. with [[X]]_M = M on each basic type X and correspondingly on the other basic types and terms of L. In this precise sense L is a presentation of the cartesian closed category C(L) by generators and relations.",
+      "book_section": "6.5",
+      "book_page": "147",
+      "pdf_pages": [
+        156
+      ],
+      "cross_refs": [
+        "awodey:6.5:def-model-in-ccc",
+        "awodey:6.5:def-lambda-theory",
+        "awodey:6.3:remark-ha-presentation-ump"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:6.5:construction-internal-language",
+      "kind": "construction",
+      "number": null,
+      "name": "the lambda-theory L(C) of a cartesian closed category (internal language)",
+      "statement_summary": "Every cartesian closed category C gives rise to a lambda-theory L(C), essentially inverse to the passage from a theory to its category of types. It is defined by: BASIC TYPES = the objects of C; BASIC TERMS = one term a : A -> B for each arrow a : A -> B of C; EQUATIONS = those identifying the lambda-calculus operations with the categorical and cartesian closed structure of C, for instance lambda x. fst(x) = p1, lambda x. snd(x) = p2, lambda y. f(x,y) = f~(x) (abstraction is transposition), g(f(x)) = (g o f)(x) (application composes), and lambda y. y = 1_A.",
+      "book_section": "6.5",
+      "book_page": "147",
+      "pdf_pages": [
+        156,
+        157
+      ],
+      "cross_refs": [
+        "awodey:6.5:construction-category-of-types",
+        "awodey:6.5:prop-lambda-ccc-equivalence"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "awodey:6.5:prop-lambda-ccc-equivalence",
+      "kind": "proposition",
+      "number": null,
+      "name": "CCC / lambda-calculus correspondence: C(L(C)) is isomorphic to C",
+      "statement_summary": "The equations defining the lambda-theory L(C) of a cartesian closed category C suffice to give an ISOMORPHISM OF CATEGORIES C(L(C)) congruent to C (not merely an equivalence). Moreover, in the other direction, a theory L and the theory L(C(L)) obtained by going round the other way are 'equivalent' in a suitable sense, by considerations typical of comparing different presentations of algebras. Both claims are stated without proof, with the reader referred to Lambek and Scott; together they express that lambda-calculus and cartesian closed categories are essentially the same notion.",
+      "book_section": "6.5",
+      "book_page": "148",
+      "pdf_pages": [
+        157
+      ],
+      "cross_refs": [
+        "awodey:6.5:construction-internal-language",
+        "awodey:6.5:construction-category-of-types"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "stated-without-proof",
+        "second-half-stated-only-informally"
+      ]
+    },
+    {
+      "id": "awodey:6:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "exponential isomorphisms in a CCC",
+      "statement_summary": "Starred exercise. Show that for any three objects A, B, C of a cartesian closed category there are isomorphisms: (a) (A x B)^C congruent to A^C x B^C; (b) (A^B)^C congruent to A^(B x C).",
+      "book_section": "6.6",
+      "book_page": "149",
+      "pdf_pages": [
+        158
+      ],
+      "cross_refs": [
+        "awodey:6.3:remark-implication-distributes"
+      ],
+      "flags": [
+        "starred-exercise",
+        "has-lettered-parts"
+      ]
+    },
+    {
+      "id": "awodey:6:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "is the category of monoids cartesian closed?",
+      "statement_summary": "Decide (with justification) whether the category of monoids and monoid homomorphisms is cartesian closed.",
+      "book_section": "6.6",
+      "book_page": "149",
+      "pdf_pages": [
+        158
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:6:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "points of an exponential correspond to arrows",
+      "statement_summary": "Show that for any objects A, B of a cartesian closed category there is a bijective correspondence between the points of the exponential (arrows 1 -> B^A) and the arrows A -> B.",
+      "book_section": "6.6",
+      "book_page": "149",
+      "pdf_pages": [
+        158
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:6:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "omega-CPOs are cartesian closed; strict omega-CPOs are not",
+      "statement_summary": "Show that the category of omega-CPOs (with continuous maps) is cartesian closed, but that the category of STRICT omega-CPOs is not \u2014 where strict omega-CPOs are those with an initial/least element bottom and the continuous maps between them are required to preserve bottom.",
+      "book_section": "6.6",
+      "book_page": "149",
+      "pdf_pages": [
+        158
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:6:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "third positive IPC law in a cartesian closed poset",
+      "statement_summary": "Show that in any cartesian closed poset the third law of positive intuitionistic propositional calculus holds, in addition to the two derived in the text: (p implies (q implies r)) implies ((p implies q) implies (p implies r)).",
+      "book_section": "6.6",
+      "book_page": "149",
+      "pdf_pages": [
+        158
+      ],
+      "cross_refs": [
+        "awodey:6.3:remark-positive-ipc-axioms"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:6:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "Scott's reflexive domain theory has a unique, degenerate Sets-model",
+      "statement_summary": "In the lambda-calculus consider Dana Scott's theory of a REFLEXIVE DOMAIN: one basic type D, two constants s : (D -> D) -> D and r : D -> (D -> D), and the two equations s r x = x (for x : D) and r s y = y (for y : D -> D), i.e. D is isomorphic to its own function space. Prove that up to isomorphism this theory has exactly one model M in Sets, and that EVERY equation holds in M (so the Sets semantics is degenerate \u2014 the promised witness that Sets alone is not complete for the lambda-calculus).",
+      "book_section": "6.6",
+      "book_page": "149",
+      "pdf_pages": [
+        158
+      ],
+      "cross_refs": [
+        "awodey:6.5:remark-sets-incomplete",
+        "awodey:6.5:prop13"
+      ],
+      "flags": []
+    }
+  ]
+}

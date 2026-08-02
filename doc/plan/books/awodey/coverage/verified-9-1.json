@@ -1,0 +1,624 @@
+[
+ {
+  "id": "awodey:9.4:def-order-adjoint-galois",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Galois connection",
+   "GaloisConnection",
+   "monotone Galois connection",
+   "adjunction between preorders/posets",
+   "Proset / thin category / (0,1)-category",
+   "order-preserving (monotone) map pair",
+   "two-way rule / bicondition Fa <= x iff a <= Ux",
+   "antitone Galois connection (dual form)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Proset.v",
+    "line": 37,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => @reflexivity A R (@PreOrder_Reflexive A R P) x; compose := fun x y z f g => @transitivity A R (@PreOrder_Transitive A R P) x y z g f |}."
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 130,
+    "symbol": "Adjunction",
+    "intree_statement": "Class Adjunction@{o3 p3 so sh sp} := { adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |} {| carrier := @hom D x (U y); is_setoid := @homset D x (U y) |} where \"\u230a f \u230b\" := (to adj f) and \"\u2308 f \u2309\" := (from adj f); to_adj_nat_l ...; to_adj_nat_r ...; from_adj_nat_l ...; from_adj_nat_r ... }."
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 214,
+    "symbol": "unit / counit",
+    "intree_statement": "Definition unit {x : D} : x ~> U (F x) := \u230aid\u230b.  Definition counit {x : C} : F (U x) ~> x := \u2308id\u2309."
+   }
+  ],
+  "statement_record": {
+   "book": "A preordered set is a category with at most one arrow x -> y; an adjunction F -| U between preorders P, Q is exactly a pair of monotone maps satisfying the two-way rule Fa <= x iff a <= Ux (the hom-set iso degenerating to a bi-implication of propositions), i.e. a Galois connection; the unit at p is p <= UFp with UFp least among the Ux satisfying p <= Ux, dually FUq <= q with FUq greatest among the Fy <= q.",
+   "intree": "[Proset] turns any [PreOrder R] into a Category whose hom is R itself and whose hom-setoid is the trivial [equiv _ _ := True], so the category is thin (all parallel arrows equal, hom = mere proposition); [Adjunction] is the hom-setoid isomorphism (F x ~> y) \u224a (x ~> U y) with the four naturality fields, and [unit]/[counit] are \u230aid\u230b / \u2308id\u2309.",
+   "strength_comparison": "same for the two ingredients taken separately (preorder-as-thin-category, and adjunction as the hom-set bijection, which over a [Proset] IS Awodey's bicondition because both hom-setoids are subsingletons); intree-weaker in that the SPECIALIZATION is never taken: no in-tree constant instantiates [Adjunction] at a [Proset], and the least/greatest characterizations of the unit/counit are only available in their general form (the universal-arrow UMP), never restated in order-theoretic language."
+  },
+  "gap": "There is no in-tree notion of Galois connection: no `GaloisConnection` class or definition, no instantiation of [Adjunction] at [Proset]/[Poset], no lemma that an adjunction between thin categories reduces to the two-way rule `F a \u2264 x \u2194 a \u2264 U x` between monotone maps, and no order-theoretic restatement of the unit/counit universal properties (`U (F p)` least among the `U x` with `p \u2264 U x`, `F (U q)` greatest among the `F y` with `F y \u2264 q`). Every mention of 'Galois connection' in the tree (Instance/Poset.v:47,56; Theory/Adjunction.v:78; Adjunction/GAFT.v:136; Structure/Factorization.v:69; Instance/Adjoints.v:280) is prose in a header essay, not an assertion.",
+  "negative_search_log": [
+   "rg -n -i 'galois' --glob '*.v' . -- 16 hits, every one inside a comment block (Instance/Poset.v, Theory/Adjunction.v, Adjunction/GAFT.v, Structure/Factorization.v, Structure/Limit.v, Instance/Adjoints.v); no Definition/Class/Lemma",
+   "rg -n -i '\\bthin\\b' --glob '*.v' . -- hits are prose plus Instance/Two/Monoidal.v's local 'any two parallel morphisms of _2 are equal'; no general thin-category class",
+   "rg -li 'preorder|proset|poset' --glob '*.v' . -- Instance/Proset.v and Instance/Poset.v are the only constructions; Instance/Poset.v's `Definition Poset ... := Proset P` is a bare alias"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, same reasoning. Verified: Instance/Proset.v `Program Definition Proset` is at line 33 (record cites 37 \u2014 a 4-line drift into the same definition body); the quoted body is accurate word-for-word. Theory/Adjunction.v:130 `Class Adjunction@{o3 p3 so sh sp}` and Theory/Adjunction.v:214 `Definition unit {x : D} : x ~> U (F x) := \u230aid\u230b` are exact. Independently re-ran `rg -i galois -l -g'*.v'`: 6 files (Adjunction/GAFT.v, Structure/Factorization.v, Instance/Adjoints.v, Theory/Adjunction.v, Structure/Limit.v, Instance/Poset.v), every hit inside a comment \u2014 no Definition/Class/Lemma named Galois anywhere, confirming the gap. Also confirmed Instance/Poset.v:116 `Definition Poset ... := Proset P` is a bare alias adding only the antisymmetry argument, so the poset case inherits nothing extra. Instance/Proset.v and Instance/Poset.v are both registered in _CoqProject (lines 224, 222). One nuance worth carrying into Phase E: because `Proset`'s hom-setoid is `equiv _ _ := True`, an `Adjunction` between two Prosets is *definitionally* Awodey's bicondition (both hom-setoids are subsingletons and the four naturality fields are trivially inhabited), so the missing piece is genuinely only the instantiation and the order-theoretic restatement, not any mathematical content."
+  }
+ },
+ {
+  "id": "awodey:9.4:example11",
+  "classification": "ABSENT",
+  "aliases": [
+   "interior operator",
+   "closure operator",
+   "poset of open sets O(X)",
+   "topological space",
+   "frame / locale",
+   "inclusion of opens right adjoint",
+   "coreflective sub-preorder",
+   "Kuratowski closure"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n -i 'interior' --glob '*.v' . -- 2 hits, both unrelated prose (Test/ProbeFunnyPoly.v:19 'rigid interior [Set] level', Theory/Lawvere.v:90 metaphorical)",
+   "rg -n 'TopologicalSpace|Instance/Top|Definition Top\\b|Top :' --glob '*.v' . -- 0 hits; there is no category of topological spaces and no space-of-opens poset in the tree",
+   "rg -n -i 'topolog|open set|closure operator|frame|locale' --glob '*.v' . -- all hits are bibliographic prose (Theory/Sheaf.v on Grothendieck topologies, Structure/Limit.v, Theory/Category.v) or the unrelated `Frame` of Instance/Lambda/Full.v (evaluation contexts)",
+   "rg -n -i 'closure operator|Knaster|Tarski|fixed point' --glob '*.v' . -- no closure/interior operator development; Instance/Poset.v:65 mentions 'a monad is a closure operator' only in its header essay",
+   "rg -n 'Frame\\b|Locale' --glob '*.v' . -- only Instance/Lambda evaluation frames",
+   "ls Instance/ -- no Top, no Locale, no Frame instance directory"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-ran the decisive searches: `rg -i interior -g'*.v' .` returns exactly 2 hits, both unrelated prose (Test/ProbeFunnyPoly.v:19 'rigid interior [Set] level'; Theory/Lawvere.v:90 'telling as the interior'), matching the record. `ls -d Instance/*/` gives Cat, CMon, Cones, Coq, FinSet, Fun, Lambda, One, Sets, StrictCat, Two \u2014 no Top/Locale/Frame. `rg -i 'topolog' -g'*.v'` hits are bibliographic only (Lawvere-Tierney in Structure/Topos.v, Steenrod in Structure/Pullback.v, TQFT references). There is no poset of opens, no interior/closure operator, and no monad-as-closure-operator development (Instance/Poset.v:65 mentions it only in its header essay). ABSENT stands."
+  }
+ },
+ {
+  "id": "awodey:9.4:example12",
+  "classification": "PARTIAL",
+  "aliases": [
+   "direct image / inverse image adjunction",
+   "im(f) -| f^{-1} -| f_*",
+   "powerset functor P(A)",
+   "preimage / pullback of subsets",
+   "dual image / universal image f_*",
+   "subobject reindexing Sub(f)",
+   "existential and universal image along a map"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 180,
+    "symbol": "Sub",
+    "intree_statement": "Program Definition Sub : C^op \u27f6 Sets := {| fobj := fun x => {| carrier := SubObj x |}; fmap := fun x y (f : y ~{C}~> x) => {| morphism := sub_reindex f |} |}  (with sub_reindex f u the chosen pullback of the mono u along f, Theory/Subobject/Functor.v:35)."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 143,
+    "symbol": "sub_reindex_id / sub_reindex_comp",
+    "intree_statement": "Lemma sub_reindex_id {x : C} (u : SubObj x) : sub_reindex id u \u2248 u.  Lemma sub_reindex_comp {x y z : C} (g : y ~> x) (f : z ~> y) : sub_reindex (g \u2218 f) u \u2248 sub_reindex f (sub_reindex g u)."
+   },
+   {
+    "file": "Instance/Sets/Image.v",
+    "line": 143,
+    "symbol": "Sets_Image_Factorization",
+    "intree_statement": "Definition Sets_Image_Factorization : Factorization f EpiClass MonoClass := @Build_Factorization Sets X Y f EpiClass MonoClass Sets_Image Sets_Image_epi Sets_Image_mono ... (with Sets_Image := {\u2203 y : Y, \u2203 x : X, f x \u2248 y})."
+   }
+  ],
+  "statement_record": {
+   "book": "For f : A -> B the powerset operations form an adjoint triple im(f) -| f^{-1} -| f_*, where im(f)(U) subset V iff U subset f^{-1}(V) and f_*(U) = { b : f^{-1}(b) subset U }; restricted to opens along a continuous f the left adjoint may fail while f_* survives.",
+   "intree": "The middle leg exists in generalized form: [Sub : C^op \u27f6 Sets] is the contravariant subobject functor whose action on f is the chosen-pullback reindexing [sub_reindex f], with functoriality [sub_reindex_id] / [sub_reindex_comp]; and [Sets_Image_Factorization] realizes the image of a Sets map as the (Epi, Mono) factorization through the setoid of hit points.",
+   "strength_comparison": "intree-weaker: only the middle functor of the triple is present (as subobject reindexing rather than as a monotone map of powersets), and images exist only as an object-level epi-mono factorization of a single map, not as a monotone operation P(A) -> P(B). Neither adjunction is stated anywhere; the dual image f_* has no counterpart at all."
+  },
+  "gap": "Neither half of the adjoint triple is formalized. Missing: (i) the poset P(A) of subsets/subobjects presented as a preorder category (SubObj x is a setoid, never a category); (ii) the direct-image monotone map im(f) : Sub A -> Sub B and the bicondition im(f)(U) \u2264 V \u2194 U \u2264 f^{-1}(V); (iii) the dual image f_*(U) = { b : f^{-1}(b) \u2286 U } and the second adjunction f^{-1} -| f_*; (iv) the topological restriction (f^{-1} on opens keeps its right adjoint but loses its left one). Searches for direct_image / inverse_image / dual_image / exists_f / forall_f return zero hits.",
+  "negative_search_log": [
+   "rg -n 'image_adjunction|preimage_adjunction|direct_image|inverse_image|dual_image|forall_f|exists_f' --glob '*.v' . -- 0 hits",
+   "rg -n -i 'powerset|power set|direct image|inverse image|preimage|dual image|\\bPow\\b' --glob '*.v' . -- the only `Pow` is Structure/Topos.v:129 `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := \u03a9 ^ a`, a power OBJECT with no adjoints; 'preimage' hits are chosen fmap-preimages of full functors",
+   "rg -n -i 'quantifi|hyperdoctrine|base change|beck-chevalley' --glob '*.v' . -- prose only (Theory/Adjunction.v:75, Structure/Topos.v:38/85, Instance/Poset.v:70)",
+   "rg -n 'Sub |SubObj|Sub :' Structure/Topos.v -- only relations_iso : SubObj (a \u00d7 b) \u2245 (a ~> Pow b); no reindexing adjoints",
+   "[VERIFIER CORRECTION] The 'base change ... prose only' log line omits Construction/Slice/Pullback.v, which DEFINES Bang_Functor (\u03a3_f, line 50) and Star_Functor (f*, line 67); only the adjunction between them is unproved (commented stub, lines 121-122, stated backwards)."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed, though my blind pass had provisionally said ABSENT before I weighed the subobject functor; on inspection the record's reading is the better one. Verified evidence: Theory/Subobject/Functor.v:180 `Program Definition Sub : C^op \u27f6 Sets` is exact (fobj = SubObj setoid, fmap = sub_reindex (unop f)); Theory/Subobject/Functor.v:143 `Lemma sub_reindex_id` is exact. Instance/Sets/Image.v:143 `Definition Sets_Image_Factorization` is at the cited line, but the trimmed quote drops `Sets_Image_epi_epic` between `Sets_Image_epi` and `Sets_Image_mono` (the real argument list is Sets_Image, Sets_Image_epi, Sets_Image_epi_epic, Sets_Image_mono, Sets_Image_mono_monic, Sets_Image_comm); the '...' covers it and nothing load-bearing changes. All three files are in _CoqProject. NEAR-MISS THE RECORD DOES NOT MENTION: Construction/Slice/Pullback.v (registered, _CoqProject:69) defines `Bang_Functor f : C \u0338 a \u27f6 C \u0338 b` (post-composition, i.e. \u03a3_f = the categorified direct image, line 50) and `Star_Functor f` (pullback, i.e. f* = the categorified inverse image, line 67) \u2014 the slice-level counterpart of two thirds of Awodey's triple. That does NOT lift the classification: the adjunction \u03a3_f \u22a3 f* is only a COMMENTED-OUT stub (lines 121-122, and its statement there is written backwards as `Star_Functor f \u22a3 Bang_Functor f`), \u03a0_f is absent, and slices are not powersets. But Phase E should cite it, because it makes the gap 'prove the adjunction that is already sketched' rather than 'build everything'. The record's log line claiming base-change hits are 'prose plus the unrelated ColouredPROP colour base change' is therefore misleading (technically true of the grep HITS, which are comments, but it hides the two real functors in that file)."
+  }
+ },
+ {
+  "id": "awodey:9.4:example13",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Heyting algebra",
+   "bicartesian closed thin category",
+   "deduction theorem / currying adjunction",
+   "meet and join by universal property",
+   "Props / propositions ordered by entailment",
+   "intuitionistic propositional calculus",
+   "negation ~p = p => 0",
+   "Boolean algebra / double negation"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Props.v",
+    "line": 94,
+    "symbol": "Props_Closed",
+    "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }  -- instantiating Closed's field `exp_iso {x y z} : x \u00d7 y ~> z \u224a x ~> z^y` (Structure/Cartesian/Closed.v:47), i.e. r \u2227 p \u22a2 q iff r \u22a2 (p \u2192 q)."
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 136,
+    "symbol": "ump_products",
+    "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y \u00d7 z) : h \u2248 fork f g \u2194 (exl \u2218 h \u2248 f) * (exr \u2218 h \u2248 g)  -- the meet two-way rule; instantiated at conjunction by Props_Cartesian (Instance/Props.v:69, product_obj := and)."
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 80,
+    "symbol": "Props_Cocartesian",
+    "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }  -- the join rule p \u2228 q \u22a2 r iff (p \u22a2 r and q \u22a2 r), Cocartesian being Cartesian in Props^op so ump_products applies dually."
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 61,
+    "symbol": "Props_Initial",
+    "intree_statement": "Program Instance Props_Initial : @Initial Props := { terminal_obj := False; one := fun _ _ => False_rect _ _ }  -- 0 \u22a2 p for all p (with Props_Terminal at line 53 giving p \u22a2 1)."
+   }
+  ],
+  "statement_record": {
+   "book": "In a preorder all propositional structure is given by adjoint two-way rules: meets (r <= p/\\q iff r<=p and r<=q), joins (p\\/q<=r iff p<=r and q<=r), Heyting implication as an exponential (p/\\q<=r iff p<=q=>r), and 0 <= p <= 1; hence Heyting algebra is formulable entirely by adjoints, and these adjoint rules of inference form a complete sequent calculus for intuitionistic propositional logic. Negation ~p := (p => 0) yields contraposition (from q |- ~p infer p |- ~q); adding ~~p |- p gives classical logic.",
+   "intree": "[Props] is the thin category of Prop with hom := Basics.impl and the trivial hom-setoid, carrying [Props_Terminal] (True), [Props_Initial] (False), [Props_Cartesian] (and), [Props_Cocartesian] (or) and [Props_Closed] (impl); the exponential UMP is the field `exp_iso {x y z} : x \u00d7 y ~> z \u224a x ~> z^y` and the product UMP the biconditional [ump_products].",
+   "strength_comparison": "same for the four adjoint rules \u2014 the in-tree UMPs are proof-relevant biconditionals/isos that degenerate exactly to Awodey's bi-implications in a thin category, and Props instantiates all of them; intree-weaker in that there is no abstract HeytingAlgebra notion, negation/contraposition/classical extension are not developed, and the metatheoretic completeness claim about the sequent calculus has no counterpart."
+  },
+  "gap": "Missing: (i) any named `Heyting algebra` / `Heyting prealgebra` structure (the header of Instance/Props.v calls Props one, but only the five separate class instances are asserted); (ii) negation \u00acp := (p \u21d2 0) as a derived operation, the contraposition rule (from q \u22a2 \u00acp infer p \u22a2 \u00acq), and the classical extension \u00ac\u00acp \u22a2 p (grep for negation/complement/double negation/excluded middle finds no such development); (iii) the statement that the adjoint rules constitute a complete deduction system for intuitionistic propositional logic \u2014 no proof system, no soundness/completeness theorem in the tree.",
+  "negative_search_log": [
+   "rg -n -i 'Heyting' --glob '*.v' . -- only the header comments of Instance/Props.v and Structure/Topos.v",
+   "rg -n -i 'negation|complement|Boolean algebra|excluded middle|double negation|contraposition' --glob '*.v' . -- hits are Structure/Additive.v's additive-group negation [pneg] and prose; no logical negation object",
+   "rg -n -i 'sequent|deduction theorem|first-order|predicate logic' --glob '*.v' . -- no proof calculus in the tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently with the same evidence file. Verified: Instance/Props.v:94 `Program Instance Props_Closed : @Closed Props _` exact; Instance/Props.v:80 `Props_Cocartesian` exact; Instance/Props.v:61 `Props_Initial` exact (and Props_Terminal at 53 as claimed); Structure/Cartesian.v:136 `ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y \u00d7 z) : h \u2248 fork f g \u2194 (exl \u2218 h \u2248 f) * (exr \u2218 h \u2248 g)` exact. One line-number drift: the record parenthetically cites Structure/Cartesian/Closed.v:47 for the field `exp_iso`; the field is at line 51 (line 47 is the opening of the comment that introduces it, which does read 'The product-exponential adjunction (- \u00d7 y) \u22a3 (- ^ y)'). Not material. Checked the `Closed` ambiguity flagged in CLAUDE.md \u2014 Instance/Props.v imports Category.Structure.Cartesian.Closed, i.e. the LIVE cartesian-closed class, not the Eilenberg-Kelly stub in Structure/Closed.v, so the evidence is sound. Independently confirmed the gap: `rg -i heyting -l -g'*.v'` yields only Structure/Topos.v, Instance/Props.v, Instance/Two.v, Theory/Lawvere.v, Theory/Sheaf.v, all header prose \u2014 no HeytingAlgebra class, no \u00acp := p \u21d2 0, no contraposition, no \u00ac\u00acp \u22a2 p, no proof calculus."
+  }
+ },
+ {
+  "id": "awodey:9.5:construction-quantifiers-adjoints",
+  "classification": "ABSENT",
+  "aliases": [
+   "quantifiers as adjoints",
+   "exists -| substitution -| forall",
+   "Lawvere hyperdoctrine",
+   "weakening / dummy variable functor",
+   "Form(x-bar) preorder of formulas under entailment",
+   "universal introduction/elimination as a two-way rule",
+   "dependent sum -| pullback -| dependent product"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n -i 'quantifi|hyperdoctrine' --glob '*.v' . -- every hit is prose: Theory/Adjunction.v:75-77 ('the quantifiers form the adjoint triple \u2203 \u22a3 substitution \u22a3 \u2200 over the fibres of a hyperdoctrine'), Instance/Poset.v:70-71, Structure/Topos.v:38/85; no Definition/Class/Lemma",
+   "rg -n 'exists_adjoint|forall_adjoint|Exists \u22a3|\u22a3 Forall' --glob '*.v' . -- 0 hits",
+   "rg -n -i 'weakening' --glob '*.v' . -- only Instance/Lambda/Ren.v de Bruijn weakening of terms (no entailment preorder, no adjoint)",
+   "rg -n -i 'first-order|predicate logic|sequent|formula' --glob '*.v' . -- Lib/MapDecide.v's reflective `formula` for finite maps is the only `formula`; no first-order language, no Form(x-bar) preorder",
+   "rg -n -i 'base change|beck-chevalley|dependent sum|dependent product' --glob '*.v' . -- prose plus the unrelated ColouredPROP colour base change",
+   "rg -n -i 'adjoint triple|adjoint string' --glob '*.v' . -- 6 hits, all comments"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-verified every strand: `rg -i 'quantifi|hyperdoctrine' -g'*.v'` returns only header prose (Theory/Adjunction.v:75-77 'the quantifiers form the adjoint triple \u2203 \u22a3 substitution \u22a3 \u2200 over the fibres of a hyperdoctrine', Instance/Poset.v:70, Structure/Topos.v:38/85, Construction/Slice.v:~30, Structure/Pullback.v:~104) \u2014 not one Definition/Class/Lemma. There is no first-order syntax layer anywhere: no language, no Form(x-bar), no entailment preorder, no dummy-variable functor. Instance/Lambda is a typed lambda calculus (Ren.v's 'weakening' is de Bruijn renaming of terms, unrelated). ABSENT stands. Note for Phase E: the SLICE-level \u03a3_f/f* functors of Construction/Slice/Pullback.v are the semantic shadow of this item but carry no logical syntax, so they belong to the 9.5-geometric item, not this one."
+  }
+ },
+ {
+  "id": "awodey:9.5:construction-geometric-quantifiers",
+  "classification": "ABSENT",
+  "aliases": [
+   "quantifiers as image and dual image along a projection",
+   "extension of a formula [phi]^M",
+   "pullback along a projection pi^{-1}",
+   "im(pi) -| pi^{-1} -| pi_*",
+   "Tarski semantics / satisfaction",
+   "L-structure model",
+   "geometric reading of exists and forall"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n -i 'quantifi|hyperdoctrine' --glob '*.v' . -- prose only (see the 9.5 quantifier item)",
+   "rg -n 'direct_image|inverse_image|dual_image|image_adjunction|preimage_adjunction' --glob '*.v' . -- 0 hits",
+   "rg -n -i 'satisfaction|L-structure|semantics|interpretation of a formula|extension of a formula' --glob '*.v' . -- no model-theoretic layer; Instance/Lambda is a typed lambda calculus with an operational/CCC semantics, not first-order model theory",
+   "rg -n -i 'powerset|power set' --glob '*.v' . -- no powerset poset (Structure/Topos.v's Pow is the internal power object with no adjoints)",
+   "rg -n 'Projection|exl|exr' as candidate pi -- the projections exist (Structure/Cartesian.v) but nothing pulls back or pushes forward subsets along them",
+   "[VERIFIER CORRECTION] Construction/Slice/Pullback.v (registered, _CoqProject:69) is the nearest in-tree relative and is not listed above: Bang_Functor (\u03a3_f, line 50) and Star_Functor (f*, line 67) exist as functors; the adjunction between them is a commented-out stub (lines 121-122, stated backwards) and \u03a0_f is absent."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed; my blind pass agreed after weighing the one near-miss. The item is the model-theoretic reading (extensions [phi]^M as subsets of M^n, \u2203 = im(\u03c0), * = \u03c0^{-1}, \u2200 = \u03c0_*), and the tree has no model theory, no satisfaction relation, and no powerset poset \u2014 verified independently. NEAR-MISS THE RECORD MISSES: Construction/Slice/Pullback.v (registered) defines `Bang_Functor` (\u03a3_f, post-composition \u2014 the categorified direct image, line 50) and `Star_Functor` (f*, pullback \u2014 the categorified inverse image, line 67), and its header at lines 29-40 spells out \u03a3_f \u22a3 f* \u22a3 \u03a0_f verbatim. This does not make the item PARTIAL: the adjunction is only a commented-out stub (lines 121-122, written backwards as `Star_Functor f \u22a3 Bang_Functor f`), \u03a0_f does not exist even as a stub, the operations act on slices rather than on subsets/subobjects, and \u2014 decisively \u2014 the item's whole content is the IDENTIFICATION of these operations with logical quantifiers, for which there is no logic in-tree. Phase E should nevertheless cite Construction/Slice/Pullback.v as the natural landing site. The record's log line 'no powerset poset (Structure/Topos.v's Pow is the internal power object with no adjoints)' is accurate \u2014 I re-checked Structure/Topos.v:129."
+  }
+ },
+ {
+  "id": "awodey:9.6:remark-adjoint-strings",
+  "classification": "ABSENT",
+  "aliases": [
+   "adjoint string / adjoint triple / adjoint quadruple",
+   "V -| F -| U -| R between Cat and Sets",
+   "objects functor Ob : Cat -> Sets",
+   "discrete category functor Sets -> Cat",
+   "indiscrete / codiscrete category functor",
+   "connected components functor pi_0",
+   "composable chain of adjunctions"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n -i 'adjoint triple|adjoint string|string of adjoints|triple of adjoints' --glob '*.v' . -- 6 hits, EVERY one a comment: Comonad/Coalgebra.v:97, Theory/Adjunction.v:75, Construction/Arrow.v:61-62 ('cod \u22a3 ids \u22a3 dom (nLab, adjoint string)'), Instance/Poset.v:70, Structure/Pullback.v:127. Construction/Arrow.v itself contains only `Definition Arrow := (Id[C] \u2193 Id[C])`, no adjunctions",
+   "rg -n '\u27f6 Sets|Sets \u27f6' --glob '*.v' . -- no `Cat \u27f6 Sets` and no `Sets \u27f6 Cat`; the only forgetful functors to Sets are CMon_Forget (Instance/CMon.v:169) and Theory/Lawvere/Sets.v's ev1",
+   "rg -n 'Ob_Functor|Objects_Functor|ObjFunctor|Cat_Forget' --glob '*.v' . -- 0 hits",
+   "rg -n -i 'indiscrete|chaotic|codiscrete|connected component|pi_0' --glob '*.v' . -- comments only; Structure/Discrete.v:23-24 says in prose 'a discrete category is the image of a set under the left adjoint Set \u27f6 Cat; the dual (codiscrete/indiscrete) construction is the further right adjoint', but Instance/Discrete.v provides only DiscreteCat (a Category, not a functor from Sets) and DiscreteCat_Functor (out of a discrete category)",
+   "rg -n 'Forgetful' Construction/Free/Quiver.v -- the only free/forgetful adjunction over Cat-like objects is FreeCatFunctor \u22a3 Forgetful : StrictCat \u27f6 QuiverCategory (line 550), a single adjunction, not a string, and quivers are not Sets",
+   "Note: Adjunction/Compose.v's Adjunction_Compose composes adjunctions in series (F' \u25ef F \u22a3 U \u25ef U'), which is a different operation from a string of successive adjoints"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-verified the two decisive negatives: (i) there is no objects functor and no discrete/indiscrete functor \u2014 `rg 'Cat \u27f6 Sets|Sets \u27f6 Cat'` is empty; Instance/Discrete.v provides `DiscreteCat (A : Type) : Category` (a Category-valued function, line 37) and `DiscreteCat_Functor` (a functor OUT of a discrete category, line 52), and its own comment at line 31 concedes this is 'the left adjoint `Set \u27f6 Cat` at the level of a single witness', i.e. object-level only; Structure/Discrete.v:23-24 likewise only describes the codiscrete right adjoint in prose. (ii) `rg -i 'adjoint triple|adjoint string'` gives 6 hits, all comments \u2014 I opened Construction/Arrow.v:61-62 ('cod \u22a3 ids \u22a3 dom (nLab, adjoint string)') and confirmed the file contains no adjunction at all, only `Arrow := (Id[C] \u2193 Id[C])`. Adjunction/Compose.v's `Adjunction_Compose : (F' \u25ef F) \u22a3 (U \u25ef U')` (line 173) is series composition, a different operation, exactly as the record notes. ABSENT stands."
+  }
+ },
+ {
+  "id": "awodey:9.6:prop14",
+  "classification": "PRESENT",
+  "aliases": [
+   "RAPL",
+   "right adjoints preserve limits",
+   "LAPC / left adjoints preserve colimits",
+   "continuity of right adjoints",
+   "adjoint continuity",
+   "U(lim D) \u2245 lim (U D)",
+   "PreservesLimit / PreservesAllLimits"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 202,
+    "symbol": "right_adjoint_preserves_limits",
+    "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G.  (Section context: Context {C D : Category} {F : D \u27f6 C} {U : C \u27f6 D} (A : F \u22a3 U); PreservesAllLimits U := \u2200 J (G : J \u27f6 C), PreservesLimit G U.)"
+   },
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 223,
+    "symbol": "left_adjoint_preserves_colimits",
+    "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D \u27f6 C} {U : C \u27f6 D} (A : F \u22a3 U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G.  (Derived by duality through Opposite_Adjunction.)"
+   },
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 183,
+    "symbol": "rapl_is_alimit",
+    "intree_statement": "Definition rapl_is_alimit : IsALimit (U \u25ef G) (U L) := @Build_IsALimit J D (U \u25ef G) (U L) rapl_acone rapl_ump.  (For L : Limit G, the image cone has legs fmap[U] (limit_leg ...) and the mediator is \u230a limit_med (limit_is_alimit L) (rapl_transposed_cone N) \u230b, unique by rapl_med_unique.)"
+   }
+  ],
+  "statement_record": {
+   "book": "Right adjoints preserve limits: for F -| U and a diagram D : J -> D with a limit, U(lim D_j) \u2245 lim(U D_j), proved by the chain Hom(X, U lim D) \u2245 Hom(FX, lim D) \u2245 lim Hom(FX, D_j) \u2245 lim Hom(X, U D_j) \u2245 Hom(X, lim U D_j) natural in X plus Yoneda; dually left adjoints preserve colimits. Unwound concretely for binary products by adjoint transposition.",
+   "intree": "For A : F \u22a3 U and any diagram G : J \u27f6 C with a limit L, [rapl_is_alimit] shows U L is a limit apex of U \u25ef G with the image cone as its cone, packaged as [right_adjoint_preserves_limit]/[right_adjoint_preserves_limits] : PreservesAllLimits U; [left_adjoint_preserves_colimits] : PreservesAllColimits F is the dual, obtained by instantiating RAPL at Opposite_Adjunction.",
+   "strength_comparison": "intree-stronger: the in-tree proof is cone-level and apex-pinned rather than an abstract iso \u2014 it exhibits U L as an actual limit apex of U \u25ef G with the legs fmap[U] (limit_leg L x), and proves the mediator's existence and uniqueness directly ([rapl_med_commutes], [rapl_med_unique]) instead of routing through Yoneda; the book's concluding iso U(lim D) \u2245 lim(U D) follows from uniqueness of limits. Both halves (RAPL and LAPC) are proved, matching the book's 'and dually'."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed; my blind pass reached the same file and constants before reading the record. All three citations are exact at the cited lines: Adjunction/Continuity.v:183 `rapl_is_alimit : IsALimit (U \u25ef G) (U L)`, :202 `right_adjoint_preserves_limits : PreservesAllLimits U`, :223 `left_adjoint_preserves_colimits ... : PreservesAllColimits F` (derived through Opposite_Adjunction). File is registered (_CoqProject:5). I stress-tested the strength_comparison for the 'same-name-weaker-statement' failure mode, because CLAUDE.md itself records that the in-tree `PreservesLimit` is apex-only with unconstrained legs: Structure/Limit/Preservation.v:48 is indeed `Class PreservesLimit `(G)`(F) := { preserves_limit (L : Limit G) : IsALimit (F \u25ef G) (F L) }`, which forgets WHICH cone. The record survives this because it also cites `rapl_is_alimit`, which is built from `rapl_acone` whose legs are literally `fmap[U] (limit_leg (limit_is_alimit L) x)` (Continuity.v:91-103) \u2014 the image cone. STRONGER EVIDENCE THE RECORD MISSES: Construction/Comma/Limit.v:264 `Definition right_adjoint_PreservesImageLimit {C D} {F : D \u27f6 C} {U : C \u27f6 D} (A : F \u22a3 U) : @PreservesImageLimit C D U := fun J G L N => rapl_ump A G L N` proves every right adjoint satisfies the honest cone-level preservation predicate (Comma/Limit.v:110), which is strictly stronger than PreservesAllLimits and is the form GAFT actually consumes. Phase E has no issue to file here, but that constant should be in the ledger note. The 'intree-stronger' verdict is honest."
+  }
+ },
+ {
+  "id": "awodey:9.6:remark-rapl-distributivity",
+  "classification": "PARTIAL",
+  "aliases": [
+   "distributivity from LAPC",
+   "(colim X_i) \u00d7 A \u2245 colim (X_i \u00d7 A)",
+   "products distribute over coproducts",
+   "BiCCC is distributive",
+   "p => (a /\\ b) = (p=>a) /\\ (p=>b)",
+   "forall preserves meets / exists preserves joins",
+   "exists is not a right adjoint"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/BiCCC.v",
+    "line": 257,
+    "symbol": "BiCCC_Distributive",
+    "intree_statement": "Program Instance BiCCC_Distributive {C : Category} `{@Cartesian C} `{@Cocartesian C} `{@Closed C _} `{@Initial C} : @Distributive C _ _ _.  (Distributive's fields are distr_prod_coprod {x y z} : x \u00d7 (y + z) \u2245 x \u00d7 y + x \u00d7 z and distr_zero {x} : x \u00d7 0 \u2245 0, Structure/Distributive.v:44-48.)"
+   },
+   {
+    "file": "Structure/BiCCC.v",
+    "line": 90,
+    "symbol": "prod_coprod_r",
+    "intree_statement": "#[export] Program Instance prod_coprod_r {x y z : C} : x \u00d7 (y + z) \u2245 x \u00d7 y + x \u00d7 z := { to := uncurry (curry (inl \u2218 swap) \u25bd curry (inr \u2218 swap)) \u2218 swap; from := ... }  -- the binary case of 'x \u00d7 \u2212 preserves colimits because it is a left adjoint'."
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 310,
+    "symbol": "exp_prod_r",
+    "intree_statement": "#[export] Program Instance exp_prod_r {x y z : C} : (y \u00d7 z)^x \u2245 y^x \u00d7 z^x := { to := curry (exl \u2218 eval) \u25b3 curry (exr \u2218 eval); from := curry (uncurry exl \u25b3 uncurry exr) }  -- the Heyting law p \u21d2 (a \u2227 b) \u22a3\u22a2 (p \u21d2 a) \u2227 (p \u21d2 b) (a right adjoint preserving binary products)."
+   }
+  ],
+  "statement_record": {
+   "book": "Since \u2212 \u00d7 A is a left adjoint (to (\u2212)^A) it preserves colimits, giving (colim_i X_i) \u00d7 A \u2245 colim_i (X_i \u00d7 A) \u2014 the law needed for exponentials in Sets^{C^op}. In any Heyting algebra this specializes to p => (a /\\ b) -||- (p=>a) /\\ (p=>b) and (a \\/ b) /\\ p -||- (a/\\p) \\/ (b/\\p); for quantifiers, forall preserves meets and exists preserves joins. Contrapositively, exists cannot be a right adjoint and forall cannot be a left adjoint.",
+   "intree": "[BiCCC_Distributive] derives Distributive (x \u00d7 (y + z) \u2245 x \u00d7 y + x \u00d7 z and x \u00d7 0 \u2245 0) from Cartesian + Cocartesian + Closed + Initial \u2014 exactly the book's reasoning ('because the category is closed, each functor _ \u00d7 x has a right adjoint _ ^ x, hence preserves all colimits', BiCCC.v header); [exp_prod_r] gives (y \u00d7 z)^x \u2245 y^x \u00d7 z^x. Instance/Props.v supplies all four structures on the thin category of propositions, so both Heyting laws hold there by instantiation.",
+   "strength_comparison": "intree-weaker: the derivations are stated only for FINITE (co)products \u2014 binary coproduct and initial object, binary product on the exponential side \u2014 not for an arbitrary colimit. The general law (colim_i X_i) \u00d7 A \u2245 colim_i (X_i \u00d7 A) is NOT derivable in-tree from Adjunction/Continuity.v's [left_adjoint_preserves_colimits] because the product-exponential adjunction is never packaged as an [Adjunction] object: Structure/Cartesian/Closed.v carries only the hom-setoid iso `exp_iso` plus a header remark that it 'expresses (\u2212 \u00d7 y) \u22a3 (\u2212 ^ y)'."
+  },
+  "gap": "Three of the remark's four strands are missing. (1) The general colimit-indexed distributivity (colim_i X_i) \u00d7 A \u2245 colim_i (X_i \u00d7 A): no in-tree constant builds `(\u2212 \u00d7 y) \u22a3 (\u2212 ^ y)` as an `Adjunction`, so LAPC (Adjunction/Continuity.v:223) is never applied to the CCC adjunction; only the binary/nullary cases are proved, and directly. (2) The presheaf payoff \u2014 the distributivity law being what gives Sets^{C^op} exponentials \u2014 has no counterpart (no presheaf exponentials in the tree). (3) The quantifier laws \u2200x(\u03c6\u2227\u03c8) \u22a3\u22a2 \u2200x\u03c6 \u2227 \u2200x\u03c8 and \u2203x(\u03c6\u2228\u03c8) \u22a3\u22a2 \u2203x\u03c6 \u2228 \u2203x\u03c8, and the contrapositive non-existence arguments ('\u2203 is not a right adjoint', '\u2200 is not a left adjoint'), are entirely absent \u2014 quantifiers as adjoints are not formalized at all.",
+  "negative_search_log": [
+   "rg -n '\u22a3' Structure/Cartesian/Closed.v Instance/Coq.v Instance/Sets/Cartesian/Closed.v -- every occurrence is inside a comment; no `Adjunction` instance for (\u2212 \u00d7 y) \u22a3 (\u2212 ^ y)",
+   "rg -n -i 'preserves.*coproduct|preserves.*colimit' --glob '*.v' . -- no corollary specializing left_adjoint_preserves_colimits to binary coproducts or arbitrary indexed colimits",
+   "rg -n -i 'quantifi' --glob '*.v' . -- prose only, so no quantifier distributivity"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently with the same two isos. Verified: Structure/BiCCC.v:90 `#[export] Program Instance prod_coprod_r {x y z : C} : x \u00d7 (y + z) \u2245 x \u00d7 y + x \u00d7 z` exact (with the header comment at 91-93 giving precisely Awodey's reason, 'x \u00d7 _ preserves the coproduct y + z'); Structure/BiCCC.v:257 `BiCCC_Distributive` exact; Structure/Cartesian/Closed.v:310 `exp_prod_r : (y \u00d7 z)^x \u2245 y^x \u00d7 z^x` exact. Independently confirmed the load-bearing negative: I searched every `\u22a3` occurrence under Adjunction/ and Functor/ and there is NO in-tree `Adjunction` object for (\u2212 \u00d7 y) \u22a3 (\u2212 ^ y) \u2014 Structure/Cartesian/Closed.v carries only the hom-setoid iso `exp_iso {x y z} : x \u00d7 y ~> z \u224a x ~> z^y` (line 51) with the adjunction named only in the comment at line 47, and the only Cartesian-flavoured adjunction in the tree is Adjunction/Diagonal/Product.v:36 `Diagonal_Product_Adjunction` (\u0394 \u22a3 \u00d7), which is a different adjunction. So `left_adjoint_preserves_colimits` genuinely cannot be applied to get the general colimit law, and the record's gap (1) is exactly right. Gaps (2) and (3) likewise re-verified. Worth adding for Phase E: because Instance/Props.v instantiates Cartesian + Cocartesian + Closed + Initial, the two propositional laws Awodey states DO hold in-tree at the Heyting instance by resolution (distr_prod_coprod and exp_prod_r at Props), which is the strongest form of the item that currently exists."
+  }
+ },
+ {
+  "id": "awodey:9.6:remark-adjoint-existence-tests",
+  "classification": "ABSENT",
+  "aliases": [
+   "RAPL as an existence test",
+   "functor has no adjoint since it fails to preserve limits",
+   "forgetful functor Pos -> Sets",
+   "category of posets Pos",
+   "limits computed on underlying sets",
+   "free monoid functor F(A) + F(B) \u2245 F(A + B)",
+   "left adjoint preserves binary coproducts"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n -i '\\bPos\\b|category of posets|forgetful.*Pos' --glob '*.v' . -- there is no category Pos/Ord of posets and monotone maps; Instance/Poset.v builds only the category OF a single poset, and its header (line 21) explicitly says 'See also [Pos], the category of posets' as an aspiration, not a construction",
+   "rg -n -i 'Free.*Monoid|FreeMonoid|free monoid' --glob '*.v' . -- no free-monoid functor and no Mon category; Structure/Monoid.v defines monoid OBJECTS internal to a monoidal category, Instance/CMon.v gives commutative monoids with only CMon_Forget : CMon \u27f6 Sets (line 169) and no left adjoint",
+   "rg -n -i 'preserves.*coproduct|F(A + B)|coproduct of free' --glob '*.v' . -- no statement of the form L (a + b) \u2245 L a + L b for a left adjoint",
+   "rg -n 'no left adjoint|has no adjoint|cannot be a right adjoint|fails to preserve' --glob '*.v' . -- 0 hits; RAPL is never used in-tree in the negative direction",
+   "rg -n 'Forgetful' Construction/Free/Quiver.v -- the one free/forgetful adjunction in-tree is FreeCatFunctor \u22a3 Forgetful : StrictCat \u27f6 QuiverCategory (FreeForgetfulAdjunction, line 550); no preservation consequence is drawn from it",
+   "Note: the general tool the remark relies on IS in-tree (right_adjoint_preserves_limits / left_adjoint_preserves_colimits, Adjunction/Continuity.v:202/223) but that is item awodey:9.6:prop14; neither of this remark's two concrete instances, nor any application of the test, exists"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT (I had briefly considered PARTIAL on the strength of left_adjoint_preserves_colimits, but that general tool is item awodey:9.6:prop14, and the record says so explicitly in its final log line \u2014 correct scoping). Re-verified both concrete instances: (i) no category Pos \u2014 `rg '\\bPos\\b' -g'*.v'` hits only Lib/MapDecide.v's stdlib `Pos.eqb_eq` positive-number lemmas plus the prose at Instance/Poset.v:21; (ii) no free monoid \u2014 Theory/Algebra/Monoid/Hom.v:93 has `Mon_Forget : Mon \u27f6 C` with no left adjoint, Instance/CMon.v:169 has `CMon_Forget : CMon \u27f6 Sets` with no left adjoint, and the tree's only free/forgetful adjunction is Construction/Free/Quiver.v:550 `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful` over StrictCat/Quiv, from which no preservation consequence is drawn. `rg 'no left adjoint|has no adjoint|cannot be a right adjoint'` is empty: RAPL is never used in the negative direction in-tree. ABSENT stands. (Small correction to the record's phrasing: it attributes internal monoid objects to 'Structure/Monoid.v'; both Structure/Monoid.v and Theory/Algebra/Monoid.v exist and the Mon category with its forgetful functor is in Theory/Algebra/Monoid/Hom.v:83/93. Immaterial to the verdict.)"
+  }
+ },
+ {
+  "id": "awodey:9.6:example15",
+  "classification": "PARTIAL",
+  "aliases": [
+   "presheaf",
+   "category of presheaves Sets^{C^op}",
+   "C-hat",
+   "free cocompletion",
+   "presheaf topos",
+   "functor category into Sets",
+   "cocomplete presheaf category"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Hom/Yoneda.v",
+    "line": 133,
+    "symbol": "Yoneda_Lemma",
+    "intree_statement": "#[export] Program Instance Yoneda_Lemma `(C : Category) `(F : C^op \u27f6 Sets) : \u2200 A : C, Presheaves [Hom \u2500,A] F \u2245 F A := { to := {| morphism := fun x => transform[x] A id |}; from := ... }  -- an assertion inside the presheaf category Presheaves = [C^op, Sets]."
+   },
+   {
+    "file": "Instance/Fun/Cartesian.v",
+    "line": 111,
+    "symbol": "Functor_Category_Cartesian",
+    "intree_statement": "#[export] Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).  (Products in a functor category are computed pointwise: fobj := fun c => fobj[F] c \u00d7 fobj[G] c.)"
+   }
+  ],
+  "statement_record": {
+   "book": "For small C, a presheaf is a functor P : C^op -> Sets and Sets^{C^op} (written C-hat) is the category of presheaves; this category is cocomplete and is the free cocompletion of C, the universal property being made precise in Proposition 9.16.",
+   "intree": "[Presheaves {U C} := [U^op, C]] (Theory/Sheaf.v:127) names the presheaf category, and it is a working object of the tree: [Yoneda_Lemma] and [Yoneda_Embedding] are stated in it, [Theory/Sheaf/Category.v] carves Sheaves out of it as a full subcategory, and [Functor_Category_Cartesian] gives it pointwise binary products.",
+   "strength_comparison": "intree-weaker: only the DEFINITION and ambient use of the presheaf category are present. Neither of the example's two assertions \u2014 that Sets^{C^op} is cocomplete, and that it is the free cocompletion of C \u2014 is stated anywhere; and what pointwise structure IS proved for functor categories is on the LIMIT side (Cartesian), not the colimit side the example needs."
+  },
+  "gap": "The two substantive claims are unformalized. (i) Cocompleteness: [Cocomplete] is only a definition (Structure/Complete.v:119) with no instance anywhere in the tree \u2014 neither Sets nor any functor category is shown complete or cocomplete, and Instance/Fun.v contains no Limit/Colimit constants at all. (ii) Free cocompletion: no universal property of the presheaf construction, no cocontinuous-extension functor. Note also that `Definition Presheaves {U C : Category} := [U^op, C]` is a bare naming alias and is deliberately not cited as evidence.",
+  "negative_search_log": [
+   "rg -n 'Cocomplete|Complete' --glob '*.v' . | grep -i 'Instance|Definition|Lemma|Theorem' -- only Structure/Complete.v's two definitions and consumers that take them as HYPOTHESES (Adjunction/SAFT.v, Adjunction/GAFT.v, Construction/Comma/Limit.v, Theory/Adamek/Corollaries.v); no witness",
+   "rg -n 'Cocomplete|Complete|Limit|Colimit' Instance/Fun.v -- 0 hits",
+   "rg -i 'cocompletion' --include='*.v' -- returns 3 hits (Theory/Sheaf.v:117, Instance/Fun.v:63, Construction/Day.v:111), ALL comment prose and none an assertion; verdict stands. [CORRECTED on fess-aw9 F5: previously claimed 0 hits.]",
+   "[VERIFIER CORRECTION] `rg -i 'cocompletion' -g'*.v' .` returns 3 hits, not 0: Instance/Fun.v:63, Theory/Sheaf.v:117, Construction/Day.v:111 \u2014 all header prose, no theorem; classification unaffected.",
+   "[VERIFIER CORRECTION] the first log line's `grep -i 'Instance|Definition|Lemma|Theorem'` lacks -E so the alternation was inert; re-run properly, the conclusion (only Structure/Complete.v:115/119 plus hypothesis uses, no witness) still holds."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, same gap. Verified: Functor/Hom/Yoneda.v:133 `Yoneda_Lemma` exact; Instance/Fun/Cartesian.v:111 `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)` exact; Theory/Sheaf.v:127 `Definition Presheaves {U C : Category} := [U^op, C]` exact. Independently confirmed the decisive negative: `rg 'Complete|Cocomplete' -g'*.v'` finds Structure/Complete.v:115/119 (the two bare definitions) and NOTHING but hypothesis uses (Adjunction/SAFT.v:145+, Adjunction/GAFT.v:193, Construction/Comma/Limit.v:245/273, Theory/Adamek/Corollaries.v:61) \u2014 no category anywhere is exhibited as complete or cocomplete, so neither Sets nor any presheaf category is. `rg 'Cocomplete|Complete|Limit|Colimit' Instance/Fun.v` is indeed empty. LOG ERROR FOUND: the record's third log line claims `rg -i 'free cocompletion|cocompletion'` returns 0 hits. It returns 3 \u2014 Instance/Fun.v:63 ('the Yoneda embedding into them is fully faithful \u2014 for a small category, its free cocompletion'), Theory/Sheaf.v:117 ('the free cocompletion and target of the Yoneda embedding'), and Construction/Day.v:111 ('the free monoidal cocompletion of the base'). All three are header prose with no theorem behind them, so PARTIAL is unchanged, but the log must not be relied on as written; see problems[] for the associated library-header overstatement. Also a methodological note: that log's first line uses `grep -i 'Instance|Definition|Lemma|Theorem'` without -E, so the alternation never fired \u2014 I re-ran the search properly and the stated conclusion nevertheless holds."
+  }
+ },
+ {
+  "id": "awodey:9.6:prop16",
+  "classification": "ABSENT",
+  "aliases": [
+   "universal property of the Yoneda embedding",
+   "free cocompletion UMP",
+   "cocontinuous extension F_! along y",
+   "nerve and realization adjunction",
+   "left Kan extension along the Yoneda embedding (Lan_y F)",
+   "restricted Yoneda functor F^*(E)(C) = Hom_E(FC, E)",
+   "density theorem / every presheaf is a colimit of representables",
+   "category of elements int_C P"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -i 'cocompletion' --include='*.v' -- returns 3 hits (Theory/Sheaf.v:117, Instance/Fun.v:63, Construction/Day.v:111), ALL comment prose and none an assertion; verdict stands. [CORRECTED on fess-aw9 F5: previously claimed 0 hits.]",
+   "rg -n -i 'nerve|realization|Yoneda extension|restricted Yoneda' --glob '*.v' . -- only Theory/Kan/Extension.v:36/90-94 header prose citing nLab 'nerve and realization'; no construction",
+   "rg -n -i 'density|colimit of representables|canonical colimit' --glob '*.v' . -- only CODENSITY monad prose in Theory/Kan/Extension.v; the tree has no density theorem",
+   "rg -n 'category of elements|Elements' -l --glob '*.v' . -- no el(P) / Grothendieck construction of a presheaf; Construction/Grothendieck.v is built over IndexedCat, not over a Sets-valued presheaf, and nothing states that el(yC) has a terminal object",
+   "rg -n 'Yoneda' --glob '*.v' . -- Functor/Hom/Yoneda.v provides only Yoneda_Lemma (Presheaves [Hom \u2500,A] F \u2245 F A) and Yoneda_Embedding (Presheaves [Hom \u2500,A] [Hom \u2500,B] \u224a A ~> B, i.e. full faithfulness), plus the covariant duals; no universal property of y, no cocontinuous extension, no adjunction F_! \u22a3 F^*",
+   "rg -n 'Instance.*LeftKan|LeftKan' --glob '*.v' . -- LeftKan is only ever a hypothesis; no in-tree construction of a left Kan extension, in particular none along y",
+   "[VERIFIER CORRECTION] 'the tree has no density theorem' is wrong: Theory/Coend/Yoneda.v:174 `coyoneda_reduction : coend_obj (SetsCoend YoI) \u2245[Sets] F c` is the co-Yoneda/density formula \u222b^x C(x,c) \u00d7 F x \u2245 F c (see Structure/Coend.v:102). The log's search terms missed it because the file says 'co-Yoneda'/'ninja Yoneda'.",
+   "[VERIFIER CORRECTION] `rg -i 'cocompletion'` returns 3 prose hits (Instance/Fun.v:63, Theory/Sheaf.v:117, Construction/Day.v:111), not 0.",
+   "[VERIFIER ADDENDUM] Awodey's F^*(E)(C) = Hom_E(FC, E) exists uncurried in-tree as Theory/Profunctor.v:155 `Repr_left F := Hom D \u25ef (F^op \u220f\u27f6 Id)`; the left adjoint F_! and the adjunction F_! \u22a3 F^* remain wholly absent."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed. My blind pass agreed: nothing in the tree states the universal property of y, constructs F_!, or proves uniqueness of a cocontinuous extension; Functor/Hom/Yoneda.v carries only Yoneda_Lemma (133), Covariant_Yoneda_Lemma (182), Yoneda_Embedding (231) and its covariant dual (253). I did, however, find TWO proof INGREDIENTS the record's log denies or misses, and Phase E should cite them because they materially shrink the work. (a) The log asserts 'the tree has no density theorem'. It does, in coend clothing: Theory/Coend/Yoneda.v:174 `Definition coyoneda_reduction : coend_obj (SetsCoend YoI) \u2245[Sets] F c` \u2014 the ninja co-Yoneda lemma \u222b^x C(x,c) \u00d7 F x \u2245 F c, which is exactly Awodey's 'every presheaf is the canonical colimit of representables' re-presented as a coend (Structure/Coend.v:102 says so in as many words). The log's search terms ('density', 'colimit of representables', 'canonical colimit') simply do not hit the file, which uses 'co-Yoneda'/'ninja'. (b) Awodey's right adjoint F^*(E)(C) = Hom_E(FC, E) exists uncurried as Theory/Profunctor.v:155 `Repr_left F := Hom D \u25ef (F^op \u220f\u27f6 Id)`. Neither ingredient is any PART of the proposition's statement \u2014 no F_!, no adjunction, no uniqueness \u2014 so ABSENT is the right verdict, but the log's two false/incomplete negatives are corrected below. The remaining negatives are sound: I re-confirmed `rg 'LeftKan|RightKan'` finds no instance anywhere (only the classes in Theory/Kan/Extension.v and the single hypothesis use at Structure/Limit/Kan/Extension.v:46), and there is no category of elements of a Sets-valued presheaf."
+  }
+ },
+ {
+  "id": "awodey:9.6:cor17",
+  "classification": "PARTIAL",
+  "aliases": [
+   "precomposition/restriction functor f*",
+   "f_! -| f* -| f_*",
+   "adjoints of the restriction functor",
+   "Induced := (\u2212 \u25ef F)",
+   "essential geometric morphism between presheaf categories",
+   "Lan/Ran along f",
+   "f_! \u2218 y_C \u2245 y_D \u2218 f"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 222,
+    "symbol": "LeftKan",
+    "intree_statement": "Class LeftKan := { Lan : [A, C] \u27f6 [B, C]; lan_adjoint : Lan \u22a3 Induced }.  (Context: {A B : Category} {F : A \u27f6 B} {C : Category}.)"
+   },
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 140,
+    "symbol": "RightKan",
+    "intree_statement": "Class RightKan := { Ran : [A, C] \u27f6 [B, C]; ran_adjoint : Induced \u22a3 Ran }."
+   },
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 127,
+    "symbol": "Induced",
+    "intree_statement": "Program Definition Induced : ([B, C]) \u27f6 ([A, C]) := {| fobj := fun G => G \u25ef F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |}.  (The restriction functor written F* or p* in the literature.)"
+   }
+  ],
+  "statement_record": {
+   "book": "For f : C -> D between small categories the precomposition functor f* : Sets^{D^op} -> Sets^{C^op}, f*(Q)(C) = Q(fC), has both a left adjoint f_! and a right adjoint f_*, giving f_! -| f* -| f_*; moreover f_! o y_C \u2245 y_D o f. Proved by applying Proposition 9.16 twice.",
+   "intree": "[Induced] constructs the restriction functor (\u2212 \u25ef F) : [B,C] \u27f6 [A,C] for any F : A \u27f6 B and any C (Awodey's f* is the case A := C^op, B := D^op, C := Sets); [LeftKan] and [RightKan] are the classes packaging its left and right adjoints, with the adjunctions `Lan \u22a3 Induced` and `Induced \u22a3 Ran` as fields.",
+   "strength_comparison": "intree-weaker in exactly the load-bearing direction: the adjoint triple is stated as a HYPOTHESIS to be supplied, not proved to exist. LeftKan/RightKan are classes with no instances anywhere in the tree \u2014 the only consumer, Structure/Limit/Kan/Extension.v:46 (Kan_Limit), takes `@RightKan _ _ (Erase J) C` as an assumption. So the corollary's content (that both adjoints DO exist when the categories are small and the target is Sets) is absent. The in-tree shape is also more general (arbitrary target C, arbitrary F, not just presheaf categories on small categories)."
+  },
+  "gap": "Two things are missing. (1) EXISTENCE: nothing constructs f_! or f_* for presheaf categories (or for anything else) \u2014 `rg 'LeftKan|RightKan'` finds no instance, only the class definitions in Theory/Kan/Extension.v and one hypothesis use in Structure/Limit/Kan/Extension.v. Since the corollary's proof runs through Proposition 9.16 (also absent), the whole derivation is unformalized. (2) The Yoneda compatibility f_! \u2218 y_C \u2245 y_D \u2218 f has no counterpart at all.",
+  "negative_search_log": [
+   "rg -n 'LeftKan|RightKan|LocalLeftKan|LocalRightKan' --glob '*.v' . | grep -v 'Theory/Kan/Extension.v' -- one hit: Structure/Limit/Kan/Extension.v:46, which uses RightKan as a hypothesis of Kan_Limit",
+   "rg -n -i 'nerve|realization|restricted Yoneda' --glob '*.v' . -- prose only",
+   "rg -n 'y_C|y_D|Yoneda.*commut' --glob '*.v' . -- no statement relating a left adjoint to the Yoneda embeddings"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently with exactly this reasoning. Verified all three citations exact: Theory/Kan/Extension.v:127 `Program Definition Induced : ([B, C]) \u27f6 ([A, C]) := {| fobj := fun G => G \u25ef F; fmap := ... |}` (the file's own comment at 121-125 says 'The restriction (precomposition) functor ... written F* or p* in the literature. The Kan extensions along F are the adjoints of this functor'), :140 `Class RightKan := { Ran : [A, C] \u27f6 [B, C]; ran_adjoint : Induced \u22a3 Ran }`, :222 `Class LeftKan := { Lan : [A, C] \u27f6 [B, C]; lan_adjoint : Lan \u22a3 Induced }`. File registered (_CoqProject:445). The load-bearing negative is confirmed by my own grep: `rg 'LeftKan|RightKan|LocalLeftKan|LocalRightKan' -g'*.v' .` outside Theory/Kan/Extension.v yields exactly ONE line, Structure/Limit/Kan/Extension.v:46 `Theorem Kan_Limit `(F : J \u27f6 C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim \u2245 Ran (Erase J) F ttt`, which takes RightKan as a hypothesis. So the classes are never instantiated and the corollary's existence content is genuinely absent \u2014 'definition-without-required-API' in the sharpest form. The Yoneda-compatibility clause f_! \u2218 y_C \u2245 y_D \u2218 f likewise has no counterpart. PARTIAL is correct and the gap is stated precisely."
+  }
+ },
+ {
+  "id": "awodey:9.6:remark-kan-extensions",
+  "classification": "PRESENT",
+  "aliases": [
+   "Kan extension along f",
+   "Lan_f / Ran_f",
+   "left Kan extension is left adjoint to restriction",
+   "right Kan extension is right adjoint to restriction",
+   "global Kan extension",
+   "f_! = Lan, f_* = Ran"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 222,
+    "symbol": "LeftKan / lan_adjoint",
+    "intree_statement": "Class LeftKan := { Lan : [A, C] \u27f6 [B, C]; lan_adjoint : Lan \u22a3 Induced }.  -- i.e. the left Kan extension along F IS the left adjoint of restriction along F."
+   },
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 140,
+    "symbol": "RightKan / ran_adjoint",
+    "intree_statement": "Class RightKan := { Ran : [A, C] \u27f6 [B, C]; ran_adjoint : Induced \u22a3 Ran }.  -- the right Kan extension along F IS the right adjoint of restriction along F."
+   },
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 234,
+    "symbol": "LocalLeftKan / ump_lan",
+    "intree_statement": "Class LocalLeftKan (X : A \u27f6 C) := { LocalLan : B \u27f6 C; lan_transform : X \u27f9 LocalLan \u25ef F; ump_lan (M : B \u27f6 C) (\u03b5 : X \u27f9 M \u25ef F) : \u2203! \u03b4, \u03b5 \u2248 \u03b4 \u22b2 F \u2219 lan_transform }, with [LeftKan_to_LocalLeftKan] (line 249) deriving it from the global adjoint \u2014 so the adjoint of restriction really does satisfy the Kan-extension universal property."
+   }
+  ],
+  "statement_record": {
+   "book": "The two adjoints f_! -| f* -| f_* produced by Corollary 9.17 are, in standard terminology, the left and right Kan extensions along f: f_! = Lan_f and f_* = Ran_f.",
+   "intree": "Theory/Kan/Extension.v DEFINES the Kan extensions exactly as those adjoints \u2014 [LeftKan] carries `lan_adjoint : Lan \u22a3 Induced` and [RightKan] carries `ran_adjoint : Induced \u22a3 Ran`, with [Induced] the restriction functor (\u2212 \u25ef F); [LeftKan_to_LocalLeftKan] and [RightKan_to_LocalRightKan] prove that these adjoints satisfy the pointwise-free universal property ([ump_lan]/[ump_ran]), which is what justifies calling them Kan extensions.",
+   "strength_comparison": "same identification, in a more general setting (any F : A \u27f6 B and any target C, not just presheaf categories on small categories); intree-stronger in that the tree does not merely name the adjoints but proves the global adjoints induce the local (universal-property) Kan extensions. The remark is purely terminological and carries no existence claim, so the fact that LeftKan/RightKan are never instantiated in-tree does not weaken it (existence is item awodey:9.6:cor17)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed; my blind pass independently marked this PRESENT for the same reason \u2014 the identification the remark makes is literally the in-tree DEFINITION. Verified: Theory/Kan/Extension.v:140 `RightKan` with field `ran_adjoint : Induced \u22a3 Ran`, :222 `LeftKan` with field `lan_adjoint : Lan \u22a3 Induced`, :234 `Class LocalLeftKan (X : A \u27f6 C) := { LocalLan : B \u27f6 C; lan_transform : X \u27f9 LocalLan \u25ef F; ump_lan (M : B \u27f6 C) (\u03b5 : X \u27f9 M \u25ef F) : \u2203! \u03b4, \u03b5 \u2248 \u03b4 \u22b2 F \u2219 lan_transform }` \u2014 all exact at the cited lines. I also confirmed the bridge the record leans on for its 'intree-stronger' claim actually exists and is `Defined`: `#[export] Program Instance LeftKan_to_LocalLeftKan {R : LeftKan} (X : A \u27f6 C) : LocalLeftKan X` at line 249 (and RightKan_to_LocalRightKan at 178), so the adjoints really are shown to satisfy the pointwise-free universal property. Checked the 'definition-without-required-API' failure mode and accepted the record's defence: this item is purely terminological and carries no existence claim, so the never-instantiated status of LeftKan/RightKan is correctly charged to awodey:9.6:cor17 instead. Caveat worth carrying: the file's last two theorems, `left_adjoints_preserve` (line 386) and the sketch above it, end in `Abort` with three `admit`s \u2014 but they are unrelated to this item and the file's own comment at 380-385 discloses this honestly, so it is not a defect."
+  }
+ },
+ {
+  "id": "awodey:9.6:remark-every-functor-has-adjoint",
+  "classification": "PARTIAL",
+  "aliases": [
+   "every functor has an adjoint into the free cocompletion",
+   "f* o y_D : D -> C-hat is adjoint to f",
+   "generalized/ideal elements",
+   "adjoint exists iff the values are representable",
+   "representability criterion for an adjoint",
+   "partial adjoint / pointwise adjoint"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Profunctor.v",
+    "line": 155,
+    "symbol": "Repr_left",
+    "intree_statement": "Definition Repr_left {C D : Category} (F : C \u27f6 D) : C \u21f8 D := Hom D \u25ef (F^op \u220f\u27f6 (@Id D)).  (With C \u21f8 D := C^op \u220f D \u27f6 Sets, so Repr_left f (c, d) = D(f c, d) \u2014 exactly Awodey's f* \u2218 y_D, in uncurried bifunctor form.)"
+   },
+   {
+    "file": "Theory/Profunctor/Adjunction.v",
+    "line": 70,
+    "symbol": "representable_adjunction",
+    "intree_statement": "Definition representable_adjunction : (F \u22a3 U) \u2194 (Repr_left F \u2245[[D^op \u220f C, Sets]] Repr_right U) := (adjunction_to_repr_iso, repr_iso_to_adjunction).  (Both directions Defined: adjunction_to_repr_iso at line 57, repr_iso_to_adjunction at line 64.)"
+   },
+   {
+    "file": "Functor/Representable.v",
+    "line": 46,
+    "symbol": "Representable",
+    "intree_statement": "Class Representable `(F : C \u27f6 Sets) := { repr_obj : C; represented : [Hom repr_obj,\u2500] \u2245 F }."
+   }
+  ],
+  "statement_record": {
+   "book": "Reading Corollary 9.17 backwards: for any functor f : C -> D of small categories the composite f* o y_D : D -> C-hat = Sets^(C^op), d |-> Hom_D(f-, d), is an adjoint to f, so in this sense every functor has an adjoint; the caveat is that its values are presheaves ('ideal elements') rather than objects of C, and the honest adjoint on C exists only when those values happen to be representable.",
+   "intree": "The functor the remark constructs exists in-tree in uncurried form: [Repr_left F : C \u21f8 D] is Hom D \u25ef (F^op \u220f\u27f6 Id), i.e. (c, d) \u21a6 D(F c, d), which is precisely f* \u2218 y_D read as a bifunctor C^op \u220f D \u27f6 Sets; its counterpart [Repr_right U] is (c, d) \u21a6 C(c, U d). The remark's caveat has an in-tree cousin in [representable_adjunction] : (F \u22a3 U) \u2194 (Repr_left F \u2245 Repr_right U), the statement that an honest adjoint U is exactly a witness that the profunctor D(F\u2212,\u2212) is represented in the form C(\u2212, U\u2212); pointwise representability itself is the class [Representable] of Functor/Representable.v.",
+   "strength_comparison": "intree-weaker: the object is present but nothing is CLAIMED of it. [Repr_left f] is never curried into a functor D \u27f6 [C^op, Sets], is never called an adjoint of f in any sense (there is no Prof bicategory, no relative/pro-adjoint notion, and no free-cocompletion in-tree), and [representable_adjunction] quantifies over an ALREADY GIVEN U rather than asserting 'an adjoint exists iff the values D(f\u2212, d) are representable' \u2014 the existential form, which is the remark's actual punchline, is not stated and would additionally need the pointwise [Representable] witnesses assembled into a functor."
+  },
+  "gap": "Three things are missing. (1) CURRYING: no in-tree constant presents Awodey's adjoint as a functor D \u27f6 [C^op, Sets]; Theory/Profunctor.v:155 gives only the uncurried bifunctor Repr_left f : C^op \u220f D \u27f6 Sets, and the tree has no hom-tensor currying [C^op \u220f D, Sets] \u2245 [D, [C^op, Sets]]. (2) THE ADJOINTNESS CLAIM: nothing states that Repr_left f is an adjoint of f in any sense \u2014 there is no bicategory of profunctors (Theory/Profunctor.v builds composition and the unit/associator laws in Construction/Profunctor/{Compose,Laws}.v but no Prof bicategory instance and no adjunctions in it), and no notion of an adjoint valued in a free cocompletion. (3) THE REPRESENTABILITY CRITERION AS AN EXISTENCE TEST: [representable_adjunction] (Theory/Profunctor/Adjunction.v:70) presupposes a given U; the remark's 'the honest adjoint exists only when these values are representable' \u2014 i.e. (\u2203 U, f \u22a3 U) \u2194 \u2200 d, Representable (Repr_left f (\u2212, d)) \u2014 is not stated, and Functor/Representable.v's [Representable] class is never connected to adjoints anywhere in the tree (verified by grepping every use of repr_obj/represented).",
+  "negative_search_log": [
+   "rg -n -i 'free cocompletion|ideal element|generalized element' --glob '*.v' . -- 0 hits for cocompletion; 'element' hits are Lib/Setoid and list-element lemmas",
+   "rg -n -i 'every functor has an adjoint|adjoint into|presheaf adjoint' --glob '*.v' . -- 0 hits",
+   "rg -n 'LeftKan|RightKan' --glob '*.v' . -- no instance, so the f* \u2218 y_D construction the remark reads backwards out of Cor 9.17 is not available",
+   "rg -n 'Definition|Program|Lemma|Theorem' Functor/Representable.v Structure/UniversalProperty.v -- representability is developed (a functor being represented), but nothing states that a left adjoint exists exactly when the presheaf D(f\u2212, d) is representable; Adjunction/Hom.v's Adjunction_Hom_to_Universal (line 223) builds an adjunction from a full natural hom-iso, not from a pointwise representability criterion",
+   "rg -n -i 'partial adjoint|pointwise adjoint|adjoint on a subcategory' --glob '*.v' . -- 0 hits (only Theory/Kan/Extension.v:170 prose 'an adjoint functor can fail to exist completely, but may still be partially defined')",
+   "[VERIFIER CORRECTION] The log's fourth line inspects Functor/Representable.v, Structure/UniversalProperty.v and Adjunction/Hom.v but not Theory/Profunctor.v \u2014 which DOES construct Awodey's f* \u2218 y_D as `Repr_left f` (line 155) \u2014 nor Theory/Profunctor/Adjunction.v:70 `representable_adjunction`, which is the closest in-tree form of the remark's representability caveat. This is what moves the record from ABSENT to PARTIAL.",
+   "[VERIFIER CORRECTION] `rg -i 'cocompletion' -g'*.v' .` returns 3 hits (Instance/Fun.v:63, Theory/Sheaf.v:117, Construction/Day.v:111), not 0; all header prose, so the free-cocompletion framing is still unformalized.",
+   "[VERIFIER] Re-checked for a Prof bicategory or profunctor adjunctions: `rg 'Prof' -g'*.v'` gives Theory/Profunctor.v, Construction/Profunctor/{Compose,Laws}.v and Theory/Profunctor/Adjunction.v only \u2014 no Bicategory instance for profunctors, hence no in-tree sense in which Repr_left f is 'an adjoint'."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:PARTIAL",
+   "notes": "OVERTURNED from ABSENT. My blind pass (run before opening the coverage file) turned up Theory/Profunctor.v:155 `Repr_left {C D} (F : C \u27f6 D) : C \u21f8 D := Hom D \u25ef (F^op \u220f\u27f6 Id)`, whose value at (c, d) is D(f c, d) \u2014 that IS the composite f* \u2218 y_D the remark is about, merely uncurried as a bifunctor C^op \u220f D \u27f6 Sets instead of a functor D \u27f6 \u0108. Together with Theory/Profunctor/Adjunction.v:70 `representable_adjunction : (F \u22a3 U) \u2194 (Repr_left F \u2245 Repr_right U)` \u2014 the in-tree form of 'the honest adjoint is exactly a representability witness' \u2014 more than a name survives, so the frozen definition of PARTIAL ('some of the item exists') applies. Both files are registered in _CoqProject and both constants are Defined (I read the bodies, not just the signatures). The Phase C log missed them because it searched Functor/Representable.v, Structure/UniversalProperty.v and Adjunction/Hom.v but never Theory/Profunctor*, even though CLAUDE.md lists `representable_adjunction` in its Structure/Coend.v index entry. I deliberately did NOT extend the same generosity to awodey:9.6:prop16, where `Repr_left F` is only a proof ingredient (F^*) and the proposition's own content \u2014 F_!, the adjunction, cocontinuity, uniqueness \u2014 is entirely missing; here the remark's whole content IS that object plus a caveat, which is the difference. The gap field now states precisely what is missing (currying, the adjointness claim, the existential representability criterion), so the Phase E issue should be scoped to those three, not to building the object."
+  },
+  "phase_c_classification": "ABSENT"
+ }
+]

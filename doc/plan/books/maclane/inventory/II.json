@@ -1,0 +1,2033 @@
+{
+  "book": "maclane",
+  "range": {
+    "pdf_start": 41,
+    "pdf_end": 63
+  },
+  "pages": [
+    {
+      "pdf_page": 41,
+      "book_page": "31",
+      "empty": false,
+      "items": [
+        "maclane:II.1:def1",
+        "maclane:II.1:def2"
+      ],
+      "notes": "Chapter II opener; section II.1 Duality begins. Fully legible."
+    },
+    {
+      "pdf_page": 42,
+      "book_page": "32",
+      "empty": false,
+      "items": [
+        "maclane:II.1:remark1",
+        "maclane:II.1:thm1",
+        "maclane:II.1:remark2"
+      ],
+      "notes": "Statement/dual-statement table concluding II.1:def2 sits at top of this page."
+    },
+    {
+      "pdf_page": 43,
+      "book_page": "33",
+      "empty": false,
+      "items": [
+        "maclane:II.2:def1",
+        "maclane:II.2:lem1",
+        "maclane:II.2:construction1",
+        "maclane:II.2:def2",
+        "maclane:II.2:construction2",
+        "maclane:II.2:construction3"
+      ],
+      "notes": "Section II.2 Contravariance and Opposites begins."
+    },
+    {
+      "pdf_page": 44,
+      "book_page": "34",
+      "empty": false,
+      "items": [
+        "maclane:II.2:construction4",
+        "maclane:II.2:construction5",
+        "maclane:II.2:remark1"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 45,
+      "book_page": "35",
+      "empty": false,
+      "items": [
+        "maclane:II.2:construction6",
+        "maclane:II.2:construction7",
+        "maclane:II.2:construction8",
+        "maclane:II.2:construction9"
+      ],
+      "notes": "Section II.2 ends with no exercises."
+    },
+    {
+      "pdf_page": 46,
+      "book_page": "36",
+      "empty": false,
+      "items": [
+        "maclane:II.3:def1",
+        "maclane:II.3:construction1",
+        "maclane:II.3:construction2"
+      ],
+      "notes": "Section II.3 Products of Categories begins."
+    },
+    {
+      "pdf_page": 47,
+      "book_page": "37",
+      "empty": false,
+      "items": [
+        "maclane:II.3:construction3",
+        "maclane:II.3:def2",
+        "maclane:II.3:prop1"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 48,
+      "book_page": "38",
+      "empty": false,
+      "items": [
+        "maclane:II.3:remark1",
+        "maclane:II.3:construction4",
+        "maclane:II.3:def3",
+        "maclane:II.3:prop2",
+        "maclane:II.3:remark2"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 49,
+      "book_page": "39",
+      "empty": false,
+      "items": [
+        "maclane:II.3:construction5",
+        "maclane:II.3:ex1",
+        "maclane:II.3:ex2"
+      ],
+      "notes": "Exercises of II.3 begin at page bottom (1-2 here, 3-5 overleaf)."
+    },
+    {
+      "pdf_page": 50,
+      "book_page": "40",
+      "empty": false,
+      "items": [
+        "maclane:II.3:ex3",
+        "maclane:II.3:ex4",
+        "maclane:II.3:ex5",
+        "maclane:II.4:def1",
+        "maclane:II.4:remark1",
+        "maclane:II.4:construction1"
+      ],
+      "notes": "Section II.4 Functor Categories begins mid-page."
+    },
+    {
+      "pdf_page": 51,
+      "book_page": "41",
+      "empty": false,
+      "items": [
+        "maclane:II.4:construction2",
+        "maclane:II.4:construction3",
+        "maclane:II.4:remark2",
+        "maclane:II.4:ex1",
+        "maclane:II.4:ex2",
+        "maclane:II.4:ex3",
+        "maclane:II.4:ex4"
+      ],
+      "notes": "Exercises of II.4 begin (1-4 here, 5-8 overleaf)."
+    },
+    {
+      "pdf_page": 52,
+      "book_page": "42",
+      "empty": false,
+      "items": [
+        "maclane:II.4:ex5",
+        "maclane:II.4:ex6",
+        "maclane:II.4:ex7",
+        "maclane:II.4:ex8",
+        "maclane:II.5:construction1"
+      ],
+      "notes": "Section II.5 The Category of All Categories begins mid-page; the horizontal-composition construction starting here completes on PDF 53. The interchange law (5) and Theorem 1 of II.5 START on PDF 53 (printed 43) and belong to the adjacent agent's range."
+    },
+    {
+      "pdf_page": 53,
+      "book_page": "43",
+      "empty": false,
+      "items": [
+        "maclane:II.5:construction1",
+        "maclane:II.5:def1",
+        "maclane:II.5:remark1",
+        "maclane:II.5:thm1"
+      ],
+      "notes": "Page opens with the tail of the horizontal-composition naturality argument begun on printed 42 (PDF 52); that construction starts outside this range and is owned by the other agent. Merge note: maclane:II.5:construction1 (horizontal composition, owned by range A) completes on this page."
+    },
+    {
+      "pdf_page": 54,
+      "book_page": "44",
+      "empty": false,
+      "items": [
+        "maclane:II.5:def2",
+        "maclane:II.5:def3",
+        "maclane:II.5:remark2",
+        "maclane:II.5:construction2",
+        "maclane:II.5:ex1",
+        "maclane:II.5:ex2"
+      ],
+      "notes": "Exercises block of II.5 begins bottom of page."
+    },
+    {
+      "pdf_page": 55,
+      "book_page": "45",
+      "empty": false,
+      "items": [
+        "maclane:II.5:ex3",
+        "maclane:II.5:ex4",
+        "maclane:II.5:ex5",
+        "maclane:II.5:ex6",
+        "maclane:II.5:ex7",
+        "maclane:II.5:ex8",
+        "maclane:II.6:def1",
+        "maclane:II.6:def2"
+      ],
+      "notes": "Section II.6 Comma Categories begins mid-page."
+    },
+    {
+      "pdf_page": 56,
+      "book_page": "46",
+      "empty": false,
+      "items": [
+        "maclane:II.6:def3",
+        "maclane:II.6:def4",
+        "maclane:II.6:remark1"
+      ],
+      "notes": "The passing mention of (T \u2193 a), objects T-over a, is folded into maclane:II.6:def3 rather than given its own item."
+    },
+    {
+      "pdf_page": 57,
+      "book_page": "47",
+      "empty": false,
+      "items": [
+        "maclane:II.6:construction1",
+        "maclane:II.6:ex1",
+        "maclane:II.6:ex2",
+        "maclane:II.6:ex3",
+        "maclane:II.6:ex4",
+        "maclane:II.6:ex5"
+      ],
+      "notes": "Exercise 5 continues onto the next page."
+    },
+    {
+      "pdf_page": 58,
+      "book_page": "48",
+      "empty": false,
+      "items": [
+        "maclane:II.6:ex6",
+        "maclane:II.7:def1",
+        "maclane:II.7:construction1",
+        "maclane:II.7:def2"
+      ],
+      "notes": "Section II.7 Graphs and Free Categories begins; the recap of the free monoid FX is motivational (its mathematical content is Corollary 2, recorded at PDF 60); the directed-graph definition itself is a recall of I.2, not re-inventoried."
+    },
+    {
+      "pdf_page": 59,
+      "book_page": "49",
+      "empty": false,
+      "items": [
+        "maclane:II.7:def3",
+        "maclane:II.7:remark1",
+        "maclane:II.7:construction2",
+        "maclane:II.7:thm1"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 60,
+      "book_page": "50",
+      "empty": false,
+      "items": [
+        "maclane:II.7:remark2",
+        "maclane:II.7:remark3",
+        "maclane:II.7:cor2"
+      ],
+      "notes": "Bulk of page is the proof of Theorem 1 (strings/paths construction, recorded under maclane:II.7:construction2)."
+    },
+    {
+      "pdf_page": 61,
+      "book_page": "51",
+      "empty": false,
+      "items": [
+        "maclane:II.7:def4",
+        "maclane:II.7:construction3",
+        "maclane:II.7:ex1",
+        "maclane:II.7:ex2",
+        "maclane:II.7:ex3",
+        "maclane:II.8:prop1",
+        "maclane:II.8:remark1"
+      ],
+      "notes": "Section II.8 Quotient Categories begins mid-page."
+    },
+    {
+      "pdf_page": 62,
+      "book_page": "52",
+      "empty": false,
+      "items": [
+        "maclane:II.8:def1",
+        "maclane:II.8:def2",
+        "maclane:II.8:ex1",
+        "maclane:II.8:ex2"
+      ],
+      "notes": "Unnumbered end-of-chapter 'Notes.' block begins bottom of page (historical prose, not inventoriable per campaign conventions)."
+    },
+    {
+      "pdf_page": 63,
+      "book_page": "53",
+      "empty": true,
+      "items": [],
+      "notes": "Entire page is the continuation and end of the chapter II 'Notes.' block (history of comma categories and duality); nothing inventoriable. Chapter II ends here."
+    }
+  ],
+  "items": [
+    {
+      "id": "maclane:II.1:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "ETAC: elementary theory of an abstract category",
+      "statement_summary": "The first-order language for category theory: atomic statements over object letters a,b,c,... and arrow letters f,g,h,... assert 'a is the domain (codomain) of f', 'i is the identity arrow of a', and 'h is the composite of g with f' (equationally: a = dom f, a = cod f, i = 1_a, h = g o f); statements are well-formed formulas built from these by propositional connectives and quantifiers over objects and arrows; f : a -> b abbreviates the domain/codomain conjunction. A sentence is a statement with all variables bound; the category axioms of section I.1 are such sentences, true in every category.",
+      "book_section": "II.1",
+      "book_page": "31",
+      "pdf_pages": [
+        41
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered",
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.1:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "dual of a statement",
+      "statement_summary": "The dual Sigma* of an ETAC statement Sigma is obtained by interchanging 'domain' and 'codomain' throughout and replacing each 'h is the composite of g with f' by 'h is the composite of f with g' (arrows and composites reversed), leaving all logical structure unchanged. A table of instances: f : a->b dualizes to f : b->a; a = dom f to a = cod f; i = 1_a is self-dual; h = g o f to h = f o g; 'f is monic' to 'f is epi'; 'u is a right inverse of h' to 'u is a left inverse of h'; 'f is invertible' is self-dual; 'terminal object' to 'initial object'.",
+      "book_section": "II.1",
+      "book_page": "31",
+      "pdf_pages": [
+        41,
+        42
+      ],
+      "cross_refs": [
+        "maclane:II.1:def1"
+      ],
+      "flags": [
+        "unnumbered",
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.1:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "duality is involutive",
+      "statement_summary": "Dualization is an involution on statements: Sigma** = Sigma. If a statement concerns a diagram, its dual concerns the same diagram with all arrows reversed.",
+      "book_section": "II.1",
+      "book_page": "32",
+      "pdf_pages": [
+        42
+      ],
+      "cross_refs": [
+        "maclane:II.1:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.1:thm1",
+      "kind": "theorem",
+      "number": null,
+      "name": "duality principle",
+      "statement_summary": "Metatheorem: if an ETAC statement Sigma is a consequence of the category axioms, then so is its dual Sigma* \u2014 because the dual of each axiom is again an axiom, and replacing every statement of a proof by its dual yields a valid proof of the dual conclusion. Consequently every theorem about arbitrary categories provable from the axioms automatically yields its dual theorem (example given: terminal objects unique up to isomorphism dualizes to initial objects unique up to isomorphism).",
+      "book_section": "II.1",
+      "book_page": "32",
+      "pdf_pages": [
+        42
+      ],
+      "cross_refs": [
+        "maclane:II.1:def1",
+        "maclane:II.1:def2"
+      ],
+      "flags": [
+        "unnumbered",
+        "metatheorem"
+      ]
+    },
+    {
+      "id": "maclane:II.1:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "duality for several categories and functors",
+      "statement_summary": "The duality principle extends to the elementary theory of several categories with functors between them (typical case: two categories C, B and one functor T : C -> B, with atomic statements Tc = b and Tf = h and the functoriality axioms T(gf) = (Tg)(Tf), T(1_a) = 1_{Ta}). The dual of a statement dualizes the atomic parts referring to C and to B simultaneously (reversing arrows in each category); the statement 'T is a functor' is self-dual, so the duality principle still holds. Duality reverses the arrows in each category but does NOT reverse the functors.",
+      "book_section": "II.1",
+      "book_page": "32",
+      "pdf_pages": [
+        42
+      ],
+      "cross_refs": [
+        "maclane:II.1:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.2:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "opposite category C^op",
+      "statement_summary": "For each category C, the opposite category C^op: objects are those of C; arrows f^op are in one-one correspondence with the arrows f of C; for f : a -> b in C, f^op : b -> a (domain and codomain interchanged); the composite f^op g^op = (g f)^op is defined in C^op exactly when g f is defined in C. This makes C^op a category; e.g. the domain of f^op is the codomain of f, and f^op is monic iff f is epi.",
+      "book_section": "II.2",
+      "book_page": "33",
+      "pdf_pages": [
+        43
+      ],
+      "cross_refs": [
+        "maclane:II.1:def2"
+      ],
+      "flags": [
+        "unnumbered",
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.2:lem1",
+      "kind": "lemma",
+      "number": null,
+      "name": "statement duality realized by the opposite category",
+      "statement_summary": "Proved by an evident induction on the construction of Sigma from atomic statements: an ETAC statement Sigma with free arrow variables is true of arrows f, g, ... of a category C iff its dual Sigma* is true of the arrows f^op, g^op, ... of C^op. In particular a sentence Sigma is true in C^op iff Sigma* is true in C; so the dual of a property Sigma is the original property applied to the opposite category (some authors call C^op the 'dual' category, writing C^op = C*).",
+      "book_section": "II.2",
+      "book_page": "33",
+      "pdf_pages": [
+        43
+      ],
+      "cross_refs": [
+        "maclane:II.2:def1",
+        "maclane:II.1:def2",
+        "maclane:II.1:thm1"
+      ],
+      "flags": [
+        "unnumbered",
+        "prose-lemma",
+        "metatheorem"
+      ]
+    },
+    {
+      "id": "maclane:II.2:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "opposite functor T^op and the op involution on Cat",
+      "statement_summary": "For a functor T : C -> B, the object function c |-> Tc together with the arrow function f^op |-> (Tf)^op define a functor T^op : C^op -> B^op. The assignments C |-> C^op and T |-> T^op define a covariant (!) functor Cat -> Cat.",
+      "book_section": "II.2",
+      "book_page": "33",
+      "pdf_pages": [
+        43
+      ],
+      "cross_refs": [
+        "maclane:II.2:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.2:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "contravariant functor",
+      "statement_summary": "A functor S : C^op -> B, re-expressed over C by writing Sbar f := S f^op, is a contravariant functor from C to B: it assigns to each object c an object Sbar c of B and to each arrow f : a -> b an arrow Sbar f : Sbar b -> Sbar a (opposite direction) with Sbar(1_c) = 1_{Sbar c} and Sbar(f g) = (Sbar g)(Sbar f) whenever f g is defined \u2014 the arrow function inverts the order of composition (displayed equation (1)). By contrast a functor T : C -> B as defined in I.3 is called covariant. Book convention: a named functor between designated categories always denotes a covariant functor T : C -> B or S : C^op -> B.",
+      "book_section": "II.2",
+      "book_page": "33",
+      "pdf_pages": [
+        43
+      ],
+      "cross_refs": [
+        "maclane:II.2:def1"
+      ],
+      "flags": [
+        "unnumbered",
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.2:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "contravariant power-set functor",
+      "statement_summary": "The contravariant power-set functor Pbar on Set to Set: Pbar X = the set of all subsets of X; for f : X -> Y, Pbar f : Pbar Y -> Pbar X sends each subset T of Y to its inverse image f^{-1} T of X.",
+      "book_section": "II.2",
+      "book_page": "33",
+      "pdf_pages": [
+        43
+      ],
+      "cross_refs": [
+        "maclane:II.2:def2"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "example"
+      ]
+    },
+    {
+      "id": "maclane:II.2:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "dual vector space functor",
+      "statement_summary": "The assignment sending each vector space V to its dual (conjugate) space V* and each linear transformation f : V -> W to its dual f* : W* -> V* is a contravariant functor on the category of all vector spaces over a fixed field to itself.",
+      "book_section": "II.2",
+      "book_page": "33",
+      "pdf_pages": [
+        43,
+        44
+      ],
+      "cross_refs": [
+        "maclane:II.2:def2"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "example"
+      ]
+    },
+    {
+      "id": "maclane:II.2:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "covariant hom-functor C(a,-)",
+      "statement_summary": "For C a category with small hom-sets and a in C, the covariant hom-functor C(a,-) = hom(a,-) : C -> Set (displayed (2)): object function b |-> hom(a,b); arrow function sends k : b -> b' to hom(a,k) : hom(a,b) -> hom(a,b') defined by f |-> k o f (displayed (3)); hom(a,k) is also written k_* ('composition with k on the left', the map induced by k).",
+      "book_section": "II.2",
+      "book_page": "34",
+      "pdf_pages": [
+        44
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.2:construction5",
+      "kind": "construction",
+      "number": null,
+      "name": "contravariant hom-functor C(-,b)",
+      "statement_summary": "For each object b of C (small hom-sets), the contravariant hom-functor written covariantly as C(-,b) = hom(-,b) : C^op -> Set (displayed (4)): a |-> hom(a,b); each g : a -> a' of C goes to hom(g,b) : hom(a',b) -> hom(a,b) defined by f |-> f o g (displayed (5)), also written g* ('composition with g on the right'). Thus k_* f = k o f and g* f = f o g.",
+      "book_section": "II.2",
+      "book_page": "34",
+      "pdf_pages": [
+        44
+      ],
+      "cross_refs": [
+        "maclane:II.2:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.2:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "commutation of induced maps k_* and g*",
+      "statement_summary": "For g : a -> a' and k : b -> b', the square (displayed (6)) with horizontal maps g* : hom(a',b) -> hom(a,b) and hom(a',b') -> hom(a,b'), and vertical maps k_* on both sides, commutes in Set: both paths send f in hom(a',b) to k f g, i.e. k_* o g* = g* o k_*. (This is exactly the compatibility later shown in II.3 to make hom a bifunctor.)",
+      "book_section": "II.2",
+      "book_page": "34",
+      "pdf_pages": [
+        44
+      ],
+      "cross_refs": [
+        "maclane:II.2:construction4",
+        "maclane:II.2:construction5",
+        "maclane:II.3:construction4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.2:construction6",
+      "kind": "construction",
+      "number": null,
+      "name": "Ens as receiving category for hom-functors",
+      "statement_summary": "For a category C whose hom-sets need not be small: choose a set V large enough to include all subsets of the set of arrows of C (e.g. its power set); let Ens = Set_V be the category with objects all sets X in V, arrows all functions between them, usual composition. Each hom-set C(a,b) is then an object of Ens, so the hom-functor procedure yields C(a,-) : C -> Ens and C(-,b) : C^op -> Ens (displayed (7)). When V is the universe of all small sets, Ens = Set; in general Ens is a variable receiving category for the hom-functors of the categories of interest.",
+      "book_section": "II.2",
+      "book_page": "35",
+      "pdf_pages": [
+        45
+      ],
+      "cross_refs": [
+        "maclane:II.2:construction4",
+        "maclane:II.2:construction5"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "foundational"
+      ]
+    },
+    {
+      "id": "maclane:II.2:construction7",
+      "kind": "construction",
+      "number": null,
+      "name": "sheaf of germs of continuous functions as contravariant functor",
+      "statement_summary": "For X a topological space, Open(X) = the open subsets of X ordered by inclusion, a partial order hence a category (an arrow V -> U precisely when V is a subset of U). Cbar(U) = the set of continuous real-valued functions on U; the assignment h |-> h|V (restriction) gives Cbar(U) -> Cbar(V) for each V in U, making Cbar a contravariant functor on Open(X) to Set \u2014 the sheaf of germs of continuous functions on X; the sheaf of germs of C-infinity functions on a smooth manifold is built the same way.",
+      "book_section": "II.2",
+      "book_page": "35",
+      "pdf_pages": [
+        45
+      ],
+      "cross_refs": [
+        "maclane:II.2:def2"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "example"
+      ]
+    },
+    {
+      "id": "maclane:II.2:construction8",
+      "kind": "construction",
+      "number": null,
+      "name": "Mod-R and restriction of scalars: Mod as contravariant functor on Rng",
+      "statement_summary": "For any morphism rho : R -> S of small rings, each right S-module B becomes a right R-module (Mod rho)B by pull-back: b . r = b . (rho r). This makes Mod rho a functor Mod-S -> Mod-R, with Mod(rho_1 rho_2) = (Mod rho_2)(Mod rho_1); hence Mod is a contravariant functor from Rng to Cat', the category of all large categories.",
+      "book_section": "II.2",
+      "book_page": "35",
+      "pdf_pages": [
+        45
+      ],
+      "cross_refs": [
+        "maclane:II.2:def2"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "example"
+      ]
+    },
+    {
+      "id": "maclane:II.2:construction9",
+      "kind": "construction",
+      "number": null,
+      "name": "the category Mod of all modules over all rings; fibered-category preview",
+      "statement_summary": "The category Mod: objects are pairs (R, A) with R a small ring and A a small right R-module; a morphism (R,A) -> (S,B) is a pair (rho, f) with rho : R -> S a ring morphism and f : A -> (Mod rho)B a morphism of right R-modules; composition is evident. A projection functor Mod -> Rng is given by (R,A) |-> R; its relation to the contravariant functor Rng -> Cat' leads to the theory of fibered categories (Mod is fibered over Rng, the fiber over R being Mod-R).",
+      "book_section": "II.2",
+      "book_page": "35",
+      "pdf_pages": [
+        45
+      ],
+      "cross_refs": [
+        "maclane:II.2:construction8"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.3:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "product category B x C",
+      "statement_summary": "The product of categories B and C: objects of B x C are pairs (b,c) of objects b of B, c of C; an arrow (b,c) -> (b',c') is a pair (f,g) with f : b -> b' in B and g : c -> c' in C; composition is componentwise, (f',g') o (f,g) = (f' o f, g' o g) (displayed (1)).",
+      "book_section": "II.3",
+      "book_page": "36",
+      "pdf_pages": [
+        46
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered",
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.3:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "projection functors and the universal property of the product category",
+      "statement_summary": "Projection functors P : B x C -> B and Q : B x C -> C act on objects and arrows by P(f,g) = f, Q(f,g) = g. Universal property (stated and proved in prose): for any category D and functors R : D -> B, T : D -> C, there is a UNIQUE functor F : D -> B x C with PF = R and QF = T \u2014 necessarily Fh = (Rh, Th) for every arrow h of D, and this formula does define a functor (diagram (2)). The projections are thus 'universal' among pairs of functors to B and C, exactly as for cartesian products of sets, groups, or spaces; general universal properties deferred to Chapter III.",
+      "book_section": "II.3",
+      "book_page": "36",
+      "pdf_pages": [
+        46
+      ],
+      "cross_refs": [
+        "maclane:II.3:def1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "contains-universal-property"
+      ]
+    },
+    {
+      "id": "maclane:II.3:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "product of functors U x V",
+      "statement_summary": "For functors U : B -> B' and V : C -> C', the product functor U x V : B x C -> B' x C' is defined explicitly by (U x V)(b,c) = (Ub, Vc) on objects and (U x V)(f,g) = (Uf, Vg) on arrows; alternatively it is the unique functor (via the product universal property) making the diagram (3) with both projection squares commute (P'(U x V) = UP, Q'(U x V) = VQ).",
+      "book_section": "II.3",
+      "book_page": "36",
+      "pdf_pages": [
+        46,
+        47
+      ],
+      "cross_refs": [
+        "maclane:II.3:construction1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.3:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "x as a functor Cat x Cat -> Cat",
+      "statement_summary": "The product operation is functorial: whenever U' o U and V' o V are defined, (U' x V') o (U x V) = (U'U) x (V'V); together with the object assignment (B,C) |-> B x C this makes x, restricted to small categories, a functor x : Cat x Cat -> Cat. Analogous functors exist for other categories with products of structures: Grp x Grp -> Grp, Top x Top -> Top, etc.",
+      "book_section": "II.3",
+      "book_page": "37",
+      "pdf_pages": [
+        47
+      ],
+      "cross_refs": [
+        "maclane:II.3:construction2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.3:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "bifunctor (functor of two variables)",
+      "statement_summary": "A functor S : B x C -> D out of a product category is called a bifunctor on B and C, or a functor of two variables (objects in B and in C). Example: the cartesian product X x Y of sets is the object function of a bifunctor Set x Set -> Set. Fixing one argument of a bifunctor yields an ordinary one-variable functor of the remaining argument.",
+      "book_section": "II.3",
+      "book_page": "37",
+      "pdf_pages": [
+        47
+      ],
+      "cross_refs": [
+        "maclane:II.3:def1"
+      ],
+      "flags": [
+        "unnumbered",
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.3:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "bifunctor determined by its partial functors",
+      "statement_summary": "Let B, C, D be categories; for all objects c in C and b in B let L_c : B -> D and M_b : C -> D be functors with L_c(b) = M_b(c) for all b, c. Then there exists a bifunctor S : B x C -> D with S(-,c) = L_c for all c and S(b,-) = M_b for all b IF AND ONLY IF for every pair of arrows f : b -> b' and g : c -> c' one has M_{b'} g o L_c f = L_{c'} f o M_b g (displayed (4)); this common value is then the arrow S(f,g). Proof: factor (f,g) = (b',g) o (f,c) = (f,c') o (b,g) in B x C (identity arrows written as their objects), so the condition is (4) rewritten; conversely (4) defines S(f,g) and one verifies functoriality.",
+      "book_section": "II.3",
+      "book_page": "37",
+      "pdf_pages": [
+        47,
+        48
+      ],
+      "cross_refs": [
+        "maclane:II.3:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.3:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "opposite of a product; mixed-variance bifunctors",
+      "statement_summary": "Products of three or more categories, and combinations with opposites, work the same way; there is an evident isomorphism (B x C)^op iso B^op x C^op. A functor B^op x C -> D is called a bifunctor contravariant in B and covariant in C, with values in D.",
+      "book_section": "II.3",
+      "book_page": "38",
+      "pdf_pages": [
+        48
+      ],
+      "cross_refs": [
+        "maclane:II.2:def1",
+        "maclane:II.3:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.3:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "the hom bifunctor hom : C^op x C -> Set",
+      "statement_summary": "For a category C with small hom-sets, the hom-sets define a bifunctor hom : C^op x C -> Set, contravariant in the first variable and covariant in the second: the co- and contravariant hom-functors hom(-,c) : C^op -> Set and hom(b,-) : C -> Set satisfy the commutation condition (4) of Proposition 1 \u2014 that condition is exactly the commutative square (6) of section II.2.",
+      "book_section": "II.3",
+      "book_page": "38",
+      "pdf_pages": [
+        48
+      ],
+      "cross_refs": [
+        "maclane:II.3:prop1",
+        "maclane:II.2:remark1",
+        "maclane:II.2:construction4",
+        "maclane:II.2:construction5"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.3:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "naturality in one variable of a family between bifunctors",
+      "statement_summary": "For bifunctors S, S' : B x C -> D and a function alpha assigning to each pair of objects (b,c) an arrow alpha(b,c) : S(b,c) -> S'(b,c) in D (displayed (5)): alpha is called natural in b if, for each fixed c in C, the components alpha(b,c) for all b form a natural transformation alpha(-,c) : S(-,c) -> S'(-,c) of functors B -> D (and dually natural in c).",
+      "book_section": "II.3",
+      "book_page": "38",
+      "pdf_pages": [
+        48
+      ],
+      "cross_refs": [
+        "maclane:II.3:def2"
+      ],
+      "flags": [
+        "unnumbered",
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.3:prop2",
+      "kind": "proposition",
+      "number": "2",
+      "name": "bifunctor naturality is componentwise naturality",
+      "statement_summary": "For bifunctors S, S' : B x C -> D, a family alpha(b,c) : S(b,c) -> S'(b,c) is a natural transformation alpha : S -> S' of bifunctors if and only if alpha(b,c) is natural in b for each fixed c and natural in c for each fixed b. (Proof left to the reader.)",
+      "book_section": "II.3",
+      "book_page": "38",
+      "pdf_pages": [
+        48
+      ],
+      "cross_refs": [
+        "maclane:II.3:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.3:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "adjunction preview: hom-bifunctors and left adjoints",
+      "statement_summary": "Forward pointer with real content: a functor F : X -> C is the left adjoint of a functor G : C -> X when there is a bijection hom_C(Fx, c) iso hom_X(x, Gc) natural in x in X and c in C; here hom_C(F-, -) is the bifunctor X^op x C -> Set given as the composite of F^op x Id : X^op x C -> C^op x C with hom_C, and hom_X(-, G-) similarly (at least when X and C have small hom-sets). Such two-variable natural transformations underlie the definition of adjoint functors in Chapter IV.",
+      "book_section": "II.3",
+      "book_page": "38",
+      "pdf_pages": [
+        48,
+        49
+      ],
+      "cross_refs": [
+        "maclane:II.3:construction4",
+        "maclane:II.3:prop2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.3:construction5",
+      "kind": "construction",
+      "number": null,
+      "name": "cylinder C x 2 and the universal natural transformation",
+      "statement_summary": "With 2 the category with one non-identity arrow 0 -> 1, the product C x 2 consists of two copies C x 0 and C x 1 of C with connecting arrows from the first to the second. Functors T_0, T_1 : C -> C x 2 ('bottom' and 'top') are T_i f = (f, i); with down-arrow the non-identity arrow of 2, mu : T_0 -> T_1 defined by mu c = (c, downarrow) is a natural transformation, called the universal natural transformation from C: for any natural transformation tau : S -> T between functors S, T : C -> B there is a unique functor F : C x 2 -> B with F mu c = tau c for all c \u2014 explicitly F(f,0) = Sf, F(f,1) = Tf, and F(f, downarrow) = Tf o tau c = tau c' o Sf for f : c -> c' (displayed (6)); these assignments define a functor and F mu = tau. (Natural transformations = functors out of the cylinder.)",
+      "book_section": "II.3",
+      "book_page": "39",
+      "pdf_pages": [
+        49
+      ],
+      "cross_refs": [
+        "maclane:II.3:def1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "contains-universal-property"
+      ]
+    },
+    {
+      "id": "maclane:II.3:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "product category subsumes known products",
+      "statement_summary": "Show the product of categories includes as special cases: the product of monoids (one-object categories), of groups, and of sets (discrete categories).",
+      "book_section": "II.3",
+      "book_page": "39",
+      "pdf_pages": [
+        49
+      ],
+      "cross_refs": [
+        "maclane:II.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.3:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "product of preorders",
+      "statement_summary": "Show that the product of two preorders (as categories) is a preorder.",
+      "book_section": "II.3",
+      "book_page": "39",
+      "pdf_pages": [
+        49
+      ],
+      "cross_refs": [
+        "maclane:II.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.3:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "set-indexed products of categories",
+      "statement_summary": "For a family {C_i | i in I} of categories indexed by a set I, describe the product category C = Prod_i C_i and its projections P_i : C -> C_i, and establish the universal property of these projections (unique functor into the product commuting with all projections).",
+      "book_section": "II.3",
+      "book_page": "40",
+      "pdf_pages": [
+        50
+      ],
+      "cross_refs": [
+        "maclane:II.3:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.3:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "opposite of the matrix category",
+      "statement_summary": "Describe the opposite of the category Matr_K of section I.2 (objects natural numbers, arrows n -> m the m x n matrices over K).",
+      "book_section": "II.3",
+      "book_page": "40",
+      "pdf_pages": [
+        50
+      ],
+      "cross_refs": [
+        "maclane:II.2:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.3:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "continuous-function ring as contravariant functor Top -> Rng",
+      "statement_summary": "Show that the assignment sending a topological space to the ring of continuous real-valued functions on it is the object function of a contravariant functor on Top to Rng.",
+      "book_section": "II.3",
+      "book_page": "40",
+      "pdf_pages": [
+        50
+      ],
+      "cross_refs": [
+        "maclane:II.2:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.4:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "functor category B^C with vertical composition",
+      "statement_summary": "For functors R, S, T : C -> B and natural transformations sigma : R -> S, tau : S -> T, the (vertical) composite tau . sigma has components (tau . sigma)c = tau c o sigma c; it is natural (the stacked naturality squares for sigma and tau make the outer rectangle commute), the composition is associative, and each T has identity 1_T with components 1_{Tc}. Hence the functor category B^C = Funct(C, B): objects all functors T : C -> B, morphisms the natural transformations between them, hom-sets Nat(S,T) = {tau | tau : S -> T natural} (displayed (1)) \u2014 which need not be small sets.",
+      "book_section": "II.4",
+      "book_page": "40",
+      "pdf_pages": [
+        50
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered",
+        "prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.4:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "elementary computations of functor categories",
+      "statement_summary": "When B and C are sets (discrete categories), B^C is the usual function set of all functions C -> B; for B = {0,1}, the set {0,1}^C is isomorphic to the power set P(C). For any category B, B^1 is isomorphic to B (1 the one-object one-arrow category).",
+      "book_section": "II.4",
+      "book_page": "40",
+      "pdf_pages": [
+        50
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.4:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "arrow category B^2",
+      "statement_summary": "B^2 (2 the arrow category 0 -> 1) is the category of arrows of B: its objects are the arrows f : a -> b of B, and its morphisms f -> f' are pairs (h,k) of arrows of B forming a commutative square k o f = f' o h (diagram (2): h : a -> a', k : b -> b', f' : a' -> b').",
+      "book_section": "II.4",
+      "book_page": "40",
+      "pdf_pages": [
+        50,
+        51
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.4:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "Set^M as M-actions; Grp^M as groups with operators",
+      "statement_summary": "For M a monoid (one-object category), the functor category Set^M is the category with objects the actions of M on sets and arrows the morphisms of such actions (equivariant maps); an object of Grp^M is a group with operators M.",
+      "book_section": "II.4",
+      "book_page": "41",
+      "pdf_pages": [
+        51
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "example"
+      ]
+    },
+    {
+      "id": "maclane:II.4:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "(K-Mod)^G as K-linear representations; intertwining operators",
+      "statement_summary": "For K a commutative ring and G a group, the functor category (K-Mod)^G is the category of K-linear representations of G: a functor T : G -> K-Mod is determined by a K-module V (image of the single object) and a homomorphism T : G -> Aut(V) (representation by linear transformations); a natural transformation sigma : T -> T' is a single arrow sigma : V -> V' with sigma o Tg = T'g o sigma for every g in G (diagram (3)) \u2014 an intertwining operator. So (K-Mod)^G has representations as objects and intertwining operators as morphisms.",
+      "book_section": "II.4",
+      "book_page": "41",
+      "pdf_pages": [
+        51
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "example"
+      ]
+    },
+    {
+      "id": "maclane:II.4:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "size of B^C for large C",
+      "statement_summary": "When C is large, the functor category B^C need not be a subset of the universe: take B = {0,1} and C the discrete category on the universe-sized set U; functors U -> B correspond (as characteristic functions) to subsets of U, so the object set of {0,1}^U is equivalent to the power set P(U), which has larger cardinal number than U.",
+      "book_section": "II.4",
+      "book_page": "41",
+      "pdf_pages": [
+        51
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1",
+        "maclane:II.2:construction6"
+      ],
+      "flags": [
+        "foundational"
+      ]
+    },
+    {
+      "id": "maclane:II.4:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "R-Mod inside Ab^R",
+      "statement_summary": "For R a ring, describe R-Mod as a full subcategory of the functor category Ab^R (R regarded as a one-object preadditive category acting on abelian groups).",
+      "book_section": "II.4",
+      "book_page": "41",
+      "pdf_pages": [
+        51
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.4:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "B^X for finite discrete X",
+      "statement_summary": "Describe B^X for X a finite set (viewed as a finite discrete category) \u2014 a finite power of the category B.",
+      "book_section": "II.4",
+      "book_page": "41",
+      "pdf_pages": [
+        51
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.4:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "Ab^N as graded abelian groups",
+      "statement_summary": "With N the discrete category of natural numbers, describe the functor category Ab^N \u2014 commonly known as the category of graded abelian groups.",
+      "book_section": "II.4",
+      "book_page": "41",
+      "pdf_pages": [
+        51
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.4:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "Q^P for preorders is a preorder",
+      "statement_summary": "If P and Q are preorders, describe the functor category Q^P and show that it is a preorder (monotone maps ordered pointwise).",
+      "book_section": "II.4",
+      "book_page": "41",
+      "pdf_pages": [
+        51
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1",
+        "maclane:II.3:ex2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.4:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "Fin^G as permutation representations",
+      "statement_summary": "If Fin is the category of all finite sets and G a finite group, describe Fin^G \u2014 the category of all permutation representations of G.",
+      "book_section": "II.4",
+      "book_page": "42",
+      "pdf_pages": [
+        52
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.4:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "equivalent and similar matrices via functor categories",
+      "statement_summary": "Let M be the infinite cyclic monoid (elements 1, m, m^2, ...). Show that in the functor categories (Matr_K)^2 and (Matr_K)^M, objects are matrices, and isomorphic objects are exactly equivalent matrices (for exponent 2) and similar matrices (for exponent M), in the usual sense of linear algebra.",
+      "book_section": "II.4",
+      "book_page": "42",
+      "pdf_pages": [
+        52
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1",
+        "maclane:II.4:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.4:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "functors into the arrow category = natural transformations",
+      "statement_summary": "Given categories B, C: show each functor H : C -> B^2 determines two functors S, T : C -> B and a natural transformation tau : S -> T, and that the assignment H |-> (S, T, tau) is a bijection between functors C -> B^2 and such triples.",
+      "book_section": "II.4",
+      "book_page": "42",
+      "pdf_pages": [
+        52
+      ],
+      "cross_refs": [
+        "maclane:II.4:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.4:ex8",
+      "kind": "exercise",
+      "number": "8",
+      "name": "arrow-category vs cylinder descriptions of naturality",
+      "statement_summary": "Relate the functor H : C -> B^2 of Exercise 7 to the functor F : C x 2 -> B of display (3.6) (the cylinder/universal-natural-transformation correspondence) \u2014 the exponential-transpose relationship between the two encodings of a natural transformation.",
+      "book_section": "II.4",
+      "book_page": "42",
+      "pdf_pages": [
+        52
+      ],
+      "cross_refs": [
+        "maclane:II.4:ex7",
+        "maclane:II.3:construction5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.5:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "horizontal composition of natural transformations",
+      "statement_summary": "Given tau : S -> T between functors C -> B and tau' : S' -> T' between functors B -> A (display (1)), the horizontal composite tau' o tau : S'S -> T'T has components (tau' o tau)c defined as the diagonal of the square with edges tau' Sc and T' tau c (commutative by naturality of tau'), i.e. (tau' o tau)c = T' tau c o tau' Sc = tau' Tc o S' tau c (display (2)); it is natural in c (proved by a two-square pasting diagram). The composition is associative and has identities: 1_{I_B} (identity transformation of the identity functor) satisfies 1_B o tau = tau and tau' o 1_B = tau'; letting a functor symbol S also denote its identity transformation gives the whiskerings S' o tau : S'S -> S'T and tau' o T : S'T -> T'T, and the rewriting tau' o tau = (T' o tau) . (tau' o S) = (tau' o T) . (S' o tau) (display (3)). [The interchange law (5) and Theorem 1 begin on printed 43 / PDF 53, outside this range.]",
+      "book_section": "II.5",
+      "book_page": "42",
+      "pdf_pages": [
+        52,
+        53
+      ],
+      "cross_refs": [
+        "maclane:II.4:def1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "crosses-range-boundary"
+      ]
+    },
+    {
+      "id": "maclane:II.5:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "whiskering (horizontal composite with an identity transformation)",
+      "statement_summary": "Convention: a functor symbol S also denotes the identity natural transformation on S. For tau : S -> T (functors C->B) and tau' : S' -> T' (functors B->A), this yields the whiskered transformations S' o tau : S'S -> S'T and tau' o T : S'T -> T'T, and the horizontal composite factors both ways through whiskering: tau' o tau = (T' o tau) . (tau' o S) = (tau' o T) . (S' o tau) (display (3)), where . is vertical composition.",
+      "book_section": "II.5",
+      "book_page": "43",
+      "pdf_pages": [
+        53
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-prose-definition",
+        "depends-on-horizontal-composition-defined-on-pdf-52"
+      ]
+    },
+    {
+      "id": "maclane:II.5:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "interchange law for vertical and horizontal composition",
+      "statement_summary": "Given three categories C, B, A, vertically composable natural transformations sigma, tau between functors C->B, and vertically composable sigma', tau' between functors B->A, the vertical composites (under .) and horizontal composites (under o) satisfy (tau' . sigma') o (tau . sigma) = (tau' o tau) . (sigma' o sigma) (display (5), the interchange law / middle-four exchange). Proof by diagram left to the reader.",
+      "book_section": "II.5",
+      "book_page": "43",
+      "pdf_pages": [
+        53
+      ],
+      "cross_refs": [
+        "maclane:II.5:def1"
+      ],
+      "flags": [
+        "unnumbered",
+        "proof-left-to-reader"
+      ]
+    },
+    {
+      "id": "maclane:II.5:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "natural transformations form two interchanging categories (Cat is a 2-category)",
+      "statement_summary": "Considering only small categories: the collection of all natural transformations is simultaneously the arrow set of two different categories under two composition operations, vertical . (whose objects are functors) and horizontal o (whose objects are categories); the two compositions satisfy the interchange law, and every arrow that is an identity for o is also an identity for . . In modern terms: functors and natural transformations organize Cat into a 2-category.",
+      "book_section": "II.5",
+      "book_page": "43",
+      "pdf_pages": [
+        53
+      ],
+      "cross_refs": [
+        "maclane:II.5:remark1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.5:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "double category (Ehresmann)",
+      "statement_summary": "A double category is a set that is the set of arrows for two different composition operations which together satisfy the interchange law (5). Example given: the commutative squares in Set, under the evident horizontal and vertical pastings, form a double category.",
+      "book_section": "II.5",
+      "book_page": "44",
+      "pdf_pages": [
+        54
+      ],
+      "cross_refs": [
+        "maclane:II.5:remark1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.5:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "2-category",
+      "statement_summary": "A 2-category (two-dimensional category) is a double category in which every identity arrow for the first composition is also an identity for the second composition. The double category of commutative squares in Set is not a 2-category; n-categories for higher n are deferred to Chapter XII.",
+      "book_section": "II.5",
+      "book_page": "44",
+      "pdf_pages": [
+        54
+      ],
+      "cross_refs": [
+        "maclane:II.5:def2",
+        "maclane:II.5:thm1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.5:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "interchange for partially defined operations; functoriality of a binary functor as interchange",
+      "statement_summary": "Two partially defined binary operations . and o on one set satisfy the interchange law when (5) holds whenever the composites on both sides are defined. If . : C x C -> C is a functor (e.g. a tensor product) and o is composition of arrows of C, the interchange law is precisely the requirement that the functor . preserve composition. A further example: block-diagonal sum of square matrices and matrix product satisfy interchange.",
+      "book_section": "II.5",
+      "book_page": "44",
+      "pdf_pages": [
+        54
+      ],
+      "cross_refs": [
+        "maclane:II.5:remark1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.5:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "functor-category exponential as a bifunctor Cat^op x Cat -> Cat",
+      "statement_summary": "The functor category B^C is functorial covariantly in B and contravariantly in C: restricting to small categories there is a functor Cat^op x Cat -> Cat sending <C, B> to B^C, and sending functors F : B -> B' and G : C' -> C to F^G : B^C -> B'^(C'), defined on objects S of B^C by F^G S = F o S o G and on arrows tau by F^G tau = F o tau o G (whiskering on both sides). This is the exact analogue of the hom-functor Set^op x Set -> Set.",
+      "book_section": "II.5",
+      "book_page": "44",
+      "pdf_pages": [
+        54
+      ],
+      "cross_refs": [
+        "maclane:II.5:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.5:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "Cat is cartesian closed",
+      "statement_summary": "For small categories A, B, C establish a bijection Cat(A x B, C) isomorphic to Cat(A, C^B), show it is natural in A, B, and C, and deduce that - x B : Cat -> Cat has a right adjoint (reference forward to Chapter IX).",
+      "book_section": "II.5",
+      "book_page": "44",
+      "pdf_pages": [
+        54
+      ],
+      "cross_refs": [
+        "maclane:II.5:construction2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.5:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "exponential laws for functor categories",
+      "statement_summary": "For categories A, B, C establish natural isomorphisms (A x B)^C isomorphic to A^C x B^C and C^(A x B) isomorphic to (C^B)^A, and compare the second with the bijection of Exercise 1.",
+      "book_section": "II.5",
+      "book_page": "44",
+      "pdf_pages": [
+        54
+      ],
+      "cross_refs": [
+        "maclane:II.5:ex1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.5:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "horizontal composition is a functor on functor categories",
+      "statement_summary": "Use Theorem 1 to show that horizontal composition of natural transformations is a functor o : A^B x B^C -> A^C.",
+      "book_section": "II.5",
+      "book_page": "45",
+      "pdf_pages": [
+        55
+      ],
+      "cross_refs": [
+        "maclane:II.5:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.5:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "interchange for loops in a topological group",
+      "statement_summary": "In a topological group G with identity e, take continuous paths sigma, sigma', tau, tau' starting and ending at e. With tau o sigma defined as concatenation (sigma followed by tau) and tau . sigma as the pointwise group product ((tau . sigma)(t) = tau(t) sigma(t)), prove the interchange law (5) holds.",
+      "book_section": "II.5",
+      "book_page": "45",
+      "pdf_pages": [
+        55
+      ],
+      "cross_refs": [
+        "maclane:II.5:remark1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.5:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "Hilton-Eckmann (Eckmann-Hilton) argument",
+      "statement_summary": "If a set S carries two everywhere-defined binary operations . and o which share the same two-sided unit element e and satisfy the interchange identity (5), then the two operations coincide and each is commutative.",
+      "book_section": "II.5",
+      "book_page": "45",
+      "pdf_pages": [
+        55
+      ],
+      "cross_refs": [
+        "maclane:II.5:remark1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.5:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "fundamental group of a topological group is abelian",
+      "statement_summary": "Combine Exercises 4 and 5 to prove that the fundamental group of a topological group is abelian.",
+      "book_section": "II.5",
+      "book_page": "45",
+      "pdf_pages": [
+        55
+      ],
+      "cross_refs": [
+        "maclane:II.5:ex4",
+        "maclane:II.5:ex5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.5:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "arrow functions of a functor as a natural transformation of hom-functors",
+      "statement_summary": "For a functor T : A -> D, show that its arrow functions T_{a,b} : A(a,b) -> D(Ta, Tb) constitute a natural transformation between the two functors A^op x A -> Set given by A(-,-) and D(T-, T-).",
+      "book_section": "II.5",
+      "book_page": "45",
+      "pdf_pages": [
+        55
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.5:ex8",
+      "kind": "exercise",
+      "number": "8",
+      "name": "endo-transformations of the identity functor form a commutative monoid (the centre)",
+      "statement_summary": "For any category C the natural transformations alpha : I_C -> I_C of the identity functor to itself form a commutative monoid; identify this monoid for C = Grp, Ab, and Set.",
+      "book_section": "II.5",
+      "book_page": "45",
+      "pdf_pages": [
+        55
+      ],
+      "cross_refs": [
+        "maclane:II.5:ex5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.6:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "category of objects under b, (b \u2193 C)",
+      "statement_summary": "For an object b of C, the category (b down-arrow C) of objects under b has as objects the pairs <f, c> with f : b -> c an arrow of C, and as arrows <f,c> -> <f',c'> those arrows h : c -> c' of C with h o f = f' (commutative triangles with top vertex b); composition is composition of the base arrows in C. Examples: for a one-point set *, (* down-arrow Set) is the category of pointed sets; (Z down-arrow Ab) is abelian groups each with a selected element.",
+      "book_section": "II.6",
+      "book_page": "45",
+      "pdf_pages": [
+        55
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.6:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "category of objects over a, (C \u2193 a)",
+      "statement_summary": "For an object a of C, the category (C down-arrow a) of objects over a has as objects the arrows f : c -> a and as arrows those h : c -> c' with f' o h = f (commutative triangles over a). Examples: since * is terminal in Set, (Set down-arrow *) is isomorphic to Set; (Rng down-arrow Z) is the category of augmented rings (rings with a morphism epsilon : R -> Z, morphisms preserving the augmentation).",
+      "book_section": "II.6",
+      "book_page": "45",
+      "pdf_pages": [
+        55,
+        56
+      ],
+      "cross_refs": [
+        "maclane:II.6:def1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "maclane:II.6:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "category of objects S-under b, (b \u2193 S)",
+      "statement_summary": "For b an object of C and a functor S : D -> C, the category (b down-arrow S) of objects S-under b has objects the pairs <f, d> with d in D and f : b -> Sd in C, and arrows <f,d> -> <f',d'> those arrows h : d -> d' of D with Sh o f = f'; composition is composition of the arrows h in D, and equality of arrows means equality in D. Example: for the forgetful U : Grp -> Set and a set x, (x down-arrow U) has as objects the functions from x into underlying sets of groups (used extensively for adjoint functors). Dually, for a in C and T : E -> C one constructs (T down-arrow a), the category of objects T-over a.",
+      "book_section": "II.6",
+      "book_page": "46",
+      "pdf_pages": [
+        56
+      ],
+      "cross_refs": [
+        "maclane:II.6:def1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.6:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "comma category (T \u2193 S)",
+      "statement_summary": "Given functors T : E -> C and S : D -> C, the comma category (T down-arrow S), also written (T, S), has as objects all triples <e, d, f> with e in E, d in D, and f : Te -> Sd in C, and as arrows <e,d,f> -> <e',d',f'> all pairs <k, h> with k : e -> e' and h : d -> d' such that f' o Tk = Sh o f (a commutative square); composites are formed componentwise, <k',h'> o <k,h> = <k' o k, h' o h>.",
+      "book_section": "II.6",
+      "book_page": "46",
+      "pdf_pages": [
+        56
+      ],
+      "cross_refs": [
+        "maclane:II.6:def1",
+        "maclane:II.6:def2",
+        "maclane:II.6:def3"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.6:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "specializations of the comma category; arrow category C^2; origin of the name",
+      "statement_summary": "The general comma category subsumes all the earlier cases: regarding an object b of C as a functor b : 1 -> C, (T down-arrow S) with T = b becomes (b down-arrow S), and with S also the identity of C becomes (b down-arrow C); dually (T down-arrow S) = (b down-arrow a) type cases. With S = T = identity of C, (C down-arrow C) is exactly the arrow category C^2 of all arrows of C. Taking S and T to be objects a and b (functors from 1), (T down-arrow S) is the discrete category on the hom-set C(b, a) - the source of the historical notation (T, S) and the name 'comma category'.",
+      "book_section": "II.6",
+      "book_page": "46",
+      "pdf_pages": [
+        56,
+        57
+      ],
+      "cross_refs": [
+        "maclane:II.6:def1",
+        "maclane:II.6:def2",
+        "maclane:II.6:def3",
+        "maclane:II.6:def4"
+      ],
+      "flags": [
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "maclane:II.6:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "projections P, Q, R of the comma category and the diagram over C^2",
+      "statement_summary": "The comma category (T down-arrow S) carries projection functors P : (T down-arrow S) -> E and Q : (T down-arrow S) -> D (on objects <e,d,f> giving e and d) and a functor R : (T down-arrow S) -> C^2 (giving the arrow f : Te -> Sd), fitting into a commutative diagram over E ->(T) C <-(C^{d0}) C^2 ->(C^{d1}) C <-(S) D, where d0, d1 : 1 -> 2 induce the functors C^{d0}, C^{d1} : C^2 -> C sending each arrow of C to its domain and codomain respectively (displays (5), (6); arrow-level definitions left to Exercise 3).",
+      "book_section": "II.6",
+      "book_page": "47",
+      "pdf_pages": [
+        57
+      ],
+      "cross_refs": [
+        "maclane:II.6:def4",
+        "maclane:II.5:construction2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.6:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "(K \u2193 CRng) is commutative K-algebras",
+      "statement_summary": "For a commutative ring K, show the comma category (K down-arrow CRng) is the usual category of all small commutative K-algebras.",
+      "book_section": "II.6",
+      "book_page": "47",
+      "pdf_pages": [
+        57
+      ],
+      "cross_refs": [
+        "maclane:II.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.6:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "slice over a terminal object",
+      "statement_summary": "If t is a terminal object of C, prove that the category (C down-arrow t) of objects over t is isomorphic to C.",
+      "book_section": "II.6",
+      "book_page": "47",
+      "pdf_pages": [
+        57
+      ],
+      "cross_refs": [
+        "maclane:II.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.6:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "arrow-level definition of the comma projections",
+      "statement_summary": "Complete display (6) by defining the functors P, Q, and R of the comma-category diagram on arrows.",
+      "book_section": "II.6",
+      "book_page": "47",
+      "pdf_pages": [
+        57
+      ],
+      "cross_refs": [
+        "maclane:II.6:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.6:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "natural transformations as sections of the comma projections (S. A. Huq)",
+      "statement_summary": "Given functors T, S : D -> C, show that a natural transformation tau : T -> S is the same thing as a functor tau : D -> (T down-arrow S) with P tau = Q tau = id_D, where P and Q are the comma projections.",
+      "book_section": "II.6",
+      "book_page": "47",
+      "pdf_pages": [
+        57
+      ],
+      "cross_refs": [
+        "maclane:II.6:def4",
+        "maclane:II.6:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.6:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "comma category as a limit ('pullback') over the C^2 diagram",
+      "statement_summary": "Given any category X with functors P', R', Q' forming a commutative diagram over the row E -> C <- C^2 -> C <- D (as in display (5)), prove there is a unique functor L : X -> (T down-arrow S) with P' = P L, Q' = Q L, and R' = R L; this exhibits (T down-arrow S) as a 'pullback'-style limit (cf. section III.4).",
+      "book_section": "II.6",
+      "book_page": "47",
+      "pdf_pages": [
+        57,
+        58
+      ],
+      "cross_refs": [
+        "maclane:II.6:construction1"
+      ],
+      "flags": [
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "maclane:II.6:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "functoriality of the comma construction",
+      "statement_summary": "(a) For fixed small categories C, D, E, show that <T, S> maps to (T down-arrow S) is the object function of a functor (C^E)^op x (C^D) -> Cat. (b) Describe a similar functor when C, D, and E are also allowed to vary.",
+      "book_section": "II.6",
+      "book_page": "48",
+      "pdf_pages": [
+        58
+      ],
+      "cross_refs": [
+        "maclane:II.6:def4",
+        "maclane:II.5:construction2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.7:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "morphism of graphs; the category Grph",
+      "statement_summary": "A morphism D : G -> G' of (directed) graphs is a pair of functions D_O : O -> O' on objects and D_A : A -> A' on arrows commuting with domain and codomain (D_O of the domain/codomain of f equals the domain/codomain of D_A f). With the evident composition, small graphs and these morphisms form the category Grph. (A graph is small when both O and A are sets; graphs are also called diagram schemes or precategories. The graph notion itself recalls section I.2.)",
+      "book_section": "II.7",
+      "book_page": "48",
+      "pdf_pages": [
+        58
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.7:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "forgetful functor U : Cat -> Grph",
+      "statement_summary": "Every category C determines an underlying graph UC with the same objects and arrows, forgetting which arrows are composites and which are identities; every functor F : C -> C' gives a graph morphism UF : UC -> UC'. These observations define the forgetful functor U : Cat -> Grph from small categories to small graphs.",
+      "book_section": "II.7",
+      "book_page": "48",
+      "pdf_pages": [
+        58
+      ],
+      "cross_refs": [
+        "maclane:II.7:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.7:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "O-graphs and O-graph morphisms; the trivial O-graph",
+      "statement_summary": "For a fixed set O, an O-graph is a graph with O as its set of objects, and a morphism of O-graphs is a graph morphism whose object function D_O is the identity on O. The simplest O-graph is O itself, with arrow set O and both domain and codomain functions the identity.",
+      "book_section": "II.7",
+      "book_page": "48",
+      "pdf_pages": [
+        58,
+        59
+      ],
+      "cross_refs": [
+        "maclane:II.7:def1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition",
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "maclane:II.7:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "product over O of O-graphs (composable pairs)",
+      "statement_summary": "For O-graphs A and B (identified with their arrow sets), the product over O is A x_O B = the set of pairs <g, f> with the domain of g equal to the codomain of f (composable pairs), made an O-graph by setting domain<g,f> = domain f and codomain<g,f> = codomain g. This operation is associative up to an evident isomorphism A x_O (B x_O C) isomorphic to (A x_O B) x_O C, and the trivial O-graph O is a unit up to isomorphism: A isomorphic to A x_O O (via f maps to <f, domain f>) and to O x_O A.",
+      "book_section": "II.7",
+      "book_page": "49",
+      "pdf_pages": [
+        59
+      ],
+      "cross_refs": [
+        "maclane:II.7:def2"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.7:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "a category is a monoid in O-Grph",
+      "statement_summary": "A category with object set O is exactly an O-graph A equipped with two O-graph morphisms c : A x_O A -> A (composition) and i : O -> A (identities) making the associativity square and the two unit diagrams commute (display (3)): composable pairs get composites, each object gets an identity arrow acting as two-sided unit, and composition is associative. Thus a category is like a monoid with Set replaced by O-Grph and cartesian product by x_O.",
+      "book_section": "II.7",
+      "book_page": "49",
+      "pdf_pages": [
+        59
+      ],
+      "cross_refs": [
+        "maclane:II.7:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.7:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "free category C(G) on a graph (paths / strings of composable arrows)",
+      "statement_summary": "Any O-graph G generates a category C = C(G) on the same object set O, the free category generated by G: its arrows from b to a are the finite strings (paths) <a_1, f_1, a_2, ..., f_{n-1}, a_n> of composable arrows of G; composition is juxtaposition/concatenation identifying the common end, which is manifestly associative; the length-one strings <a> are the identities; every string of length n > 1 factors as a composite of length-two strings (display (5)). The canonical graph morphism P : G -> UC sends each arrow f : a_1 -> a_2 to the length-two string <a_1, f, a_2>.",
+      "book_section": "II.7",
+      "book_page": "49",
+      "pdf_pages": [
+        59,
+        60
+      ],
+      "cross_refs": [
+        "maclane:II.7:def2",
+        "maclane:II.7:construction1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "spans-pages",
+        "details-in-proof-of-thm1"
+      ]
+    },
+    {
+      "id": "maclane:II.7:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "universal property of the free category on a graph",
+      "statement_summary": "For any small graph G there is a small category C = C_G with the objects of G as objects, together with a graph morphism P : G -> UC, such that for any category B and any graph morphism D : G -> UB there is a unique functor D' : C -> B with (UD') o P = D. In particular, if B has the same object set O and D is a morphism of O-graphs, then D' is the identity on objects.",
+      "book_section": "II.7",
+      "book_page": "49",
+      "pdf_pages": [
+        59,
+        60
+      ],
+      "cross_refs": [
+        "maclane:II.7:construction2",
+        "maclane:II.7:construction1"
+      ],
+      "flags": [
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "maclane:II.7:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "P is initial in the comma category (G \u2193 U); universality",
+      "statement_summary": "The property of P stated in Theorem 1 is equivalent to saying that the arrow P : G -> UC is an initial object of the comma category (G down-arrow U); hence P is unique up to an isomorphism of C. This 'universal among morphisms from G to U' phrasing will recur.",
+      "book_section": "II.7",
+      "book_page": "50",
+      "pdf_pages": [
+        60
+      ],
+      "cross_refs": [
+        "maclane:II.7:thm1",
+        "maclane:II.6:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.7:remark3",
+      "kind": "remark",
+      "number": null,
+      "name": "examples of free categories",
+      "statement_summary": "For the one-object graph with a single endo-arrow f, the free category has arrows 1, f, f^2, ... (the free monoid on one generator, as a one-object category). For a single arrow g with distinct endpoints, the free category is g plus one identity at each end. For the graph with three vertices . -> . -> ., the free category is a commutative triangle (three identities, the two generators, and one composite arrow).",
+      "book_section": "II.7",
+      "book_page": "50",
+      "pdf_pages": [
+        60
+      ],
+      "cross_refs": [
+        "maclane:II.7:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.7:cor2",
+      "kind": "corollary",
+      "number": "2",
+      "name": "free monoid on a set, universal property",
+      "statement_summary": "To any set X there is a monoid M and a function p : X -> UM (UM the underlying set) with the universal property: for any monoid L and any function h : X -> UL there is a unique morphism of monoids h' : M -> L with h = Uh' o p. The elements of M are the identity and the finite strings <x_1, ..., x_n> of elements of X. (Obtained from Theorem 1 by taking O a one-point set, so the graph is just a set of arrows.)",
+      "book_section": "II.7",
+      "book_page": "50",
+      "pdf_pages": [
+        60,
+        61
+      ],
+      "cross_refs": [
+        "maclane:II.7:thm1"
+      ],
+      "flags": [
+        "spans-pages",
+        "corollary-numbered-2-continuing-theorem-counter"
+      ]
+    },
+    {
+      "id": "maclane:II.7:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "diagram of shape G in a category",
+      "statement_summary": "For a graph G, a diagram of the shape G in a category B is defined to be a graph morphism D : G -> UB into the underlying graph of B.",
+      "book_section": "II.7",
+      "book_page": "51",
+      "pdf_pages": [
+        61
+      ],
+      "cross_refs": [
+        "maclane:II.7:def1",
+        "maclane:II.7:construction1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.7:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "free-category functor as left adjoint to U : Cat -> Grph",
+      "statement_summary": "By Theorem 1, diagrams D : G -> UB correspond exactly to functors D' : C_G -> B via D' maps to UD' o P, giving a bijection Cat(C_G, B) isomorphic to Grph(G, UB) (display (6)) natural in G and B; this asserts that the free-category functor C : Grph -> Cat is left adjoint (forward reference to Chapter IV) to the forgetful functor U : Cat -> Grph.",
+      "book_section": "II.7",
+      "book_page": "51",
+      "pdf_pages": [
+        61
+      ],
+      "cross_refs": [
+        "maclane:II.7:thm1",
+        "maclane:II.7:construction1",
+        "maclane:II.7:def4"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:II.7:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "opposite graph and product of graphs",
+      "statement_summary": "Define 'opposite graph' and 'product of two graphs' so as to agree with the corresponding definitions for categories, i.e. so that the forgetful functor U : Cat -> Grph preserves opposites and products.",
+      "book_section": "II.7",
+      "book_page": "51",
+      "pdf_pages": [
+        61
+      ],
+      "cross_refs": [
+        "maclane:II.7:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.7:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "finite ordinals are free categories",
+      "statement_summary": "Show that every finite ordinal number (regarded as a category) is a free category.",
+      "book_section": "II.7",
+      "book_page": "51",
+      "pdf_pages": [
+        61
+      ],
+      "cross_refs": [
+        "maclane:II.7:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.7:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "free groupoid on a graph; free groups",
+      "statement_summary": "Show that each graph G generates a free groupoid F, i.e. one satisfying the analogue of Theorem 1 with 'category C' replaced by 'groupoid F' and the target category by a groupoid; deduce as a corollary that every set generates a free group.",
+      "book_section": "II.7",
+      "book_page": "51",
+      "pdf_pages": [
+        61
+      ],
+      "cross_refs": [
+        "maclane:II.7:thm1",
+        "maclane:II.7:cor2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.8:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "quotient category C/R and its universal property",
+      "statement_summary": "For a category C, let R assign to each pair of objects a, b a binary relation R_{a,b} on the hom-set C(a,b). Then there exist a category C/R and a functor Q = Q_R : C -> C/R, bijective on objects, such that (i) f R_{a,b} f' implies Qf = Qf', and (ii) any functor H : C -> D satisfying (H f = H f' whenever f R_{a,b} f') factors uniquely as H = H' o Q_R for a functor H' : C/R -> D. Briefly, Q is the universal functor on C identifying R-related arrows. Proof: pass to the least congruence containing R and quotient each hom-set.",
+      "book_section": "II.8",
+      "book_page": "51",
+      "pdf_pages": [
+        61,
+        62
+      ],
+      "cross_refs": [
+        "maclane:II.8:def1"
+      ],
+      "flags": [
+        "spans-pages",
+        "proof-is-a-sketch"
+      ]
+    },
+    {
+      "id": "maclane:II.8:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "the homotopy category Toph as a quotient category",
+      "statement_summary": "For C = Top with f R f' meaning f is homotopic to f', the quotient category C/R is Toph (of section I.7): topological spaces with homotopy classes of continuous maps as arrows. The direct hom-set-quotient construction works here because homotopy is already an equivalence relation preserved by composition (i.e. a congruence); a general R first requires completion to a congruence.",
+      "book_section": "II.8",
+      "book_page": "51",
+      "pdf_pages": [
+        61,
+        62
+      ],
+      "cross_refs": [
+        "maclane:II.8:prop1",
+        "maclane:II.8:def1"
+      ],
+      "flags": [
+        "spans-pages"
+      ]
+    },
+    {
+      "id": "maclane:II.8:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "congruence on a category; least congruence",
+      "statement_summary": "A congruence R on a category C is a family where (i) each R_{a,b} is a reflexive, symmetric, transitive (equivalence) relation on C(a,b), and (ii) if f, f' : a -> b satisfy f R_{a,b} f', then for all g : a' -> a and h : b -> b' one has (h f g) R_{a',b'} (h f' g). Every family R of relations is contained in a least congruence R'; C/R is constructed with the same objects and hom-sets the quotients C(a,b)/R'_{a,b}, composition induced from C. Any functor H whose kernel relation contains R also contains R', so H factors through Q_R.",
+      "book_section": "II.8",
+      "book_page": "52",
+      "pdf_pages": [
+        62
+      ],
+      "cross_refs": [
+        "maclane:II.8:prop1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition",
+        "inside-proof-sketch"
+      ]
+    },
+    {
+      "id": "maclane:II.8:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "category with generators G and relations R",
+      "statement_summary": "When C is the free category generated by a graph G, the quotient C/R is called the category with generators G and relations R. Example: the ordinal 3 is presented by generators 0, 1, 2 (objects), f : 0 -> 1, g : 1 -> 2, h : 0 -> 2 (arrows), and the single relation h = g o f. The one-object case recovers monoids presented by generators and relations.",
+      "book_section": "II.8",
+      "book_page": "52",
+      "pdf_pages": [
+        62
+      ],
+      "cross_refs": [
+        "maclane:II.8:prop1",
+        "maclane:II.7:construction2"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:II.8:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "the commuting square by generators and relations",
+      "statement_summary": "Show that the category generated by the square graph (four vertices; arrows f, g on two sides and f', g' on the opposite sides) with the one relation g' o f = f' o g has four identity arrows and exactly five non-identity arrows.",
+      "book_section": "II.8",
+      "book_page": "52",
+      "pdf_pages": [
+        62
+      ],
+      "cross_refs": [
+        "maclane:II.8:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:II.8:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "congruences on a one-object group category are normal subgroups",
+      "statement_summary": "If C is a group G regarded as a one-object category, show that congruences R on C correspond to normal subgroups N of G, via f R g if and only if g^{-1} f is in N.",
+      "book_section": "II.8",
+      "book_page": "52",
+      "pdf_pages": [
+        62
+      ],
+      "cross_refs": [
+        "maclane:II.8:def1"
+      ],
+      "flags": []
+    }
+  ]
+}

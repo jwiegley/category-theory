@@ -1,0 +1,510 @@
+[
+ {
+  "id": "riehl:E.2:def-symmetric-monoidal-category",
+  "classification": "PRESENT",
+  "aliases": [
+   "symmetric monoidal category",
+   "SymmetricMonoidal / SymMonCat",
+   "braided monoidal category + symmetry (braid_invol)",
+   "tensor category with symmetry gamma, associator alpha, unitors lambda/rho",
+   "Class Monoidal + braid + hexagon + involution"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/Symmetric.v",
+    "line": 103,
+    "symbol": "SymmetricMonoidal",
+    "intree_statement": "Class SymmetricMonoidal := { symmetric_is_braided : @BraidedMonoidal C; braid_invol {x y} : braid ∘ braid ≈ id[x ⨂ y]; }"
+   },
+   {
+    "file": "Structure/Monoidal/Braided.v",
+    "line": 128,
+    "symbol": "BraidedMonoidal",
+    "intree_statement": "Class BraidedMonoidal := { braided_is_monoidal : @Monoidal C; braid {x y} : x ⨂ y ~> y ⨂ x; braid_natural : natural (@braid); hexagon_identity {x y z} : tensor_assoc ∘ braid ∘ tensor_assoc << (x ⨂ y) ⨂ z ~~> y ⨂ (z ⨂ x) >> id ⨂ braid ∘ tensor_assoc ∘ braid ⨂ id; hexagon_identity_sym {x y z} : tensor_assoc⁻¹ ∘ braid ∘ tensor_assoc⁻¹ << x ⨂ (y ⨂ z) ~~> (z ⨂ x) ⨂ y >> braid ⨂ id ∘ tensor_assoc⁻¹ ∘ id ⨂ braid; }"
+   },
+   {
+    "file": "Structure/Monoidal.v",
+    "line": 125,
+    "symbol": "Monoidal",
+    "intree_statement": "Class Monoidal := { I : C; tensor : C ∏ C ⟶ C where \"x ⨂ y\" := (tensor (x, y)); unit_left {x} : I ⨂ x ≅ x; unit_right {x} : x ⨂ I ≅ x; tensor_assoc {x y z} : (x ⨂ y) ⨂ z ≅ x ⨂ (y ⨂ z); … to/from naturality of all three …; triangle_identity {x y} : bimap unit_right id << (x ⨂ I) ⨂ y ~~> x ⨂ y >> bimap id unit_left ∘ tensor_assoc; pentagon_identity {x y z w} : bimap id tensor_assoc ∘ tensor_assoc ∘ bimap tensor_assoc id << ((x ⨂ y) ⨂ z) ⨂ w ~~> x ⨂ (y ⨂ (z ⨂ w)) >> tensor_assoc ∘ tensor_assoc }"
+   },
+   {
+    "file": "Structure/Monoidal/Braided/Proofs.v",
+    "line": 529,
+    "symbol": "braid_unit_left",
+    "intree_statement": "Theorem braid_unit_left {x : C} : unit_left ∘ braid << x ⨂ I ~~> x >> unit_right."
+   }
+  ],
+  "statement_record": {
+   "book": "A symmetric monoidal category (V, ⊗, unit) is a category with a bifunctor ⊗, a unit object, and four natural isomorphisms (display E.2.1): symmetry γ : v⊗w ≅ w⊗v, associator α, and unitors λ, ρ; subject to the pentagon, the unit triangle, compatibility of γ with the unitors (ρ then γ equals λ), the involution γ_{w,v}∘γ_{v,w} = id, and the hexagon.",
+   "intree": "Class SymmetricMonoidal := { symmetric_is_braided : @BraidedMonoidal C; braid_invol {x y} : braid ∘ braid ≈ id[x ⨂ y] } over Class BraidedMonoidal (braid, braid_natural, hexagon_identity, hexagon_identity_sym) over Class Monoidal (I, tensor : C ∏ C ⟶ C, unit_left, unit_right, tensor_assoc with to/from naturality, triangle_identity, pentagon_identity); the γ/unitor compatibility appears as the derived Theorem braid_unit_left : unit_left ∘ braid ≈ unit_right.",
+   "strength_comparison": "intree-stronger: every datum and axiom Riehl lists is present, and the braiding/unitor compatibility she posits as an axiom is DERIVED in-tree (braid_unit_left, Joyal–Street Prop. 2.1) rather than assumed; in-tree additionally requires BOTH hexagons as fields (Riehl states one) — no extra hypotheses beyond that, and hexagon_rotated shows one implies the other under braid_invol. Naturality of α, λ, ρ is spelled out as explicit to-/from-direction squares (the library's setoid rephrasing of 'natural isomorphism')."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass (run before opening coverage-E-1.json) landed on exactly the same three classes at exactly the cited lines: `rg 'Class Monoidal|Class SymmetricMonoidal|Class BraidedMonoidal'` -> Structure/Monoidal.v:125, Structure/Monoidal/Braided.v:128, Structure/Monoidal/Symmetric.v:103. All quotes verified verbatim against the files. Riehl's gamma/unitor axiom (lambda_v o gamma_{v,I} = rho_v) is indeed the DERIVED Theorem braid_unit_left at Structure/Monoidal/Braided/Proofs.v:529 (`unit_left o braid << x (X) I ~~> x >> unit_right`, Joyal-Street Prop. 2.1) - not a field. Associator orientation is inverted relative to Riehl ((x(X)y)(X)z ~= x(X)(y(X)z)); the file's own orientation note (Structure/Monoidal/Proofs.v:32-34) discloses it; faithful. Files registered in _CoqProject (lines 333/335/336/361). ONE CORRECTION to the record's strength_comparison, not affecting the classification: the trailing clause \"hexagon_rotated shows one implies the other under braid_invol\" is FALSE. hexagon_rotated (Structure/Monoidal/Symmetric.v:118) has codomain y (X) (x (X) z); the hexagon_identity_sym FIELD has codomain (z (X) x) (X) y - different statements. hexagon_identity_sym is never derived anywhere in-tree; it is an assumed field that every instance discharges separately (Structure/Monoidal/Internal/Product.v:190, Construction/PROP/Braided.v:331, Construction/Cospan/Symmetric.v:356, Construction/DecoratedCospan/Braided.v:144, Construction/Opposite/Monoidal.v:164). So the in-tree symmetric class does genuinely demand both hexagons as data. PRESENT stands (every Riehl datum and axiom is present, one axiom is even derived); the erroneous clause traces to a library comment, logged on the defect channel."
+  }
+ },
+ {
+  "id": "riehl:E.2:def-monoidal-category",
+  "classification": "PRESENT",
+  "aliases": [
+   "monoidal category",
+   "tensor category",
+   "Class Monoidal",
+   "associator + unitors + pentagon + triangle",
+   "MonCat object"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal.v",
+    "line": 125,
+    "symbol": "Monoidal",
+    "intree_statement": "Class Monoidal := { I : C; tensor : C ∏ C ⟶ C where \"x ⨂ y\" := (tensor (x, y)); unit_left {x} : I ⨂ x ≅ x; unit_right {x} : x ⨂ I ≅ x; tensor_assoc {x y z} : (x ⨂ y) ⨂ z ≅ x ⨂ (y ⨂ z); to_unit_left_natural / from_unit_left_natural / to_unit_right_natural / from_unit_right_natural / to_tensor_assoc_natural / from_tensor_assoc_natural …; triangle_identity {x y} : bimap unit_right id << (x ⨂ I) ⨂ y ~~> x ⨂ y >> bimap id unit_left ∘ tensor_assoc; pentagon_identity {x y z w} : bimap id tensor_assoc ∘ tensor_assoc ∘ bimap tensor_assoc id << ((x ⨂ y) ⨂ z) ⨂ w ~~> x ⨂ (y ⨂ (z ⨂ w)) >> tensor_assoc ∘ tensor_assoc }"
+   }
+  ],
+  "statement_record": {
+   "book": "A monoidal category is a symmetric monoidal category with the symmetry γ omitted: a category, a bifunctor (monoidal product), a unit object, an associator and two unitors, subject to the pentagon and unit-triangle coherence axioms only.",
+   "intree": "Class Monoidal := { I : C; tensor : C ∏ C ⟶ C; unit_left {x} : I ⨂ x ≅ x; unit_right {x} : x ⨂ I ≅ x; tensor_assoc {x y z} : (x ⨂ y) ⨂ z ≅ x ⨂ (y ⨂ z); … naturality in both directions …; triangle_identity; pentagon_identity }",
+   "strength_comparison": "same. The tensor is a genuine bifunctor C ∏ C ⟶ C, the three structure maps are Isomorphisms with explicitly stated naturality squares (setoid rephrasing of 'natural isomorphism'), and the two coherence axioms are exactly the pentagon and the triangle. Orientation of α is (x⨂y)⨂z ≅ x⨂(y⨂z), matching Riehl's α : u⊗(v⊗w) ≅ (u⊗v)⊗w up to inversion (documented in Structure/Monoidal/Proofs.v's orientation note)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search `rg 'Class Monoidal'` -> Structure/Monoidal.v:125, the same and only hit. Read lines 100-175: the quoted field list is accurate and complete (I, tensor : C ~|~| C --> C as a genuine bifunctor, unit_left/unit_right/tensor_assoc as Isomorphisms, six explicit to-/from-direction naturality squares, triangle_identity, pentagon_identity). No extra fields, no missing coherence. Registered at _CoqProject:333. strength_comparison 'same' is honest, including its disclosure of the associator orientation flip."
+  }
+ },
+ {
+  "id": "riehl:E.2:example-symmetric-monoidal",
+  "classification": "PARTIAL",
+  "aliases": [
+   "cartesian monoidal category (finite products as tensor)",
+   "cocartesian monoidal category (coproducts as tensor)",
+   "R-Mod with ⊕ and ⊗_R",
+   "chain complexes Ch_R with graded tensor / Koszul sign",
+   "commutative monoid as a discrete symmetric monoidal category"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/Internal/Product.v",
+    "line": 314,
+    "symbol": "CC_SymmetricMonoidal",
+    "intree_statement": "Definition CC_SymmetricMonoidal : @SymmetricMonoidal C := {| symmetric_is_braided := CC_BraidedMonoidal; braid_invol := @swap_invol _ _ |}   (* Section context: {C : Category}, `{@Cartesian C}, `{@Terminal C}; tensor := ×, I := 1, braid := swap *)"
+   },
+   {
+    "file": "Instance/Coq.v",
+    "line": 159,
+    "symbol": "Coq_Monoidal",
+    "intree_statement": "Program Instance Coq_Monoidal : @Monoidal Coq := @CC_Monoidal Coq Coq_Cartesian Coq_Terminal."
+   }
+  ],
+  "statement_record": {
+   "book": "Examples of symmetric monoidal categories: (a) any category with finite products (⊗ = ×, unit = terminal), instanced by (Set,×,1), (Top,×,pt), (Cat,×,1); (b) dually any category with finite coproducts (⊗ = +, unit = initial), instanced by (Man,⊔,∅); (c) R-Mod with ⊕ (unit 0) and with ⊗_R (unit R, when R is commutative); (d) unbounded chain complexes Ch_R for R commutative, with the graded tensor product, whose symmetry admits two conventions differing by a sign in odd degrees; (e) a commutative monoid viewed as a discrete category, all structure isomorphisms identities.",
+   "intree": "CC_SymmetricMonoidal : @SymmetricMonoidal C over `{@Cartesian C} `{@Terminal C} (tensor := ×, I := 1, braid := swap, involution from swap_invol), instantiated concretely as Coq_Monoidal : @Monoidal Coq := @CC_Monoidal Coq Coq_Cartesian Coq_Terminal.",
+   "strength_comparison": "intree-weaker: only clause (a) is realized, and it is realized in full generality plus a concrete witness. Clause (b) is not named anywhere; it is derivable in two definitional steps (Cocartesian C is notation for @Cartesian (C^op) and Initial C for @Terminal (C^op), so @CC_SymmetricMonoidal (C^op) followed by Symmetric_op at Construction/Opposite/Monoidal.v:175 lands on (C^op)^op = C) but no in-tree definition performs that composite. Clauses (c), (d), (e) have no in-tree counterpart at all."
+  },
+  "gap": "Clause (a) is PRESENT (generic CC_SymmetricMonoidal, with Coq_Monoidal as a concrete witness; Sets_Cartesian/Sets_Terminal and Cat_Cartesian/Cat_Terminal exist so Set and Cat are one application away, but neither is named as a monoidal instance). Clause (b), the coproduct/initial-object symmetric monoidal structure, is derivable by dualizing CC_SymmetricMonoidal through Symmetric_op but is nowhere defined. Clauses (c) R-Mod under ⊕ and ⊗_R, (d) chain complexes with the graded tensor and its two sign conventions, and (e) a commutative monoid as a discrete symmetric monoidal category are entirely absent: the library has no category of modules over a ring, no chain complexes, and no construction turning a (commutative) monoid into a discrete monoidal category (Instance/CMon.v is the CATEGORY of commutative monoids, a different object; Instance/Discrete.v's DiscreteCat carries no monoidal structure).",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -iE \"chain complex|R-Mod|category of modules|abelian group.*category\" . — hits only in header prose (Construction/Enriched.v:47,71; Structure/Abelian.v:69-70,111; Structure/Monoid.v:69; Theory/Equivalence.v:79), no construction",
+   "grep -rn --include=\"*.v\" -E \"DiscreteCat\" . | grep -iE \"monoidal|tensor\" — 0 hits",
+   "grep -rn --include=\"*.v\" -E \"Cocartesian_Monoidal|CoCC_Monoidal|Cocartesian.*Monoidal|coproduct.*monoidal\" . — 2 hits, both header prose (Theory/Lawvere/PROP.v:97, Instance/FinSet.v:27)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My independent pass reached PARTIAL for the same reason and with the same split. Verified: (a) CC_SymmetricMonoidal at Structure/Monoidal/Internal/Product.v:314 exactly as quoted, with CC_Monoidal:54 and CC_BraidedMonoidal:190 beneath it, and Coq_Monoidal at Instance/Coq.v:159-160 verbatim; Cartesian_Monoidal at Structure/Monoidal/Cartesian.v:49. (b) I additionally verified the gap text's supporting claims: `Cocartesian C` IS notation for `@Cartesian (C^op)` (Structure/Cocartesian.v:115) and `Initial C` for `@Terminal (C^op)` (Structure/Initial.v:96), and Symmetric_op does sit at Construction/Opposite/Monoidal.v:175 - so the dualization sketch is sound, and no in-tree definition performs it. Cat_Terminal DOES exist (Instance/One.v:54) and Cat_Cartesian (Instance/Cat/Cartesian.v:39), Sets_Cartesian (Instance/Sets/Cartesian.v:32) - matching the gap's 'one application away, but neither is named as a monoidal instance' (rg for Sets_Monoidal/Cat_Monoidal: 0 hits). (c)/(d)/(e) confirmed absent by my own searches: no Reals import anywhere, no module category, no chain complexes, `rg DiscreteCat | grep -i monoid` 0 hits."
+  }
+ },
+ {
+  "id": "riehl:E.2:thm-monoidal-coherence",
+  "classification": "ABSENT",
+  "aliases": [
+   "Mac Lane coherence theorem",
+   "Kelly coherence / coherence for monoidal categories",
+   "every formal diagram of associators and unitors commutes",
+   "strictification: every monoidal category is monoidally equivalent to a strict one",
+   "free monoidal category on a category / word problem for monoidal expressions"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -iE \"coherence theorem|Mac ?Lane('s)? coherence|every (formal )?diagram commutes|all diagrams commute\" . — 10 hits, ALL comment/header prose: Structure/Monoidal.v:43 ('By Mac Lane's coherence theorem these two laws force every formal diagram built from α, λ, ρ to commute'), Structure/Monoidal/Proofs.v:16, Structure/Monoidal/Symmetric.v:47, Structure/Monoidal/Heunen_Vicary.v:58, Theory/Bicategory.v:112; the remaining hits are Hedberg's coherence theorem and the Fong–Spivak supply coherence, unrelated",
+   "grep -rn --include=\"*.v\" -E \"^(Theorem|Lemma|Corollary) .*[Cc]oherence\" . — 20+ hits, none about monoidal coherence (bicategory unit coherence, cone/limit transport coherence, adjoint-equivalence coherence, crude-monadicity coherence, swap_fold_coherence)",
+   "grep -rn --include=\"*.v\" -iE \"strictification|free monoidal|FreeMonoidal|strict monoidal\" . — 40 hits; 'FreeMonoidal' is only a Section name in Construction/PROP/Monoidal.v:51 producing FreeCat_Monoidal (the free PROP on a signature, a strict symmetric monoidal category), and 'strictification' appears only for Instance/StrictCat/ToCat.v's StrictCat_to_Cat comparison of 1-categories — neither is the monoidal strictification/coherence theorem",
+   "grep -rn --include=\"*.v\" -iE \"formal diagram|diagram commutes|word problem\" . — 6 hits, all prose or unrelated (Structure/Pullback.v UMP wording, Instance/ZX.v word-problem presentation of ZX terms)",
+   "grep -rn --include=\"*.v\" -i \"tensor\" Solver/ — 0 hits; the reflective Solver/ tower (Expr → Denote → Normal → Decide) decides only equations in composition and identity, not monoidal expressions",
+   "Note for Phase E: the library proves an assortment of individual CONSEQUENCES of coherence as named lemmas (Structure/Monoidal/Proofs.v: triangle_identity_left/right, inverse_pentagon_identity, bimap_triangle_left/right, unit_identity : λ_I ≈ ρ_I), but there is no syntax of formal monoidal expressions and hence no statement, let alone proof, of the universally quantified coherence theorem."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass initially leaned PARTIAL, on the ground that Structure/Monoidal/Proofs.v proves named consequences of coherence (tensor_id_left/right_inj, the variant triangles, inverse_pentagon_identity, and Kelly's unit_identity : lambda_I ~= rho_I at line 344). I then rejected PARTIAL and agree with ABSENT: the item is a metatheorem quantified over FORMAL DIAGRAMS, and the library has no syntax of monoidal expressions to quantify over - no free monoidal category (the only 'Free...Monoidal' is Construction/PROP's free PROP on a SIGNATURE with nat objects), no strictification, and the reflective Solver/ tower decides only composition/identity equations. There is therefore no in-tree statement of which the Kelly lemmas could be a proved fragment; they are downstream instances. The negative_search_log's closing Phase-E note preserves exactly that nuance for the issue drafter, which is the right disposal. Spot-checked the log: Structure/Monoidal.v:43 is indeed comment prose ('By Mac Lane's coherence theorem these two laws force every formal diagram built from alpha, lambda, rho to commute'), not a Theorem."
+  }
+ },
+ {
+  "id": "riehl:E.2:thm2",
+  "classification": "ABSENT",
+  "aliases": [
+   "coherence for symmetric monoidal categories",
+   "Mac Lane / Kelly symmetric coherence theorem",
+   "every formal diagram of alpha, lambda, rho, gamma commutes",
+   "every symmetric monoidal category is equivalent to a permutative one",
+   "free symmetric monoidal category / faithfulness of the comparison"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -iE \"coherence theorem|Mac ?Lane('s)? coherence\" . — 10 hits, all header prose; Structure/Monoidal/Symmetric.v:47-52 states the symmetric coherence theorem and its permutative corollary in a COMMENT ('every diagram built from associators, unitors, and symmetries commutes, provided its two sides induce the same permutation'), explicitly as motivation, not as a proved result",
+   "grep -rn --include=\"*.v\" -i \"permutative\" . — 2 hits, both comments (Theory/Multicategory.v:156 bibliography, Structure/Monoidal/Symmetric.v:52)",
+   "grep -rn --include=\"*.v\" -E \"^(Theorem|Lemma|Corollary) .*[Cc]oherence\" . — 20+ hits, none stating coherence for symmetric monoidal categories",
+   "grep -rn --include=\"*.v\" -iE \"strictification|free monoidal|FreeMonoidal\" . — the only free symmetric strict monoidal construction is Construction/PROP (FreeCat_Symmetric at Construction/PROP/Symmetric.v:75) on a SIGNATURE with nat objects; its universal property (Construction/PROP/Universal.v) is an interpretation/extension theorem, not the coherence/faithfulness statement",
+   "grep -rn --include=\"*.v\" -iE \"same permutation|induce the same permutation|underlying permutation\" . — 1 hit, the comment at Structure/Monoidal/Symmetric.v:49",
+   "Note for Phase E: individual instances of the conclusion are proved (Structure/Monoidal/Symmetric.v:118 hexagon_rotated, :137 bimap_braid, :147 braid_bimap_braid; Structure/Monoidal/Braided/Proofs.v:529 braid_unit_left, :589 braid_I_I), but there is no formal-diagram language and no metatheorem."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Same reasoning as riehl:E.2:thm-monoidal-coherence, independently reached. Verified the log's citations: Structure/Monoidal/Symmetric.v:47-56 states symmetric coherence and its permutative corollary in HEADER PROSE only; hexagon_rotated:118, bimap_braid:137, braid_bimap_braid:147, braid_unit_left (Braided/Proofs.v:529) and braid_I_I (:589) all exist at the cited lines and are exactly the 'individual instances' the log describes. FreeCat_Symmetric is at Construction/PROP/Symmetric.v:75 as claimed, and Construction/PROP/Universal.v is an interpretation/extension universal property, not a coherence/faithfulness statement. No formal-diagram language exists, so ABSENT rather than PARTIAL."
+  }
+ },
+ {
+  "id": "riehl:E.2:cor-nary-tensor",
+  "classification": "PARTIAL",
+  "aliases": [
+   "n-ary tensor product functor",
+   "iterated tensor / tensor fold",
+   "unique natural isomorphism between bracketings",
+   "canonical comparison of re-parenthesizations",
+   "tensor_list / tfold / perm_arrow"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Multicategory/Representable.v",
+    "line": 113,
+    "symbol": "tfold_app",
+    "intree_statement": "Program Definition tfold_app (Γ Δ : list A) : tfold ob (Γ ++ Δ) ≅ (tfold ob Γ ⨂ tfold ob Δ)%object := {| to := tfold_app_to Γ Δ; from := tfold_app_from Γ Δ |}   (* the two components built from tensor_assoc / tensor_assoc⁻¹, proved mutually inverse by tfold_app_from_to and tfold_app_to_from *)"
+   },
+   {
+    "file": "Theory/Multicategory/Representable.v",
+    "line": 543,
+    "symbol": "perm_arrow",
+    "intree_statement": "Fixpoint perm_arrow {Γ Δ : list A} (p : tperm Γ Δ) : tfold ob Δ ~{C}~> tfold ob Γ := match p with | tperm_nil => id | tperm_skip x q => id[ob x] ⨂ perm_arrow q | tperm_swap x y Γ' => tensor_assoc ∘ (braid ⨂ id[tfold ob Γ']) ∘ tensor_assoc⁻¹ | tperm_trans q r => perm_arrow q ∘ perm_arrow r end."
+   }
+  ],
+  "statement_record": {
+   "book": "Corollary of the symmetric coherence theorem: any two functors V^n → V built iteratively from ⊗ and the unit, permuting and parenthesizing their n inputs in any manner, are connected by a UNIQUE natural isomorphism assembled from α, λ, ρ and γ; hence a choice of parenthesization or ordering when defining an n-ary tensor is immaterial.",
+   "intree": "tfold_app (Γ Δ : list A) : tfold ob (Γ ++ Δ) ≅ tfold ob Γ ⨂ tfold ob Δ — an explicit isomorphism between two n-ary arrangements, built out of tensor_assoc; and perm_arrow p : tfold ob Δ ~> tfold ob Γ realizing a permutation witness p : tperm Γ Δ as a composite of braidings and associators.",
+   "strength_comparison": "intree-weaker on two counts. (1) SPECIAL CASE ONLY: an isomorphism is exhibited between one particular pair of arrangements (the right-nested fold of a concatenation vs. the tensor of the two folds), and permutations are realized only along a chosen witness p : tperm Γ Δ; there is no quantification over 'all functors V^n → V built from ⊗ and I'. (2) NO UNIQUENESS: nothing asserts that the comparison is the only structural isomorphism between the two arrangements, and perm_arrow is explicitly witness-indexed — Theory/Multicategory.v's SCOPE note records that independence of the chosen permutation witness (symmetric-group descent) is NOT proved in-tree, which is precisely the uniqueness content Riehl draws."
+  },
+  "gap": "The uniqueness clause — 'a UNIQUE natural isomorphism' — is absent in every form, as is the general quantification over n-ary tensor functors. What exists is: (i) one named comparison isomorphism between re-bracketings (tfold_app, plus tfold_app_to/from and their inverse laws at Theory/Multicategory/Representable.v:72-118), and (ii) a realization of a permutation WITNESS as a structural morphism (perm_arrow), whose independence of the witness is explicitly disclaimed as unproved in the Theory/Multicategory.v scope note. Formalizing the corollary requires the missing symmetric coherence theorem (riehl:E.2:thm2) plus a language of formal n-ary tensor functors.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -iE \"n-ary|nary|iterated tensor|tensor_pow\" . — no assertion about n-ary tensor comparison; hits are prose about n-ary operations in multicategories/operads",
+   "grep -rn --include=\"*.v\" -iE \"unique natural isomorphism|unique.*iso.*between.*functors|structural isomorphism\" . — 20 hits, all header prose or the PROP T_cast/CT_cast structural maps; none asserts uniqueness of a structural comparison"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independently found the same two artifacts and reached PARTIAL. Verified tfold_app at Theory/Multicategory/Representable.v:113 (with tfold:67, tfold_app_to:72, tfold_app_from:79 and the inverse laws at :86/:99) and perm_arrow at :543, both quoted accurately. I also verified the gap's load-bearing claim by reading the disclosure it cites: Theory/Multicategory.v:76-93 states verbatim that msym is an action of tperm WITNESSES, that 'two witnesses realizing the same underlying permutation are not required to act identically', and that 'the descent lemmas themselves are not stated in-tree'. That is exactly the uniqueness content Riehl draws, so 'NO UNIQUENESS' is honest and precisely sourced. File registered in _CoqProject."
+  }
+ },
+ {
+  "id": "riehl:E.2:exi",
+  "classification": "PRESENT",
+  "aliases": [
+   "cartesian monoidal structure",
+   "products give a symmetric monoidal category",
+   "Cartesian_Monoidal / CC_Monoidal / CC_SymmetricMonoidal",
+   "tensor := ×, unit := terminal object",
+   "swap as braiding, swap_invol as symmetry"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/Internal/Product.v",
+    "line": 314,
+    "symbol": "CC_SymmetricMonoidal",
+    "intree_statement": "Definition CC_SymmetricMonoidal : @SymmetricMonoidal C := {| symmetric_is_braided := CC_BraidedMonoidal; braid_invol := @swap_invol _ _ |}   (* Section InternalProduct: Context {C : Category}; Context `{@Cartesian C}; Context `{@Terminal C} *)"
+   },
+   {
+    "file": "Structure/Monoidal/Internal/Product.v",
+    "line": 54,
+    "symbol": "CC_Monoidal",
+    "intree_statement": "Program Definition CC_Monoidal : @Monoidal C := {| tensor := InternalProductFunctor C; I := 1 |}   (* obligations: unitor/associator naturality, triangle and pentagon, all discharged from the product UMP *)"
+   },
+   {
+    "file": "Structure/Monoidal/Internal/Product.v",
+    "line": 190,
+    "symbol": "CC_BraidedMonoidal",
+    "intree_statement": "Program Definition CC_BraidedMonoidal : @BraidedMonoidal C := {| braided_is_monoidal := CC_Monoidal; braid := @swap … |}   (* hexagon_identity and hexagon_identity_sym discharged for braid := swap = ⟨exr, exl⟩ *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise E.2.i: prove that any category C with a terminal object and binary products carries a symmetric monoidal structure (C, ×, 1) — exhibit the associator, unitors and symmetry from the universal properties and verify the coherence axioms.",
+   "intree": "Over Context {C : Category} `{@Cartesian C} `{@Terminal C}: CC_Monoidal : @Monoidal C with tensor := InternalProductFunctor C and I := 1 (triangle and pentagon proved from the product UMP), CC_BraidedMonoidal with braid := swap = ⟨exr, exl⟩ (both hexagons proved), and CC_SymmetricMonoidal := {| symmetric_is_braided := CC_BraidedMonoidal; braid_invol := swap_invol |}. Named for readers as Cartesian_Monoidal : @Monoidal C at Structure/Monoidal/Cartesian.v:49.",
+   "strength_comparison": "intree-stronger: the exercise asks only for a symmetric monoidal structure, and the library additionally derives the whole tower over the same hypotheses (CC_BalancedMonoidal, CC_RelevanceMonoidal, CC_SemicartesianMonoidal, CC_CartesianMonoidal, and CCC_ClosedMonoidal when C is closed). Hypotheses match exactly: binary products (@Cartesian) and a terminal object (@Terminal), no extras."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search hit the same construction. Verified in Structure/Monoidal/Internal/Product.v: CC_Monoidal:54 (tensor := InternalProductFunctor C, I := 1), CC_BraidedMonoidal:190 (braid := swap = <exr,exl>, both hexagons discharged), CC_SymmetricMonoidal:314 quoted verbatim (braid_invol := @swap_invol _ _), all under Context {C : Category} `{@Cartesian C} `{@Terminal C} - hypotheses match the exercise exactly, no extras. Cartesian_Monoidal at Structure/Monoidal/Cartesian.v:49 as claimed. The 'intree-stronger' tower is real: CC_BalancedMonoidal:304, CC_RelevanceMonoidal:319, CC_SemicartesianMonoidal:424, CC_CartesianMonoidal:435, CCC_ClosedMonoidal:442. Both files registered (_CoqProject:337,349)."
+  }
+ },
+ {
+  "id": "riehl:E.3:def-unit-interval",
+  "classification": "ABSENT",
+  "aliases": [
+   "unit interval [0,1]",
+   "topological space I with the Euclidean subspace topology",
+   "interval object",
+   "real numbers / Coq.Reals",
+   "Top (category of topological spaces)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -iE \"\\binterval\\b|\\[0, *1\\]|unit interval\" . — 10 hits, NONE topological: Instance/Two.v is the INTERVAL CATEGORY _2 (walking arrow), Instance/Fact.v the factorization/interval category, Instance/Omega.v the ordinal ω, Instance/Lambda.v a bibliographic mention of interval analysis, Instance/Two.v:71 a prose mention of Lawvere's [0,∞] enrichment",
+   "grep -rn --include=\"*.v\" -E \"Require.*Reals|Rdefinitions|Coq\\.Reals\" . — 0 hits; the library never imports the real numbers",
+   "grep -rn --include=\"*.v\" -icE \"topological\" . — hits only in header/background prose (Theory/Multicategory.v, Structure/Terminal.v, Structure/Limit.v, Construction/Groupoid.v, …); no definition of a topological space",
+   "grep -rn --include=\"*.v\" -E \"Definition Top|Instance Top|Category Top|:= *Top\\b\" . — 0 hits; there is no category Top",
+   "grep -rn --include=\"*.v\" -iE \"open set|open cover|O\\(X\\)\" . — 1 hit, prose at Theory/Sheaf.v:77; the sheaf development is over an abstract site, not over O(X)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-ran the decisive negatives myself: `rg 'Require.*Reals|Rdefinitions'` 0 hits (the library never imports the reals); `rg -i 'continuous function|homeomorph'` 0 hits; no Top instance (Instance/ contains no category of spaces - Adj, AST, Cat, CMon, Comp, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX). Every 'interval' hit is the interval CATEGORY (Instance/Two.v) or the factorization category (Instance/Fact.v), as the log says. Considered and rejected OUT_OF_SCOPE: nothing in this library's setting blocks a category of topological spaces (it is universe-polymorphic and has general limits/colimits), so the notion is formalizable and merely missing - ABSENT is the right frozen classification."
+  }
+ },
+ {
+  "id": "riehl:E.3:def-path",
+  "classification": "ABSENT",
+  "aliases": [
+   "path in a topological space, p : I → X",
+   "path composition / concatenation p * q",
+   "fattened interval I ∨ I as a pushout of point-inclusions",
+   "continuous map, endpoint evaluation",
+   "path category / free category on a graph (the combinatorial homonym)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -iE \"continuous function|homeomorph\" . — 0 hits",
+   "grep -rn --include=\"*.v\" -iE \"\\bhomotop\" . — 10 hits, ALL header prose or a different notion (Comonad/Coalgebra.v:101 'contracting homotopy' of the bar construction; Theory/Kan/Extension.v, Theory/Adjunction.v, Theory/Monad.v historical remarks; Instance/Two.v:83 'directed homotopy' meaning a functor C ∏ _2 ⟶ D)",
+   "grep -rn --include=\"*.v\" -iE \"\\binterval\\b|unit interval\" . — see riehl:E.3:def-unit-interval; no topological interval exists, so no map I → X can be stated",
+   "grep -rn --include=\"*.v\" -iE \"bipointed|wedge sum|smash\" . — Structure/Cocartesian.v:69 mentions 'wedge sum of pointed spaces' only as motivation for coproducts; Instance/Coq/Par.v and Instance/Coq/ParE.v discuss the smash product of POINTED SETS, not spaces, and construct no wedge",
+   "Note: Structure/Pushout.v does supply general pushouts, so the I ∨ I gluing square would be expressible once a category of spaces existed; the missing ingredient is the space, not the colimit."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independently ABSENT. Verified `rg -i 'continuous function|homeomorph'` = 0 hits and `rg -i 'homotop'` = header prose only (Comonad/Coalgebra.v contracting homotopy; Instance/Two.v directed homotopy meaning a functor C ~|~| _2 --> D). The log's closing note is accurate and useful: Structure/Pushout.v does supply general pushouts, so the I v I gluing square would be expressible the moment a category of spaces existed - the missing ingredient is the space, not the colimit. Also confirmed Structure/Cocartesian.v:69 mentions 'wedge sum of pointed spaces' purely as coproduct motivation."
+  }
+ },
+ {
+  "id": "riehl:E.3:def-fundamental-groupoid",
+  "classification": "ABSENT",
+  "aliases": [
+   "fundamental groupoid Π₁(X)",
+   "groupoid of points and homotopy classes of paths",
+   "Poincaré groupoid",
+   "Groupoid / core groupoid",
+   "endpoint-preserving homotopy classes"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -iE \"fundamental groupoid\" . — 0 hits",
+   "grep -rn --include=\"*.v\" -iE \"homotopy class\" . — 0 hits",
+   "grep -rn --include=\"*.v\" -iE \"\\bhomotop\" . — 10 hits, all header prose or 'contracting homotopy'/'directed homotopy', none the fundamental groupoid",
+   "Read Construction/Groupoid.v — the only groupoid construction in-tree is Groupoid (C : Category) : Category at line 103, the CORE (maximal sub-groupoid, hom := @Isomorphism C) of a given category. It is a different construction from Π₁ and takes a category, not a space, as input.",
+   "grep -rn --include=\"*.v\" -icE \"topological\" . — no topological spaces in-tree, so the input datum of the definition is unavailable"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independently ABSENT. `rg -i 'fundamental groupoid'` = 1 file, Construction/Groupoid.v, and reading it confirms the hit is not the concept: Groupoid (C : Category) : Category at line 103 is the CORE (maximal subgroupoid, hom := @Isomorphism C) of a category, taking a category rather than a space as input; 'fundamental groupoid' appears there only inside background prose about groupoids modelling homotopy 1-types. `rg -i 'homotopy class'` = 0 relevant hits. The input datum (a topological space) does not exist in-tree."
+  }
+ },
+ {
+  "id": "riehl:E.3:def-bipointed-space",
+  "classification": "ABSENT",
+  "aliases": [
+   "bipointed space / bipointed object",
+   "map of bipointed spaces (basepoint-preserving on both points)",
+   "wedge X ∨ X gluing x₁ to x₀",
+   "pointed object / coslice 1/C, coslice (1+1)/C",
+   "category of bipointed spaces"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -iE \"bipointed\" . — 0 hits",
+   "grep -rn --include=\"*.v\" -iE \"pointed\" . — 15 hits, none a bipointed object: Instance/Fun.v:230/240 define Pointed / WellPointed ENDOFUNCTORS; Instance/Coq/Par.v:34 and Instance/Coq/ParE.v:116 discuss pointed SETS as the realization of the partial-map category; Construction/Slice.v:82 mentions pointed sets as a coslice only in prose",
+   "grep -rn --include=\"*.v\" -iE \"wedge sum|smash\" . — Structure/Wedge.v is the DINATURAL wedge (ends/coends), unrelated; smash-product hits are about pointed sets in Instance/Coq/Par*.v",
+   "grep -rn --include=\"*.v\" -icE \"topological\" . / grep -rn --include=\"*.v\" -E \"Definition Top|Category Top\" . — no category of spaces exists, so 'two distinct closed points' has no in-tree meaning",
+   "Note: Construction/Slice.v provides coslices and Structure/Pushout.v provides pushouts, so a bipointed-OBJECT category (1+1)/C and the wedge could be assembled in an arbitrary cocartesian C; nothing in-tree does so, and the space-level definition (distinct CLOSED points) is not expressible."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independently ABSENT. `rg -i bipointed` = 0 hits, confirmed. Verified the near-miss disambiguations the log lists: Instance/Fun.v:230/240 are Pointed/WellPointed ENDOFUNCTOR classes, and Structure/Wedge.v is the dinatural (end/coend) wedge, neither related. The log's honest note that a bipointed-OBJECT category (1+1)/C is assemblable from Construction/Slice.v coslices plus Structure/Pushout.v, while the space-level notion ('two distinct CLOSED points') is not expressible, is accurate and is the right thing to hand Phase E."
+  }
+ },
+ {
+  "id": "riehl:E.3:thm1",
+  "classification": "ABSENT",
+  "aliases": [
+   "universal property of the unit interval (Freyd, Leinster)",
+   "I is the terminal bipointed space with a map to its own wedge",
+   "terminal coalgebra for X ↦ X ∨ X on bipointed spaces",
+   "Freyd's characterization of [0,1]",
+   "self-similarity / δ : I ≅ I ∨ I"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -iE \"bipointed\" . — 0 hits; the ambient category of the theorem does not exist in-tree",
+   "grep -rn --include=\"*.v\" -iE \"\\binterval\\b|unit interval|\\[0, *1\\]\" . — 10 hits, all the interval CATEGORY _2 / factorization category / ω, never the topological interval",
+   "grep -rn --include=\"*.v\" -iE \"Freyd\" . — hits are the Freyd construction for initial objects (Theory/WeaklyInitial.v), Freyd/effectful categories (Structure/Premonoidal/Freyd.v), and the Freyd–Mitchell citation in Structure/Abelian.v; none is the interval theorem",
+   "grep -rn --include=\"*.v\" -iE \"Leinster\" . — 9 hits, all bibliographic citations in header prose (Higher Operads/Basic Category Theory in Theory/Multicategory.v, Theory/Category.v, Construction/Free.v, Construction/Slice.v; the codensity/ultrafilter paper in Theory/Kan/Extension.v); none concerns the interval",
+   "grep -rn --include=\"*.v\" -E \"Terminal \\(FCoalg\" . — 4 hits (Theory/Lambek.v:78, Theory/Recursion.v:99, Instance/Sets/Streams.v:53,231): the terminal-coalgebra FRAMEWORK exists and is inhabited by Stream_final, but no instance concerns spaces or the interval",
+   "Note: the general apparatus the theorem is phrased over (FCoalg, @Terminal (FCoalg F), lambek_final) is fully present; what is missing is the entire topological/bipointed input and the endofunctor X ↦ X ∨ X."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independently ABSENT. Verified the log's most useful claim myself: the coalgebraic FRAMEWORK the theorem is phrased over is fully present - `rg 'Terminal \\(FCoalg'` gives Theory/Lambek.v:78, Theory/Recursion.v:99, Instance/Sets/Streams.v:53,231 - and Stream_final (Instance/Sets/Streams.v:231) inhabits it concretely, but no instance concerns spaces. Missing is the entire input: bipointed spaces and the wedge endofunctor X |-> X v X. Also confirmed 'Freyd' hits are the weakly-initial Freyd construction / Freyd categories / Freyd-Mitchell, and every 'Leinster' hit is a bibliography line - neither is the interval theorem."
+  }
+ },
+ {
+  "id": "riehl:E.3:remark-terminal-coalgebra",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the unit interval as a terminal coalgebra",
+   "Lambek's theorem: the structure map of a terminal coalgebra is an isomorphism",
+   "lambek_final / greatest fixed point ν ≅ F ν",
+   "final coalgebra structure map invertible",
+   "Lambek's lemma (dual form)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Lambek.v",
+    "line": 78,
+    "symbol": "lambek_final",
+    "intree_statement": "Theorem lambek_final `(F : C ⟶ C) (T : @Terminal (FCoalg F)) : `1 (@terminal_obj (FCoalg F) T) ≅ F (`1 (@terminal_obj (FCoalg F) T))."
+   }
+  ],
+  "statement_record": {
+   "book": "Unnumbered remark reformulating Theorem E.3.1: (I, 0, 1) is the TERMINAL COALGEBRA of the endofunctor X ↦ X ∨ X on bipointed spaces; and the reason its structure map (the halving homeomorphism I → I ∨ I) is invertible is Lambek's general theorem that the structure map of ANY terminal coalgebra for ANY endofunctor is an isomorphism.",
+   "intree": "Theorem lambek_final `(F : C ⟶ C) (T : @Terminal (FCoalg F)) : `1 (terminal_obj (FCoalg F) T) ≅ F (`1 (terminal_obj (FCoalg F) T)) — stated for an arbitrary endofunctor F on an arbitrary category C, obtained by duality from lambek (Theory/Lambek.v:40) applied to F^op.",
+   "strength_comparison": "For the Lambek half: same, at full generality (arbitrary C, arbitrary endofunctor F, no extra hypotheses; the isomorphism is the structure map itself, since lambek exhibits `to := \\`2 iobj`). For the interval half: absent entirely."
+  },
+  "gap": "The Lambek clause is fully PRESENT (lambek_final, arbitrary endofunctor on an arbitrary category, axiom-free by duality from lambek). The interval clause — that (I, 0, 1) with the halving homeomorphism is the terminal coalgebra of X ↦ X ∨ X on bipointed spaces — is ABSENT for the same reason as riehl:E.3:thm1: no topological spaces, no bipointed objects, no wedge endofunctor. The nearest in-tree inhabitation of the concept is Instance/Sets/Streams.v:231, Stream_final : @Terminal (FCoalg StreamF), a concrete terminal coalgebra over Sets by bisimilarity — a witness for the framework, not for the interval.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -iE \"bipointed|unit interval|homeomorph\" . — 0 relevant hits, so the interval half cannot be stated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independently PARTIAL with the same split. Verified lambek_final at Theory/Lambek.v:78 verbatim (arbitrary C, arbitrary F : C --> C, hypothesis just @Terminal (FCoalg F), proof `exact (iso_sym (lambek (F^op) T))`, Qed - no axioms, no completeness or size side conditions). The interval half is absent for exactly the riehl:E.3:thm1 reason. The gap's pointer to Stream_final (Instance/Sets/Streams.v:231) as 'a witness for the framework, not for the interval' is accurate and correctly hedged. Theory/Lambek.v registered at _CoqProject:457."
+  }
+ },
+ {
+  "id": "riehl:E.3:def-coalgebra",
+  "classification": "PRESENT",
+  "aliases": [
+   "coalgebra for an endofunctor / F-coalgebra",
+   "coalgebra morphism (commuting square)",
+   "category of T-coalgebras, Coalg(T)",
+   "terminal / final coalgebra",
+   "FCoalg, FCoalgebra, FAlgHom"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/FCoalg.v",
+    "line": 28,
+    "symbol": "FCoalg",
+    "intree_statement": "Definition FCoalg `(F : C ⟶ C) : Category := (FAlg (F^op))^op.   (* with Lemma fcoalg_hom `(F : C ⟶ C) (x y : FCoalg F) : (x ~{FCoalg F}~> y) = (y ~{FAlg (F^op)}~> x). Proof. reflexivity. Qed. *)"
+   },
+   {
+    "file": "Construction/FAlg.v",
+    "line": 105,
+    "symbol": "FAlgHom",
+    "intree_statement": "Class FAlgHom `(F : C ⟶ C) (a b : C) (α : FAlgebra F a) (β : FAlgebra F b) := { falg_hom : a ~> b; falg_commutes : falg_hom ∘ α ≈ β ∘ fmap[F] falg_hom }   (* read in C^op via FCoalg: γ' ∘ h ≈ F h ∘ γ *)"
+   },
+   {
+    "file": "Theory/Functor.v",
+    "line": 382,
+    "symbol": "FCoalgebra",
+    "intree_statement": "Definition FCoalgebra `(F : C ⟶ C) (a : C) := a ~> F a."
+   },
+   {
+    "file": "Instance/Sets/Streams.v",
+    "line": 231,
+    "symbol": "Stream_final",
+    "intree_statement": "Definition Stream_final : @Terminal (FCoalg StreamF).   (* a terminal coalgebra is a terminal object of the coalgebra category — here streams over Sets, with Stream_coalg : FCoalg StreamF := (Stream_SO; gamma) *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For an endofunctor T on a category C, a coalgebra is an object C together with a structure map C → TC; a morphism of coalgebras is a map of underlying objects making the evident square commute (target structure map after the map = T of the map after the source structure map); coalgebras and their morphisms form a category, and a TERMINAL coalgebra is a terminal object of that category.",
+   "intree": "FCoalgebra F a := a ~> F a (the structure map); FCoalg F : Category := (FAlg (F^op))^op with objects ∃ a, FCoalgebra F a and homs the dualized FAlgHom whose field falg_commutes : falg_hom ∘ α ≈ β ∘ fmap[F] falg_hom is exactly the commuting square (read in C^op); a terminal coalgebra is @Terminal (FCoalg F), the spelling used by lambek_final and inhabited by Stream_final.",
+   "strength_comparison": "same. The category is obtained by duality rather than by re-proving the laws, but the library's duality is definitional (C^op^op = C by reflexivity) and fcoalg_hom : (x ~{FCoalg F}~> y) = (y ~{FAlg (F^op)}~> x) is proved by reflexivity, so objects really are pairs (a, γ : a ~> F a), morphisms really are commuting squares, and 'terminal coalgebra' really is a terminal object of that category. Hom-sets are setoids and the square is stated with ≈, the faithful setoid rephrasing."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independently PRESENT, same evidence. Verified all four citations verbatim: FCoalgebra at Theory/Functor.v:382 (`Definition FCoalgebra `(F : C --> C) (a : C) := a ~> F a.`), FCoalg at Construction/FCoalg.v:28 with fcoalg_hom proved by `reflexivity` at :32-34, FAlgHom at Construction/FAlg.v:105-109 with fields falg_hom and `falg_commutes : falg_hom o alpha ~~ beta o fmap[F] falg_hom` (the commuting square), and Stream_final at Instance/Sets/Streams.v:231. The obj field of FAlg is literally `exists a : C, FAlgebra F a` (Construction/FAlg.v:115), so FCoalg objects really are carrier/structure-map pairs. 'Terminal coalgebra = @Terminal (FCoalg F)' is the spelling lambek_final and Stream_final both use. Checked for definition-without-API: the API is substantial (FCoalg_Forget, Theory/Recursion.v ana/anamorphism laws, Theory/Lambek.v). strength_comparison 'same' honest; the duality route is definitional, as the reflexivity proof shows."
+  }
+ },
+ {
+  "id": "riehl:E.3:exi",
+  "classification": "PRESENT",
+  "aliases": [
+   "Lambek's lemma for terminal coalgebras",
+   "the structure map of a final coalgebra is an isomorphism",
+   "ν ≅ F ν, greatest fixed point",
+   "lambek_final / dual of Lambek's lemma",
+   "Lambek 1968, a fixpoint theorem for complete categories"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Lambek.v",
+    "line": 78,
+    "symbol": "lambek_final",
+    "intree_statement": "Theorem lambek_final `(F : C ⟶ C) (T : @Terminal (FCoalg F)) : `1 (@terminal_obj (FCoalg F) T) ≅ F (`1 (@terminal_obj (FCoalg F) T)). Proof. exact (iso_sym (lambek (F^op) T)). Qed."
+   },
+   {
+    "file": "Theory/Lambek.v",
+    "line": 40,
+    "symbol": "lambek",
+    "intree_statement": "Theorem lambek `(F : C ⟶ C) (I : @Initial (FAlg F)) : F (`1 (@initial_obj (FAlg F) I)) ≅ `1 (@initial_obj (FAlg F) I).   (* the algebra form the coalgebra form is dualized from; the iso's `to` IS the structure map \\`2 iobj *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise E.3.i: prove that if a coalgebra is terminal in the category of T-coalgebras, then its structure map from the carrier to T of the carrier is an isomorphism (the coalgebraic form of Lambek's lemma).",
+   "intree": "Theorem lambek_final `(F : C ⟶ C) (T : @Terminal (FCoalg F)) : `1 (terminal_obj (FCoalg F) T) ≅ F (`1 (terminal_obj (FCoalg F) T)), proved as iso_sym (lambek (F^op) T), where lambek builds the isomorphism with to := the algebra's structure map and from := the unique mediator out of initiality.",
+   "strength_comparison": "same. Hypotheses match exactly (an arbitrary endofunctor F : C ⟶ C on an arbitrary category and a terminal object of FCoalg F — no completeness, no size condition). One presentational note: lambek_final asserts the ISOMORPHISM ν ≅ F ν rather than naming the structure map as its `to` component; that identification is visible in the algebra-side proof (lambek's iso is built as {| to := \\`2 iobj; from := falg_hom[hHom] |}, i.e. the structure map itself) and is carried across by iso_sym, so the exercise's exact content — 'the structure map is invertible' — is delivered, not merely 'the two objects are isomorphic'."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independently PRESENT. Read Theory/Lambek.v:40-81 in full: lambek:40 builds the isomorphism as `{| to := `2 iobj; from := falg_hom[hHom]; iso_to_from := Halphah; iso_from_to := Hhalpha |}` - the `to` leg IS the algebra structure map - and lambek_final:78 is `iso_sym` of it at F^op, which only swaps the two mutually inverse legs. So the structure map is one of the two inverse legs and is therefore invertible: the exercise's actual content is delivered, and the record's careful hedging ('asserts the ISOMORPHISM ... rather than naming the structure map as its `to` component') is exactly right rather than overclaiming. Note for readers: the file's own header (:72-76) states the resulting iso lives in C^op, so which of to/from carries the structure map depends on that elaboration - immaterial to the exercise. Hypotheses match exactly; no axioms."
+  }
+ }
+]

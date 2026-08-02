@@ -1,0 +1,473 @@
+[
+  {
+    "id": "riehl:3.2:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "complete category / has all small limits",
+      "cocomplete category / has all small colimits",
+      "Complete, Cocomplete (Structure/Complete.v)",
+      "small diagram / small indexing category",
+      "HasLimits / HasColimits"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Complete.v",
+        "line": 115,
+        "symbol": "Complete",
+        "intree_statement": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F."
+      },
+      {
+        "file": "Structure/Complete.v",
+        "line": 119,
+        "symbol": "Cocomplete",
+        "intree_statement": "Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F."
+      }
+    ],
+    "statement_record": {
+      "book": "A diagram is small when its indexing category is small. C is complete when it admits limits of all small diagrams valued in C, and cocomplete when it admits colimits of all small diagrams valued in C.",
+      "intree": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.  /  Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F.",
+      "strength_comparison": "same. Both are Type-valued limit oracles (a function assigning a chosen Limit/Colimit to every diagram), matching the book's 'admits limits of all small diagrams'. The one presentational difference is the smallness discipline: there is no in-tree `Small` predicate on categories to define 'small diagram' with, so the quantification is over every `Category D` and the size restriction is carried by universe polymorphism — instantiating `Complete` constrains D's object/hom universes relative to C's (stated in the file header, Structure/Complete.v:29-37, and observed concretely at Adjunction/SAFT.v:138, where `Complete` forces the diagram category's hom universe to coincide with C's). So the in-tree reading is 'has a limit for every suitably small diagram', not the inconsistent all-diagrams reading."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'IsSmall|Small\\b|LocallySmall|small category' --include=*.v . — only prose in file headers (Structure/Complete.v, Instance/Poset.v, Instance/Fun.v); no Class/Definition of smallness anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the identical evidence independently. Verified verbatim at Structure/Complete.v:115 `Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.` and :119 for Cocomplete; both quotes are character-accurate and the file is registered in _CoqProject. Independently confirmed the negative half: `rg 'Class Complete|Definition Complete|Class Cocomplete|Definition Cocomplete'` returns exactly these two plus Adjunction/GAFT.v:193 `Complete_HasEqualizers` (a consumer, not a rival definition), and no `Small`/`IsSmall` predicate exists anywhere. The smallness-via-universes reading in strength_comparison is the file's own disclosure (header lines 27-37) and is corroborated at Adjunction/SAFT.v:137-143, which I read: `[Complete] forces the diagram category's hom universe to coincide with C's hom universe`. Since D is bound by ∀ inside the body, its universe levels are fixed variables of the definition rather than polymorphic per-application, so the header's account is technically correct. All downstream consumers the header names exist (Comma_Complete, cogen_prod, cogen_power, adamek_cocomplete, Complete_HasEqualizers — each located by symbol search). PRESENT stands. See problems[] for a citation inconsistency found in this file while confirming it."
+    }
+  },
+  {
+    "id": "riehl:3.2:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "lim F := Cone(*, F) — limit in Set as the set of cones with summit the singleton",
+      "cone presheaf / presheaf of cones / ConePresheaf",
+      "limit as representing object of Cone(-, F)",
+      "Set(*, X) ≅ X — the singleton represents the identity functor (global elements)",
+      "conical limit / Sets-valued limit construction"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).  (* proved by `exists (@ConePresheaf J C F)`, i.e. being a limit of F is exactly representing the cone presheaf: Hom(c, z) ≅ Cone(c, F), naturally *)"
+      },
+      {
+        "file": "Structure/Cone.v",
+        "line": 79,
+        "symbol": "ConePresheaf",
+        "intree_statement": "Instance ConePresheaf {J : Category} {C : Category} (F : @Functor J C) : @Functor C^op Sets  (* fobj c := {| carrier := Cone[c]F ; is_setoid := AConeEquiv _ _ |}; fmap f reindexes a c-cone by precomposing every leg with f *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a small F : J ⟶ Set, define lim F := Cone(*, F), the SET of cones over F with summit the singleton *, with legs λ_j : lim F → Fj sending a cone μ to μ_j : * → Fj read as an element of Fj. Motivated by the display lim F ≅ Set(*, lim F) ≅ Cone(*, F), using that * represents the identity functor on Set.",
+      "intree": "ConePresheaf F : C^op ⟶ Sets sends each apex c to the setoid Cone[c]F of cones with summit c; LimitIsUniversalProperty says that IsALimit F c holds exactly when c represents that presheaf, i.e. Hom(−, c) ≅ Cone(−, F).",
+      "strength_comparison": "intree-weaker: the general representability half of the motivating display (the second ≅, Hom(c,z) ≅ Cone(c,F)) is proved for an arbitrary target category C, and the object Cone(c, F) is realized as a genuine Sets-object; but the book's actual definitional content — CONSTRUCTING the limit in Set as that cone-set — is never carried out."
+    },
+    "gap": "Nothing instantiates the machinery at C := Sets. Specifically missing: (a) `ConePresheaf F` evaluated at the terminal setoid (Sets_Terminal) is never named or shown to carry a Cone F, let alone a Limit F; (b) the legs λ_j (a cone μ with summit 1 sent to the element μ_j ttt of F j) are not defined; (c) the display's FIRST isomorphism, Set(*, X) ≅ X (the terminal setoid represents the identity functor on Sets, so elements = global elements), has no in-tree statement — grepping for hom-out-of-terminal isomorphisms turns up only Functor/Structure/Terminal.v's `fobj_one_iso : 1 ≅ F 1`, which is about a functor preserving the terminal object, not about Hom(1, X).",
+    "negative_search_log": [
+      "grep -rn 'Limit' --include=*.v . | file list — no file under Instance/Sets/ constructs a Limit; Instance/Sets.v mentions Limit only in a header comment (line 80)",
+      "grep -rn 'Cone\\[.*terminal|ConePresheaf' --include=*.v . — ConePresheaf appears only in Structure/Cone.v, Structure/Limit.v (comment) and Structure/UniversalProperty/Limit.v; never at C := Sets",
+      "grep -rn 'one_iso|hom_terminal|terminal_hom|global element' --include=*.v . — only Functor/Structure/Terminal.v `fobj_one_iso` and the Tools/ global-element convention"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same place independently: I found `ConePresheaf` at Structure/Cone.v:79 (`{J C} (F : @Functor J C) : @Functor C^op Sets`, fobj c := the setoid Cone[c]F under AConeEquiv, fmap f precomposing every leg) and `LimitIsUniversalProperty` at Structure/UniversalProperty/Limit.v:141, whose proof opens `exists (@ConePresheaf J C F)`. Both line numbers and quotes verified; both files are in _CoqProject. The three-part gap is accurate as written and I could not narrow it: (a) I searched every file under Instance/Sets/ for `Limit` — zero constructions; Instance/Sets.v mentions Limit only in header prose at line 80; (b) no legs λ_j anywhere; (c) I independently grepped for a Hom(1,X) ≅ X / global-elements isomorphism and found only the CONVENTION (Tools/Represented.v:18-31 `convert : A → (1 ~> repr)`, Structure/Constant.v:12) and Functor/Structure/Terminal.v's `fobj_one_iso : 1 ≅ F 1`, exactly as the record says. Nearest structural relative, not cited and not a counterexample: Instance/Sets/End.v:75 `Sets_End_obj` builds the SAME shape of object (a sub-setoid of compatible families) but for a wedge/end, never for a diagram limit. PARTIAL with intree-weaker stands."
+    }
+  },
+  {
+    "id": "riehl:3.2:thm4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Set is complete / Set admits all small limits",
+      "Complete Sets / @Complete Sets instance",
+      "limits in the category of sets (setoids)",
+      "Sets has products, equalizers, pullbacks, terminal object",
+      "Cone(*,F) is the limit"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cartesian.v",
+        "line": 32,
+        "symbol": "Sets_Cartesian",
+        "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; is_setoid := {| equiv := fun z w => @equiv _ x (fst z) (fst w) * @equiv _ y (snd z) (snd w) ; ... |} |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := {| morphism := fst |}; exr := {| morphism := snd |} }"
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 248,
+        "symbol": "Sets_Terminal",
+        "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := { terminal_obj := {| carrier := poly_unit |}; one := fun _ => {| morphism := fun _ => ttt |}; one_unique := fun x f g => _ }"
+      },
+      {
+        "file": "Structure/Limit/Cartesian.v",
+        "line": 39,
+        "symbol": "Cartesian_Limit",
+        "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C."
+      }
+    ],
+    "statement_record": {
+      "book": "Theorem 3.2.4: the category Set is complete — every small diagram F : J ⟶ Set has a limit, constructed as Cone(*, F); the proof factors an arbitrary cone ζ with summit X through λ by f(x) := ζ · Δx, and this formula is forced.",
+      "intree": "Sets has a terminal object (the poly_unit setoid) and binary products (the product setoid with componentwise ≈); by Cartesian_Limit and Terminal_Limit these are exactly the limits of the discrete two-object and empty diagrams.",
+      "strength_comparison": "intree-weaker: only two limit shapes are realized in Sets (empty and discrete-2), against the book's claim for every small J. No general construction, no universal factorization formula, and no `Complete Sets` term exists."
+    },
+    "gap": "There is no `@Complete Sets` instance and no construction of limits of arbitrary small diagrams in Sets. Beyond the terminal object and binary products the only limit-shaped Sets constructions in the tree are the end (Instance/Sets/End.v, over the twisted-arrow-style wedge condition, never identified with a Limit) and, on the colimit side, the coend and pushouts. Sets has NO equalizers (`HasEqualizers` from Structure/Equalizer/Fork.v:68 has no instance anywhere in-tree), NO pullbacks (`HasPullbacks` is instantiated only at FinSet, Instance/FinSet/Classifier.v:264), and NO indexed products (`HasIndexedProducts`, Structure/Limit/Product.v:128, has no instance). The proof strategy of the theorem (elements-as-maps-out-of-1) is likewise unavailable, since Set(*,X) ≅ X is not stated.",
+    "negative_search_log": [
+      "grep -rn 'Complete Sets|@Complete Sets|Sets_Complete' --include=*.v . — 0 hits",
+      "grep -rln 'Limit' --include=*.v . — 44 files, none under Instance/Sets/",
+      "grep -rn 'HasEqualizers' --include=*.v . — only the class (Structure/Equalizer/Fork.v:68) and hypothesis uses (Theory/WeaklyInitial.v:94, Adjunction/GAFT.v); no instance",
+      "grep -rn 'HasIndexedProducts' --include=*.v . — only the class and a Theory/WeaklyInitial.v comment; no instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Every cited location verified: Instance/Sets/Cartesian.v:32 `Sets_Cartesian`, Instance/Sets.v:248 `Sets_Terminal` (carrier poly_unit, one_unique discharged by `destruct (f x0), (g x0); reflexivity`), Structure/Limit/Cartesian.v:39 `Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C`. I re-ran every negative independently and each held: `rg 'Instance.*HasEqualizers|: HasEqualizers'` → only the class (Structure/Equalizer/Fork.v:68) and the hypothesis at Theory/WeaklyInitial.v:94, no instance for ANY category; `rg 'Instance.*HasIndexedProducts'` → zero hits anywhere; `rg 'Instance.*HasPullbacks'` → only Instance/FinSet/Classifier.v:264; no `Complete Sets` term exists. BORDERLINE FLAGGED, NOT OVERTURNED: 'Set is complete' is a single ∀-over-all-small-J claim and the tree realizes only two shapes (empty, discrete-2) in Sets, so ABSENT would also be defensible under the frozen definitions. I leave PARTIAL because those two shapes ARE genuine limits in Sets proved in-tree, the gap paragraph is precise and complete (it even names the missing proof technique), and both classifications route to the same downstream issue. A Phase-E author should treat this as a from-scratch item, not a top-up."
+    }
+  },
+  {
+    "id": "riehl:3.2:example5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "products in Set are cartesian products",
+      "∏_{j∈J} A_j as the set of J-tuples",
+      "Sets_Cartesian / product setoid",
+      "indexed product / iprod / HasIndexedProducts",
+      "limit of a discrete diagram"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cartesian.v",
+        "line": 32,
+        "symbol": "Sets_Cartesian",
+        "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; is_setoid := {| equiv := fun z w => @equiv _ x (fst z) (fst w) * @equiv _ y (snd z) (snd w) ; ... |} |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := {| morphism := fst |}; exr := {| morphism := snd |} }"
+      },
+      {
+        "file": "Structure/Limit/Cartesian.v",
+        "line": 39,
+        "symbol": "Cartesian_Limit",
+        "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C."
+      }
+    ],
+    "statement_record": {
+      "book": "Example 3.2.5: by Theorem 3.2.4 the product of sets A_j indexed by a set J is the set of cones with summit * over the discrete J-indexed diagram, and such a cone is just a J-tuple; hence the categorical product in Set is the usual cartesian product ∏_{j∈J} A_j = {(a_j ∈ A_j)_{j∈J}}.",
+      "intree": "The categorical product of two setoids is the product setoid — carrier the product type, ≈ componentwise, projections fst/snd, pairing x ↦ (f x, g x) — and Cartesian_Limit identifies binary products with limits of discrete two-object diagrams.",
+      "strength_comparison": "intree-weaker: binary (J = 2) only. The underlying-set claim is exact for that case — the carrier IS the cartesian product type — but the arbitrary index set J of the book is not covered."
+    },
+    "gap": "Only the binary case is realized in Sets. The general apparatus exists (`iprod`/`iprod_proj`/`iprod_ump` as the limit of a DiscreteCat diagram, Structure/Limit/Product.v:93-105, and the class `HasIndexedProducts`, ibid. line 128) but has NO instance for Sets or Coq, so ∏_{j∈J} A_j as the setoid of J-tuples is never constructed. The book's route through Theorem 3.2.4 (products as cones with summit *) is also unavailable, since limits in Sets are not constructed at all.",
+    "negative_search_log": [
+      "grep -rn 'HasIndexedProducts|IsIndexedProduct|iprod' --include=*.v . — hits only in Structure/Limit/Product.v (the class and generic API) and Theory/WeaklyInitial.v (consumer); no Sets/Coq/FinSet instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Instance/Sets/Cartesian.v:32 (`Sets_Cartesian`, carrier the product type with componentwise ≈, exl/exr = fst/snd, fork = fun x => (f x, g x)) and Structure/Limit/Cartesian.v:39. The 'binary only' gap is exactly right: I confirmed independently that Structure/Limit/Product.v carries the full generic apparatus — `IsIndexedProduct` at :51, `iprod`/`iprod_proj` at :93/:99, `iprod_ump` at :105, `Class HasIndexedProducts` at :128 (read in full) — and that `rg 'Instance.*HasIndexedProducts'` returns ZERO hits tree-wide, so no category at all has indexed products in-tree, let alone Sets. Not cited but worth knowing for Phase E: Instance/Coq.v:141 `Coq_Cartesian` gives the same binary-only story for the category of types, so neither set-like instance covers arbitrary J. PARTIAL stands."
+    }
+  },
+  {
+    "id": "riehl:3.2:example6",
+    "classification": "PRESENT",
+    "aliases": [
+      "terminal object of Set is a singleton",
+      "empty limit / limit of the empty diagram",
+      "Sets_Terminal / unit setoid / poly_unit",
+      "one-point set 1 = {*}",
+      "nullary product"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets.v",
+        "line": 248,
+        "symbol": "Sets_Terminal",
+        "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := { terminal_obj := {| carrier := poly_unit |}; one := fun _ => {| morphism := fun _ => ttt |}; one_unique := fun x f g => _ }  (* obligation: destruct (f x0), (g x0); reflexivity *)"
+      },
+      {
+        "file": "Structure/Limit/Terminal.v",
+        "line": 33,
+        "symbol": "Terminal_Limit",
+        "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C."
+      }
+    ],
+    "statement_record": {
+      "book": "Example 3.2.6: the terminal object in Set is the set of cones over the empty diagram with summit *, and there is exactly one such cone (its data is only the choice of summit); hence the terminal object of Set is a singleton.",
+      "intree": "`Sets_Terminal : @Terminal Sets` with terminal_obj the singleton setoid on poly_unit and `one_unique` proving any two maps into it agree, together with `Terminal_Limit : Limit F ↔ @Terminal C` for F : 0 ⟶ C, which is exactly 'the terminal object is the limit of the empty diagram'.",
+      "strength_comparison": "same, with the standard setoid rephrasing (uniqueness is up to ≈ on the hom-setoid rather than on the nose). Both halves of the example are covered: the singleton IS terminal in the library's category of sets, and terminality IS the empty-diagram limit. The only presentational difference is that the in-tree proof of terminality is direct rather than routed through the cone-set construction of Definition 3.2.3 (which does not exist in-tree)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both halves verified in the source. Instance/Sets.v:248 `Sets_Terminal : @Terminal Sets` with `terminal_obj := {| carrier := poly_unit |}` (poly_unit's Setoid instance is Unit_Setoid just above, equiv := eq) and one_unique proved by `destruct (f x0), (g x0); reflexivity`. Structure/Limit/Terminal.v:33 `Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C` — an IFF, so the 'terminal object = limit of the empty diagram' half is at full strength, not one-directional. Both files in _CoqProject. The strength_comparison is honest, including its concession that the in-tree route does not go through the cone-set construction of Definition 3.2.3. No same-name-weaker, no missing API. PRESENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.2:example7",
+    "classification": "ABSENT",
+    "aliases": [
+      "equalizer in Set, E = {x ∈ X | f(x) = g(x)}",
+      "difference kernel",
+      "equalizer of a parallel pair of functions",
+      "HasEqualizers Sets / Sets_Equalizer / IsEqualizer in Sets",
+      "limit of a Parallel-shaped diagram in Sets",
+      "sub-setoid on which two morphisms agree"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'HasEqualizers' --include=*.v . — the class is Structure/Equalizer/Fork.v:68; every occurrence elsewhere is a hypothesis (Theory/WeaklyInitial.v:94) or a comment. No instance for any concrete category",
+      "grep -rni 'equaliz' --include=*.v Instance/ — only Instance/Parallel.v and Instance/Two.v header prose about the walking parallel pair, and Instance/FinSet/Pushout.v's `ustep_equalizes` (a step lemma about a union-find relation, not an equalizer)",
+      "grep -rniE 'Sets_Equalizer|equalizer.*Sets|Sets.*equalizer|IsEqualizer Sets|HasEqualizers Sets' --include=*.v . — 0 relevant hits",
+      "grep -rni 'difference kernel' --include=*.v . — only the etymology note in Structure/Equalizer.v:56",
+      "NEAR MISS examined and rejected: Instance/Sets/Karoubi.v:41 `sets_split_obj e := {| carrier := ∃ a : X, e a ≈ a |}` is literally the equalizer of `e` and `id` in Sets, but it is never stated to be an equalizer (no fork, no IsEqualizer, no universal property against a parallel pair), so it does not assert the book's claim for a general pair f, g"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search independently reached ABSENT before reading the coverage file, and independently hit the same near miss. Confirmations: `HasEqualizers` has NO instance in the tree (only the class at Structure/Equalizer/Fork.v:68 and the hypothesis at Theory/WeaklyInitial.v:94); no `Sets_Equalizer`; nothing under Instance/Sets/ constructs an equalizer or a Limit over `Parallel`. The near-miss rejection is correct and I verified it by reading the file: Instance/Sets/Karoubi.v:41 `sets_split_obj e := {| carrier := ∃ a : X, e a ≈ a |}` IS the equalizer of (e, id) as a set, and Instance/Sets/Image.v's `Sets_Image_setoid` is a comparable sub-setoid carve-out, but neither is ever fitted with a fork, an `IsEqualizer`, or a universal property against a parallel pair, so neither asserts the book's claim for general f, g. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.2:example8",
+    "classification": "ABSENT",
+    "aliases": [
+      "inverse limit / projective limit of a tower of sets",
+      "limit of an ω^op-indexed diagram",
+      "set of compatible sequences {(x_n) | f_{n,n-1}(x_n) = x_{n-1}}",
+      "sequential limit / cofiltered limit over ω^op",
+      "Cochain (Omega^op ⟶ C)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'inverse limit|projective limit|sequential limit|limit of a tower|compatible sequence' --include=*.v . — hits only in the Structure/Limit.v background essay (lines 51-68), never as a statement",
+      "grep -rn 'Cochain' --include=*.v . — only Construction/Chain.v:78 `Definition Cochain {C : Category} `{@Terminal C} (F : C ⟶ C) : Omega^op ⟶ C := (@Chain (C^op) _ (F^op))^op`, i.e. the ω^op-shaped DIAGRAM exists but no limit of it is ever constructed",
+      "grep -rn 'Omega' --include=*.v . — Instance/Omega.v (the ordinal ω), Construction/Chain.v, Theory/Adamek.v; Adámek's use is a COLIMIT of the ω-chain, and even there `AdamekData` is a hypothesis with no in-tree witness (docs/INHABITATION.md)",
+      "checked Instance/Sets/Streams.v: streams over a setoid are built as the FINAL COALGEBRA of StreamF via bisimilarity (`Stream_final : @Terminal (FCoalg StreamF)`), never as the inverse limit of the tower 1 ← A ← A² ← …, so the ω^op-limit description of that object is not in-tree either"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed before reading the record. Verified Construction/Chain.v:78 `Definition Cochain {C : Category} `{@Terminal C} (F : C ⟶ C) : Omega^op ⟶ C` — the ω^op-shaped DIAGRAM exists (over Instance/Omega.v's Type-valued le_t order) but nothing ever takes its limit. Verified Instance/Sets/Streams.v:231 `Definition Stream_final : @Terminal (FCoalg StreamF)` — streams are built as a final coalgebra via bisimilarity, never as the inverse limit of 1 ← A ← A² ← …, so even the canonical example of the construction is present under a different universal property. The only 'inverse limit' text in the tree is background prose at Structure/Limit.v:51-68 and :108. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.2:example9",
+    "classification": "PARTIAL",
+    "aliases": [
+      "pullback in Set, B ×_A C = {(b,c) | f(b) = g(c)}",
+      "fibered product / fiber product of sets",
+      "HasPullbacks Sets / Sets_Pullbacks",
+      "limit of a cospan / Roof-shaped diagram",
+      "pullback as the equalizer of f∘π_B and g∘π_C"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 264,
+        "symbol": "FinSet_Pullbacks",
+        "intree_statement": "#[export] Program Instance FinSet_Pullbacks : HasPullbacks FinSet := { pullback := fun m n k (f : Fin.t m → Fin.t k) (g : Fin.t n → Fin.t k) => {| Pull := fin_countP (finset_pb_pred f g); pullback_fst := fun q => fst (fin_unpair (fin_select (finset_pb_pred f g) q)); pullback_snd := fun q => snd (fin_unpair (fin_select (finset_pb_pred f g) q)) |} }  where  finset_pb_pred f g := fun p => fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p)))"
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 161,
+        "symbol": "Pullback",
+        "intree_statement": "Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := { Pull : C; pullback_fst : Pull ~> x; pullback_snd : Pull ~> y; pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd; ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2 }"
+      }
+    ],
+    "statement_record": {
+      "book": "Example 3.2.9: elements of the pullback of B →f A ←g C are cones with summit *, i.e. commutative squares, whose data is a pair (b,c) with f(b) = g(c); hence B ×_A C = {(b,c) ∈ B × C | f(b) = g(c)}. The following prose observes that this exhibits the pullback as the equalizer of f∘π_B, g∘π_C : B × C ⇉ A.",
+      "intree": "For the skeletal finite-set category FinSet, the pullback object is the counted subset of the encoded pairs Fin.t (m*n) satisfying `fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p)))`, with projections decode-then-project and the full UMP discharged via rank/select.",
+      "strength_comparison": "intree-weaker: the agreement-subset-of-the-product description of the pullback is proved only in the FINITE, SKELETAL model FinSet (objects are natural numbers, elements are Fin.t), not in Sets (setoids) or Coq (types). The universal property itself is at full strength (unique mediator), matching the book."
+    },
+    "gap": "No `HasPullbacks Sets` (or `HasPullbacks Coq`) instance exists, so the book's construction for general sets is not in-tree; only FinSet has it. Instance/Sets/Classifier.v:224 `sets_char_pullback` proves that ONE particular square (a mono m against `truth`) is a pullback in Sets, not that arbitrary cospans of setoid maps have pullbacks. The follow-on observation that the pullback is the equalizer of f∘π_B and g∘π_C is nowhere stated in any category — there are no equalizers in any concrete instance (no `HasEqualizers` instance in-tree), and the reduction of pullbacks to products+equalizers is explicitly recorded as a known in-tree gap at Structure/Topos.v:23.",
+    "negative_search_log": [
+      "grep -rn 'HasPullbacks' --include=*.v . — the only instance is Instance/FinSet/Classifier.v:264; other hits are the class (Structure/Pullback.v:215) and hypothesis uses (Structure/Regular.v, Construction/Displayed/Codomain.v)",
+      "grep -rn 'pullback' --include=*.v Instance/Sets.v Instance/Sets/*.v — only Instance/Sets/Classifier.v, and there only the single classifying square (`sets_char_pullback`, `sets_char_unique`)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Instance/FinSet/Classifier.v:264 `#[export] Program Instance FinSet_Pullbacks : HasPullbacks FinSet` and Structure/Pullback.v:161 (the `Pullback` record with the unique-mediator UMP) and :215 (`Class HasPullbacks`). I independently re-ran the instance census: FinSet_Pullbacks is the ONLY `HasPullbacks` instance tree-wide (other hits are the class, the op-conversions at Structure/Pushout.v:158-169, and section hypotheses in Construction/Span/Category.v and Construction/Displayed/Codomain.v). Verified Instance/Sets/Classifier.v:224 `Theorem sets_char_pullback` really is about ONE classifying square, not a supply of pullbacks. Also confirmed the tail claim by reading Structure/Topos.v:23 in place: 'reduction of pullbacks to products and equalizers (and conversely) is not […]' — an explicit in-tree gap note, correctly cited. BORDERLINE FLAGGED, NOT OVERTURNED: the witness is in FinSet (skeletal, finite, elements are Fin.t), a different category from Sets; PARTIAL survives only because the record says so in the strength_comparison in as many words. ABSENT-for-Sets would also be defensible."
+    }
+  },
+  {
+    "id": "riehl:3.2:example10",
+    "classification": "ABSENT",
+    "aliases": [
+      "limit of a G-set is its fixed-point set, lim X ≅ X^G",
+      "G-set / left action of a group on a set / functor BG ⟶ Set",
+      "delooping BG of a group as a one-object category",
+      "invariants X^G / fixed points of a group action",
+      "equalizer of the action maps"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'delooping|BG\\b|G-set|group action|X\\^G|invariants' --include=*.v . — `delooping` appears only in Theory/Bicategory.v and Theory/Bicategory/OneObject.v, and there it is the delooping of a MONOIDAL CATEGORY into a one-object bicategory, not of a group into a category; `group action` appears only in prose about symmetric-group actions on multicategories",
+      "grep -rniE 'monoid.*as a category|category.*from a monoid|Deloop' --include=*.v . — 0 constructions; there is no functor Monoid/Group ⟶ Cat and no one-object category built from a group",
+      "grep -rn 'GroupObject|Structure/Group' --include=*.v . — Structure/Group.v:109 defines only `Class GroupObject (grp : C)` (an internal group object); there is no notion of a group ACTING on an object and no fixed-point/invariants construction",
+      "grep -rni 'fixed point' --include=*.v . — Instance/Sets/Karoubi.v (fixed points of a single IDEMPOTENT endomorphism), Theory/Lambek.v / Theory/Recursion.v (fixed points of an endofunctor). Neither is the joint fixed-point set of a group action",
+      "consequence: since no BG exists, there is no diagram BG ⟶ Sets to take a limit of, and limits in Sets are in any case not constructed (see riehl:3.2:thm4)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and by the same route: there is no delooping of a group or monoid into a one-object category anywhere in the tree. Re-verified each leg: `delooping` occurs only in Theory/Bicategory.v and Theory/Bicategory/OneObject.v, and there it is a MONOIDAL CATEGORY delooped into a one-object bicategory; Structure/Group.v:109 `Class GroupObject (grp : C)` is an internal group object with no action and no invariants; every 'fixed point' hit is either the idempotent fixed points of Instance/Sets/Karoubi.v or endofunctor fixed points (Theory/Lambek.v, Theory/Recursion.v). Since no BG exists there is no diagram to take the limit of, and limits in Sets are unconstructed regardless (thm4). ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.2:thm11",
+    "classification": "ABSENT",
+    "aliases": [
+      "every small limit in Set is an equalizer of a pair of maps between products",
+      "lim_J F ↪ ∏_{j∈ob J} Fj ⇉ ∏_{f∈mor J} F(cod f)",
+      "products + equalizers ⇒ all small limits (Mac Lane V.2.1)",
+      "canonical equalizer presentation of a limit / limit formula",
+      "complete from products and equalizers"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'products and equalizers|equalizer of.*product|limit_from|limits_from|Complete_of_products|products_equalizers|wide equalizer' --include=*.v . — every hit is PROSE in a background essay: Structure/Limit.v:71 ('construction from products and equalizers'), Structure/Equalizer.v:80-87 ('every limit arising as an equalizer of two maps between products (Mac Lane …)'), Structure/Complete.v:51 (citing Mac Lane V.2.1 and Riehl 3.4.12), Structure/Topos.v:23, Adjunction/GAFT.v:147. No Definition/Lemma/Theorem states it",
+      "grep -rn 'HasEqualizers|HasIndexedProducts' --include=*.v . — both classes exist (Structure/Equalizer/Fork.v:68, Structure/Limit/Product.v:128) but neither is consumed to build a general Limit; the only combined use is Theory/WeaklyInitial.v, which builds an INITIAL OBJECT (Freyd's product-then-equalizer-of-all-endomorphisms argument), a different theorem",
+      "grep -rnE 'F \\(cod|mor J|prod_.*mor' --include=*.v . — no morphism-indexed product anywhere in-tree",
+      "NOTE: the closest in-tree relative, Theory/WeaklyInitial.v:94 `initial_from_weakly_initial … (E : HasEqualizers C) : @Initial C`, uses the same product-then-equalizer TECHNIQUE but concludes an initial object from a weakly initial family, not the limit formula of Theorem 3.2.11"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. I re-read every prose hit the record cites and each is genuinely prose in a background essay, not a statement: Structure/Limit.v:71 and :94, Structure/Equalizer.v:80-81 (which cites only Mac Lane, 2nd ed. §V.2), Structure/Complete.v:51-54, Structure/Topos.v:23, Adjunction/GAFT.v:147. No Definition/Lemma/Theorem states the limit formula, and no morphism-indexed product ∏_{f ∈ mor J} F(cod f) exists in any form. The WeaklyInitial note is accurate and important: Theory/WeaklyInitial.v:94 `initial_from_weakly_initial … (E : HasEqualizers C) : @Initial C` runs the same product-then-equalizer TECHNIQUE but concludes an initial object, a different theorem. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.2:remark13",
+    "classification": "ABSENT",
+    "aliases": [
+      "element-free description of the parallel pair c, d in the limit formula",
+      "components of a map into a product via π_f (universal property of the product)",
+      "π_f ∘ c = π_{cod f}, π_f ∘ d = Ff ∘ π_{dom f}",
+      "generalization of the limit formula beyond Set / dual colimit formula",
+      "canonical (co)limit presentation by products and (co)equalizers"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "this remark is entirely parasitic on riehl:3.2:thm11, which is ABSENT: with no morphism-indexed product ∏_{f∈mor J} F(cod f) and no maps c, d in-tree, there is nothing whose element-free redefinition could be stated",
+      "grep -rnE 'F \\(cod|mor J|cod f' --include=*.v . — no morphism-indexed family or product anywhere",
+      "grep -rniE 'products and equalizers|equalizer of.*product' --include=*.v . — prose only (Structure/Limit.v:71, Structure/Equalizer.v:80, Structure/Complete.v:51)",
+      "checked the generic component-wise machinery that would host it: `iprod_ump` (Structure/Limit/Product.v:105) does give 'a map into an indexed product is determined by its components', and `IsIndexedProduct` (line 51) states it as the UMP — but neither is applied to a morphism-indexed family, and the specific pair c, d of (3.2.12) is not defined",
+      "the remark's stated payoff — that this is what generalizes the formula off Set, and dually gives the colimit formula (Riehl Theorem 3.5.11) — is likewise unformalized: no Colimit-from-coproducts-and-coequalizers statement exists (grep 'HasCoequalizers' finds the class Structure/Coequalizer.v:68 and hypothesis uses only)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. The parasitism argument is sound — with thm11 absent there is no pair (c, d) to redescribe. I verified the record's one substantive positive observation by reading the source: Structure/Limit/Product.v:51 `IsIndexedProduct` and :105 `iprod_ump` do state 'a map into an indexed product is determined by its components', which is precisely the generic machinery the remark would use, but it is never applied to a morphism-indexed family. Also verified the dual claim: `HasCoequalizers` (Structure/Coequalizer.v:68) has no concrete instance — the only `Instance` hit is Structure/Coequalizer/Reflexive.v:75 `HasCoequalizers_HasReflexiveCoequalizers`, a hypothesis-to-hypothesis derivation, not a witness — so no colimit-from-coproducts-and-coequalizers statement exists either. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.2:example14",
+    "classification": "PARTIAL",
+    "aliases": [
+      "idempotent e : A → A with e∘e = e",
+      "fixed-point set A^e = {a ∈ A | ea = a}",
+      "splitting an idempotent / split idempotent / retract",
+      "Karoubi envelope / Cauchy complete / IdempotentsSplit",
+      "A^e as the equalizer of id_A and e"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Karoubi.v",
+        "line": 80,
+        "symbol": "sets_split",
+        "intree_statement": "Program Definition sets_split {X : SetoidObject} (e : X ~{Sets}~> X) (H : Idempotent e) : @SplitIdempotent Sets X (sets_split_obj e) := {| split_idem := e; split_idem_r := sets_split_r e H; split_idem_s := sets_split_s e |}  (* obligations: s ∘ r ≈ e and r ∘ s ≈ id, both proved pointwise *)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 85,
+        "symbol": "SplitIdempotent",
+        "intree_statement": "Class SplitIdempotent {x y : C} := { split_idem : x ~> x; split_idem_r : x ~> y; split_idem_s : y ~> x; split_idem_sr : split_idem_s ∘ split_idem_r ≈ split_idem; split_idem_rs : split_idem_r ∘ split_idem_s ≈ id }"
+      },
+      {
+        "file": "Instance/Sets/Karoubi.v",
+        "line": 41,
+        "symbol": "sets_split_obj",
+        "intree_statement": "Program Definition sets_split_obj {X : SetoidObject} (e : X ~{Sets}~> X) : SetoidObject := {| carrier := ∃ a : X, e a ≈ a; is_setoid := {| equiv := fun p q => `1 p ≈ `1 q |} |}"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 22,
+        "symbol": "Idempotent",
+        "intree_statement": "Class Idempotent `(f : x ~> x) := { idem : f ∘ f ≈ f }."
+      }
+    ],
+    "statement_record": {
+      "book": "Example 3.2.14: an idempotent e : A → A (e∘e = e) has as its limit in Set the fixed-point set A^e = {a | ea = a}; equivalently A^e is the equalizer of id_A, e : A ⇉ A via s : A^e ↣ A. Since e is a cone over that pair, e = s r for a unique r, which SPLITS the idempotent, and s r s = e s = s with uniqueness gives r s = id_{A^e}, so A^e is a retract of A. Conversely any retract B →s A →r B with r s = id_B gives an idempotent s r split by B, and B ↣ A ⇉ A is an equalizer diagram.",
+      "intree": "In Sets the fixed-point sub-setoid `sets_split_obj e := {| carrier := ∃ a : X, e a ≈ a |}` carries a `SplitIdempotent Sets X (sets_split_obj e)` whose split_idem is e itself, with the two laws `split_idem_s ∘ split_idem_r ≈ e` and `split_idem_r ∘ split_idem_s ≈ id`; `Sets_IdempotentsSplit : IdempotentsSplit Sets` (line 101) says every idempotent of Sets splits this way.",
+      "strength_comparison": "same for the splitting/retract half, in setoid form (e (e a) ≈ e a rather than =, and the fixedness proof component is irrelevant to the sub-setoid's ≈). intree-weaker for the LIMIT half: the fixed-point object is never identified with a limit or an equalizer."
+    },
+    "gap": "The limit/equalizer content of the example is missing. Specifically: (a) A^e is never stated to be the limit of the one-object diagram, nor the equalizer of id_A and e — the library has no equalizers in Sets at all (no `HasEqualizers` instance anywhere) and no `IsEqualizer` witness for the pair (id, e); (b) the section s : A^e ↣ A is not shown monic; (c) the converse leg — from a retract r ∘ s ≈ id, the composite s ∘ r is idempotent (`Idempotent (s ∘ r)`) and B ↣ A ⇉ A is an equalizer diagram (the book's Exercise 3.4.vi) — has no lemma: grepping `Idempotent` finds only `id_idem`, `Extend_idem` and `karoubi_idem_splits`, none of which derives idempotency from a retraction, even though the `SplitIdempotent` header comment (Theory/Morphisms.v:80) observes that split_idem_rs forces it.",
+    "negative_search_log": [
+      "grep -rn 'Idempotent' --include=*.v . — no lemma of the shape `Retraction f → Idempotent (s ∘ r)` and no equalizer statement about (id, e)",
+      "grep -rni 'equaliz' --include=*.v Instance/ — no equalizer construction in any concrete instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All four evidence records verified verbatim: Theory/Morphisms.v:22 `Class Idempotent `(f : x ~> x) := { idem : f ∘ f ≈ f }`, :85 `Class SplitIdempotent` with both laws, Instance/Sets/Karoubi.v:41 `sets_split_obj` (carrier `∃ a : X, e a ≈ a`, ≈ comparing underlying elements so the fixedness proof is irrelevant) and :80 `sets_split`. I also read :101 `Sets_IdempotentsSplit : IdempotentsSplit Sets` and :113 `Corollary Sets_Cauchy` — both real, both discharged, file in _CoqProject. Gap (a) and gap (c) both hold under my own search: no `IsEqualizer` witness for (id, e) anywhere, and no lemma of the shape `Retraction f → Idempotent (s ∘ r)` (the only Idempotent producers are `id_idem` at Theory/Morphisms.v:129 and `karoubi_idem_splits`). CORRECTION TO THE RECORD (does not change the classification): gap (b), 'the section s : A^e ↣ A is not shown monic', is overstated. Theory/Morphisms.v:179 proves `Lemma sections_are_monic : Section f → Monic f`, and `split_idem_rs : r ∘ s ≈ id` exhibits `sets_split_s` as a `Section`, so monicity is a one-line instantiation of existing generic API rather than missing content. Phase E should drop (b) from the work list or demote it to a one-liner. PARTIAL stands on gaps (a) and (c)."
+    }
+  },
+  {
+    "id": "riehl:3.2:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "small category as a diagram in Set (ob C, mor C, dom, cod, id, composition)",
+      "internal category / category internal to E / category object",
+      "set of composable pairs as a pullback mor C ×_{ob C} mor C",
+      "arrows-only / single-sorted axiomatization, metacategory",
+      "category axioms as commutative diagrams in Set"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 212,
+        "symbol": "Category_from_Metacategory",
+        "intree_statement": "Program Definition Category_from_Metacategory : Category := {| obj := object; hom := morphism; homset := fun _ _ => {| equiv := fun f g => mor_arr f = mor_arr g |}; id := @identity; compose := @composition; compose_respects := @composition_respects; id_left := @composition_identity_left; id_right := @composition_identity_right; comp_assoc := @composition_associative; … |}"
+      },
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 37,
+        "symbol": "Metacategory",
+        "intree_statement": "Record Metacategory := { arrow := N; pairs : M.t arrow; composite (f g h : arrow) := M.find (f, g) pairs = Some h; defined (f g : arrow) := ∃ h, composite f g h; composite_correct {f g h fg gh} : composite f g fg → composite g h gh → ∃ fgh, composite fg h fgh; composition_law {f g h fg gh} : composite f g fg → composite g h gh → ∀ fgh, composite fg h fgh ↔ composite f gh fgh; is_identity (u : arrow) := (∀ f, defined f u → composite f u f) ∧ (∀ g, defined u g → composite u g g); … }"
+      },
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 99,
+        "symbol": "morphism",
+        "intree_statement": "Record morphism (dom cod : object) : Set := { mor_arr : arrow M; mor_dom : composite M mor_arr (obj_arr dom) mor_arr; mor_cod : composite M (obj_arr cod) mor_arr mor_arr }   (with  Record object : Set := { obj_arr : arrow M; obj_def : composite M obj_arr obj_arr obj_arr; obj_id : is_identity M obj_arr } )"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3.2.i: redefine a small category as a diagram in Set — sets ob C and mor C with dom, cod : mor C → ob C and id : ob C → mor C, composition defined on the set of composable pairs obtained as a PULLBACK, with the category axioms expressed as commutative diagrams in Set; replacing Set by any category E with pullbacks defines a category internal to E.",
+      "intree": "`Record Metacategory` presents a category as set-level data — a set of arrows (arrow := N) together with an FMap `pairs` of composable pairs and their composites — with matchability, associativity and identity stated as first-order conditions on the `composite` relation; `object`/`morphism` recover the two sorts (objects are the identity arrows, a morphism carries dom/cod witnesses), and `Category_from_Metacategory : Category` proves such data yields a category.",
+      "strength_comparison": "intree-weaker on three counts: (i) the presentation is single-sorted (arrows-only, Mac Lane I.1) rather than the two-sorted ob/mor diagram the exercise asks for — dom and cod are not functions mor C → ob C but proof-carrying fields on `morphism`; (ii) the set of composable pairs is an FMap over `arrow := N`, so only categories whose arrows are indexed by numerals are expressible (the four in-tree examples are Zero/One/Two/Three/Four), and it is NOT obtained as a pullback; (iii) the axioms are first-order relational conditions, not commutative diagrams in Set."
+    },
+    "gap": "Two things the exercise asks for are entirely absent. (a) The pullback formulation: nothing constructs the set of composable pairs as a pullback mor C ×_{ob C} mor C, and nothing expresses the category axioms as commuting squares/triangles in Set (grep for a composable-pairs pullback returns only the FMap encoding). (b) The generalization: there is no `InternalCategory` class, no 'category internal to E' for a category E with pullbacks — `internal` in-tree means only internal monoids/comonoids in a monoidal category (Theory/Algebra/Monoid.v, Theory/Algebra/Comonoid.v) and internal adjunctions in a bicategory. Theory/DoubleCategory.v:116 mentions in a comment that a double category is a category internal to Cat, but the internal-category notion it refers to is not defined anywhere in the tree.",
+    "negative_search_log": [
+      "grep -rniE 'InternalCategory|internal categor|categor(y|ies) internal|internal to' --include=*.v . — only prose (Theory/DoubleCategory.v:115-116, Construction/Enriched.v:83-85) plus internal MONOID/comonoid/adjunction developments; no internal-category definition",
+      "grep -rni 'composable pair' --include=*.v . — Theory/Metacategory.v and Theory/Metacategory/ArrowsOnly.v (the FMap encoding) and Construction/Cospan/Double.v (composable pair of cospans); never a pullback of dom against cod"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All three evidence records verified in Theory/Metacategory/ArrowsOnly.v (in _CoqProject): :37 `Record Metacategory` (arrow := N, `pairs : M.t arrow`, composite as `M.find (f, g) pairs = Some h`), :99 `Record morphism (dom cod : object)` carrying `mor_dom`/`mor_cod` as composite WITNESSES, and :212 `Program Definition Category_from_Metacategory : Category`. The three divergences in strength_comparison are each confirmed by reading the source, and the two gaps hold under my own search: `rg -i 'InternalCategory|internal categor|category internal'` returns only prose (Theory/DoubleCategory.v:115-116 'a double category is precisely a category internal to Cat', Construction/Enriched.v:83-85) plus the unrelated internal monoid/comonoid/adjunction developments — no internal-category definition exists, so DoubleCategory.v's comment points at a notion the tree does not carry. CORRECTION TO THE RECORD (does not change the classification): strength_comparison says '(the four in-tree examples are Zero/One/Two/Three/Four)' — there are FIVE, Theory/Metacategory/ArrowsOnly.v:349-353, `Zero`…`Four` built as `composable_pairs n`. BORDERLINE FLAGGED, NOT OVERTURNED: the arrows-only axiomatization is a genuinely different presentation from the exercise's two-sorted (ob C, mor C, dom, cod, id) Set-diagram, so ABSENT is defensible; I leave PARTIAL because the shared content — set-level data with composition partial on a represented set of composable pairs, plus a theorem that it yields a Category — is real and the record discloses every divergence."
+    }
+  }
+]

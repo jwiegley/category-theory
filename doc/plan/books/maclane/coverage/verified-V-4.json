@@ -1,0 +1,451 @@
+[
+  {
+    "id": "maclane:V.4:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "X × − : Set ⟶ Set preserves all colimits",
+      "the product functor is a left adjoint (currying adjunction (− × X) ⊣ (−)^X)",
+      "distributivity x × (y + z) ≅ x × y + x × z; x × 0 ≅ 0",
+      "prod_coprod_r / prod_zero_r / BiCCC_Distributive / Distributive",
+      "PreservesColimit / PreservesAllColimits for the product functor; cocontinuity of X × −"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 94,
+        "symbol": "prod_coprod_r",
+        "intree_statement": "#[export] Program Instance prod_coprod_r {x y z : C} : x × (y + z) ≅ x × y + x × z := { to := uncurry (curry (inl ∘ swap) ▽ curry (inr ∘ swap)) ∘ swap; from := second inl ▽ second inr }   [Section context: Context `{@Cartesian C}. Context `{@Cocartesian C}. Context `{@Closed C _}.]  In-file comment at line 90-93: \"Left distributivity: `x × _` preserves the coproduct y + z, so it distributes over it.\""
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 222,
+        "symbol": "prod_zero_r",
+        "intree_statement": "#[export] Program Instance prod_zero_r {x : C} : x × 0 ≅ 0 := { to := uncurry zero ∘ swap; from := zero }   [adds Context `{@Initial C}] — i.e. x × − preserves the empty colimit."
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 30,
+        "symbol": "(file header)",
+        "intree_statement": "\"Distributivity is not an extra axiom: because the category is closed, each functor `_ × x` has a right adjoint `_ ^ x`, hence preserves all colimits, in particular finite coproducts and the initial object. The canonical comparison maps are therefore isomorphisms, and the section derives them as concrete instances prod_coprod_l, prod_coprod_r, prod_zero_l, prod_zero_r, exp_coprod and exp_zero.\""
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 257,
+        "symbol": "BiCCC_Distributive",
+        "intree_statement": "Program Instance BiCCC_Distributive {C : Category} `{@Cartesian C} `{@Cocartesian C} `{@Closed C _} `{@Initial C} : @Distributive C _ _ _."
+      },
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 38,
+        "symbol": "Sets_Closed",
+        "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}; exp_iso := fun _ _ _ => {| to := ... ; from := ... |} }.  Header: \"The CCC adjunction (- × y) ⊣ (- ^ y) is witnessed by [exp_iso], the bijection Hom(x × y, z) ≅ Hom(x, z^y)\".  Together with Sets_Cartesian (Instance/Sets/Cartesian.v:32), Sets_Cocartesian (Instance/Sets/Cocartesian.v:28) and Sets_Initial (Instance/Sets.v:265), the BiCCC instances above apply verbatim to Sets."
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 223,
+        "symbol": "left_adjoint_preserves_colimits",
+        "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G.   [the general machinery exists but is never applied to a product functor]"
+      },
+      {
+        "file": "Structure/Premonoidal/Monoidal.v",
+        "line": 116,
+        "symbol": "Monoidal_Tensor_Right",
+        "intree_statement": "Definition Monoidal_Tensor_Right (w : C) : @AFunctor C C (fun y : C => (w ⨂ y)%object) := @Build_AFunctor C C (fun y : C => (w ⨂ y)%object) (fun y z (f : y ~> z) => id[w] ⨂ f) ... [ADDED BY PHASE-D VERIFIER. An AFunctor coerces to a genuine functor C ⟶ D (Coercion FromAFunctor : AFunctor >-> Functor, Theory/Functor.v:402/410) and is surfaced as inj_right (x' : C) : C ⟶ C in Structure/Binoidal.v:53. Instantiated at the cartesian monoidal structure CC_Monoidal (Structure/Monoidal/Internal/Product.v:54, tensor := InternalProductFunctor C, requiring only Cartesian + Terminal, both held by Sets), this IS the functor X × − : Sets ⟶ Sets.]"
+      }
+    ],
+    "statement_record": {
+      "book": "For any small set X, the functor X × − : Set ⟶ Set preserves all colimits.",
+      "intree": "prod_coprod_r : x × (y + z) ≅ x × y + x × z and prod_zero_r : x × 0 ≅ 0, proven for every category carrying Cartesian + Cocartesian + Closed (+ Initial) — a class of which Sets is an in-tree member — with the file header explicitly justifying them by \"each functor `_ × x` has a right adjoint `_ ^ x`, hence preserves all colimits\".",
+      "strength_comparison": "intree-weaker: only the two FINITE colimit shapes are covered (binary coproduct and the initial object, i.e. the empty colimit), and they are stated as object-level isomorphisms rather than as preservation of a colimiting cocone; there is no (− × X) ⊣ (−)^X instance of the Adjunction class (Sets_Closed supplies exp_iso as `Closed` data, never as an `⊣`), and hence no PreservesColimit / PreservesAllColimits witness for the product functor. The functor X × − : Sets ⟶ Sets itself IS available, as FromAFunctor (Monoidal_Tensor_Right X) over CC_Monoidal (Phase-D correction of the Phase-C claim to the contrary). Partly intree-stronger in base generality: the distributivity isomorphisms hold in any bicartesian closed category, not only in Set."
+    },
+    "gap": "Missing: (i) the currying adjunction (− × X) ⊣ (−)^X as an inhabitant of the Adjunction class — Sets_Closed supplies only exp_iso, a family of hom-setoid isomorphisms carried by the Closed class (Structure/Cartesian/Closed.v:47), and ClosedMonoidal does the same (Structure/Monoidal/Closed.v:57); an exhaustive pass over every ⊣ site in the tree turns up Diagonal_Product_Adjunction, Lan/Ran, Kleisli/Eilenberg-Moore, the comonad co-resolutions, Adjunction_Compose/Id, adjoint_triangle, Comma/Lawvere, GAFT/SAFT and the quiver free/forgetful adjunction — nothing tensor/exponential. (ii) consequently left_adjoint_preserves_colimits (Adjunction/Continuity.v:223) is never instantiated at a product functor, so no PreservesColimit witness for X × − exists; (iii) colimit shapes beyond binary coproducts and the initial object (coequalizers, filtered colimits, general small colimits) are not covered at all, and Sets is not shown Cocomplete (Structure/Complete.v:119 has no Sets instance). NOT missing (Phase-C claim corrected by the Phase-D verifier): the functor X × − : Sets ⟶ Sets itself. Beyond the bifunctor ×(C) : C ∏ C ⟶ C (Functor/Product/Internal.v:34) the tree does have the fixed-object partial application, as Monoidal_Tensor_Right / inj_right over CC_Monoidal (see the added evidence entry); any work item should build the adjunction on top of it rather than redefine it.",
+    "negative_search_log": [
+      "grep -rn \"PreservesColimit\" --include='*.v' . — hits only in Theory/Adamek*.v, Theory/Equivalence/Limit.v, Monad/Monadicity/Crude.v, Structure/Limit/Preservation.v, Adjunction/Continuity.v; none about a product/tensor functor",
+      "grep -rni \"preserves colimits\" --include='*.v' . — one hit, Instance/Comp.v:212, and it is prose motivation for Algs_Initial, not a formal preservation result",
+      "grep -rn \"ProductFunctor\\|InternalProductFunctor\\|×(\" --include='*.v' . — only the bifunctor ×(C) and the ProductFunctor combinators on product CATEGORIES; no X × − : C ⟶ C",
+      "grep -rn \"Tensor_Left\\|Tensor_Right\" --include='*.v' . — only Kleisli_Tensor_Left/Right and Monoidal_Tensor_Left/Right, which are AFunctor (arrow-functor) partial applications in the premonoidal development, with no adjoint and no colimit statement",
+      "grep -rn \"⊣\" --include='*.v' . | (all definition/instance sites inspected) — no (− × X) ⊣ (−)^X anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently (LAPC present in Adjunction/Continuity.v; BiCCC distributivity as the finite-colimit fragment; Sets is Cartesian+Cocartesian+Closed+Initial so BiCCC_Distributive applies). All five cited evidence sites re-opened and the quotes are accurate (prod_coprod_r begins at BiCCC.v:90, quoted `to`/`from` at 94-96; prod_zero_r at 221; BiCCC_Distributive at 257; Sets_Closed at Instance/Sets/Cartesian/Closed.v:38; left_adjoint_preserves_colimits at Continuity.v:223). Independently confirmed that Sets is nowhere shown Complete/Cocomplete (grep 'Sets_Complete|Cocomplete Sets' -> 0 hits) and that the Closed class exposes only exp_iso, a hom-setoid iso, never an Adjunction inhabitant (same for ClosedMonoidal, Structure/Monoidal/Closed.v:57). FIELD CORRECTED BY VERIFIER (gap clause (i)): the classifier's claim that the functor X x - : Sets -> Sets does not exist in-tree is FALSE. Structure/Premonoidal/Monoidal.v:116 defines Monoidal_Tensor_Right (w) : @AFunctor C C (fun y => (w (x) y)%object), which coerces to a genuine C -> C functor by `Coercion FromAFunctor : AFunctor >-> Functor` (Theory/Functor.v:402,410) and is surfaced as `inj_right` in Structure/Binoidal.v:53; instantiating the monoidal structure at CC_Monoidal (Structure/Monoidal/Internal/Product.v:54, tensor := InternalProductFunctor C, needs only Cartesian + Terminal, both of which Sets has) makes (x) = x, so X x - : Sets -> Sets IS constructible and nameable in-tree today. The classifier saw Monoidal_Tensor_Right in its own negative log but dismissed it as 'AFunctor (arrow-functor) partial applications', missing the coercion. This does not change the verdict -- the adjunction and the preservation witness are still absent -- but the gap text would have sent Phase E to build a functor that already exists, so clauses (i)/(ii) were rewritten. Everything else in the record stands."
+    }
+  },
+  {
+    "id": "maclane:V.4:ex5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "canonical comparison arrow H(Lim F) → Lim(HF)",
+      "preservation of limits ⟺ the comparison arrow is an isomorphism",
+      "limit comparison map / mediating arrow into Lim(HF)",
+      "fobj_prod_iso / fobj_one_iso / fobj_exp_iso (structure-preservation classes stated as comparison isos)",
+      "fmap_cone (image cone) + limit_med; PreservesLimit vs PreservesImageLimit"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Cartesian.v",
+        "line": 51,
+        "symbol": "CartesianFunctor / fobj_prod_iso",
+        "intree_statement": "Class CartesianFunctor := { (* the comparison iso F (x × y) ≅ F x × F y witnessing product preservation *) fobj_prod_iso {x y : C} : F (x × y) ≅ F x × F y; prod_in := fun x y => from (@fobj_prod_iso x y); prod_out := fun x y => to (@fobj_prod_iso x y); fmap_exl {x y : C} : fmap (@exl C _ x y) ≈ exl ∘ prod_out _ _; fmap_exr {x y : C} : fmap (@exr C _ x y) ≈ exr ∘ prod_out _ _; fmap_fork {x y z : C} (f : x ~> y) (g : x ~> z) : fmap (f △ g) ≈ prod_in _ _ ∘ fmap f △ fmap g }.  Header (lines 17-27): \"the canonical comparison map φ : F (x × y) ~> F x × F y, φ = ⟨fmap exl, fmap exr⟩ ... is required to be an isomorphism ... A functor preserves the product exactly when this comparison is invertible.\""
+      },
+      {
+        "file": "Functor/Structure/Terminal.v",
+        "line": 45,
+        "symbol": "TerminalFunctor / fobj_one_iso",
+        "intree_statement": "Class TerminalFunctor := { (* the comparison iso 1 ≅ F 1 witnessing terminal-object preservation *) fobj_one_iso : 1 ≅ F 1; fmap_one {X : C} : fmap one ≈ to fobj_one_iso ∘ @one _ _ (F X) }.  Header (lines 17-20): \"The terminal object is the limit of the empty diagram ... a functor preserves it exactly when the canonical comparison between F 1 and 1 is an isomorphism.\""
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 283,
+        "symbol": "fmap_cone",
+        "intree_statement": "Definition fmap_cone (N : Cone G) : Cone (F ◯ G) := @Build_Cone J D (F ◯ G) (F (vertex_obj[N])) (@Build_ACone J D (F (vertex_obj[N])) (F ◯ G) (fmap_cone_leg N) (fun x y f => fmap_cone_coherence N f)).   [the image cone whose mediator into a limit of F ◯ G would BE the canonical comparison — but that mediator is never formed]"
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 47,
+        "symbol": "PreservesLimit",
+        "intree_statement": "Class PreservesLimit `(G : J ⟶ C) `(F : C ⟶ D) := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 110,
+        "symbol": "PreservesImageLimit",
+        "intree_statement": "Definition PreservesImageLimit : Type := ... ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x ... [the honest cone-level preservation predicate; the file header at lines 47-66 explains that the apex-only PreservesLimit is genuinely insufficient because 'the legs of that structure are left unconstrained' — the same phenomenon that makes the comparison-arrow characterisation of Exercise 5 the right formulation]"
+      }
+    ],
+    "statement_record": {
+      "book": "Given H : C ⟶ C' and F : J ⟶ C such that both F and HF have limits, H preserves the limits of F if and only if the canonical arrow H(Lim F) → Lim(HF) of Exercise V.2.4 is an isomorphism.",
+      "intree": "Class CartesianFunctor := { fobj_prod_iso {x y : C} : F (x × y) ≅ F x × F y; ... fmap_exl : fmap exl ≈ exl ∘ prod_out; fmap_exr : fmap exr ≈ exr ∘ prod_out; fmap_fork ... }  and  Class TerminalFunctor := { fobj_one_iso : 1 ≅ F 1; fmap_one {X : C} : fmap one ≈ to fobj_one_iso ∘ one }.",
+      "strength_comparison": "intree-weaker: the comparison-arrow FORMULATION of preservation is realised in-tree only shape-by-shape — for the terminal object (the empty limit), for binary products, and for exponentials (Functor/Structure/Cartesian/Closed.v: 'F is cartesian closed exactly when this comparison is an isomorphism for all x, y') — as bundled structure classes whose comparison map is pinned by coherence fields. The general canonical arrow H(Lim F) ~> Lim (H ◯ F) for an arbitrary diagram is never constructed, and neither direction of the equivalence with PreservesLimit / PreservesImageLimit is proven, for any shape."
+    },
+    "gap": "Missing: (a) the canonical comparison morphism H (Lim F) ~> Lim (H ◯ F) — every ingredient exists (the image cone fmap_cone, Theory/Equivalence/Limit.v:283, and the mediator limit_med, Structure/Limit/Preservation.v:76) but the composite is never assembled or named; (b) the biconditional `PreservesLimit F H ↔ IsIsomorphism <comparison>` (or its cone-level variant with PreservesImageLimit, Construction/Comma/Limit.v:110); (c) any bridge from the shape-specific comparison classes CartesianFunctor / TerminalFunctor to PreservesLimit at the corresponding diagram shapes — Structure/Limit/Cartesian.v:39 (Cartesian_Limit) and Structure/Limit/Terminal.v:33 (Terminal_Limit) relate the STRUCTURES to limits in a category, never a functor's preservation of them.",
+    "negative_search_log": [
+      "grep -rni \"comparison arrow\" --include='*.v' . — 0 hits",
+      "grep -rni \"canonical arrow\" --include='*.v' . — 0 hits",
+      "grep -rni \"canonical map\" --include='*.v' . — hits in Functor/Structure/Terminal.v, Structure/Distributive.v, Structure/Monoidal/StarAutonomous.v, Adjunction/SAFT.v; none is a limit comparison for a general diagram",
+      "grep -rni \"comparison\" --include='*.v' . (excluding EM_Comparison/Beck/RoundTrip_Comparison) — only monoidal/cartesian/terminal/exponential structure comparisons",
+      "grep -rn \"limit_unique\\|limits_unique\\|limit_iso\\|colimit_iso\" --include='*.v' . — 0 hits",
+      "grep -rni \"preserves.*iff\\|iff.*preserves\" --include='*.v' . — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently and by the same route (comparison-arrow-as-iso exists shape-by-shape: CartesianFunctor.fobj_prod_iso, TerminalFunctor.fobj_one_iso, and the exponential analogue; the general canonical arrow H(Lim F) -> Lim(H o F) is never formed). Evidence re-opened: fobj_prod_iso at Functor/Structure/Cartesian.v:51 with the header gloss at 17-27 verbatim as quoted; fobj_one_iso at Functor/Structure/Terminal.v:45 with the 'preserves it exactly when the canonical comparison ... is an isomorphism' gloss at 19-20; fmap_cone at Theory/Equivalence/Limit.v:283; PreservesImageLimit at Construction/Comma/Limit.v:110. The quoted Cartesian/Closed.v line ('F is cartesian closed exactly when this comparison is an isomorphism for all x, y') is verbatim at Functor/Structure/Cartesian/Closed.v:30-31. Gap clause (c) checked: Cartesian_Limit is at Structure/Limit/Cartesian.v:39 and Terminal_Limit at Structure/Limit/Terminal.v:33, and both relate STRUCTURE to limits in a category, never a functor's preservation -- as stated. Minor: the PreservesLimit class is at Structure/Limit/Preservation.v:48, cited as :47. Independently re-ran the negative searches for 'canonical arrow'/'comparison arrow' -- 0 hits, as logged."
+    }
+  },
+  {
+    "id": "maclane:V.5:thm1",
+    "classification": "PRESENT",
+    "aliases": [
+      "right adjoints preserve limits (RAPL)",
+      "a functor with a left adjoint is continuous",
+      "right_adjoint_preserves_limits / PreservesAllLimits",
+      "rapl_is_alimit / rapl_acone / rapl_limit",
+      "G carries limiting cones to limiting cones (PreservesImageLimit)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 183,
+        "symbol": "rapl_is_alimit",
+        "intree_statement": "(* RAPL for one diagram, apex-pinned: U L underlies a limit of U ◯ G. *)\nDefinition rapl_is_alimit : IsALimit (U ◯ G) (U L) := @Build_IsALimit J D (U ◯ G) (U L) rapl_acone rapl_ump.   [Section context: Context {F : D ⟶ C}. Context {U : C ⟶ D}. Context (A : F ⊣ U). Context (G : J ⟶ C). Context (L : Limit G).]"
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 112,
+        "symbol": "rapl_leg / rapl_acone",
+        "intree_statement": "Definition rapl_leg (x : J) : U L ~{D}~> U (G x) := fmap[U] (limit_leg (limit_is_alimit L) x).   ... Definition rapl_acone : ACone (U L) (U ◯ G) := @Build_ACone J D (U L) (U ◯ G) rapl_leg (@rapl_leg_coherence).   [the universal cone exhibited is literally the IMAGE cone Uτ, i.e. Mac Lane's cone-level claim, not merely 'the apex U L carries some limit']"
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 198,
+        "symbol": "right_adjoint_preserves_limit",
+        "intree_statement": "Definition right_adjoint_preserves_limit {J : Category} (G : J ⟶ C) : PreservesLimit G U := @Build_PreservesLimit J C G D U (rapl_is_alimit G)."
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 202,
+        "symbol": "right_adjoint_preserves_limits",
+        "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G.   [PreservesAllLimits F := ∀ (J : Category) (G : J ⟶ C), PreservesLimit G F, Structure/Limit/Preservation.v:229]"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 264,
+        "symbol": "right_adjoint_PreservesImageLimit",
+        "intree_statement": "Definition right_adjoint_PreservesImageLimit {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : @PreservesImageLimit C D U. Proof. intros J G L N. exact (rapl_ump A G L N). Defined.   [states explicitly that the IMAGE cone (legs fmap[U] of the limit legs) is universal]"
+      }
+    ],
+    "statement_record": {
+      "book": "If G : A ⟶ X has a left adjoint F and T : J ⟶ A has a limiting cone τ : a ⇒ T in A, then Gτ : Ga ⇒ GT is a limiting cone in X; hence a right adjoint preserves every limit that exists in its domain. Proof by transposing a competing cone across the adjunction, mediating in A, and transposing back.",
+      "intree": "Definition rapl_is_alimit : IsALimit (U ◯ G) (U L) := @Build_IsALimit J D (U ◯ G) (U L) rapl_acone rapl_ump, with rapl_leg x := fmap[U] (limit_leg (limit_is_alimit L) x); packaged as right_adjoint_preserves_limits : PreservesAllLimits U.",
+      "strength_comparison": "same. The in-tree proof is Mac Lane's argument verbatim (⌈−⌉ transposes the competing cone's legs into a cone over G with apex F(vertex N) — rapl_transposed_cone; the limit L mediates in C; ⌊−⌋ transposes back — rapl_med; commutation by to_adj_nat_r, uniqueness by from_adj_nat_r). Setoid rephrasing only (≈ for equality of morphisms). The universal cone produced is the image cone Uτ, so the cone-level content of the book statement is genuinely delivered — and stated as such by right_adjoint_PreservesImageLimit — even though the ambient class PreservesLimit is apex-only in its type (a weakness documented at Construction/Comma/Limit.v:47-66). No smallness restriction: it applies to every diagram shape J for which a limit exists, matching the book."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Read Adjunction/Continuity.v end to end: rapl_leg (91) is fmap[U] of the limit legs, rapl_acone (102) assembles them, and rapl_is_alimit (183) is Build_IsALimit ... rapl_acone rapl_ump -- so the universal cone exhibited really is Mac Lane's image cone G(tau), not merely 'the apex U L carries some limit'. The transposition proof is Mac Lane's own argument (rapl_transposed_cone via from_adj_nat_r; rapl_med via the limit mediator then floor-transpose; uniqueness via limit_med_unique on ceil v). Cone-level statement independently confirmed at Construction/Comma/Limit.v:264 (right_adjoint_PreservesImageLimit A := rapl_ump A), whose PreservesImageLimit (line 110) demands exactly image_leg-universality. strength_comparison 'same' is honest. Adjunction/Continuity.v is registered in _CoqProject (line 5) and has a .vo. Minor evidence slip, not affecting the verdict: the rapl_leg/rapl_acone entry cites line 112, but rapl_leg is at 91 and rapl_acone at 102 (line 112 is rapl_transposed_leg); the quoted text is accurate."
+    }
+  },
+  {
+    "id": "maclane:V.5:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "adjunctions pass to functor categories",
+      "F^J ⊣ G^J : X^J ⇀ A^J; the induced η^J, ε^J",
+      "postcomposition / whiskering functor (F ◯ −) : [J, X] ⟶ [J, A]",
+      "the hom-iso [E,D](L ◯ G, H) ≅ [E,C](G, R ◯ H)",
+      "Godement / whiskering lift of an adjunction; Cat_Hcompose partial application"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 328,
+        "symbol": "left_adjoint_impl",
+        "intree_statement": "(* If L ⊣ R then precomposition by L is hom-isomorphic to postcomposition by R: [E,D](L ◯ G, H) ≊ [E,C](G, R ◯ H), the functor-category lift of the defining hom-set adjunction. *)\nTheorem left_adjoint_impl `(L : C ⟶ D) :\n  ∀ R : D ⟶ C, L ⊣ R ->\n  ∀ {E} (G : E ⟶ C) (H : E ⟶ D),\n    [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H).   [≊ is isomorphism in Sets between the two hom-setoids of the functor categories, Instance/Sets.v:205 and Instance/Fun.v:122]"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 127,
+        "symbol": "Induced",
+        "intree_statement": "Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {| fobj := fun G => G ◯ F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |}.   [NEGATIVE evidence: the ONLY functor between functor categories in the tree is PREcomposition; the postcomposition F^J the book needs does not exist]"
+      },
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 65,
+        "symbol": "Cat_Hcompose",
+        "intree_statement": "Program Definition Cat_Hcompose {C D E : Category} : ([D, E] ∏ [C, D]) ⟶ [C, E] := {| fobj := fun p => fst p ◯ snd p; fmap := fun p q m => nat_hcompose (fst m) (snd m) |}.   [NEGATIVE evidence: composition is available as a BIfunctor, but it is never partially applied to give F ◯ − : [C,D] ⟶ [C,E]]"
+      }
+    ],
+    "statement_record": {
+      "book": "Given an adjunction (F, G, η, ε) : X ⇀ A and any index category J, the induced data (F^J, G^J, η^J, ε^J) : X^J ⇀ A^J on the functor categories — F^J(S) = F ◯ S, η^J S = ηS, etc. — is again an adjunction; the triangle identities for η and ε give those for η^J and ε^J.",
+      "intree": "Theorem left_adjoint_impl `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R -> ∀ {E} (G : E ⟶ C) (H : E ⟶ D), [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H).",
+      "strength_comparison": "intree-weaker: the hom-setoid bijection that is the mathematical content of F^J ⊣ G^J is proven, but only pointwise in the two functor arguments and with no naturality; it is not packaged as an inhabitant of the Adjunction class, and neither the postcomposition functors nor the induced unit/counit exist, so the book's conclusion ('this is again an adjunction') cannot even be stated in-tree."
+    },
+    "gap": "The postcomposition functors F^J = (F ◯ −) : [J, X] ⟶ [J, A] and G^J = (G ◯ −) are not defined anywhere in the tree — the only functor between functor categories is the PREcomposition Induced := (− ◯ F) (Theory/Kan/Extension.v:127), and Cat_Hcompose (Instance/Cat/Bicategory.v:65) is a bifunctor that is never partially applied — so the statement F^J ⊣ G^J is not expressible. left_adjoint_impl supplies only the underlying hom-setoid isomorphism at fixed G and H; the four Adjunction naturality fields (to_adj_nat_l, to_adj_nat_r, from_adj_nat_l, from_adj_nat_r, Theory/Adjunction.v:141-153), the induced unit η^J and counit ε^J, and the derivation of the triangle identities from those of η and ε are all missing.",
+    "negative_search_log": [
+      "grep -rn \"Adjunction_Fun\\|Fun_Adjunction\\|functor category adjunction\\|adjunctions pass\\|induced adjunction\\|whiskering adjunction\" --include='*.v' . — only two prose hits in Instance/Cat/Bicategory/Adjunction.v about the Cat-bicategory mate calculus, nothing constructing F^J ⊣ G^J",
+      "grep -rn \"F\\^J\" --include='*.v' . — 0 hits",
+      "grep -rn \"\\[.*\\] ⟶ \\[.*\\]\" --include='*.v' . — exactly two hits: Theory/Kan/Extension.v:18 (Induced, precomposition) and Instance/Cat/Bicategory.v:46 (Cat_Hcompose, a bifunctor)",
+      "grep -rn \"fobj := fun.*◯\" --include='*.v' . — 4 hits: Induced, Cat_Hcompose, Construction/Funny/Closed.v:78, Structure/Monoidal/Compose.v:45; none is (F ◯ −) on a functor category",
+      "grep -rn \"⊣\" --include='*.v' . (all 261 hits; every definition/instance site inspected) — no adjunction whose two categories are functor categories [J, X] and [J, A]"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass would have landed on ABSENT-leaning: I found only the Cat-bicategory hom-adjunction precomp_to/precomp_from with its round trips (Theory/Bicategory/Mates.v:183-318, specialised at Instance/Cat/Bicategory/Adjunction.v:202 Cat_precomp_to_transpose), which at bicat J X = [J,X] gives the same bijection. The classifier's left_adjoint_impl is the better citation and I VERIFIED it: Theory/Kan/Extension.v:328, a real theorem closed by Qed at line 374, statement exactly 'forall R, L -| R -> forall E (G : E -> C) (H : E -> D), [[[E,D]]](L o G, H) ~= [[[E,C]]](G, R o H)'. That is the mathematical heart of F^J -| G^J, so PARTIAL is right and ABSENT would have been wrong. Gap independently confirmed: no postcomposition functor [J,X] -> [J,A] exists (searched '\\] -> \\[', Postcompose, Compose_Left, 'fun S => F o S'), Cat_Hcompose (Instance/Cat/Bicategory.v:65) is never partially applied, and no adjunction in the tree has functor categories as its two categories. One inaccurate negative-log line, immaterial to the verdict: 'the ONLY functor between functor categories in the tree is PREcomposition' / 'exactly two hits' is wrong -- Ran and Lan are also [A,C] -> [B,C] (Theory/Kan/Extension.v:143 and :223) and Day_Tensor is ([C,Sets] x [C,Sets]) -> [C,Sets] (Construction/Day.v:920). None of them is postcomposition by a fixed functor, so the gap stands."
+    }
+  },
+  {
+    "id": "maclane:V.5:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Lim ◯ G^J ≅ G ◯ Lim (the limit functor commutes with a right adjoint)",
+      "the square of adjoint pairs; Δ ⊣ Lim, colim ⊣ Δ ⊣ lim",
+      "uniqueness of right adjoints up to natural isomorphism (right_adjoint_iso)",
+      "G(Lim T) = Lim(GT); the limiting cone as the counit of Δ ⊣ Lim",
+      "Lim as a functor [J, C] ⟶ C"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 193,
+        "symbol": "rapl_limit",
+        "intree_statement": "Definition rapl_cone : Cone (U ◯ G) := @Build_Cone J D (U ◯ G) (U L) rapl_acone.\nDefinition rapl_limit : Limit (U ◯ G) := @Build_Limit J D (U ◯ G) rapl_cone rapl_ump.   [this is the equation Ga = Lim GT of the remark, delivered per-diagram at the object level, together with the identification of the limiting cone as the image cone Uτ]"
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 364,
+        "symbol": "right_adjoint_iso",
+        "intree_statement": "(* Wikipedia: \"If the functor F : C ← D has two right adjoints G and G', then G and G' are naturally isomorphic. The same is true for left adjoints.\" *)\nTheorem right_adjoint_iso `(F : C ⟶ D) (G G' : D ⟶ C) : F ⊣ G → F ⊣ G' → G ≈ G'.   [one of the two ingredients of Mac Lane's slick argument; the other — Δ ⊣ Lim — is absent]"
+      },
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 37,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |} ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }.   [the ONLY Δ ⊣ lim adjunction in-tree, and only for the two-object discrete shape]"
+      },
+      {
+        "file": "Functor/Diagonal.v",
+        "line": 28,
+        "symbol": "Diagonal (header)",
+        "intree_statement": "\"When the relevant universal cones exist, Δ is sandwiched by the limit and colimit functors as colim ⊣ Δ ⊣ lim (C is J-cocomplete iff Δ has a left adjoint and J-complete iff Δ has a right adjoint)\"  — stated in prose only; Δ itself is Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] at line 33, but no lim functor and no such adjunction is constructed."
+      }
+    ],
+    "statement_record": {
+      "book": "Sophisticated recasting of Theorem 1 using Δ ⊣ Lim: in the square of adjoint pairs relating (F^J, G^J) : X^J ⇀ A^J to (F, G) : X ⇀ A along the diagonal/limit adjunctions one has F^J Δ = Δ F, so the square of LEFT adjoints commutes; since composites of adjoints are adjoints and right adjoints are unique up to natural isomorphism, Lim ◯ G^J ≅ G ◯ Lim. Hence for T : J ⟶ A with limit a, Ga = G Lim T = Lim GT, and G carries limiting cones to limiting cones, the limiting cone being the value at T of the counit of Δ ⊣ Lim.",
+      "intree": "Definition rapl_limit : Limit (U ◯ G) := @Build_Limit J D (U ◯ G) rapl_cone rapl_ump  (with rapl_cone the cone at apex U L whose legs are fmap[U] of the legs of L), together with Theorem right_adjoint_iso `(F : C ⟶ D) (G G' : D ⟶ C) : F ⊣ G → F ⊣ G' → G ≈ G'.",
+      "strength_comparison": "intree-weaker: the CONCLUSION of the remark is available only per-diagram and pointwise (U L carries a limit of U ◯ G, with the image cone universal), never as a natural isomorphism of functors; the remark's distinctive apparatus — Lim as a functor, the adjunction Δ ⊣ Lim, the commuting square of left adjoints, and the derivation via uniqueness of right adjoints — is not in-tree. Of the two ingredients Mac Lane combines, only uniqueness of right adjoints (right_adjoint_iso) exists."
+    },
+    "gap": "Lim is never defined as a functor [J, C] ⟶ C — Structure/Limit.v supplies only the per-diagram classes Limit (line 113) and IsALimit (line 129), and Structure/Complete.v:115 makes Complete a plain ∀-quantified function, not a functor. The adjunction Δ ⊣ Lim is not constructed for a general index category J: the only instance is the two-object discrete case Diagonal_Product C ⊣ ×(C) (Adjunction/Diagonal/Product.v:37), while Functor/Diagonal.v:28 records colim ⊣ Δ ⊣ lim in prose only. The functor-category lifts F^J / G^J do not exist either (see maclane:V.5:construction1), so the square of adjoint pairs, the identity F^J ∘ Δ = Δ ∘ F, and the natural isomorphism Lim ◯ G^J ≅ G ◯ Lim cannot be stated. Also missing: the identification of the limiting cone as the counit of Δ ⊣ Lim at T.",
+    "negative_search_log": [
+      "grep -rn \"Lim_Functor\\|LimitFunctor\\|lim_functor\\|Definition Lim\\|Program Definition Lim\\|Instance Lim\" --include='*.v' . — 0 hits",
+      "grep -rn \"Lim ◯\\|Lim ∘\" --include='*.v' . — 0 hits",
+      "grep -rn \"Diagonal.*⊣\\|⊣.*Diagonal\\|Diagonal_Adjunction\\|Delta.*⊣\" --include='*.v' . — one hit, Adjunction/Diagonal/Product.v:37 (binary case only)",
+      "grep -rni \"commutes with limits\" --include='*.v' . — two hits, both the Wikipedia quotation in the headers of Theory/Adjunction.v:446 and Adjunction/Continuity.v:24"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed on the substance (no Lim functor [J,C] -> C, no Delta -| Lim for general J, so the natural isomorphism Lim o G^J ~= G o Lim is not even statable) and hovered between ABSENT and PARTIAL; PARTIAL is defensible under the frozen definition because part of the item -- the conclusion, per diagram and cone-level -- really is in-tree, and the gap here is stated precisely. Evidence verified: rapl_cone/rapl_limit at Adjunction/Continuity.v:188/191 (cited as 193, off by two); right_adjoint_iso at Theory/Adjunction.v:364 exactly as quoted, proved by Qed; Diagonal_Product_Adjunction at Adjunction/Diagonal/Product.v:36-37, binary shape only; the colim -| Delta -| lim sentence at Functor/Diagonal.v:28 is prose in the header with Diagonal itself at :33 and no lim functor anywhere. Independently re-ran 'Definition Lim|LimitFunctor|lim_functor' -> 0 hits and confirmed Structure/Complete.v:115/119 define Complete/Cocomplete as plain forall-functions, not functors. Caveat recorded for Phase E: the per-diagram conclusion cited here as the PARTIAL fragment is the same content as maclane:V.5:thm1 (PRESENT), so an issue drafted from this record should scope itself to the missing apparatus (Lim as a functor, Delta -| Lim, the adjoint square) and not re-litigate RAPL."
+    }
+  },
+  {
+    "id": "maclane:V.5:cor1",
+    "classification": "PRESENT",
+    "aliases": [
+      "left adjoints preserve colimits (LAPC)",
+      "a functor with a right adjoint is cocontinuous",
+      "left_adjoint_preserves_colimits / PreservesAllColimits",
+      "lapc_is_acolimit; preserves_colimit",
+      "dual of RAPL via Opposite_Adjunction (U^op ⊣ F^op)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 217,
+        "symbol": "left_adjoint_preserves_colimit",
+        "intree_statement": "Definition left_adjoint_preserves_colimit {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) {J : Category} (G : J ⟶ D) : PreservesColimit G F := right_adjoint_preserves_limits (Opposite_Adjunction F U A) (Opposite J) (Opposite_Functor G)."
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 223,
+        "symbol": "left_adjoint_preserves_colimits",
+        "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G."
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 232,
+        "symbol": "lapc_is_acolimit",
+        "intree_statement": "Definition lapc_is_acolimit {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) {J : Category} {G : J ⟶ D} (L : Colimit G) : IsAColimit (F ◯ G) (F (colimit_apex L)) := preserves_colimit (left_adjoint_preserves_colimit A G) L.   [covariant accessor: the image of a colimit apex under the left adjoint is a colimit apex of the composite diagram]"
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 196,
+        "symbol": "PreservesColimit",
+        "intree_statement": "Definition PreservesColimit `(G : J ⟶ C) `(F : C ⟶ D) : Type := @PreservesLimit (J^op) (C^op) (G^op) (D^op) (F^op).   [the one-line dual definition, matching the library's duality-by-definition architecture]"
+      }
+    ],
+    "statement_record": {
+      "book": "Dual of Theorem 1: any functor P that has a right adjoint (equivalently, is a left adjoint) preserves all colimits that exist in its domain — coproducts, coequalizers, and so on.",
+      "intree": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G;  with the covariant reading lapc_is_acolimit ... (L : Colimit G) : IsAColimit (F ◯ G) (F (colimit_apex L)).",
+      "strength_comparison": "same. Obtained exactly as Mac Lane states it — 'by duality' — via Opposite_Adjunction (F ⊣ U ⟼ U^op ⊣ F^op, Adjunction/Opposite.v:35) together with PreservesColimit being definitionally PreservesLimit of the opposite diagram. Trap checked: the class PreservesColimit is apex-only in its TYPE, but the witness produced here is built from rapl_acone, whose legs are fmap of the (co)limit legs, so the actual in-tree witness IS the image cocone; note the asymmetry that — unlike the limit side, which has the explicit cone-level statement right_adjoint_PreservesImageLimit (Construction/Comma/Limit.v:264) — there is no colimit-side 'PreservesImageColimit' lemma pinning that fact down (grep for PreservesImageColimit: 0 hits). This is a documentation-level rather than a mathematical shortfall: the cone-level property holds by construction of lapc_is_acolimit."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. left_adjoint_preserves_colimit (217), left_adjoint_preserves_colimits (223) and lapc_is_acolimit (232) all verified at the cited lines, and PreservesColimit at Structure/Limit/Preservation.v:196 is the one-line dual as quoted. The subtle claim in strength_comparison was checked and holds: the witness is right_adjoint_preserves_limits applied to Opposite_Adjunction, hence built from rapl_acone, whose legs are fmap of the (co)limit legs; and preserves_colimit (Preservation.v:205-220) repackages that ACone field-for-field with the same vertex_map, so the cocone really is the image cocone. 'PreservesImageColimit' independently grepped: 0 hits, as the record says -- and the record is right to flag that as documentation debt rather than a mathematical gap, so the PRESENT verdict is not weakened by it."
+    }
+  },
+  {
+    "id": "maclane:V.5:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "X × − : Set ⟶ Set has no left adjoint unless X is a one-point set",
+      "non-existence of a left adjoint / the product functor is not a right adjoint",
+      "X × − fails to preserve the terminal object (or limits), forcing X ≅ 1",
+      "adjoint nonexistence / no-go for an adjoint functor",
+      "X × 1 ≅ 1 ⇒ X ≅ 1"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni \"no left adjoint\" --include='*.v' . — 0 hits",
+      "grep -rni \"no right adjoint\" --include='*.v' . — 1 hit, Construction/ColouredPROP/LNL.v:53, a scope note saying a particular comonoid-hom functor 'has no right adjoint in-tree' (i.e. none has been built), not a proof of non-existence",
+      "grep -rni \"has no adjoint\\|adjoint.*fails\\|left adjoint.*exist\" --include='*.v' . — only Theory/Lawvere/Monad.v:32, which HYPOTHESISES the existence of a left adjoint",
+      "grep -rni \"one-point set\\|singleton.*adjoint\" --include='*.v' . — only Construction/Slice.v:83 (a comma-category exposition)",
+      "grep -rn \"⊣\" --include='*.v' . (261 hits, all definition sites inspected) — the library contains only positive adjunction constructions; there is no impossibility/non-existence theorem about adjoints anywhere in the tree",
+      "PHASE-D CORRECTION of the Phase-C log entry that claimed 'no functor X × − : Sets ⟶ Sets exists at all, so the exercise's subject cannot be named in-tree': it does exist — Monoidal_Tensor_Right (Structure/Premonoidal/Monoidal.v:116) is an AFunctor over (fun y => w ⨂ y) that coerces to C ⟶ C (Theory/Functor.v:402/410, surfaced as inj_right in Structure/Binoidal.v:53), and CC_Monoidal (Structure/Monoidal/Internal/Product.v:54) instantiates ⨂ at the cartesian product for any Cartesian + Terminal category, Sets included. What is ABSENT is any theorem denying it a left adjoint.",
+      "grep -rn 'Monoidal_Tensor_Right|inj_right|CC_Monoidal' --include='*.v' — the functor exists but carries no adjointness statement in either direction, and no in-tree development derives X ≅ 1 from any adjointness hypothesis about it"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass also found nothing: the library contains no non-existence-of-adjoint theorem of any kind (re-ran 'no left adjoint', 'no right adjoint', 'has no adjoint', 'cannot have a left adjoint' -- the only hits are the Construction/ColouredPROP/LNL.v:53 scope note and prose). ABSENT confirmed. FIELD CORRECTED BY VERIFIER (negative_search_log, 5th entry): the assertion 'no functor X x - : Sets -> Sets exists at all, so the exercise's subject cannot be named in-tree' is false, for the reason given in full on maclane:V.4:ex4 -- Monoidal_Tensor_Right (Structure/Premonoidal/Monoidal.v:116) coerces to a C -> C functor via FromAFunctor (Theory/Functor.v:402,410) and CC_Monoidal (Structure/Monoidal/Internal/Product.v:54) instantiates its tensor at the cartesian product, which Sets has. The subject IS nameable; what is absent is any theorem asserting the non-existence of a left adjoint for it. Classification unchanged."
+    }
+  },
+  {
+    "id": "maclane:V.5:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "the vector-space dual functor D : Vct^op ⟶ Vct has no right adjoint",
+      "dualization / linear dual / double dual functor",
+      "Vect, Vct, FdVect, VectorSpace, K-Mod as a category instance",
+      "D is not the left adjoint of D^op",
+      "dualization does not preserve colimits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni \"Vect\" --include='*.v' . — only prose mentions (Theory/Functor.v:68, Theory/Equivalence.v:86, Theory/Natural/Transformation.v:45, Theory/Kan/Extension.v:89, Structure/Monoidal/CompactClosed.v:47/94/97/123) plus Coq.Vectors.Vector in Theory/Sheaf.v; no category of vector spaces is constructed",
+      "grep -rni \"vector space\\|VectorSpace\\|FdVect\" --include='*.v' . — prose only; the nearest algebraic instance in-tree is Instance/CMon.v (commutative monoids over setoids)",
+      "grep -rni \"dual space\" --include='*.v' . — 0 hits",
+      "grep -rni \"dualization\\|double dual\" --include='*.v' . — hits in Comonad/Strong.v, Theory/Kan/Extension.v:90, Construction/Opposite.v:51, Structure/Monoidal/StarAutonomous.v:29; the only dual FUNCTOR in-tree is the linear negation (- ⇒ ⊥) : C^op ⟶ C of Structure/Monoidal/StarAutonomous.v, which has no adjointness statement and is definition-level only (its own header declares the file 'definition-level only', ledger 4)",
+      "grep -rni \"no right adjoint\\|has no adjoint\" --include='*.v' . — no non-existence-of-adjoint theorem anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: no category of vector spaces exists in-tree (grep Vect|Vct|FdVect|'vector space' returns prose citations only -- Theory/Kan/Extension.v:90, Construction/Enriched.v:70, Structure/Group.v:91, Construction/Free.v:85, etc. -- plus Coq.Vectors.Vector in Theory/Sheaf.v), the nearest concrete algebraic instance being Instance/CMon.v. With no Vct there is no dualization functor and a fortiori no proof that it lacks a right adjoint; the only dual-flavoured functor in-tree is the linear negation of Structure/Monoidal/StarAutonomous.v, which carries no adjointness statement. ABSENT is correct and ABSENT rather than OUT_OF_SCOPE is the right call: nothing about this library's setting obstructs building Vct (CMon is built the same way), it simply has not been built."
+    }
+  },
+  {
+    "id": "maclane:V.5:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "a full reflective subcategory of a (small-)cocomplete category is cocomplete",
+      "reflective subcategory inherits colimits (colimit = reflector applied to the ambient colimit)",
+      "Cocomplete (Sub C S) from Reflective S and Cocomplete C",
+      "the reflector is a left adjoint, hence preserves colimits",
+      "creation/reflection of colimits along a reflective inclusion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -n \"Complete\\|Cocomplete\\|colimit\\|Colimit\\|limit\\|Limit\" Construction/Reflective.v Construction/Reflective/Idempotent.v Construction/Localization.v Construction/Localization/Universal.v Construction/Subcategory.v — ZERO hits across all five files: the reflective-subcategory development says nothing about limits or colimits",
+      "grep -rni \"reflective\" --include='*.v' . | grep -i \"complete\\|limit\\|colimit\" — 0 hits",
+      "grep -rn \"Cocomplete\" --include='*.v' . — 6 hits total, all in Structure/Complete.v (the definition, line 119, and header prose) and Theory/Adamek/Corollaries.v (the Adámek corollary); none concerns subcategories",
+      "grep -rni \"colimits.*subcategory\\|subcategory.*colimit\" --include='*.v' . — 0 hits",
+      "Ingredients present but never combined: Record Reflective (Construction/Reflective.v:62, fields reflective_full / reflector / reflective_adj : reflector ⊣ Incl C S), Definition Cocomplete (Structure/Complete.v:119), left_adjoint_preserves_colimits (Adjunction/Continuity.v:223). No theorem assembles them, and no in-tree analogue exists for the limit side either."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. Re-ran the decisive grep myself over Construction/Reflective.v, Construction/Reflective/Idempotent.v, Construction/Localization.v, Construction/Localization/Universal.v and Construction/Subcategory.v for 'colimit|Complete|limit': zero hits, so the reflective-subcategory development says nothing about (co)completeness, exactly as logged. The three ingredients the log names do exist and are correctly described -- Record Reflective with fields reflective_full / reflector / reflective_adj : reflector -| Incl C S (Construction/Reflective.v:60, cited as :62; the fields are as quoted), Cocomplete at Structure/Complete.v:119, left_adjoint_preserves_colimits at Adjunction/Continuity.v:223 -- but nothing assembles them, and there is no limit-side analogue either. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.5:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "Set^op is not cartesian closed",
+      "Sets^op / Opposite Sets closed structure",
+      "co-cartesian-closed Set; the coproduct has no right adjoint in Set^op",
+      "strict initial object argument: in a CCC x × 0 ≅ 0, so in Set^op X + 1 ≅ 1",
+      "degeneracy / no-go theorem for a closed structure (Joyal)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn \"Sets\\^op\" --include='*.v' . — 6 hits (Instance/Sets/Streams.v:180/236, Instance/Sets/Pushout.v:182/200, Instance/Coq/Comonad/Store.v:359/365); all use Sets^op merely to state colimits/comonads by duality, none touches its cartesian-closed structure",
+      "grep -rni \"not cartesian closed\" --include='*.v' . — 2 hits, Instance/Coq/Par.v:219 and Instance/Coq/ParE.v:177, both prose notes about the PARTIAL-map categories (and neither is a formal non-closedness proof); nothing about Sets^op",
+      "grep -rni \"co-cartesian closed\\|cocartesian closed\" --include='*.v' . — 0 hits",
+      "grep -rni \"Joyal\" --include='*.v' . — hits are the Joyal–Street coherence citations in the PROP files plus the prose remark in Structure/Monoidal/StarAutonomous.v (line 47-ish) that 'over a cartesian closed base a dualizing object forces a preorder by Joyal's no-go'; that no-go is cited, never proven",
+      "grep -rni \"degener\" --include='*.v' . — no degeneracy/collapse theorem for closed structures",
+      "Nearest ingredient, not the statement: prod_zero_r : x × 0 ≅ 0 in any cartesian+cocartesian+closed+initial category (Structure/BiCCC.v:222) is exactly the fact whose dual contradicts closedness of Set^op, but the dualisation and the conclusion about Sets^op are absent; the library contains no impossibility theorem of this shape."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: no impossibility theorem about closed structure anywhere in the tree. Verified the two 'not cartesian closed' hits are prose notes about partial-map categories (Instance/Coq/Par.v:219, Instance/Coq/ParE.v:177), not proofs, and that every Sets^op occurrence is a duality device for colimits/comonads (Instance/Sets/Pushout.v, Instance/Sets/Streams.v, Instance/Coq/Comonad/Store.v) with no closed structure in sight. Joyal's no-go is cited in the Structure/Monoidal/StarAutonomous.v header and never proven, as logged. The 'nearest ingredient' remark (prod_zero_r at Structure/BiCCC.v:221, cited as :222) is accurate and correctly labelled as an ingredient rather than the statement. ABSENT confirmed."
+    }
+  }
+]

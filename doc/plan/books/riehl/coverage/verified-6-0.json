@@ -1,0 +1,285 @@
+[
+  {
+    "id": "riehl:6.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "left Kan extension / Lan_K F",
+      "right Kan extension / Ran_K F",
+      "LocalLeftKan / LocalLan / lan_transform / ump_lan",
+      "LocalRightKan / LocalRan / ran_transform / ump_ran",
+      "extension along a functor, universal 2-cell, initial/terminal pair (G, gamma)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 234,
+        "symbol": "LocalLeftKan",
+        "intree_statement": "Class LocalLeftKan (X : A ⟶ C) := { LocalLan : B ⟶ C; lan_transform : X ⟹ LocalLan ◯ F; ump_lan (M : B ⟶ C) (ε : X ⟹ M ◯ F) : ∃! δ, ε ≈ δ ⊲ F ∙ lan_transform; }"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 154,
+        "symbol": "LocalRightKan",
+        "intree_statement": "Class LocalRightKan (X : A ⟶ C) := { LocalRan : B ⟶ C; ran_transform : LocalRan ◯ F ⟹ X; ump_ran (M : B ⟶ C) (μ : M ◯ F ⟹ X) : (∃! δ, μ ≈ ran_transform ∙ δ ⊲ F); }"
+      }
+    ],
+    "statement_record": {
+      "book": "Given F : C -> E and K : C -> D, a left Kan extension of F along K is a functor Lan_K F : D -> E with eta : F => (Lan_K F) . K such that every pair (G : D -> E, gamma : F => G K) factors uniquely through eta as gamma = (alpha K) . eta; dually a right Kan extension is Ran_K F : D -> E with epsilon : (Ran_K F) . K => F through which every delta : G K => F factors uniquely. K need not be a subcategory inclusion.",
+      "intree": "Class LocalLeftKan (X : A ⟶ C) := { LocalLan : B ⟶ C; lan_transform : X ⟹ LocalLan ◯ F; ump_lan (M : B ⟶ C) (ε : X ⟹ M ◯ F) : ∃! δ, ε ≈ δ ⊲ F ∙ lan_transform; }  (and the dual LocalRightKan with ump_ran (M) (μ : M ◯ F ⟹ X) : ∃! δ, μ ≈ ran_transform ∙ δ ⊲ F)",
+      "strength_comparison": "same — the in-tree Context fixes an ARBITRARY F : A ⟶ B (no fully-faithful or inclusion hypothesis), the extending functor, the unit/counit and the unique-factorization clause are all present, the factorization is written with the library's right-whiskering δ ⊲ F which is exactly Riehl's alpha K, and `∃!` is Lib/Setoid.v's `Unique` (witness + property + uniqueness up to ≈), so uniqueness is up to the hom-setoid equivalence rather than equality — the sanctioned setoid rephrasing. Both the left and the right halves are stated separately rather than left to duality, so the dual is genuinely present and not merely assumed."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on Theory/Kan/Extension.v LocalLeftKan (234) / LocalRightKan (154) before reading the coverage file. Cited lines are exact and the quoted Coq is verbatim. Trap checks all clear: (a) the `exists!` is Lib/Setoid.v:97 `Unique` (unique_obj/unique_property/uniqueness with `unique_obj ~= v`), i.e. uniqueness up to the hom-setoid equivalence, NOT Coq's stdlib `unique` over Leibniz `=`, so the 'sanctioned setoid rephrasing' claim is honest and not a hidden strengthening; (b) `d < F` is whisker_right (Theory/Natural/Transformation.v:329, Notation at 337, component law `(N < X)_x = N (X x)`), exactly Riehl's `alpha K`; (c) precedence checked -- `<` is level 10 and `.` (nat_compose) level 40 (Transformation.v:250), so `d < F . lan_transform` parses as `(d < F) . lan_transform`, matching `gamma = (alpha K) . eta` in the correct order, and dually `mu ~= ran_transform . (d < F)` matches `delta = epsilon . (beta K)`; (d) no dual-assumed-but-absent: the right half is a separate class with its own field, not derived by fiat; (e) the Section fixes an ARBITRARY F : A -> B with no fully-faithful/inclusion hypothesis, matching Riehl's 'K need not be a subcategory inclusion'; (f) Theory/Kan/Extension.v is registered in _CoqProject:445. PRESENT stands."
+    }
+  },
+  {
+    "id": "riehl:6.1:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Kan extension along a fully faithful functor / Full + Faithful K",
+      "the unit (counit) of a pointwise Kan extension is an isomorphism",
+      "genuine / strict / on-the-nose extension of F along K",
+      "pointwise Kan extension (Riehl Cor 6.2.14, Def 6.2.6)",
+      "eta : F ≅ (Lan_K F) . K, extension restricts to F"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'pointwise' --include='*.v' . — 30+ hits, ALL are 'pointwise product/tensor/isomorphism/bijection' or prose; the only occurrences of 'pointwise Kan extension' are comments (Theory/Kan/Extension.v:74 'Pointwise, the left extension at b is a colimit over the comma category F ↓ b ... a bridge not yet formalized'; Theory/DoubleCategory.v:140; Structure/Coend.v:110). No pointwise-Kan definition, class or lemma exists.",
+      "grep -rni 'fully faithful' --include='*.v' -l . — 10 files (Theory/Functor.v, Theory/Sheaf.v, Theory/Equivalence.v, Theory/Equivalence/Limit.v, Theory/Sheaf/Category.v, Instance/Fun.v, Construction/Grothendieck/RoundTrip.v, Monad/Lifting.v, Structure/UniversalProperty.v, Structure/Limit/Preservation.v); none mentions Kan extensions.",
+      "for f in $(grep -rli 'Kan' --include='*.v' .); do grep -qi 'Fully_Faithful|Full |Faithful ' $f && echo HIT $f; done — HITs: Functor/Hom/Yoneda.v, Theory/Adjunction.v, Theory/DoubleCategory.v, Theory/Equivalence.v, Adjunction/GAFT.v; every 'Kan' occurrence in those five files is a bibliographic/prose comment (verified by grep -n Kan on each), never a statement.",
+      "grep -rni 'strict extension|genuinely extend|actually extends|restricts to F|extension is genuine' --include='*.v' . — 0 hits.",
+      "grep -rn 'LocalLeftKan|LocalRightKan|LeftKan|RightKan|Kan.Extension' --include='*.v' . (excluding Theory/Kan/Extension.v) — the ONLY consumer anywhere in the tree is Structure/Limit/Kan/Extension.v's Kan_Limit; there is no lemma relating any hypothesis on K to invertibility of the unit/counit."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the discriminating searches: `rg -i pointwise` over all .v -- every hit is pointwise product/tensor/equality or prose, and the only 'pointwise Kan' text is Theory/Kan/Extension.v:74-79 explicitly calling the comma-category/coend bridge 'a bridge not yet formalized'; `rg -i 'fully faithful'` intersected with Kan-mentioning files yields only bibliographic prose. No lemma anywhere relates a hypothesis on the functor being extended along to invertibility of lan_transform/ran_transform, and no notion of strict/on-the-nose extension is defined. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.1:example3",
+    "classification": "ABSENT",
+    "aliases": [
+      "coequalizer as a left Kan extension",
+      "free fork category / walking fork / parallel pair with a cone under it",
+      "Parallel (walking parallel pair) and its inclusion into the fork",
+      "terminal object as a right Kan extension",
+      "Coequalizer / IsCoequalizer / Colimit over Parallel"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'parallel pair|walking parallel|free fork|fork category' --include='*.v' . — Instance/Parallel.v defines the walking parallel pair (`Program Definition Parallel : Category`, line 80) and Structure/{Equalizer,Coequalizer,Equalizer/Fork}.v define (co)equalizers over it, but NO fork-shaped category (parallel pair plus a cone under it) exists anywhere; ls Instance/*.v confirms the shape categories in tree are One, Two, Zero, Parallel, Roof, Discrete, Omega, Shapes only.",
+      "grep -rni 'coequalizer' --include='*.v' . | grep -i 'kan' — 0 hits. No statement connects any coequalizer to a Kan extension.",
+      "grep -rn 'LocalLeftKan|LeftKan|RightKan' --include='*.v' . outside Theory/Kan/Extension.v — the only Kan-extension consumer in the tree is Structure/Limit/Kan/Extension.v (Kan_Limit : Lim ≅ Ran (Erase J) F ttt), which is the DIFFERENT statement 'a limit is a right Kan extension along J ⟶ 1', not an extension along a parallel-pair-into-fork inclusion.",
+      "grep -rni 'Definition Parallel|Inductive Parallel|ParallelPair|Quiver.*fork' --include='*.v' . — only Instance/Parallel.v:80.",
+      "Note for a future filing: the building blocks exist (Instance/Parallel.v, Construction/Free/Quiver.v for the free category on a graph, Structure/Coequalizer.v, Structure/Terminal.v, Theory/Kan/Extension.v's LocalLeftKan/LocalRightKan), but the example's claim is nowhere asserted."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified Instance/Parallel.v:80 `Program Definition Parallel : Category` is the walking parallel pair (registered _CoqProject:221), but `rg -i 'free fork|fork category|walking fork'` returns 0 hits and no fork-shaped (parallel pair + cone under it) category exists; `ls Instance/*.v` confirms the shape categories in tree are One, Two, Zero, Parallel, Roof, Discrete, Omega, Shapes. No statement connects any coequalizer or terminal object to a Kan extension. The only Kan-extension consumer in the whole tree is Structure/Limit/Kan/Extension.v's Kan_Limit (right Kan along Erase J : J -> 1), a genuinely different K. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.1:example4",
+    "classification": "ABSENT",
+    "aliases": [
+      "representable functor as a left Kan extension of the singleton along a point",
+      "Lan along c : 1 -> C, Kan extension along a point / element of C",
+      "Yoneda lemma as a Kan extension; Yoneda_Lemma, Covariant_Yoneda_Lemma",
+      "[Hom c,─] / [Hom ─,c] as Lan of * : 1 ⟶ Sets",
+      "co-Yoneda / ninja Yoneda reduction (Theory/Coend/Yoneda.v)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'yoneda' --include='*.v' . | grep -i 'kan|Lan_' — only prose: Functor/Hom/Yoneda.v:117 (the Haskell kan-extensions package), Theory/Kan/Extension.v:91,92,108 (bibliographic remarks on nerve/realization and Kmett's package). No statement.",
+      "grep -n '^Program Instance|^Definition|^Theorem|^Lemma' Functor/Hom/Yoneda.v — the file asserts exactly Yoneda_Lemma (line 133), Covariant_Yoneda_Lemma (182), Yoneda_Embedding (231), Covariant_Yoneda_Embedding (253); none is phrased as, or connected to, a Kan extension.",
+      "grep -n '^Definition|^Program|^Lemma' Theory/Coend/Yoneda.v — coyoneda_reduction / yoneda_reduction are the coend and end reductions ∫^x C(x,c) × F x ≅ F c and ∫_x [C(c,x), F x] ≅ F c; neither is stated as a Kan extension along c : 1 ⟶ C.",
+      "grep -rn 'LeftKan|RightKan|LocalLeftKan|LocalRightKan' --include='*.v' . outside Theory/Kan/Extension.v — the only consumer is Structure/Limit/Kan/Extension.v; no Kan extension along a functor out of Instance/One.v's terminal category 1 is ever formed (only along Erase : J ⟶ 1, in the opposite direction)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same conclusion. I actively considered overturning to PARTIAL on the ground that Yoneda_Lemma (Functor/Hom/Yoneda.v:133, verified: `forall A : C, Presheaves [Hom -,A] F ~= F A`) carries the entire mathematical content of the example, and rejected it: the item's claim is the Kan-extension identification, and nowhere in the tree is a Kan extension formed along a functor OUT of Instance/One.v's terminal category (only along Erase : J -> 1, the opposite direction), nor is the singleton-picking functor 1 -> Sets ever built. ABSENT confirmed; a Phase-E filing should nonetheless cite Functor/Hom/Yoneda.v:133/182 as the ready ingredient, since only the Kan packaging is missing."
+    }
+  },
+  {
+    "id": "riehl:6.1:example5",
+    "classification": "ABSENT",
+    "aliases": [
+      "BG — a group (monoid) delooped as a one-object category",
+      "Kan extension along ! : 1 -> BG; G-indexed coproduct / product",
+      "G-object, G-set, equivariant map, functor category C^{BG}",
+      "coprod_G c / prod_G c, copower / tensoring by a set",
+      "constant functor Delta c : BG -> C, trivial action, strict-but-not-Kan extension"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'delooping|one.object category|BG\\b|Definition Deloop|B_Monoid|Monoid_Category|category of a monoid|one_object' --include='*.v' . — every hit is prose (Theory/Functor.v:68 'a functor from a one-object category BG to vector spaces is precisely a…', Theory/Bicategory.v:70, Theory/Displayed.v:45, Construction/Karoubi.v:95, Functor/Hom/Yoneda.v:84) or a variable named BG in Construction/{PROP,ColouredPROP}/Universal.v (a BraidedMonoidalFunctor argument). Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY into a one-object BICATEGORY, not a group into a one-object category. No construction turning a group/monoid into a category exists in tree.",
+      "grep -rni 'G-object|equivariant|G-set|G-action|group action' --include='*.v' . — only the symmetric-group action on multicategory arities (Theory/Multicategory.v, Theory/Multicategory/Operad.v) and prose in Theory/Isomorphism.v:96. Structure/Group.v defines internal GROUP OBJECTS, not the delooping BG nor G-objects of C.",
+      "grep -rni 'copower|tensoring|cotensor' --include='*.v' . — no copower/tensoring-by-a-set construction; all hits are about monoidal tensoring.",
+      "Structure/Limit/Product.v does supply indexed products (iprod / iprod_proj / iprod_ump over Instance/Discrete.v's DiscreteCat), i.e. the prod_G c side of the underlying construction, but over a DISCRETE index with no group action and with no Kan-extension statement attached; grep -rn 'iprod' --include='*.v' . confirms it is never combined with LeftKan/RightKan/Local*Kan.",
+      "grep -rn 'LeftKan|RightKan|LocalLeftKan|LocalRightKan' --include='*.v' . outside Theory/Kan/Extension.v — sole consumer Structure/Limit/Kan/Extension.v; nothing about extensions along a functor OUT of the terminal category, and nothing asserting that a constant/strict extension fails to be a Kan extension."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Confirmed no delooping of a group/monoid into a one-object category exists: every 'BG'/'one-object category' hit is prose (Theory/Functor.v:68 is the closest and is a background-essay sentence, not a construction) or a BraidedMonoidalFunctor variable named BG in Construction/{PROP,ColouredPROP}/Universal.v; Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY into a one-object BICATEGORY, which is not this. Structure/Group.v is internal group objects. Without BG the statement cannot even be written. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.1:def-unit-counit",
+    "classification": "PARTIAL",
+    "aliases": [
+      "unit / counit of a Kan extension (eta, epsilon)",
+      "lan_transform / ran_transform",
+      "hom-set bijection E^D(Lan_K F, G) ≅ E^C(F, G K); alpha ↦ (alpha K) . eta",
+      "Kan extension as a representation; Representable, repr_obj, represented",
+      "E^C(F, − . K) : E^D ⟶ SET, the functor represented by Lan_K F"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 241,
+        "symbol": "ump_lan (field of LocalLeftKan)",
+        "intree_statement": "lan_transform : X ⟹ LocalLan ◯ F;  ump_lan (M : B ⟶ C) (ε : X ⟹ M ◯ F) : ∃! δ, ε ≈ δ ⊲ F ∙ lan_transform"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 161,
+        "symbol": "ump_ran (field of LocalRightKan)",
+        "intree_statement": "ran_transform : LocalRan ◯ F ⟹ X;  ump_ran (M : B ⟶ C) (μ : M ◯ F ⟹ X) : (∃! δ, μ ≈ ran_transform ∙ δ ⊲ F)"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 222,
+        "symbol": "LeftKan / lan_adjoint",
+        "intree_statement": "Class LeftKan := { Lan : [A, C] ⟶ [B, C]; lan_adjoint : Lan ⊣ Induced }  — where Theory/Adjunction.v's `adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y |} {| carrier := @hom D x (U y) |}` makes this literally the natural bijection of hom-setoids [B,C](Lan X, M) ≅ [A,C](X, M ◯ F)"
+      }
+    ],
+    "statement_record": {
+      "book": "Names eta : F => (Lan_K F).K the UNIT and epsilon : (Ran_K F).K => F the COUNIT, and restates Definition 6.1.1 as the assertion that the composition maps E^D(Lan_K F, G) -> E^C(F, G K), alpha ↦ (alpha K).eta, and E^D(G, Ran_K F) -> E^C(G K, F), beta ↦ epsilon.(beta K), are BIJECTIONS (possibly of proper classes). Then, in a larger universe, exhibits a left Kan extension as a REPRESENTATION of E^C(F, − . K) : E^D -> SET: by Yoneda, (Lan_K F, eta) is universal iff the induced E^D(Lan_K F, −) => E^C(F, − . K) is a natural isomorphism.",
+      "intree": "ump_lan (M : B ⟶ C) (ε : X ⟹ M ◯ F) : ∃! δ, ε ≈ δ ⊲ F ∙ lan_transform   /   ump_ran (M : B ⟶ C) (μ : M ◯ F ⟹ X) : (∃! δ, μ ≈ ran_transform ∙ δ ⊲ F)   /   lan_adjoint : Lan ⊣ Induced,  ran_adjoint : Induced ⊣ Ran",
+      "strength_comparison": "same for the bijection clause, intree-weaker for the representation clause. The `∃!` of Lib/Setoid.v (`Unique` = witness + property + uniqueness up to ≈) says exactly that the fibre of δ ↦ δ ⊲ F ∙ lan_transform over every ε is a singleton, i.e. that Riehl's composition map is a bijection — the faithful setoid rephrasing, with lan_transform/ran_transform documented in-file as 'unit η' and 'counit ε'. lan_adjoint/ran_adjoint supply the same content as a genuine natural ISOMORPHISM OF HOM-SETOIDS in Sets, but only under the stronger hypothesis that ALL extensions along F exist. Riehl's second, representability half has no in-tree counterpart."
+    },
+    "gap": "The representation half is missing. The functor E^C(F, − ◯ K) : E^D ⟶ Sets (i.e. [Hom X,─] ◯ Induced) is never formed in tree, and nothing states that a local left Kan extension of a SINGLE X is precisely a `Representable` (Functor/Representable.v:46, `Class Representable ... repr_obj : C; represented : [Hom repr_obj,─] ≅ F`) representation of it, nor the Yoneda-mediated equivalence 'universal property of (Lan_K F, eta) ⟺ the induced [B,C](Lan X,−) ⟹ [A,C](X, − ◯ F) is a natural isomorphism'. grep -rn 'Representable' --include='*.v' . shows the class is applied nowhere near Theory/Kan/Extension.v. Also absent: the size caveat Riehl flags (E^C, E^D possibly not locally small, passage to a larger universe) is not discussed — the library's hom-setoids are universe-polymorphic and the point never arises explicitly.",
+    "negative_search_log": [
+      "grep -rn 'Representable|representable' --include='*.v' . | grep -i 'definition|class|record|theorem|lemma|program|instance' — Functor/Representable.v:46 (Class Representable), Theory/Profunctor/Adjunction.v:70, Theory/Multicategory/Representable.v:863; none touches Kan extensions.",
+      "grep -rn 'LeftKan|RightKan|LocalLeftKan|LocalRightKan' --include='*.v' . outside Theory/Kan/Extension.v — sole consumer Structure/Limit/Kan/Extension.v, so no representability statement about Induced can exist."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass leaned PRESENT; after reading the record and re-checking, PARTIAL is the honest verdict and I confirm it. The bijection half is genuinely present (ump_lan:241 / ump_ran:161 verified verbatim; `exists!` = Lib/Setoid.v `Unique`, which says exactly that the fibre of `d |-> (d < F) . eta` over every epsilon is a singleton, i.e. Riehl's composition map is a bijection), and lan_transform/ran_transform are documented in-file as 'unit eta' / 'counit epsilon' (lines 157, 237). One refinement to the record's own wording: strength_comparison's clause 'Riehl's second, representability half has no in-tree counterpart' is slightly overstated -- `lan_adjoint : Lan -| Induced` over Theory/Adjunction.v:130's `adj {x y} : Isomorphism Sets (hom C (F x) y) (hom D x (U y))` with to_adj_nat_l/to_adj_nat_r IS the representability statement, naturally in M, for the GLOBAL case (verified the Adjunction class shape). The record's `gap` field already states this correctly ('only under the stronger hypothesis that ALL extensions along F exist'), so the classification is unaffected: what is genuinely missing is the SINGLE-extension form -- the functor [A,C](X, - o F) : [B,C] -> Sets is never formed and no lemma identifies LocalLeftKan X with a Representable of it (Functor/Representable.v:46 verified: `Class Representable {F : C -> Sets} := { repr_obj : C; represented : [Hom repr_obj,-] ~= F }`, applied nowhere near Kan extensions). PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.1:prop6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Kan extensions as adjoints to restriction; Lan_K ⊣ K^* ⊣ Ran_K",
+      "precomposition / restriction functor K^* = (− ◯ K); Induced",
+      "LeftKan / lan_adjoint, RightKan / ran_adjoint",
+      "global vs local Kan extension; assembling pointwise universal arrows into an adjoint",
+      "AdjunctionFromUniversalArrows, LeftAdjointFunctorFromUniversalArrows, UniversalArrow"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 249,
+        "symbol": "LeftKan_to_LocalLeftKan",
+        "intree_statement": "#[export] Program Instance LeftKan_to_LocalLeftKan {R : LeftKan} (X : A ⟶ C) : LocalLeftKan X := {| LocalLan := Lan X; lan_transform := to (@adj _ _ _ _ lan_adjoint X (Lan X)) nat_id |}  (obligation discharged: the ump_lan factorization is the adjunction transpose)"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 180,
+        "symbol": "RightKan_to_LocalRightKan",
+        "intree_statement": "#[export] Program Instance RightKan_to_LocalRightKan {R : RightKan} (X : A ⟶ C) : LocalRightKan X := {| LocalRan := Ran X; ran_transform := from (@adj _ _ _ _ ran_adjoint (Ran X) X) nat_id |}"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 222,
+        "symbol": "LeftKan / RightKan",
+        "intree_statement": "Class LeftKan := { Lan : [A, C] ⟶ [B, C]; lan_adjoint : Lan ⊣ Induced }   and (line 140) Class RightKan := { Ran : [A, C] ⟶ [B, C]; ran_adjoint : Induced ⊣ Ran }, over Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {| fobj := fun G => G ◯ F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |} (line 127)"
+      }
+    ],
+    "statement_record": {
+      "book": "Fix K : C -> D and E. IF the left (resp. right) Kan extension along K of EVERY F : C -> E exists, THEN these assignments define a left (resp. right) adjoint to the restriction functor K^* : E^D -> E^C, i.e. Lan_K -| K^* -| Ran_K, and the Kan extension unit/counit are the components of the adjunction unit/counit. CONVERSELY (following paragraph, by uniqueness of adjoints), objects in the image of any left or right adjoint to a precomposition functor ARE Kan extensions.",
+      "intree": "Class LeftKan := { Lan : [A, C] ⟶ [B, C]; lan_adjoint : Lan ⊣ Induced } / Class RightKan := { Ran; ran_adjoint : Induced ⊣ Ran }, plus LeftKan_to_LocalLeftKan {R : LeftKan} (X : A ⟶ C) : LocalLeftKan X := {| LocalLan := Lan X; lan_transform := to (adj lan_adjoint X (Lan X)) nat_id |} and dually RightKan_to_LocalRightKan.",
+      "strength_comparison": "intree-weaker: only the CONVERSE direction is proved. The library DEFINES the global Kan extension to be an adjoint of Induced (so 'Lan_K ⊣ K^*' is a definition here, not a theorem), and then proves the converse half of Prop 6.1.6 — that each object in the image of such an adjoint, with the adjunction transpose of the identity as its unit/counit, satisfies the local Kan-extension universal property. Riehl's actual forward implication (all local extensions exist ⇒ they assemble into an adjoint) is not derived. The in-tree restriction functor Induced is the honest K^* = (− ◯ K) with fmap the whiskering, so the setting matches."
+    },
+    "gap": "The forward direction of Proposition 6.1.6 is missing: there is no theorem of the form `(∀ X : A ⟶ C, LocalLeftKan X) → LeftKan F` (nor its dual `(∀ X, LocalRightKan X) → RightKan F`). Nothing in the tree turns a family of local Kan extensions into the global adjoint. The generic machinery for exactly this exists and is unused here — Theory/Universal/Arrow.v:214 `Definition AdjunctionFromUniversalArrows (H : forall c : C, UniversalArrow c U) : @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U` (with `Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); ... }` at line 127) — but it is never instantiated at U := Induced, and no lemma identifies `LocalLeftKan X` with `UniversalArrow X Induced`. Consequently the accompanying claim that the Kan-extension unit IS the component of the adjunction unit is only available in the converse direction (as the definition of lan_transform in LeftKan_to_LocalLeftKan), not as a theorem about an assembled adjoint.",
+    "negative_search_log": [
+      "grep -rn 'LocalLeftKan|LocalRightKan|LeftKan|RightKan' --include='*.v' . — outside Theory/Kan/Extension.v the only hits are Structure/Limit/Kan/Extension.v (Kan_Limit) and a prose cross-reference in Theory/Natural/Transformation.v:84. No local-to-global construction anywhere.",
+      "grep -n '^Definition|^Class|^Corollary' Theory/Universal/Arrow.v — UniversalArrow (127), ump_universal_arrows (139), universal_arrow_from_UMP (158), LeftAdjointFunctorFromUniversalArrows (185), AdjunctionFromUniversalArrows (214), AUniversalArrow (240); none mentions Induced or Kan."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the identical gap before reading the record: the library DEFINES the global Kan extension as an adjoint of Induced (Class LeftKan:222 / RightKan:140), so 'Lan_K -| K^* -| Ran_K' is a definitional field here rather than a derived theorem, and only Riehl's FOLLOWING paragraph (the converse -- image of an adjoint to precomposition is a Kan extension) is proved, as LeftKan_to_LocalLeftKan:249 and RightKan_to_LocalRightKan:180. Verified the forward direction is truly absent: `rg 'LocalLeftKan|LocalRightKan|LocalLan|LocalRan'` over the whole tree returns hits ONLY inside Theory/Kan/Extension.v, and `rg 'LeftKan|RightKan|\\bLan\\b|\\bRan\\b'` outside it returns only Structure/Limit/Kan/Extension.v (Kan_Limit) -- so no local-to-global assembly can exist anywhere. Also verified the cited Theory/Universal/Arrow.v line numbers exactly (UniversalArrow:127, LeftAdjointFunctorFromUniversalArrows:185, AdjunctionFromUniversalArrows:214) and that Induced:127 is the honest K^* = (- o F) with fmap the whiskering `transform[f] (F z)`. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.1:example7",
+    "classification": "ABSENT",
+    "aliases": [
+      "induction / coinduction of group representations; ind^G_H, coind^G_H",
+      "restriction res^G_H along BH -> BG as precomposition",
+      "Vect_k^{BG}, category of G-representations, equivariant linear map",
+      "induced representation as a left Kan extension, coinduced as a right Kan extension",
+      "G-sets / G-spaces / G-objects in a category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'induced representation|coinduction|coinduced|induction functor|ind\\^G|res\\^G' --include='*.v' . — 2 hits, both about COINDUCTION as a proof principle for final coalgebras (Instance/Sets/Streams.v:21, Construction/FAlg.v:88). Nothing about group representations.",
+      "grep -rni 'delooping|one.object category|BG\\b' --include='*.v' . — no delooping of a group into a category exists (see the riehl:6.1:example5 log), so BH ⟶ BG cannot even be written; Structure/Group.v defines internal group OBJECTS only.",
+      "grep -rni 'G-object|equivariant|G-set|G-action|group action' --include='*.v' . — only symmetric-group actions on multicategory arities (Theory/Multicategory.v:54,393,416; Theory/Multicategory/Operad.v:41,207).",
+      "ls Instance/*.v — no Vect / VectSpace / Rep instance; the linear-algebra-flavoured instances in tree are CMon (commutative monoids) and FinSet only.",
+      "grep -rn 'LeftKan|RightKan|LocalLeftKan|LocalRightKan' --include='*.v' . outside Theory/Kan/Extension.v — sole consumer Structure/Limit/Kan/Extension.v; no adjoint triple is ever identified with a Kan extension pair."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. No Vect/Rep instance exists (`ls Instance/*.v` -- the algebra-flavoured instances are CMon and FinSet only); no delooping BG so BH -> BG cannot be written; the only 'coinduction' hits in tree are the final-coalgebra proof principle (Instance/Sets/Streams.v, Construction/FAlg.v), unrelated. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.1:example8",
+    "classification": "ABSENT",
+    "aliases": [
+      "simplex category Delta; augmented simplex category Delta_+",
+      "simplicial sets Set^{Delta^op}; augmented simplicial sets",
+      "pi_0 (path components) as a left Kan extension; trivial augmentation as a right Kan extension",
+      "adjoint triple pi_0 -| res -| triv along the inclusion Delta -> Delta_+",
+      "presheaves on Delta, restriction along a full subcategory inclusion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'simplicial|Simplicial|simplex|Simplex|Delta_+|augmented' --include='*.v' . — 11 hits, ALL prose comments (Comonad/Coalgebra.v:100 and Comonad/Core.v:103 on the simplicial bar resolution; Theory/Kan/Extension.v:47,91; Instance/FinSet.v:86-89 noting that presheaves on FinSet are augmented symmetric simplicial sets and that Δ embeds into FinSet — a remark, not a construction; Instance/Two.v:81; Construction/Enriched.v:72; Structure/Group.v:47; Structure/Coend.v:113). No simplex category is defined.",
+      "ls Instance | grep -i 'delta|simp' — no matches; the shape categories in tree are One, Two, Zero, Parallel, Roof, Discrete, Omega, Shapes.",
+      "grep -rni 'pi_0|pi0|path.component|connected.component' --include='*.v' . — only Instance/FinSet/Pushout.v (connected components of a finite graph, used for computing pushouts); no pi_0 functor on any presheaf category.",
+      "grep -rn 'LeftKan|RightKan|LocalLeftKan|LocalRightKan' --include='*.v' . outside Theory/Kan/Extension.v — sole consumer Structure/Limit/Kan/Extension.v; no adjoint triple to a restriction functor is constructed anywhere."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified every simplicial/simplex hit is prose; in particular Instance/FinSet.v:86-89, which the record correctly characterises, is a background-essay remark that presheaves on FinSet are Grandis' augmented symmetric simplicial sets with Delta embedding into FinSet -- no simplex category, no augmented simplex category, and no presheaf-restriction adjoint triple is constructed. ABSENT confirmed."
+    }
+  }
+]

@@ -1,0 +1,449 @@
+[
+  {
+    "id": "7sketches:2.2.4:ex36",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Prop^N: predicates on the naturals ordered by pointwise implication, unit = always-true, product = pointwise conjunction",
+      "Props — the thin category of propositions ordered by implication with ∧ and True (the un-indexed case)",
+      "the power / functor category [DiscreteCat nat, Props] with pointwise cartesian structure",
+      "nat → Prop / Ensemble nat ordered by inclusion (EnsT nat)",
+      "meet-semilattice-with-top as a symmetric monoidal preorder (CC_Monoidal / CC_SymmetricMonoidal)",
+      "subobject preorder SubObj n modulo mutual factorization (the book's identification of mutually-implying statements)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p } — conjunction is the binary product in Props, whose objects are propositions and whose hom P ~> Q is Basics.impl with the trivial hom-setoid (a thin category, i.e. the preorder of propositions ordered by implication)."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 53,
+        "symbol": "Props_Terminal",
+        "intree_statement": "Program Instance Props_Terminal : @Terminal Props := { terminal_obj := True; one := fun _ _ => I } — True is the top of the implication preorder, i.e. the candidate monoidal unit."
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 314,
+        "symbol": "CC_SymmetricMonoidal",
+        "intree_statement": "Context `{@Cartesian C}` `{@Terminal C}` ⊢ Definition CC_SymmetricMonoidal : @SymmetricMonoidal C := {| symmetric_is_braided := CC_BraidedMonoidal; braid_invol := @swap_invol _ _ |}, over Program Definition CC_Monoidal : @Monoidal C := {| tensor := InternalProductFunctor C; I := 1 |} (line 54) — every cartesian category with a terminal object is symmetric monoidal with tensor := × and I := 1; this discharges all four clauses of Definition 2.2 for (Props, ⊢, True, ∧)."
+      },
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D) — products in a functor category are computed pointwise, so [DiscreteCat nat, Props] (an N-indexed family of propositions) has pointwise conjunction as its product."
+      }
+    ],
+    "statement_record": {
+      "book": "Prop^N is the set of statements about a natural number, two statements identified when each holds exactly when the other does, preordered by P ≤ Q iff ∀ n, P(n) → Q(n). Exhibit a monoidal unit and monoidal product on Prop^N satisfying Definition 2.2 — the always-true statement and pointwise conjunction.",
+      "intree": "Props (obj := Prop, hom := Basics.impl, trivial hom-setoid) with Props_Cartesian (product_obj := and), Props_Terminal (terminal_obj := True) and CC_SymmetricMonoidal/CC_Monoidal (tensor := ×, I := 1); Functor_Category_Cartesian supplies pointwise products in [C, D].",
+      "strength_comparison": "intree-weaker: only the un-indexed case. Def 2.2 is fully verified for the preorder of propositions under implication with unit True and product ∧ (Props_Cartesian + Props_Terminal + CC_SymmetricMonoidal), which is the N = 1 instance of the exercise. The N-indexed power Prop^N is never given a monoidal structure: [DiscreteCat nat, Props] is cartesian but functor categories carry no Terminal instance in-tree, so CC_Monoidal cannot be applied. Also weaker on the identification: Props keeps mutually-implying propositions as distinct isomorphic objects (a preorder, not the book's quotient); the mutual-implication quotient exists in-tree only for subobjects (Theory/Subobject.v:93 sub_equiv_iff_mutual)."
+    },
+    "gap": "Three precise omissions. (1) No monoidal structure on any indexed family of truth values: grep for Functor_Category_(Terminal|Monoidal|Cocartesian|Closed) returns 0 hits, so [DiscreteCat nat, Props] has pointwise products but no unit object and no @Monoidal instance — the exercise's actual deliverable (a unit and a product on Prop^N satisfying Def 2.2) is never asserted. (2) No (nat → Prop, pointwise implication) preorder in-tree at all: Instance/Ens.v:56 EnsT T has exactly the right objects (Ensemble T = T → Prop) but its homs are carrier functions f : T → T with ∀ x, x ∈ A ↔ f x ∈ B, i.e. A = f⁻¹(B), not implications, and EnsT has no Terminal or Cartesian instance, so intersection is never a product there. (3) The book's identification of mutually-true statements is not performed on Props.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'nat → Prop|nat -> Prop|Ensemble|pointwise' . — no (nat → Prop) preorder; Ensemble hits are confined to Instance/Ens.v",
+      "grep -rn --include='*.v' -E 'Functor_Category_(Terminal|Cocartesian|Closed|Monoidal)' . — 0 hits (only Functor_Category_Cartesian exists)",
+      "grep -rn --include='*.v' -E 'Instance [A-Za-z_0-9]*Terminal|: @Terminal' . — no terminal object for any functor category ([C, D] / Fun)",
+      "grep -rn --include='*.v' -iE 'MonoidalPreorder|OrderedMonoid|PoMonoid|monoidal.*monotone|ordered monoid' . — 0 hits: the library has no monoidal-preorder notion, only @Monoidal on a thin category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-2-2.json) reached PARTIAL by the same route, independently: `rg -il 'preorder'` -> Instance/{Proset,Poset,Props,Two}.v, Construction/Enriched/Two.v; Instance/Props.v is the implication preorder on Prop with Props_Cartesian (and = product) and Props_Terminal (True = top), and Structure/Monoidal/Cartesian.v:49 / Internal/Product.v CC_* turn Cartesian+Terminal into (symmetric) monoidal. CITATIONS VERIFIED AT EXACT LINES: Instance/Props.v:53 `Program Instance Props_Terminal` and :69 `Program Instance Props_Cartesian` (quotes accurate); Structure/Monoidal/Internal/Product.v:314 `Definition CC_SymmetricMonoidal : @SymmetricMonoidal C` under `Context {C : Category}` + `@Cartesian C` + `@Terminal C` (lines 17-19), so `@CC_SymmetricMonoidal Props Props_Cartesian Props_Terminal` typechecks; Instance/Fun/Cartesian.v:111 `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)`. All four files are registered in _CoqProject and contain no Admitted/admit. HONESTY CHECK on strength_comparison: 'Def 2.2 is fully verified for the preorder of propositions' is true only UP TO INSTANTIATION -- there is no `Props_Monoidal`/`Props_SymmetricMonoidal` written down in-tree (grep 'Props_' returns only Terminal/Initial/Cartesian/Cocartesian/Closed), so the unindexed case is a one-line instantiation that nobody has written, not an existing statement. That does not change PARTIAL. TWO NEAR-MISSES THE GAP DOES NOT NAME, neither of which is the pointwise structure the exercise asks for: Structure/Monoidal/Compose.v:43 `@Monoidal ([C, C])` (tensor is COMPOSITION of endofunctors) and Construction/Day.v Day_Monoidal (Day CONVOLUTION on presheaves). I independently re-confirmed the gap's central negative: `rg 'Functor_Category_(Terminal|Monoidal|Closed|Cocartesian)'` -> 0 hits, so [DiscreteCat nat, Props] has pointwise products but no unit object and no @Monoidal instance."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:example37",
+    "classification": "ABSENT",
+    "aliases": [
+      "Cost = ([0, ∞], ≥, 0, +), Lawvere's monoidal preorder",
+      "the extended non-negative reals [0, ∞] (ℝ≥0 ∪ {∞}) with the reversed order",
+      "the Lawvere quantale; the tropical / (min, +) semiring as a monoidal preorder",
+      "base of enrichment for Lawvere metric spaces / generalized metric spaces (hom = distance, composition = triangle inequality)",
+      "a reversed-order numeric preorder with addition as tensor and 0 as unit"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -F 'Reals' . — 0 hits; there are no real numbers anywhere in the tree",
+      "grep -rn --include='*.v' -iE 'ZArith|Reals|QArith|Rdefinitions|RIneq|BinInt|Coq\\.Numbers' . — no Require of any numeric library beyond nat/PeanoNat; the only textual hits are the prose word 'reals' in Construction/Enriched.v:74 and Construction/Karoubi.v:87",
+      "grep -rn --include='*.v' -F 'Cost' . — only Comonad/Strong.v's Costrong/CostrongComonad (unrelated to the cost preorder)",
+      "grep -rn --include='*.v' -iE 'infinity|infty' . — 0 hits; there is no ∞ element anywhere",
+      "grep -rn --include='*.v' -i 'quantale' . — 1 hit, header prose at Construction/Enriched.v:78",
+      "grep -rn --include='*.v' -i 'metric' . — prose only: Instance/Poset.v:~75 ('the same recipe over ([0, ∞], ≥, +) makes a metric space a category'), Construction/Enriched.v:74 ('enriched over the non-negative extended reals ordered by ≥ under addition is exactly a generalized metric space'), Construction/Karoubi.v:87 — three header essays describe Cost precisely and none defines it; comments are not evidence",
+      "grep -rn --include='*.v' -iE 'conat|extended nat|tropical|option nat|N_infty' . — 0 hits; no nat-based surrogate for [0, ∞] either",
+      "grep -rn --include='*.v' -iE 'MonoidalPreorder|OrderedMonoid|PoMonoid|ordered monoid' . — 0 hits; even the ambient notion (a monoidal structure on a preorder) has no name in-tree, and the only instance of that shape is Instance/Two/Monoidal.v:105 Two_Monoidal on _2"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and the decisive negative is stronger than the log states: the library contains NO REAL NUMBERS AT ALL -- `rg -n 'Reals|Rdefinitions|Rle|Rplus|R_scope|ZArith|floor'` over all *.v returns 0 hits -- so ([0, infinity], >=, 0, +) cannot even be posed, let alone given a monoidal structure. `rg -in 'infinity|Rbar|extended real|quantale|metric space'` returns PROSE ONLY, in exactly four places, each naming Lawvere's ([0, infinity], >=, +) as a base the library does NOT carry: Construction/Enriched.v:74-79, Theory/Profunctor.v:100, Instance/Poset.v:75-77, Instance/Two.v:71-73 (which says outright 'The library carries the first case in full', i.e. only V = 2). Karoubi.v:86-87 is a third prose mention. No `Cost`, no quantale, no commutative-monoid-valued order. ABSENT is right, and the item is a genuinely load-bearing gap: Cost is the base of enrichment for every Lawvere-metric-space result the headers advertise as unbuilt."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:prop38",
+    "classification": "PRESENT",
+    "aliases": [
+      "the opposite of a symmetric monoidal preorder is symmetric monoidal (same unit, same product)",
+      "Monoidal_op / Symmetric_op: a monoidal (braided, symmetric) structure transports to C^op",
+      "dual / order-reversal of a monoidal preorder; (X, ≥, I, ⊗)",
+      "opposite monoidal category C^op with the same tensor and unit",
+      "Proset of the flipped relation (Instance/Proset.v) carrying the same tensor"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Opposite/Monoidal.v",
+        "line": 175,
+        "symbol": "Symmetric_op",
+        "intree_statement": "Program Definition Symmetric_op `{S : @SymmetricMonoidal C} : @SymmetricMonoidal (C^op) := {| symmetric_is_braided := Braided_op |} (obligation: braid_invol in C^op is braid_invol in C) — if C is symmetric monoidal then so is C^op. Specialized to a thin C = Proset (X, ≤), this is exactly Proposition 2.38."
+      },
+      {
+        "file": "Construction/Opposite/Monoidal.v",
+        "line": 92,
+        "symbol": "Monoidal_op",
+        "intree_statement": "Program Definition Monoidal_op `{M : @Monoidal C} : @Monoidal (C^op) := {| I := @I C M; tensor := Opposite_Tensor; unit_left := fun x => Isomorphism_Opposite (@unit_left C M x); unit_right := fun x => Isomorphism_Opposite (@unit_right C M x); tensor_assoc := fun x y z => Isomorphism_Opposite (@tensor_assoc C M x y z) |} — literally 'the same unit and the same product work on the opposite order', with every coherence obligation discharged from the corresponding law of C read backwards."
+      },
+      {
+        "file": "Construction/Opposite/Monoidal.v",
+        "line": 66,
+        "symbol": "Opposite_Tensor",
+        "intree_statement": "Program Definition Opposite_Tensor `{M : @Monoidal C} : C^op ∏ C^op ⟶ C^op := {| fobj := fun p => (fst p ⨂[M] snd p)%object; fmap := fun x y f => (fst f ⨂[M] snd f) |} — the tensor on C^op has the same action on objects and its morphism action is the bimap of C read against the reversed hom-sets, which in the thin case IS the book's monotonicity argument (x1 ≥ y1, x2 ≥ y2 in X^op means y1 ≤ x1, y2 ≤ x2 in X, so y1 ⊗ y2 ≤ x1 ⊗ x2)."
+      }
+    ],
+    "statement_record": {
+      "book": "If (X, ≤, I, ⊗) is a symmetric monoidal preorder then so is (X, ≥, I, ⊗): the same unit and the same product satisfy Definition 2.2 for the opposite order. Monotonicity dualizes; the other three conditions are equations between elements and so are unaffected by reversing the order.",
+      "intree": "Program Definition Symmetric_op `{S : @SymmetricMonoidal C} : @SymmetricMonoidal (C^op), over Monoidal_op `{M : @Monoidal C} : @Monoidal (C^op) with I := @I C M and tensor := Opposite_Tensor (same object action).",
+      "strength_comparison": "intree-stronger: the dualization is proved for an arbitrary symmetric monoidal CATEGORY, of which a symmetric monoidal preorder is the thin case (Instance/Proset.v gives the thin category of a preorder, where a hom IS the relation and all hom-setoids are trivial). No extra hypotheses are assumed, and the unit and tensor really are the originals. In-tree the coherence obligations are genuine work (they route through Structure/Monoidal/Proofs.v's inverse_triangle_identity and inverse_pentagon_identity, and the two hexagons exchange roles in Braided_op), whereas in the book's thin setting they are equations that dualize for free. The only presentational slack: no in-tree lemma identifies (Proset R)^op with Proset (flip R) — the hom of (Proset R)^op is literally fun x y => R y x, so the identification is definitional and needs only a PreOrder instance for the flipped relation."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same evidence before reading the record: `rg -n 'Monoidal_op'` -> Construction/Opposite/Monoidal.v. CITATIONS VERIFIED AT EXACT LINES: :66 `Program Definition Opposite_Tensor ... : C^op |-| C^op --> C^op`, :92 `Program Definition Monoidal_op `{M : @Monoidal C} : @Monoidal (C^op)` with `I := @I C M` and `tensor := Opposite_Tensor` (the SAME unit and the SAME tensor, exactly the content of 2.38), :148 `Braided_op`, :175 `Program Definition Symmetric_op `{S : @SymmetricMonoidal C} : @SymmetricMonoidal (C^op)`. Registered in _CoqProject; `rg 'Admitted|admit'` over the file -> 0 hits, so every coherence obligation is genuinely closed. strength_comparison ('intree-stronger: arbitrary symmetric monoidal category, the preorder being the thin case') is honest -- a monoidal preorder in the book's sense IS a thin monoidal category (Instance/Proset.v:33 builds the thin category of a preorder with the trivial hom-setoid), and the general theorem specializes with no extra hypotheses. Two disclosures in the file that do NOT weaken the claim but should travel with any downstream issue: Monoidal_op/Braided_op/Symmetric_op are Definitions, not Instances (header :37-41, deliberate), and the header :50-56 explicitly makes NO involution claim (Monoidal_op (Monoidal_op M) is not definitionally M), so the book's implicit Cost^op^op = Cost reading would need separate work."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:ex39",
+    "classification": "PRESENT",
+    "aliases": [
+      "verify unitality, associativity and symmetry for the opposite monoidal preorder",
+      "the coherence obligations of Monoidal_op / Braided_op / Symmetric_op on C^op",
+      "inverse triangle and inverse pentagon identities (the dual coherence laws)",
+      "dual unitors and dual associator: Isomorphism_Opposite of unit_left / unit_right / tensor_assoc",
+      "braid_invol and both hexagons in C^op"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Opposite/Monoidal.v",
+        "line": 92,
+        "symbol": "Monoidal_op",
+        "intree_statement": "Program Definition Monoidal_op `{M : @Monoidal C} : @Monoidal (C^op) := {| I := @I C M; tensor := Opposite_Tensor; unit_left := fun x => Isomorphism_Opposite (@unit_left C M x); unit_right := ...; tensor_assoc := fun x y z => Isomorphism_Opposite (@tensor_assoc C M x y z) |} — the unitality and associativity obligations are all discharged (Qed): to/from unit_left and unit_right naturality trade places, 'Triangle in C^op: ρ⁻¹ ⨂ id ≈ α⁻¹ ∘ (id ⨂ λ⁻¹)', and 'Pentagon in C^op = the inverse pentagon of C'."
+      },
+      {
+        "file": "Construction/Opposite/Monoidal.v",
+        "line": 175,
+        "symbol": "Symmetric_op",
+        "intree_statement": "Program Definition Symmetric_op `{S : @SymmetricMonoidal C} : @SymmetricMonoidal (C^op) := {| symmetric_is_braided := Braided_op |}; obligation: 'the involution law at (x, y) in C^op is literally the involution law at (x, y) in C' (apply braid_invol) — the symmetry clause of the exercise. Braided_op (line 148) supplies the braiding, with hexagon_identity in C^op proved from hexagon_identity_sym in C and vice versa."
+      },
+      {
+        "file": "Structure/Monoidal/Proofs.v",
+        "line": 201,
+        "symbol": "inverse_triangle_identity",
+        "intree_statement": "Theorem inverse_triangle_identity {x y} : id ⨂ unit_left << x ⨂ (I ⨂ y) ~~> x ⨂ y >> unit_right ⨂ id ∘ tensor_assoc⁻¹ (and Theorem inverse_pentagon_identity at line 215) — the unit/associativity coherence laws in the reversed direction, i.e. exactly the clauses the exercise asks to check for the opposite order."
+      }
+    ],
+    "statement_record": {
+      "book": "Finish the proof of Proposition 2.38 by verifying the three remaining clauses of Definition 2.2 — unitality, associativity and symmetry — for (X, ≥, I, ⊗).",
+      "intree": "Monoidal_op's obligations (unit_left/unit_right naturality both ways, the C^op triangle 'ρ⁻¹ ⨂ id ≈ α⁻¹ ∘ (id ⨂ λ⁻¹)', 'Pentagon in C^op = the inverse pentagon of C') plus Symmetric_op's braid_invol and Braided_op's two exchanged hexagons; the reversed-direction coherence laws themselves are Structure/Monoidal/Proofs.v's inverse_triangle_identity and inverse_pentagon_identity.",
+      "strength_comparison": "intree-stronger: all three clauses are verified at the level of general monoidal/braided/symmetric categories, where they are real proof obligations, rather than in the thin case where the book gets them free because they are equations between elements. Nothing is assumed beyond @SymmetricMonoidal C."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Same evidence found blind. Structure/Monoidal/Proofs.v:201 is exactly `Theorem inverse_triangle_identity {x y} : id (x) unit_left << x (x) (I (x) y) ~~> x (x) y >> unit_right (x) id o tensor_assoc^-1`, Qed'd (the quote in the record is accurate), and `inverse_pentagon_identity` follows in the same file -- the two lemmas the Monoidal_op obligations consume. In Construction/Opposite/Monoidal.v the three clauses the exercise asks for are discharged as obligations of Monoidal_op (both unitor-naturality directions traded, triangle, pentagon), Braided_op (the two hexagons exchanging roles) and Symmetric_op (involution). No Admitted anywhere in either file. strength_comparison is honest: in the book these are free because they are equations between elements, in-tree they are real obligations, i.e. strictly more work for the same conclusion."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:ex40",
+    "classification": "ABSENT",
+    "aliases": [
+      "Cost^op = ([0, ∞], ≤, 0, +)",
+      "the opposite of Lawvere's cost preorder; extended non-negative reals with the usual order",
+      "([0, ∞], ≤) with unit 0 and product + as a symmetric monoidal preorder",
+      "Symmetric_op applied to Cost",
+      "the (max, +) / usual-order reading of the cost quantale"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -F 'Reals' . — 0 hits; [0, ∞] does not exist in the tree, so neither does its opposite (see 7sketches:2.2.4:example37 for the full Cost search log)",
+      "grep -rn --include='*.v' -iE 'infinity|infty' . — 0 hits",
+      "grep -rn --include='*.v' -F 'Cost' . — only Costrong comonads",
+      "grep -rn --include='*.v' -iE 'ZArith|Reals|QArith|BinInt' . — no numeric library beyond nat is ever required",
+      "note: the GENERIC content the exercise leans on (Proposition 2.38) is fully in-tree — Construction/Opposite/Monoidal.v:175 Symmetric_op and :92 Monoidal_op — but the exercise's whole deliverable is the explicit identification of Cost^op's order, unit and product, and Cost itself has no in-tree counterpart, so there is nothing to identify"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass ABSENT, for the reason recorded under example37: no reals in-tree at all (0 hits for 'Reals|Rdefinitions|Rle|Rplus|R_scope'), so Cost does not exist and Cost^op cannot be described. Note for issue drafting: the GENERAL half of this exercise (the fact that makes Cost^op monoidal) IS in-tree as Symmetric_op; what is missing is only the carrier. This item should be filed together with example37 rather than separately."
+    }
+  },
+  {
+    "id": "7sketches:2.2.5:def41",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monoidal monotone = lax monoidal functor between thin monoidal categories (LaxMonoidalFunctor)",
+      "strong monoidal monotone = MonoidalFunctor (both comparisons invertible)",
+      "strict monoidal monotone = StrictMonoidalFunctor (comparisons are identities)",
+      "the comparison maps η : I → F I and μ : F x ⨂ F y → F (x ⨂ y) (lax orientation)",
+      "monotone map between preorders (MonotoneMap / a functor between Prosets) carrying unit and product inequalities"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Monoidal.v",
+        "line": 110,
+        "symbol": "LaxMonoidalFunctor",
+        "intree_statement": "Class LaxMonoidalFunctor := { lax_pure : I ~> F I; ap_functor_nat : ((⨂) ◯ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ◯ (⨂)); lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y) := transform[ap_functor_nat] (x, y); pure_left {x} : I ⨂ F x ≅ F (I ⨂ x); pure_right {x} : F x ⨂ I ≅ F (x ⨂ I); ap_assoc {x y z} : (F x ⨂ F y) ⨂ F z ≅ F (x ⨂ (y ⨂ z)); lax_monoidal_unit_left; lax_monoidal_unit_right; lax_monoidal_assoc } — over a thin C and D (hom x y IS x ≤ y) lax_pure is condition (a) I_Q ≤ f(I_P) and lax_ap is condition (b) f(p1) ⊗ f(p2) ≤ f(p1 ⊗ p2), in exactly the book's direction. -- CORRECTED BY PHASE D: pure_left, pure_right and ap_assoc carry NO `:=` default, so they are REQUIRED isomorphism data, and none of them appears in lax_monoidal_unit_left/right/assoc (:125-135). In a thin category an iso is mutual <=, i.e. equality of elements, so ap_assoc demands f(p1) (x) f(p2) (x) f(p3) ~= f(p1 (x) p2 (x) p3) -- strictly more than conditions (a) and (b)."
+      },
+      {
+        "file": "Functor/Structure/Monoidal.v",
+        "line": 77,
+        "symbol": "MonoidalFunctor",
+        "intree_statement": "Class MonoidalFunctor := { pure_iso : I ≅ F I; ap_functor_iso : (⨂) ◯ F ∏⟶ F ≅[[C ∏ C, D]] F ◯ (⨂); ap_iso {x y} : F x ⨂ F y ≅ F (x ⨂ y) := ...; monoidal_unit_left; monoidal_unit_right; monoidal_assoc } — the strong notion: both comparisons invertible, which in a thin category is precisely the book's (a') I_Q ≃ f(I_P) and (b') f(p1) ⊗ f(p2) ≃ f(p1 ⊗ p2) under the preorder-induced equivalence. Program Definition MonoidalFunctor_Is_Lax (line 138) records strong ⇒ lax."
+      },
+      {
+        "file": "Functor/Structure/Monoidal/Strict.v",
+        "line": 54,
+        "symbol": "StrictMonoidalFunctor",
+        "intree_statement": "Class StrictMonoidalFunctor : Type := { strict_functor_is_monoidal : @MonoidalFunctor C D _ _ F; strict_pure_obj : (@I D _) = F (@I C _); strict_ap_obj {x y : C} : (F x ⨂ F y)%object = F (x ⨂ y)%object; strict_pure_iso_id : to pure_iso ≈ match strict_pure_obj ... with eq_refl => id end; strict_ap_iso_id : to ap_iso ≈ ... } — the strict notion, with the book's element-level EQUALITIES (a'') I_Q = f(I_P) and (b'') f(p1) ⊗ f(p2) = f(p1 ⊗ p2) as Leibniz equalities of objects."
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 175,
+        "symbol": "MonotoneMap",
+        "intree_statement": "Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P → tpre_carrier Q; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y) } — the underlying monotone map f : (P, ≤_P) → (Q, ≤_Q) that Definition 2.41 starts from, with Theorem EnrichedFunctor_Two_monotone (line 183) identifying such maps with 2-enriched functors."
+      },
+      {
+        "file": "Functor/Structure/Monoidal/Id.v",
+        "line": 83,
+        "symbol": "Id_LaxMonoidalFunctor",
+        "intree_statement": "#[export] Program Instance Id_LaxMonoidalFunctor : @LaxMonoidalFunctor C C _ _ Id[C] := { lax_pure := id; ap_functor_nat := ... }. ... Next Obligation. simpl; intros; simplify; cat. Qed. Next Obligation. simpl; intros; simplify; cat. Qed. Next Obligation. apply tensor_assoc. Qed. -- proof that pure_left/pure_right/ap_assoc are genuine obligations of the lax class: even for the identity functor they must be inhabited, ap_assoc by the associator itself."
+      }
+    ],
+    "statement_record": {
+      "book": "For monoidal preorders P, Q, a monoidal monotone P → Q is a monotone map f with (a) I_Q ≤_Q f(I_P) and (b) f(p1) ⊗_Q f(p2) ≤_Q f(p1 ⊗_P p2); it is STRONG when both are equivalences (≤ both ways) and STRICT when both are equalities. The inequality direction makes this the lax notion.",
+      "intree": "Class LaxMonoidalFunctor := { lax_pure : I ~> F I; ... lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y); ... } (lax); Class MonoidalFunctor := { pure_iso : I ≅ F I; ap_iso {x y} : F x ⨂ F y ≅ F (x ⨂ y); ... } (strong); Class StrictMonoidalFunctor := { ...; strict_pure_obj : I = F I; strict_ap_obj : (F x ⨂ F y) = F (x ⨂ y); comparisons ≈ transported id } (strict).",
+      "strength_comparison": "MIXED, and NOT uniformly intree-stronger (Phase C's assessment corrected). Strong and strict match the book faithfully: MonoidalFunctor's invertible comparisons are exactly (a') I_Q ~= f(I_P) and (b') f(p1) (x) f(p2) ~= f(p1 (x) p2) under the preorder-induced equivalence, and StrictMonoidalFunctor's object-level Leibniz equalities plus comparisons-are-id are exactly (a'') and (b''). The LAX level -- the book's actual definition of monoidal monotone -- is intree-STRONGER in a way that changes which maps qualify: besides lax_pure (= condition (a)) and lax_ap (= condition (b)) in the right direction, LaxMonoidalFunctor requires the ISOMORPHISMS pure_left, pure_right and ap_assoc (Functor/Structure/Monoidal.v:119-123) as data. Under Definition 2.2, unitality and associativity are equations between elements, so pure_left/pure_right are free in the thin case, but ap_assoc forces f(p1) (x) f(p2) (x) f(p3) ~= f(p1 (x) p2 (x) p3), and with a unit-preserving f it forces f(p1 (x) p2) ~= f(p1) (x) f(p2) -- i.e. in-tree 'lax' collapses to strong on preorders. So the lax notion is present only in an over-strengthened form. Also not specialized: no monoidal-preorder packaging, no instance of a monoidal functor between thin categories, and the name 'monoidal monotone' does not appear in-tree."
+    },
+    "gap": "The lax level of Definition 2.41 -- the notion the definition is actually about, and the only one of the three whose inequality direction carries content -- has no faithful in-tree class. LaxMonoidalFunctor (Functor/Structure/Monoidal.v:110-136) requires three isomorphisms beyond the lax comparisons: pure_left {x} : I (x) F x ~= F (I (x) x), pure_right {x} : F x (x) I ~= F (x (x) I) and ap_assoc {x y z} : (F x (x) F y) (x) F z ~= F (x (x) (y (x) z)) (:119-123, no defaults, hence obligatory -- see Functor/Structure/Monoidal/Id.v:83-85, where even the identity functor must discharge them). None is used by the class's three coherence laws (:125-135), and in a thin category ap_assoc is not derivable from (a) and (b): it forces the ternary comparison to be an equivalence, so floor : (R, <=, 0, +) -> (N, <=, 0, +) -- Example 2.42(ii), the book's paradigm lax-not-strong monoidal monotone -- is NOT an in-tree LaxMonoidalFunctor, and any unit-preserving in-tree 'lax' monoidal monotone is automatically strong. Work needed: either drop the three iso fields (they are used only to be propagated through Functor/Structure/Monoidal/Compose.v:333-352) or replace them by their non-invertible composites; then add the missing specialization -- a monoidal-preorder packaging (a @Monoidal instance on a Proset, of which Instance/Two/Monoidal.v:106 Two_Monoidal is the only in-tree example) and at least one monoidal monotone between thin categories, so the trichotomy is witnessed at the preorder level. The strong and strict levels need nothing.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'MonoidalPreorder|OrderedMonoid|PoMonoid|monoidal.*monotone|monotone.*monoidal|ordered monoid' . — 0 hits: neither 'monoidal preorder' nor 'monoidal monotone' is a name in-tree; the concepts are reached only by instantiating @Monoidal / LaxMonoidalFunctor at a thin category (the sole such monoidal instance being Instance/Two/Monoidal.v:105 Two_Monoidal)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:PARTIAL",
+      "notes": "OVERTURNED PRESENT -> PARTIAL. Blind pass initially agreed with PRESENT (LaxMonoidalFunctor / MonoidalFunctor / StrictMonoidalFunctor give the book's lax/strong/strict trichotomy in the right orientation, and the cited lines are all exact: Functor/Structure/Monoidal.v:77 `Class MonoidalFunctor`, :110 `Class LaxMonoidalFunctor`, :138 `MonoidalFunctor_Is_Lax`, Functor/Structure/Monoidal/Strict.v:54 `Class StrictMonoidalFunctor`, Construction/Enriched/Two.v:175 `Record MonotoneMap` with Theorem EnrichedFunctor_Two_monotone at :183). The overturn rests on ONE FALSE SENTENCE in the Phase-C strength_comparison: 'The extra fields the classes carry beyond the book's data (pure_left, pure_right, ap_assoc and the three coherence equations) are automatic in a thin category -- derivable from monotonicity plus (a)/(b) -- so nothing stronger is being demanded of a monoidal monotone.' The three coherence EQUATIONS are indeed automatic in a thin category. The three ISO fields are not. Read Functor/Structure/Monoidal.v:119-123: `pure_left {x} : I (x) F x ~= F (I (x) x)`, `pure_right {x} : F x (x) I ~= F (x (x) I)`, `ap_assoc {x y z} : (F x (x) F y) (x) F z ~= F (x (x) (y (x) z))` -- no `:=` default, hence REQUIRED data, and none of them is mentioned by lax_monoidal_unit_left / lax_monoidal_unit_right / lax_monoidal_assoc (:125-135). In the thin case an isomorphism is mutual <=, i.e. EQUALITY of elements. Under Definition 2.2 unitality and associativity are equations between ELEMENTS, so pure_left/pure_right collapse to f(p) ~= f(p) and are indeed free -- but ap_assoc becomes 'f(p1) (x) f(p2) (x) f(p3) ~= f(p1 (x) p2 (x) p3)', whose <= direction is condition (b) twice and whose >= direction is a GENUINE EXTRA REQUIREMENT. It fails for the book's own canonical lax-not-strong example, floor : (R, <=, 0, +) -> (N, <=, 0, +) of Example 2.42(ii): (floor 0.5 + floor 0.5) + floor 0 = 0 while floor(0.5 + (0.5 + 0)) = 1, and 1 <= 0 is false in (N, <=). Worse, taking p3 = I_P with a unit-preserving f the iso forces f(p1 (x) p2) ~= f(p1) (x) f(p2), i.e. in-tree 'lax' COLLAPSES TO STRONG in the thin case. So the book's primary notion -- the LAX monoidal monotone, the whole point of Definition 2.41's inequality direction -- has no faithful in-tree class; only the strong level (MonoidalFunctor) and the strict level (StrictMonoidalFunctor) match. Corroboration that the fields are real obligations and not bookkeeping: Functor/Structure/Monoidal/Id.v:83-85 discharges them for the IDENTITY functor with `apply tensor_assoc`, and Instance/Coq/Applicative.v:173-181 leaves the applicative-to-lax-monoidal instance COMMENTED OUT, so the only inhabitants of LaxMonoidalFunctor in-tree are Id, Compose, and hypotheses (Construction/DecoratedCospan.v:114 takes LM as a Context parameter). Also carried into problems[] as a library defect, since the class header at :44-47 asserts precisely the opposite. Fields corrected: classification, gap, statement_record.strength_comparison, and one added evidence entry (Id.v:83-85)."
+    },
+    "phase_c_classification": "PRESENT"
+  },
+  {
+    "id": "7sketches:2.2.5:construction-bool-to-cost",
+    "classification": "ABSENT",
+    "aliases": [
+      "g : Bool → Cost with g(false) = ∞, g(true) = 0",
+      "monoidal monotone from the Booleans (∧, true) to the cost preorder ([0, ∞], ≥, 0, +)",
+      "the truth-value-to-cost change of base of enrichment (2 → Cost)",
+      "the 'possible/impossible' embedding into distances (0 and ∞ only)",
+      "lax monoidal functor _2 ⟶ Cost between thin monoidal categories"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -F 'Cost' . — only Comonad/Strong.v's Costrong* comonads; the codomain of g does not exist (full Cost search log at 7sketches:2.2.4:example37)",
+      "grep -rn --include='*.v' -iE 'infinity|infty' . — 0 hits, so g(false) = ∞ cannot even be written",
+      "grep -rn --include='*.v' -F 'Reals' . — 0 hits",
+      "grep -rn --include='*.v' -iE 'change of base|base change.*enrich|Enriched.*base' . — Construction/ColouredPROP has colour base change, unrelated; no change-of-base-of-enrichment functor along a monoidal functor exists (Construction/Enriched/*.v defines V-categories, V-functors and V-natural transformations but no V → W transport)",
+      "note: the DOMAIN exists — Bool = _2 with the meet/top monoidal structure is Instance/Two/Monoidal.v:105 Two_Monoidal, and the general notion of the map is Functor/Structure/Monoidal.v:110 LaxMonoidalFunctor — but no monoidal (lax) functor out of _2 is constructed anywhere: grep -rn 'LaxMonoidalFunctor' . finds only the Id and Compose closure instances plus the Applicative/DecoratedCospan consumers"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass ABSENT. The Bool half of the bridge does exist -- Instance/Two/Monoidal.v:106 `Two_Monoidal := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal`, i.e. the walking arrow as a monoidal preorder with tensor the meet (= AND) and unit the top (= true), and Instance/Two.v:66-79 reads _2 exactly as the book's Bool -- but the Cost half does not exist (no reals in-tree; see example37), so the map g cannot be written. Nothing of the construction (monotonicity, condition (a), condition (b)) is stated in-tree. The negative_search_log is accurate as far as it goes; I would add the positive note above, because it changes the shape of the eventual issue: only Cost and g are missing, not their source."
+    }
+  },
+  {
+    "id": "7sketches:2.2.5:remark-oplax",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monoidal monotones are monoidal functors at the preorder level",
+      "lax monoidal functor (the default reading of Definition 2.41)",
+      "oplax / opmonoidal / colax / comonoidal monoidal functor (both comparisons reversed)",
+      "F (p1 ⊗ p2) ≤ F p1 ⊗ F p2 and F I ≤ I",
+      "oplax transformation / dual of a lax structure"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Monoidal.v",
+        "line": 110,
+        "symbol": "LaxMonoidalFunctor",
+        "intree_statement": "Class LaxMonoidalFunctor := { lax_pure : I ~> F I; ap_functor_nat : ((⨂) ◯ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ◯ (⨂)); lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y) := ...; ... } — the lax notion, named 'lax' in-tree and oriented exactly as the remark says a monoidal monotone is oriented; a monoidal monotone is this class instantiated at thin categories, so the remark's identification 'monoidal monotones are monoidal functors' holds by instantiation."
+      },
+      {
+        "file": "Functor/Structure/Monoidal.v",
+        "line": 138,
+        "symbol": "MonoidalFunctor_Is_Lax",
+        "intree_statement": "Program Definition MonoidalFunctor_Is_Lax (S : MonoidalFunctor) : LaxMonoidalFunctor := {| lax_pure := to (@pure_iso S); ap_functor_nat := to (@ap_functor_iso S) |} — the in-tree layering the remark alludes to: the strong notion is the lax one with invertible comparisons, so 'lax' is the precise name for Definition 2.41."
+      }
+    ],
+    "statement_record": {
+      "book": "Monoidal monotones are the preorder-level instance of monoidal functors (forward reference to the rough definition of symmetric monoidal functor, 6.68). What Definition 2.41 calls a monoidal monotone is more precisely a LAX monoidal monotone; the dual, OPLAX, notion reverses both inequalities: f(I_P) ≤_Q I_Q and f(p1 ⊗_P p2) ≤_Q f(p1) ⊗_Q f(p2). Oplaxity is not used in the book.",
+      "intree": "Class LaxMonoidalFunctor := { lax_pure : I ~> F I; ... lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y); ... } together with MonoidalFunctor_Is_Lax : MonoidalFunctor → LaxMonoidalFunctor. The oplax variant is described only in the file header ('The oplax (a.k.a. opmonoidal, colax, comonoidal) variant reverses both comparisons, F (x ⨂ y) ~> F x ⨂ F y and F I ~> I, and is not formalized here', Functor/Structure/Monoidal.v:34-36) — a comment, not an assertion.",
+      "strength_comparison": "intree-stronger on the lax half (general monoidal categories, the preorder case being the thin instance) and intree-weaker on the dual half: the oplax notion is explicitly disclaimed rather than defined, so the remark's second clause has no in-tree counterpart. Note that the library elsewhere makes a point of carrying duals as data (Braided.v keeps both hexagons; Theory/Bicategory/Lax.v:109 writes OplaxTransformation out in full) — the omission here is specific to monoidal functors."
+    },
+    "gap": "The oplax clause is entirely missing. There is no OplaxMonoidalFunctor / OpmonoidalFunctor / ColaxMonoidalFunctor class: grep -rn -iE 'oplax|opmonoidal|colax|comonoidal' returns only (i) the header comment at Functor/Structure/Monoidal.v:34-36 saying the variant 'is not formalized here', (ii) Theory/Bicategory/Lax.v:109 OplaxTransformation, which is the dual of a lax TRANSFORMATION between pseudofunctors, a different concept, and (iii) prose at Construction/Grothendieck.v:120. Nor is the dual obtainable by the library's usual op-trick without work: unlike Comonad := @Monad (C^op) (M^op), no in-tree definition sets an oplax functor to be a lax functor between opposite monoidal categories (which Construction/Opposite/Monoidal.v:92 Monoidal_op would make possible).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'oplax|opmonoidal|colax|comonoidal' . — 4 hits, none an oplax monoidal functor: Functor/Structure/Monoidal.v:34-36 (comment disclaiming it), Theory/Bicategory/Lax.v:11/35/101/109/230 (OplaxTransformation, bicategorical), Construction/Grothendieck.v:120 (prose)",
+      "grep -rn --include='*.v' -iE 'monoidal.*monotone|monotone.*monoidal|MonoidalPreorder' . — 0 hits; the preorder-level naming of the remark's first clause is absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL confirmed; my blind pass hovered between PARTIAL and ABSENT and PARTIAL is the better call, since the remark's first clause (monoidal monotones ARE the preorder-level monoidal functors) does have an in-tree counterpart. Citations verified: Functor/Structure/Monoidal.v:110 `Class LaxMonoidalFunctor`, :138 `Program Definition MonoidalFunctor_Is_Lax (S : MonoidalFunctor) : LaxMonoidalFunctor` (quotes accurate), and the disclaiming header is at :34-36 verbatim ('The oplax (a.k.a. opmonoidal, colax, comonoidal) variant reverses both comparisons, F (x (x) y) ~> F x (x) F y and F I ~> I, and is not formalized here'). Gap reproduced independently: `rg -in 'oplax|opmonoidal|colax|comonoidal'` gives only that comment, Theory/Bicategory/Lax.v:11/35/101/109/230 (OplaxTransformation between PSEUDOFUNCTORS -- a different concept, correctly excluded), and Construction/Grothendieck.v:120 prose. The gap's observation that no in-tree definition sets oplax := lax into the opposite monoidal category is correct, and Construction/Opposite/Monoidal.v:92 Monoidal_op really would make that cheap. ONE CORRECTION TO CARRY FORWARD (see the def41 overturn): the strength_comparison's 'intree-stronger on the lax half' overstates the lax half -- LaxMonoidalFunctor's required iso fields pure_left/pure_right/ap_assoc (:119-123) make the in-tree lax class strictly STRONGER than a lax monoidal monotone, collapsing to strong in the thin case, so 'lax' is not in-tree under the book's meaning either. This does not change the PARTIAL verdict."
+    }
+  },
+  {
+    "id": "7sketches:2.2.5:example42",
+    "classification": "ABSENT",
+    "aliases": [
+      "the inclusion i : (N, ≤, 0, +) → (R, ≤, 0, +) as a strict monoidal monotone",
+      "the floor map ⌊·⌋ : (R, ≤, 0, +) → (N, ≤, 0, +) as a lax but not strong monoidal monotone",
+      "superadditivity f(x) + f(y) ≤ f(x + y) of a rounding map",
+      "a lax monoidal functor that is not strong (laxness strictly weaker than strongness)",
+      "strict monoidal functor between numeric monoidal preorders (StrictMonoidalFunctor)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -F 'Reals' . — 0 hits; (R, ≤, 0, +) does not exist, so neither map can be stated",
+      "grep -rn --include='*.v' -i 'floor' . — 0 hits",
+      "grep -rn --include='*.v' -iE 'superadditive|subadditive' . — 0 hits",
+      "grep -rn --include='*.v' -E 'mul_le_mono|add_le_mono' . — 0 hits: monotonicity of + (or *) with respect to ≤ on nat is never stated, so even the DOMAIN (N, ≤, 0, +) carries no monoidal structure in-tree (cf. 7sketches:2.2.4:example30, PARTIAL for exactly this reason); the additive monoid on nat appears in-tree only as the object monoid of PROPs/ZX/FinSet, where the homs are diagrams or functions rather than ≤",
+      "grep -rn --include='*.v' -E 'LaxMonoidalFunctor' . — the only inhabitants are Functor/Structure/Monoidal/Id.v:74 Id_LaxMonoidalFunctor and Functor/Structure/Monoidal/Compose.v:292 Compose_LaxMonoidalFunctor (closure properties, and Id is strict), plus consumers (Functor/Applicative.v:45, Construction/DecoratedCospan.v:114) that take one as a hypothesis; there is NO in-tree witness of a lax monoidal functor that fails to be strong, which is precisely example 2.42(ii)'s point",
+      "grep -rn --include='*.v' -E 'StrictMonoidalFunctor' . — genuine strict instances do exist (Functor/Structure/Monoidal/Strict.v:151 Id, :160 Compose; Construction/PROP/Universal.v:417 and Theory/Lawvere/PROP.v:227 interpretation functors), but none between numeric preorders and none paired with a lax-not-strong counterexample"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass ABSENT. Independently: no reals (0 hits for 'Reals|Rdefinitions|Rle|Rplus|R_scope'), no floor (0 hits for 'floor'), and no monoidal structure on (N, <=) either -- `rg 'Cartesian_Monoidal'` returns Two, Coq, law_cat/PROP and tests, never nat, and there is no bifunctor with fobj := Nat.add on Instance/Omega.v or on Proset.v's LessThanEqualTo_Category. (The additive monoid on nat appears in-tree only as the OBJECT monoid of skeletal FinSet / the PROPs, Instance/FinSet.v:27-28, whose homs are FUNCTIONS, not <=; that is a different category, not a monoidal preorder, so it is rightly not cited.) IMPORTANT ADDITION for whoever drafts the issue: part (ii) is not merely missing, it is currently UNSTATABLE in-tree even if the reals were added, because LaxMonoidalFunctor's required iso field ap_assoc (Functor/Structure/Monoidal.v:123) excludes floor -- see the def41 overturn and problems[]. Any issue covering 2.42(ii) must first fix or weaken that class."
+    }
+  },
+  {
+    "id": "7sketches:2.2.5:ex43",
+    "classification": "ABSENT",
+    "aliases": [
+      "verify g : Bool → Cost (g false = ∞, g true = 0) is a monoidal monotone",
+      "monotonicity of g plus conditions (a) and (b) of Definition 2.41",
+      "g(p1) + g(p2) ≥ g(p1 ∧ p2) — the tensor comparison inequality for the cost reading",
+      "is g strict? (0 = unit of Cost, and ∞ + ∞ = ∞ vs ∞)",
+      "lax monoidal functor _2 ⟶ Cost and its strictness"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -F 'Cost' . — only Costrong comonads; the codomain does not exist (see 7sketches:2.2.4:example37)",
+      "grep -rn --include='*.v' -iE 'infinity|infty' . — 0 hits",
+      "grep -rn --include='*.v' -F 'Reals' . — 0 hits",
+      "grep -rn --include='*.v' -E 'LaxMonoidalFunctor' . — only Id/Compose instances and hypothesis-taking consumers; no monoidal functor out of _2 is ever constructed, hence nothing to verify",
+      "note: the two ingredients the exercise verifies against DO exist separately — Instance/Two/Monoidal.v:105 Two_Monoidal (the domain Bool) and Functor/Structure/Monoidal.v:110 LaxMonoidalFunctor with :77 MonoidalFunctor (conditions (a), (b) and strictness) — but the verification target g has no in-tree counterpart at all"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass ABSENT; same reason as construction-bool-to-cost, of which this is the verification half. The Bool source exists (Two_Monoidal, Instance/Two/Monoidal.v:106); the Cost target does not (no reals in-tree), so none of the three checks -- monotonicity, (a), (b) -- nor the strictness question can be posed. No counterpart found under any alias I tried ('Cost', 'quantale', 'infinity', 'Rle', 'monoidal monotone')."
+    }
+  },
+  {
+    "id": "7sketches:2.2.5:ex44",
+    "classification": "ABSENT",
+    "aliases": [
+      "d, u : Cost → Bool with d(x) = (x = 0) and u(x) = (x < ∞)",
+      "monoidal monotones from ([0, ∞], ≥, 0, +) to (B, ≤, true, ∧)",
+      "threshold / collapse maps from costs to truth values (zero-cost and finite-cost predicates)",
+      "quasi-inverses of the embedding Bool → Cost; the adjoints of a change of base of enrichment",
+      "lax monoidal functors Cost ⟶ _2 and their strictness"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -F 'Cost' . — only Costrong comonads; the domain of d and u does not exist (see 7sketches:2.2.4:example37)",
+      "grep -rn --include='*.v' -iE 'infinity|infty' . — 0 hits, so u(x) = (x < ∞) cannot be written",
+      "grep -rn --include='*.v' -F 'Reals' . — 0 hits",
+      "grep -rn --include='*.v' -iE 'threshold|collapse.*truth|truth value' . — no threshold/collapse map into the truth values; Structure/Monoidal/Collapse.v is about Frobenius collapse and no-cloning, unrelated",
+      "grep -rn --include='*.v' -E 'LaxMonoidalFunctor' . — only Id/Compose instances and consumers; no monoidal functor INTO _2 is constructed either"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass ABSENT. Both d and u are maps out of Cost, which does not exist in-tree (0 hits for reals); the target Bool = _2 does exist with its monoidal preorder structure (Instance/Two/Monoidal.v:106). No in-tree map into _2 from any ordered carrier is checked against Definition 2.41's conditions -- the only monotone-map API is Construction/Enriched/Two.v:175 MonotoneMap, which carries no unit/product conditions at all. ABSENT is correct."
+    }
+  },
+  {
+    "id": "7sketches:2.2.5:ex45",
+    "classification": "PARTIAL",
+    "aliases": [
+      "(N, ≤, 1, *) as a monoidal preorder (multiplication as tensor, 1 as unit)",
+      "monotonicity of multiplication with respect to ≤ (Nat.mul_le_mono)",
+      "a monoidal monotone (N, ≤, 0, +) → (N, ≤, 1, *) (e.g. n ↦ 2^n)",
+      "(Z, ≤, 1, *) fails monotonicity because multiplying by a negative reverses ≤",
+      "the thin category of (nat, ≤) — Proset / Omega / LessThanEqualTo_Category"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity; compose := fun x y z f g => transitivity g f |} — the thin category of a preorder, instantiated at nat's ≤ in the same file (LessThanEqualTo_Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder, line 47); this supplies the underlying preorder (N, ≤) that clauses (1) and (2) are asked about."
+      },
+      {
+        "file": "Instance/Omega.v",
+        "line": 72,
+        "symbol": "Omega",
+        "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; homset := Morphism_equality; id := fun _ => le_t_n; compose := fun _ _ _ f g => le_t_trans g f |} — the second in-tree presentation of the ordinal ω, i.e. (N, ≤), with a Type-valued ≤."
+      },
+      {
+        "file": "Functor/Structure/Monoidal.v",
+        "line": 110,
+        "symbol": "LaxMonoidalFunctor",
+        "intree_statement": "Class LaxMonoidalFunctor := { lax_pure : I ~> F I; lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y); ... } — the notion clause (2) asks to exhibit (a monoidal monotone between two monoidal structures on the same preorder), available in general but never instantiated at a numeric preorder."
+      }
+    ],
+    "statement_record": {
+      "book": "(1) Is (N, ≤, 1, *) a monoidal preorder? (2) If so, does a monoidal monotone (N, ≤, 0, +) → (N, ≤, 1, *) exist — exhibit one or explain why not? (3) Is (Z, ≤, 1, *) a monoidal preorder? (Expected: no, because multiplying by a negative integer reverses ≤.)",
+      "intree": "The preorder alone: Program Definition Proset {A} {R} (P : PreOrder R) : Category := {| obj := A; hom := R; ... |} with LessThanEqualTo_Category := @Proset nat Nat.le Nat.le_preorder, and Program Definition Omega := {| obj := nat; hom := le_t; ... |}. The notion of the map: Class LaxMonoidalFunctor.",
+      "strength_comparison": "intree-weaker on every clause: (N, ≤) exists as a thin category and 'monoidal monotone' exists as a general class, but neither monoidal structure on (N, ≤) is built, no monotonicity-of-multiplication fact is recorded, no monoidal monotone between them is exhibited, and the integers do not exist in-tree, so clause (3)'s negative answer cannot even be posed."
+    },
+    "gap": "Three precise omissions. (1) No multiplicative (nor additive) monoidal structure on (N, ≤): there is no bifunctor Omega ∏ Omega ⟶ Omega (or on LessThanEqualTo_Category) with fobj := Nat.mul, no unit 1, and no @Monoidal Omega — grep -rn 'mul_le_mono|add_le_mono' returns 0 hits, so monotonicity of * (or +) with respect to ≤ is never stated; the additive monoid on nat appears in-tree only as the OBJECT monoid of PROPs/ZX/FinSet-coproduct, where homs are diagrams or functions, never ≤. (2) No monoidal monotone between two monoidal structures on one preorder: LaxMonoidalFunctor's only inhabitants are the Id and Compose closure instances, so clause (2)'s witness (e.g. n ↦ 2^n) is absent, as is any exponential on nat used monoidally. (3) The integers are absent from the whole library (grep -rn -iE 'ZArith|BinInt' → 0 hits), so (Z, ≤, 1, *) and the order-reversal-by-negatives non-example have no counterpart; the general fact the non-example turns on — that the tensor must be a bifunctor, hence monotone in each argument — is available only as the @Monoidal tensor field.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'mul_le_mono|add_le_mono' . — 0 hits",
+      "grep -rn --include='*.v' -iE 'ZArith|BinInt|Z\\.add|Z\\.le|Zle' . — 0 hits; no integers in the tree",
+      "grep -rn --include='*.v' -iE 'MonoidalPreorder|OrderedMonoid|PoMonoid|ordered monoid' . — 0 hits",
+      "grep -rn --include='*.v' -E '@Monoidal (Omega|\\(Proset)' . / grep -rn 'Omega' . — outside Instance/Omega.v the only consumers are Construction/Chain.v and the Adamek/FAlg development (the ω-chain shape); no monoidal structure is ever put on it"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL confirmed, though it sits at the boundary: my blind pass said ABSENT. What tips it is that clause (1) is a question about a structure on (N, <=), and (N, <=) genuinely exists in-tree twice over -- Instance/Proset.v:33 `Program Definition Proset {A} {R} (P : PreOrder R) : Category` with the trivial hom-setoid, specialized at PeanoNat.Nat.le by LessThanEqualTo_Category (:47, and again Instance/Poset.v:120), and Instance/Omega.v:72 `Program Definition Omega : Category` with obj := nat and hom := le_t (a Type-valued <=, homset := Morphism_equality). Both citations are exact. The gap is honest and complete on every clause I checked independently: `rg 'mul_le_mono|add_le_mono'` -> 0 hits (monotonicity of * or + w.r.t. <= is never stated), no @Monoidal instance exists on Omega or on any Proset, and `rg 'ZArith|Zle|BinInt'` -> 0 hits, so clause (3)'s negative answer about (Z, <=, 1, *) cannot even be posed. CONSISTENCY NOTE for the ledger: this record grants partial credit for the bare carrier (N, <=) while example42 -- which also needs a monoidal structure on (N, <=) -- is filed ABSENT. Both are defensible under the frozen definitions (2.45 asks directly about a structure ON (N, <=), whereas 2.42 asks about two specific maps involving R, of which nothing exists), and neither classification changes the work to be done, so I leave both standing. Minor nuance, unrecorded but harmless: Omega's hom-setoid is strict equality, so its header's claim (Instance/Omega.v:6, 11) that it is 'thin' relies on le_t proof-uniqueness, which is true by induction but not proved in-tree; Proset is the cleanly thin choice for this item."
+    }
+  }
+]

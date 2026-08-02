@@ -1,0 +1,231 @@
+[
+ {
+  "issue": 1002,
+  "decision": "2.7",
+  "mode": "replace_text",
+  "find": "Depends on: #259 (`Top`, needed only for the scoped-out contrapositive)\nDepends on: #1004 (`riehl:5.5:def5`) (the notion \"category of models for an algebraic theory\", in which Corollary 5.6.4 is stated)\n",
+  "replace": "Depends on: #259 (`Top`, needed only for the scoped-out contrapositive)\n",
+  "note": "2.7 DELETE 1002<-1004: drop the provenance-only Depends-on line; #259 line re-emitted unchanged so no blank line is left behind."
+ },
+ {
+  "issue": 1002,
+  "decision": "2.7",
+  "mode": "replace_text",
+  "find": "- [ ] The `Top`/`Poset` contrapositive is either proved or explicitly scoped out in the header with its dependency named.",
+  "replace": "- [ ] The `Top`/`Poset` contrapositive is either proved, or is explicitly scoped out in the header with #259 named as the missing prerequisite.",
+  "note": "2.7 tighten the DoD box that silently reintroduced the #259 prerequisite (\"proved or scoped out\" -> #259 named)."
+ },
+ {
+  "issue": 1002,
+  "decision": "2.7",
+  "mode": "trailer_deps",
+  "replace": [
+   "maclane:VI.7:def2",
+   "maclane:I.7:construction4"
+  ],
+  "note": "2.7 drop riehl:5.5:def5 (#1004); #481/#259 converted to item ids per the deps-array convention (maclane:VI.7:def2 -> 481, maclane:I.7:construction4 -> 259, both verified against issue-map.json)."
+ },
+ {
+  "issue": 1002,
+  "decision": "2.7",
+  "mode": "edge_remove",
+  "replace": "1004",
+  "note": "2.7 native relation: remove blocked_by #1004 from #1002."
+ },
+ {
+  "issue": 460,
+  "decision": "2.12",
+  "mode": "replace_text",
+  "find": "## Dependencies\nDepends on: #259\n",
+  "replace": "## Dependencies\nDepends on: #259\nDepends on: #890 (`7sketches:7.3.3:def7.35`) — the matching-family sheaf condition and the re-founded `Theory/Sheaf.v` predicate over which this issue's gluing statement is proved; Work item 2 already presumes that strengthening.\n",
+  "note": "2.12 ADD 460<-890. SEQUENCING: the removal of #890's `Depends on: #460` line (already decided, in remediation.json) MUST land first or check_graph reports a 460/890 cycle."
+ },
+ {
+  "issue": 460,
+  "decision": "2.12",
+  "mode": "trailer_deps",
+  "replace": [
+   "maclane:I.7:construction4",
+   "7sketches:7.3.3:def7.35"
+  ],
+  "note": "2.12 add #890 as 7sketches:7.3.3:def7.35; #259 converted to maclane:I.7:construction4 per the item-id convention."
+ },
+ {
+  "issue": 460,
+  "decision": "2.12",
+  "mode": "edge_add",
+  "replace": "890",
+  "note": "2.12 native relation: #460 blocked_by #890. Apply only after the 890<-460 edge_remove."
+ },
+ {
+  "issue": 921,
+  "decision": "2.14",
+  "mode": "replace_text",
+  "find": "- Depends on: #261 (Set_*, the category of pointed sets)",
+  "replace": "- Related (NOT blocking): #261 (Set_*, the category of pointed sets) — Work item 1 sanctions building `Fin_*` EITHER as the pointed restriction of #261's `Set_*` OR directly over `Instance/FinSet.v`, and its own stated criterion (preserving the skeletal computability `Instance/FinSet.v` already enjoys) points to the direct route. Both routes stay on the table; no dependency edge is asserted.",
+  "note": "2.14 Option A: demote #261 to Related. Work item 1's alternative route and the DoD's \"(or imported)\" are deliberately left intact (do not blend with Option B)."
+ },
+ {
+  "issue": 921,
+  "decision": "2.14",
+  "mode": "trailer_deps",
+  "replace": [],
+  "note": "2.14 empty #921's trailer deps (was [\"#261\"])."
+ },
+ {
+  "issue": 921,
+  "decision": "2.14",
+  "mode": "edge_remove",
+  "replace": "261",
+  "note": "2.14 native relation: remove blocked_by #261 from #921."
+ },
+ {
+  "issue": 1017,
+  "decision": "2.17",
+  "mode": "replace_text",
+  "find": "**Preferred resolution: descope, assert NO dependency edge.**",
+  "replace": "**Preferred resolution: descope, assert NO dependency edge.** — **SUPERSEDED BY THE OPERATOR.** The #347 edge IS asserted and the terminality clause IS stated over #347's `CouniversalArrow` class. Two things in this block are WITHDRAWN: item 3's non-blocking cross-reference to **#347**, and the closing instruction to leave the trailer and `blocked_by` untouched. Items 1 and 2 are restated in the superseding correction block at the end of this issue.",
+  "note": "2.17 neutralise the descope verdict in place; the substantive replacement text follows in the appended superseding block."
+ },
+ {
+  "issue": 1017,
+  "decision": "2.17",
+  "mode": "replace_text",
+  "find": "3. Add:\n\n> \n- Related (NOT blocking): **#347** owns the couniversal-arrow dual of `UniversalArrow` (its Work item 1); this issue introduces none and consumes nothing it builds. No dependency edge is asserted.\n\n**Leave trailer `\"deps\":[]` and `blocked_by []` untouched, and add no serialize-groups entry.**\n",
+  "replace": "3. WITHDRAWN. The earlier plan filed #347 here as a non-blocking cross-reference and left the trailer and `blocked_by` alone. Both are reversed: a real `Depends on: #347` line is now in force, the trailer `deps` becomes `[\"maclane:IV.1:thm2\"]`, and `blocked_by` gains #347. No serialize-groups entry is added. See the superseding correction block at the end of this issue.\n",
+  "note": "2.17 strike the contradicting item 3 (its Related-line and its \"leave the trailer untouched\" instruction) so body, trailer and native relation agree. This also removes a `> `-then-bullet blockquote artefact of the shape 6.2 is fixing elsewhere."
+ },
+ {
+  "issue": 1017,
+  "decision": "2.17",
+  "mode": "append_block",
+  "block": "### Correction (QA audit, superseding)\n\nThe operator has reversed the descope recorded in the block above: this issue's terminality clause is stated over #347's `CouniversalArrow` class, so the edge, the trailer dep and the native relation are all asserted. What still stands from that block is that **no second couniversal-arrow notion is introduced here** — the class is #347's.\n\nDepends on: #347 (`maclane:IV.1:thm2`) — the `CouniversalArrow` class of its Work item 1 (`Theory/Universal/Arrow/Couniversal.v`), the class over which this issue's terminality clause is stated.\n\n1. Work item 2's replacement text becomes: *The couniversal-arrow dual of `UniversalArrow` is #347's Work item 1 (`Theory/Universal/Arrow/Couniversal.v`) — do NOT add a second one here. State the `LocalRightKan X` terminality clause OVER that class: exhibit the terminal object of the candidate comma category `Induced ↓ =(X)` as a `CouniversalArrow` in #347's sense, so the tree carries one notion rather than two records that happen to agree.*\n2. The DoD box *No second couniversal-arrow notion is introduced; the `Terminal` clause is proved directly over the candidate comma category, with #347 cross-referenced in the header.* becomes:\n\n- [ ] No second couniversal-arrow notion is introduced: the `Terminal` clause for `LocalRightKan X` is stated and proved over #347's `CouniversalArrow` class, with the terminal object of `Induced ↓ =(X)` exhibited as a couniversal arrow in that class's sense\n\n3. The closing instruction of the previous block is withdrawn: the trailer `deps` becomes `[\"maclane:IV.1:thm2\"]` and `blocked_by` gains #347.\n",
+  "note": "2.17 superseding block; MUST be inserted BEFORE the <!-- catalog --> trailer (convention 3 / linter L2). Its `Depends on:` line lands after `## Dependencies`, which is #1017's last `## ` heading, so lint L7 is satisfied."
+ },
+ {
+  "issue": 1017,
+  "decision": "2.17",
+  "mode": "trailer_deps",
+  "replace": [
+   "maclane:IV.1:thm2"
+  ],
+  "note": "2.17 #347 as maclane:IV.1:thm2 (verified against maclane/issue-map.json); was []."
+ },
+ {
+  "issue": 1017,
+  "decision": "2.17",
+  "mode": "edge_add",
+  "replace": "347",
+  "note": "2.17 native relation: #1017 blocked_by #347. NOTE the schedule cost the judgement call flagged — #347 is itself blocked_by #302."
+ },
+ {
+  "issue": 1038,
+  "decision": "2.19",
+  "mode": "replace_text",
+  "find": "Depends on: #971 (the forgetful functors out of the category of fields admit no adjoints — the category of fields, and the no-left-adjoint half of this example)\n",
+  "replace": "Depends on: #971 (the forgetful functors out of the category of fields admit no adjoints — the category of fields, and the no-left-adjoint half of this example)\nDepends on: #257 (`maclane:I.7:def1`) — `CRng`, the category of commutative rings in `Instance/Rng.v`, which Work item 1's inclusion functor `Field ⟶ CRng` consumes.\nDepends on: #232 (`maclane:I.3:ex1`) — `Frac D`, the field of fractions of an integral domain, which Work item 2 takes rather than re-constructing.\n",
+  "note": "2.19 make explicit the ordering previously inherited only via 1038->971->{226,232}->257."
+ },
+ {
+  "issue": 1038,
+  "decision": "2.19",
+  "mode": "trailer_deps",
+  "replace": [
+   "maclane:X.7:ex3",
+   "riehl:4.1:example12",
+   "maclane:I.7:def1",
+   "maclane:I.3:ex1"
+  ],
+  "note": "2.19 #605/#971 converted to item ids, #257/#232 added (all four verified against the issue-map files)."
+ },
+ {
+  "issue": 1038,
+  "decision": "2.19",
+  "mode": "edge_add",
+  "replace": "257",
+  "note": "2.19 native relation: #1038 blocked_by #257."
+ },
+ {
+  "issue": 1038,
+  "decision": "2.19",
+  "mode": "edge_add",
+  "replace": "232",
+  "note": "2.19 native relation: #1038 blocked_by #232."
+ },
+ {
+  "issue": 876,
+  "decision": "2.11",
+  "mode": "replace_text",
+  "find": "1. Instantiate the decorated-cospan tower at `(Circ, ψ)` over `FinSet`: discharge the six `DecCospan_*_Coherent` obligations for this decoration (or consume them as theorems once the §6.4.2 decorated-cospan issue derives them from lax monoidality), obtaining `CospanCirc` as a symmetric monoidal, indeed hypergraph, category.",
+  "replace": "1. Instantiate the decorated-cospan tower at `(Circ, ψ)` over `FinSet` by CONSUMING #872's derived `DecCospan_*_Coherent` instances — do not re-derive them — obtaining `CospanCirc` as a symmetric monoidal, indeed hypergraph, category.",
+  "note": "2.11 mirror of #873's Correction wording onto #876 Work item 1, verbatim on the CONSUMING clause, so the two do not drift. NO edge change: 876<-872 and 873<-872 both stay. #873's and #876's `## Dependencies` lines are ALREADY byte-identical (`Depends on: #872 (`7sketches:6.4.2:thm6.77`)`), so no Dependencies edit is emitted. ASYMMETRY OF FORM, for the coordinator: #873 carries its change as a superseding Correction note while this one is applied in place; content agrees either way."
+ },
+ {
+  "issue": 750,
+  "decision": "2.6",
+  "mode": "replace_text",
+  "find": "Depends on: #704\n",
+  "replace": "Depends on: #704 — the CONTRAVARIANT power-set functor and the double-powerset monad; this issue is about the COVARIANT power-set functor, and reuses the `Instance/Sets/Powerset.v` carrier that issue establishes rather than redefining it.\n",
+  "note": "2.6 edge STAYS; the covariant/contravariant distinction is now recorded on the line itself. The following `- Related (NOT blocking):` layout line is left untouched."
+ },
+ {
+  "issue": 869,
+  "decision": "3.6",
+  "mode": "replace_text",
+  "find": "Depends on: #868 (`7sketches:6.3.1:thm6.55`) — the spider normal form, the intended route to fullness and faithfulness.\n",
+  "replace": "Depends on: #868 (`7sketches:6.3.1:thm6.55`) — the spider normal form, the intended route to fullness and faithfulness.\nDepends on: #879 (`7sketches:6.5.2:example6.94`) — the named `CospanCat FinSet` term, built in `Instance/FinSet/Cospan/Operad.v`, which Work item 5 consumes rather than re-forming.\n",
+  "note": "3.6 (a): real dependency edge 869<-879 for the named `CospanCat FinSet` term."
+ },
+ {
+  "issue": 869,
+  "decision": "3.6",
+  "mode": "replace_text",
+  "find": "`doc/plan/books/seven-sketches/library-defects.md:386`. Whether to add an edge 869←879 or a\nconstruction-keyed serialize entry is a judgement call recorded separately; these two deletions\nare unconditional either way.)",
+  "replace": "`doc/plan/books/seven-sketches/library-defects.md:386`. That judgement call is now decided: a real dependency edge 869←879 is asserted (see the `Depends on: #879` line above) and NO construction-keyed serialize entry is added; these two deletions\nare unconditional either way.)",
+  "note": "3.6 retire the stale \"judgement call recorded separately\" parenthetical inside #869's Correction block so the body does not contradict the now-asserted edge."
+ },
+ {
+  "issue": 869,
+  "decision": "3.6",
+  "mode": "trailer_deps",
+  "replace": [
+   "7sketches:5.2.1:example5.3",
+   "7sketches:6.3.1:thm6.55",
+   "7sketches:6.5.2:example6.94"
+  ],
+  "note": "3.6 add #879 as 7sketches:6.5.2:example6.94; #827 converted to 7sketches:5.2.1:example5.3 per the item-id convention."
+ },
+ {
+  "issue": 869,
+  "decision": "3.6",
+  "mode": "trailer_ids",
+  "replace": [
+   "7sketches:6.3.1:thm6.58",
+   "7sketches:6.3.1:ex6.57"
+  ],
+  "note": "3.6 merged with 5.2 as the operator required (\"trailer reconciled with 5.2 in one pass\"). HARD SEQUENCING: apply this LAST, and only after the three cross-file edits of 5.2 land — ledger.tsv:1964 note column, the new PARTIAL row for #869, and `\"7sketches:6.3.1:ex6.57@869\": 869` in seven-sketches/issue-map.json. Today that id resolves to #868 alone; adding it here first would make the resolution ambiguous."
+ },
+ {
+  "issue": 869,
+  "decision": "3.6",
+  "mode": "edge_add",
+  "replace": "879",
+  "note": "3.6 native relation: #869 blocked_by #879 (#879 has no blockers, so this costs no scheduling wave)."
+ },
+ {
+  "issue": 518,
+  "decision": "3.5",
+  "mode": "replace_text",
+  "find": "Suggested module: `Instance/GroupRing.v`.",
+  "replace": "Suggested module: `Instance/Rng/MonoidRing.v`.",
+  "note": "3.5 unify the module path with #310 (which already names `Instance/Rng/MonoidRing.v`). NO edge in either direction."
+ },
+ {
+  "issue": 518,
+  "decision": "3.5",
+  "mode": "replace_text",
+  "find": "- `coqc -R . Category Instance/GroupRing.v` compiles cleanly.",
+  "replace": "- `coqc -R . Category Instance/Rng/MonoidRing.v` compiles cleanly.",
+  "note": "3.5 the Verification half of the same path unification; after this the only `Instance/GroupRing.v` left in #518 is the Correction block's own instruction, which is thereby satisfied. #310 needs no path edit."
+ }
+]

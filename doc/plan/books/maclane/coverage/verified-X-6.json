@@ -1,0 +1,157 @@
+[
+  {
+    "id": "maclane:X.7:remark2",
+    "classification": "PRESENT",
+    "aliases": [
+      "end form of the Yoneda lemma",
+      "ninja Yoneda / Yoneda reduction (end)",
+      "Nat(C(c,-),T) ≅ Tc via ∫_m [C(c,m),Tm]",
+      "identity Kan extension recovers Yoneda (Ran_I T = T)",
+      "∫_m Set(C(c,m),Tm) ≅ T c"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 297,
+        "symbol": "yoneda_reduction",
+        "intree_statement": "Definition yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c := yoneda_iso.  (with YoE (x,y) = SetoidMorphism (homc x) (F y) = [C(c,x), F y], line 186; so the end ∫_x Set(C(c,x),Fx) ≅ F c)"
+      },
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 221,
+        "symbol": "YoE / Sets_End_obj (design note)",
+        "intree_statement": "\"An element of [Sets_End YoE] is a family [s x : C(c,x) -> F x] satisfying the wedge law: exactly a natural transformation [C(c,-) => F].\"  -- the end apex IS the Nat setoid."
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 182,
+        "symbol": "Covariant_Yoneda_Lemma",
+        "intree_statement": "Program Instance Covariant_Yoneda_Lemma (C : Category) (F : C ⟶ Sets) : forall A : C, Copresheaves [Hom A,─] F ≅ F A  (i.e. Nat(C(A,-),F) ≅ F A, forward map = evaluation at id)"
+      }
+    ],
+    "statement_record": {
+      "book": "For T : C → Set (C with small hom-sets), using Ran_I T = T and the (end) Kan-extension formula, T c = (Ran_I T) c = ∫_m Tm^{C(c,m)} = ∫_m Set(C(c,m), Tm) ≅ Nat(C(c,-), T); 'The result is just the Yoneda Lemma.'",
+      "intree": "yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c, where YoE (x,y) = [C(c,x), F y] and the end apex Sets_End_obj YoE is the setoid of wedge-compatible families s_x : C(c,x) → F x, i.e. Nat(C(c,-), F). Realized concretely over Instance/Sets/End (funext-free, axiom-closed). Independently, Covariant_Yoneda_Lemma gives Copresheaves [Hom A,─] F ≅ F A = Nat(C(A,-),F) ≅ F A.",
+      "strength_comparison": "same. The end-form Yoneda ∫_m Set(C(c,m),Fm) ≅ Nat(C(c,-),F) ≅ F c — the remark's whole payload ('just the Yoneda Lemma') — is formalized verbatim in Sets, funext-free. Only difference in presentation: the in-tree proof establishes the end/Nat iso directly rather than routing it through the right-Kan-extension identity Ran_I T = T (a separate, unwired item X.7:remark1); the Kan-extension→end bridge is flagged in Theory/Kan/Extension.v (lines 76-79) as 'a bridge not yet formalized', but that framing is narrative, not part of the recovered result."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Ran_I|Lan_I|identity Kan|Kan.*identity' --include=*.v .  -> 0 hits (the 'Ran_I T = T' framing / Kan-along-identity is not wired; the end iso stands on the concrete Sets end instead)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT. Verified all cited evidence at the exact locations: yoneda_reduction (Theory/Coend/Yoneda.v:297) is a covariant end-Yoneda ∫_x [C(c,x),Fx] ≅ Fc; the design note (line 221) confirms the end apex IS the Nat(C(c,-),F) setoid; YoE (line 186) has the exponential integrand [C(c,x),F y]; Covariant_Yoneda_Lemma (Functor/Hom/Yoneda.v:182) gives Nat(C(A,-),F) ≅ FA. Variance matches the remark exactly (covariant T=F, hom C(c,-)). All files are registered in _CoqProject (lines 141, 410). PRESENT is honest: at K=identity the Kan end formula degenerates to precisely the plain end ∫_m Set(C(c,m),Tm) that yoneda_reduction computes, so the only omitted link — the label '(Ran_I T)c = this end' — is a vacuous wrapper (Ran_I T = T) and a genuine presentational-only difference. strength_comparison ('same') is accurate."
+    }
+  },
+  {
+    "id": "maclane:X.7:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "adjoint square bijection (Mac Lane IV.7.4)",
+      "mates correspondence",
+      "Kelly-Street mates",
+      "Nat(HG,G'K) ≅ Nat(F'H,KG)",
+      "doctrinal adjunction / conjugate natural transformations"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 515,
+        "symbol": "mate_iso",
+        "intree_statement": "Program Definition mate_iso : @Isomorphism Sets mate_dom mate_cod := {| to := {| morphism := mate |}; from := {| morphism := mate_inv |} |}.  where mate_dom = (f' ∘ a) ~> (b ∘ f) (line 508) and mate_cod = (a ∘ u) ~> (u' ∘ b) (line 510), for internal adjunctions f ⊣ u, f' ⊣ u'; round-trips mate_roundtrip_left/right (lines 489,498)."
+      },
+      {
+        "file": "Instance/Cat/Bicategory/Adjunction.v",
+        "line": 260,
+        "symbol": "Cat_mate_unfold",
+        "intree_statement": "Theorem Cat_mate_unfold (Z : y) : transform[mate Af Af' σ] Z ≈ fmap[U'] (fmap[b] (ε Z)) ∘ ⌊ σ (U Z) ⌋  -- the classical componentwise adjoint-square/mate formula in Cat (Kelly-Street)."
+      }
+    ],
+    "statement_record": {
+      "book": "Show that the X.7 adjunction bijection (1) Nat(S, HF) ≅ Nat(SG, H) (F ⊣ G), and likewise (5.2), is a special case of the adjoint-square bijection of Exercise IV.7.4, Nat(HG, G'K) ≅ Nat(F'H, KG).",
+      "intree": "mate_iso : the two 2-cell hom-setoids bicat(f'∘a, b∘f) and bicat(a∘u, u'∘b) are isomorphic in Sets, for any pair of internal adjunctions f⊣u, f'⊣u' and 1-cells a,b; specialized to the bicategory Cat (Cat_mate_unfold) this is exactly the natural adjoint-square bijection Nat(F'∘a, b∘F) ≅ Nat(a∘U, U'∘b), the mate given componentwise by the hom-transpose ⌊σ(U Z)⌋.",
+      "strength_comparison": "intree-stronger on the general theorem, but the exercise's specialization is absent. The adjoint-square/mates bijection IV.7.4 is present at full strength — a genuine bijection (both round-trips) over an ARBITRARY bicategory, then unfolded in Cat — hence more general than Mac Lane's Cat-only statement. But ex1's actual task is to recover X.7's bijection (1) Nat(S,HF)≅Nat(SG,H) as a special case; X.7's bijection (1) and Theorem X.7.2 (the Kan-extension adjoint criterion it belongs to) are NOT formalized in-tree, and no instantiation of mate_iso to that special case exists."
+    },
+    "gap": "The general adjoint-square bijection Nat(HG,G'K) ≅ Nat(F'H,KG) is present (mate_iso, Cat_mate_unfold), but the specific content ex1 asks for — exhibiting X.7's hom-bijection (1)/(5.2) as an instance of it — is not carried out: X.7's bijection (1) and the X.7.2 adjoint-from-Kan-extension machinery are not in-tree, so there is nothing to specialize the mate bijection down to. (Also, the mates development explicitly descopes pasting-functoriality/the double category of adjunctions — ledger 10 — but that is not needed for IV.7.4's bare bijection.)",
+    "negative_search_log": [
+      "grep -rniE 'adjoint.square|adjoint square|doctrinal|IV\\.7|Exercise IV' --include=*.v .  -> only Bicategory mates hits; no explicit IV.7.4 instantiation and no X.7 bijection (1)",
+      "grep -rniE 'conjugate|square of adjunction' --include=*.v .  -> only equivalence-transport 'conjugate' lemmas (Theory/Equivalence*), unrelated to the adjoint square"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL. Verified mate_iso (Theory/Bicategory/Mates.v:515) is an Isomorphism in Sets of the two 2-cell setoids mate_dom (line 508)/mate_cod (line 510) for internal adjunctions f⊣u, f'⊣u', with round-trips at lines 489/498 from the zig-zag identities — a genuine bijection over an arbitrary bicategory. Verified Cat_mate_unfold (Instance/Cat/Bicategory/Adjunction.v:260) gives the classical componentwise Kelly-Street mate formula in Cat. Both files registered in _CoqProject (lines 404, 171). PARTIAL is correct: the adjoint-square/mates bijection (the exercise's vehicle) is present at full strength, but the specific reduction ex1 asks for — X.7's bijection (1) Nat(S,HF)≅Nat(SG,H) as an instance — is absent because X.7's bijection (1) itself is not in-tree. Not ABSENT (the mates bijection genuinely exists) and not PRESENT (the specialization is the exercise's actual ask). Minor imprecision noted but not material: the intree line phrases Cat_mate_unfold as 'exactly the bijection', whereas Cat_mate_unfold is the componentwise mate FORMULA and mate_iso is the bijection — but mate_iso is correctly cited as primary evidence, so the classification is unaffected."
+    }
+  },
+  {
+    "id": "maclane:X.7:ex2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Yoneda Lemma from the Kan (end/limit) formula",
+      "end-form Yoneda / ninja Yoneda",
+      "independent proof of Yoneda via ends",
+      "pointwise Ran_K formula → Yoneda",
+      "∫_m Set(C(c,m),Tm) ≅ Nat(C(c,-),T)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 297,
+        "symbol": "yoneda_reduction",
+        "intree_statement": "Definition yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c := yoneda_iso.  -- the end ∫_x [C(c,x),Fx] (= Nat(C(c,-),F)) is isomorphic to F c, proved directly over the concrete Sets end (Instance/Sets/End), funext-free, without reusing Functor/Hom/Yoneda.v's representability proof."
+      }
+    ],
+    "statement_record": {
+      "book": "Obtain the Yoneda Lemma from the limit (end) formula for Ran_K T, giving an independent proof of Yoneda not used in the proof of section X.3.",
+      "intree": "yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c, where the end apex is exactly the natural-transformation setoid Nat(C(c,-),F); an independent, funext-free derivation of the Yoneda iso Nat(C(c,-),F) ≅ F c from the (identity-indexing) end formula, established over the direct Sets end of Instance/Sets/End.",
+      "strength_comparison": "intree-weaker in scaffolding. The exercise's deliverable — Yoneda obtained from an end/limit formula, independently of the X.3 argument — IS present as yoneda_reduction (genuinely an end-based, X.3-independent proof). But it realizes only the K = identity instance directly; the GENERAL pointwise Ran_K end/limit formula ((Ran_K T)c = ∫_m [C(c,Km),Tm], Thm X.3.1 / X.4.1) that ex2 asks to derive Yoneda FROM is not formalized (Theory/Kan/Extension.v lines 76-79 call the coend/end Kan formulas 'a bridge not yet formalized'; the only Kan↔limit bridge is Kan_Limit, limits-as-Ran along the terminal functor, i.e. the X.7:thm1 direction, not a general Ran_K (co)end formula)."
+    },
+    "gap": "The pointwise Kan-extension (co)end/limit formula for a general Ran_K is not in-tree (only Kan_Limit — lim F ≅ (Ran (Erase J) F) ttt — and the identity-case end-Yoneda exist). So ex2's specific vehicle, 'derive Yoneda FROM the Ran_K formula', is not realized: the end-form Yoneda iso is present (yoneda_reduction) but stands on the concrete Sets end, not as a corollary of a Ran_K formula.",
+    "negative_search_log": [
+      "grep -rniE 'end formula|pointwise Kan|Kan.*end|Kan.*coend' --include=*.v .  -> only prose in Theory/Kan/Extension.v ('a bridge not yet formalized') and Theory/DoubleCategory.v; no Ran_K end/limit formula constant",
+      "grep -nE 'Kan_Limit|right Kan|limit' Structure/Limit/Kan/Extension.v  -> Kan_Limit connects a LIMIT to Ran along Erase J (terminal functor), not a general pointwise Ran_K (co)end formula"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL. Verified yoneda_reduction (Theory/Coend/Yoneda.v:297) is an independent, end-based, funext-free proof of the Yoneda iso ∫_x [C(c,x),Fx] ≅ Fc built over the concrete Sets end (Instance/Sets/End), NOT reusing the representability proof of Functor/Hom/Yoneda.v — so it genuinely is 'Yoneda from an end formula, independent of X.3'. Verified the ex2 gap references: Kan_Limit (Structure/Limit/Kan/Extension.v:46) states Lim ≅ Ran (Erase J) F ttt — limits-as-Ran along the terminal functor only, exactly as claimed, NOT a general pointwise Ran_K (co)end formula; and the general Ran (co)end formula is explicitly 'a bridge not yet formalized' (Theory/Kan/Extension.v header lines 76-79). PARTIAL is correct. The PRESENT(remark2)/PARTIAL(ex2) split is coherent and defensible: remark2's K=identity end coincides syntactically with the in-tree plain end (so its vehicle exists), whereas ex2 invokes the GENERAL Ran_K formula, which is essential to the exercise and absent."
+    }
+  },
+  {
+    "id": "maclane:X.7:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "codensity monad of K",
+      "Ran_K K as a monad / right Kan extension of a functor along itself",
+      "monad of an adjunction ⟨GF, η, GεF⟩",
+      "codense iff unit is an isomorphism",
+      "codensity / codensity triple"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Comparison.v",
+        "line": 123,
+        "symbol": "Adjunction_Induced_Monad",
+        "intree_statement": "Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) := Build_Monad ... (fun x => unit x) (* ret = η *) (fun x => fmap[U] (counit (F x))) (* join = U ε F *) ...  -- i.e. ⟨U∘F, η, UεF⟩ = ⟨GF, η, GεF⟩, exactly the monad part (c) says the codensity monad equals."
+      }
+    ],
+    "statement_record": {
+      "book": "(a) If K : M → C has a right Kan extension R along itself, with φ : Nat(S,R) ≅ Nat(SK,K), then ⟨R, η, μ⟩ with η = φ⁻¹(id_K), μ = φ⁻¹(ε·Rε) is a monad on C — the codensity monad of K. (b) K is codense iff η is an isomorphism. (c) If G : A → X has a left adjoint F (unit η:1→GF, counit ε:FG→Id), its codensity monad exists and equals ⟨GF, η, GεF⟩, the monad of the adjunction.",
+      "intree": "Adjunction_Induced_Monad : @Monad D (U ◯ F) with ret x = η x (adjunction unit) and join x = fmap[U] (ε (F x)) (adjunction counit) — i.e. ⟨GF, η, GεF⟩. This is precisely part (c)'s asserted RHS, present verbatim; but it is built from the adjunction directly, NOT as a codensity monad / Kan extension.",
+      "strength_comparison": "intree-weaker: only part (c)'s target monad exists, and it is not identified as a codensity monad. The codensity monad itself is absent — (a) no monad structure is ever built on Ran_K K (the construction is described only in prose: Theory/Kan/Extension.v lines 82-85 explicitly name 'the codensity monad, Mac Lane's Exercise X.7.3' as motivation, unformalized); (b) there is NO dense/codense definition anywhere in the tree, so 'codense iff η iso' is unstatable; (c) the identification codensity(G) = ⟨GF,η,GεF⟩ cannot be made because the LHS does not exist. 'Ran_K K' is expressible via the generic LocalRightKan/RightKan classes (Theory/Kan/Extension.v) but carries no monad structure."
+    },
+    "gap": "The entire codensity-monad construction is missing: (a) the monad on Ran_K K (unit φ⁻¹(id), mult φ⁻¹(ε·Rε)) is not built; (b) there is no dense/codense notion in the tree, so the codensity criterion cannot be stated; (c) the codensity monad is never identified with the adjunction monad. Present only: (i) the generic adjunction-induced monad ⟨GF,η,GεF⟩ (Adjunction_Induced_Monad) which part (c) claims the codensity monad equals, and (ii) the generic LocalRightKan/RightKan classes making 'Ran_K K' expressible — neither connected to a codensity monad or to density.",
+    "negative_search_log": [
+      "grep -rniE 'codensity' --include=*.v .  -> only comments in Theory/Kan/Extension.v (lines 35,39,83,85,103,105,108) describing the codensity monad as 'Mac Lane's Exercise X.7.3' motivation; NO construction",
+      "grep -rniE 'Definition (Dense|Codense|dense|codense)|Class (Dense|Codense)|IsDense|is_dense' --include=*.v .  -> 0 hits (no density/codensity predicate in the tree)",
+      "grep -rniE 'Ran.*Monad|Monad.*Ran' --include=*.v .  -> 0 hits (no monad is ever built from a right Kan extension)",
+      "grep -rniE 'along itself' --include=*.v .  -> only pullback-along-itself (kernel pair) hits; the codensity 'Kan extension along itself' is prose-only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My independent blind pass classified this ABSENT (the codensity monad — the item's subject — has no in-tree counterpart; the only mention is the header essay of Theory/Kan/Extension.v lines 82-86 naming it as motivation). On scrutiny I CONFIRM the classifier's PARTIAL as defensible and better-informed, without overturning. Verified the sole evidence at Monad/Comparison.v:123: Adjunction_Induced_Monad : @Monad D (U ◯ F) with ret = unit (η) and join = fmap[U](counit (F x)) (= UεF), i.e. ⟨GF,η,GεF⟩ — part (c)'s asserted RHS present VERBATIM (evidence quote accurate). Independently confirmed the two decisive negatives: (i) there is NO dense/codense definition, class, or predicate anywhere in the .v tree — the ONLY 'dense'/'codense' token is the comment at Theory/Kan/Extension.v:85 — so ex3(b) is genuinely unstatable (and, incidentally, the entire X.6 density spine is unformalized); (ii) no monad is ever built from a right Kan extension, so ex3(a) and the codensity identification of (c) are absent. PARTIAL hinges entirely on part (c)'s RHS being present — a generic Kleisli/Eilenberg-Moore adjunction monad that exists for reasons wholly independent of codensity — while the codensity monad qua Ran_K K, the density criterion, and the identification are all absent. This is a borderline ABSENT/PARTIAL call; I confirm PARTIAL because the classifier does not overclaim (strength_comparison and gap explicitly disclaim all three characteristic pieces and say 'the codensity monad itself is absent'), and 'some of the item exists' is literally satisfied by the verbatim-matching part-(c) target monad. Overturning to ABSENT would discard that accurate observation without being more correct."
+    }
+  }
+]

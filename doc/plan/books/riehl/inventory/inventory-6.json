@@ -1,0 +1,1954 @@
+{
+  "book": "riehl",
+  "range": {
+    "pdf_start": 239,
+    "pdf_end": 270
+  },
+  "chapter": {
+    "number": "6",
+    "title": "All Concepts are Kan Extensions",
+    "printed": "219-250",
+    "pdf": "239-270"
+  },
+  "sections": [
+    {
+      "n": 1,
+      "name": "Kan extensions",
+      "printed_start": "220",
+      "pdf_start": 240
+    },
+    {
+      "n": 2,
+      "name": "A formula for Kan extensions",
+      "printed_start": "224",
+      "pdf_start": 244
+    },
+    {
+      "n": 3,
+      "name": "Pointwise Kan extensions",
+      "printed_start": "232",
+      "pdf_start": 252
+    },
+    {
+      "n": 4,
+      "name": "Derived functors as Kan extensions",
+      "printed_start": "236",
+      "pdf_start": 256
+    },
+    {
+      "n": 5,
+      "name": "All concepts",
+      "printed_start": "242",
+      "pdf_start": 262
+    }
+  ],
+  "pages": [
+    {
+      "pdf_page": 239,
+      "book_page": "219",
+      "empty": false,
+      "items": [],
+      "notes": "Chapter 6 opener: title 'All Concepts are Kan Extensions', flush-right Mac Lane epigraph [ML98a], then unnumbered roadmap prose (the extension problem for 2^- : N -> R_{>0} extended successively to Z, Q, R; the general problem of extending F : C -> E along K : C -> D; a section-by-section preview of 6.1-6.5). NO numbered environments and NO numbered display tags on this page. Folio is centred at the foot (chapter opener) per the pagemap."
+    },
+    {
+      "pdf_page": 240,
+      "book_page": "220",
+      "empty": false,
+      "items": [
+        "riehl:6.1:def1",
+        "riehl:6.1:remark2",
+        "riehl:6.1:example3"
+      ],
+      "notes": "Tail of the chapter roadmap, then the section heading '6.1. Kan extensions' and a paragraph noting the definition makes sense in any 2-category (cf. Remark 4.3.8). Three unnumbered pasting-diagram triples (two for Definition 6.1.1, left and right) carry NO display tags. Footnote 1 explains the pasting-diagram notation gamma = alphaK . eta. Section 6.1's counter starts at 1 with no displays consumed anywhere in the section."
+    },
+    {
+      "pdf_page": 241,
+      "book_page": "221",
+      "empty": false,
+      "items": [
+        "riehl:6.1:example4",
+        "riehl:6.1:example5",
+        "riehl:6.1:example3"
+      ],
+      "notes": "Opens with the continuation of Example 6.1.3 (the coequalizer square with the unique dashed arrow C -> C'; then the dual fork to a terminal object * giving the right Kan extension). All diagrams here are UNNUMBERED. Example 6.1.5 begins at the foot and continues on PDF 242."
+    },
+    {
+      "pdf_page": 242,
+      "book_page": "222",
+      "empty": false,
+      "items": [
+        "riehl:6.1:def-unit-counit",
+        "riehl:6.1:example5"
+      ],
+      "notes": "First half is the continuation of Example 6.1.5 (coproduct case Lan = coprod_G c with unit iota_e; product case Ran = prod_G c with counit pi_e), followed by an unnumbered paragraph observing that the constant functor Delta c : BG -> C is a strict extension that is NEITHER the left nor the right Kan extension unless G is trivial -- folded into the summary of Example 6.1.5. The remaining displays (the two hom-set bijections, and E^C(F, - . K) : E^D -> SET) are UNNUMBERED. Footnote 2 on the induced map between indexed products. No arabic item numbers are consumed on this page."
+    },
+    {
+      "pdf_page": 243,
+      "book_page": "223",
+      "empty": false,
+      "items": [
+        "riehl:6.1:prop6",
+        "riehl:6.1:example7",
+        "riehl:6.1:example8",
+        "riehl:6.1:def-unit-counit"
+      ],
+      "notes": "Conclusion of the unnumbered 'Kan extension as a representation' discussion (the natural isomorphism E^D(Lan_K F, -) => E^C(F, - . K)), then Proposition 6.1.6 with proof, then a paragraph deriving the converse from uniqueness of adjoints (Proposition 4.3.1). All displays unnumbered. Example 6.1.8 begins at the foot and continues on PDF 244."
+    },
+    {
+      "pdf_page": 244,
+      "book_page": "224",
+      "empty": false,
+      "items": [
+        "riehl:6.1:exi",
+        "riehl:6.1:exii",
+        "riehl:6.1:exiii",
+        "riehl:6.1:exiv",
+        "riehl:6.1:exv",
+        "riehl:6.1:example8"
+      ],
+      "notes": "Continuation of Example 6.1.8 (the pi_0 -| res -| triv adjoint triple on augmented simplicial sets), then the bold unnumbered 'Exercises.' heading with 6.1.i-6.1.v (FIVE exercises -- agrees with the pagemap's per-section count 6.1:5). Then the heading '6.2. A formula for Kan extensions' with two paragraphs of unnumbered intro prose. Section 6.1 ends at item 8 with NO trailing numbered display. The item riehl:6.2:construction-comma-slice-projection is listed here only because the section it belongs to opens here; its actual text is on PDF 245 and it is recorded there in pdf_pages. [MERGE] The range-A record also listed riehl:6.2:construction-comma-slice-projection here although its pdf_pages is [245]; removed under the ALL-PAGES normalization and now listed on 245 only."
+    },
+    {
+      "pdf_page": 245,
+      "book_page": "225",
+      "empty": false,
+      "items": [
+        "riehl:6.2:thm1",
+        "riehl:6.2:construction-comma-slice-projection"
+      ],
+      "notes": "Unnumbered motivating pasting-diagram triple, then the prose construction of the comma category K|d and its projection Pi^d : K|d -> C (recorded as riehl:6.2:construction-comma-slice-projection, whose text lives on THIS page). Then Theorem 6.2.1 with the NUMBERED DISPLAYS (6.2.2) and (6.2.3) INSIDE its statement: 6.2.2 and 6.2.3 are consumed by displays, not by environments. They are back-referenced later (printed 230, 236) but carry no claim distinct from Theorem 6.2.1 itself, so per policy they are NOT recorded as separate 'equation' items -- noted here so the section-1..15 continuity check stays satisfiable. Proof of Theorem 6.2.1 begins at the foot."
+    },
+    {
+      "pdf_page": 246,
+      "book_page": "226",
+      "empty": false,
+      "items": [
+        "riehl:6.2:thm1"
+      ],
+      "notes": "Entirely the proof of Theorem 6.2.1 (functoriality of Lan_K F, naturality of eta, construction of the factorization alpha). Consumes TWO further item numbers as NUMBERED DISPLAYS: (6.2.4) the pasting equality defining the factorization alpha, and (6.2.5) the commutative square gamma_c / alpha_d / lambda / Gf. Both are proof-internal steps with no claim distinct from Theorem 6.2.1, so no 'equation' items are recorded; 6.2.4 and 6.2.5 are NOT missing environments. No item begins on this page."
+    },
+    {
+      "pdf_page": 247,
+      "book_page": "227",
+      "empty": false,
+      "items": [
+        "riehl:6.2:def6",
+        "riehl:6.2:thm1"
+      ],
+      "notes": "End of the proof of Theorem 6.2.1 (three further unnumbered diagrams, back-referencing (6.2.4) and (6.2.5)), then a bridging paragraph, then Definition 6.2.6 clause (i) (pointwise LEFT Kan extension). Clause (ii) runs over onto PDF 248, so the item is recorded once here with pdf_pages [247, 248]."
+    },
+    {
+      "pdf_page": 248,
+      "book_page": "228",
+      "empty": false,
+      "items": [
+        "riehl:6.2:cor7",
+        "riehl:6.2:example8",
+        "riehl:6.2:example9",
+        "riehl:6.2:def6"
+      ],
+      "notes": "Definition 6.2.6 clause (ii) (pointwise RIGHT Kan extension) completes at the head, then a paragraph explaining the terminology, then Corollary 6.2.7 (i)/(ii) with proof, Example 6.2.8, and Example 6.2.9. Example 6.2.9 consumes the NUMBERED DISPLAYS (6.2.10) (the ind -| res -| coind adjoint triple on C^{BG} / C^{BH}) and (6.2.11) (the diagram BH | *_G -> BH -> C whose colimit is ind^G_H X). Both are displays inside Example 6.2.9, back-referenced but carrying no claim distinct from it, so no 'equation' items are recorded -- 6.2.10 and 6.2.11 are NOT missing environments."
+    },
+    {
+      "pdf_page": 249,
+      "book_page": "229",
+      "empty": false,
+      "items": [
+        "riehl:6.2:example9"
+      ],
+      "notes": "Entirely the continuation of Example 6.2.9: the coequalizer presentation of ind^G_H X, the isomorphism ind^G_H X ~= coprod_{G/H} X via chosen left coset representatives, the induced G-action as the unique quotient of left multiplication, and dually the equalizer presentation of coind^G_H X with coind^G_H X ~= prod_{H\\G} X. NO numbered environments and NO display tags on this page; no item begins here."
+    },
+    {
+      "pdf_page": 250,
+      "book_page": "230",
+      "empty": false,
+      "items": [
+        "riehl:6.2:example12",
+        "riehl:6.2:example13",
+        "riehl:6.2:example9"
+      ],
+      "notes": "Final paragraph of Example 6.2.9 (in Vect_k finite products and coproducts agree, so for a FINITE-INDEX subgroup induction and coinduction coincide and (6.2.10)'s two adjoints are the same), then Example 6.2.12 and Example 6.2.13. Footnote 3 remarks that Field^E_F has very few limits but does have the limits of Theorem 6.2.1, pointing to Theorem 6.3.7 -- a footnote, not an item. No display tags on this page."
+    },
+    {
+      "pdf_page": 251,
+      "book_page": "231",
+      "empty": false,
+      "items": [
+        "riehl:6.2:cor14",
+        "riehl:6.2:example15"
+      ],
+      "notes": "Corollary 6.2.14 with proof, then a one-line bridge, then Example 6.2.15 (new in the 2nd edition per the pagemap) which closes section 6.2's arabic counter at 15. No display tags. Section 6.2's counter therefore runs contiguously 1..15 with 1,6,7,8,9,12,13,14,15 as environments and 2,3,4,5,10,11 as numbered displays -- verified, no gaps."
+    },
+    {
+      "pdf_page": 252,
+      "book_page": "232",
+      "empty": false,
+      "items": [
+        "riehl:6.2:exi",
+        "riehl:6.2:exii",
+        "riehl:6.2:exiii",
+        "riehl:6.3:def1",
+        "riehl:6.3:lem2"
+      ],
+      "notes": "Bold unnumbered 'Exercises.' heading with 6.2.i-6.2.iii (THREE -- agrees with the pagemap count 6.2:3), then the heading '6.3. Pointwise Kan extensions', a block quotation from Kelly [Kel82, section 4] (an epigraph-style quotation, not an item), Definition 6.3.1, a bridging paragraph, and Lemma 6.3.2 whose 'Proof 1' begins at the foot and runs onto PDF 253. No display tags."
+    },
+    {
+      "pdf_page": 253,
+      "book_page": "233",
+      "empty": false,
+      "items": [
+        "riehl:6.3:lem2"
+      ],
+      "notes": "Entirely proofs of Lemma 6.3.2: the end of Proof 1 (Yoneda-style chase of the identity through the composite isomorphism) and the whole of Proof 2 (a pasting-diagram argument using the unit iota : id_E => RL, the counit nu : LR => id_F and both triangle identities). Many unnumbered pasting diagrams; NO display tags and no item begins here."
+    },
+    {
+      "pdf_page": 254,
+      "book_page": "234",
+      "empty": false,
+      "items": [
+        "riehl:6.3:example3",
+        "riehl:6.3:example4",
+        "riehl:6.3:def5",
+        "riehl:6.3:def6",
+        "riehl:6.3:thm7"
+      ],
+      "notes": "Example 6.3.3, Example 6.3.4, a bridging paragraph, Definition 6.3.5, a paragraph explaining that left/right Kan extensions are dual under reversing 2-cells (not 1-cells), Definition 6.3.6, a paragraph noting that the Theorem 6.2.1 formulae always give pointwise extensions and that the converse is the surprise, then Theorem 6.3.7 whose statement runs onto PDF 255. Footnote 4 records that (-)^op is a 2-functor CAT^co -> CAT -- a footnote, not an item. No display tags."
+    },
+    {
+      "pdf_page": 255,
+      "book_page": "235",
+      "empty": false,
+      "items": [
+        "riehl:6.3:lem8",
+        "riehl:6.3:thm7"
+      ],
+      "notes": "Second half of the Theorem 6.3.7 statement (the dual, left/colimit half) and its proof, which forward-references Lemma 6.3.8; then Lemma 6.3.8 with an interposed unnumbered smallness Note and its proof. Footnote 5 discusses the local-smallness hypothesis on D and Theorem 2.2.4 -- a footnote, not an item. No display tags."
+    },
+    {
+      "pdf_page": 256,
+      "book_page": "236",
+      "empty": false,
+      "items": [
+        "riehl:6.3:construction-cone-category",
+        "riehl:6.3:prop9",
+        "riehl:6.3:exi",
+        "riehl:6.3:exii"
+      ],
+      "notes": "The bold unnumbered construction of the cone J^{|>} as a pushout (recorded), Proposition 6.3.9 with proof, a bridging paragraph pointing to section 6.4, then the bold 'Exercises.' heading with 6.3.i and 6.3.ii (TWO -- agrees with the pagemap count 6.3:2). Section 6.3's counter runs contiguously 1..9, ALL of them environments, with NO numbered displays and NO trailing display. Then the heading '6.4. Derived functors as Kan extensions' and its opening paragraph; the paragraph runs over the page break and the first numbered item of section 6.4 (Definition 6.4.1) begins on PDF 257, OUTSIDE this range, so nothing of section 6.4 is recorded here."
+    },
+    {
+      "pdf_page": 257,
+      "book_page": "237",
+      "empty": false,
+      "items": [
+        "riehl:6.4:def1",
+        "riehl:6.4:lem2",
+        "riehl:6.4:def3",
+        "riehl:6.4:example4",
+        "riehl:6.4:def5"
+      ],
+      "notes": "Section 6.4 opens on printed 236 (PDF 256, not owned); its first numbered environment is Definition 6.4.1 here. Numbering runs 6.4.1-6.4.5 on this page with no gaps and no numbered displays. The 2-of-6 diagram inside Definition 6.4.1 is UNnumbered."
+    },
+    {
+      "pdf_page": 258,
+      "book_page": "238",
+      "empty": false,
+      "items": [
+        "riehl:6.4:construction-gabriel-zisman-hoc",
+        "riehl:6.4:remark6",
+        "riehl:6.4:example7",
+        "riehl:6.4:example8",
+        "riehl:6.4:def9",
+        "riehl:6.4:def5"
+      ],
+      "notes": "Definition 6.4.5 continues from PDF 257 onto the first line here. The Gabriel-Zisman zig-zag construction of HoC and the identity-on-objects localization functor gamma are developed in unnumbered running prose (recorded as a construction). Footnote 6 is a set-theoretic caveat (HoC may fail to be locally small), pure prose, not recorded. No numbered displays; 6.4.6-6.4.9 continuous."
+    },
+    {
+      "pdf_page": 259,
+      "book_page": "239",
+      "empty": false,
+      "items": [
+        "riehl:6.4:def10",
+        "riehl:6.4:def11",
+        "riehl:6.4:def9"
+      ],
+      "notes": "Definition 6.4.9 continues from PDF 258 (its second bullet, the total right derived functor RF, is at the top of this page). The bold in-prose terms 'left/right derived functors' and 'point-set derived functors' are the lead-in to Definition 6.4.10 and are folded into it. Definition 6.4.11 begins here and runs onto PDF 260. No numbered displays."
+    },
+    {
+      "pdf_page": 260,
+      "book_page": "240",
+      "empty": false,
+      "items": [
+        "riehl:6.4:prop12",
+        "riehl:6.4:def11"
+      ],
+      "notes": "Top line completes Definition 6.4.11 (the dual right deformation r : id_C => R). Below Proposition 6.4.12's proof is a paragraph of unproved commentary (composites of total left derived functors need not be total left derived functors; the bare universal property does not yield derived adjunctions) plus footnote 7 on homotopy (co)limits \u2014 motivational prose, deliberately not recorded as items. No numbered displays."
+    },
+    {
+      "pdf_page": 261,
+      "book_page": "241",
+      "empty": false,
+      "items": [
+        "riehl:6.4:def-absolute-kan-extension",
+        "riehl:6.4:def-deformable",
+        "riehl:6.4:prop13",
+        "riehl:6.4:prop14",
+        "riehl:6.4:remark15"
+      ],
+      "notes": "Two bold-faced in-prose definitions open the page ('absolute Kan extensions', 'deformable'); see the flags on those items \u2014 'absolute' may restate a term introduced earlier in the chapter, outside this range. Footnote 8 (the derived adjunction is NOT a strict adjunction morphism in the sense of Exercise 4.2.v) is part of Remark 6.4.15. No numbered displays; 6.4.13-6.4.15 continuous, and 6.4.15 is the LAST numbered item of section 6.4 (no trailing numbered display before the Exercises)."
+    },
+    {
+      "pdf_page": 262,
+      "book_page": "242",
+      "empty": false,
+      "items": [
+        "riehl:6.4:exi",
+        "riehl:6.4:exii",
+        "riehl:6.4:exiii",
+        "riehl:6.4:exiv",
+        "riehl:6.5:prop1",
+        "riehl:6.5:prop2"
+      ],
+      "notes": "Section 6.4's four exercises (lowercase-roman counter i-iv, complete) then the section 6.5 heading. Proposition 6.5.2 begins here (part (i) only) and continues on PDF 263. No numbered displays on this page."
+    },
+    {
+      "pdf_page": 263,
+      "book_page": "243",
+      "empty": false,
+      "items": [
+        "riehl:6.5:eq3",
+        "riehl:6.5:prop2"
+      ],
+      "notes": "Proposition 6.5.2 part (ii) and the whole proof of 6.5.2 occupy this page (recorded under 6.5.2 on PDF 262). The section counter value 3 is CONSUMED BY THE NUMBERED DISPLAY (6.5.3) at the foot of the page \u2014 there is no environment numbered 6.5.3, and none should be invented. (6.5.3) is recorded as an `equation` item because it states the limit formula Fc = lim(c/C -> C -> D) as a claim distinct from any enclosing environment and is back-referenced twice (printed 244, twice)."
+    },
+    {
+      "pdf_page": 264,
+      "book_page": "244",
+      "empty": false,
+      "items": [
+        "riehl:6.5:prop4",
+        "riehl:6.5:eq5",
+        "riehl:6.5:prop6",
+        "riehl:6.5:thm7"
+      ],
+      "notes": "The section counter value 5 is CONSUMED BY THE NUMBERED DISPLAY (6.5.5) \u2014 no environment numbered 6.5.5 exists. It is recorded as an `equation` item (the dual colimit formula Fc = colim(C/c -> C -> D)), back-referenced in the proof of Proposition 6.5.6 and in footnote 9 on printed 245. Theorem 6.5.7 begins here and its proof runs onto PDF 265."
+    },
+    {
+      "pdf_page": 265,
+      "book_page": "245",
+      "empty": false,
+      "items": [
+        "riehl:6.5:def-dense-subcategory",
+        "riehl:6.5:thm8",
+        "riehl:6.5:prop9",
+        "riehl:6.5:thm7"
+      ],
+      "notes": "Opens with the proof of Theorem 6.5.7 (recorded on PDF 264). 'dense subcategory'/'dense' are bold-faced and defined informally in running prose here, with the precise meaning declared to be the statement of Theorem 6.5.8; recorded as an unnumbered in-prose definition. Proposition 6.5.9 begins here; its proof runs onto PDF 266. Footnote 9 handles the non-small case. No numbered displays."
+    },
+    {
+      "pdf_page": 266,
+      "book_page": "246",
+      "empty": false,
+      "items": [
+        "riehl:6.5:prop9"
+      ],
+      "notes": "Entirely the proof of Proposition 6.5.9 (recorded on PDF 265) plus a one-paragraph lead-in to codensity monads ('a right adjoint G : D -> C induces a monad ... more generally, assuming C has sufficient limits, any functor G : D -> C induces a monad on C'), which is the motivation for Definition 6.5.10 on PDF 267 and is folded into it. Also a forward pointer that Exercises 6.5.iv-6.5.vii give examples of adjunctions built by Proposition 6.5.9. Page has content but no item STARTS on it; no numbered displays."
+    },
+    {
+      "pdf_page": 267,
+      "book_page": "247",
+      "empty": false,
+      "items": [
+        "riehl:6.5:def10",
+        "riehl:6.5:def-codense",
+        "riehl:6.5:example11",
+        "riehl:6.5:example12",
+        "riehl:6.5:example13"
+      ],
+      "notes": "Definition 6.5.10 (codensity monad) with its unit/multiplication pasting diagrams, all UNnumbered. Footnote 10 gives an in-prose definition of 'codense' (recorded separately); footnote 11 clarifies that 'sufficient limits' means those needed for Ran_G G to be a POINTWISE right Kan extension. Example 6.5.13 begins here and finishes on PDF 268. 6.5.10-6.5.13 continuous; Example 6.5.13 is the LAST numbered item of section 6.5 (no trailing numbered display before the Exercises)."
+    },
+    {
+      "pdf_page": 268,
+      "book_page": "248",
+      "empty": false,
+      "items": [
+        "riehl:6.5:exi",
+        "riehl:6.5:exii",
+        "riehl:6.5:exiii",
+        "riehl:6.5:exiv",
+        "riehl:6.5:exv",
+        "riehl:6.5:exvi",
+        "riehl:6.5:exvii",
+        "riehl:6.5:exviii",
+        "riehl:6.5:example13"
+      ],
+      "notes": "First paragraph completes Example 6.5.13 (recorded on PDF 267). Then the section 6.5 Exercises heading and 6.5.i-6.5.viii. The displayed adjunctions and the simplex formula inside these exercises are all UNnumbered."
+    },
+    {
+      "pdf_page": 269,
+      "book_page": "249",
+      "empty": false,
+      "items": [
+        "riehl:6.5:exix"
+      ],
+      "notes": "Single item: Exercise 6.5.ix, the last exercise of section 6.5 and the last content of Chapter 6. Roman exercise counter i-ix is complete with no gaps."
+    },
+    {
+      "pdf_page": 270,
+      "book_page": "250",
+      "empty": true,
+      "items": [],
+      "notes": "Blank verso page terminating Chapter 6 (one of the seven counted blanks noted in the A0 calibration)."
+    }
+  ],
+  "items": [
+    {
+      "id": "riehl:6.1:def1",
+      "kind": "definition",
+      "number": "6.1.1",
+      "name": "left Kan extension; right Kan extension",
+      "statement_summary": "Given functors F : C -> E and K : C -> D, a LEFT Kan extension of F along K is a functor Lan_K F : D -> E together with a natural transformation eta : F => (Lan_K F) . K such that every pair (G : D -> E, gamma : F => G K) factors uniquely through eta, i.e. there is a unique alpha : Lan_K F => G with gamma = (alpha K) . eta. DUALLY, a RIGHT Kan extension of F along K is a functor Ran_K F : D -> E with a natural transformation epsilon : (Ran_K F) . K => F such that every pair (G : D -> E, delta : G K => F) factors uniquely through epsilon. K need NOT be a subcategory inclusion; the data is a functor plus a 2-cell satisfying an initial/terminal universal property among all such pairs. A footnote spells the factorization out as a pasting equality of 2-cells.",
+      "book_section": "6.1",
+      "book_page": "220",
+      "pdf_pages": [
+        240
+      ],
+      "cross_refs": [
+        "riehl:4.3:remark8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.1:remark2",
+      "kind": "remark",
+      "number": "6.1.2",
+      "name": "Kan extensions along fully faithful functors need not be, and need not come from, strict extensions",
+      "statement_summary": "Two contrasting facts. (a) When K : C -> D is fully faithful AND the Kan extensions are POINTWISE -- i.e. the relevant (co)limits exist in E -- the left and right Kan extensions do genuinely extend F along K, at least up to natural isomorphism (the unit/counit is invertible); this is proved as Corollary 6.2.14. (b) Conversely, a genuine on-the-nose (strict) extension of F along K need not define a Kan extension at all, as Example 6.1.3 and Exercise 6.1.iv show.",
+      "book_section": "6.1",
+      "book_page": "220",
+      "pdf_pages": [
+        240
+      ],
+      "cross_refs": [
+        "riehl:6.2:cor14",
+        "riehl:6.1:example3",
+        "riehl:6.1:exiv"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.1:example3",
+      "kind": "example",
+      "number": "6.1.3",
+      "name": "Kan extension along the inclusion of a parallel pair into the free fork (coequalizers and terminal objects)",
+      "statement_summary": "Let C be the parallel-pair category (two objects, two parallel arrows) and D the free category on a fork (a parallel pair together with a cone under it); let K : C -> D be the fully faithful inclusion. A functor F : C -> E is a parallel pair f, g : A => B in E. CLAIM: the left Kan extension of F along K is the INITIAL fork whose underlying parallel pair receives a natural transformation from (f,g); concretely, when f,g has a coequalizer in E, the coequalizer fork is the left Kan extension, Lan_K F is a STRICT extension of F so the unit eta may be taken to be the identity, and the universal property is exactly the universal property of the coequalizer (a natural transformation from F to a C-indexed diagram G K extends uniquely to a D-indexed natural transformation, the new component being the mediating map out of the coequalizer). DUALLY, when E has a terminal object *, the right Kan extension of F along K is the unique fork to *, its universal property being terminality of *. New in the 2nd edition per the campaign pagemap.",
+      "book_section": "6.1",
+      "book_page": "220-221",
+      "pdf_pages": [
+        240,
+        241
+      ],
+      "cross_refs": [
+        "riehl:6.1:remark2",
+        "riehl:6.2:exi"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.1:example4",
+      "kind": "example",
+      "number": "6.1.4",
+      "name": "the representable functor as a left Kan extension of the singleton along a point of C (Yoneda)",
+      "statement_summary": "For an object c in C and any F : C -> Set, elements x of Fc correspond bijectively to natural transformations from the functor * : 1 -> Set (picking out the singleton set) to F along c : 1 -> C, i.e. to 2-cells filling the triangle (1, *, Set) / (c, C, F). CLAIM: by the Yoneda lemma the representable functor C(c,-) together with the element id_c in C(c,c) IS the left Kan extension of * : 1 -> Set along c : 1 -> C; the unique factorization associated with an element x is the natural transformation Psi(x) : C(c,-) => F built in the proof of the Yoneda lemma (Theorem 2.2.4), and the pasting identity is exactly Psi(x)_c(id_c) = x. Replacing C by C^op, the same argument shows the CONTRAVARIANT representable C(-,c) : C^op -> Set is the left Kan extension of * : 1 -> Set along c : 1 -> C^op.",
+      "book_section": "6.1",
+      "book_page": "221",
+      "pdf_pages": [
+        241
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.1:example5",
+      "kind": "example",
+      "number": "6.1.5",
+      "name": "Kan extension along ! : 1 -> BG as the G-indexed coproduct / product; strict extensions are not Kan extensions",
+      "statement_summary": "For a group G let ! : 1 -> BG be the unique functor onto the one-object category BG. For a category C, an object c of C and a G-object X in C, 2-cells filling the triangle (1, c, C) / (!, BG, X), in either direction, correspond to morphisms in C between c and the underlying object of X with the G-action forgotten. CLAIMS: (a) if C has coproducts, morphisms c -> X correspond to G-equivariant maps coprod_G c -> X (restrict along the component indexed by the identity element e), so Lan_! c = coprod_G c with unit iota_e; (b) dually, if C has products, X -> c corresponds to G-equivariant X -> prod_G c (project to the component indexed by e), so Ran_! c = prod_G c with counit pi_e. A footnote records that a function f : A -> B of indexing sets induces prod_B c -> prod_A c componentwise. (c) COROLLARY OF THE EXAMPLE, stated in the following unnumbered paragraph: the constant functor Delta c : BG -> C (giving c the trivial G-action) IS a strict extension of c along !, but since Kan extensions are unique it is NEITHER the left nor the right Kan extension unless G is trivial -- so strict extensions need not be Kan extensions.",
+      "book_section": "6.1",
+      "book_page": "221-222",
+      "pdf_pages": [
+        241,
+        242
+      ],
+      "cross_refs": [],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.1:def-unit-counit",
+      "kind": "definition",
+      "number": null,
+      "name": "unit and counit of a Kan extension; Kan extension as a representation",
+      "statement_summary": "Unnumbered but boldfaced and load-bearing. NAMES the natural transformation eta : F => (Lan_K F) . K the UNIT and epsilon : (Ran_K F) . K => F the COUNIT of the respective Kan extensions, and restates Definition 6.1.1 as the assertion that for every G : D -> E the composition maps E^D(Lan_K F, G) -> E^C(F, G K), alpha |-> (alpha K) . eta, and E^D(G, Ran_K F) -> E^C(G K, F), beta |-> epsilon . (beta K), are BIJECTIONS (possibly of proper classes, since E^C and E^D may fail to be locally small). Then, passing to a larger universe, it exhibits a left Kan extension of F along K as a REPRESENTATION of the functor E^C(F, - . K) : E^D -> SET sending G to the natural transformations from F to its restriction along K: by Yoneda, a pair (G, gamma) as in Definition 6.1.1 induces E^D(G,-) -> E^C(F, - . K), and the universal property of (Lan_K F, eta) is equivalent to the induced map E^D(Lan_K F, -) => E^C(F, - . K) being a natural isomorphism.",
+      "book_section": "6.1",
+      "book_page": "222-223",
+      "pdf_pages": [
+        242,
+        243
+      ],
+      "cross_refs": [
+        "riehl:6.1:def1",
+        "riehl:2.2:thm4"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.1:prop6",
+      "kind": "proposition",
+      "number": "6.1.6",
+      "name": "Kan extensions as adjoints to restriction along K",
+      "statement_summary": "Fix K : C -> D and a category E. IF the left and right Kan extensions along K of EVERY functor F : C -> E exist, THEN these assignments define, respectively, a LEFT and a RIGHT adjoint to the precomposition (restriction) functor K^* : E^D -> E^C, i.e. Lan_K -| K^* -| Ran_K, witnessed by the natural isomorphisms E^D(Lan_K F, G) ~= E^C(F, G K) and E^C(G K, F) ~= E^D(G, Ran_K F). The proof applies the parametrized-adjunction result (Proposition 4.4.4) to the isomorphisms of Definition 6.1.1; the unit eta of the Kan extension is the component of the unit of Lan_K -| K^* at F, the counit epsilon is a component of the counit of K^* -| Ran_K, and initiality of eta in the comma category F | K^* is Lemma 4.7.1. The immediately following paragraph records the CONVERSE: by uniqueness of adjoints (Proposition 4.3.1), objects in the image of any left or right adjoint to a precomposition functor ARE Kan extensions.",
+      "book_section": "6.1",
+      "book_page": "223",
+      "pdf_pages": [
+        243
+      ],
+      "cross_refs": [
+        "riehl:6.1:def1",
+        "riehl:4.4:prop4",
+        "riehl:4.7:lem1",
+        "riehl:4.3:prop1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.1:example7",
+      "kind": "example",
+      "number": "6.1.7",
+      "name": "induction and coinduction of group representations as Kan extensions",
+      "statement_summary": "Objects of Vect_k^{BG} are G-representations over a field k and morphisms are G-equivariant linear maps. For a subgroup H <= G, restriction res^G_H : Vect_k^{BG} -> Vect_k^{BH} is precomposition along the inclusion BH -> BG. CLAIM: it has a left adjoint ind^G_H (INDUCTION) and a right adjoint coind^G_H (COINDUCTION), and by Proposition 6.1.6 induction is left Kan extension along BH -> BG while coinduction is right Kan extension along it. The same remarks apply to G-sets, G-spaces, based G-spaces and G-objects in any category, with the caveat that in a category with few limits/colimits these adjoints need not exist. Explicit formulae are deferred to Example 6.2.9.",
+      "book_section": "6.1",
+      "book_page": "223",
+      "pdf_pages": [
+        243
+      ],
+      "cross_refs": [
+        "riehl:6.1:prop6",
+        "riehl:6.2:example9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.1:example8",
+      "kind": "example",
+      "number": "6.1.8",
+      "name": "augmentation and trivial augmentation of simplicial sets as Kan extensions along Delta -> Delta_+",
+      "statement_summary": "Delta (finite NON-EMPTY ordinals and order-preserving maps) is the full subcategory of Delta_+ (all finite ordinals, including the initial one) omitting only the initial object. Presheaves on Delta are SIMPLICIAL SETS, presheaves on Delta_+ are AUGMENTED SIMPLICIAL SETS. CLAIM: restriction along the inclusion has both adjoints, pi_0 -| res -| triv; the left Kan extension pi_0 augments a simplicial set X by its set of path components pi_0 X, and the right Kan extension triv assigns the trivial augmentation built from the one-point set. Verification is left to readers familiar with simplicial combinatorics.",
+      "book_section": "6.1",
+      "book_page": "223-224",
+      "pdf_pages": [
+        243,
+        244
+      ],
+      "cross_refs": [
+        "riehl:6.1:prop6"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.1:exi",
+      "kind": "exercise",
+      "number": "6.1.i",
+      "name": "Kan extensions along the identity functor",
+      "statement_summary": "Compute the left and right Kan extensions of a functor F : C -> E along the identity functor id_C.",
+      "book_section": "6.1",
+      "book_page": "224",
+      "pdf_pages": [
+        244
+      ],
+      "cross_refs": [
+        "riehl:6.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.1:exii",
+      "kind": "exercise",
+      "number": "6.1.ii",
+      "name": "essential uniqueness of left Kan extensions",
+      "statement_summary": "Prove that any two left Kan extensions (L, eta) and (L', eta') of a functor F : C -> E along K : C -> D are uniquely isomorphic, via a natural isomorphism L ~= L' that commutes with the unit natural transformations.",
+      "book_section": "6.1",
+      "book_page": "224",
+      "pdf_pages": [
+        244
+      ],
+      "cross_refs": [
+        "riehl:6.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.1:exiii",
+      "kind": "exercise",
+      "number": "6.1.iii",
+      "name": "composition/pasting law for left Kan extensions",
+      "statement_summary": "Given functors F : A -> D, J : A -> B, K : B -> C, G : B -> D, H : C -> D and 2-cells zeta : F => G J and eta : G => H K, and supposing (G, zeta) is the left Kan extension of F along J, prove that (H, eta) is the left Kan extension of G along K IF AND ONLY IF (H, (eta J) . zeta) is the left Kan extension of F along the composite K J.",
+      "book_section": "6.1",
+      "book_page": "224",
+      "pdf_pages": [
+        244
+      ],
+      "cross_refs": [
+        "riehl:6.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.1:exiv",
+      "kind": "exercise",
+      "number": "6.1.iv",
+      "name": "Kan extensions along d^1 : 2 -> 3 extend the diagram but differ",
+      "statement_summary": "Let d^1 : 2 -> 3 be the functor picking out the diagonal composite arrow of the commutative triangle 3. Show that for any category C and any functor f : 2 -> C both the left and right Kan extensions of f along d^1 exist, by giving an explicit construction. Observe that both DO extend the original diagram (the unit/counit is invertible, since d^1 is fully faithful) yet the two extensions are not typically isomorphic to one another.",
+      "book_section": "6.1",
+      "book_page": "224",
+      "pdf_pages": [
+        244
+      ],
+      "cross_refs": [
+        "riehl:6.1:remark2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.1:exv",
+      "kind": "exercise",
+      "number": "6.1.v",
+      "name": "right Kan extension as a terminal object",
+      "statement_summary": "Define a category in which the right Kan extension of F : C -> E along K : C -> D is the TERMINAL object, and explain the relation between that category and the functor E^C(- . K, F) : (E^D)^op -> Set, in the case where the functor categories involved are locally small.",
+      "book_section": "6.1",
+      "book_page": "224",
+      "pdf_pages": [
+        244
+      ],
+      "cross_refs": [
+        "riehl:6.1:def-unit-counit"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.2:thm1",
+      "kind": "theorem",
+      "number": "6.2.1",
+      "name": "the (co)limit formula for Kan extensions",
+      "statement_summary": "Given functors F : C -> E and K : C -> D. (LEFT) IF for every object d of D the colimit colim( (K | d) -Pi^d-> C -F-> E ) exists in E, THEN setting Lan_K F(d) to be that colimit defines a functor Lan_K F : D -> E which IS the left Kan extension of F along K, and the unit eta : F => (Lan_K F) . K can be extracted from the colimit cones -- explicitly eta_c is the leg of the colimit cone at the object id_{Kc} of K | Kc. (RIGHT, dually) IF for every d the limit lim( (d | K) -Pi_d-> C -F-> E ) exists, THEN these objects define the right Kan extension Ran_K F : D -> E with counit epsilon : (Ran_K F) . K => F extracted from the limit cones. The proof constructs the action of Lan_K F on morphisms from the reindexing functor g_*, proves naturality of eta, and verifies the universal property (existence and uniqueness of the factorization alpha) directly from the colimit universal property. The two formulae are the numbered displays (6.2.2) and (6.2.3).",
+      "book_section": "6.2",
+      "book_page": "225-227",
+      "pdf_pages": [
+        245,
+        246,
+        247
+      ],
+      "cross_refs": [
+        "riehl:6.2:construction-comma-slice-projection",
+        "riehl:6.1:def1",
+        "riehl:6.2:def6",
+        "riehl:6.2:cor7"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.2:construction-comma-slice-projection",
+      "kind": "construction",
+      "number": null,
+      "name": "the comma category K | d and its projection Pi^d : K | d -> C",
+      "statement_summary": "Unnumbered construction developed in prose, and the indexing data for the whole of section 6.2. For K : C -> D and an object d of D, the comma category K | d has as objects the morphisms f : K c -> d for objects c of C, and as morphisms f -> f' (with f' : K c' -> d) the morphisms h : c -> c' in C such that f' . (K h) = f. CLAIM: K | d is (isomorphic to) the category of elements of the functor D(K-, d) : C^op -> Set, and as such carries a canonical projection functor Pi^d : K | d -> C; the objects of K | d parametrize the approximations to d coming from C 'from the left'. The composite (K | d) -Pi^d-> C -F-> E sends each approximation f : K c -> d to F c, and a morphism g : d -> d' in D induces g_* : K | d -> K | d' over C, defined by postcomposition with g, so that Pi^{d'} . g_* = Pi^d. The dual comma category d | K with projection Pi_d : d | K -> C is used for the right-hand statements.",
+      "book_section": "6.2",
+      "book_page": "225",
+      "pdf_pages": [
+        245
+      ],
+      "cross_refs": [
+        "riehl:6.2:thm1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "riehl:6.2:def6",
+      "kind": "definition",
+      "number": "6.2.6",
+      "name": "pointwise left and right Kan extension (via the (co)limit formula)",
+      "statement_summary": "For functors F : C -> E and K : C -> D: (i) a POINTWISE LEFT Kan extension of F along K is a pair (L : D -> E, eta : F => L K) such that L d is isomorphic to colim( (K | d) -Pi^d-> C -F-> E ) for every object d of D AND eta_c is the leg of that colimit cone at the object id_{Kc} of K | Kc, for every object c of C; (ii) a POINTWISE RIGHT Kan extension is a pair (R : D -> E, epsilon : R K => F) such that R d ~= lim( (d | K) -Pi_d-> C -F-> E ) for every d AND epsilon_c is the leg of that limit cone at id_{Kc} in Kc | K, for every c. The terminology records that such an extension is computed 'pointwise', i.e. objectwise, as a (co)limit in E. (An equivalent representable characterization is given later as Definitions 6.3.5-6.3.6 and Theorem 6.3.7.)",
+      "book_section": "6.2",
+      "book_page": "227-228",
+      "pdf_pages": [
+        247,
+        248
+      ],
+      "cross_refs": [
+        "riehl:6.2:thm1",
+        "riehl:6.3:def5",
+        "riehl:6.3:def6",
+        "riehl:6.3:thm7"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.2:cor7",
+      "kind": "corollary",
+      "number": "6.2.7",
+      "name": "existence of all Kan extensions along a small-domain functor into a (co)complete target",
+      "statement_summary": "Let K : C -> D with C SMALL and D LOCALLY SMALL. (i) If E is COCOMPLETE then left Kan extensions along K exist for every F : C -> E, are POINTWISE, and assemble into a left adjoint Lan_K -| K^* : E^D -> E^C. (ii) If E is COMPLETE then right Kan extensions along K exist for every F, are POINTWISE, and assemble into a right adjoint K^* -| Ran_K. PROOF: smallness of C and local smallness of D make every comma category d | K and K | d small, so the (co)limits required by Theorem 6.2.1 exist under the stated (co)completeness hypotheses.",
+      "book_section": "6.2",
+      "book_page": "228",
+      "pdf_pages": [
+        248
+      ],
+      "cross_refs": [
+        "riehl:6.2:thm1",
+        "riehl:6.1:prop6",
+        "riehl:6.2:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.2:example8",
+      "kind": "example",
+      "number": "6.2.8",
+      "name": "the real exponential 2^x as a Kan extension along Q -> R",
+      "statement_summary": "Take the posets (Q, <=) and (R_{>0}, <=) as categories and the functor 2^- : Q -> R_{>0} from the chapter introduction. R_{>0} has all limits (infima) and colimits (suprema) of BOUNDED subsets, so Theorem 6.2.1 applies to the inclusion Q -> R: the value of the left Kan extension at a real x is the supremum (colimit) of the 2^q for rational q <= x, which is the usual definition of 2^x. Hence the exponential 2^- : R -> R_{>0} IS the left Kan extension of 2^- : Q -> R_{>0} along Q -> R. It is ALSO the right Kan extension, since 2^x is likewise the infimum of the 2^q for rational q >= x; Exercise 6.2.iii asks for general conditions making the two coincide.",
+      "book_section": "6.2",
+      "book_page": "228",
+      "pdf_pages": [
+        248
+      ],
+      "cross_refs": [
+        "riehl:6.2:thm1",
+        "riehl:6.2:exiii"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.2:example9",
+      "kind": "example",
+      "number": "6.2.9",
+      "name": "explicit induction and coinduction formulae for a subgroup inclusion",
+      "statement_summary": "Continuation of Example 6.1.7 using Theorem 6.2.1. For H <= G and a category C that is complete and cocomplete, Corollary 6.2.7 gives adjunctions ind^G_H -| res^G_H -| coind^G_H between C^{BG} and C^{BH}. For X in C^{BH}, Theorem 6.2.1 presents ind^G_H X as the colimit of the diagram indexed by the comma category BH | *_G, whose objects are the elements g of G and whose morphisms g -> g' are the h in H with g' h = g. CLAIMS PROVED BY EXPLICIT COMPUTATION: (a) this colimit is the coequalizer of the two maps coprod_{G x H} X => coprod_G X (one including the (g,h)-component into the gh-component, the other acting by h and then including into the g-component); (b) ind^G_H X is isomorphic in C to coprod_{G/H} X, via an epimorphism q described by choosing left coset representatives G/H = {g_i H}, and the residual G-action on coprod_{G/H} X is the unique quotient along q of left multiplication on coprod_G X; (c) dually coind^G_H X is the equalizer of two maps prod_G X => prod_{H x G} X and is isomorphic to prod_{H\\G} X, with the G-action obtained by restricting the right action of G on the indexing set along the monomorphism m; (d) in Vect_k finite products and finite coproducts agree, so for a FINITE-INDEX subgroup the colimit formula (6.2.2) and the limit formula (6.2.3) both give a direct sum of copies of V indexed by a set of size [G:H], the G-actions are compatible, ind^G_H V ~= coind^G_H V, and induction from a finite-index subgroup is SIMULTANEOUSLY left and right adjoint to restriction.",
+      "book_section": "6.2",
+      "book_page": "228-230",
+      "pdf_pages": [
+        248,
+        249,
+        250
+      ],
+      "cross_refs": [
+        "riehl:6.1:example7",
+        "riehl:6.2:thm1",
+        "riehl:6.2:cor7",
+        "riehl:3.5:thm11"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.2:example12",
+      "kind": "example",
+      "number": "6.2.12",
+      "name": "the fixed-point functor as a right Kan extension along BG^op -> O_G, and Galois theory",
+      "statement_summary": "Recall (Example 1.3.15) the orbit category O_G whose objects are the subgroups H <= G, identified with the left G-sets G/H, and whose morphisms G/H -> G/K are the G-equivariant maps, each represented by gH |-> g gamma K for a gamma in G with gamma^{-1} H gamma <= K; the endomorphism monoid of G/e is G^op, giving an embedding BG^op -> O_G. CLAIM: for a left G-set X in Set^{BG}, Theorem 6.2.1 computes the right Kan extension Ran X : O_G^op -> Set as the FIXED-POINT FUNCTOR: the comma category indexing the limit defining Ran X at G/H is isomorphic to the action groupoid of the G-set G/H, which is equivalent to the group of automorphisms of any object -- here H -- so the limit reduces to the limit of res^G_H X : BH -> Set, which is X^H; a morphism gamma : G/H -> G/K is carried to the direct-image function gamma_* : X^K -> X^H. SPECIAL CASE: when G is the Galois group of a finite Galois extension E/F, the right Kan extension of E : BG -> Field^E_F along BG -> O_G^op yields the isomorphism of categories O_G^op ~= Field^E_F that categorifies the fundamental theorem of Galois theory. A footnote observes Field^E_F has very few limits but does possess the ones Theorem 6.2.1 requires (see Theorem 6.3.7).",
+      "book_section": "6.2",
+      "book_page": "230",
+      "pdf_pages": [
+        250
+      ],
+      "cross_refs": [
+        "riehl:1.3:example15",
+        "riehl:1.5:example19",
+        "riehl:3.2:example10",
+        "riehl:6.2:thm1",
+        "riehl:6.3:thm7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.2:example13",
+      "kind": "example",
+      "number": "6.2.13",
+      "name": "n-truncation, skeleton and coskeleton of simplicial sets",
+      "statement_summary": "Write Delta_{<=n} for the full subcategory of Delta spanned by the first n+1 ordinals and i_n : Delta_{<=n} -> Delta for the inclusion. Restriction along i_n is n-TRUNCATION. CLAIM: since Set is complete and cocomplete, Corollary 6.2.7 supplies both adjoints Lan_{i_n} -| i_n^* -| Ran_{i_n} between Set^{Delta^op} and Set^{Delta_{<=n}^op}; the composite COMONAD on Set^{Delta^op} is sk_n, the n-SKELETON functor, and the composite MONAD is cosk_n, the n-COSKELETON functor; moreover sk_n -| cosk_n, as is the case for any comonad and monad arising in this way (Exercise 4.1.iv). Theorem 6.2.1 gives explicit descriptions of sk_n and cosk_n, whose details are left to the reader.",
+      "book_section": "6.2",
+      "book_page": "230",
+      "pdf_pages": [
+        250
+      ],
+      "cross_refs": [
+        "riehl:6.2:cor7",
+        "riehl:6.2:thm1",
+        "riehl:4.1:exiv"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.2:cor14",
+      "kind": "corollary",
+      "number": "6.2.14",
+      "name": "pointwise Kan extensions along fully faithful functors are genuine extensions",
+      "statement_summary": "Let K : C -> D be FULLY FAITHFUL. THEN (a) the counit of any POINTWISE right Kan extension of F : C -> E is a natural ISOMORPHISM epsilon : (Ran_K F) . K ~= F, and dually the unit of any pointwise left Kan extension is a natural isomorphism eta : F ~= (Lan_K F) . K -- i.e. pointwise Kan extensions along a fully faithful functor really do extend F up to isomorphism; (b) when ALL pointwise left (resp. right) Kan extensions along K exist, the adjunction Lan_K -| K^* is COREFLECTIVE and K^* -| Ran_K is REFLECTIVE, and in particular Lan_K is itself fully faithful. PROOF SKETCH: full faithfulness of K makes the canonical functor C/c -> K | Kc an isomorphism over C, so by Definition 6.2.6 Lan_K F(Kc) ~= colim(C/c -> C -F-> E); the indexing category C/c has a TERMINAL object id_c, so (Exercise 3.1.vii) the colimit leg at the terminal object is an isomorphism and the colimit is computed by evaluating there, giving eta_c : F c ~= Lan_K F(K c). Invertibility of these units is exactly the criterion of Lemma 4.6.11 for coreflectivity.",
+      "book_section": "6.2",
+      "book_page": "231",
+      "pdf_pages": [
+        251
+      ],
+      "cross_refs": [
+        "riehl:6.2:def6",
+        "riehl:6.1:remark2",
+        "riehl:3.1:exvii",
+        "riehl:4.6:lem11",
+        "riehl:6.2:example15"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.2:example15",
+      "kind": "example",
+      "number": "6.2.15",
+      "name": "a non-pointwise Kan extension along a fully faithful functor that fails to extend",
+      "statement_summary": "Counterexample showing the pointwise hypothesis in Corollary 6.2.14 is essential. Let K be the fully faithful inclusion of the discrete category 1 + 1 into the walking span D = (l <- m -> r), sending the first object to l and the second to r. Let E be the category with five objects L, M, R, L', R' and exactly four non-identity morphisms f : L -> L', g : M -> L', h : M -> R', k : R -> R'. Let F : 1 + 1 -> E send the first object to L and the second to R. CLAIM: there is a unique pair (G : D -> E, lambda : F => G K) -- namely G sending l to L', r to R' and m to M, with lambda-components f and k -- and this pair satisfies the universal property of the LEFT Kan extension of F along K, yet its unit components f and k are NOT invertible, so it is not a genuine extension; the reason is that it is NOT a pointwise Kan extension, E having no initial object. New in the 2nd edition per the campaign pagemap.",
+      "book_section": "6.2",
+      "book_page": "231",
+      "pdf_pages": [
+        251
+      ],
+      "cross_refs": [
+        "riehl:6.2:cor14",
+        "riehl:6.2:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.2:exi",
+      "kind": "exercise",
+      "number": "6.2.i",
+      "name": "the fork Kan extensions are pointwise",
+      "statement_summary": "Verify that the left and right Kan extensions along the inclusion of the parallel-pair category into the free fork, in a category possessing coequalizers and a terminal object, are POINTWISE Kan extensions, by checking that the (co)limit formulae of Theorem 6.2.1 recover the construction described in Example 6.1.3.",
+      "book_section": "6.2",
+      "book_page": "232",
+      "pdf_pages": [
+        252
+      ],
+      "cross_refs": [
+        "riehl:6.2:thm1",
+        "riehl:6.1:example3",
+        "riehl:6.2:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.2:exii",
+      "kind": "exercise",
+      "number": "6.2.ii",
+      "name": "adjoints to the vertex-set functor on quivers",
+      "statement_summary": "Quivers are functors to Set from the category with two objects A, V and a parallel pair s, t : A => V; natural transformations between such functors are graph homomorphisms. The forgetful functor U : Quiver -> Set sending a graph to its set of VERTICES is restriction along the functor from the terminal category 1 picking out the object V. Use Theorem 6.2.1 to compute the left and right adjoints of this forgetful functor.",
+      "book_section": "6.2",
+      "book_page": "232",
+      "pdf_pages": [
+        252
+      ],
+      "cross_refs": [
+        "riehl:6.2:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.2:exiii",
+      "kind": "exercise",
+      "number": "6.2.iii",
+      "name": "when do the Kan extensions of a monotone function along Q -> R coincide",
+      "statement_summary": "Give conditions on a monotone function f : Q -> R -- i.e. a functor (Q, <=) -> (R, <=) -- under which the left and right Kan extensions of f along the inclusion Q -> R both exist AND coincide.",
+      "book_section": "6.2",
+      "book_page": "232",
+      "pdf_pages": [
+        252
+      ],
+      "cross_refs": [
+        "riehl:6.2:example8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.3:def1",
+      "kind": "definition",
+      "number": "6.3.1",
+      "name": "a functor preserves a left Kan extension",
+      "statement_summary": "A functor L : E -> F PRESERVES a left Kan extension (Lan_K F, eta) of F : C -> E along K : C -> D if the whiskered composite pair (L . Lan_K F, L eta) is the left Kan extension of the composite L F along K. (The dual notion for right Kan extensions is used throughout without separate statement.)",
+      "book_section": "6.3",
+      "book_page": "232",
+      "pdf_pages": [
+        252
+      ],
+      "cross_refs": [
+        "riehl:6.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.3:lem2",
+      "kind": "lemma",
+      "number": "6.3.2",
+      "name": "left adjoints preserve left Kan extensions",
+      "statement_summary": "Any functor L : E -> F that is a LEFT ADJOINT preserves left Kan extensions -- and preserves ALL of them, not merely the ones constructed as colimits via Theorem 6.2.1 (which would follow from cocontinuity of left adjoints). Dually, right adjoints preserve right Kan extensions. TWO PROOFS are given: Proof 1 chains the natural isomorphisms F^D(L Lan_K F, H) ~= E^D(Lan_K F, R H) ~= E^C(F, R H K) ~= F^C(L F, H K) (for R the right adjoint of L) and identifies the image of the identity as L eta, concluding by the Yoneda lemma that (L Lan_K F, L eta) is a left Kan extension of L F along K; Proof 2 is a pasting-diagram argument using the unit iota : id_E => R L, the counit nu : L R => id_F and both triangle identities, exhibiting the factorization of a given alpha : L F => H K as (nu H) . (L zeta) and proving its uniqueness.",
+      "book_section": "6.3",
+      "book_page": "232-233",
+      "pdf_pages": [
+        252,
+        253
+      ],
+      "cross_refs": [
+        "riehl:6.3:def1",
+        "riehl:6.2:thm1",
+        "riehl:4.6:thm2"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.3:example3",
+      "kind": "example",
+      "number": "6.3.3",
+      "name": "the underlying-set functor on Top preserves the induced/coinduced Kan extensions",
+      "statement_summary": "The forgetful functor U : Top -> Set has both a left and a right adjoint; hence by Lemma 6.3.2 (and its dual) U preserves both the left and the right Kan extensions of Example 6.1.7 as computed in Example 6.2.9 -- i.e. the underlying set of an induced (resp. coinduced) G-space is the induced (resp. coinduced) G-set.",
+      "book_section": "6.3",
+      "book_page": "234",
+      "pdf_pages": [
+        254
+      ],
+      "cross_refs": [
+        "riehl:6.3:lem2",
+        "riehl:6.1:example7",
+        "riehl:6.2:example9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.3:example4",
+      "kind": "example",
+      "number": "6.3.4",
+      "name": "the underlying-set functor on Vect_k preserves coinduction but not induction",
+      "statement_summary": "U : Vect_k -> Set preserves limits (it is a right adjoint) but not colimits, since the underlying set of a direct sum is not the coproduct of the underlying sets. Consequently, from the construction in Example 6.2.9, the underlying set of a G-representation INDUCED from an H-representation is NOT the G-set induced from the underlying H-set. However, by (the dual of) Lemma 6.3.2, the underlying set of the COINDUCED representation DOES agree with the coinduced G-set built from the underlying H-set.",
+      "book_section": "6.3",
+      "book_page": "234",
+      "pdf_pages": [
+        254
+      ],
+      "cross_refs": [
+        "riehl:6.3:lem2",
+        "riehl:6.2:example9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.3:def5",
+      "kind": "definition",
+      "number": "6.3.5",
+      "name": "pointwise right Kan extension via representables",
+      "statement_summary": "When E is LOCALLY SMALL, a right Kan extension (Ran_K F, epsilon) of F : C -> E along K : C -> D is a POINTWISE right Kan extension if it is preserved (in the sense of Definition 6.3.1, dualized) by ALL representable functors E(e, -) : E -> Set, for every object e of E.",
+      "book_section": "6.3",
+      "book_page": "234",
+      "pdf_pages": [
+        254
+      ],
+      "cross_refs": [
+        "riehl:6.3:def1",
+        "riehl:6.2:def6",
+        "riehl:6.3:thm7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.3:def6",
+      "kind": "definition",
+      "number": "6.3.6",
+      "name": "pointwise left Kan extension via representables (by duality of 2-cells)",
+      "statement_summary": "Left and right Kan extensions are dual not under reversing the direction of FUNCTORS but under reversing the direction of NATURAL TRANSFORMATIONS -- the 2-cells of CAT -- since a functor K : C -> D is equally a functor C^op -> D^op while components of natural transformations reverse (a footnote records that (-)^op is a 2-functor CAT^co -> CAT). DEFINITION: when E is locally small, a left Kan extension (Lan_K F, eta) of F : C -> E along K : C -> D is a POINTWISE LEFT Kan extension if for every object e of E the corresponding data over C^op, D^op with the CONTRAVARIANT representable E(-, e) : E^op -> Set is a right Kan extension.",
+      "book_section": "6.3",
+      "book_page": "234",
+      "pdf_pages": [
+        254
+      ],
+      "cross_refs": [
+        "riehl:6.3:def5",
+        "riehl:6.2:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.3:thm7",
+      "kind": "theorem",
+      "number": "6.3.7",
+      "name": "the two definitions of pointwise agree: representable-preservation equals the (co)limit formula",
+      "statement_summary": "Let D and E be LOCALLY SMALL. A right Kan extension of F : C -> E along K : C -> D is preserved by all covariant representable functors E(e, -) IF AND ONLY IF it can be computed by the limit formula Ran_K F(d) ~= lim( (d | K) -Pi_d-> C -F-> E ) -- and in that case that limit in particular EXISTS. DUALLY, a left Kan extension of F along K is preserved by all contravariant representable functors if and only if it can be computed by the colimit formula Lan_K F(d) ~= colim( (K | d) -Pi^d-> C -F-> E ), in which case that colimit exists. One direction is immediate since covariant representables preserve all limits (Theorem 3.5.2); the converse is proved by chaining the Yoneda lemma with the defining universal property, E(e, Ran_K F(d)) ~= Set^D(D(d,-), E(e, Ran_K F)) ~= Set^C(D(d, K-), E(e, F-)) ~= Cone(e, F Pi_d) using Lemma 6.3.8, which exhibits Ran_K F(d) as the limit of F Pi_d. NOTE: this reconciles Definitions 6.3.5/6.3.6 with the earlier Definition 6.2.6.",
+      "book_section": "6.3",
+      "book_page": "234-235",
+      "pdf_pages": [
+        254,
+        255
+      ],
+      "cross_refs": [
+        "riehl:6.3:def5",
+        "riehl:6.3:def6",
+        "riehl:6.2:def6",
+        "riehl:6.3:lem8",
+        "riehl:3.5:thm2",
+        "riehl:2.2:thm4"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.3:lem8",
+      "kind": "lemma",
+      "number": "6.3.8",
+      "name": "cones over F Pi_d are natural transformations D(d, K-) => E(e, F-)",
+      "statement_summary": "Given F : C -> E and K : C -> D with D and E LOCALLY SMALL, and an object d of D with Pi_d : d | K -> C the comma projection, there is a natural isomorphism Cone(e, F Pi_d) ~= Set^C( D(d, K-), E(e, F-) ) for every object e of E. PROOF: a cone with summit e over F Pi_d chooses, for each f in D(d, Kc), a morphism lambda^c_f in E(e, Fc) such that commutativity of the triangle f' = (Kh) . f in D forces commutativity of the corresponding triangle in E -- which is exactly a natural family lambda^c : D(d, Kc) -> E(e, Fc) making the naturality square with (Kh)_* and (Fh)_* commute. A NOTE observes that if C is not small then d | K is not small, so a priori there may be more than a set's worth of cones or of natural transformations; the isomorphisms established in the proof of Theorem 6.3.7 show that the collections in question are in fact sets.",
+      "book_section": "6.3",
+      "book_page": "235",
+      "pdf_pages": [
+        255
+      ],
+      "cross_refs": [
+        "riehl:6.3:thm7",
+        "riehl:6.2:construction-comma-slice-projection"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.3:construction-cone-category",
+      "kind": "construction",
+      "number": null,
+      "name": "the cone J^{triangleright} on a small category J (and dually J^{triangleleft})",
+      "statement_summary": "Unnumbered but boldfaced construction. For a small category J, the CONE under J is the category J^{triangleright} defined as the PUSHOUT (in Cat) of the inclusion i_1 : J -> J x 2 of J as the right end of the cylinder J x 2 along the unique functor ! : J -> 1. The effect is to collapse the right end of the cylinder to a single object, so J^{triangleright} has exactly one new object t, a freely adjoined TERMINAL object which serves as the nadir of a new cone under the inclusion J -> J^{triangleright}, and no other new objects or morphisms. DUALLY, taking the pushout along the other inclusion i_0 : J -> J x 2 yields J^{triangleleft}, J with a freely adjoined INITIAL object (Exercise 3.6.vi). J^{triangleright} is the category indexing cones under J-shaped diagrams (Remark 3.1.8).",
+      "book_section": "6.3",
+      "book_page": "236",
+      "pdf_pages": [
+        256
+      ],
+      "cross_refs": [
+        "riehl:3.1:remark8",
+        "riehl:3.6:exvi",
+        "riehl:6.3:prop9"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "riehl:6.3:prop9",
+      "kind": "proposition",
+      "number": "6.3.9",
+      "name": "(co)completeness as an adjoint to restriction along J -> J^{triangleright}, given by pointwise Kan extension",
+      "statement_summary": "A category C admits ALL colimits of diagrams indexed by a small category J IF AND ONLY IF the restriction functor C^{J^{triangleright}} -> C^J along the inclusion J -> J^{triangleright} admits a LEFT ADJOINT, and in that case the left adjoint is given by POINTWISE left Kan extension (written colim : C^J -> C^{J^{triangleright}}, since it carries a J-shaped diagram to its colimit cone). DUALLY, C admits all J-indexed limits if and only if restriction C^{J^{triangleleft}} -> C^J admits a RIGHT ADJOINT, given by pointwise right Kan extension. PROOF: the inclusion J -> J^{triangleright} is fully faithful, so by Corollary 6.2.14 the left Kan extension always exists on the objects of J and is simply F j there; at the freely adjoined cone point t the comma category J | t is isomorphic to J by construction, so Theorem 6.2.1 identifies the value at t with colim F when that colimit exists. Exercise 6.3.ii asks what stronger universal property of the colimit cone this expresses. A closing paragraph notes that pointwise Kan extensions most commonly arise when the target is cocomplete (left) or complete (right), but that section 6.4 exhibits other cases.",
+      "book_section": "6.3",
+      "book_page": "236",
+      "pdf_pages": [
+        256
+      ],
+      "cross_refs": [
+        "riehl:6.3:construction-cone-category",
+        "riehl:6.2:cor14",
+        "riehl:6.2:thm1",
+        "riehl:6.3:exii"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.3:exi",
+      "kind": "exercise",
+      "number": "6.3.i",
+      "name": "copowers/powers force all Kan extensions to be pointwise",
+      "statement_summary": "Prove that if E is locally small and has all SMALL COPOWERS, then every right Kan extension with codomain E is a pointwise right Kan extension. Dually, if E is locally small and has all SMALL POWERS, then every left Kan extension with codomain E is pointwise.",
+      "book_section": "6.3",
+      "book_page": "236",
+      "pdf_pages": [
+        256
+      ],
+      "cross_refs": [
+        "riehl:6.3:def5",
+        "riehl:6.3:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.3:exii",
+      "kind": "exercise",
+      "number": "6.3.ii",
+      "name": "the stronger universal property of the colimit cone",
+      "statement_summary": "Proposition 6.3.9 expresses a universal property of the colimit cone that is STRONGER than the usual one. Identify and state that stronger universal property.",
+      "book_section": "6.3",
+      "book_page": "236",
+      "pdf_pages": [
+        256
+      ],
+      "cross_refs": [
+        "riehl:6.3:prop9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:def1",
+      "kind": "definition",
+      "number": "6.4.1",
+      "name": "weak equivalences; the 2-of-6 property",
+      "statement_summary": "A class W of morphisms in a category is a class of weak equivalences when it contains every identity and satisfies the 2-of-6 property: for any composable triple f, g, h (so that hgf is defined), if the two composites hg and gf both lie in W, then all four of f, g, h and hgf lie in W. The intent is that weak equivalences 'weaken' the isomorphisms.",
+      "book_section": "6.4",
+      "book_page": "237",
+      "pdf_pages": [
+        257
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:lem2",
+      "kind": "lemma",
+      "number": "6.4.2",
+      "name": "basic closure properties of the 2-of-6 property",
+      "statement_summary": "Three claims. (i) Any class of morphisms in a category that contains the identities and satisfies the 2-of-6 property necessarily contains all isomorphisms. (ii) The class of isomorphisms itself satisfies the 2-of-6 property. (iii) For any functor F : C -> D, the class of morphisms of C that F sends to isomorphisms of D satisfies the 2-of-6 property. The proof is deferred to Exercise 6.4.i.",
+      "book_section": "6.4",
+      "book_page": "237",
+      "pdf_pages": [
+        257
+      ],
+      "cross_refs": [
+        "riehl:6.4:def1",
+        "riehl:6.4:exi"
+      ],
+      "flags": [
+        "multi-part: (i),(ii),(iii)"
+      ]
+    },
+    {
+      "id": "riehl:6.4:def3",
+      "kind": "definition",
+      "number": "6.4.3",
+      "name": "homotopical category; homotopical functor",
+      "statement_summary": "A homotopical category is a category equipped with a class of weak equivalences in the sense of Definition 6.4.1. A functor between homotopical categories is homotopical when it preserves the weak equivalences (carries weak equivalences to weak equivalences).",
+      "book_section": "6.4",
+      "book_page": "237",
+      "pdf_pages": [
+        257
+      ],
+      "cross_refs": [
+        "riehl:6.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:example4",
+      "kind": "example",
+      "number": "6.4.4",
+      "name": "minimal homotopical structure",
+      "statement_summary": "When a category C carries no specified subcategory of weak equivalences, one assigns it by default the minimal homotopical structure \u2014 the smallest admissible class, which by Lemma 6.4.2(i) and (ii) is exactly the class of isomorphisms of C.",
+      "book_section": "6.4",
+      "book_page": "237",
+      "pdf_pages": [
+        257
+      ],
+      "cross_refs": [
+        "riehl:6.4:lem2",
+        "riehl:6.4:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:def5",
+      "kind": "definition",
+      "number": "6.4.5",
+      "name": "homotopy category HoC; localization functor",
+      "statement_summary": "Any homotopical category C has an associated homotopy category HoC characterized by a universal property: HoC is initial among categories E equipped with a homotopical functor C -> E, i.e. a functor sending the weak equivalences of C to isomorphisms of E. By analogy with ring theory the universal functor gamma : C -> HoC is called the localization functor. A footnote flags the set-theoretic caveat that in the interesting cases C is not small and HoC is a priori not locally small.",
+      "book_section": "6.4",
+      "book_page": "237",
+      "pdf_pages": [
+        257,
+        258
+      ],
+      "cross_refs": [
+        "riehl:6.4:def3"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.4:construction-gabriel-zisman-hoc",
+      "kind": "construction",
+      "number": null,
+      "name": "Gabriel-Zisman zig-zag construction of the homotopy category",
+      "statement_summary": "An explicit model for HoC due to Gabriel and Zisman, developed in unnumbered running prose. HoC has the same objects as C; a morphism is an equivalence class of finite zig-zags of morphisms of C in which only weak equivalences may point backwards, modulo the relations: (a) adjacent arrows pointing the same direction may be composed; (b) an adjacent pair pointing out from or into a common vertex and labelled by one and the same weak equivalence w may be deleted; (c) identities pointing either direction may be deleted. The resulting canonical localization functor gamma : C -> HoC is the identity on objects and sends a morphism of C to the unary forward zig-zag.",
+      "book_section": "6.4",
+      "book_page": "238",
+      "pdf_pages": [
+        258
+      ],
+      "cross_refs": [
+        "riehl:6.4:def5"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "riehl:6.4:remark6",
+      "kind": "remark",
+      "number": "6.4.6",
+      "name": "the universal property of the homotopy category (2-dimensional aspect)",
+      "statement_summary": "The universal property of the localization functor gamma : C -> HoC \u2014 that precomposition with gamma is a bijection between functors HoC -> E and homotopical functors C -> E \u2014 has a second, 2-dimensional aspect: precomposition with gamma also induces a bijection between natural transformations of functors HoC -> E and natural transformations of the corresponding homotopical functors C -> E. Equivalently it identifies the functor category HoD^{HoC} with the full subcategory of HoD^C spanned by the homotopical functors (the form used in the proof of Proposition 6.4.12). Proof deferred to Exercise 6.4.ii.",
+      "book_section": "6.4",
+      "book_page": "238",
+      "pdf_pages": [
+        258
+      ],
+      "cross_refs": [
+        "riehl:6.4:def5",
+        "riehl:6.4:exii",
+        "riehl:6.4:prop12"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:example7",
+      "kind": "example",
+      "number": "6.4.7",
+      "name": "two homotopical structures on chain complexes",
+      "statement_summary": "The category Ch_R of chain complexes of R-modules carries two homotopical structures of interest: first, the weak equivalences are the chain homotopy equivalences; second, they are enlarged to all quasi-isomorphisms, i.e. chain maps f : A_* -> B_* inducing an isomorphism of graded abelian groups after applying the homology functor of Example 1.3.2(viii).",
+      "book_section": "6.4",
+      "book_page": "238",
+      "pdf_pages": [
+        258
+      ],
+      "cross_refs": [
+        "riehl:6.4:def3",
+        "riehl:1.3:example2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:example8",
+      "kind": "example",
+      "number": "6.4.8",
+      "name": "two homotopical structures on spaces; the homotopy category of spaces",
+      "statement_summary": "Topological spaces likewise carry two structures: first the homotopy equivalences, second the enlarged class of weak homotopy equivalences (maps inducing isomorphisms on all homotopy groups). The homotopy category of spaces is the homotopy category associated to the second structure; it is equivalent to the category Htpy_CW of CW complexes and homotopy classes of maps described in Examples 2.1.6(vi) and (vii).",
+      "book_section": "6.4",
+      "book_page": "238",
+      "pdf_pages": [
+        258
+      ],
+      "cross_refs": [
+        "riehl:6.4:def5",
+        "riehl:2.1:example6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:def9",
+      "kind": "definition",
+      "number": "6.4.9",
+      "name": "total derived functors",
+      "statement_summary": "For a functor F : C -> D between homotopical categories with localizations gamma : C -> HoC and delta : D -> HoD: when the RIGHT Kan extension of delta F along gamma exists, that extension (with its 2-cell) defines the total LEFT derived functor LF : HoC -> HoD of F; dually, when the LEFT Kan extension of delta F along gamma exists it defines the total RIGHT derived functor RF. Riehl notes the deliberate conflict in handedness: a right Kan extension gives a left derived functor because left derived functors approximate the original functor from the left. Via the universal property of gamma, LF and RF are equivalently expressible as homotopical functors C -> HoD.",
+      "book_section": "6.4",
+      "book_page": "238",
+      "pdf_pages": [
+        258,
+        259
+      ],
+      "cross_refs": [
+        "riehl:6.4:def5",
+        "riehl:6.4:def3"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.4:def10",
+      "kind": "definition",
+      "number": "6.4.10",
+      "name": "point-set derived functors",
+      "statement_summary": "Given homotopical categories with localizations gamma : C -> HoC and delta : D -> HoD, a point-set LEFT derived functor of F : C -> D is a homotopical functor LF : C -> D together with a natural transformation lambda : LF => F such that delta.LF (which by Remark 6.4.6 is equivalently encoded by a functor HoC -> HoD) together with delta.lambda define a total left derived functor of F. Dually a point-set RIGHT derived functor is a homotopical RF : C -> D with rho : F => RF such that delta.RF and delta.rho define a total right derived functor. Point-set derived functors are thus lifts of total derived functors along the localization delta.",
+      "book_section": "6.4",
+      "book_page": "239",
+      "pdf_pages": [
+        259
+      ],
+      "cross_refs": [
+        "riehl:6.4:def9",
+        "riehl:6.4:remark6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:def11",
+      "kind": "definition",
+      "number": "6.4.11",
+      "name": "left and right deformations (Dwyer-Kan-Hirschhorn-Smith)",
+      "statement_summary": "A left deformation on a homotopical category C consists of an endofunctor Q : C -> C together with a natural weak equivalence q : Q => id_C. A left deformation FOR a functor F : C -> D between homotopical categories is a left deformation (Q, q) on C such that F preserves all weak equivalences between objects lying in some full subcategory that contains the image of Q. The dual notion of right deformation is an endofunctor R with a natural weak equivalence r : id_C => R, defined analogously. Attributed to Dwyer, Kan, Hirschhorn and Smith.",
+      "book_section": "6.4",
+      "book_page": "239",
+      "pdf_pages": [
+        259,
+        260
+      ],
+      "cross_refs": [
+        "riehl:6.4:def3"
+      ],
+      "flags": [
+        "multi-part: left deformation on a category / for a functor / dual right deformation",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.4:prop12",
+      "kind": "proposition",
+      "number": "6.4.12",
+      "name": "deformations construct point-set derived functors",
+      "statement_summary": "If F : C -> D admits a left deformation q : Q => id_C, then the pair (LF = FQ, Fq : LF => F) is a point-set left derived functor of F; in particular the resulting homotopical universal property is independent of the deformation used. The proof shows delta.FQ with delta.Fq : delta.FQ => delta.F is a right Kan extension, using Remark 6.4.6 to identify HoD^{HoC} with the full subcategory of HoD^C on homotopical functors, factoring an arbitrary alpha : G => delta.F through delta.Fq via (Gq)^{-1}, and proving uniqueness by naturality of the factorization together with the fact that q is a natural weak equivalence between objects in the image of Q.",
+      "book_section": "6.4",
+      "book_page": "240",
+      "pdf_pages": [
+        260
+      ],
+      "cross_refs": [
+        "riehl:6.4:def11",
+        "riehl:6.4:def10",
+        "riehl:6.4:remark6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:def-absolute-kan-extension",
+      "kind": "definition",
+      "number": null,
+      "name": "absolute Kan extension",
+      "statement_summary": "Stated bold-faced in running prose: a Kan extension is absolute when it is preserved not merely by representables (which is pointwiseness) but by ALL functors out of its codomain \u2014 i.e. postcomposing the extension diagram with any functor again yields a Kan extension. Absoluteness therefore strictly strengthens pointwiseness.",
+      "book_section": "6.4",
+      "book_page": "241",
+      "pdf_pages": [
+        261
+      ],
+      "cross_refs": [
+        "riehl:6.4:prop13",
+        "riehl:6.5:prop2"
+      ],
+      "flags": [
+        "unnumbered-definition-in-prose",
+        "possible-restatement: the term is used in Proposition 6.4.13 and 6.5.2 and may have a definition site earlier in the chapter, outside this range (PDF 240-255)"
+      ]
+    },
+    {
+      "id": "riehl:6.4:def-deformable",
+      "kind": "definition",
+      "number": null,
+      "name": "deformable functor",
+      "statement_summary": "Stated bold-faced in running prose: a functor between homotopical categories is deformable when it admits a left or a right deformation, as appropriate (left deformable / right deformable). The enhanced universal property of Proposition 6.4.13 \u2014 total derived functors that are absolute Kan extensions \u2014 holds for the total derived functors of any deformable functor.",
+      "book_section": "6.4",
+      "book_page": "241",
+      "pdf_pages": [
+        261
+      ],
+      "cross_refs": [
+        "riehl:6.4:def11",
+        "riehl:6.4:prop13"
+      ],
+      "flags": [
+        "unnumbered-definition-in-prose"
+      ]
+    },
+    {
+      "id": "riehl:6.4:prop13",
+      "kind": "proposition",
+      "number": "6.4.13",
+      "name": "total left derived functors of left deformable functors are absolute",
+      "statement_summary": "The total left derived functor of a left deformable functor is an ABSOLUTE right Kan extension, and in particular a pointwise one. Proof: for F left deformable, Proposition 6.4.12 constructs the total left derived functor as (delta.FQ, delta.Fq) from a left deformation (Q, q); since Kan extensions are characterized by a universal property, any total left derived functor of F is isomorphic to this one. For an arbitrary functor H : HoD -> E, the pair (Q, q) is still a left deformation for H.delta.F because H preserves isomorphisms, so Proposition 6.4.12 applies again and (H.delta.FQ, H.delta.Fq) is a right Kan extension.",
+      "book_section": "6.4",
+      "book_page": "241",
+      "pdf_pages": [
+        261
+      ],
+      "cross_refs": [
+        "riehl:6.4:prop12",
+        "riehl:6.4:def-absolute-kan-extension",
+        "riehl:6.4:def-deformable"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:prop14",
+      "kind": "proposition",
+      "number": "6.4.14",
+      "name": "derived adjunction (Maltsiniotis)",
+      "statement_summary": "Suppose F -| G is an adjunction between homotopical categories, F has a total left derived functor LF, G has a total right derived functor RG, and BOTH derived functors are absolute Kan extensions. Then the total derived functors form an adjunction LF -| RG between the homotopy categories. Riehl notes the mere universal property of being a left/right derived functor is insufficient \u2014 absoluteness (Proposition 6.4.13) is what makes the argument go through; the result is the main theorem of a paper of Maltsiniotis. Proof deferred to Exercise 6.4.iv.",
+      "book_section": "6.4",
+      "book_page": "241",
+      "pdf_pages": [
+        261
+      ],
+      "cross_refs": [
+        "riehl:6.4:prop13",
+        "riehl:6.4:def9",
+        "riehl:6.4:exiv"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:remark15",
+      "kind": "remark",
+      "number": "6.4.15",
+      "name": "uniqueness of the derived adjunction compatible with localization",
+      "statement_summary": "If F -| G satisfies the hypotheses of Proposition 6.4.14, then the adjunction LF -| RG between the total derived functors is the UNIQUE adjunction compatible with the localization functors gamma : C -> HoC and delta : D -> HoD, in the sense that for every c in C and d in D the square built from the adjunction isomorphism D(Fc,d) = C(c,Gd), the two localization maps into HoD(Fc,d) and HoC(c,Gd), and the maps induced by the derived-functor comparison cells, commutes with the derived adjunction isomorphism HoD(LFc,d) = HoC(c,RGd). A footnote observes this is NOT an example of a strict adjunction morphism in the sense of Exercise 4.2.v, because the localization functors do not commute with the adjoints.",
+      "book_section": "6.4",
+      "book_page": "241",
+      "pdf_pages": [
+        261
+      ],
+      "cross_refs": [
+        "riehl:6.4:prop14",
+        "riehl:4.2:exv"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:exi",
+      "kind": "exercise",
+      "number": "6.4.i",
+      "name": "prove Lemma 6.4.2",
+      "statement_summary": "Prove Lemma 6.4.2: that a class of morphisms containing the identities and satisfying 2-of-6 contains the isomorphisms; that the isomorphisms satisfy 2-of-6; and that for any functor F : C -> D the class of morphisms inverted by F satisfies 2-of-6.",
+      "book_section": "6.4",
+      "book_page": "242",
+      "pdf_pages": [
+        262
+      ],
+      "cross_refs": [
+        "riehl:6.4:lem2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:exii",
+      "kind": "exercise",
+      "number": "6.4.ii",
+      "name": "2-dimensional universal property of localization",
+      "statement_summary": "Prove the 2-dimensional aspect of the universal property described in Remark 6.4.6: given a homotopical category C and a homotopical functor gamma : C -> HoC satisfying the universal property that restriction along gamma is a bijection between functors HoC -> E and homotopical functors C -> E, prove that restriction along gamma also induces a bijection between natural transformations of functors HoC -> E and natural transformations of the associated homotopical functors C -> E.",
+      "book_section": "6.4",
+      "book_page": "242",
+      "pdf_pages": [
+        262
+      ],
+      "cross_refs": [
+        "riehl:6.4:remark6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:exiii",
+      "kind": "exercise",
+      "number": "6.4.iii",
+      "name": "an endofunctor with a natural weak equivalence to the identity is homotopical",
+      "statement_summary": "Prove that any endofunctor Q : C -> C on a homotopical category equipped with a natural weak equivalence q : Q => id_C is a homotopical functor.",
+      "book_section": "6.4",
+      "book_page": "242",
+      "pdf_pages": [
+        262
+      ],
+      "cross_refs": [
+        "riehl:6.4:def11",
+        "riehl:6.4:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.4:exiv",
+      "kind": "exercise",
+      "number": "6.4.iv",
+      "name": "prove Proposition 6.4.14",
+      "statement_summary": "Prove Proposition 6.4.14: that if F -| G between homotopical categories has total derived functors LF and RG that are absolute Kan extensions, then LF -| RG between the homotopy categories.",
+      "book_section": "6.4",
+      "book_page": "242",
+      "pdf_pages": [
+        262
+      ],
+      "cross_refs": [
+        "riehl:6.4:prop14"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:prop1",
+      "kind": "proposition",
+      "number": "6.5.1",
+      "name": "(co)limits as Kan extensions",
+      "statement_summary": "The left Kan extension of F : C -> D along the unique functor ! : C -> 1 defines the colimit of F, one existing if and only if the other does; dually Ran_! F defines the limit of F. The proof observes that composing a functor d : 1 -> D with ! yields the constant functor at d, so the universal property of Lan_! F says that cones gamma : F => Delta.d under F with nadir d correspond to morphisms Lan_! F -> d in D, implemented by composing with the displayed cone eta : F => Delta.Lan_! F; hence Lan_! F is the colimit of F with colimit cone eta.",
+      "book_section": "6.5",
+      "book_page": "242",
+      "pdf_pages": [
+        262
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:prop2",
+      "kind": "proposition",
+      "number": "6.5.2",
+      "name": "adjunctions as Kan extensions",
+      "statement_summary": "Two parts. (i) If F -| G is an adjunction with unit eta : 1 => GF and counit epsilon : FG => 1, then (G, eta) is a left Kan extension of the identity functor id_C along F, and (F, epsilon) is a right Kan extension of the identity functor id_D along G; moreover both Kan extensions are ABSOLUTE, hence in particular pointwise. (ii) Conversely, if (G, eta : id_C => GF) is a left Kan extension of the identity along F and F PRESERVES this Kan extension, then F -| G with unit eta. The proof of (i) uses Proposition 4.3.1 (an adjunction F -| G induces an adjunction G^* -| F^* between functor categories) so that left Kan extension along F is precomposition with G, absoluteness following because precomposition commutes with postcomposition by any L : C -> E. The proof of (ii) constructs the counit as the unique factorization of id_F through F.eta and derives both triangle identities.",
+      "book_section": "6.5",
+      "book_page": "242",
+      "pdf_pages": [
+        262,
+        263
+      ],
+      "cross_refs": [
+        "riehl:4.3:prop1",
+        "riehl:4.2:def5",
+        "riehl:6.4:def-absolute-kan-extension",
+        "riehl:6.5:exi"
+      ],
+      "flags": [
+        "multi-part: (i) forward with absoluteness, (ii) converse under preservation",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.5:eq3",
+      "kind": "equation",
+      "number": "6.5.3",
+      "name": "limit formula for a functor as a right Kan extension along the identity",
+      "statement_summary": "Numbered display consuming the section counter value 3: for F : C -> D, Fc is isomorphic to the limit of the composite (c/C -> C -> D) of the projection from the coslice under c with F. It arises because the right Kan extension of F along id_C is (isomorphic to) F (Exercise 6.1.i), is automatically pointwise by Definition 6.3.5, and so the limit formula of Theorem 6.3.7 applies. Recorded as an equation item because it states a claim distinct from any enclosing environment and is back-referenced twice on printed 244 (in the Yoneda-lemma derivation and in the proof of Proposition 6.5.4).",
+      "book_section": "6.5",
+      "book_page": "243",
+      "pdf_pages": [
+        263
+      ],
+      "cross_refs": [
+        "riehl:6.1:exi",
+        "riehl:6.3:def5",
+        "riehl:6.3:thm7",
+        "riehl:6.5:prop4"
+      ],
+      "flags": [
+        "numbered-display"
+      ]
+    },
+    {
+      "id": "riehl:6.5:prop4",
+      "kind": "proposition",
+      "number": "6.5.4",
+      "name": "Yoneda lemma as an equalizer formula",
+      "statement_summary": "For any small diagram F : C -> D valued in a category with products and equalizers, there is an equalizer diagram exhibiting Fc as the equalizer of a parallel pair from the product over morphisms c -> x of Fx to the product over composable pairs c -> x -> y of Fy: one map projects to the component indexed by the composite c -> x -> y, the other projects to the component indexed by c -> x and then acts by F on the second map x -> y. Proof: apply Theorem 3.5.11 (limits as equalizers of products) to the formula (6.5.3). Preceding prose observes that for F : C -> Set the limit formula (6.5.3) directly reproves the Yoneda lemma, Fc = Set(*, Fc) = Cone(*, F.Pi) = Set^C(C(c,-), F), and that on account of Exercise 3.2.v the equalizer form generalizes the Yoneda lemma.",
+      "book_section": "6.5",
+      "book_page": "244",
+      "pdf_pages": [
+        264
+      ],
+      "cross_refs": [
+        "riehl:6.5:eq3",
+        "riehl:3.5:thm11",
+        "riehl:3.2:exv",
+        "riehl:6.3:lem8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:eq5",
+      "kind": "equation",
+      "number": "6.5.5",
+      "name": "colimit formula for a functor as a left Kan extension along the identity",
+      "statement_summary": "Numbered display consuming the section counter value 5, dual to (6.5.3): any F : C -> D is a pointwise LEFT Kan extension of itself along id_C, so the colimit formula of Theorem 6.3.7 gives Fc isomorphic to the colimit of the composite (C/c -> C -> D) of the projection from the slice over c with F. Recorded as an equation item because it is the claim proved by the dualization argument and is back-referenced in the proof of Proposition 6.5.6 and in footnote 9 on printed 245 (where it is what supplies a colimit of a LARGE diagram when C is not small).",
+      "book_section": "6.5",
+      "book_page": "244",
+      "pdf_pages": [
+        264
+      ],
+      "cross_refs": [
+        "riehl:6.3:thm7",
+        "riehl:6.5:prop6",
+        "riehl:6.5:thm7"
+      ],
+      "flags": [
+        "numbered-display"
+      ]
+    },
+    {
+      "id": "riehl:6.5:prop6",
+      "kind": "proposition",
+      "number": "6.5.6",
+      "name": "coYoneda lemma as a coequalizer formula",
+      "statement_summary": "Dual to Proposition 6.5.4: for any small diagram F : C -> D valued in a category with coproducts and coequalizers, there is a coequalizer diagram exhibiting Fc as the coequalizer of a parallel pair from the coproduct over composable pairs y -> x -> c of Fy to the coproduct over morphisms x -> c of Fx: one map includes the component indexed by y -> x -> c as the component indexed by the composite y -> c, the other acts by F on the map y -> x and then includes as the component indexed by x -> c. Proof: apply Theorem 3.5.11 to (6.5.5).",
+      "book_section": "6.5",
+      "book_page": "244",
+      "pdf_pages": [
+        264
+      ],
+      "cross_refs": [
+        "riehl:6.5:eq5",
+        "riehl:3.5:thm11",
+        "riehl:6.5:prop4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:thm7",
+      "kind": "theorem",
+      "number": "6.5.7",
+      "name": "density theorem, form I (every presheaf/functor is a canonical colimit of representables)",
+      "statement_summary": "For any locally small category C, any functor F : C -> Set is the colimit of the diagram (integral F)^op -> C^op -> Set^C given by the projection from the opposite of the category of elements of F followed by the (covariant) Yoneda embedding; the diagram is indexed by the opposite of the category of elements of F and takes values in the subcategory of representable functors. Dually, any F : C^op -> Set is the colimit of (integral F) -> C -> Set^{C^op}. The proof rewrites the coYoneda coequalizer of Proposition 6.5.6 using coproducts indexed by hom-sets and by elements of Fx, letting c vary to get a coequalizer of representables, and identifies the indexing category with the category of elements; a footnote handles the case where C is not small by appealing to Theorem 6.3.7 and the large-diagram colimit (6.5.5).",
+      "book_section": "6.5",
+      "book_page": "244",
+      "pdf_pages": [
+        264,
+        265
+      ],
+      "cross_refs": [
+        "riehl:6.5:prop6",
+        "riehl:6.5:eq5",
+        "riehl:6.3:thm7",
+        "riehl:3.5:thm11",
+        "riehl:6.5:exii"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.5:def-dense-subcategory",
+      "kind": "definition",
+      "number": null,
+      "name": "dense subcategory",
+      "statement_summary": "Bold-faced in running prose: informally, a subcategory is dense if every object of the ambient category is a colimit of a diagram valued in the subcategory. Riehl states this informal gloss and declares that the precise meaning is given by the statement of Theorem 6.5.8; the motivating instance is that the representable functors form a dense subcategory of the presheaf category Set^{C^op}.",
+      "book_section": "6.5",
+      "book_page": "245",
+      "pdf_pages": [
+        265
+      ],
+      "cross_refs": [
+        "riehl:6.5:thm8",
+        "riehl:6.5:thm7"
+      ],
+      "flags": [
+        "unnumbered-definition-in-prose",
+        "informal: made precise by Theorem 6.5.8"
+      ]
+    },
+    {
+      "id": "riehl:6.5:thm8",
+      "kind": "theorem",
+      "number": "6.5.8",
+      "name": "density theorem, form II (the Yoneda embedding is dense)",
+      "statement_summary": "For any small category C, the identity functor on Set^{C^op} is the left Kan extension of the Yoneda embedding y : C -> Set^{C^op} along ITSELF, with identity 2-cell: id = Lan_y y. Proof: by Theorem 6.2.1 the pointwise formula gives Lan_y y (F) as the colimit of (y/F -> C -> Set^{C^op}); by Lemma 2.4.7 the comma category y/F is isomorphic to the category of elements of F, so Theorem 6.5.7 identifies that colimit with F.",
+      "book_section": "6.5",
+      "book_page": "245",
+      "pdf_pages": [
+        265
+      ],
+      "cross_refs": [
+        "riehl:6.2:thm1",
+        "riehl:2.4:lem7",
+        "riehl:6.5:thm7",
+        "riehl:6.5:def-dense-subcategory"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:prop9",
+      "kind": "proposition",
+      "number": "6.5.9",
+      "name": "adjunctions from presheaf categories via left Kan extension along Yoneda",
+      "statement_summary": "Let F : C -> E be a functor whose domain C is small and whose codomain E is locally small and cocomplete. Then F gives rise to an adjunction Lan_y F -| R between Set^{C^op} and E whose left adjoint is left Kan extension along the Yoneda embedding. Moreover, EVERY adjunction whose left adjoint is defined on a presheaf category and valued in a locally small cocomplete category arises this way. The proof: Corollary 6.2.7 supplies the pointwise Lan_y F; Corollary 6.2.14 makes it a genuine extension of F (unit an identity, since y is full and faithful); the required natural isomorphisms force the definition R e := E(F-, e) : C^op -> Set, functorial by postcomposition; the adjunction is verified by a chain of isomorphisms using the density theorem 6.5.7, Theorem 3.5.6 twice (continuity of hom), the definition of R, and Theorem 6.2.1 together with y/F = integral X; the converse uses Lemma 6.3.2 (a left adjoint preserves the left Kan extension) applied to id = Lan_y y of Theorem 6.5.8 to recover an arbitrary L as Lan_y of its restriction L.y.",
+      "book_section": "6.5",
+      "book_page": "245",
+      "pdf_pages": [
+        265,
+        266
+      ],
+      "cross_refs": [
+        "riehl:6.2:cor7",
+        "riehl:6.2:cor14",
+        "riehl:6.2:thm1",
+        "riehl:6.5:thm7",
+        "riehl:6.5:thm8",
+        "riehl:6.3:lem2",
+        "riehl:3.5:thm6"
+      ],
+      "flags": [
+        "multi-part: existence of the adjunction, and the converse that all such adjunctions arise this way",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.5:def10",
+      "kind": "definition",
+      "number": "6.5.10",
+      "name": "codensity monad (monads as Kan extensions)",
+      "statement_summary": "The codensity monad of a functor G : D -> C is T := Ran_G G, the right Kan extension of G along itself, whenever this exists; its 2-cell is epsilon : TG => G. The unit eta : id_C => T and multiplication mu : T^2 => T are defined by the universal property of epsilon: eta is the unique factorization of the identity 2-cell id_G through epsilon, and mu the unique factorization of the pasted composite of two copies of epsilon. Preceding prose: any right adjoint G induces a monad whose endofunctor is G composed with its left adjoint, and more generally any G : D -> C induces a monad on C provided C has sufficient limits \u2014 a footnote clarifies that 'sufficient limits' means those needed to define Ran_G G as a POINTWISE right Kan extension. When G has a left adjoint F, this monad is GF (Exercise 6.5.ix); the monad axioms are Exercise 6.5.viii.",
+      "book_section": "6.5",
+      "book_page": "247",
+      "pdf_pages": [
+        267
+      ],
+      "cross_refs": [
+        "riehl:6.5:exviii",
+        "riehl:6.5:exix",
+        "riehl:6.5:def-codense"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:def-codense",
+      "kind": "definition",
+      "number": null,
+      "name": "codense functor",
+      "statement_summary": "Given in footnote 10 to Definition 6.5.10: a functor G : D -> C is codense when its right Kan extension along itself is the identity id_C (i.e. its codensity monad is trivial). Riehl invites comparison with the statement of Theorem 6.5.8, the dual/density counterpart for the Yoneda embedding.",
+      "book_section": "6.5",
+      "book_page": "247",
+      "pdf_pages": [
+        267
+      ],
+      "cross_refs": [
+        "riehl:6.5:def10",
+        "riehl:6.5:thm8"
+      ],
+      "flags": [
+        "unnumbered-definition-in-prose",
+        "stated-in-footnote"
+      ]
+    },
+    {
+      "id": "riehl:6.5:example11",
+      "kind": "example",
+      "number": "6.5.11",
+      "name": "codensity monad of Field into CRing",
+      "statement_summary": "The inclusion I : Field -> CRing has NO left adjoint, since such a functor would have to carry the integers to an initial field, which does not exist. It nevertheless has a codensity monad T given by TA := the product over p in Spec(A) of Frac(A/p), where Spec(A) is the set of prime ideals p of A and Frac(A/p) is the field of fractions of the quotient A/p, an integral domain because p is prime. Proofs of the claims are cited to Leinster.",
+      "book_section": "6.5",
+      "book_page": "247",
+      "pdf_pages": [
+        267
+      ],
+      "cross_refs": [
+        "riehl:6.5:def10"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:example12",
+      "kind": "example",
+      "number": "6.5.12",
+      "name": "the ultrafilter monad as the codensity monad of Fin into Set",
+      "statement_summary": "Familiar monads also arise as codensity monads: the codensity monad of the inclusion I : Fin -> Set is the ultrafilter monad beta of Example 5.1.4(v). Theorem 6.2.1 characterizes beta(X) as the limit of (X/Fin -> Fin -> Set); by Theorem 3.2.4 this limit is the set of cones over that diagram with summit the singleton, and by Lemma 6.3.8 that is the set of natural transformations from Set(X, I(-)) to I(-). A component of such a transformation takes a function f : X -> {1,...,n} and returns an element of {1,...,n}; an ultrafilter on X induces such a natural transformation by returning the unique i whose fiber f^{-1}(i) belongs to the ultrafilter. Proofs cited to Leinster; original result attributed to Kennison-Gildenhuys.",
+      "book_section": "6.5",
+      "book_page": "247",
+      "pdf_pages": [
+        267
+      ],
+      "cross_refs": [
+        "riehl:6.5:def10",
+        "riehl:5.1:example4",
+        "riehl:6.2:thm1",
+        "riehl:3.2:thm4",
+        "riehl:6.3:lem8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:example13",
+      "kind": "example",
+      "number": "6.5.13",
+      "name": "the Giry monad as a codensity monad",
+      "statement_summary": "The Giry monad of Example 5.1.5(iv) is a codensity monad for the inclusion of a subcategory C -> Meas, where the objects of C are the finite powers of the unit interval I = [0,1] with its Borel sigma-algebra, together with the measurable space of sequences in I converging to 0; these objects can be viewed as convex subspaces of Euclidean space, from which perspective the morphisms are taken to be all affine maps between them. Omitting the space of sequences \u2014 i.e. taking the subcategory of finite powers of the interval and affine maps \u2014 generates instead a variant of the Giry monad for FINITELY ADDITIVE probability measures. Cited to Avery.",
+      "book_section": "6.5",
+      "book_page": "247",
+      "pdf_pages": [
+        267,
+        268
+      ],
+      "cross_refs": [
+        "riehl:6.5:def10",
+        "riehl:5.1:example5"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:6.5:exi",
+      "kind": "exercise",
+      "number": "6.5.i",
+      "name": "counit of an adjunction as an absolute right Kan extension",
+      "statement_summary": "Give a second proof of Proposition 6.5.2(i) using pasting diagrams: show directly that the counit of an adjunction exhibits an ABSOLUTE right Kan extension.",
+      "book_section": "6.5",
+      "book_page": "248",
+      "pdf_pages": [
+        268
+      ],
+      "cross_refs": [
+        "riehl:6.5:prop2",
+        "riehl:6.4:def-absolute-kan-extension"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:exii",
+      "kind": "exercise",
+      "number": "6.5.ii",
+      "name": "colimit cone for the canonical colimit of representables",
+      "statement_summary": "Use the Yoneda lemma to define the colimit cone for the canonical colimit described in Theorem 6.5.7 (the density theorem, form I).",
+      "book_section": "6.5",
+      "book_page": "248",
+      "pdf_pages": [
+        268
+      ],
+      "cross_refs": [
+        "riehl:6.5:thm7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:exiii",
+      "kind": "exercise",
+      "number": "6.5.iii",
+      "name": "density reproof of Lemma 4.4.11",
+      "statement_summary": "Use Theorem 6.5.7 to give a second proof of Lemma 4.4.11, showing that the desired natural isomorphism follows from the definition of the internal hom.",
+      "book_section": "6.5",
+      "book_page": "248",
+      "pdf_pages": [
+        268
+      ],
+      "cross_refs": [
+        "riehl:6.5:thm7",
+        "riehl:4.4:lem11"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:exiv",
+      "kind": "exercise",
+      "number": "6.5.iv",
+      "name": "sheaves and etale spaces from the open-set inclusion",
+      "statement_summary": "For a fixed topological space X there is a natural inclusion O(X) -> Top/X sending an open subset U of X to the continuous inclusion U -> X. Apply Proposition 6.5.9 to this functor to define an adjunction between the presheaf category Set^{O(X)^op} and the category Top/X of spaces over X. By Lemma 4.2.11 this adjunction, like all adjunctions, restricts to an adjoint equivalence of categories, in this case between the category of sheaves on X and the category of etale spaces over X.",
+      "book_section": "6.5",
+      "book_page": "248",
+      "pdf_pages": [
+        268
+      ],
+      "cross_refs": [
+        "riehl:6.5:prop9",
+        "riehl:4.2:lem11"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:exv",
+      "kind": "exercise",
+      "number": "6.5.v",
+      "name": "nerve and homotopy category adjunction",
+      "statement_summary": "Apply Proposition 6.5.9 to the embedding of the simplex category Delta (finite non-empty ordinals and order-preserving maps) into Cat to define an adjunction ho -| N between Cat and Set^{Delta^op}. The right adjoint N is the nerve of a category; the left adjoint ho constructs the homotopy category of a simplicial set. This recovers the adjunction defined in Example 4.6.13(vi), although the direct construction given there was necessary to prove that Cat has colimits \u2014 a hypothesis used in Proposition 6.5.9.",
+      "book_section": "6.5",
+      "book_page": "248",
+      "pdf_pages": [
+        268
+      ],
+      "cross_refs": [
+        "riehl:6.5:prop9",
+        "riehl:4.6:example13"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:exvi",
+      "kind": "exercise",
+      "number": "6.5.vi",
+      "name": "geometric realization and the total singular complex",
+      "statement_summary": "Apply Proposition 6.5.9 to the functor Delta -> Top sending the ordinal [n] = 0 -> 1 -> ... -> n to the topological n-simplex, the set of (x_0,...,x_n) in R^{n+1} with all x_i >= 0 summing to 1. The left adjoint, defined by left Kan extension, is the geometric realization of a simplicial set; the right adjoint is the total singular complex functor used to define singular homology, giving the adjunction |-| -| Sing between Set^{Delta^op} and Top.",
+      "book_section": "6.5",
+      "book_page": "248",
+      "pdf_pages": [
+        268
+      ],
+      "cross_refs": [
+        "riehl:6.5:prop9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:exvii",
+      "kind": "exercise",
+      "number": "6.5.vii",
+      "name": "the adjunction underlying the slice-of-presheaves equivalence",
+      "statement_summary": "Apply Proposition 6.5.9 to the canonical functor y/X : (category of elements of X) -> Set^{C^op}/X defined for a presheaf X : C^op -> Set, so as to recover the adjunction underlying the equivalence of Lemma 4.5.9.",
+      "book_section": "6.5",
+      "book_page": "248",
+      "pdf_pages": [
+        268
+      ],
+      "cross_refs": [
+        "riehl:6.5:prop9",
+        "riehl:4.5:lem9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:exviii",
+      "kind": "exercise",
+      "number": "6.5.viii",
+      "name": "the codensity triple satisfies the monad axioms",
+      "statement_summary": "Show that the triple (T, eta : id_C => T, mu : T^2 => T) constructed in Definition 6.5.10 from the right Kan extension Ran_G G defines a monad on C, by verifying the monad identities (associativity and the two unit laws).",
+      "book_section": "6.5",
+      "book_page": "248",
+      "pdf_pages": [
+        268
+      ],
+      "cross_refs": [
+        "riehl:6.5:def10"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:6.5:exix",
+      "kind": "exercise",
+      "number": "6.5.ix",
+      "name": "codensity monad of a right adjoint is the induced monad",
+      "statement_summary": "If F -| G is an adjunction, show that the codensity monad Ran_G G of G exists and is equal to the monad induced by the adjunction F -| G (i.e. the monad with endofunctor GF).",
+      "book_section": "6.5",
+      "book_page": "249",
+      "pdf_pages": [
+        269
+      ],
+      "cross_refs": [
+        "riehl:6.5:def10"
+      ],
+      "flags": []
+    }
+  ],
+  "merge_notes": {
+    "page_listing_rule": "ALL-PAGES: every item id appears in items[] of every page in its pdf_pages",
+    "page_entries_added": 19,
+    "page_entries_removed": 1,
+    "spans_page_break_flags_added": 16
+  }
+}

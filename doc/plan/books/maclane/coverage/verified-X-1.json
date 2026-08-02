@@ -1,0 +1,188 @@
+[
+  {
+    "id": "maclane:X.2:def1",
+    "classification": "PARTIAL",
+    "aliases": ["weak universal arrow", "weakly initial set", "weakly initial family", "weak limit", "weak product", "weak coproduct", "WeaklyInitialFamily", "solution set (without uniqueness)"],
+    "evidence": [
+      {"file": "Theory/WeaklyInitial.v", "line": 58, "symbol": "WeaklyInitialFamily",
+       "intree_statement": "Record WeaklyInitialFamily (C : Category) := { wif_index : Type; wif_obj : wif_index -> C; wif_cover (c : C) : { i : wif_index & wif_obj i ~> c } }.  (* comment: no uniqueness of the covering arrow is required -- that is what makes the family only *weakly* initial *)"}
+    ],
+    "statement_record": {
+      "book": "A weak universal arrow from x to G:A->X is a pair <r, w:x->Gr> such that every f:x->Ga factors as f = Gf' o w for some, not necessarily unique, f'. Dropping uniqueness in the analogous universals defines weak products, weak limits, and weak coproducts (and, in the running text, a weakly-initial set: a set S of objects covering every object by an arrow).",
+      "intree": "WeaklyInitialFamily C: an index Type, a family wif_obj : index -> C, and for every c a chosen covering member wif_cover c = { i & wif_obj i ~> c }, with NO uniqueness of the covering arrow.",
+      "strength_comparison": "intree-weaker: only the weakly-initial-set/family case is defined -- weak universality specialized to initial objects (the terminal functor C->1) and packaged as a whole family. The general weak universal arrow for an arbitrary functor G, and the weak product / weak limit / weak coproduct notions, have no in-tree counterpart."
+    },
+    "gap": "Only WeaklyInitialFamily (the weakly-initial set) is formalized. The general weak universal arrow <r,w> for an arbitrary functor G (drop-uniqueness of Theory/Universal/Arrow's UniversalArrow) is not defined, and neither are weak products, weak limits, or weak coproducts (grep for weak.limit/weak.product/weak.coproduct/WeakUniversal/weak universal returned zero hits).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass: independently ran rg for 'Weak(Product|Coproduct|Limit|Colimit|Universal|Terminal)' and 'weak.?(product|coproduct|limit|colimit|universal)' over all .v -- ZERO hits. The only 'weak' construct in the tree is WeaklyInitialFamily (Theory/WeaklyInitial.v:58), the weakly-initial-family special case, quoted accurately at the cited line. The general weak universal arrow and weak (co)limits/products are genuinely absent. PARTIAL and its gap are accurate."}
+  },
+  {
+    "id": "maclane:X.2:thm1",
+    "classification": "PRESENT",
+    "aliases": ["weakly initial set gives initial object", "Freyd initial-object existence", "second proof of Freyd V.6.1", "initial_from_weakly_initial", "product plus equalizer of all endomorphisms", "GAFT object-level input"],
+    "evidence": [
+      {"file": "Theory/WeaklyInitial.v", "line": 89, "symbol": "initial_from_weakly_initial",
+       "intree_statement": "Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C) (P : Limit (DiscreteCat_Functor (wif_obj W))) (Pe : Limit (DiscreteCat_Functor (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P) => iprod (wif_obj W) P))) (E : HasEqualizers C) : @Initial C."}
+    ],
+    "statement_record": {
+      "book": "If D is a small-complete category with small hom-sets, then D has an initial object iff it has a small weakly-initial set S. (Proof: form the limit of the inclusion of the full subcategory on S; via Lemma X.1.1.) A second proof of Freyd's initial-object existence theorem V.6.1.",
+      "intree": "initial_from_weakly_initial : given a WeaklyInitialFamily W of C, the product P of the family, the endomorphism-indexed product Pe over the product object, and binary equalizers E, produces a genuine Initial C.",
+      "strength_comparison": "same theorem content (a weakly-initial family in a suitably complete category yields an initial object). intree-stronger on hypotheses: the two exact products (P, Pe) and binary equalizers actually needed are taken as explicit inputs rather than a blanket small-completeness instance, leaving smallness/universe choices to the caller; conclusion identical (full Initial C). Proof route differs -- the in-tree proof is the Freyd product+equalizer-of-all-endomorphisms construction (Mac Lane V.6), whereas X.2's own proof is the limit-of-the-inclusion route via Lemma X.1.1 -- but both establish the same statement. The trivial converse (an initial object gives the singleton weakly-initial set) is not separately stated."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same theorem independently (Theory/WeaklyInitial.v:89). Quoted signature verified exact against file lines 89-94; file registered in _CoqProject:476 and compiles (WeaklyInitial.vo present). This proves the substantive (weakly-initial family => Initial) direction; the trivial converse is not needed for PRESENT. Proof method (Freyd product+equalizer) differs from X.2's own limit-of-full-subcategory route but the STATEMENT matches, which is what classification tracks. strength_comparison honest (stronger/leaner hypotheses noted)."}
+  },
+  {
+    "id": "maclane:X.3:construction1",
+    "classification": "PRESENT",
+    "aliases": ["precomposition functor", "restriction functor A^K", "F* / p* pullback of functors", "Induced", "whiskering functor (- o K)", "Kan extensions as adjoints of A^K"],
+    "evidence": [
+      {"file": "Theory/Kan/Extension.v", "line": 127, "symbol": "Induced",
+       "intree_statement": "Program Definition Induced : ([B, C]) --> ([A, C]) := {| fobj := fun G => G o F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |}."},
+      {"file": "Theory/Kan/Extension.v", "line": 140, "symbol": "RightKan / LeftKan",
+       "intree_statement": "Class RightKan := { Ran : [A, C] --> [B, C]; ran_adjoint : Induced <-| Ran }.  Class LeftKan := { Lan : [A, C] --> [B, C]; lan_adjoint : Lan |-> Induced }."}
+    ],
+    "statement_record": {
+      "book": "For K:M->C and a category A, the precomposition functor A^K : A^C -> A^M sends S:C->A to SK = S o K and a natural transformation sigma : S=>S' to the whiskered sigma-K : SK=>S'K. Right and left Kan extensions along K are defined as the right and left adjoints of A^K.",
+      "intree": "Induced : [B,C] -> [A,C], G |-> G o F on objects and f |-> the whiskered transformation z |-> f_(F z) on arrows; RightKan / LeftKan then define Ran / Lan precisely as the right / left adjoints of Induced (ran_adjoint : Induced -| Ran; lan_adjoint : Lan -| Induced).",
+      "strength_comparison": "same. Mac Lane's K:M->C corresponds to the in-tree F:A->B, target category A to the in-tree C; A^K : A^C->A^M is exactly Induced : [B,C]->[A,C] (precompose with F), the fmap being whiskering, and the Kan extensions are its adjoints verbatim."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass: Induced verified at Theory/Kan/Extension.v:127 (fobj = G o F, fmap = whiskering z |-> f_(F z)); RightKan/LeftKan at 140/222 define Ran/Lan as its right/left adjoints. MacLane A^K <-> library Induced under the renaming K<->F, target A<->C. Lines and quotes exact. File registered _CoqProject:445."}
+  },
+  {
+    "id": "maclane:X.3:def1",
+    "classification": "PRESENT",
+    "aliases": ["right Kan extension", "Ran_K T", "LocalRightKan", "RightKan", "terminal among (functor, counit) pairs", "universal counit epsilon : RK => T", "natural bijection Nat(S,Ran T) = Nat(SK,T)"],
+    "evidence": [
+      {"file": "Theory/Kan/Extension.v", "line": 154, "symbol": "LocalRightKan",
+       "intree_statement": "Class LocalRightKan (X : A --> C) := { LocalRan : B --> C; ran_transform : LocalRan o F ==> X; ump_ran (M : B --> C) (mu : M o F ==> X) : (exists! delta, mu = ran_transform . (delta |> F)) }.  (* |> is right-whiskering, . is vertical nat-transf composition *)"},
+      {"file": "Theory/Kan/Extension.v", "line": 140, "symbol": "RightKan",
+       "intree_statement": "Class RightKan := { Ran : [A, C] --> [B, C]; ran_adjoint : Induced -| Ran }. (* the natural bijection [B,C](M, Ran X) = [A,C](M o F, X), i.e. Nat(S, Ran T) = Nat(SK, T) *)"}
+    ],
+    "statement_record": {
+      "book": "A right Kan extension of T:M->A along K:M->C is a pair <R, epsilon:RK=>T> with R in A^C and epsilon universal as an arrow from A^K to T: for every S with alpha:SK=>T there is a unique sigma:S=>R with alpha = epsilon . (sigma K). Equivalently a natural bijection Nat(S, Ran_K T) = Nat(SK, T); R unique up to natural iso.",
+      "intree": "LocalRightKan X packages LocalRan : B->C (= R), the counit ran_transform : LocalRan o F ==> X (= epsilon : RK=>T), and ump_ran : for every M and every mu : M o F ==> X there is a unique delta : M ==> LocalRan with mu = ran_transform . (delta |> F) (= alpha = epsilon . (sigma K)). The global RightKan states the equivalent adjoint/bijection form Induced -| Ran.",
+      "strength_comparison": "same. The local universal property (ump_ran) is exactly Mac Lane's unique-factorization definition (setoid = for the factorization, which is faithful), and the global RightKan's ran_adjoint is exactly the equivalent natural-bijection form Nat(S,Ran T) = Nat(SK,T). Both forms Mac Lane gives are present."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass: LocalRightKan (154) carries counit ran_transform : LocalRan o F ==> X and the exists-unique factorization ump_ran (lines 161-162) -- MacLane's terminal-among-(functor,counit) universal property, faithful under setoid rephrasing. RightKan (140) gives the equivalent natural-bijection/adjoint form. Both MacLane presentations present; lines/quotes exact."}
+  },
+  {
+    "id": "maclane:X.3:remark1",
+    "classification": "PARTIAL",
+    "aliases": ["Ran_K right adjoint to A^K", "A^K -| Ran_K", "global Kan extension assembled from local ones", "adjoint from pointwise Kan extensions", "counit of Induced -| Ran"],
+    "evidence": [
+      {"file": "Theory/Kan/Extension.v", "line": 140, "symbol": "RightKan",
+       "intree_statement": "Class RightKan := { Ran : [A, C] --> [B, C]; ran_adjoint : Induced -| Ran }. (* posits the global right adjoint of A^K = Induced directly *)"},
+      {"file": "Theory/Kan/Extension.v", "line": 180, "symbol": "RightKan_to_LocalRightKan",
+       "intree_statement": "Program Instance RightKan_to_LocalRightKan {R : RightKan} (X : A --> C) : LocalRightKan X := {| LocalRan := Ran X; ran_transform := from (adj ran_adjoint (Ran X) X) nat_id |}. (* global ==> local; counit = image of nat_id under the adjunction iso *)"}
+    ],
+    "statement_record": {
+      "book": "If every functor T in A^M has a right Kan extension <R, epsilon_T> along K, then the assignment T |-> R = Ran_K T is the object function of a right adjoint to the precomposition functor A^K, with the universal epsilon as the counit of the adjunction A^K -| Ran_K.",
+      "intree": "The RightKan class directly posits Ran : [A,C]->[B,C] with ran_adjoint : Induced -| Ran (so 'Ran_K is right adjoint to A^K, with counit epsilon' is definitional), and RightKan_to_LocalRightKan derives, from that global adjoint, a LocalRightKan (with counit = the adjunction image of nat_id) at each X.",
+      "strength_comparison": "intree-weaker / reversed direction: the CONCLUSION of the remark (Ran_K is a right adjoint of A^K with epsilon the counit) is present, but only as the DEFINITION of the RightKan class; the remark's actual content -- the assembly passage from the pointwise existence of all local right Kan extensions to the existence of the global right adjoint -- is not proven. Only the reverse implication (global RightKan ==> each LocalRightKan, RightKan_to_LocalRightKan) is in-tree."
+    },
+    "gap": "The implication {LocalRightKan X for every X : A->C} ==> RightKan (assembling all pointwise/local right Kan extensions into the global right adjoint of Induced) is not formalized; the library takes the global adjoint as primitive (RightKan) and derives the locals. The general local-to-global adjoint machinery exists (Theory/Universal/Arrow.v: AdjunctionFromUniversalArrows) but is not connected to the Kan classes to effect this assembly.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My blind pass initially leaned PRESENT, but directional analysis confirms PARTIAL. The remark IS an implication: (every T has a local right Kan extension) => (global right adjoint of A^K exists, epsilon the counit). In-tree this forward assembly is NOT proven -- RightKan (140) POSITS the global adjoint as primitive, and the only class instances in the whole tree (verified by enumeration) are RightKan_to_LocalRightKan (180) and LeftKan_to_LocalLeftKan, both the REVERSE global->local direction. So only the remark's conclusion-as-definition plus the converse are present; the assembly content is a genuine gap. Gap statement accurate (AdjunctionFromUniversalArrows exists but is unconnected)."}
+  },
+  {
+    "id": "maclane:X.3:thm1",
+    "classification": "PARTIAL",
+    "aliases": ["right Kan extension as a pointwise limit", "Rc = Lim over the comma category (c/K)", "pointwise limit formula for Ran", "comma-category limit construction", "end formula for Ran"],
+    "evidence": [
+      {"file": "Structure/Limit/Kan/Extension.v", "line": 46, "symbol": "Kan_Limit",
+       "intree_statement": "Theorem Kan_Limit `(F : J --> C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ~= Ran (Erase J) F ttt. (* limit of F is the value at ttt of the right Kan extension along the terminal functor Erase J : J -> 1 *)"}
+    ],
+    "statement_record": {
+      "book": "For K:M->C and T:M->A such that for each c in C the composite T o Q over the comma category (c/K) has a limit in A, set Rc = Lim_{(c/K)} T with limiting cone lambda; each g:c->c' induces a unique Rg, defining a functor R:C->A, and epsilon_n = lambda_{1_{Kn}} gives epsilon:RK=>T; then <R,epsilon> is the right Kan extension of T along K, computed pointwise as a comma-category limit.",
+      "intree": "Kan_Limit : for F:J->C with a limit and a RightKan along the terminal functor Erase J:J->1, the limit object is isomorphic in C to (Ran (Erase J) F) ttt -- i.e. the value of the right Kan extension along the UNIQUE functor to 1 is the limit.",
+      "strength_comparison": "intree-weaker: only the special case K = terminal functor (Erase J : J->1) of the pointwise-limit identity is in-tree, and even there in the IDENTIFICATION direction (assume a RightKan exists, then equate its value with an assumed Lim), not the general construction of the extension FROM comma-category limits for an arbitrary K. The general functor R with Rc := Lim_{(c/K)} T, its functoriality, and the counit epsilon_n = lambda_{1_{Kn}} are not built."
+    },
+    "gap": "The general pointwise construction -- for arbitrary K, taking Rc := Lim over the comma category (c/K) of T o Q, proving R functorial and <R, epsilon_n = lambda_{1_{Kn}}> the right Kan extension -- is absent. Only K = terminal functor (Kan_Limit, which is Mac Lane X.7 Thm 1 / 'lim = Ran along J->1') is formalized, in the identification (not construction) direction. The file header of Theory/Kan/Extension.v explicitly flags the comma-category limit/end formulas as 'the in-tree machinery those formulas would rest on, a bridge not yet formalized.'",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Borderline PARTIAL/ABSENT; PARTIAL held. Verified Kan_Limit at Structure/Limit/Kan/Extension.v:46 is the file's SOLE theorem (enumerated). It is the K=Erase J special case where the comma (ttt/Erase J) is J, in the identification direction (assumes both RightKan and Limit exist, equates them) -- really the X.7:thm1 content, not X.3:thm1's construction; no general R, functoriality, or counit formula epsilon_n = lambda_{1_Kn}. The classifier's gap is scrupulously honest (quotes the header's 'bridge not yet formalized'), so PARTIAL is defensible as 'special case exists'; a strict reading could call it ABSENT. Kept PARTIAL on the honest-gap standard."}
+  },
+  {
+    "id": "maclane:X.3:cor2",
+    "classification": "ABSENT",
+    "aliases": ["existence of right Kan extensions (M small, A complete)", "completeness gives Ran", "A^K has a right adjoint Ran_K", "Kan's original Set case", "RightKan from Complete"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniw '*.v' 'Ran|Lan' minus the two Kan files: only prose ('The motivation ran' in Theory/Category.v) -- NO other Ran/Lan definition or existence result anywhere in the tree.",
+      "grep -rni '*.v' 'complete' intersect 'kan': only prose hits (Theory/Kan/Extension.v lines 170, 377, 380 -- 'exist completely', 'proof is incomplete', 'complete the ... obligations') -- no theorem 'A complete ==> Ran exists'.",
+      "The Kan-extension classes RightKan/LeftKan/LocalRightKan/LocalLeftKan are USED only in Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v (Kan_Limit); no RightKan instance is ever constructed from a Complete / HasLimits / 'M small' hypothesis (verified by enumerating all uses).",
+      "This corollary is a direct consequence of X.3 Thm 1's pointwise-limit construction, which is itself only partially in-tree (terminal-functor case only); no completeness-driven existence constructor exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass reproduced every claim: the only inhabitants of the Kan classes tree-wide are RightKan_to_LocalRightKan and LeftKan_to_LocalLeftKan (both global->local, no completeness input); Theory/Category.v:50 'Ran' is prose ('The motivation ran'), verified by direct read. No 'M small + A complete => Ran exists' constructor anywhere. ABSENT correct."}
+  },
+  {
+    "id": "maclane:X.3:cor3",
+    "classification": "ABSENT",
+    "aliases": ["full and faithful K gives invertible counit", "epsilon : RK => T a natural isomorphism", "RK = T for fully faithful K", "counit iso from 1_{Kn} initial in (Kn/K)", "reflection of the Kan counit"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni '*.v' 'full.*faithful|fully_faithful|FullyFaithful' intersect 'kan|counit|iso': only unrelated results -- Theory/Functor.v:349 ('fully faithful reflects isomorphisms'), Equivalence/Limit.v:296 ('fully faithful functors reflect isomorphisms and limits'), Instance/Cat.v Isomorphism_FullyFaithful -- NONE about a Kan-extension counit.",
+      "No lemma relates ran_transform / the counit of a LocalRightKan or RightKan to full-and-faithfulness of the functor F (the extension is defined uniformly; there is no F-full/F-faithful hypothesis anywhere near the Kan classes).",
+      "grep for 'ran_transform'/'RK'/counit-iso in the tree: ran_transform occurs only inside Theory/Kan/Extension.v with no iso/full-faithful theorem attached.",
+      "Depends on X.3 Thm 1's comma-category machinery ((Kn/K) with 1_{Kn} initial), which is not in-tree; no such argument exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: no theorem ties full+faithful F to a Kan counit iso. 'codense' (the nearby X.6 concept) appears only in a header comment about the codensity monad; full/faithful x kan/counit hits are the unrelated Functor.v / Equivalence.v reflection lemmas. ran_transform carries no full-faithful hypothesis. ABSENT correct."}
+  },
+  {
+    "id": "maclane:X.3:cor4",
+    "classification": "ABSENT",
+    "aliases": ["Kan extension as an actual extension along a full-subcategory inclusion", "R with RK = T", "genuine extension of T", "identity counit right Kan extension", "extension along an inclusion"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni '*.v' 'extends|actual.*extension|full subcategory' intersect 'kan|extend': only unrelated hits (Comonad/CoKleisli 'extends', Theory/Universal/Arrow 'extends to a left', Lawvere 'interpretation extends', Instance/Discrete 'extends to DiscreteCat_Functor') -- none construct a functor R : C->A with RK = T as a right Kan extension.",
+      "No in-tree construction produces a functor R with R o K ~= T (identity counit) as a Kan extension along a full-subcategory inclusion; the Kan classes carry no 'M is a full subcategory of C' specialization.",
+      "This corollary is derived in Mac Lane from Cor 3 (also ABSENT) applied to the insertion; with Cor 3 and X.3 Thm 1's construction absent, there is no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: no construction of R:C->A with R o K ~= T (identity counit) as a Kan extension along a full-subcategory inclusion; Kan classes carry no 'M full subcategory of C' specialization. Depends on cor3 (also absent). ABSENT correct."}
+  },
+  {
+    "id": "maclane:X.3:def2",
+    "classification": "PARTIAL",
+    "phase_c_classification": "PRESENT",
+    "aliases": ["left Kan extension", "Lan_K T", "LocalLeftKan", "LeftKan", "initial among (functor, unit) pairs", "universal unit eta : T => LK", "natural bijection Nat(Lan T,S) = Nat(T,SK)", "pointwise colimit formula Lc = Colim over (K/c)"],
+    "evidence": [
+      {"file": "Theory/Kan/Extension.v", "line": 234, "symbol": "LocalLeftKan",
+       "intree_statement": "Class LocalLeftKan (X : A --> C) := { LocalLan : B --> C; lan_transform : X ==> LocalLan o F; ump_lan (M : B --> C) (eps : X ==> M o F) : exists! delta, eps = (delta |> F) . lan_transform }."},
+      {"file": "Theory/Kan/Extension.v", "line": 222, "symbol": "LeftKan",
+       "intree_statement": "Class LeftKan := { Lan : [A, C] --> [B, C]; lan_adjoint : Lan -| Induced }. (* the natural bijection [B,C](Lan X, M) = [A,C](X, M o F), i.e. Nat(Lan T, S) = Nat(T, SK) *)"}
+    ],
+    "statement_record": {
+      "book": "A left Kan extension of T:M->A along K:M->C is a pair <L, eta:T=>LK> with eta universal as an arrow from T to A^K, giving a natural bijection Nat(Lan_K T, S) = Nat(T, SK) in S; Lan_K is left adjoint to A^K. When the requisite colimits exist, Lc = Colim over the comma category (K/c) of T o P.",
+      "intree": "LocalLeftKan X packages LocalLan : B->C (= L), the unit lan_transform : X ==> LocalLan o F (= eta : T=>LK), and ump_lan : for every M and eps : X ==> M o F there is a unique delta : LocalLan ==> M with eps = (delta |> F) . lan_transform. The global LeftKan states the equivalent adjoint form Lan -| Induced (bijection Nat(Lan T,S) = Nat(T,SK)). The pointwise colimit formula Lc = Colim over (K/c) has NO in-tree counterpart.",
+      "strength_comparison": "intree-weaker: the definitional core is fully present -- the local universal property (ump_lan, initial among units) is Mac Lane's unique-factorization definition (setoid = for the factorization, faithful), and the global LeftKan's lan_adjoint is the equivalent left-adjoint / natural-bijection form (both forms present). BUT the item's pointwise colimit formula 'Lc = Colim over the comma category (K/c) of T o P' (the dual of X.3 Thm 1) is NOT formalized: there is no Kan_Colimit and no left/colimit dual of Kan_Limit anywhere in the tree, so unlike the right side (thm1, which at least has the terminal-functor special case Kan_Limit) the left colimit formula has zero in-tree witness."
+    },
+    "gap": "The definitional core (LocalLeftKan universal property + LeftKan adjoint Lan -| Induced) is fully PRESENT, but the inventory item's pointwise colimit formula -- 'Lc = Colim over the comma category (K/c) of T o P' -- is not formalized in-tree. Confirmed by rg: no Kan_Colimit, and no colimit dual of Kan_Limit (Structure/Limit/Kan/Extension.v contains ONLY Kan_Limit); the Kan classes carry no comma-category colimit construction for Lan.",
+    "negative_search_log": [
+      "rg 'Kan_Colimit|Colim.*Lan|Lan.*Colim|colimit.*kan|kan.*colimit' over all .v: only prose comments (Adjunction/GAFT.v:133, Theory/Kan/Extension.v:29, Structure/Limit.v:57, Theory/Equivalence.v:89) -- no colimit/Lan pointwise-formula theorem.",
+      "Structure/Limit/Kan/Extension.v top-level symbols: exactly one theorem, Kan_Limit (the right/limit side, terminal-functor case); no left/colimit dual.",
+      "rg 'LocalLan|Lan ' in Theory/Kan/Extension.v intersect 'colim|comma|K/c': zero hits -- the Lan definition carries no colimit-over-comma formula."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "OVERTURNED:PARTIAL", "notes": "Phase C called this PRESENT (gap null) while its own strength_comparison disclosed the pointwise colimit formula is absent. Overturned to PARTIAL. Rationale: (1) The inventory item's statement_summary explicitly INCLUDES 'When the requisite colimits exist, Lc = Colim over the comma category (K/c) of T o P' -- a genuine mathematical claim (MacLane states the left case dually, folding in the dual of thm1), not mere context. (2) That colimit formula is ABSENT in-tree with ZERO witness -- I confirmed no Kan_Colimit and no colimit dual of Kan_Limit exists (Structure/Limit/Kan/Extension.v has only Kan_Limit). (3) Consistency + information-preservation: the exactly-analogous RIGHT-side pointwise LIMIT formula is inventoried as a SEPARATE item (thm1) and classified PARTIAL; the LEFT-side colimit formula has no separate item -- it lives only inside def2. If def2 stays PRESENT, the left-colimit-formula gap is recorded NOWHERE. Downgrading to PARTIAL with an explicit gap captures it. (4) The definitional core (LocalLeftKan:234 + LeftKan:222) IS fully present and correctly cited, so this is PARTIAL, not ABSENT. phase_c_classification preserved as PRESENT."}
+  }
+]

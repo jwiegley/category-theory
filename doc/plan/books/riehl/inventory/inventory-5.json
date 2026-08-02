@@ -1,0 +1,2066 @@
+{
+ "book": "riehl",
+ "range": {
+  "pdf_start": 201,
+  "pdf_end": 238
+ },
+ "pages": [
+  {
+   "pdf_page": 201,
+   "book_page": "181",
+   "empty": false,
+   "items": [],
+   "notes": "Chapter 5 opener: title, Wadler/Iry epigraph, unnumbered adjunction display (C \u21c4 D with \u03b7, \u03b5), and roadmap prose surveying \u00a7\u00a75.1-5.6. Two footnotes (free-forgetful notation; the dual comonad remark). No numbered environment."
+  },
+  {
+   "pdf_page": 202,
+   "book_page": "182",
+   "empty": false,
+   "items": [
+    "riehl:5.1:def1",
+    "riehl:5.1:remark2"
+   ],
+   "notes": "Roadmap prose concludes (monadicity theorem forward-reference to \u00a75.5, limits/colimits to \u00a75.6); \u00a75.1 heading. Definition 5.1.1 carries two unnumbered commuting diagrams (associativity square, unit triangles). Remark 5.1.2 quotes the Iry timeline joke. Section 5.1 counter starts at 1 with no display consuming a number on this page."
+  },
+  {
+   "pdf_page": 203,
+   "book_page": "183",
+   "empty": false,
+   "items": [
+    "riehl:5.1:lem3",
+    "riehl:5.1:example4"
+   ],
+   "notes": "Set \u21c4 Ab motivating discussion carries over from p.182. Lemma 5.1.3 proof uses two unnumbered diagrams; footnote 3 shows the horizontal-composite reading of U\u03b5F. Example 5.1.4 begins with clause (i)."
+  },
+  {
+   "pdf_page": 204,
+   "book_page": "184",
+   "empty": false,
+   "items": [
+    "riehl:5.1:example4"
+   ],
+   "notes": "Continuation only: Example 5.1.4 clauses (ii) free monoid/list monad, (iii) free R-module monad, (iv) free group monad, (v) ultrafilter monad \u03b2, (vi) free category monad on Quiver. No new numbered item starts here."
+  },
+  {
+   "pdf_page": 205,
+   "book_page": "185",
+   "empty": false,
+   "items": [
+    "riehl:5.1:example4",
+    "riehl:5.1:example5"
+   ],
+   "notes": "Example 5.1.4 concludes with clauses (vii) double power set monad and (viii) continuation / double dual monads (footnote 4). Example 5.1.5 begins with clauses (i)-(iii)."
+  },
+  {
+   "pdf_page": 206,
+   "book_page": "186",
+   "empty": false,
+   "items": [
+    "riehl:5.1:example5",
+    "riehl:5.1:def6",
+    "riehl:5.1:example7",
+    "riehl:5.1:exi",
+    "riehl:5.1:exii"
+   ],
+   "notes": "Example 5.1.5 concludes with clause (iv) (Giry monad). Definition 5.1.6 carries two unnumbered comonad diagrams; the paragraph after it states the dual of Lemma 5.1.3 (any adjunction induces a comonad on the codomain of its left adjoint) without a number. 'Exercises.' heading, then Exercises 5.1.i and 5.1.ii. \u00a75.1 arabic counter runs 1..7 contiguously with NO number consumed by a display."
+  },
+  {
+   "pdf_page": 207,
+   "book_page": "187",
+   "empty": false,
+   "items": [
+    "riehl:5.1:exiii",
+    "riehl:5.2:def1",
+    "riehl:5.2:def2"
+   ],
+   "notes": "Exercise 5.1.iii (three clauses (i)-(iii) plus a closing 'show that...' clause about reflective subcategories) completes \u00a75.1's three exercises, matching the pagemap count 5.1:3. \u00a75.2 heading; affine-space motivation; Definitions 5.2.1 and 5.2.2."
+  },
+  {
+   "pdf_page": 208,
+   "book_page": "188",
+   "empty": false,
+   "items": [
+    "riehl:5.2:def2",
+    "riehl:5.2:def3",
+    "riehl:5.2:def4"
+   ],
+   "notes": "Number 5.2.5 is CONSUMED BY A NUMBERED DISPLAY: the tagged pair of diagrams (5.2.5) inside Definition 5.2.4 giving the T-algebra unit and associativity axioms. Not a separate item (no claim distinct from its enclosing definition), though it is back-referenced on pp.189, 190, 197. Footnotes 8 (empty affine space) and 9 (notation for the Eilenberg-Moore category)."
+  },
+  {
+   "pdf_page": 209,
+   "book_page": "189",
+   "empty": false,
+   "items": [
+    "riehl:5.2:example6"
+   ],
+   "notes": "Number 5.2.7 is CONSUMED BY A NUMBERED DISPLAY: the tagged associativity square (5.2.7) for free-monoid-monad algebras inside Example 5.2.6(iii); back-referenced three times on p.190. Not a separate item."
+  },
+  {
+   "pdf_page": 210,
+   "book_page": "190",
+   "empty": false,
+   "items": [
+    "riehl:5.2:example6",
+    "riehl:5.2:def8"
+   ],
+   "notes": "Example 5.2.6 concludes with clause (iv) (closure operator algebras = closed subsets; interior-kernel coalgebras = open subsets), plus the monoid/free-monoid-algebra correspondence discussion. Definition 5.2.8 begins. Footnotes 10 (closure operator) and 11 (coalgebras for a comonad, pointing to Exercise 5.2.iii)."
+  },
+  {
+   "pdf_page": 211,
+   "book_page": "191",
+   "empty": false,
+   "items": [
+    "riehl:5.2:lem9",
+    "riehl:5.2:def10",
+    "riehl:5.2:example11"
+   ],
+   "notes": "Lemma 5.2.9 with proof (counit at an algebra is its structure map; triangle identities deferred to Exercise 5.2.ii). Definition 5.2.10 (Kleisli category). Example 5.2.11 begins with clauses (i)-(ii)."
+  },
+  {
+   "pdf_page": 212,
+   "book_page": "192",
+   "empty": false,
+   "items": [
+    "riehl:5.2:example11",
+    "riehl:5.2:lem12",
+    "riehl:5.2:construction-adjT"
+   ],
+   "notes": "Example 5.2.11 concludes with clauses (iii) state monad and (iv) Giry/Markov kernels. Lemma 5.2.12 with proof. Then an UNNUMBERED construction in running prose: the category Adj_T of adjunctions inducing a fixed monad, with clause (i) on this page and clause (ii) on p.193."
+  },
+  {
+   "pdf_page": 213,
+   "book_page": "193",
+   "empty": false,
+   "items": [
+    "riehl:5.2:construction-adjT",
+    "riehl:5.2:prop13"
+   ],
+   "notes": "Clause (ii) of the Adj_T morphism characterization (K commutes with adjoint transposition) completes the unnumbered construction begun on p.192. Proposition 5.2.13 with the start of its proof (explicit formulas for J and K)."
+  },
+  {
+   "pdf_page": 214,
+   "book_page": "194",
+   "empty": false,
+   "items": [
+    "riehl:5.2:prop13",
+    "riehl:5.2:lem14",
+    "riehl:5.2:exi",
+    "riehl:5.2:exii",
+    "riehl:5.2:exiii",
+    "riehl:5.2:exiv",
+    "riehl:5.2:exv",
+    "riehl:5.2:exvi"
+   ],
+   "notes": "Proof of Proposition 5.2.13 ends. Lemma 5.2.14 with proof; closing prose observes that Kleisli \u2243 Eilenberg-Moore exactly when all algebras are free (free vector spaces; Set_\u2202 \u2243 Set_* of Example 1.5.6). 'Exercises.' heading and Exercises 5.2.i-5.2.vi (vi continues onto p.195), matching the pagemap count 5.2:6. \u00a75.2 arabic counter runs 1..14 contiguously, with 5 and 7 consumed by displays."
+  },
+  {
+   "pdf_page": 215,
+   "book_page": "195",
+   "empty": false,
+   "items": [
+    "riehl:5.2:exvi",
+    "riehl:5.3:construction-ab-monadic"
+   ],
+   "notes": "Exercise 5.2.vi concludes at the top of the page. \u00a75.3 heading, then unnumbered running-prose development of the free abelian group monad Z[-] on Set and the claim that the comparison functor Ab -> Set^{Z[-]} is an isomorphism of categories (only sketched here; completed via Corollary 5.5.3). No numbered environment begins on this page."
+  },
+  {
+   "pdf_page": 216,
+   "book_page": "196",
+   "empty": false,
+   "items": [
+    "riehl:5.3:construction-ab-monadic",
+    "riehl:5.3:def1",
+    "riehl:5.3:example2",
+    "riehl:5.3:def-strictly-monadic",
+    "riehl:5.3:prop3"
+   ],
+   "notes": "The Ab prose construction concludes ('the category of abelian groups is monadic over the category of sets'). Definition 5.3.1, Example 5.3.2, an unnumbered prose definition of 'strictly monadic', the reflective-subcategory/idempotent-monad paragraph, and Proposition 5.3.3 with clauses (i) and (ii); its proof begins at the foot of the page."
+  },
+  {
+   "pdf_page": 217,
+   "book_page": "197",
+   "empty": false,
+   "items": [
+    "riehl:5.3:prop3",
+    "riehl:5.3:exi",
+    "riehl:5.3:exii",
+    "riehl:5.3:exiii"
+   ],
+   "notes": "Proof of Proposition 5.3.3 concludes (one unnumbered diagram). 'Exercises.' heading with Exercises 5.3.i-iii, matching pagemap 5.3:3. \u00a75.3 arabic counter runs 1..3 contiguously, no number consumed by a display. \u00a75.4 heading and its opening paragraph."
+  },
+  {
+   "pdf_page": 218,
+   "book_page": "198",
+   "empty": false,
+   "items": [
+    "riehl:5.4:def-presentation",
+    "riehl:5.4:prop2"
+   ],
+   "notes": "TWO numbers consumed by displays here. (5.4.1) is the tagged generators-and-relations coequalizer Z[R] \u21c9 Z[G] \u21a0 A carrying the prose definition of a presentation (recorded as riehl:5.4:def-presentation, so the number is accounted for and no phantom environment is invented). (5.4.3) is the tagged coequalizer diagram inside the statement of Proposition 5.4.2 \u2014 not a distinct claim, hence no separate item."
+  },
+  {
+   "pdf_page": 219,
+   "book_page": "199",
+   "empty": false,
+   "items": [
+    "riehl:5.4:def4",
+    "riehl:5.4:lem6",
+    "riehl:5.4:example7",
+    "riehl:5.4:def8",
+    "riehl:5.4:prop9"
+   ],
+   "notes": "Number 5.4.5 is CONSUMED BY A NUMBERED DISPLAY: the tagged split-coequalizer diagram (5.4.5) inside Definition 5.4.4; back-referenced in the proof of Lemma 5.4.6 and in Definition 5.4.8. Densest page of the range: five numbered items begin here."
+  },
+  {
+   "pdf_page": 220,
+   "book_page": "200",
+   "empty": false,
+   "items": [
+    "riehl:5.4:prop9"
+   ],
+   "notes": "Continuation only: the proof of Proposition 5.4.9 (lift of the algebra structure map along the coequalizer, prism diagram chases). No numbered item starts here."
+  },
+  {
+   "pdf_page": 221,
+   "book_page": "201",
+   "empty": false,
+   "items": [
+    "riehl:5.4:prop9",
+    "riehl:5.4:cor10"
+   ],
+   "notes": "Proof of Proposition 5.4.9 ends; deferred proof of Proposition 5.4.2 is discharged from Example 5.4.7 + Proposition 5.4.9. Number 5.4.11 is CONSUMED BY A NUMBERED DISPLAY: the tagged counit fork FUFUD \u21c9 FUD \u2192 D inside Corollary 5.4.10(ii); back-referenced twice in the proof and again on p.203 \u2014 not a separate item."
+  },
+  {
+   "pdf_page": 222,
+   "book_page": "202",
+   "empty": false,
+   "items": [
+    "riehl:5.4:exi",
+    "riehl:5.4:exii",
+    "riehl:5.5:thm1"
+   ],
+   "notes": "'Exercises.' heading with Exercises 5.4.i-ii, matching pagemap 5.4:2. \u00a75.4 arabic counter runs 1..11 contiguously, with 1, 3, 5 and 11 consumed by displays. \u00a75.5 heading; Theorem 5.5.1 (Beck) with its restatement as the (i)/(ii) equivalence and the start of its proof. Number 5.5.2 is CONSUMED BY A NUMBERED DISPLAY: the tagged coequalizer FUFA \u21c9 FA \u21e2 L(A,a) inside the proof \u2014 no separate item. Corollary 5.5.3 begins on PDF 223, outside this range, and is NOT recorded here."
+  },
+  {
+   "pdf_page": 223,
+   "book_page": "203",
+   "empty": false,
+   "items": [
+    "riehl:5.5:thm1",
+    "riehl:5.5:cor3",
+    "riehl:5.5:def-lattice"
+   ],
+   "notes": "Opens mid-proof: the tail of the proof of Theorem 5.5.1 (monadicity theorem), which STARTS on PDF 222 and therefore belongs to the other agent; likewise display (5.5.2) is on PDF 222. This page carries the functoriality square for L, the argument that KL congruent to id and LK congruent to id, then Corollary 5.5.3 and the start of its proof (monoids monadic over Set). Footnote 12 glosses lattice / meet semilattice / join semilattice."
+  },
+  {
+   "pdf_page": 224,
+   "book_page": "204",
+   "empty": false,
+   "items": [
+    "riehl:5.5:cor3",
+    "riehl:5.5:def4",
+    "riehl:5.5:def5",
+    "riehl:5.5:cor6",
+    "riehl:5.5:def-kuratowski"
+   ],
+   "notes": "End of the proof of Corollary 5.5.3 (the split-coequalizer-preserved-by-(-)^{x2} argument for the multiplication on M''), then Definitions 5.5.4 and 5.5.5, Corollary 5.5.6 and the start of its Kuratowski-closure-operator proof. The Kuratowski closure axioms (i)-(iv) and the prose definitions of continuous/closed maps are recorded as an unnumbered definition."
+  },
+  {
+   "pdf_page": 225,
+   "book_page": "205",
+   "empty": false,
+   "items": [
+    "riehl:5.5:cor6",
+    "riehl:5.5:def-kuratowski",
+    "riehl:5.5:example7"
+   ],
+   "notes": "Remainder of the proof of Corollary 5.5.6 (covariant power set functor applied to an absolute coequalizer; the induced closure operator on Z; the universal property check). Footnote 13 supplies the point-set argument that Z is compact Hausdorff. Example 5.5.7 begins here with parts (i) and (ii) and continues onto PDF 226."
+  },
+  {
+   "pdf_page": 226,
+   "book_page": "206",
+   "empty": false,
+   "items": [
+    "riehl:5.5:example7",
+    "riehl:5.5:prop8",
+    "riehl:5.5:def-reflexive-pair",
+    "riehl:5.5:thm9",
+    "riehl:5.5:def-elementary-topos",
+    "riehl:5.5:lem10"
+   ],
+   "notes": "Parts (iii) and (iv) of Example 5.5.7 (recorded on PDF 225). Then a paragraph of terminology history (PTT / CTT / VTT, 'triple' as a synonym for monad) that is pure exposition and is not inventoried. Proposition 5.5.8 (reflexive tripleability), Theorem 5.5.9 (Pare) and Lemma 5.5.10 (Beck-Chevalley) all begin here. Footnote 14 is historical; footnote 15 defines a reflexive parallel pair and IS inventoried."
+  },
+  {
+   "pdf_page": 227,
+   "book_page": "207",
+   "empty": false,
+   "items": [
+    "riehl:5.5:thm9",
+    "riehl:5.5:lem10"
+   ],
+   "notes": "No new numbered environment starts on this page. Contains: the proof of Lemma 5.5.10 (via the pullback-pasting Exercise 3.1.vi); the corollary-in-prose that for a monomorphism f the composite f^{-1} . f_* on power sets is the identity (an unnamed consequence of Lemma 5.5.10, not separately numbered); and the first half of the proof of Theorem 5.5.9, verifying hypotheses (i) and (ii) of Proposition 5.5.8 for the contravariant power set functor."
+  },
+  {
+   "pdf_page": 228,
+   "book_page": "208",
+   "empty": false,
+   "items": [
+    "riehl:5.5:thm9",
+    "riehl:5.5:exi",
+    "riehl:5.5:exii",
+    "riehl:5.5:exiii",
+    "riehl:5.5:exiv",
+    "riehl:5.5:exv",
+    "riehl:5.5:exvi",
+    "riehl:5.5:exvii"
+   ],
+   "notes": "End of the proof of Theorem 5.5.9 (P is faithful, hence reflects isos in Set). Then the unnumbered 'Exercises.' heading and all seven exercises of section 5.5; Exercise 5.5.vii begins here and runs onto PDF 229. Count 7 matches the pagemap's per-section tally (5.5:7)."
+  },
+  {
+   "pdf_page": 229,
+   "book_page": "209",
+   "empty": false,
+   "items": [
+    "riehl:5.5:exvii",
+    "riehl:5.5:def-lawvere-theory",
+    "riehl:5.6:lem1",
+    "riehl:5.6:def-conservative"
+   ],
+   "notes": "Parts (i) and (ii) of Exercise 5.5.vii (recorded on PDF 228), with an interleaved paragraph of running prose defining the Lawvere theory associated to a finitary monad, its models, and morphisms of models -- inventoried as an unnumbered definition. Then the section 5.6 heading, a recall of the definition of 'monadic' (a restatement of Definition 5.4.8, not a new item), Lemma 5.6.1 with its proof, and the prose definition of 'conservative'. Footnote 16 scopes the exposition to Set; footnote 17 records the unnumbered claim that U : Field -> Set cannot be monadic because it admits no adjoints (Example 4.1.12) -- a footnote claim, not an environment, so noted rather than inventoried."
+  },
+  {
+   "pdf_page": 230,
+   "book_page": "210",
+   "empty": false,
+   "items": [
+    "riehl:5.6:cor2",
+    "riehl:5.6:remark3",
+    "riehl:5.6:cor4",
+    "riehl:5.6:thm5"
+   ],
+   "notes": "Corollaries 5.6.2 and 5.6.4, Remark 5.6.3, and Theorem 5.6.5 with the start of its proof (the limit half, clause (i)). Prose after Corollary 5.6.4 notes the contrapositive of Lemma 5.6.1 shows Top and Poset are not monadic over Set. Footnotes 18-19 give the point-set proof of Corollary 5.6.2 and are not inventoried."
+  },
+  {
+   "pdf_page": 231,
+   "book_page": "211",
+   "empty": false,
+   "items": [
+    "riehl:5.6:thm5",
+    "riehl:5.6:cor6",
+    "riehl:5.6:cor7",
+    "riehl:5.6:example8"
+   ],
+   "notes": "Conclusion of the proof of Theorem 5.6.5: the two prism diagrams verifying that (L, l) is a T-algebra, with clause (ii) (colimits) deferred to Exercise 5.6.ii. Then Corollaries 5.6.6 and 5.6.7 and the start of Example 5.6.8 (p-adic integers), which continues onto PDF 232. Footnote 20 recalls that T preserves split coequalizers (Proposition 5.4.9)."
+  },
+  {
+   "pdf_page": 232,
+   "book_page": "212",
+   "empty": false,
+   "items": [
+    "riehl:5.6:example8",
+    "riehl:5.6:cor9",
+    "riehl:5.6:cor10",
+    "riehl:5.6:construction-free-product"
+   ],
+   "notes": "Tail of Example 5.6.8 (the created limit cone forces componentwise ring structure). Corollaries 5.6.9 and 5.6.10. Then several paragraphs building the free product of groups as a coequalizer of free groups relative to the Set/Group free-forgetful adjunction; recorded as an unnumbered construction that continues onto PDF 233."
+  },
+  {
+   "pdf_page": 233,
+   "book_page": "213",
+   "empty": false,
+   "items": [
+    "riehl:5.6:construction-free-product",
+    "riehl:5.6:prop11",
+    "riehl:5.6:thm12"
+   ],
+   "notes": "Completion of the free-product-as-coequalizer construction (recorded on PDF 232), including its generalization sentence to any monadic U : A -> C over a cocomplete C. Then Proposition 5.6.11 with proof (coproduct of a family of T-algebras as a coequalizer of free algebras, details deferred to Exercise 5.6.iii) and the statement of Theorem 5.6.12."
+  },
+  {
+   "pdf_page": 234,
+   "book_page": "214",
+   "empty": false,
+   "items": [
+    "riehl:5.6:thm12"
+   ],
+   "notes": "No new numbered environment starts. First page of the proof of Theorem 5.6.12: reduction via Theorem 5.6.5, Proposition 5.6.11, Proposition 4.6.1 and Proposition 3.4.9 to a solution set condition for the constant diagram functor, then the start of the inductive construction of the approximating fork (P_n, Q_n, p_n, q_n, u_n, v_n). Footnote 21 recalls that the solution set condition does not demand unique factorizations."
+  },
+  {
+   "pdf_page": 235,
+   "book_page": "215",
+   "empty": false,
+   "items": [
+    "riehl:5.6:thm12"
+   ],
+   "notes": "No new numbered environment starts. Continuation of the proof of Theorem 5.6.12: the inductive step defining P_{n+1} := TQ_n and Q_{n+1} as a coequalizer, the sequential-colimit diagram, and the verification of the unit law for the T-algebra (Q_omega, u_omega) using that T preserves filtered colimits."
+  },
+  {
+   "pdf_page": 236,
+   "book_page": "216",
+   "empty": false,
+   "items": [
+    "riehl:5.6:thm12"
+   ],
+   "notes": "No new numbered environment starts. Continuation of the proof of Theorem 5.6.12: the associativity condition for (Q_omega, u_omega) and the construction of the factorization k : Q_omega -> C. NUMBERING NOTE: item number 13 of section 5.6 is consumed by the NUMBERED DISPLAY (5.6.13) on this page -- a commuting square/triangle diagram inside the induction, back-referenced twice in this proof and once on PDF 237, but an intermediate step of Theorem 5.6.12 rather than a claim distinct from its enclosing item, so per policy no 'equation' item is minted. There is no missing Theorem/Definition 5.6.13."
+  },
+  {
+   "pdf_page": 237,
+   "book_page": "217",
+   "empty": false,
+   "items": [
+    "riehl:5.6:thm12",
+    "riehl:5.6:cor14",
+    "riehl:5.6:exi",
+    "riehl:5.6:exii",
+    "riehl:5.6:exiii"
+   ],
+   "notes": "End of the proof of Theorem 5.6.12 (the solution set condition verified, so Delta has a left adjoint and C^T has coequalizers). Corollary 5.6.14, then a closing paragraph observing that the compact-Hausdorff monad beta is not finitary yet cHaus is cocomplete because it is a reflective subcategory of Top (Propositions 3.6.2 and 4.6.14) -- expository, not inventoried. Then the unnumbered 'Exercises.' heading and all three section 5.6 exercises, matching the pagemap tally (5.6:3). Last text page of Chapter 5."
+  },
+  {
+   "pdf_page": 238,
+   "book_page": "218",
+   "empty": true,
+   "items": [],
+   "notes": "Blank trailing verso of Chapter 5, exactly as the pagemap predicts (blank pages PDF 20, 72, 100, 150, 238, 270, 280 are all counted). Zero visible content."
+  }
+ ],
+ "items": [
+  {
+   "id": "riehl:5.1:def1",
+   "kind": "definition",
+   "number": "5.1.1",
+   "name": "monad",
+   "statement_summary": "A monad on a category C consists of an endofunctor T : C -> C, a unit natural transformation eta : id_C => T, and a multiplication natural transformation mu : T^2 => T, subject to two commuting diagrams in the endofunctor category C^C: associativity, mu . T mu = mu . mu T as maps T^3 => T, and the two unit laws mu . eta T = id_T = mu . T eta as maps T => T.",
+   "book_section": "5.1",
+   "book_page": "182",
+   "pdf_pages": [
+    202
+   ],
+   "cross_refs": [
+    "riehl:5.1:remark2",
+    "riehl:5.1:lem3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.1:remark2",
+   "kind": "remark",
+   "number": "5.1.2",
+   "name": "a monad is a monoid in the category of endofunctors",
+   "statement_summary": "Observes that the monad axioms are exactly the associativity and unit laws for a monoid (as in Definition 1.6.3), and that this is no coincidence. Defines, in prose, a monoidal category V as a category with a binary functor V x V -> V and a unit object together with coherence natural isomorphisms (details deferred to E.2), and states the identification: a monad on C is precisely a monoid in the monoidal category C^C of endofunctors of C, where the binary functor is composition and the unit object is id_C; C^C is a STRICT monoidal category, so its coherence isomorphisms can be taken to be identities. Notes that monoids in a monoidal category (topological monoids, unital rings, k-algebras) are instances of the same pattern, and that the notion of monoid in a monoidal category is nonetheless more complicated than that of monad.",
+   "book_section": "5.1",
+   "book_page": "182",
+   "pdf_pages": [
+    202
+   ],
+   "cross_refs": [
+    "riehl:5.1:def1"
+   ],
+   "flags": [
+    "contains-prose-definition:monoidal-category"
+   ]
+  },
+  {
+   "id": "riehl:5.1:lem3",
+   "kind": "lemma",
+   "number": "5.1.3",
+   "name": "every adjunction induces a monad on the codomain of its right adjoint",
+   "statement_summary": "Any adjunction F : C \u21c4 D : U with unit eta : id_C => UF and counit epsilon : FU => id_D gives rise to a monad on C (the codomain of the right adjoint) whose endofunctor is T = UF, whose unit is the adjunction unit eta : id_C => UF, and whose multiplication is the whiskered counit U epsilon F : UFUF => UF. Proof: the unit triangles for the monad are the triangle identities of the adjunction, and the associativity square is naturality of the vertical transformation U epsilon : UFU => U.",
+   "book_section": "5.1",
+   "book_page": "183",
+   "pdf_pages": [
+    203
+   ],
+   "cross_refs": [
+    "riehl:5.1:def1",
+    "riehl:5.2:prop13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.1:example4",
+   "kind": "example",
+   "number": "5.1.4",
+   "name": "monads from familiar adjunctions",
+   "statement_summary": "Eight monads obtained by applying Lemma 5.1.3. (i) The free-forgetful adjunction for pointed sets induces the 'maybe' monad (-)_+ on Set adjoining a disjoint basepoint, with unit the inclusion A -> A_+ and multiplication identifying the two new points; the same works in any category with coproducts by adjoining a fixed object. (ii) The free-forgetful adjunction for monoids induces the free monoid or 'list' monad TA = coproduct over n >= 0 of A^n, with unit the singleton-list inclusion and multiplication concatenation. (iii) The free-forgetful adjunction for R-modules induces the free R-module monad R[-] : Set -> Set, where R[A] is the set of finitely supported functions A -> R, unit sending a to its indicator, multiplication distributing and consolidating coefficients; special cases are the free abelian group monad and the free vector space monad. (iv) The free-forgetful adjunction for groups induces the free group monad, A mapsto finite words in the letters of A and formal inverses. (v) The composite adjunction Set \u21c4 Top \u21c4 cHaus induces the monad beta : Set -> Set sending a set to the underlying set of the Stone-Cech compactification of the discrete space on it, equivalently the set of ultrafilters on A; an ultrafilter is defined in prose as an upward-closed, finite-intersection-closed family of subsets containing exactly one of each subset and its complement. (vi) The free-category adjunction Quiver \u21c4 Cat induces a monad on Quiver carrying a quiver to the quiver of finite directed paths, with unit including the unary paths. (vii) The contravariant power set functor is mutually right adjoint to itself (Set(A,PB) iso Set(B,PA)), inducing the double power set monad A mapsto P^2 A, unit the principal-ultrafilter map, multiplication as described. (viii) The same works with any object S in place of the two-element set, giving the continuation monads S^{S^{(-)}} on Set and, more generally, S^{(-)} : C^op -> C mutually right adjoint to itself in any cartesian closed C; taking C = Vect_k and S = k gives the double dual monad on Vect_k.",
+   "book_section": "5.1",
+   "book_page": "183",
+   "pdf_pages": [
+    203,
+    204,
+    205
+   ],
+   "cross_refs": [
+    "riehl:5.1:lem3",
+    "riehl:5.2:example6",
+    "riehl:5.2:example11",
+    "riehl:5.1:exii"
+   ],
+   "flags": [
+    "multi-part:8-clauses",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.1:example5",
+   "kind": "example",
+   "number": "5.1.5",
+   "name": "monads arising in nature",
+   "statement_summary": "Four monads not presented via an adjunction. (i) The COVARIANT power set functor P : Set -> Set is a monad, with unit the singleton map A -> PA and multiplication PPA -> PA taking unions; naturality of the unit uses that f_* is direct image, and naturality of the multiplication uses that direct image is a left adjoint and so preserves unions (Corollary 4.6.3). (ii) The free commutative monoid monad TA = coproduct over n >= 0 of A^{x n} quotiented by the symmetric group action, whose elements are finite unordered lists, equivalently finitely supported functions A -> N. (iii) The monad (-) x N on Set with unit a mapsto (a,0) and multiplication (a,m,n) mapsto (a, m+n), reading the second coordinate as a discrete time/cost; N can be replaced by any monoid and Set by any monoidal category. (iv) The Giry monad on the category Meas of measurable spaces and measurable functions, sending A to the space Prob(A) of probability measures on A carrying the smallest sigma-algebra making each evaluation ev_X : Prob(A) -> I measurable; the unit sends a to the Dirac measure at a and the multiplication is defined by integration.",
+   "book_section": "5.1",
+   "book_page": "185",
+   "pdf_pages": [
+    205,
+    206
+   ],
+   "cross_refs": [
+    "riehl:5.2:example11"
+   ],
+   "flags": [
+    "multi-part:4-clauses",
+    "contains-prose-definition:measurable-space",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.1:def6",
+   "kind": "definition",
+   "number": "5.1.6",
+   "name": "comonad",
+   "statement_summary": "A comonad on C is a monad on C^op; explicitly, an endofunctor K : C -> C with natural transformations epsilon : K => id_C (counit) and delta : K => K^2 (comultiplication) such that the coassociativity square (K delta . delta = delta K . delta as maps K => K^3) and the two counit triangles (epsilon K . delta = id_K = K epsilon . delta) commute in C^C. The accompanying prose adds two unnumbered claims: a comonad is a comonoid in the category of endofunctors of C, and, dually to Lemma 5.1.3, every adjunction induces a comonad FU on the codomain D of its left adjoint, with counit the adjunction counit and comultiplication the whiskered unit F eta U.",
+   "book_section": "5.1",
+   "book_page": "186",
+   "pdf_pages": [
+    206
+   ],
+   "cross_refs": [
+    "riehl:5.1:lem3",
+    "riehl:5.2:exiii"
+   ],
+   "flags": [
+    "includes-adjacent-unnumbered-dual-claim"
+   ]
+  },
+  {
+   "id": "riehl:5.1:example7",
+   "kind": "example",
+   "number": "5.1.7",
+   "name": "closure operators and kernel operators as (co)monads on a preorder",
+   "statement_summary": "A monad on a preorder (P, <=) is exactly an order-preserving function T : P -> P with p <= Tp and T^2 p <= Tp for all p (the unit and associativity axioms, which are automatic as conditions since hom-sets are subsingletons). If P is a poset, isomorphic objects are equal and the two conditions force T^2 p = Tp; such a T, order-preserving with p <= Tp and T^2 p = Tp, is a closure operator. Dually a comonad on a poset is a kernel (interior) operator: order-preserving K with Kp <= p and Kp = K^2 p. Example: the poset PX of subsets of a topological space X carries the closure operator A mapsto closure of A and the kernel operator A mapsto interior of A.",
+   "book_section": "5.1",
+   "book_page": "186",
+   "pdf_pages": [
+    206
+   ],
+   "cross_refs": [
+    "riehl:5.2:example6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.1:exi",
+   "kind": "exercise",
+   "number": "5.1.i",
+   "name": "free monoid monad in a monoidal category with distributing coproducts",
+   "statement_summary": "Let V be a monoidal category (a category with a bifunctor tensor : V x V -> V associative up to coherent natural isomorphism and a unit object with natural unit isomorphisms) that has finite coproducts and whose tensor preserves finite coproducts in each variable. Show that T(X) = coproduct over n >= 0 of X^{tensor n} defines a monad on V, by constructing natural transformations eta : id_V => T and mu : T^2 => T and verifying the monad axioms.",
+   "book_section": "5.1",
+   "book_page": "186",
+   "pdf_pages": [
+    206
+   ],
+   "cross_refs": [
+    "riehl:5.1:example4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.1:exii",
+   "kind": "exercise",
+   "number": "5.1.ii",
+   "name": "the ultrafilter monad",
+   "statement_summary": "Show that the functor beta : Set -> Set carrying a set to the set of ultrafilters on it is a monad, by defining unit and multiplication natural transformations satisfying the unit and associativity laws. Hint: the ultrafilter monad is a submonad of the double power set monad P^2 : Set -> Set.",
+   "book_section": "5.1",
+   "book_page": "186",
+   "pdf_pages": [
+    206
+   ],
+   "cross_refs": [
+    "riehl:5.1:example4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.1:exiii",
+   "kind": "exercise",
+   "number": "5.1.iii",
+   "name": "characterizations of an idempotent monad",
+   "statement_summary": "Prove the equivalence of three characterizations of an idempotent monad (T, eta, mu): (i) mu : T^2 => T is a natural isomorphism (so T^2 iso T); (ii) mu is a monomorphism; (iii) the natural transformations eta T and T eta : T => T^2 coincide. Then show, as a fourth, separately stated clause, that the adjunction associated with a reflective subcategory of C induces an idempotent monad on C.",
+   "book_section": "5.1",
+   "book_page": "187",
+   "pdf_pages": [
+    207
+   ],
+   "cross_refs": [
+    "riehl:5.3:prop3"
+   ],
+   "flags": [
+    "multi-part:3-clauses-plus-trailing-claim",
+    "defining-site:idempotent-monad"
+   ]
+  },
+  {
+   "id": "riehl:5.2:def1",
+   "kind": "definition",
+   "number": "5.2.1",
+   "name": "affine space (via a translation action of a vector space)",
+   "statement_summary": "Given a vector space V over a field k, an affine space is a non-empty set A with a translation function + : V x A -> A such that 0 + a = a for all a in A; (v + w) + a = v + (w + a) for all v, w in V and a in A; and, for each a in A, the function (-) + a : V -> A is a bijection (so the action is simply transitive: any two points differ by a unique vector).",
+   "book_section": "5.2",
+   "book_page": "187",
+   "pdf_pages": [
+    207
+   ],
+   "cross_refs": [
+    "riehl:5.2:def2",
+    "riehl:5.2:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:def2",
+   "kind": "definition",
+   "number": "5.2.2",
+   "name": "affine space (via affine linear combinations)",
+   "statement_summary": "An affine space is a non-empty set A in which affine linear combinations can be evaluated: for any n-tuple a_1, ..., a_n in A and scalars lambda_1, ..., lambda_n in k with lambda_1 + ... + lambda_n = 1 there is a well-defined element lambda_1 a_1 + ... + lambda_n a_n in A. The preceding prose derives this from Definition 5.2.1 by fixing an arbitrary origin and shows the result is independent of that choice. Stated informally here; made precise by Definition 5.2.3.",
+   "book_section": "5.2",
+   "book_page": "187",
+   "pdf_pages": [
+    207,
+    208
+   ],
+   "cross_refs": [
+    "riehl:5.2:def1",
+    "riehl:5.2:def3"
+   ],
+   "flags": [
+    "informal-definition-made-precise-later",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.2:def3",
+   "kind": "definition",
+   "number": "5.2.3",
+   "name": "affine space as an algebra for the affine linear combination monad",
+   "statement_summary": "An affine space is an algebra for the affine linear combination monad Aff_k(-) : Set -> Set, where Aff_k(A) is the set of finite formal affine linear combinations of elements of A (formal sums with coefficients in k summing to 1, identified up to permutation of summands, deletion of zero-coefficient summands, and addition of coefficients on repeated elements). Being an algebra means having an evaluation function ev_A : Aff_k(A) -> A whose composite with the singleton unit eta_A is the identity, and which is compatible with the distributivity multiplication mu_A : Aff_k(Aff_k(A)) -> Aff_k(A), i.e. a nested affine combination may be evaluated either by distributing first or by evaluating the inner combinations first. The definition drops the traditional non-emptiness requirement (footnote 8), admitting the empty set.",
+   "book_section": "5.2",
+   "book_page": "188",
+   "pdf_pages": [
+    208
+   ],
+   "cross_refs": [
+    "riehl:5.2:def2",
+    "riehl:5.2:def4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:def4",
+   "kind": "definition",
+   "number": "5.2.4",
+   "name": "Eilenberg-Moore category / category of T-algebras",
+   "statement_summary": "For a monad (T, eta, mu) on C, the Eilenberg-Moore category C^T (the category of T-algebras) has: objects the pairs (A, a : TA -> A) with A in C such that the unit triangle a . eta_A = id_A and the associativity square a . Ta = a . mu_A commute in C (the diagrams tagged (5.2.5)); morphisms f : (A,a) -> (B,b) the T-algebra homomorphisms, i.e. maps f : A -> B in C with f . a = b . Tf; composition and identities as in C. Footnote 9 records that other notations for this category are common.",
+   "book_section": "5.2",
+   "book_page": "188",
+   "pdf_pages": [
+    208
+   ],
+   "cross_refs": [
+    "riehl:5.2:def3",
+    "riehl:5.2:lem9",
+    "riehl:5.2:exiii"
+   ],
+   "flags": [
+    "encloses-numbered-display:(5.2.5)"
+   ]
+  },
+  {
+   "id": "riehl:5.2:example6",
+   "kind": "example",
+   "number": "5.2.6",
+   "name": "identifications of categories of algebras",
+   "statement_summary": "Four identifications of Eilenberg-Moore categories. (i) For the free pointed set (maybe) monad (-)_+ on Set, an algebra is a set A with a : A_+ -> A restricting to the identity on A, so the data is exactly a choice of basepoint (the image of the extra point); algebra maps are basepoint-preserving; hence Set^{(-)_+} is isomorphic to Set_*. (ii) For a unital ring R, the monad R tensor_Z (-) on Ab induced by the free-forgetful adjunction Ab \u21c4 R-Mod has algebras exactly the R-modules: the structure map encodes a Z-bilinear scalar multiplication R x A -> A and the two axioms say 1 . a = a and r . (r' . a) = (rr') . a. (iii) For the free monoid monad on Set, an algebra is a set A with maps alpha_n : A^n -> A for all n; the unit triangle forces alpha_1 = id and the associativity square (5.2.7) makes the family determined by an associative unital binary operation, so the category of algebras is isomorphic to Monoid (using Exercise 5.2.i for the morphisms). (iv) For the closure operator on the poset of subsets of a topological space X, an algebra is exactly a closed subset; dually, a coalgebra for the interior kernel operator is exactly an open subset.",
+   "book_section": "5.2",
+   "book_page": "189",
+   "pdf_pages": [
+    209,
+    210
+   ],
+   "cross_refs": [
+    "riehl:5.1:example4",
+    "riehl:5.1:example7",
+    "riehl:5.2:def4",
+    "riehl:5.5:cor3"
+   ],
+   "flags": [
+    "multi-part:4-clauses",
+    "encloses-numbered-display:(5.2.7)",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.2:def8",
+   "kind": "definition",
+   "number": "5.2.8",
+   "name": "free T-algebra and the free algebra functor F^T",
+   "statement_summary": "For a monad (T, eta, mu) on C and any object A in C, the free T-algebra on A is (TA, mu_A : T^2 A -> TA); it satisfies the T-algebra axioms because of the monad unit and associativity identities. The construction is functorial: there is a functor F^T : C -> C^T with F^T A = (TA, mu_A) and F^T f = Tf : (TA, mu_A) -> (TB, mu_B) (the free T-algebra morphism), which is a T-algebra homomorphism by naturality of mu.",
+   "book_section": "5.2",
+   "book_page": "190",
+   "pdf_pages": [
+    210
+   ],
+   "cross_refs": [
+    "riehl:5.2:def4",
+    "riehl:5.2:lem9",
+    "riehl:5.4:prop2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:lem9",
+   "kind": "lemma",
+   "number": "5.2.9",
+   "name": "the Eilenberg-Moore adjunction",
+   "statement_summary": "For any monad (T, eta, mu) on a category C there is an adjunction F^T \u22a3 U^T between C and the Eilenberg-Moore category C^T whose underlying monad (in the sense of Lemma 5.1.3) is (T, eta, mu). Here U^T : C^T -> C is the forgetful functor, F^T is the free-algebra functor of Definition 5.2.8 (so U^T F^T = T), the unit of the adjunction is eta itself, and the counit component at an algebra (A,a) is the structure map a : (TA, mu_A) -> (A,a), which is an algebra homomorphism by the associativity square; in particular U^T epsilon F^T = mu. The triangle identities are left to Exercise 5.2.ii.",
+   "book_section": "5.2",
+   "book_page": "191",
+   "pdf_pages": [
+    211
+   ],
+   "cross_refs": [
+    "riehl:5.1:lem3",
+    "riehl:5.2:def8",
+    "riehl:5.2:prop13",
+    "riehl:5.2:exii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:def10",
+   "kind": "definition",
+   "number": "5.2.10",
+   "name": "Kleisli category",
+   "statement_summary": "For a monad (T, eta, mu) on C, the Kleisli category C_T has the same objects as C, and a morphism from A to B in C_T is a morphism A -> TB in C. The identity at A is eta_A : A -> TA, and the composite of f : A -> TB with g : B -> TC is mu_C . Tg . f : A -> TC. Verification that this is associative and unital is left to Exercise 5.2.iv.",
+   "book_section": "5.2",
+   "book_page": "191",
+   "pdf_pages": [
+    211
+   ],
+   "cross_refs": [
+    "riehl:5.2:lem12",
+    "riehl:5.2:exiv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:example11",
+   "kind": "example",
+   "number": "5.2.11",
+   "name": "Kleisli categories",
+   "statement_summary": "Four identifications of Kleisli categories. (i) For the maybe monad on Set, a Kleisli map A -> B is a function A -> B_+, i.e. a partially defined function; Kleisli composition is composition of partial functions, so C_T is isomorphic to Set_\u2202, sets and partial functions. (ii) For the free monoid monad on Set, a Kleisli map is a function A -> coproduct of B^n, assigning a list of elements of B to each input. (iii) For a fixed set S of states, the adjunction S x (-) \u22a3 (-)^S induces the state monad (S x (-))^S on Set; a Kleisli map A -> B is by adjunction a function A x S -> B x S, taking an input and a current state and returning an output and an updated state, i.e. the functional-programming state effect. (iv) The Kleisli category of the Giry monad is the category of measurable spaces and Markov kernels; an endomorphism of a finite set with its discrete sigma-algebra is a discrete time Markov chain.",
+   "book_section": "5.2",
+   "book_page": "191",
+   "pdf_pages": [
+    211,
+    212
+   ],
+   "cross_refs": [
+    "riehl:5.1:example4",
+    "riehl:5.1:example5",
+    "riehl:5.2:def10",
+    "riehl:5.3:example2"
+   ],
+   "flags": [
+    "multi-part:4-clauses",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.2:lem12",
+   "kind": "lemma",
+   "number": "5.2.12",
+   "name": "the Kleisli adjunction",
+   "statement_summary": "For any monad (T, eta, mu) on a category C there is an adjunction F_T \u22a3 U_T between C and the Kleisli category C_T whose underlying monad is (T, eta, mu). F_T is the identity on objects and carries f : A -> B to the Kleisli map eta_B . f; U_T sends A in C_T to TA and a Kleisli map represented by g : A -> TB to mu_B . Tg : TA -> TB. Functoriality of both assignments and U_T F_T = T are left to Exercise 5.2.v; the adjunction follows from the natural isomorphisms C_T(F_T A, B) iso C(A, TB) iso C(A, U_T B).",
+   "book_section": "5.2",
+   "book_page": "192",
+   "pdf_pages": [
+    212
+   ],
+   "cross_refs": [
+    "riehl:5.2:def10",
+    "riehl:5.2:prop13",
+    "riehl:5.2:exv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:construction-adjT",
+   "kind": "construction",
+   "number": null,
+   "name": "the category Adj_T of adjunctions inducing a fixed monad",
+   "statement_summary": "Unnumbered construction developed in running prose. For a monad (T, eta, mu) on C, Adj_T is the category whose objects are fully specified adjunctions F \u22a3 U : D -> C with unit eta and counit epsilon inducing (T, eta, mu) on C, and whose morphisms from F \u22a3 U to F' \u22a3 U' are functors K : D -> D' commuting with both adjoints, i.e. KF = F' and U'K = U. Since the units of the two adjunctions agree, the condition of Exercise 4.2.v(i) holds and any such K is a STRICT morphism of adjunctions; Exercise 4.2.v then yields two further clauses: (i) the whiskered composites K epsilon = epsilon' K, so K commutes with the counits, and (ii) K commutes with adjoint transposition, i.e. for all c in C and d in D the square relating C(c, Ud) -> D(Fc, d) -> D'(KFc, Kd) and C(c, U'Kd) -> D'(F'c, Kd) commutes.",
+   "book_section": "5.2",
+   "book_page": "192",
+   "pdf_pages": [
+    212,
+    213
+   ],
+   "cross_refs": [
+    "riehl:5.2:prop13"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "multi-part:2-clauses",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.2:prop13",
+   "kind": "proposition",
+   "number": "5.2.13",
+   "name": "the Kleisli adjunction is initial and the Eilenberg-Moore adjunction terminal",
+   "statement_summary": "In the category Adj_T of adjunctions inducing a fixed monad (T, eta, mu) on C, the Kleisli adjunction F_T \u22a3 U_T is initial and the Eilenberg-Moore adjunction F^T \u22a3 U^T is terminal. Concretely: for any adjunction F \u22a3 U : D -> C inducing T there exist UNIQUE functors J : C_T -> D and K : D -> C^T commuting with the left and right adjoints (JF_T = F, U J = U_T, KF = F^T, U^T K = U). The proof forces J X = F X on objects and J f = epsilon_{FY} . F f on a Kleisli map f : X -> TY, and forces K D = (UD, U epsilon_D) with K f = U f, using U epsilon F = mu; K is the canonical comparison functor.",
+   "book_section": "5.2",
+   "book_page": "193",
+   "pdf_pages": [
+    213,
+    214
+   ],
+   "cross_refs": [
+    "riehl:5.2:construction-adjT",
+    "riehl:5.2:lem9",
+    "riehl:5.2:lem12",
+    "riehl:5.3:def1"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.2:lem14",
+   "kind": "lemma",
+   "number": "5.2.14",
+   "name": "the comparison C_T -> C^T is full and faithful with image the free algebras",
+   "statement_summary": "For a monad (T, eta, mu) on C, the canonical functor K : C_T -> C^T from the Kleisli category to the Eilenberg-Moore category (supplied by Proposition 5.2.13) is full and faithful, and its image consists exactly of the free T-algebras: K c = (Tc, mu_c). The proof identifies the action of K on hom-sets with the transposition natural isomorphisms identifying both C_T(c,c') and C^T(Kc, Kc') with C(c, Tc'). The following prose draws the consequence that the Kleisli category embeds as the full subcategory of free algebras, so Kleisli and Eilenberg-Moore categories are equivalent exactly when every algebra is free (e.g. free vector spaces; and Set_\u2202 \u2243 Set_* for the maybe monad).",
+   "book_section": "5.2",
+   "book_page": "194",
+   "pdf_pages": [
+    214
+   ],
+   "cross_refs": [
+    "riehl:5.2:prop13",
+    "riehl:5.2:def8",
+    "riehl:5.3:exi",
+    "riehl:5.2:exvi"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:exi",
+   "kind": "exercise",
+   "number": "5.2.i",
+   "name": "algebras and homomorphisms for a favorite algebraic monad",
+   "statement_summary": "Choose a monad on Set induced by a free-forgetful adjunction for some variety of algebraic structure borne by sets, identify its algebras, and prove that the T-algebra homomorphisms are precisely the homomorphisms of that algebraic structure.",
+   "book_section": "5.2",
+   "book_page": "194",
+   "pdf_pages": [
+    214
+   ],
+   "cross_refs": [
+    "riehl:5.2:example6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:exii",
+   "kind": "exercise",
+   "number": "5.2.ii",
+   "name": "complete the proof of the Eilenberg-Moore adjunction",
+   "statement_summary": "Fill in the remaining details of the proof of Lemma 5.2.9: show that the free and forgetful functors F^T \u22a3 U^T relating C to the category C^T of T-algebras are adjoint (verify the triangle identities) and that the adjunction induces the given monad T.",
+   "book_section": "5.2",
+   "book_page": "194",
+   "pdf_pages": [
+    214
+   ],
+   "cross_refs": [
+    "riehl:5.2:lem9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:exiii",
+   "kind": "exercise",
+   "number": "5.2.iii",
+   "name": "coalgebras for a comonad and the cofree adjunction",
+   "statement_summary": "Dualize Definition 5.2.4 and Lemma 5.2.9 to define the category of coalgebras for a comonad, together with its associated forgetful-cofree adjunction (the forgetful functor from coalgebras being left adjoint to the cofree coalgebra functor), and show the induced comonad is the given one.",
+   "book_section": "5.2",
+   "book_page": "194",
+   "pdf_pages": [
+    214
+   ],
+   "cross_refs": [
+    "riehl:5.1:def6",
+    "riehl:5.2:def4",
+    "riehl:5.2:lem9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:exiv",
+   "kind": "exercise",
+   "number": "5.2.iv",
+   "name": "the Kleisli category is a category",
+   "statement_summary": "Verify that the Kleisli category is indeed a category, by checking that the composition operation of Definition 5.2.10 (mu_C . Tg . f) is associative and unital with respect to the identities eta_A.",
+   "book_section": "5.2",
+   "book_page": "194",
+   "pdf_pages": [
+    214
+   ],
+   "cross_refs": [
+    "riehl:5.2:def10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:exv",
+   "kind": "exercise",
+   "number": "5.2.v",
+   "name": "functoriality of the Kleisli adjoints",
+   "statement_summary": "Verify that the assignments F_T and U_T defined in the proof of Lemma 5.2.12 are functorial and that U_T F_T = T.",
+   "book_section": "5.2",
+   "book_page": "194",
+   "pdf_pages": [
+    214
+   ],
+   "cross_refs": [
+    "riehl:5.2:lem12"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.2:exvi",
+   "kind": "exercise",
+   "number": "5.2.vi",
+   "name": "Eilenberg-Moore algebras as presheaves on the Kleisli category",
+   "statement_summary": "Using the full and faithful comparison K : C_T -> C^T of Lemma 5.2.14, define a 'restricted Yoneda' functor C^T -> Set^{C_T^op} sending an algebra (A, a) to the presheaf C^T(K -, (A,a)) on the Kleisli category. Show that the presheaves in its image restrict along F_T : C -> C_T to representable functors in Set^{C^op}. Show further that this functor defines an ISOMORPHISM between the Eilenberg-Moore category and the full subcategory of presheaves on the Kleisli category whose restriction along F_T is representable.",
+   "book_section": "5.2",
+   "book_page": "194",
+   "pdf_pages": [
+    214,
+    215
+   ],
+   "cross_refs": [
+    "riehl:5.2:lem14"
+   ],
+   "flags": [
+    "multi-part:2-clauses",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.3:construction-ab-monadic",
+   "kind": "construction",
+   "number": null,
+   "name": "the free abelian group monad Z[-] and the comparison Ab -> Set^{Z[-]}",
+   "statement_summary": "Unnumbered construction and claim developed in running prose opening 5.3. The free-forgetful adjunction Set \u21c4 Ab induces the monad Z[-] on Set, where Z[S] is the set of finite formal Z-linear combinations of elements of S and Z[f] applies f to the generators. By Proposition 5.2.13 there is a unique comparison functor Ab -> Set^{Z[-]} commuting with both adjoints, sending an abelian group A to the algebra given by its underlying set with the evaluation map ev_A : Z[A] -> A summing a formal combination. The prose then CLAIMS (with a sketched proof) that this comparison is an ISOMORPHISM of categories: equipping a set A with a function ev : Z[A] -> A satisfying the unit triangle (ev of a singleton sum is the element) and the associativity rectangle is precisely to give A an abelian group structure, and a map of algebras is precisely a group homomorphism. Hence Ab is (strictly) monadic over Set. The proof is completed only via the monadicity theorem (5.5.1) and Corollary 5.5.3.",
+   "book_section": "5.3",
+   "book_page": "195",
+   "pdf_pages": [
+    215,
+    216
+   ],
+   "cross_refs": [
+    "riehl:5.2:prop13",
+    "riehl:5.3:def1",
+    "riehl:5.4:def-presentation"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "proof-sketched-only",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.3:def1",
+   "kind": "definition",
+   "number": "5.3.1",
+   "name": "monadic adjunction, monadic functor",
+   "statement_summary": "An adjunction F \u22a3 U : D -> C is monadic if the canonical comparison functor K : D -> C^T of Proposition 5.2.13, from D to the category of algebras for the induced monad T = UF on C, is an EQUIVALENCE of categories. A functor U : D -> C is monadic if it admits a left adjoint whose adjunction is monadic.",
+   "book_section": "5.3",
+   "book_page": "196",
+   "pdf_pages": [
+    216
+   ],
+   "cross_refs": [
+    "riehl:5.2:prop13",
+    "riehl:5.3:def-strictly-monadic",
+    "riehl:5.5:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.3:example2",
+   "kind": "example",
+   "number": "5.3.2",
+   "name": "the Kleisli adjunction for the maybe monad is monadic",
+   "statement_summary": "The Kleisli adjunction for the maybe monad on Set, identified in Example 5.2.11(i) as the adjunction between Set and the category Set_\u2202 of sets and partially defined functions, is monadic: the associated category of algebras is Set_*, and the canonical comparison functor Set_\u2202 -> Set_* is part of the equivalence of categories described in Example 1.5.6.",
+   "book_section": "5.3",
+   "book_page": "196",
+   "pdf_pages": [
+    216
+   ],
+   "cross_refs": [
+    "riehl:5.2:example11",
+    "riehl:5.2:example6",
+    "riehl:5.3:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.3:def-strictly-monadic",
+   "kind": "definition",
+   "number": null,
+   "name": "strictly monadic functor",
+   "statement_summary": "Unnumbered definition made in running prose: a monadic functor is STRICTLY monadic when the canonical comparison functor defines an ISOMORPHISM of categories (rather than merely an equivalence). The prose notes that many monadic functors met in practice, e.g. U : Ab -> Set, are strictly monadic, and that the distinction between equivalence and isomorphism makes no substantial difference to the theory.",
+   "book_section": "5.3",
+   "book_page": "196",
+   "pdf_pages": [
+    216
+   ],
+   "cross_refs": [
+    "riehl:5.3:def1",
+    "riehl:5.5:thm1"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "prose-definition"
+   ]
+  },
+  {
+   "id": "riehl:5.3:prop3",
+   "kind": "proposition",
+   "number": "5.3.3",
+   "name": "idempotent monads and reflective subcategories",
+   "statement_summary": "Two clauses. (i) The category of algebras for an IDEMPOTENT monad (T, eta, mu) on C defines a reflective subcategory U^T : C^T -> C; an object C of C admits a T-algebra structure if and only if the unit component eta_C : C -> TC is an isomorphism, in which case the algebra structure morphism is unique, namely the inverse isomorphism eta_C^{-1} : TC -> C. (Proof: the structure map is always a retraction of eta_C, and a diagram chase using naturality of eta and eta T = T eta shows it is also a section; reflectivity then follows from Lemma 4.6.11 since every counit component is an algebra structure map, hence invertible.) (ii) The inclusion D -> C of a reflective subcategory is MONADIC: the comparison functor K from D to the category of algebras C^L for the induced idempotent monad L (L the reflector composed with the inclusion) is an equivalence of categories. (Proof: by (i) being an L-algebra is a condition, and by Exercise 4.6.x an object lies in the essential image of D exactly when eta_C is invertible; K commutes with the two fully faithful inclusions so Theorem 1.5.9 applies.)",
+   "book_section": "5.3",
+   "book_page": "196",
+   "pdf_pages": [
+    216,
+    217
+   ],
+   "cross_refs": [
+    "riehl:5.1:exiii",
+    "riehl:5.3:def1",
+    "riehl:5.3:exi",
+    "riehl:5.3:exii"
+   ],
+   "flags": [
+    "multi-part:2-clauses",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.3:exi",
+   "kind": "exercise",
+   "number": "5.3.i",
+   "name": "Kleisli = Eilenberg-Moore for an idempotent monad",
+   "statement_summary": "Prove that the category of algebras for an idempotent monad on C is equivalent to the Kleisli category for that monad; conclude that the Kleisli adjunction for an idempotent monad is also monadic.",
+   "book_section": "5.3",
+   "book_page": "197",
+   "pdf_pages": [
+    217
+   ],
+   "cross_refs": [
+    "riehl:5.2:lem14",
+    "riehl:5.3:prop3"
+   ],
+   "flags": [
+    "multi-part:2-clauses"
+   ]
+  },
+  {
+   "id": "riehl:5.3:exii",
+   "kind": "exercise",
+   "number": "5.3.ii",
+   "name": "present a reflective subcategory as algebras for an idempotent monad",
+   "statement_summary": "Take a favorite example of a reflective subcategory from Examples 4.6.13 and use Proposition 5.3.3 to give an equivalent presentation of that subcategory as the category of algebras for an idempotent monad.",
+   "book_section": "5.3",
+   "book_page": "197",
+   "pdf_pages": [
+    217
+   ],
+   "cross_refs": [
+    "riehl:5.3:prop3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.3:exiii",
+   "kind": "exercise",
+   "number": "5.3.iii",
+   "name": "monadic functors reflect isomorphisms",
+   "statement_summary": "Anticipating Lemma 5.6.1, prove that monadic functors reflect isomorphisms (i.e. are conservative): if U : D -> C is monadic and Uf is an isomorphism in C then f is an isomorphism in D.",
+   "book_section": "5.3",
+   "book_page": "197",
+   "pdf_pages": [
+    217
+   ],
+   "cross_refs": [
+    "riehl:5.3:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.4:def-presentation",
+   "kind": "definition",
+   "number": null,
+   "name": "presentation of an abelian group by generators and relations",
+   "statement_summary": "Unnumbered definition made in running prose, carried by the numbered display (5.4.1). For an abelian group A and a set G of elements of A there is a canonical evaluation homomorphism ev : Z[G] -> A summing a formal Z-linear combination; G is a set of GENERATORS exactly when ev is surjective. RELATIONS are elements R of Z[G] required to be set to zero, giving a second evaluation homomorphism ev : Z[R] -> Z[G]. The pair (G, R) is a PRESENTATION of A, written A = <G | R>, when the quotient map ev : Z[G] ->> A is a coequalizer of the evaluation map ev : Z[R] -> Z[G] and the zero homomorphism, i.e. of the parallel pair displayed in (5.4.1). The prose then observes such ad hoc presentations are not functorial and motivates the canonical presentation of Proposition 5.4.2, taking G = A itself and R = Z[A], with the coequalizer replacing the cokernel.",
+   "book_section": "5.4",
+   "book_page": "198",
+   "pdf_pages": [
+    218
+   ],
+   "cross_refs": [
+    "riehl:5.4:prop2",
+    "riehl:5.4:exi"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "prose-definition",
+    "carried-by-numbered-display:(5.4.1)"
+   ]
+  },
+  {
+   "id": "riehl:5.4:prop2",
+   "kind": "proposition",
+   "number": "5.4.2",
+   "name": "canonical presentation of an algebra as a quotient of free algebras",
+   "statement_summary": "Let (T, eta, mu) be a monad on C and let (A, a : TA -> A) be a T-algebra. Then the diagram tagged (5.4.3), namely the parallel pair Ta and mu_A from the free algebra (T^2 A, mu_{TA}) to the free algebra (TA, mu_A) followed by a : (TA, mu_A) ->> (A,a), is a COEQUALIZER diagram in the Eilenberg-Moore category C^T. Hence every algebra is canonically a quotient of free algebras, functorially in the algebra. Specialized to Ab this says every abelian group is the quotient of the free abelian group on its underlying set modulo the relations identifying a formal sum with its value. Proved on p.201 from Example 5.4.7 plus Proposition 5.4.9 (a direct diagram chase is Exercise 5.4.ii).",
+   "book_section": "5.4",
+   "book_page": "198",
+   "pdf_pages": [
+    218
+   ],
+   "cross_refs": [
+    "riehl:5.2:def8",
+    "riehl:5.4:example7",
+    "riehl:5.4:prop9",
+    "riehl:5.4:exii"
+   ],
+   "flags": [
+    "encloses-numbered-display:(5.4.3)"
+   ]
+  },
+  {
+   "id": "riehl:5.4:def4",
+   "kind": "definition",
+   "number": "5.4.4",
+   "name": "split coequalizer diagram",
+   "statement_summary": "A split coequalizer consists of maps f, g : x -> y, h : y -> z together with sections t : y -> x and s : z -> y (display (5.4.5)) satisfying hf = hg, hs = id_z, gt = id_y, and ft = sh. The condition hf = hg says that (h, z) is a FORK, i.e. h is a cone under the parallel pair f, g : x -> y.",
+   "book_section": "5.4",
+   "book_page": "199",
+   "pdf_pages": [
+    219
+   ],
+   "cross_refs": [
+    "riehl:5.4:lem6",
+    "riehl:5.4:def8"
+   ],
+   "flags": [
+    "encloses-numbered-display:(5.4.5)",
+    "contains-prose-definition:fork"
+   ]
+  },
+  {
+   "id": "riehl:5.4:lem6",
+   "kind": "lemma",
+   "number": "5.4.6",
+   "name": "split coequalizers are absolute coequalizers",
+   "statement_summary": "The underlying fork of a split coequalizer diagram is a coequalizer; moreover it is an ABSOLUTE colimit, i.e. preserved by any functor whatsoever. Proof: given k : y -> w with kf = kg, the factorization through h is ks, since ksh = kft = kgt = k; uniqueness holds because h is a split epimorphism. Absoluteness follows because the split coequalizer data is a diagram of a particular shape, preserved by any functor, and the universal property is witnessed equationally.",
+   "book_section": "5.4",
+   "book_page": "199",
+   "pdf_pages": [
+    219
+   ],
+   "cross_refs": [
+    "riehl:5.4:def4",
+    "riehl:5.4:prop9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.4:example7",
+   "kind": "example",
+   "number": "5.4.7",
+   "name": "the canonical split coequalizer of an algebra",
+   "statement_summary": "For any algebra (A, a : TA -> A) of a monad (T, eta, mu) on C, the diagram T^2 A =(Ta, mu_A)=> TA -a-> A in C is a split coequalizer, with splittings s = eta_A : A -> TA and t = eta_{TA} : TA -> T^2 A. The following prose notes that although the fork lifts along U^T : C^T -> C to the diagram (5.4.3) of algebras and algebra homomorphisms, the splittings eta_A and eta_{TA} do NOT lift \u2014 a situation abstracted by Definition 5.4.8.",
+   "book_section": "5.4",
+   "book_page": "199",
+   "pdf_pages": [
+    219
+   ],
+   "cross_refs": [
+    "riehl:5.4:def4",
+    "riehl:5.4:def8",
+    "riehl:5.4:prop2",
+    "riehl:5.5:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.4:def8",
+   "kind": "definition",
+   "number": "5.4.8",
+   "name": "U-split coequalizer; creation and strict creation of coequalizers of U-split pairs",
+   "statement_summary": "Given a functor U : D -> C: (a) a U-SPLIT COEQUALIZER is a parallel pair f, g : x -> y in D together with an extension of the pair Uf, Ug : Ux -> Uy to a split coequalizer diagram Ux => Uy -h-> z (with splittings t, s) in C; (b) U CREATES coequalizers of U-split pairs if every U-split coequalizer admits a coequalizer in D whose image under U is isomorphic to the given fork underlying the split coequalizer in C, AND if any such fork in D is a coequalizer; (c) U STRICTLY CREATES coequalizers of U-split pairs if every U-split coequalizer admits a UNIQUE lift to a coequalizer in D for the given parallel pair.",
+   "book_section": "5.4",
+   "book_page": "199",
+   "pdf_pages": [
+    219
+   ],
+   "cross_refs": [
+    "riehl:5.4:def4",
+    "riehl:5.4:prop9",
+    "riehl:5.4:cor10",
+    "riehl:5.5:thm1"
+   ],
+   "flags": [
+    "multi-part:3-clauses"
+   ]
+  },
+  {
+   "id": "riehl:5.4:prop9",
+   "kind": "proposition",
+   "number": "5.4.9",
+   "name": "the monadic forgetful functor strictly creates coequalizers of U^T-split pairs",
+   "statement_summary": "For any monad (T, eta, mu) acting on a category C, the forgetful functor U^T : C^T -> C strictly creates coequalizers of U^T-split pairs. Proof sketch: given a parallel pair f, g : (A,a) -> (B,b) of algebra maps with a U^T-splitting whose coequalizer in C is h : B ->> C, absoluteness (Lemma 5.4.6) makes Th : TB -> TC the coequalizer of Tf, Tg, so there is a unique c : TC -> C making the square with h commute; diagram chases cancelling the epimorphisms h and T^2 h show (C, c) is a T-algebra, and h : (B,b) -> (C,c) is then shown to be a coequalizer in C^T.",
+   "book_section": "5.4",
+   "book_page": "199",
+   "pdf_pages": [
+    219,
+    220,
+    221
+   ],
+   "cross_refs": [
+    "riehl:5.4:def8",
+    "riehl:5.4:lem6",
+    "riehl:5.4:prop2",
+    "riehl:5.4:cor10",
+    "riehl:5.5:thm1"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.4:cor10",
+   "kind": "corollary",
+   "number": "5.4.10",
+   "name": "monadic adjunctions create U-split coequalizers; the counit presentation",
+   "statement_summary": "If F \u22a3 U : D -> C is a monadic adjunction then two clauses hold. (i) U : D -> C CREATES coequalizers of U-split pairs (only creation, not strict creation, since a monadic adjunction is only required to be equivalent, not isomorphic, to the Eilenberg-Moore adjunction); proved by transporting Proposition 5.4.9 along the equivalence K : D -> C^T, using that an equivalence creates any colimit it preserves and reflects (Lemma 3.4.6). (ii) For any object D of D the counit components define a coequalizer diagram FUFUD =(FU eps_D, eps_{FUD})=> FUD -eps_D-> D, tagged (5.4.11); this fork is U-split (by U eps_{FUD}, eta_{UD} and eta_{UFUD}) and hence a coequalizer in D by clause (i).",
+   "book_section": "5.4",
+   "book_page": "201",
+   "pdf_pages": [
+    221
+   ],
+   "cross_refs": [
+    "riehl:5.4:prop9",
+    "riehl:5.3:def1",
+    "riehl:5.5:thm1"
+   ],
+   "flags": [
+    "multi-part:2-clauses",
+    "encloses-numbered-display:(5.4.11)"
+   ]
+  },
+  {
+   "id": "riehl:5.4:exi",
+   "kind": "exercise",
+   "number": "5.4.i",
+   "name": "the canonical presentation as a presentation in the usual sense",
+   "statement_summary": "In Ab the coequalizer of a parallel pair f, g is equally the cokernel of f - g, i.e. the coequalizer of f - g and the zero homomorphism. Explain how the canonical presentation of an abelian group given by Proposition 5.4.2 defines a presentation of that group by generators and relations in the usual sense.",
+   "book_section": "5.4",
+   "book_page": "202",
+   "pdf_pages": [
+    222
+   ],
+   "cross_refs": [
+    "riehl:5.4:def-presentation",
+    "riehl:5.4:prop2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.4:exii",
+   "kind": "exercise",
+   "number": "5.4.ii",
+   "name": "direct proof of the canonical presentation",
+   "statement_summary": "Prove Proposition 5.4.2 directly by a diagram chase, rather than deducing it from Example 5.4.7 and Proposition 5.4.9.",
+   "book_section": "5.4",
+   "book_page": "202",
+   "pdf_pages": [
+    222
+   ],
+   "cross_refs": [
+    "riehl:5.4:prop2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.5:thm1",
+   "kind": "theorem",
+   "number": "5.5.1",
+   "name": "monadicity theorem (Beck)",
+   "statement_summary": "A right adjoint functor U : D -> C is MONADIC if and only if it creates coequalizers of U-split pairs (in the sense of Definition 5.4.8). Restated via the canonical comparison K : D -> C^T of Proposition 5.2.13, the following are equivalent: (i) K is an equivalence (respectively, an isomorphism) of categories; (ii) U creates (respectively, strictly creates) coequalizers of U-split pairs. Attributed to Beck [Bec67]. The strict version (D isomorphic to the category of algebras iff U strictly creates such coequalizers) is deferred to Exercise 5.5.i. Proof of the equivalence-invariant statement: (i) => (ii) is Corollary 5.4.10; conversely, assuming (ii), an inverse equivalence L : C^T -> D is built by setting L(TA, mu_A) = FA on free algebras and, for a general algebra (A,a), letting L(A,a) be the coequalizer (5.5.2) of Fa, eps_{FA} : FUFA -> FA in D, which exists because that pair is U-split by Example 5.4.7; functoriality of L follows from uniqueness of factorizations through colimit cones, KL iso id_{C^T} from strict creation, and LK iso id_D from the U-split fork (5.4.11).",
+   "book_section": "5.5",
+   "book_page": "202",
+   "pdf_pages": [
+    222,
+    223
+   ],
+   "cross_refs": [
+    "riehl:5.3:def1",
+    "riehl:5.4:def8",
+    "riehl:5.4:prop9",
+    "riehl:5.4:cor10",
+    "riehl:5.4:example7",
+    "riehl:5.2:prop13"
+   ],
+   "flags": [
+    "proof-continues-past-range",
+    "encloses-numbered-display:(5.5.2)",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.5:cor3",
+   "kind": "corollary",
+   "number": "5.5.3",
+   "name": "standard algebraic categories are monadic over Set",
+   "statement_summary": "Via the free-forgetful adjunctions of Example 4.1.10, each of the following categories is monadic over Set (four listed clauses): (i) Monoid, Group, Ab, Ring and variants such as commutative rings, commutative monoids, and non-unital versions of the preceding; (ii) Set^{BG} (G-sets) for a group G, R-Mod for a ring R, Vect_k and Aff_k for a field k; (iii) Lattice and the categories of meet-semilattices and of join-semilattices; (iv) Set_* (pointed sets). The proof treats monoids in full and defers the remaining cases to Exercise 5.5.ii: it verifies the hypothesis of Theorem 5.5.1 by showing that U : Monoid -> Set strictly creates the coequalizer of any parallel pair of monoid homomorphisms whose underlying functions extend to a split coequalizer diagram, constructing the unique monoid structure on the quotient set (unit as the composite of the unit with the quotient map; multiplication induced because the split coequalizer is absolute, hence preserved by (-) x (-)) and checking the monoid axioms by cancelling the quotienting epimorphism.",
+   "book_section": "5.5",
+   "book_page": "203",
+   "pdf_pages": [
+    223,
+    224
+   ],
+   "cross_refs": [
+    "riehl:5.5:thm1",
+    "riehl:5.5:exii"
+   ],
+   "flags": [
+    "multi-clause",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.5:def-lattice",
+   "kind": "definition",
+   "number": null,
+   "name": "lattice, meet semilattice, join semilattice",
+   "statement_summary": "Footnote definition supporting clause (iii) of Corollary 5.5.3: a lattice is a poset possessing all finite meets (finite limits) and all finite joins (finite colimits), and a morphism of lattices is an order-preserving function preserving both; a meet semilattice has only the finite meets and a join semilattice only the finite joins.",
+   "book_section": "5.5",
+   "book_page": "203",
+   "pdf_pages": [
+    223
+   ],
+   "cross_refs": [
+    "riehl:5.5:cor3"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "footnote"
+   ]
+  },
+  {
+   "id": "riehl:5.5:def4",
+   "kind": "definition",
+   "number": "5.5.4",
+   "name": "finitary functor",
+   "statement_summary": "A functor is finitary when it preserves filtered colimits. The following prose specializes this to monads (a monad T : C -> C is finitary if it preserves filtered colimits in C) and records that if a right adjoint is finitary then so is its induced monad, because the left adjoint preserves all colimits.",
+   "book_section": "5.5",
+   "book_page": "204",
+   "pdf_pages": [
+    224
+   ],
+   "cross_refs": [
+    "riehl:5.5:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.5:def5",
+   "kind": "definition",
+   "number": "5.5.5",
+   "name": "category of models for an algebraic theory",
+   "statement_summary": "A category A is a category of models for an algebraic theory when there exists a finitary monadic functor U : A -> Set, i.e. a monadic functor whose induced monad preserves filtered colimits. Accompanying prose records (without proof, citing Definition 4.7.16 and [AR94, 2.78]) that any such category is locally finitely presentable, and notes cHaus as an example of a category monadic over Set that is NOT of this form because its monad is not finitary.",
+   "book_section": "5.5",
+   "book_page": "204",
+   "pdf_pages": [
+    224
+   ],
+   "cross_refs": [
+    "riehl:5.5:def4",
+    "riehl:5.5:cor6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.5:cor6",
+   "kind": "corollary",
+   "number": "5.5.6",
+   "name": "compact Hausdorff spaces are monadic over Set",
+   "statement_summary": "The underlying-set functor U : cHaus -> Set from compact Hausdorff spaces is monadic (its left adjoint being Stone-Cech compactification, so the induced monad is the ultrafilter monad). The proof, attributed to Pare using Kuratowski's closure-operator axiomatization of topological space, verifies the hypothesis of Theorem 5.5.1: given a parallel pair f, g : X -> Y in cHaus whose underlying functions admit an absolute coequalizer h : Y ->> Z in Set, the covariant power set functor preserves that absolute coequalizer, so the closure operators on X and Y induce a unique closure operator on PZ; the resulting space Z is shown to be compact (image of a compact space) and Hausdorff (using normality of Y to separate preimages), and the lift is shown to satisfy the coequalizer universal property in cHaus by an epimorphism argument on h_*.",
+   "book_section": "5.5",
+   "book_page": "204",
+   "pdf_pages": [
+    224,
+    225
+   ],
+   "cross_refs": [
+    "riehl:5.5:thm1",
+    "riehl:5.5:def-kuratowski",
+    "riehl:5.6:exi"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.5:def-kuratowski",
+   "kind": "definition",
+   "number": null,
+   "name": "Kuratowski closure operator; continuous and closed maps",
+   "statement_summary": "Prose definition opening the proof of Corollary 5.5.6: a topological space may equivalently be given as a set X with an operator on its power set, written as an overline, satisfying four axioms for all subsets A, B -- the closure of the empty set is empty; A is contained in its closure; closure is idempotent; and closure carries a binary union to the union of the closures. Such an operator is order-preserving, hence a closure operator in the sense of Example 5.1.7. A function f : X -> Y is continuous exactly when the image of the closure of A is contained in the closure of the image of A for every subset A of X, and closed exactly when those two sets are equal; equivalently a continuous function is closed iff it preserves closed subsets. It is further recorded that every continuous map between compact Hausdorff spaces is closed, so a function between compact Hausdorff spaces lifts to cHaus iff it preserves the closure operator.",
+   "book_section": "5.5",
+   "book_page": "204",
+   "pdf_pages": [
+    224,
+    225
+   ],
+   "cross_refs": [
+    "riehl:5.5:cor6"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.5:example7",
+   "kind": "example",
+   "number": "5.5.7",
+   "name": "further monadic functors",
+   "statement_summary": "Four further examples of monadic functors, each with its induced monad identified. (i) The forgetful functor R-Mod -> Ab is monadic (via Example 5.2.6(ii)); the induced monad on Ab is the tensoring functor R (tensor over Z) -. (ii) The forgetful functor Ring -> Ab is monadic, by adapting the proof of Corollary 5.5.3; the induced monad on Ab is the free monoid (tensor algebra) monad sending A to the direct sum over n >= 0 of the n-fold tensor powers of A. (iii) If C has coproducts and J is small, the restriction functor ev : C^J -> C^{ob J} is monadic (Exercise 5.5.v); special cases include Vect_k^{BG} -> Vect_k and analogous forgetful functors for G-objects in any category. (iv) U : Cat -> Quiver is monadic, its monad forming the underlying graph of the free category on a quiver (freely adding identities and composites of all finite directed paths); this functor factors through a second monadic functor Cat -> rQuiver, the category of reflexive quivers (quivers with a specified 'identity' endoarrow at each vertex).",
+   "book_section": "5.5",
+   "book_page": "205",
+   "pdf_pages": [
+    225,
+    226
+   ],
+   "cross_refs": [
+    "riehl:5.5:cor3",
+    "riehl:5.5:exv",
+    "riehl:5.6:cor10"
+   ],
+   "flags": [
+    "multi-clause",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.5:prop8",
+   "kind": "proposition",
+   "number": "5.5.8",
+   "name": "reflexive tripleability theorem",
+   "statement_summary": "Let U : D -> C have a left adjoint. If (i) D has coequalizers of reflexive pairs, (ii) U preserves coequalizers of reflexive pairs, and (iii) U reflects isomorphisms, then U is monadic. (A parallel pair f, g : A -> B is reflexive when both admit a common section s : B -> A, per the accompanying footnote.) The proof is deferred to Exercise 5.5.iii, by adapting the proof of Theorem 5.5.1. Surrounding prose situates this as one of a family of variants of the monadicity theorem, Theorem 5.5.1 being the 'precise tripleability theorem' (PTT), with crude (CTT) and vulgar (VTT) tripleability theorems cited to [ML98a, section VI.7].",
+   "book_section": "5.5",
+   "book_page": "206",
+   "pdf_pages": [
+    226
+   ],
+   "cross_refs": [
+    "riehl:5.5:thm1",
+    "riehl:5.5:exiii",
+    "riehl:5.5:def-reflexive-pair",
+    "riehl:5.5:thm9"
+   ],
+   "flags": [
+    "multi-clause"
+   ]
+  },
+  {
+   "id": "riehl:5.5:def-reflexive-pair",
+   "kind": "definition",
+   "number": null,
+   "name": "reflexive parallel pair",
+   "statement_summary": "Footnote definition supporting Proposition 5.5.8: a parallel pair f, g : A -> B is reflexive when both maps admit a common section, i.e. there is s : B -> A with f s = id_B = g s.",
+   "book_section": "5.5",
+   "book_page": "206",
+   "pdf_pages": [
+    226
+   ],
+   "cross_refs": [
+    "riehl:5.5:prop8"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "footnote"
+   ]
+  },
+  {
+   "id": "riehl:5.5:thm9",
+   "kind": "theorem",
+   "number": "5.5.9",
+   "name": "Pare: the contravariant power set functor is monadic",
+   "statement_summary": "The contravariant power set functor P : Set^op -> Set is monadic. The proof, due to Pare, applies Proposition 5.5.8: P is self-adjoint on the right by the cartesian closed structure of Set (Set(A, PB) is naturally isomorphic to Set(A x B, Omega) and hence to Set(B, PA)), so P has a left adjoint; Set^op has coequalizers of reflexive pairs because Set has equalizers of coreflexive pairs (Theorem 3.2.4); such an equalizer square is a pullback of monomorphisms, so Lemma 5.5.10 makes the induced diagram on power sets a split coequalizer, giving preservation; and P is faithful (a parallel pair f, g : A -> B is distinguished by the subsets of A x B classified through the transposes of the singleton map, i.e. by their graphs), hence reflects monomorphisms and epimorphisms and therefore isomorphisms in Set. The accompanying prose asserts that the argument also works with Set replaced by any elementary topos.",
+   "book_section": "5.5",
+   "book_page": "206",
+   "pdf_pages": [
+    226,
+    227,
+    228
+   ],
+   "cross_refs": [
+    "riehl:5.5:prop8",
+    "riehl:5.5:lem10",
+    "riehl:5.5:def-elementary-topos",
+    "riehl:5.6:cor9"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.5:def-elementary-topos",
+   "kind": "definition",
+   "number": null,
+   "name": "elementary topos",
+   "statement_summary": "One-line prose gloss, given while stating that the proof of Theorem 5.5.9 generalizes: an elementary topos is a cartesian closed category with finite limits and a subobject classifier, and is a further generalization of the Grothendieck toposes introduced in section E.4.",
+   "book_section": "5.5",
+   "book_page": "206",
+   "pdf_pages": [
+    226
+   ],
+   "cross_refs": [
+    "riehl:5.5:thm9"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "parenthetical-gloss"
+   ]
+  },
+  {
+   "id": "riehl:5.5:lem10",
+   "kind": "lemma",
+   "number": "5.5.10",
+   "name": "Beck-Chevalley condition for pullbacks of monomorphisms of sets",
+   "statement_summary": "Given a pullback square of monomorphisms of sets with top edge g : A' >-> B', bottom edge f : A >-> B and vertical monomorphisms a : A' >-> A, b : B' >-> B, the transposed square of power sets commutes: the direct image along a of the inverse image along g equals the inverse image along f of the direct image along b, as functions PB' -> PA. The proof observes that for a subset X of B' the two composites compute the two ways of forming the same pullback, so the pasting criterion of Exercise 3.1.vi makes them equal. Corollary drawn immediately after: applying the lemma to the pullback square exhibited by any monomorphism f (Exercise 4.6.vi), the composite of direct image along f with inverse image along f is the identity on PA.",
+   "book_section": "5.5",
+   "book_page": "206",
+   "pdf_pages": [
+    226,
+    227
+   ],
+   "cross_refs": [
+    "riehl:5.5:thm9"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.5:exi",
+   "kind": "exercise",
+   "number": "5.5.i",
+   "name": "strict form of the monadicity theorem",
+   "statement_summary": "Prove the strict version of the monadicity theorem: the domain D of a right adjoint U : D -> C is ISOMORPHIC (not merely equivalent) to the category of algebras for the induced monad if and only if U strictly creates coequalizers of U-split pairs.",
+   "book_section": "5.5",
+   "book_page": "208",
+   "pdf_pages": [
+    228
+   ],
+   "cross_refs": [
+    "riehl:5.5:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.5:exii",
+   "kind": "exercise",
+   "number": "5.5.ii",
+   "name": "another monadic category over Set",
+   "statement_summary": "Use the monadicity theorem (Theorem 5.5.1) to prove that some category from the list of Corollary 5.5.3 other than Monoid is monadic over Set.",
+   "book_section": "5.5",
+   "book_page": "208",
+   "pdf_pages": [
+    228
+   ],
+   "cross_refs": [
+    "riehl:5.5:cor3",
+    "riehl:5.5:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.5:exiii",
+   "kind": "exercise",
+   "number": "5.5.iii",
+   "name": "proof of the reflexive tripleability theorem",
+   "statement_summary": "Prove Proposition 5.5.8 (the reflexive tripleability theorem) by adapting the proof of Theorem 5.5.1.",
+   "book_section": "5.5",
+   "book_page": "208",
+   "pdf_pages": [
+    228
+   ],
+   "cross_refs": [
+    "riehl:5.5:prop8",
+    "riehl:5.5:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.5:exiv",
+   "kind": "exercise",
+   "number": "5.5.iv",
+   "name": "monadicity of the free G-set adjunction",
+   "statement_summary": "For a group G, the forgetful functor U : Set^{BG} -> Set has a left adjoint sending a set X to the G-set G x X with G acting on the left. Prove that this adjunction is monadic by appealing to the monadicity theorem.",
+   "book_section": "5.5",
+   "book_page": "208",
+   "pdf_pages": [
+    228
+   ],
+   "cross_refs": [
+    "riehl:5.5:thm1",
+    "riehl:5.5:exv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.5:exv",
+   "kind": "exercise",
+   "number": "5.5.v",
+   "name": "monadicity of restriction along the object inclusion of a small category",
+   "statement_summary": "Generalizing Exercise 5.5.iv: for a small category J and a cocomplete category C, the restriction functor ev : C^J -> C^{ob J} has a left adjoint Lan given on objects by (Lan F)(j) := the coproduct over x in J of the J(x,j)-indexed copower of Fx. Four clauses: (i) define Lan F on morphisms of J; (ii) define Lan on morphisms of C^{ob J}; (iii) use the Yoneda lemma to prove Lan is left adjoint to ev; (iv) prove this adjunction is monadic by appealing to the monadicity theorem.",
+   "book_section": "5.5",
+   "book_page": "208",
+   "pdf_pages": [
+    228
+   ],
+   "cross_refs": [
+    "riehl:5.5:exiv",
+    "riehl:5.5:example7",
+    "riehl:5.5:thm1"
+   ],
+   "flags": [
+    "multi-clause"
+   ]
+  },
+  {
+   "id": "riehl:5.5:exvi",
+   "kind": "exercise",
+   "number": "5.5.vi",
+   "name": "restriction functors that strictly create split coequalizers",
+   "statement_summary": "Describe a more general class of functors K : I -> J between small categories with the property that for every cocomplete C the restriction functor res_K : C^J -> C^I strictly creates coequalizers of res_K-split parallel pairs; all such restriction functors admit left adjoints and are therefore monadic. Challenge clause: describe the left adjoint explicitly (or see Theorem 6.2.1, the Kan extension formula).",
+   "book_section": "5.5",
+   "book_page": "208",
+   "pdf_pages": [
+    228
+   ],
+   "cross_refs": [
+    "riehl:5.5:exv",
+    "riehl:5.5:thm1"
+   ],
+   "flags": [
+    "multi-clause"
+   ]
+  },
+  {
+   "id": "riehl:5.5:exvii",
+   "kind": "exercise",
+   "number": "5.5.vii",
+   "name": "the Lawvere theory of a monad on Set from its Kleisli category",
+   "statement_summary": "For a monad T on Set, choose a skeleton N of the full subcategory Fin of finite sets and let L be the opposite of the full subcategory of the Kleisli category Set_T spanned by the objects 0, 1, 2, ... of N, so that there is an identity-on-objects functor I : N^op -> L. Two clauses: (i) show that N^op and L have strictly associative finite products preserved by I; (ii) define a functor from the category of T-algebras to the category of models for the Lawvere theory I : N^op -> L (hint: Exercise 5.2.vi).",
+   "book_section": "5.5",
+   "book_page": "208",
+   "pdf_pages": [
+    228,
+    229
+   ],
+   "cross_refs": [
+    "riehl:5.5:def-lawvere-theory"
+   ],
+   "flags": [
+    "multi-clause",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.5:def-lawvere-theory",
+   "kind": "definition",
+   "number": null,
+   "name": "Lawvere theory associated to a finitary monad; models of a Lawvere theory",
+   "statement_summary": "Prose definition interleaved between the two clauses of Exercise 5.5.vii. When the monad T on Set is finitary, the identity-on-objects functor I : N^op -> L built from the Kleisli category is the associated Lawvere theory: the objects of L are all iterated finite products of the object 1, so the essential data is the family of hom-sets L(n, 1) of n-ary operations. A model of the Lawvere theory in Set is a finite-product-preserving functor L -> Set, and a morphism of models is a natural transformation. It is asserted (citing [Lin66]) that the category of T-algebras can be recovered from this data.",
+   "book_section": "5.5",
+   "book_page": "209",
+   "pdf_pages": [
+    229
+   ],
+   "cross_refs": [
+    "riehl:5.5:exvii",
+    "riehl:5.5:def4",
+    "riehl:5.5:def5"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:5.6:lem1",
+   "kind": "lemma",
+   "number": "5.6.1",
+   "name": "monadic functors reflect isomorphisms",
+   "statement_summary": "If U : A -> C is monadic then U reflects isomorphisms: for a morphism f : a -> a' of A, if Uf is an isomorphism in C then f is an isomorphism in A. The proof reduces along the equivalence to the forgetful functor U^T : C^T -> C and observes that if f : (A, a) -> (A', a') is a T-algebra map whose underlying morphism f has an inverse in C, then the algebra square for the inverse commutes, so the inverse is itself a T-algebra map.",
+   "book_section": "5.6",
+   "book_page": "209",
+   "pdf_pages": [
+    229
+   ],
+   "cross_refs": [
+    "riehl:5.6:def-conservative",
+    "riehl:5.6:cor2",
+    "riehl:5.6:cor4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.6:def-conservative",
+   "kind": "definition",
+   "number": null,
+   "name": "conservative functor",
+   "statement_summary": "One-line prose definition following Lemma 5.6.1: a functor is conservative when it reflects isomorphisms.",
+   "book_section": "5.6",
+   "book_page": "209",
+   "pdf_pages": [
+    229
+   ],
+   "cross_refs": [
+    "riehl:5.6:lem1"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:5.6:cor2",
+   "kind": "corollary",
+   "number": "5.6.2",
+   "name": "bijective continuous maps of compact Hausdorff spaces are homeomorphisms",
+   "statement_summary": "Any bijective continuous function between compact Hausdorff spaces is a homeomorphism. This is an immediate consequence of Lemma 5.6.1 applied to the monadic functor U : cHaus -> Set (Corollary 5.5.6): a map whose underlying function is a bijection, i.e. an isomorphism in Set, must already be an isomorphism in cHaus.",
+   "book_section": "5.6",
+   "book_page": "210",
+   "pdf_pages": [
+    230
+   ],
+   "cross_refs": [
+    "riehl:5.6:lem1",
+    "riehl:5.5:cor6",
+    "riehl:5.6:remark3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.6:remark3",
+   "kind": "remark",
+   "number": "5.6.3",
+   "name": "the categorical proof of Corollary 5.6.2 via Stone-Cech quotients",
+   "statement_summary": "Records the mathematical content underlying the categorical proof of Corollary 5.6.2 (while conceding it is less efficient than the point-set proof): monadicity of U : cHaus -> Set together with Proposition 5.4.2 (the canonical presentation of an algebra by free algebras) exhibits every compact Hausdorff space canonically as a quotient of the Stone-Cech compactification of its underlying set; a continuous bijection therefore induces a natural isomorphism between the two Stone-Cech compactifications and hence a homeomorphism between the corresponding canonical quotients.",
+   "book_section": "5.6",
+   "book_page": "210",
+   "pdf_pages": [
+    230
+   ],
+   "cross_refs": [
+    "riehl:5.6:cor2",
+    "riehl:5.5:cor6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.6:cor4",
+   "kind": "corollary",
+   "number": "5.6.4",
+   "name": "bijective homomorphisms of algebras are isomorphisms",
+   "statement_summary": "Any bijective homomorphism in a category of models for an algebraic theory (Definition 5.5.5) is an isomorphism -- e.g. the inverse function of a bijective group homomorphism is again a homomorphism. Following prose notes the contrapositive of Lemma 5.6.1: since Top and Poset admit non-invertible maps that are identities on underlying sets, neither is monadic over Set.",
+   "book_section": "5.6",
+   "book_page": "210",
+   "pdf_pages": [
+    230
+   ],
+   "cross_refs": [
+    "riehl:5.6:lem1",
+    "riehl:5.5:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.6:thm5",
+   "kind": "theorem",
+   "number": "5.6.5",
+   "name": "monadic functors create limits and suitable colimits",
+   "statement_summary": "A monadic functor U : A -> C CREATES (not merely preserves or reflects) two classes of diagram: (i) any limits that C has, and (ii) any colimits that C has and that both the induced monad T and its square T^2 preserve. The proof reduces along the equivalence to U^T : C^T -> C using Lemma 3.4.6 (an equivalence creates all limits and colimits present in either category). For (i): given D : J -> C^T with underlying diagram having a limit cone with summit L, the algebra structure maps assemble into a natural transformation from TD to D, so the whiskered cone with summit TL factors uniquely through the limit cone to give a map l : TL -> L; two prism diagrams (and Lemma 3.1.28, that cones agreeing after composition with all legs are equal) verify the unit and associativity laws, making (L, l) a T-algebra and the lifted cone a limit cone. For (ii) an analogous argument uses that T and T^2 preserve the colimit cone, so the structure map on the nadir is induced by the universal property of the colimit under T U^T D; the details are deferred to Exercise 5.6.ii.",
+   "book_section": "5.6",
+   "book_page": "210",
+   "pdf_pages": [
+    230,
+    231
+   ],
+   "cross_refs": [
+    "riehl:5.6:cor6",
+    "riehl:5.6:cor7",
+    "riehl:5.6:cor10",
+    "riehl:5.6:exii"
+   ],
+   "flags": [
+    "multi-clause",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.6:cor6",
+   "kind": "corollary",
+   "number": "5.6.6",
+   "name": "reflective subcategory inclusions create limits",
+   "statement_summary": "The inclusion of a reflective subcategory CREATES all limits (not merely inherits or preserves them); in particular a reflective subcategory of a complete category is complete. Proof: Proposition 5.3.3 shows such an inclusion is monadic, and Theorem 5.6.5(i) then says a monadic functor creates all limits existing in the codomain. This completes the unfinished business of Proposition 4.6.14.",
+   "book_section": "5.6",
+   "book_page": "211",
+   "pdf_pages": [
+    231
+   ],
+   "cross_refs": [
+    "riehl:5.6:thm5"
+   ],
+   "flags": [
+    "creates-not-inherits"
+   ]
+  },
+  {
+   "id": "riehl:5.6:cor7",
+   "kind": "corollary",
+   "number": "5.6.7",
+   "name": "categories monadic over Set are complete",
+   "statement_summary": "Any category monadic over Set is complete, and its limits are CREATED by the monadic forgetful functor. Proof: Set is complete (Theorem 3.2.4), so Theorem 5.6.5 applies.",
+   "book_section": "5.6",
+   "book_page": "211",
+   "pdf_pages": [
+    231
+   ],
+   "cross_refs": [
+    "riehl:5.6:thm5",
+    "riehl:5.6:example8"
+   ],
+   "flags": [
+    "creates-not-inherits"
+   ]
+  },
+  {
+   "id": "riehl:5.6:example8",
+   "kind": "example",
+   "number": "5.6.8",
+   "name": "the p-adic integers as a created limit of rings",
+   "statement_summary": "The ring of p-adic integers is defined as the limit, in Ring, of the omega^op-indexed tower of quotient rings ... -> Z/p^3 -> Z/p^2 -> Z/p. Because U : Ring -> Set preserves limits (Example 3.2.8), the underlying set is the set of sequences (a_1 in Z/p, a_2 in Z/p^2, a_3 in Z/p^3, ...) with a_n congruent to a_m modulo p^{min(n,m)}, i.e. compatible sequences. Since the underlying-set functor also CREATES the limit cone, the ring structure is forced to be the unique one making all the projections to Z/p^n ring homomorphisms, i.e. componentwise addition and multiplication.",
+   "book_section": "5.6",
+   "book_page": "211",
+   "pdf_pages": [
+    231,
+    232
+   ],
+   "cross_refs": [
+    "riehl:5.6:cor7",
+    "riehl:5.6:thm5"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.6:cor9",
+   "kind": "corollary",
+   "number": "5.6.9",
+   "name": "Set is cocomplete",
+   "statement_summary": "Set is cocomplete. Proof: the contravariant power set functor P : Set^op -> Set is monadic (Theorem 5.5.9), so by Theorem 5.6.5(i) applied in Set^op the colimit of a diagram in Set is created from the limit of the corresponding diagram of power sets. This is presented as a second proof of Proposition 3.6.1, giving a different perspective on the construction of colimits in Set.",
+   "book_section": "5.6",
+   "book_page": "212",
+   "pdf_pages": [
+    232
+   ],
+   "cross_refs": [
+    "riehl:5.5:thm9",
+    "riehl:5.6:thm5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.6:cor10",
+   "kind": "corollary",
+   "number": "5.6.10",
+   "name": "R-Mod -> Ab creates all colimits Ab admits",
+   "statement_summary": "The forgetful functor U : R-Mod -> Ab CREATES all colimits that Ab admits. Proof: by Example 5.5.7(i) this functor is monadic with induced monad the tensoring functor R (tensor over Z) -; by Example 4.4.15 there is a natural isomorphism Ab(R tensor A, B) congruent to Ab(A, Hom_Z(R, B)), so this monad is a left adjoint with right adjoint Hom_Z(R, -), hence (Theorem 4.6.2) preserves all colimits -- and so does its square -- so the hypotheses of Theorem 5.6.5(ii) hold for every diagram in Ab.",
+   "book_section": "5.6",
+   "book_page": "212",
+   "pdf_pages": [
+    232
+   ],
+   "cross_refs": [
+    "riehl:5.6:thm5",
+    "riehl:5.5:example7"
+   ],
+   "flags": [
+    "creates-not-inherits"
+   ]
+  },
+  {
+   "id": "riehl:5.6:construction-free-product",
+   "kind": "construction",
+   "number": null,
+   "name": "free product of groups as a coequalizer of free algebras; coproducts relative to a monadic adjunction",
+   "statement_summary": "An unnumbered construction developed over two pages. The free product of groups G and H is the group of words in the elements of G and H with formal inverses, modulo the relations imposed by the group operations of each factor; U : Group -> Set does not preserve (hence does not create) coproducts, so a construction relative to the free-forgetful adjunction F -| U on Set is given instead. A first approximation is the free group F(UG + UH) on the disjoint union of the underlying sets; the relations are encoded by a parallel pair of group homomorphisms out of F(UFUG + UFUH), one being F applied to the disjoint union of the counit components evaluated into UG + UH, the other the composite of F applied to the canonical comparison map (Exercise 3.4.i) comparing the coproduct of images with the image of the coproduct, followed by the counit at F(UG + UH). The free product is exhibited as the coequalizer of this pair. Closing claim: this construction of a coproduct generalizes to any monadic functor U : A -> C over a cocomplete category C, whenever the described coequalizer exists in A.",
+   "book_section": "5.6",
+   "book_page": "212",
+   "pdf_pages": [
+    232,
+    233
+   ],
+   "cross_refs": [
+    "riehl:5.6:prop11",
+    "riehl:5.6:exiii"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.6:prop11",
+   "kind": "proposition",
+   "number": "5.6.11",
+   "name": "cocompleteness of a monadic category reduces to coequalizers",
+   "statement_summary": "Suppose C is cocomplete and U : A -> C is monadic. Then the following are equivalent: (i) A is cocomplete; (ii) A has coequalizers. The implication (i) => (ii) is trivial; for (ii) => (i) one replaces A by the equivalent category of algebras C^T and appeals to Theorem 3.5.11 (a category with coequalizers and coproducts is cocomplete), so it suffices to construct arbitrary coproducts: the coproduct of an I-indexed family of T-algebras (A_i, a_i) is defined as the coequalizer of a parallel pair between free algebras on the coproducts in C -- one leg the free-algebra map induced by the family of structure maps a_i, the other built from the comparison map k of Exercise 3.4.i followed by the multiplication -- with the verification that this coequalizer has the coproduct universal property deferred to Exercise 5.6.iii.",
+   "book_section": "5.6",
+   "book_page": "213",
+   "pdf_pages": [
+    233
+   ],
+   "cross_refs": [
+    "riehl:5.6:construction-free-product",
+    "riehl:5.6:exiii",
+    "riehl:5.6:thm12"
+   ],
+   "flags": [
+    "multi-clause"
+   ]
+  },
+  {
+   "id": "riehl:5.6:thm12",
+   "kind": "theorem",
+   "number": "5.6.12",
+   "name": "algebras for a finitary monad are complete and cocomplete",
+   "statement_summary": "If T : C -> C is a finitary monad on a complete, cocomplete, locally small category C, then the category C^T of T-algebras is also complete and cocomplete. Completeness is immediate from Theorem 5.6.5. For cocompleteness, by Proposition 5.6.11 it suffices to produce coequalizers in C^T, and by Proposition 4.6.1 this amounts to a left adjoint to the constant diagram functor into the category of parallel pairs of T-algebras; since limits in functor categories are pointwise (Proposition 3.4.9) the constant diagram functor preserves limits, so the General Adjoint Functor Theorem (Theorem 4.7.3) applies once the solution set condition is verified. The verification constructs, for each parallel pair of T-algebra morphisms, a single approximating fork by an omega-indexed inductive construction: coequalizers q_0 : B ->> Q_0 and p_0 : TB ->> P_0 in C, then inductively P_{n+1} := TQ_n with Q_{n+1} the coequalizer of a pair built from the multiplication and the previous maps; passing to the sequential colimits (which the finitary monad T preserves, omega being filtered) yields a T-algebra (Q_omega, u_omega) whose unit and associativity laws are checked, and any fork under the given pair is shown to factor through it via an inductively constructed family k_n satisfying the condition displayed as (5.6.13). The proof is attributed to [Bor94b].",
+   "book_section": "5.6",
+   "book_page": "213",
+   "pdf_pages": [
+    233,
+    234,
+    235,
+    236,
+    237
+   ],
+   "cross_refs": [
+    "riehl:5.6:thm5",
+    "riehl:5.6:prop11",
+    "riehl:5.6:cor14"
+   ],
+   "flags": [
+    "long-proof",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:5.6:cor14",
+   "kind": "corollary",
+   "number": "5.6.14",
+   "name": "categories of models for an algebraic theory are cocomplete",
+   "statement_summary": "Any category of models for an algebraic theory (Definition 5.5.5) is cocomplete. Proof: Set is complete and cocomplete (Theorem 3.2.4 and Corollary 5.6.9), and by Definition 5.5.5 such a category is the category of algebras for a finitary monad on Set, so Theorem 5.6.12 applies. Following prose observes that although the compact-Hausdorff monad is NOT finitary, cHaus is nonetheless cocomplete, because compact Hausdorff spaces form a reflective subcategory of Top (Example 4.6.13(i)) and Propositions 3.6.2 and 4.6.14 apply.",
+   "book_section": "5.6",
+   "book_page": "217",
+   "pdf_pages": [
+    237
+   ],
+   "cross_refs": [
+    "riehl:5.6:thm12",
+    "riehl:5.5:def5",
+    "riehl:5.6:cor9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.6:exi",
+   "kind": "exercise",
+   "number": "5.6.i",
+   "name": "re-prove monadicity of cHaus via the alternate monadicity criterion",
+   "statement_summary": "Exercise 3.4.iii gives an alternate form of the monadicity theorem: U : D -> C is monadic if U has a left adjoint, U reflects isomorphisms, and D has and U preserves U-split coequalizers. Using this criterion together with a direct point-set proof that any continuous bijection between compact Hausdorff spaces is a homeomorphism, re-prove Corollary 5.5.6 by showing cHaus has U-split coequalizers, constructed as in Top. (Hint: the coequalizer of maps of compact spaces is compact; to see the U-split coequalizer is Hausdorff, use the split coequalizer diagram in Set to show the kernel pair of the quotient map, as a subobject of Y x Y, is closed.)",
+   "book_section": "5.6",
+   "book_page": "217",
+   "pdf_pages": [
+    237
+   ],
+   "cross_refs": [
+    "riehl:5.5:cor6",
+    "riehl:5.5:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.6:exii",
+   "kind": "exercise",
+   "number": "5.6.ii",
+   "name": "proof of the colimit half of Theorem 5.6.5",
+   "statement_summary": "Prove Theorem 5.6.5(ii): that a monadic functor U : A -> C creates any colimits that C has and that the monad and its square preserve.",
+   "book_section": "5.6",
+   "book_page": "217",
+   "pdf_pages": [
+    237
+   ],
+   "cross_refs": [
+    "riehl:5.6:thm5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:5.6:exiii",
+   "kind": "exercise",
+   "number": "5.6.iii",
+   "name": "the coequalizer of Proposition 5.6.11 is the coproduct of algebras",
+   "statement_summary": "Prove that the T-algebra constructed as a coequalizer of free algebras in the proof of Proposition 5.6.11 does satisfy the universal property of the coproduct in the category of T-algebras.",
+   "book_section": "5.6",
+   "book_page": "217",
+   "pdf_pages": [
+    237
+   ],
+   "cross_refs": [
+    "riehl:5.6:prop11",
+    "riehl:5.6:construction-free-product"
+   ],
+   "flags": []
+  }
+ ]
+}

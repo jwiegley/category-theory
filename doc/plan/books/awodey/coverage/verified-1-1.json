@@ -1,0 +1,236 @@
+[
+  {
+    "id": "awodey:1.4:def-preorder",
+    "classification": "PRESENT",
+    "aliases": ["preorder", "proset / preordered set", "PreOrder (Coq stdlib class: reflexive + transitive)", "reflexive+transitive relation", "underlying preorder of a category"],
+    "evidence": [
+      {"file": "Instance/Proset.v", "line": 33, "symbol": "Proset",
+       "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => reflexivity x; compose := fun x y z f g => transitivity g f |}  (* consumes the stdlib PreOrder R = Reflexive R + Transitive R *)"},
+      {"file": "Theory/Category.v", "line": 282, "symbol": "hom_preorder",
+       "intree_statement": "Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := { PreOrder_Reflexive := fun _ => id; PreOrder_Transitive := fun _ _ _ f g => g ∘ f }"}
+    ],
+    "statement_record": {
+      "book": "A preorder is a set P with a relation ≤ that is reflexive and transitive; antisymmetry is not required.",
+      "intree": "The Coq standard-library class PreOrder R (Reflexive R ∧ Transitive R) is imported and used as the preorder notion: Instance/Proset.v's Proset builds the thin category of any (P : PreOrder R), and Theory/Category.v's hom_preorder shows the hom of any category is itself such a PreOrder.",
+      "strength_comparison": "same — reflexive+transitive relation is exactly the stdlib PreOrder the library imports and builds on. Caveat: the definition of 'preorder' is the Coq standard-library typeclass rather than a bespoke in-tree record; the library realizes and uses the notion first-class (Proset, LessThanEqualTo_Category) but does not re-define it."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. Verified both quotes at the cited lines: Proset at Instance/Proset.v:33 and hom_preorder at Theory/Category.v:282 (PreOrder (@hom C) := {PreOrder_Reflexive := fun _ => id; PreOrder_Transitive := fun _ _ _ f g => g ∘ f}, exact). Both files registered in _CoqProject and compiled. Rests on the Coq stdlib PreOrder class (reflexive+transitive), which the strength_comparison discloses honestly; the notion is used first-class, and the library routinely bases foundational notions on stdlib classes, so PRESENT stands (the universe-polymorphism/foundations latitude of the frozen rules does not force PARTIAL here)."}
+  },
+  {
+    "id": "awodey:1.4:construction-preorder",
+    "classification": "PRESENT",
+    "aliases": ["a preorder as a category", "thin category of a preorder", "proset category", "underlying preorder of a category (converse)", "posetal / (0,1)-category"],
+    "evidence": [
+      {"file": "Instance/Proset.v", "line": 33, "symbol": "Proset",
+       "intree_statement": "Program Definition Proset {A} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun _ _ => {| equiv := fun _ _ => True |} (* thin *); id := reflexivity; compose := fun x y z f g => transitivity g f |}"},
+      {"file": "Theory/Category.v", "line": 282, "symbol": "hom_preorder",
+       "intree_statement": "Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := { PreOrder_Reflexive := fun _ => id; PreOrder_Transitive := fun _ _ _ f g => g ∘ f }  (* the hom relation of ANY category is a preorder on objects *)"}
+    ],
+    "statement_record": {
+      "book": "Any preorder (P,≤) is a category with a unique arrow a→b iff a≤b (eq. 1.2); reflexivity/transitivity give identities/composites. Conversely, any category with at most one arrow between any two objects gives a preorder.",
+      "intree": "Forward: Proset P builds exactly this thin category — hom := R, id from reflexivity, compose from transitivity, hom-setoid trivial so at most one arrow. Converse: hom_preorder exhibits (@hom C) as a PreOrder for any category C (reflexivity = id, transitivity = composition).",
+      "strength_comparison": "same for the forward direction (Proset is eq. (1.2) on the nose, thin via the trivial hom-setoid). Converse is intree-stronger: hom_preorder yields the reflexive+transitive structure for EVERY category (a Type/crelation-valued preorder), subsuming Awodey's restriction to thin categories rather than needing the at-most-one hypothesis to state it."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. Forward direction verified exact: Proset (Instance/Proset.v:33) builds the thin category with id=reflexivity, compose=transitivity, trivial hom-setoid — Awodey eq. (1.2) on the nose. Converse witness hom_preorder (Theory/Category.v:282) verified present as PreOrder (@hom C) over the crelation-valued hom for every category; this is the reachability/hom preorder — genuinely stronger than the thin-only converse, and honestly flagged as intree-stronger. PRESENT stands."}
+  },
+  {
+    "id": "awodey:1.4:construction-poset-cat",
+    "classification": "PRESENT",
+    "aliases": ["a poset as a category", "poset as a thin category", "skeletal thin category", "antisymmetric preorder as a category", "power-set poset P(X)"],
+    "evidence": [
+      {"file": "Instance/Poset.v", "line": 116, "symbol": "Poset",
+       "intree_statement": "Definition Poset {C : Type} `{R : relation C} `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P  (* a poset is a preorder with antisymmetry; the category is its Proset *)"}
+    ],
+    "statement_record": {
+      "book": "A poset is an antisymmetric preorder, hence a thin category. Example: the power set P(X) ordered by inclusion. A functor between poset categories is exactly a monotone function.",
+      "intree": "Definition Poset ... (P : PreOrder R) (Antisymmetric ... R) : Category := Proset P — the thin category of the underlying preorder, antisymmetry adding nothing to the hom-sets (making it skeletal).",
+      "strength_comparison": "same for the core construction (poset ⇒ thin/skeletal category), faithfully realized. Two of the item's illustrations are NOT separately packaged: (1) the power-set poset P(X)-by-inclusion is discussed only in the file essay, not built as a standalone category — the topos-theoretic Pow a := Ω^a (Structure/Topos.v) is the power OBJECT, a distinct notion; (2) 'a functor between poset categories = a monotone function' is not stated as a named lemma (the closest in-tree result is the Two-enriched form EnrichedFunctor_Two_monotone in Construction/Enriched/Two.v). These are examples/remarks around a construction that is itself present."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass leaned PARTIAL, but PRESENT is defensible and the classifier is scrupulously honest about the gaps. Verified Poset at Instance/Poset.v:116 (:= Proset P with an Antisymmetric constraint that is inert in the Category, as the file header openly documents — not a defect). The core construction (poset ⇒ thin/skeletal category) is genuinely present; P(X)-by-inclusion is a trivial instantiation of Poset at (P(X),⊆) even though not pre-packaged, and functor=monotone is an auxiliary remark. Treatment is consistent with the prog-lang record (core construction present, auxiliary remarks flagged). CONFIRM."}
+  },
+  {
+    "id": "awodey:1.4:construction-deductive",
+    "classification": "PARTIAL",
+    "aliases": ["category of a deductive system", "proofs-as-arrows category", "Curry-Howard-Lambek category", "Lindenbaum category", "category of a logic (formulas as objects)"],
+    "evidence": [
+      {"file": "Instance/Lambda.v", "line": 226, "symbol": "Lambda",
+       "intree_statement": "Program Definition Lambda Γ : Category := {| obj := Ty; hom := λ A B, Exp Γ (A ⟶ B) (* open terms = proofs *); id := @identity Γ (λx.x); compose := @composition Γ (λx. f (g x)) |}  (* types-as-formulas, terms-as-proofs; composition = proof substitution; header cites Lambek 'Deductive Systems and Categories' *)"},
+      {"file": "Instance/Props.v", "line": 39, "symbol": "Props",
+       "intree_statement": "Program Definition Props : Category := {| obj := Prop; hom := Basics.impl; homset := fun P Q => {| equiv := fun f g => True |} (* THIN: at most one arrow *); id := fun _ x => x; compose := fun _ _ _ g f x => g (f x) |}  (* the proof-IRRELEVANT Lindenbaum preorder of propositions *)"}
+    ],
+    "statement_record": {
+      "book": "The category of a deductive system has formulas as objects and deductions/proofs p:φ→ψ as arrows; composition is concatenation of deductions, identities are trivial deductions, and there may be MANY arrows φ→ψ.",
+      "intree": "Lambda Γ realizes a proof-relevant version via Curry-Howard: objects are types (formulas), morphisms A~>B are open terms Exp Γ (A⟶B) (proofs), composition is proof-substitution, and hom is non-thin. Instance/Props.v gives only the thin, proof-irrelevant collapse (propositions ordered by implication).",
+      "strength_comparison": "intree-weaker (partial): the proof-relevant deductive-system-as-category is realized only as ONE specific deductive system — the simply-typed λ-calculus ({→,×,1} intuitionistic fragment) — not as a general 'deductive system ⟶ category' construction; moreover Lambda's hom-equivalence identifies proofs DENOTATIONALLY (∀E, SemExp f E ≈ SemExp g E) rather than by the raw deduction-concatenation equivalence Awodey intends. The only direct 'category of propositions', Instance/Props.v, is THIN (≤1 arrow) — the strictly weaker Lindenbaum-preorder reading that discards Awodey's 'many arrows φ→ψ'."
+    },
+    "gap": "No generic construction taking an arbitrary deductive system (formulas + proofs + composition of deductions) to a proof-relevant category. In-tree coverage is (a) the STLC image, Instance/Lambda.v — a single logic, with proofs identified denotationally, not deduction-theoretically; (b) Instance/Props.v — the thin/proof-irrelevant collapse (no 'many arrows'). Missing: an in-tree category whose objects are the formulas and whose arrows are the (proof-relevant) deductions of a general deductive system.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'deductive|Deductive|deduction' . -> hits only in background essays (Instance/Lambda.v header, Instance/Coq.v header, Structure/Closed.v) and Props/Poset prose; no deductive-system category datatype/construction",
+      "Structure/Closed.v is an incomplete Eilenberg-Kelly stub (per CLAUDE.md its Class Closed is 'not yet in force') — it names Lambda as the syntactic realization but builds no deductive-system category itself",
+      "Instance/Props.v confirmed thin (homset equiv := True, 'at most one arrow') — the proof-irrelevant reading, not the many-arrows deductive system"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My blind pass initially leaned ABSENT ('no category-of-a-deductive-system as such'), but the classifier's PARTIAL is better supported and I overturn my own blind call, not the classifier's. Independently confirmed: Lambda Γ (Instance/Lambda.v:226) is a genuinely non-thin, proof-relevant category of ONE specific deductive system (STLC via Curry-Howard — the header explicitly invokes Lambek 'Deductive Systems and Categories'); homs are terms, not ≤1 (e.g. distinct Bool→Bool terms), so 'many arrows' holds. Props (Instance/Props.v:39) verified THIN (homset equiv:=True), correctly labelled the proof-irrelevant collapse. Gap precisely stated (no generic deductive-system⇒category; Lambda quotients proofs denotationally via SemExp, not by deduction-concatenation). CONFIRM PARTIAL."}
+  },
+  {
+    "id": "awodey:1.4:construction-prog-lang",
+    "classification": "PRESENT",
+    "aliases": ["category C(L) of a programming language", "types-as-objects programs-as-arrows", "syntactic category of a type theory", "category of Coq types and functions", "denotational-semantics functor"],
+    "evidence": [
+      {"file": "Instance/Lambda.v", "line": 226, "symbol": "Lambda",
+       "intree_statement": "Program Definition Lambda Γ : Category := {| obj := Ty; hom := λ A B, Exp Γ (A ⟶ B); id := LAM (VAR ZV) (* λx.x = do-nothing program *); compose := LAM (APP (wk f) (APP (wk g) (VAR ZV))) (* λx. f (g x) = g;f *) |}"},
+      {"file": "Instance/Coq.v", "line": 120, "symbol": "Coq",
+       "intree_statement": "Program Instance Coq : Category := { obj := Type; hom := fun A B => A -> B; id := fun _ x => x; compose := fun _ _ _ g f x => g (f x) }  (* the category of a programming language's types and total functions *)"},
+      {"file": "Instance/Lambda/Sem.v", "line": 116, "symbol": "SemExp",
+       "intree_statement": "Fixpoint SemExp `(e : Exp Γ τ) : SemEnv Γ → SemTy τ := ...  (* the denotational (standard-model) interpretation of programs into Coq *)"}
+    ],
+    "statement_record": {
+      "book": "C(L) has data types as objects and programs as arrows; composition g∘f = f;g, identity is the do-nothing program. Denotational semantics is a functor S:C(L)→D (e.g. D = Scott domains).",
+      "intree": "Lambda Γ IS the category of the simply-typed λ-calculus: objects are types, morphisms are open terms (programs) of function type, id is λx.x, composition is λx. f (g x). Instance/Coq.v is the companion semantic category of types and total functions; Instance/Lambda/Sem.v (SemExp) is the standard denotational interpretation from the one into the other.",
+      "strength_comparison": "same for the primary content: Lambda Γ is exactly the category of a functional programming language (the STLC), matching types-as-objects / programs-as-arrows / do-nothing identity / f;g composition on the nose, and Instance/Coq.v independently witnesses the idea for Gallina. Caveat: the denotational semantics exists as the interpretation SemExp (Instance/Lambda/Sem.v, a Fixpoint that is even baked into Lambda's hom-equivalence) but is NOT packaged as a standalone Functor (Lambda Γ ⟶ Coq) instance — so the 'semantics is a functor' remark is realized in substance but not as a named Functor object."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Functor.*Lambda|SemFunctor|Sem.*Functor' Instance/ -> no Functor object packaging the denotational semantics of Lambda; SemExp is a Fixpoint interpretation only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My blind pass leaned PARTIAL (denotational-semantics-as-a-Functor absent), but PRESENT holds on review. Verified: Lambda Γ (Instance/Lambda.v:226) faithfully realizes C(L) — types-as-objects, terms-as-programs, id=λx.x, compose=λx.f(g x); AND Instance/Coq.v:120 independently gives 'types and total functions' as a second faithful C(L); SemExp (Sem.v:116) is the denotational bridge. Only the wrapping of SemExp as a named Functor is missing — honestly flagged in strength_comparison. Since the core construction (the category) is fully present and doubled, and the semantics exists in substance, PRESENT is consistent with the frozen 'formalized in substance' rule and with the poset-cat treatment. CONFIRM."}
+  },
+  {
+    "id": "awodey:1.4:construction-discrete",
+    "classification": "PRESENT",
+    "aliases": ["discrete category Dis(X)", "DiscreteCat", "identity-only category", "free category on a set", "discrete category on a Type"],
+    "evidence": [
+      {"file": "Instance/Discrete.v", "line": 37, "symbol": "DiscreteCat",
+       "intree_statement": "Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := {| obj := A; hom := fun x y => x = y; homset := fun x y => Morphism_equality x y; id := fun _ => eq_refl; compose := fun _ _ _ g f => eq_trans f g |}"},
+      {"file": "Instance/Discrete.v", "line": 65, "symbol": "DiscreteCat_Discrete",
+       "intree_statement": "Lemma DiscreteCat_Discrete (A : Type) : Discrete (DiscreteCat A)  (* every morphism forces its endpoints equal and is the transported identity — only identity arrows *)"}
+    ],
+    "statement_record": {
+      "book": "For a set X, Dis(X) has the elements of X as objects and only identity arrows. Discrete categories are the very special posets having only identity arrows.",
+      "intree": "DiscreteCat A: objects are the elements of A, hom x y := (x = y), id := eq_refl, compose := eq_trans; DiscreteCat_Discrete proves it satisfies the Discrete predicate (only identity morphisms).",
+      "strength_comparison": "same — objects are the elements, and the only arrows are identities (a hom x~>y is inhabited only when x=y, by eq_refl). The strict-equality hom-setoid (Morphism_equality) makes this axiom-free and faithful; DiscreteCat_Discrete pins the 'only identity arrows' clause."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. Verified DiscreteCat at Instance/Discrete.v:37 (obj:=A, hom:=(x=y), id:=eq_refl, compose:=eq_trans) and DiscreteCat_Discrete at :65-66 (satisfies the Discrete 'only identities' predicate). Exact match to Awodey's Dis(X). File registered/compiled. CONFIRM."}
+  },
+  {
+    "id": "awodey:1.4:def-monoid",
+    "classification": "PRESENT",
+    "aliases": ["monoid", "monoid object", "MonoidObject", "internal monoid in a monoidal category", "associative unital operation with identity"],
+    "evidence": [
+      {"file": "Structure/Monoid.v", "line": 124, "symbol": "MonoidObject",
+       "intree_statement": "Class MonoidObject (mon : C) := { mempty : I ~> mon; mappend : mon ⨂ mon ~> mon; mempty_left : mappend ∘ bimap mempty id ≈ to unit_left; mempty_right : mappend ∘ bimap id mempty ≈ to unit_right; mappend_assoc : mappend ∘ bimap mappend id ≈ mappend ∘ bimap id mappend ∘ to tensor_assoc }"},
+      {"file": "Structure/Monoid.v", "line": 173, "symbol": "Monoid",
+       "intree_statement": "Definition Monoid := @MonoidObject C CC_Monoidal  (* a monoid object for the cartesian monoidal structure (tensor = ×, unit = 1) = an ordinary monoid *)"},
+      {"file": "Theory/Algebra/Monoid.v", "line": 44, "symbol": "Monoid",
+       "intree_statement": "Class Monoid (X : C) : Type := { mu : X ⨂ X ~> X; eta : I ~> X; mu_assoc; mu_unit_left; mu_unit_right }  (* the same structure, standalone building block *)"}
+    ],
+    "statement_record": {
+      "book": "A monoid is a set M with an associative binary operation ·:M×M→M and a unit element u∈M with u·x = x = x·u.",
+      "intree": "A monoid object: Class MonoidObject (mon : C) with unit mempty : I ~> mon, multiplication mappend : mon ⨂ mon ~> mon, and the two unit laws + associativity; Definition Monoid := @MonoidObject C CC_Monoidal specializes to the cartesian (product) monoidal structure.",
+      "strength_comparison": "same at Sets — a monoid object in the cartesian monoidal category of setoids is exactly Awodey's monoid (this library's 'sets' are setoids; the associator/unitor insertions collapse to identities in the cartesian case, recovering plain associativity and the two-sided unit law). Weaker-name trap flagged: the on-a-Type class Theory/Coq/Monoid.v 'Monoid' is LAW-FREE (ops-only mempty, laws only in prose) and would NOT be a faithful capture; Instance/CMon.v's CMonObject carries the laws but adds COMMUTATIVITY. The faithful general capture is MonoidObject/Monoid."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "No bare standalone record { carrier : Setoid; op; unit; assoc; unit-laws } for general (non-commutative) monoids on a set was found; general monoids appear only as monoid OBJECTS (MonoidObject / Theory.Algebra.Monoid). Theory/Coq/Monoid.v omits the laws; Instance/CMon.v is commutative."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. Verified MonoidObject (Structure/Monoid.v:124), Monoid := @MonoidObject C CC_Monoidal (:173; CC_Monoidal present, referenced also at :167/:180/:291), and Theory/Algebra/Monoid.v:44 (mu/eta + three laws). Independently confirmed both weaker-name traps the classifier flagged and correctly avoided: Theory/Coq/Monoid.v:37 Monoid is ops-only/LAW-FREE (its own header calls it 'ops-only, laws in prose'); Instance/CMon.v CMonObject enforces laws but is COMMUTATIVE. At C=Sets the monoid object is exactly Awodey's set-monoid; faithful. CONFIRM."}
+  },
+  {
+    "id": "awodey:1.4:construction-monoid-cat",
+    "classification": "PARTIAL",
+    "aliases": ["monoid as a one-object category", "delooping BM of a monoid", "one-object category", "endomorphism monoid Hom_C(C,C)", "monoid homomorphism as a functor between one-object categories"],
+    "evidence": [
+      {"file": "Construction/Funny/Comparison.v", "line": 81, "symbol": "ListMon",
+       "intree_statement": "Program Definition ListMon : Category := {| obj := poly_unit; hom := fun _ _ => list bool; homset := fun _ _ => Morphism_equality _ _; id := fun _ => nil; compose := fun _ _ _ u v => (v ++ u)%list |}  (* the free monoid on bool AS a one-object category *)"},
+      {"file": "Instance/One.v", "line": 25, "symbol": "_1",
+       "intree_statement": "Program Definition _1 : Category := {| obj := poly_unit; ... |}  (* the terminal category = delooping of the trivial monoid *)"},
+      {"file": "Theory/Coq/Monoid.v", "line": 24, "symbol": "Monoid (essay)",
+       "intree_statement": "(* essay: 'A monoid is a set with an associative binary operation and a unit, i.e. the hom-set of a one-object category: composition is ⊗, the identity arrow is mempty, and the category laws are exactly associativity and the unit laws.' *)"}
+    ],
+    "statement_record": {
+      "book": "A monoid is a category with one object: arrows are elements, identity is the unit, composition is the operation. Conversely, for any object C, Hom_C(C,C) is a monoid under composition. A monoid homomorphism corresponds to a functor between one-object categories.",
+      "intree": "No generic delooping. Concrete single-monoid instances exist: ListMon (free monoid on bool as a one-object category, obj := poly_unit, hom := list bool, id := nil, compose := append) and Instance/One's _1 (trivial monoid). The general 'monoid = hom-set of a one-object category' identification appears only in the Theory/Coq/Monoid.v essay.",
+      "strength_comparison": "intree-weaker: only specific monoids are rendered as one-object categories; there is NO generic delooping B(-) : Monoid ⟶ Cat, the converse 'Hom_C(x,x) is a monoid' is not packaged as a monoid instance, and 'monoid homomorphism = functor between one-object categories' is not formalized. (Note: Theory/Bicategory/OneObject.v deloops a monoidal category to a one-object BICATEGORY — the categorified analogue, one level up, not this.)"
+    },
+    "gap": "Missing (i) a generic construction from an arbitrary monoid (MonoidObject / Theory.Algebra.Monoid) to a one-object Category; (ii) the endomorphism-monoid packaging making Hom_C(x,x) a monoid under composition; (iii) the correspondence between monoid homomorphisms and functors between one-object categories. Only ad-hoc single-monoid deloopings (ListMon, _1) and essay-level prose are present.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'obj *:= *poly_unit|obj *:= *unit|obj *:= *True' . -> Instance/One (trivial), Construction/Funny/Comparison ListMon (one fixed monoid), Theory/Multicategory/{Algebra,Endomorphism} mobj:=poly_unit (one-object operads, different structure); no monoid-parameterized delooping",
+      "grep -rn --include='*.v' 'Monoid (.*~>.*)|EndoMonoid|endomorphism_monoid|hom.*x x.*Monoid' . -> 0 hits (no Hom(x,x)-is-a-monoid instance)",
+      "grep -rn --include='*.v' 'delooping|deloop|Deloop|one-object' . -> only Theory/Bicategory/OneObject.v (monoidal category ⇒ one-object bicategory) and background essays; no monoid ⇒ one-object category construction"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My blind pass leaned ABSENT because I under-weighted ListMon; the classifier's PARTIAL is the better call and I overturn my own blind reading, not the classifier's. Verified ListMon at Construction/Funny/Comparison.v:81-83 (obj:=poly_unit, hom:=list bool, id/compose = nil/append) — a genuine free-monoid-on-bool rendered as a one-object category (its file header, :34, says exactly 'booleans, regarded as a one-object category [ListMon]'). _1 at Instance/One.v:25 is the trivial-monoid delooping. So specific instances of 'a monoid as a one-object category' DO exist, satisfying PARTIAL; and the gap is precisely stated (no generic B(-), no Hom(x,x)-is-a-monoid packaging, no monoid-hom↔functor). Independently re-ran the negative searches: no generic delooping, no endomorphism-monoid instance. CONFIRM PARTIAL."}
+  },
+  {
+    "id": "awodey:1.4:construction-mon",
+    "classification": "PRESENT",
+    "aliases": ["Mon", "category of monoids", "Mon(C) internal-monoid category", "monoid homomorphisms", "CMon (commutative special case)"],
+    "evidence": [
+      {"file": "Theory/Algebra/Monoid/Hom.v", "line": 83, "symbol": "Mon",
+       "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun X => (id; MonoidHom_id `2 X); compose := fun _ _ _ f g => (`1 f ∘ `1 g; MonoidHom_comp `2 f `2 g) |}"},
+      {"file": "Theory/Algebra/Monoid/Hom.v", "line": 34, "symbol": "MonoidHom",
+       "intree_statement": "Class MonoidHom {x y} (Mx : Monoid x) (My : Monoid y) (f : x ~> y) := { hom_mu : f ∘ mu[Mx] ≈ mu[My] ∘ (f ⨂ f); hom_eta : f ∘ eta[Mx] ≈ eta[My] }"},
+      {"file": "Instance/CMon.v", "line": 140, "symbol": "CMon",
+       "intree_statement": "Program Definition CMon : Category := {| obj := CMonObject; hom := CMonHom; ... |}  (* concrete standalone category of commutative monoids over setoids *)"}
+    ],
+    "statement_record": {
+      "book": "Monoids and monoid homomorphisms form a category Mon; a homomorphism h:M→N preserves the operation h(m·n)=h(m)·h(n) and the unit h(u_M)=u_N.",
+      "intree": "Mon : Category with objects { x : C & Monoid x } (internal monoids) and morphisms carrying a MonoidHom proof (hom_mu preserves multiplication, hom_eta preserves the unit); a forgetful Mon_Forget : Mon ⟶ C. Instance/CMon.v gives the concrete commutative category CMon over setoids.",
+      "strength_comparison": "same — at C = Sets (cartesian monoidal) Mon is exactly Awodey's category of monoids, and MonoidHom's hom_mu / hom_eta are precisely preservation of the operation and the unit. Intree-stronger in generality: Mon is defined over ANY monoidal base C (internal monoids), Awodey's Mon being the Sets instance; Instance/CMon.v supplies the commutative special case as a standalone witness."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. Verified Mon (Theory/Algebra/Monoid/Hom.v:83, objects Σx.Monoid x, homs carrying a MonoidHom proof, equiv = underlying-morphism equiv), MonoidHom (:34, hom_mu preserves multiplication + hom_eta preserves unit), and the faithful Mon_Forget:Mon⟶C. CMon at Instance/CMon.v:140 (standalone commutative-monoid category over setoids, verified). At C=Sets = Awodey's category of monoids; general internal form honestly flagged as intree-stronger. CONFIRM."}
+  },
+  {
+    "id": "awodey:1.5:def3",
+    "classification": "PRESENT",
+    "aliases": ["isomorphism", "iso", "invertible morphism", "two-sided inverse", "≅ (isomorphic objects)"],
+    "evidence": [
+      {"file": "Theory/Isomorphism.v", "line": 113, "symbol": "Isomorphism",
+       "intree_statement": "Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }"}
+    ],
+    "statement_record": {
+      "book": "In a category, f:A→B is an isomorphism if there is g:B→A with g∘f=1_A and f∘g=1_B. The inverse is unique (f⁻¹); A≅B when an isomorphism exists.",
+      "intree": "Class Isomorphism (x y : C) := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }.",
+      "strength_comparison": "same — a faithful setoid rephrasing where ≈ replaces =. The file additionally proves the inverse is unique (comp_inverse_unique, its essay identifying this as Eilenberg–Mac Lane Lemma 1.4) and that ≅ is an equivalence relation on objects (iso_equivalence / ob_setoid), matching Awodey's uniqueness and A≅B remarks. IsIsomorphism gives the predicate form when only invertibility of a given morphism is at issue."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. Verified Class Isomorphism at Theory/Isomorphism.v:113 exact (to, from, iso_to_from: to∘from≈id, iso_from_to: from∘to≈id). The file header confirms comp_inverse_unique (uniqueness of inverse, = Eilenberg–Mac Lane Lemma 1.4) and iso_equivalence (≅ an equivalence on objects). Faithful setoid rephrasing (≈ for =). CONFIRM."}
+  },
+  {
+    "id": "awodey:1.5:def4",
+    "classification": "PRESENT",
+    "aliases": ["group", "group object", "GroupObject", "monoid with inverses", "one-object groupoid"],
+    "evidence": [
+      {"file": "Structure/Group.v", "line": 109, "symbol": "GroupObject",
+       "intree_statement": "Class GroupObject (grp : C) := { groupobject_is_monoid : MonoidObject grp; inverse : grp ~> grp; left_inverse : mappend ∘ inverse ⨂ id ∘ ∆ grp ≈ mempty ∘ eliminate; right_inverse : mappend ∘ id ⨂ inverse ∘ ∆ grp ≈ mempty ∘ eliminate }  (* over `{@CartesianMonoidal C} *)"}
+    ],
+    "statement_record": {
+      "book": "A group is a monoid in which every element has an inverse; equivalently, a one-object category in which every arrow is an isomorphism.",
+      "intree": "Class GroupObject (grp : C) in a cartesian monoidal category: an underlying MonoidObject grp (groupobject_is_monoid, supplying the associativity + two-sided unit laws) together with an inversion morphism inverse : grp ~> grp satisfying the two-sided inverse law (left_inverse, right_inverse), written in copy (∆) / discard (eliminate) vocabulary.",
+      "strength_comparison": "same for the primary definition — at C = Sets (cartesian monoidal) a GroupObject is exactly a group: a monoid object plus a two-sided inverse (∆ copies the element, eliminate discards it, so μ∘(ι⨂id)∘∆ ≈ η∘! is 'each element times its inverse is the unit'). Note: the alternative characterization 'a one-object category in which every arrow is an isomorphism' (a one-object groupoid) is NOT separately formalized (same delooping gap as construction-monoid-cat), but the monoid-with-inverses definition Awodey gives first is faithfully captured. CartesianMonoidal is the load-bearing hypothesis supplying the diagonal/discard."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT (borderline). Verified Class GroupObject at Structure/Group.v:109 (groupobject_is_monoid : MonoidObject grp, inverse : grp~>grp, two-sided inverse law in copy/discard form over CartesianMonoidal). At C=Sets this is exactly Awodey's 'monoid in which every element has an inverse' — the primary definition. The 'equivalently, a one-object category in which every arrow is an isomorphism' alternative is genuinely not built as a construction (Construction/Groupoid.v provides only the core-groupoid predicate, not group⇒one-object-groupoid) — same delooping gap as construction-monoid-cat, honestly disclosed. Since Awodey's PRIMARY def is faithfully captured, PRESENT stands. CONFIRM."}
+  }
+]

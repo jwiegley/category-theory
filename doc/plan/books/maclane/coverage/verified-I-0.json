@@ -1,0 +1,548 @@
+[
+  {
+    "id": "maclane:I.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "metagraph",
+      "directed graph",
+      "quiver",
+      "dom/cod graph structure",
+      "diagram scheme"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 54,
+        "symbol": "Quiver",
+        "intree_statement": "Class Quiver@{o h p} := { nodes : Type@{o}; uedges := Type@{h} : Type@{h+1}; edges : nodes → nodes → uedges; edgeset : ∀ X Y, Setoid@{h p} (edges X Y) }"
+      }
+    ],
+    "statement_record": {
+      "book": "A metagraph consists of objects and arrows with two operations dom and cod assigning each arrow a source and target object (f : a -> b), stated with no set-theoretic commitment.",
+      "intree": "Class Quiver := { nodes : Type; edges : nodes → nodes → Type; edgeset : ∀ X Y, Setoid (edges X Y) } — the file header: 'In the classical presentation this is two sets V, E with source/target maps s, t : E → V; here the edges are indexed directly by their endpoints'.",
+      "strength_comparison": "same — up to presentation: edges are indexed by their endpoints so dom/cod are implicit in the typing (the header states the equivalence with the two-sort s,t form); each edge collection carries a setoid (a refinement); universe polymorphism carries the meta/size role, so the 'meta' level is covered."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently found Class Quiver at Construction/Free/Quiver.v:54 (verified verbatim, registered _CoqProject:72, built). Header's indexed-vs-(V,E,s,t) equivalence note verified. Setoid edges and universe polymorphism are faithful refinements; PRESENT under the frozen 'up to presentation' rule."
+    }
+  },
+  {
+    "id": "maclane:I.1:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "metacategory",
+      "Category typeclass",
+      "category axioms (identity, composition, associativity, unit)",
+      "comp_assoc / id_left / id_right",
+      "first-order theory of categories"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; hom : obj → obj → uhom; homset : ∀ X Y, Setoid@{h p} (X ~> Y); id {x} : x ~> x; compose {x y z} (f: y ~> z) (g : x ~> y) : x ~> z; compose_respects ...; id_left {x y} (f : x ~> y) : id ∘ f ≈ f; id_right : f ∘ id ≈ f; comp_assoc : f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h; comp_assoc_sym : (f ∘ g) ∘ h ≈ f ∘ (g ∘ h) }"
+      },
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 65,
+        "symbol": "(header essay)",
+        "intree_statement": "\"a metagraph is objects and arrows with domain and codomain; a metacategory adds identity and composition under associativity and unit laws; a category is a metacategory whose data form sets (CWM, I.1)\" ... \"the size distinctions it once marked are, in this library, carried instead by universe polymorphism\""
+      }
+    ],
+    "statement_record": {
+      "book": "A metacategory is a metagraph with identity (each object a gets 1_a : a -> a) and composition (each composable pair (g,f) gets g.f), subject to associativity k.(g.f) = (k.g).f and the unit law 1_b.f = f, g.1_b = g; stated axiomatically with no set theory.",
+      "intree": "The Category class: id, compose, id_left (id ∘ f ≈ f), id_right (f ∘ id ≈ f), comp_assoc (f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h), over hom-setoids, at arbitrary universe levels.",
+      "strength_comparison": "same — the axioms match exactly; laws are stated for the hom-setoid ≈ instead of =, and the class carries the redundant dual field comp_assoc_sym (derivable; kept so C^op^op = C definitionally). Being universe-polymorphic and free of any set-theoretic commitment, this class is precisely the axiomatic metacategory; the set-based 'category' of I.2 is its interpretation at a fixed level."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Class Category@{o h p | h <= p} at Theory/Category.v:111 with id/compose/id_left/id_right/comp_assoc(+sym) over hom-setoids; essay quotes at Theory/Metacategory.v:65-68 and 116-118 verified verbatim. Blind pass reached the same PRESENT call: universe polymorphism carries the meta/size role, setoid ≈ is the sanctioned rephrasing."
+    }
+  },
+  {
+    "id": "maclane:I.1:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "commutative diagram",
+      "diagram commutes",
+      "equality of path composites",
+      "diagram chase / categorical solver",
+      "paths in a free category"
+    ],
+    "evidence": [
+      {
+        "file": "Solver/Expr.v",
+        "line": 65,
+        "symbol": "Term",
+        "intree_statement": "Inductive Term : Set := ... (* Syntax of a single morphism, built from identities, morphism variables, and [compositions] *) — with Solver/Denote.v giving denotation into an ambient category and Solver/Decide.v a decision procedure for ≈-goals between composites"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 431,
+        "symbol": "FreeOnQuiver",
+        "intree_statement": "Program Definition FreeOnQuiver : Category := {| obj := @nodes G; hom := tlist edges; ...; compose := fun _ _ _ f g => g +++ f |} — finite composable paths of edges as morphisms"
+      }
+    ],
+    "statement_record": {
+      "book": "A diagram (vertices labelled by objects, directed edges by arrows) is commutative when for each pair of vertices any two directed paths between them yield, by composing their labels, equal arrows.",
+      "intree": "Commutativity of each concrete diagram is stated as an ≈-equation between composites (the working idiom of the whole library); Solver/* reifies composite-morphism expressions (Ident/variables/Comp) and decides such equalities; FreeOnQuiver renders paths in a directed graph as morphisms (tlist edges).",
+      "strength_comparison": "intree-weaker: the general definition — a labelled-graph diagram together with a commutativity predicate quantifying over all pairs of parallel paths — is never stated; only its instances-as-equations and the deciding/paths machinery exist."
+    },
+    "gap": "No first-class 'diagram over a directed graph' object with a path-pair-quantified commutativity predicate. In-tree, a commutative diagram exists only instance-by-instance as an ≈-equation between two composites; the Solver decides such equations and Construction/Free/Quiver.v supplies paths-as-morphisms, but neither defines 'commutative diagram' as MacLane does.",
+    "negative_search_log": [
+      "rg -n -i 'commutative diagram|diagram commut' over *.v — hits only in prose comments, no Definition",
+      "rg -n -i '\\bGraph\\b|directed graph|diagram scheme' — Construction/Free/Quiver.v (quiver), Construction/Free.v (free category, mentions quotients by relations as II.8 future work); no commutativity predicate"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: Solver/Expr.v:65 Inductive Term (Ident/Morph/Comp; registered _CoqProject:284, built) with Denote/Decide; FreeOnQuiver at Construction/Free/Quiver.v:431 (paths as tlist edges). My blind pass leaned ABSENT — no first-class labelled-diagram object with a path-pair-quantified commutativity predicate exists, which the record's gap states precisely; PARTIAL is defensible since the operational core (deciding equality of composites, paths-as-morphisms) is formalized. Confirming as classified."
+    }
+  },
+  {
+    "id": "maclane:I.1:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "uniqueness of identity arrows",
+      "id_unique / identity_unique",
+      "identity determined by unit law",
+      "objects identified with identity arrows",
+      "1_b = b convention"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 69,
+        "symbol": "is_identity",
+        "intree_statement": "is_identity (u : arrow) := (∀ f, defined f u → composite f u f) ∧ (∀ g, defined u g → composite u g g)"
+      },
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 93,
+        "symbol": "object",
+        "intree_statement": "Record object : Set := { obj_arr : arrow M; obj_def : composite M obj_arr obj_arr obj_arr; obj_id : is_identity M obj_arr } — objects of Category_from_Metacategory ARE the identity arrows"
+      }
+    ],
+    "statement_record": {
+      "book": "For any object b the identity 1_b is uniquely determined by the unit-law properties; consequently one may identify the identity arrow with the object, writing 1_b = b.",
+      "intree": "The identification half is machine-realized: FromArrows (Theory/Metacategory.v:261) and Category_from_Metacategory (ArrowsOnly.v:212) take objects to be exactly the arrows satisfying is_identity.",
+      "strength_comparison": "intree-weaker: the uniqueness lemma itself — that an arrow with the unit-law property equals the identity (u ∘ f ≈ f for all f and g ∘ u ≈ g for all g implies u ≈ id), or that the u, u' of the arrows-only axiom (iii) are unique — is nowhere stated or proven; only the objects-as-identities identification is realized."
+    },
+    "gap": "The uniqueness statement proper is missing at both presentations: no lemma in Theory/Category.v (its only corollaries are dom_id/cod_id/dom_comp/cod_comp), and in the arrows-only development uniqueness of the identities attached to an arrow is neither stated nor derivable there (its identity_law axiom is vacuous per the in-file TODO). Searched: 'id_unique|identity_unique|unique.*identity' (only UIP hits — a different concept), 'is the identity|identity is unique' (prose only).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified is_identity (ArrowsOnly.v:69, with MacLane's definedness guard) and Record object (ArrowsOnly.v:93, obj := identity arrows), realizing the identification half; FromArrows (Metacategory.v:261) likewise. My independent searches (id_unique/identity.*unique/uniquely determined) also found no uniqueness lemma in Theory/Category.v or the metacategory files, and ArrowsOnly's identity_law is vacuous per its in-file TODO (lines 74-85), so uniqueness is not even derivable there. Gap accurate."
+    }
+  },
+  {
+    "id": "maclane:I.1:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "metacategory of all sets",
+      "category of sets Set",
+      "Coq types and functions",
+      "Sets (setoids)",
+      "Ens"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Coq.v",
+        "line": 120,
+        "symbol": "Coq",
+        "intree_statement": "Program Instance Coq : Category := { obj := Type; hom := λ A B : Type, A → B; homset := λ _ _, {| equiv := λ f g, ∀ x, f x = g x |}; id := λ _ x, x; compose := λ _ _ _ g f x, g (f x) }"
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 188,
+        "symbol": "Sets",
+        "intree_statement": "Program Definition Sets@{o so} : Category@{so o o} := {| obj := SetoidObject@{o o}; hom := λ x y, SetoidMorphism@{o o o} x y; homset := @SetoidMorphism_Setoid; id := @setoid_morphism_id; compose := @setoid_morphism_compose |}"
+      }
+    ],
+    "statement_record": {
+      "book": "The metacategory of all sets: objects all sets, arrows all functions (each carrying a specified domain, specified codomain, and a rule), with identity functions and usual composition; functions with distinct codomains are distinct.",
+      "intree": "Coq : Category with obj := Type and hom := A → B (functions), pointwise-equal homs; Sets : Category of setoids and setoid morphisms — both universe-polymorphic.",
+      "strength_comparison": "same — up to foundational translation: 'all sets' become Type (or setoids) at an arbitrary universe level, universe polymorphism carrying the meta-size role; a function's domain and codomain are intrinsic to its type, so the book's inclusion-vs-identity distinction is automatic; morphisms are compared pointwise (an extensional ≈) rather than by strict equality. (Instance/Ens.v, despite the name, is a different construction — Ensembles with membership-preserving maps — and is not this item.)"
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Program Instance Coq : Category at Instance/Coq.v:120 (exact) and Sets at Instance/Sets.v:188 (exact), both quotes accurate. Independently confirmed the Ens.v caveat: Instance/Ens.v is Ensembles with membership-preserving-and-reflecting maps — a different category, correctly excluded. Blind pass agrees PRESENT."
+    }
+  },
+  {
+    "id": "maclane:I.1:construction2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "category of groups Grp",
+      "category of topological spaces Top",
+      "compact Hausdorff spaces",
+      "ringed spaces",
+      "categories of structured sets (Mon, CMon, Pos)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/CMon.v",
+        "line": 140,
+        "symbol": "CMon",
+        "intree_statement": "Program Definition CMon : Category := {| ... |} — \"[CMon] is the category of commutative monoids over [Sets]: an object is a [commutative monoid setoid], a morphism a unit- and multiplication-preserving setoid morphism\""
+      },
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 83,
+        "symbol": "Mon",
+        "intree_statement": "Program Definition Mon : Category := {| ... |} — the category of internal monoid objects in a monoidal category C, instantiable at Sets"
+      }
+    ],
+    "statement_record": {
+      "book": "Further metacategories of structured sets built the same way as sets: all groups with group homomorphisms, all topological spaces with continuous maps, all compact Hausdorff spaces, all ringed spaces with their morphisms; 'morphism' names the arrows of any metacategory.",
+      "intree": "The structured-sets pattern is witnessed for monoid-like structures only: CMon (commutative monoids over Sets) and Mon (monoid objects in a monoidal category); Structure/Group.v provides internal group OBJECTS but no category of groups.",
+      "strength_comparison": "intree-weaker: only monoid-flavoured instances of the algebraic pattern exist; none of the book's four named examples (Grp, Top, CompHaus, ringed spaces) has an in-tree category."
+    },
+    "gap": "No category of groups (Structure/Group.v defines group objects in a cartesian monoidal category, but no Grp instance assembling them or bare groups into a Category), no topological spaces / continuous maps, no compact Hausdorff category, no ringed spaces. Searches: rg -l -i 'Grp|group' Instance/ (hits are groupoid/prose only); rg 'Topolog|continuous' (prose citations only, e.g. Theory/Adjunction.v); rg -i 'hausdorff|ringed' (two prose citations, Theory/Monad.v:66, Theory/Equivalence.v:122).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified CMon (Instance/CMon.v:140, registered _CoqProject:164) and Mon (Theory/Algebra/Monoid/Hom.v:83). My independent searches confirm the negatives: Structure/Group.v is group OBJECTS only (no Grp category; other 'group' hits are prose/vector-grouping in Shapes.v), no topological/CompHaus/ringed-space instances anywhere. PARTIAL with the stated gap is exact."
+    }
+  },
+  {
+    "id": "maclane:I.1:def4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "arrows-only metacategory",
+      "single-sorted / object-free axiomatization",
+      "Metacategory record",
+      "partial monoid of arrows",
+      "composable-pairs table"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 37,
+        "symbol": "Metacategory",
+        "intree_statement": "Record Metacategory := { arrow := N; pairs : M.t arrow; composite (f g h : arrow) := M.find (f, g) pairs = Some h; defined (f g : arrow) := ∃ h, composite f g h; composite_correct {f g h fg gh} : composite f g fg -> composite g h gh → ∃ fgh, composite fg h fgh; composition_law {f g h fg gh} : composite f g fg -> composite g h gh -> ∀ fgh, composite fg h fgh ↔ composite f gh fgh; is_identity (u) := (∀ f, defined f u → composite f u f) ∧ (∀ g, defined u g → composite u g g); identity_law (x y f) : composite x y f -> ∃ u u', is_identity u → is_identity u' -> composite f u f ∧ composite u' f f }"
+      },
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 133,
+        "symbol": "Metacategory",
+        "intree_statement": "Record Metacategory := { arr := nat; pairs : M.t arr; composite (f g h : arr) := M.MapsTo (f, g) h pairs; ... composition_law ...; triple_composition ...; identity_law ... } — the FMap-encoded parallel development (its identity drops MacLane's definedness guard, noted in-file as strictly stronger)"
+      }
+    ],
+    "statement_record": {
+      "book": "Arrows-only metacategory: data are arrows, certain composable pairs, and a composite assignment; an identity is an arrow u with f.u = f and u.g = g whenever defined; axioms: (i) (k.g).f defined iff k.(g.f) defined and then equal, (ii) k.g.f defined whenever k.g and g.f are, (iii) each arrow has identity arrows u, u' with g.u and u'.g defined — forcing u, u' unique and giving each arrow a domain and codomain.",
+      "intree": "Both Metacategory records encode the data as a finite map of composable pairs over a fixed countable arrow sort, with composition_law = axiom (i), composite_correct/triple_composition = axiom (ii), is_identity the conditional unit property (ArrowsOnly.v keeps MacLane's 'whenever defined' guard), and identity_law intended as axiom (iii).",
+      "strength_comparison": "intree-weaker: (a) the arrow sort is fixed to N/nat with the partial composition a finite map — a family of computable models rather than the general definition over an arbitrary collection of arrows; (b) axiom (iii) is mis-encoded (→ where ∧ is needed) and is vacuously true, acknowledged by the in-file TODO at ArrowsOnly.v:77-83 and Metacategory.v:184-190, and its consequence (uniqueness of u, u') is absent; axioms (i)/(ii) and the guarded identity definition are faithful."
+    },
+    "gap": "A general-carrier version of the record (arbitrary arrow collection, not N-with-finite-map), and a corrected non-vacuous identity-existence axiom (iii) together with the derived uniqueness of the flanking identities u and u'.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both records verified verbatim, including ArrowsOnly.v:84-86 identity_law (the mis-encoded, vacuous axiom iii — in-file TODO confirmed at both files) and Metacategory.v:133's guard-dropping identity (in-file note confirmed at lines 148-157). The N/nat-fixed carrier with finite-map pairs is a genuine restriction vs the book's arbitrary arrow collection. PARTIAL with both gaps precisely stated — matches my blind assessment exactly."
+    }
+  },
+  {
+    "id": "maclane:I.1:prop1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "equivalence of the two axiomatizations",
+      "FromArrows",
+      "Category_from_Metacategory",
+      "objects-as-identities reconstruction",
+      "arrows-only iff objects-and-arrows"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 212,
+        "symbol": "Category_from_Metacategory",
+        "intree_statement": "Program Definition Category_from_Metacategory : Category := {| obj := object; hom := morphism; homset := ...; id := @identity; compose := @composition; ... |} — where object := arrows with is_identity; all category laws proven (composition_identity_left/right, composition_associative)"
+      },
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 261,
+        "symbol": "FromArrows",
+        "intree_statement": "Program Definition FromArrows (M : Metacategory) : Category := {| obj := ∃ i : arr M, identity M i; hom := fun x y => ∃ f : arr M, defined f ``x (pairs M) ∧ defined ``y f (pairs M); ... |}"
+      }
+    ],
+    "statement_record": {
+      "book": "The arrows-only axioms are equivalent to the objects-and-arrows axioms: the arrows of an objects-and-arrows metacategory satisfy the arrows-only axioms, and conversely an arrows-only metacategory becomes an objects-and-arrows one with its identity arrows as objects (proof left as an inline exercise).",
+      "intree": "The converse direction is machine-checked twice: Category_from_Metacategory and FromArrows each build a full Category from an arrows-only Metacategory with objects the identity arrows.",
+      "strength_comparison": "intree-weaker: only the arrows-only ⇒ objects-and-arrows direction is formalized; the other direction (every Category yields an arrows-only metacategory satisfying (i)-(iii)) is nowhere constructed — and is not even stateable against the current records without generalizing their N-fixed carrier."
+    },
+    "gap": "The Category ⇒ arrows-only-Metacategory construction (and hence the two-way equivalence/round-trip). Blocked on the fixed nat/N arrow carrier of both Metacategory records; rg 'Metacategory' over *.v shows the only occurrences are Theory/Metacategory.v, Theory/Metacategory/ArrowsOnly.v, Theory/Metacategory/DecideExample.v, none containing a Category-to-Metacategory functor or map.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Category_from_Metacategory (ArrowsOnly.v:212, laws proven) and FromArrows (Metacategory.v:261), both giving arrows-only => objects-and-arrows only. My blind rg over all Metacategory occurrences likewise found no Category => arrows-only construction. PARTIAL confirmed; the note that the missing direction is blocked on the fixed carrier is accurate."
+    }
+  },
+  {
+    "id": "maclane:I.2:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "directed graph",
+      "quiver",
+      "diagram scheme",
+      "composable pairs / product over O",
+      "Quiv"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 54,
+        "symbol": "Quiver",
+        "intree_statement": "Class Quiver@{o h p} := { nodes : Type@{o}; edges : nodes → nodes → uedges; edgeset : ∀ X Y, Setoid@{h p} (edges X Y) } — with QuiverHomomorphism (line 205) and QuiverCategory (line 358), 'the Quiv of the literature'"
+      },
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 39,
+        "symbol": "pairs",
+        "intree_statement": "pairs : M.t arrow; composite (f g h : arrow) := M.find (f, g) pairs = Some h — an explicit set of composable pairs with their composite assignment"
+      }
+    ],
+    "statement_record": {
+      "book": "A directed graph (diagram scheme) is a set O of objects, a set A of arrows, and two functions dom, cod : A -> O; its composable pairs form the set A ×_O A = {(g,f) | dom g = cod f}, the product over O.",
+      "intree": "Quiver: nodes plus endpoint-indexed edge setoids, with the header's explicit note that this is the classical V, E, s, t presentation re-indexed.",
+      "strength_comparison": "same — up to presentation: dom and cod are the indices of the edge family, and a composable pair is any (g : edges y z, f : edges x y) sharing y, expressible directly in the typing rather than as a named set A ×_O A (the arrows-only development's pairs field is a concrete finite-map counterpart of that set); edge setoids are an added refinement."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Quiver:54, QuiverHomomorphism:205, QuiverCategory:358 ('the Quiv of the literature' per header), FreeOnQuiver:431, all built and registered. Composable pairs live in the typing (and concretely as the pairs finite map in ArrowsOnly.v:39). Blind pass agrees PRESENT up to the indexed presentation."
+    }
+  },
+  {
+    "id": "maclane:I.2:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "category (set interpretation)",
+      "Category class",
+      "small category",
+      "id/compose over a graph",
+      "dom/cod laws"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} := { obj; hom; homset; id {x} : x ~> x; compose {x y z} : (y ~> z) → (x ~> y) → (x ~> z); dom {x y} (f : x ~> y) := x; cod {x y} (f : x ~> y) := y; id_left; id_right; comp_assoc; comp_assoc_sym }"
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 253,
+        "symbol": "dom_id",
+        "intree_statement": "Corollary dom_id {x : C} : dom (@id C x) = x. / cod_id / dom_comp : dom g = cod f ↔ dom (g ∘ f) = dom f / cod_comp : dom g = cod f ↔ cod (g ∘ f) = cod g — the book's bookkeeping equations, holding definitionally"
+      }
+    ],
+    "statement_record": {
+      "book": "A category is a directed graph with id : O -> A and composition A ×_O A -> A satisfying dom(id a) = a = cod(id a), dom(g.f) = dom f, cod(g.f) = cod g, plus the associativity and unit axioms of I.1.",
+      "intree": "The Category class (hom-family presentation) with id, compose, the setoid laws id_left/id_right/comp_assoc, and dom/cod as definitional fields whose interaction equations are the corollaries dom_id, cod_id, dom_comp, cod_comp.",
+      "strength_comparison": "same — presented in the hom-family style (an equivalent custom MacLane himself notes at I.2/I.8) rather than as one arrow set with dom/cod functions; the graph-compatibility equations hold definitionally; unit and associativity laws are stated up to the hom-setoid ≈; universe polymorphism replaces the small/large bookkeeping."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified the class at Theory/Category.v:111 with dom/cod definitional fields (127-128) and the bookkeeping corollaries dom_id/cod_id/dom_comp/cod_comp at 253-262 holding definitionally — precisely the book's graph-compatibility equations. PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.2:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "hom-set",
+      "hom(b, c)",
+      "x ~> y",
+      "homset setoid",
+      "hom-set-based definition of category"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 115,
+        "symbol": "hom",
+        "intree_statement": "hom : obj → obj → uhom where \"a ~> b\" := (hom a b); homset : ∀ X Y, Setoid@{h p} (X ~> Y);  (* hom is a setoid; equality is ≈ *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For objects b, c of a category, hom(b, c) = {f | f in C, dom f = b, cod f = c}; noting that categories can alternatively be defined directly in terms of hom-sets (the I.8 custom, which the book does not follow).",
+      "intree": "hom : obj → obj → Type with notation a ~> b, each hom carrying a Setoid — hom-sets are primitive structure.",
+      "strength_comparison": "same — the library takes exactly the hom-set-based presentation the book names as the equivalent alternative: hom(b,c) is primitive rather than carved out of a global arrow set by dom/cod (that reading is recovered definitionally), and each hom-set is a setoid under ≈."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified hom : obj -> obj -> uhom and homset : forall X Y, Setoid (X ~> Y) at Theory/Category.v:115-116. The library is hom-family-based, the equivalent custom MacLane himself names; the carve-out reading is recovered by dom/cod. PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.2:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "category as a monoid for the product over O",
+      "monoid in spans",
+      "internal category (in Set)",
+      "monoid object over A ×_O A",
+      "span bicategory monoid"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'internal categor' --glob '*.v' — 3 hits, all prose disclaimers (Construction/Enriched.v:83-85 'Enrichment is not the same as an internal category...', Theory/DoubleCategory.v:115 citing internal categories historically); no in-tree definition of internal category",
+      "rg -n -i 'product over O|x_O|×_O' --glob '*.v' — no on-topic hits (only vertex_obj coincidences in Adjunction/Continuity.v)",
+      "rg -n -i 'monoid in|monoid object' --glob '*.v' — monoid objects exist (Structure/Monoid.v, Theory/Algebra/Monoid.v) and specific delooping-flavoured facts (Instance/StrictCat/Premonoid.v: monoid in (StrictCat, □) = strict premonoidal; prose 'monoid in (Cat, ∏, 1) is a strict monoidal category'); none states a category is a monoid for the pullback product over its object set",
+      "rg -l '\\bSpan\\b' --glob '*.v' — Structure/Span.v is the span diagram shape for pullbacks; no bicategory of spans and no monoids-in-spans statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search independently confirms all four negatives: no internal-category definition (only prose disclaimers in Construction/Enriched.v:83-85 and Theory/DoubleCategory.v:115), Structure/Span.v is only the Roof-shaped span diagram, monoid objects (Structure/Monoid.v MonoidObject) exist but nothing states a category is a monoid for the pullback product over its objects. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "empty category 0",
+      "terminal/point category 1",
+      "interval category 2 (walking arrow)",
+      "ordinal 3 (commuting triangle)",
+      "walking parallel pair"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Zero.v",
+        "line": 28,
+        "symbol": "_0",
+        "intree_statement": "Program Definition _0 : Category := {| obj := Empty_set; hom := fun _ _ => Empty_set; homset := Morphism_equality |}"
+      },
+      {
+        "file": "Instance/One.v",
+        "line": 25,
+        "symbol": "_1",
+        "intree_statement": "Program Definition _1@{o h p} : Category@{o h p} := {| obj := poly_unit@{o}; hom := fun _ _ => poly_unit@{h}; id := fun _ => ttt; compose := fun _ _ _ _ _ => ttt |}"
+      },
+      {
+        "file": "Instance/Two.v",
+        "line": 134,
+        "symbol": "_2",
+        "intree_statement": "Program Definition _2 : Category := {| obj := TwoObj; hom := TwoHom; homset := Morphism_equality; ... |} — objects TwoX, TwoY, identities, and the single non-identity arrow TwoXY : TwoX ~> TwoY"
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 80,
+        "symbol": "Parallel",
+        "intree_statement": "Program Definition Parallel : Category := {| obj := ParObj; hom := fun x y => ∃ b : bool, ParHom b x y; ... |} — the walking parallel pair (two objects, two parallel non-identity arrows)"
+      },
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 352,
+        "symbol": "Three",
+        "intree_statement": "Program Definition Three : Metacategory := {| pairs := composable_pairs 3 |} — with Category_from_Metacategory Three the ordinal-3 category, and Two_iso_2 : Category_from_Metacategory Two ≅ _2 (line 523) certifying the encoding against Instance/Two.v"
+      }
+    ],
+    "statement_record": {
+      "book": "The basic finite categories: 0 (empty), 1 (one object, identity only), 2 (two objects, one non-identity arrow a -> b), 3 (three objects, commuting triangle of non-identity arrows), and the parallel-arrow category a ⇉ b; composition uniquely determined in each.",
+      "intree": "_0, _1, _2, Parallel as first-class Instance/ categories; 3 (and 0,1,2,4) as computable arrows-only metacategories via composable_pairs n, made categories by Category_from_Metacategory, with Two_iso_2 the cross-encoding isomorphism.",
+      "strength_comparison": "same — all five shapes exist with composition uniquely determined; the only presentational wrinkle is that 3 lives in the self-contained arrows-only development (Theory/Metacategory/ArrowsOnly.v, which the Metacategory.v header notes stands apart from the working library) rather than as an Instance/ file."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All five shapes verified: _0 (Zero.v:28), _1 (One.v:25), _2 (Two.v:134), Parallel (Parallel.v:80, ParOne/ParTwo the bool-indexed parallel pair), Three := composable_pairs 3 (ArrowsOnly.v:352) with Two_iso_2 : Category_from_Metacategory Two ≅ _2 (ArrowsOnly.v:523) certifying the encoding. Additional uncited witness found in my blind pass: Theory/Metacategory.v:413 Definition Three : Category := FromArrows ThreeArrows (hand-built commuting-triangle table at :396). PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "discrete category",
+      "DiscreteCat",
+      "Discrete predicate",
+      "set as a category",
+      "discrete categories = sets correspondence"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Discrete.v",
+        "line": 37,
+        "symbol": "DiscreteCat",
+        "intree_statement": "Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := {| obj := A; hom := fun x y => x = y; homset := Morphism_equality; id := fun _ => eq_refl; compose := fun _ _ _ g f => eq_trans f g |}"
+      },
+      {
+        "file": "Structure/Discrete.v",
+        "line": 28,
+        "symbol": "Discrete",
+        "intree_statement": "Definition Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id."
+      },
+      {
+        "file": "Instance/Discrete.v",
+        "line": 65,
+        "symbol": "DiscreteCat_Discrete",
+        "intree_statement": "Lemma DiscreteCat_Discrete@{o h p} (A : Type@{o}) : Discrete (DiscreteCat@{o h p} A)."
+      }
+    ],
+    "statement_record": {
+      "book": "A category is discrete when every arrow is an identity; every set X becomes a discrete category (one identity per element), and every discrete category is determined by its set of objects — discrete categories correspond exactly to sets.",
+      "intree": "Both halves of the vocabulary exist: the property (Discrete: every morphism forces x = y and is the transported identity) and the construction (DiscreteCat: elements as objects, equality proofs as morphisms), connected one way by DiscreteCat_Discrete.",
+      "strength_comparison": "intree-weaker: the construction and predicate are present and one direction (DiscreteCat A is Discrete) is proven, but the determination direction closing the bijective correspondence is not."
+    },
+    "gap": "No reconstruction theorem: nothing proves that a category satisfying Discrete is isomorphic/equivalent (in Cat) to DiscreteCat of its object type, which is the book's 'every discrete category is determined by its set of objects'. Additionally the Discrete predicate uses object equality x = y, flagged in-file ('jww: Equality is too much here' / the nLab principle-of-equivalence caveat in the header) as a known coarseness.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified DiscreteCat (Instance/Discrete.v:37), Discrete predicate (Structure/Discrete.v:28, with the in-file 'Equality is too much here' caveat), DiscreteCat_Discrete (Instance/Discrete.v:65). My blind pass found the same three and likewise no reconstruction theorem closing the correspondence. PARTIAL with accurate gap."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction3",
+    "classification": "ABSENT",
+    "aliases": [
+      "monoid as one-object category",
+      "delooping BM",
+      "one-object category",
+      "endomorphism monoid hom(a, a)",
+      "semigroup with unit = category with one object"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'one.object|one object|delooping|deloop' --glob '*.v' — prose-only hits: Theory/Functor.v:68 (BG mentioned in an essay), Theory/Metacategory.v:91 ('a one-object category is the ordinary total monoid', essay), Monad/Graded.v:43-53 (essay); Theory/Bicategory/OneObject.v formalizes the CATEGORIFIED statement one level up (monoidal category = one-object bicategory), which is not this item",
+      "rg -n -i 'MonoidCat|BMon|Deloop|OneObj' (excluding Bicategory) — no construction taking a monoid to a Category",
+      "rg -n -i 'endomorphism monoid|endo.*monoid|monoid.*endo' --glob '*.v' — no lemma that hom(a, a) is a monoid; hits are strong/monoidal endofunctor prose",
+      "rg -l 'Monoid' Construction/*.v Instance/*.v + inspection — categories OF monoids exist (Instance/CMon.v:140 CMon; Theory/Algebra/Monoid/Hom.v:83 Mon; Structure/Monoid.v and Theory/Algebra/Monoid.v monoid objects; Construction/Cayley.v reads a category as a 'many-object monoid' in prose only); neither direction of the one-object correspondence (monoid ⇒ one-object category, hom(a,a) a monoid) is formalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search independently confirms ABSENT: no delooping of a monoid into a one-object Category (no obj := unit category built from a monoid; Construction/Funny/Comparison.v:82's poly_unit object is unrelated), no lemma that hom(a,a) is a monoid; Theory/Bicategory/OneObject.v is the categorified statement one level up; Theory/Coq/Monoid.v and Theory/Metacategory.v:91 carry the reading in prose only; Construction/Cayley.v:20 'many-object monoid' prose verified. Negative log accurate."
+    }
+  }
+]

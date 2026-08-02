@@ -1,0 +1,185 @@
+[
+  {
+    "id": "awodey:3.2:construction-free-product-groups",
+    "classification": "ABSENT",
+    "aliases": ["free product of groups", "coproduct in Groups", "Grp coproduct", "A ⊕ B free product", "amalgamated free product", "category of groups"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rli 'group' --include=*.v .  — hits are all internal group OBJECTS (Structure/Group.v = group object in a monoidal category) or comment/motivation text; no category 'Grp' of groups",
+      "grep -rli 'abelian|AbGroup|category of.*group' Instance/ Structure/  — no category-of-groups instance; Instance/CMon.v is commutative MONOIDS (no inverses)",
+      "grep -rn 'free product' --include=*.v .  — only in comments: Structure/Cocartesian.v:44/53/68/74 (Mac Lane motivation), Structure/Cartesian.v:69, Construction/Funny.v:113 (M □ N as free product in Mon, prose only), Construction/Groupoid.v:62 (amalgamated free product, prose)",
+      "grep -rn 'reduced word|amalgamated' --include=*.v .  — no reduced-word / word-quotient construction of a free product",
+      "Instance/Comp.v defines Group := Algebra GroupOp GroupEq (an equationally-presented single algebra) but no category of such algebras with a coproduct computed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently confirms: Structure/Group.v is group OBJECTS in a cartesian-monoidal category (grp, inverse, μ ∘ (ι⨂id) ∘ ∆ ≈ η ∘ eliminate); no category Grp of groups exists, no free-product/reduced-word construction. Instance/Comp.v Group_operation is a single equational algebra (one/mul/inv), not a category with computed coproducts. ABSENT is correct."}
+  },
+  {
+    "id": "awodey:3.2:example10",
+    "classification": "PARTIAL",
+    "aliases": ["coproduct in Ab", "direct sum of abelian groups", "A ⊕ B", "biproduct", "coproduct of commutative monoids", "injections (a,0) (0,b)"],
+    "evidence": [
+      {"file": "Instance/CMon/Biproduct.v", "line": 210, "symbol": "CMon_inl / CMon_inr", "intree_statement": "CMon_inl M N := Build_CMonHom ... {| morphism := fun a => (a, cmon_zero N) |} ...  ;  CMon_inr M N := ... {| morphism := fun b => (cmon_zero M, b) |} ..."},
+      {"file": "Instance/CMon/Biproduct.v", "line": 404, "symbol": "CMon_bi_is_coproduct", "intree_statement": "Definition CMon_bi_is_coproduct (M N P : CMonObject) (f : M ~{CMon}~> P) (g : N ~{CMon}~> P) : ∃! h : CMon_product M N ~{CMon}~> P, (h ∘ CMon_inl M N ≈ f) ∧ (h ∘ CMon_inr M N ≈ g).  — copairing is (a,b) ↦ f a + g b"}
+    ],
+    "statement_record": {
+      "book": "For abelian groups A, B the coproduct in Ab is the direct sum on the underlying product set |A × B|, with injections i_A(a) = (a, 0_B), i_B(b) = (0_A, b), and copairing [f,g](a,b) = f(a) +_X g(b).",
+      "intree": "In CMon (commutative monoids), the direct product M ⊕ N (CMon_product, componentwise) is a coproduct with injections CMon_inl a = (a, 0), CMon_inr b = (0, b) and copairing (a,b) ↦ f a + g b (CMon_bi_is_coproduct); assembled as CMon_Biproduct.",
+      "strength_comparison": "intree-weaker: realized for the category CMon of commutative monoids, not the category Ab of abelian groups. The construction (direct sum = product set, injections (a,0)/(0,b), copairing f(a)+g(b)) is identical, but abelian groups — commutative monoids WITH inverses — are not a formalized category in-tree, so Awodey's specific Ab statement is only witnessed by its commutative-monoid analogue."
+    },
+    "gap": "The category Ab of abelian groups is not formalized (no group/abelian-group category exists in-tree). The direct-sum-as-coproduct construction with injections (a,0),(0,b) and copairing f(a)+g(b) IS present, but for commutative monoids (Instance/CMon), the additive-monoid analogue without inverses.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified CMon_bi_is_coproduct at Instance/CMon/Biproduct.v (∃! h with h∘inl≈f ∧ h∘inr≈g, copairing (a,b)↦f a + g b) and CMon_inl/CMon_inr with the (a,0)/(0,b) injections. Blind search confirms no Ab category exists. The direct-sum-as-coproduct phenomenon is present for CMon; Awodey's Ab-specific statement is faithfully witnessed only by its commutative-monoid analogue. PARTIAL is honest."}
+  },
+  {
+    "id": "awodey:3.2:prop11",
+    "classification": "PARTIAL",
+    "aliases": ["coproduct iso product in Ab", "A + B ≅ A × B", "biproduct", "semiadditive", "direct sum equals direct product", "theta = [<1,0>,<0,1>]"],
+    "evidence": [
+      {"file": "Instance/CMon/Biproduct.v", "line": 445, "symbol": "CMon_Biproduct", "intree_statement": "Definition CMon_Biproduct (M N : CMonObject) : @Biproduct CMon CMon_Zero M N := Build_Biproduct ... (CMon_bi_is_product M N) (CMon_bi_is_coproduct M N).  — the single object CMon_product M N is simultaneously product and coproduct"},
+      {"file": "Instance/CMon/Biproduct.v", "line": 459, "symbol": "CMon_Biproducts", "intree_statement": "#[export] Instance CMon_Biproducts : @HasBiproducts CMon CMon_Zero := Build_HasBiproducts CMon_Biproduct."}
+    ],
+    "statement_record": {
+      "book": "In Ab there is a canonical isomorphism between the binary coproduct and the binary product, A + B ≅ A × B, witnessed by θ = [⟨1_A,0_B⟩, ⟨0_A,1_B⟩] : A+B → A×B.",
+      "intree": "In CMon the direct product M ⊕ N is a biproduct: the SAME object carries both the product UMP (CMon_bi_is_product) and the coproduct UMP (CMon_bi_is_coproduct), hence coproduct ≅ product canonically. Generic theory in Structure/Biproduct.v and Structure/Semiadditive.v (biproducts ⟺ CMon-enrichment, Eckmann–Hilton).",
+      "strength_comparison": "intree-weaker: proved for CMon (commutative monoids), not Ab (abelian groups). The phenomenon (binary coproduct ≅ binary product = biproduct) is fully formalized both generically (Structure/Biproduct.v) and concretely (CMon), but the specific category Ab is absent, so Awodey's exact statement about abelian groups is only witnessed by its commutative-monoid analogue."
+    },
+    "gap": "Ab (abelian groups) is not a formalized category in-tree; the coproduct≅product/biproduct fact is instantiated only for CMon (commutative monoids) and stated generically for any semiadditive/biproduct category. The θ = [⟨1,0⟩,⟨0,1⟩] iso is exactly the biproduct comparison, but never spelled out for abelian groups.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified CMon_Biproduct (Build_Biproduct threading both CMon_bi_is_product and CMon_bi_is_coproduct on the single object CMon_product) and CMon_Biproducts : HasBiproducts. Structure/Biproduct.v defines Biproduct as an object that is simultaneously product and coproduct with the four interaction laws. The A+B≅A×B / biproduct phenomenon is present generically and concretely for CMon; Ab specifically absent. PARTIAL correct."}
+  },
+  {
+    "id": "awodey:3.2:construction-coproduct-functor",
+    "classification": "PARTIAL",
+    "aliases": ["coproduct functor", "+ : C × C ⟶ C", "f + f'", "coproduct of arrows", "cover / bimap", "empty coproduct is initial", "codiagonal"],
+    "evidence": [
+      {"file": "Structure/Cocartesian.v", "line": 151, "symbol": "cover", "intree_statement": "Definition cover {x y z w : C} (f : x ~> y) (g : z ~> w) : x + z ~{C}~> y + w := (inl ∘ f) ▽ (inr ∘ g).  — the coproduct of two arrows f + f'"},
+      {"file": "Structure/Cocartesian.v", "line": 285, "symbol": "cover_id / cover_comp", "intree_statement": "cover (id[x]) (id[y]) ≈ id[x + y]  (cover_id);  cover f g ∘ cover h i ≈ cover (f ∘ h) (g ∘ i)  (cover_comp)  — functor laws for the arrow action; cover_respects gives Proper"},
+      {"file": "Structure/Cocartesian.v", "line": 373, "symbol": "Context Initial + coprod_zero_l/r", "intree_statement": "Context `{I : @Initial C}. ... coprod_zero_l : 0 + x ≅ x ; coprod_zero_r : x + 0 ≅ x  — the empty coproduct / initial object 0 is the unit"}
+    ],
+    "statement_record": {
+      "book": "In a category C with binary coproducts: the empty coproduct is an initial object 0; the coproduct of two arrows is f + f' : A + A' → B + B'; and these assemble into a coproduct functor + : C × C ⟶ C.",
+      "intree": "The arrow action f + f' is `cover f g : x + z ~> y + w` with functor laws cover_id, cover_comp, cover_respects (Structure/Cocartesian.v); the empty coproduct = initial object 0 is supplied by the `Context @Initial C` with coprod_zero_l/r as units.",
+      "strength_comparison": "intree-weaker: the bifunctorial ACTION on objects (Coprod) and arrows (cover) plus the functor laws (cover_id/cover_comp/cover_respects) and the initial-object-as-empty-coproduct are all present, but they are NOT assembled into a single packaged Functor object `+ : C ∏ C ⟶ C` (no such coproduct-bifunctor Functor instance exists in-tree). NOTE: unlike the coproduct side, the PRODUCT bifunctor IS packaged — `InternalProductFunctor : C ∏ C ⟶ C` in Functor/Product/Internal.v (notation `×(C)`), used in Adjunction/GAFT/Examples.v — so the coproduct bifunctor is a genuine one-sided gap, not a symmetric library-wide omission. Functor/Coproduct.v is the DIFFERENT codiagonal C ∐ C ⟶ C out of the coproduct category, not the coproduct bifunctor."
+    },
+    "gap": "The coproduct bifunctor is not packaged as a `Functor (C ∏ C) C` instance (whereas its product dual InternalProductFunctor : C ∏ C ⟶ C IS packaged in Functor/Product/Internal.v). Its complete data — object map Coprod, arrow map cover, and functor laws cover_id/cover_comp/cover_respects — plus the empty-coproduct-is-initial fact are all in-tree; only the final assembly into one Functor record is missing.",
+    "negative_search_log": [
+      "rg 'InternalCoproduct|CoproductBifunctor|InternalCoproductFunctor' -g '*.v'  — 0 hits; no packaged coproduct bifunctor C ∏ C ⟶ C",
+      "Functor/Product/Internal.v — InternalProductFunctor : C ∏ C ⟶ C exists (product side IS packaged)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Classification PARTIAL confirmed: cover (f+f' arrow action), cover_id/cover_comp/cover_respects (functor laws), and initial-as-empty-coproduct all verified in Structure/Cocartesian.v; no packaged coproduct bifunctor C∏C→C exists (rg for InternalCoproduct* returns 0 hits). CORRECTION APPLIED: the original strength_comparison and gap contained a FALSE claim — '...the same is true of the product side — no × : C∏C→C is packaged either.' That is factually wrong: InternalProductFunctor : C ∏ C ⟶ C IS packaged in Functor/Product/Internal.v (notation ×(C), consumed in Adjunction/GAFT/Examples.v). I rewrote the strength_comparison/gap to remove the false claim and note the coproduct gap is genuinely one-sided. Classification unchanged (coproduct bifunctor still absent)."}
+  },
+  {
+    "id": "awodey:3.2:prop12",
+    "classification": "PARTIAL",
+    "aliases": ["coproducts unique up to isomorphism", "coproduct uniqueness", "universal property unique up to iso", "uniqueness of the copairing", "terminal/initial unique up to iso"],
+    "evidence": [
+      {"file": "Structure/UniversalProperty.v", "line": 175, "symbol": "univ_property_unique_up_to_unique_iso", "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s).  — any two objects satisfying a representable universal property P are UNIQUELY isomorphic"},
+      {"file": "Structure/Cocartesian.v", "line": 196, "symbol": "merge_inv", "intree_statement": "Corollary merge_inv {x y z} (f h : y ~> x) (g i : z ~> x) : f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i).  — uniqueness of the copairing (the raw UMP-uniqueness half)"}
+    ],
+    "statement_record": {
+      "book": "Coproducts are unique up to isomorphism (proved by duality from uniqueness of products, using that the dual of 'isomorphism' is 'isomorphism').",
+      "intree": "The general theorem 'an object satisfying a representable universal property is unique up to unique isomorphism' is proved (univ_property_unique_up_to_unique_iso, Structure/UniversalProperty.v); the coproduct's own mediating-morphism uniqueness is merge_inv (Structure/Cocartesian.v).",
+      "strength_comparison": "intree-stronger-in-generality-but-not-instantiated: the library proves uniqueness-up-to-unique-iso for ANY representable universal property (more general than Awodey), and provides the coproduct UMP uniqueness (merge_inv), but coproducts are NOT registered as an IsUniversalProperty instance, so the specific corollary 'any two coproducts of a,b are canonically isomorphic' is not derived in-tree. Coproduct/product are chosen structure (a Cartesian class fixing product_obj), so 'two coproducts' never literally arises."
+    },
+    "gap": "The concrete corollary — two objects each satisfying the coproduct UMP for the same pair are (uniquely) isomorphic — is not instantiated. Present: the general universal-property uniqueness theorem (Structure/UniversalProperty.v) and the coproduct's copairing-uniqueness (merge_inv). Missing: wiring the coproduct UMP into the universal-property machinery to obtain the named result.",
+    "negative_search_log": [
+      "grep -rn 'unique.*iso|_unique|up to iso' Structure/Cartesian.v Structure/Cocartesian.v Structure/Limit.v  — no product/coproduct-specific 'unique up to iso' lemma; equalizer_unique exists for equalizers (Structure/Equalizer/Fork.v) but no coprod analogue",
+      "grep -rn 'terminal_unique|initial_unique' --include=*.v .  — no such named lemma; Terminal.v/Initial.v discuss uniqueness-up-to-iso only in prose + one_unique/zero_unique (mediating-morphism uniqueness)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independently confirmed: univ_property_unique_up_to_unique_iso exists in Structure/UniversalProperty.v (proved generically for representable universal properties, more general than Awodey), and merge_inv gives the coproduct copairing-uniqueness. No named product/coproduct 'unique up to iso' lemma; products/coproducts are chosen structure (Cartesian fixes product_obj) and are not wired as an IsUniversalProperty instance, so the specific corollary is not instantiated. PARTIAL is honest — the general theorem is present but not applied to coproducts."}
+  },
+  {
+    "id": "awodey:3.2:remark-coproduct-assoc",
+    "classification": "PRESENT",
+    "aliases": ["coproduct associativity", "(A+B)+C ≅ A+(B+C)", "coprod_assoc", "associator for coproduct"],
+    "evidence": [
+      {"file": "Structure/Cocartesian.v", "line": 399, "symbol": "coprod_assoc", "intree_statement": "#[export] Program Instance coprod_assoc {x y z : C} : (x + y) + z ≅ x + (y + z) := { to := (inl ▽ (inr ∘ inl)) ▽ (inr ∘ inr); from := (inl ∘ inl) ▽ ((inl ∘ inr) ▽ inr) }."}
+    ],
+    "statement_record": {
+      "book": "Binary coproducts are associative up to isomorphism: (A+B)+C ≅ A+(B+C), by duality from associativity of products.",
+      "intree": "coprod_assoc : (x + y) + z ≅ x + (y + z), an Isomorphism instance with explicit to/from copairings, discharged by (@prod_assoc _ O) in C^op (i.e. by duality from product associativity).",
+      "strength_comparison": "same: exactly the coproduct-associativity iso, obtained (as Awodey states) by duality from product associativity."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified coprod_assoc at Structure/Cocartesian.v:399-405, a Program Instance (x+y)+z ≅ x+(y+z) with the stated to/from copairings, obligations discharged by (@prod_assoc _ O) — i.e. by duality from product associativity, exactly as Awodey states. File is in _CoqProject. PRESENT, strength 'same' is accurate."}
+  },
+  {
+    "id": "awodey:3.3:def13",
+    "classification": "PRESENT",
+    "aliases": ["equalizer", "IsEqualizer", "equalizing map", "limit of parallel pair", "difference kernel", "HasEqualizers"],
+    "evidence": [
+      {"file": "Structure/Equalizer/Fork.v", "line": 52, "symbol": "IsEqualizer", "intree_statement": "Record IsEqualizer {C} {x y : C} (f g : x ~> y) (q : C) (e : q ~> x) := { fork_eq : f ∘ e ≈ g ∘ e; eq_desc {z} (h : z ~> x) (Hh : f ∘ h ≈ g ∘ h) : ∃! u : z ~> q, e ∘ u ≈ h }."},
+      {"file": "Structure/Equalizer.v", "line": 120, "symbol": "Equalizer", "intree_statement": "Definition Equalizer {C : Category} (F : Parallel ⟶ C) := Limit F.  — the limit-over-Parallel form"}
+    ],
+    "statement_record": {
+      "book": "Given parallel f, g : A → B, an equalizer is an object E with e : E → A such that f∘e = g∘e, universal: for any z : Z → A with f∘z = g∘z there is a unique u : Z → E with e∘u = z.",
+      "intree": "IsEqualizer records fork_eq : f ∘ e ≈ g ∘ e and eq_desc : every h with f∘h ≈ g∘h factors uniquely (∃! u, e ∘ u ≈ h). Equivalently Equalizer F := Limit F over the Parallel shape.",
+      "strength_comparison": "same (setoid rephrasing: = replaced by ≈). Both the elementary fork form and the limit-over-Parallel form are provided; ∃! captures Awodey's uniqueness of the mediator exactly."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified IsEqualizer at Structure/Equalizer/Fork.v:52 (fork_eq : f∘e ≈ g∘e; eq_desc : ∀ h with f∘h≈g∘h, ∃! u, e∘u≈h) and Equalizer := Limit F over Parallel at Structure/Equalizer.v:120. Both files in _CoqProject. Setoid rephrasing (= → ≈) is faithful; ∃! captures Awodey's uniqueness exactly. PRESENT, 'same' accurate."}
+  },
+  {
+    "id": "awodey:3.3:example14",
+    "classification": "ABSENT",
+    "aliases": ["equalizer in Sets", "{x in A | f x = g x}", "equational subset", "Sets has equalizers", "difference subset inclusion"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln 'Equalizer|HasEqualizers|IsEqualizer|equaliz' Instance/Sets/ Instance/Sets.v  — 0 hits; Sets carries no equalizer construction",
+      "ls Instance/Sets/  — Cartesian, Cocartesian, Classifier, Coend, End, Image, Karoubi, Par, Pushout, Streams; NO Equalizer / Limit / Complete file",
+      "grep -rln 'Equalizer|Complete|HasLimits' Instance/Sets/ Instance/Sets.v  — only Classifier/Pushout via unrelated 'Pullback' import; no equalizer, no {x | f x = g x} subset construction",
+      "grep -rn 'f x.*g x|subset' Instance/Sets.v  — only the hom-setoid pointwise ≈ definition (line 136), not an equalizer subset"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search: `rg -il equalizer Instance/` returns only Instance/Two.v and Instance/Parallel.v (the shape), NOT any Sets equalizer; no HasEqualizers/IsEqualizer instance for Sets; Sets is not even shown Complete in-tree. Instance/Sets/Image.v builds the image {b : B & ∃a, m a ≈ b}, an image not an equalizer of a parallel pair. The {x∈A | f x = g x} inclusion-as-equalizer is genuinely absent. ABSENT correct."}
+  },
+  {
+    "id": "awodey:3.3:construction-char-function",
+    "classification": "PARTIAL",
+    "aliases": ["characteristic function", "chi_U", "Hom(A,2) iso P(A)", "powerset bijection", "subobject classifier", "2 = {T,F}", "Omega", "subset as equalizer of chi and true"],
+    "evidence": [
+      {"file": "Structure/SubobjectClassifier.v", "line": 187, "symbol": "classifier_classifies", "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}.  — subobjects of x ≅ maps x → Ω (the abstract Hom(A,2) ≅ P(A))"},
+      {"file": "Structure/SubobjectClassifier.v", "line": 49, "symbol": "char", "intree_statement": "char {u x : C} (m : u ~> x) (M : Monic m) : x ~> Ω  — the characteristic morphism χ_m of a subobject, with a classifying pullback of `truth` and char_unique"},
+      {"file": "Instance/Sets/Classifier.v", "line": 47, "symbol": "char_setoid / sets_char_pullback / sets_char_subobject / sets_char_unique", "intree_statement": "char_setoid: the characteristic map of m : A ~> B (predicate-valued morphism into the truth-value object); sets_char_pullback: the full pullback square exhibiting m as pullback of true along char_setoid; sets_char_unique: uniqueness up to iff"}
+    ],
+    "statement_record": {
+      "book": "Every subset U ⊆ A arises via 2 = {T,F} and the characteristic function χ_U : A → 2 (χ_U(x)=T iff x∈U), so U is the equalizer of χ_U and T! : A → 1 → 2; conversely φ : A → 2 gives the variety V_φ = {x | φ(x)=T}; χ and V are mutually inverse, giving Hom(A,2) ≅ P(A).",
+      "intree": "The abstract subobject-classifier form: classifier_classifies : SubObj x ≅ (x ~> Ω) in Sets, with char the characteristic morphism and the classifying square a PULLBACK of `truth`. Sets realization is cross-universe (char_setoid, sets_char_pullback, sets_char_subobject, sets_char_unique); FinSet realizes Ω = 2 literally (Instance/FinSet/Classifier.v).",
+      "strength_comparison": "intree-weaker/reframed: the bijection Hom(A,2) ≅ P(A) is present as classifier_classifies (SubObj x ≅ x ~> Ω), the modern subobject-classifier form, with χ/V being char and pullback-reindexing (mutually inverse round trips). BUT (a) Awodey exhibits U as the EQUALIZER of χ_U and T!; the in-tree classifier uses a PULLBACK of truth instead (and Sets has no in-tree equalizer at all — see awodey:3.3:example14); (b) in Sets, Ω is one universe up, not literally 2 = {T,F} (that literal 2 = P(1) presentation appears only in FinSet)."
+    },
+    "gap": "Missing: the explicit presentation of a subset as the EQUALIZER of χ_U and the constant map T! (Sets has no equalizer in-tree; the classifier factorizes via a pullback of `truth`). Also, in Sets Ω is a cross-universe truth-value object rather than the literal two-element set 2 = {T,F} (literal Ω = 2 is only in FinSet). Present: the characteristic map (char/char_setoid), its uniqueness, and the bijection Hom(A,Ω) ≅ Sub(A) = classifier_classifies.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified char at Structure/SubobjectClassifier.v:49 (char m M : x ~> Ω with a classifying pullback of truth) and classifier_classifies at :187 (SubObj x ≅ (x ~> Ω) in Sets) — the modern form of Hom(A,2)≅P(A). Instance/Sets/Classifier.v realizes it cross-universe (Ω one level up, not literal 2). The two genuine gaps are accurate: (a) the subset-as-EQUALIZER-of-χ_U-and-T! presentation is absent (Sets has no equalizer), the classifier uses a pullback of truth; (b) literal Ω=2={T,F} only in FinSet. PARTIAL is honest."}
+  },
+  {
+    "id": "awodey:3.3:prop15",
+    "classification": "PRESENT",
+    "aliases": ["an equalizer is monic", "equalizer_monic", "equalizing map is a monomorphism", "regular mono"],
+    "evidence": [
+      {"file": "Structure/Equalizer/Fork.v", "line": 83, "symbol": "equalizer_monic", "intree_statement": "Lemma equalizer_monic {q : C} {e : q ~> x} (E : IsEqualizer f g q e) : Monic e.  — proof: two factorizations of e∘g1 agree with the canonical one, so descent-uniqueness cancels e on the left"}
+    ],
+    "statement_record": {
+      "book": "If e : E → A is an equalizer of a parallel pair f,g : A ⇉ B, then e is a monomorphism (from ex=ey set z=ex=ey, the unique mediator makes x=y).",
+      "intree": "equalizer_monic : IsEqualizer f g q e → Monic e, proved exactly by Awodey's argument — e∘g1 forks the pair, and the ∃! mediator of eq_desc forces g1 = g2.",
+      "strength_comparison": "same: identical statement and proof strategy (uniqueness of the equalizer mediator ⇒ left-cancellability), in setoid form."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified equalizer_monic at Structure/Equalizer/Fork.v:83 (IsEqualizer f g q e → Monic e). Proof is exactly Awodey's: e∘g1 forks the pair (via fork_eq), the ∃! mediator of eq_desc forces g1=g2 by uniqueness. Setoid form. File in _CoqProject. PRESENT, 'same' accurate."}
+  }
+]

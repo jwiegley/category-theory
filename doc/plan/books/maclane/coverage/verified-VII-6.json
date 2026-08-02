@@ -1,0 +1,311 @@
+[
+  {
+    "id": "maclane:VII.8:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "inclusion CGHaus -> Haus creates colimits",
+      "creation of colimits by a coreflective inclusion",
+      "Kelley spaces inclusion lifts/creates colimits",
+      "colimit creation along CGHaus into Haus",
+      "reflective/coreflective subcategory creates colimits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'topolog|hausdorff|compactly.generated|kelley|CGHaus' --include='*.v' . -> only background-essay citations (Theory/Monad.v:66 'compact Hausdorff', Theory/Equivalence.v:122), no Top/Haus/CGHaus category",
+      "grep -rniE 'creates?[ _]*(co)?limit|creation|Creates' --include='*.v' . -> creation IS a concept in-tree (Theory/Equivalence/Limit.v equivalence_creates_colimits:582; Construction/Comma/Limit.v; Monad/Monadicity/Beck.v CreatesUSplitCoequalizers) but only for concrete categorical functors, never a topological inclusion",
+      "Phase-D blind pass: independently searched CGHaus/compactly.generated/hausdorff/kelley/topolog/smash/suspension/loop/path.space/locally.compact across all *.v; zero DEFINITIONS (only prose/background-essay citations + disclaiming comments). No Top/Haus/CGHaus/Top_* category exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "OVERTURN OUT_OF_SCOPE->ABSENT. Topological categories are meaningfully formalizable in THIS library: Top/Haus/CGHaus would be concrete instances exactly like the existing Sets/Rel/Poset/CMon/FinSet/Lambda/ZX instances (building Top is standard Coq practice). Their non-existence is 'no in-tree counterpart' = ABSENT, not un-formalizability. Frozen def reserves OUT_OF_SCOPE for size/foundations impossibility and demands it be SPARING (6/11 OOS here is not). The classifier's own log notes 'creation of colimits' IS in-tree (Equivalence/Limit equivalence_creates_colimits:582, Comma/Limit, Beck) as reusable tooling -- the ABSENT-with-tooling pattern, not out-of-scope. Blind search reproduced: no CGHaus->Haus inclusion functor in-tree."
+    },
+    "phase_c_classification": "OUT_OF_SCOPE"
+  },
+  {
+    "id": "maclane:VII.8:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "Kelleyfied product agrees with ordinary product",
+      "Z box X = Z x X for locally compact Z",
+      "k-product vs Tychonoff product",
+      "exponentiable / locally compact factor",
+      "K(Z x X) = Z x X"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'topolog|hausdorff|compactly.generated|kelley|CGHaus' --include='*.v' . -> citations only; no CGHaus product, no Kelleyfication functor K",
+      "grep -rniE 'locally.compact|exponentiable' --include='*.v' . -> 0 relevant hits (subsumed by the topology grep)",
+      "Phase-D blind pass: independently searched CGHaus/compactly.generated/hausdorff/kelley/topolog/smash/suspension/loop/path.space/locally.compact across all *.v; zero DEFINITIONS (only prose/background-essay citations + disclaiming comments). No Top/Haus/CGHaus/Top_* category exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "OVERTURN OUT_OF_SCOPE->ABSENT. Box product / Kelleyfication K(-) / local compactness are ordinary topological constructions, formalizable in this concrete-instance-rich library; they are simply not built. Missing subject matter with a possible counterpart = ABSENT, not OUT_OF_SCOPE (which the frozen def reserves for genuine un-formalizability). Blind search: zero CGHaus product / Kelleyfication / locally-compact definitions."
+    },
+    "phase_c_classification": "OUT_OF_SCOPE"
+  },
+  {
+    "id": "maclane:VII.8:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "CGHaus equivalent to Hausdorff spaces + continuous-on-compacts maps",
+      "alternative description of compactly generated spaces",
+      "continuous on each compact subset",
+      "Kelley spaces as a coreflection / equivalence",
+      "equivalence of categories of spaces"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'topolog|hausdorff|compactly.generated|kelley|CGHaus' --include='*.v' . -> citations only; no CGHaus / Haus category to compare",
+      "equivalence-of-categories machinery exists (Theory/Equivalence.v, EquivalenceOfCategories) but has no topological instance",
+      "Phase-D blind pass: independently searched CGHaus/compactly.generated/hausdorff/kelley/topolog/smash/suspension/loop/path.space/locally.compact across all *.v; zero DEFINITIONS (only prose/background-essay citations + disclaiming comments). No Top/Haus/CGHaus/Top_* category exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "OVERTURN OUT_OF_SCOPE->ABSENT. Equivalence of categories IS in-tree (Theory/Equivalence.v) as the tool; the two topological categories being compared (CGHaus vs Hausdorff-spaces-with-continuous-on-compacts maps) are absent-but-formalizable, not un-formalizable. ABSENT-with-tooling, not OUT_OF_SCOPE. Blind search confirms neither category exists in-tree."
+    },
+    "phase_c_classification": "OUT_OF_SCOPE"
+  },
+  {
+    "id": "maclane:VII.9:def-pointed",
+    "classification": "PARTIAL",
+    "aliases": [
+      "category of pointed objects",
+      "pointed compactly generated Hausdorff spaces CGHaus_*",
+      "coslice under the terminal / one-point space",
+      "pointed sets Set_* and basepoint-preserving maps",
+      "pointed function space / pointed internal hom X^(*)Y"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice.v",
+        "line": 169,
+        "symbol": "Coslice",
+        "intree_statement": "Program Definition Coslice `(C : Category) `(c : C) : Category := {| obj := exists a : C, c ~> a; hom := fun x y => exists f : (`1 x) ~> (`1 y), `2 y ~= f o `2 x; homset := fun _ _ => {| equiv := fun f g => `1 f ~= `1 g |}; id := ...; compose := ... |}"
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 82,
+        "symbol": "Coslice (header note)",
+        "intree_statement": "\"The dual [Coslice] captures pointed structures: pointed sets are the coslice of Set under the one-point set.\""
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 34,
+        "symbol": "Par (header note)",
+        "intree_statement": "\"This is equivalent (not isomorphic) to the category of pointed sets and basepoint-preserving maps: the object [A] realizes the pointed set [option A = A + {None}] with basepoint [None].\""
+      }
+    ],
+    "statement_record": {
+      "book": "CGHaus_* is the category of pointed compactly generated Hausdorff spaces (objects X in CGHaus with a chosen basepoint, arrows basepoint-preserving continuous maps), together with the pointed function space X^(*)Y (the closed subspace of basepoint-preserving maps, itself compactly generated), on which the exponential adjunction restricts to basepoint-preserving transposes.",
+      "intree": "Coslice c/C := { obj := exists a, c ~> a; hom x y := exists f, `2 y ~= f o `2 x }; documented as capturing pointed sets = coslice under the terminal (Construction/Slice.v:82). Instance/Coq/Par.v is a concrete in-tree category equivalent to pointed sets with basepoint-preserving maps.",
+      "strength_comparison": "intree-weaker: the category-of-pointed-objects construction (coslice under the terminal) is present in general and instantiated for Sets (Par ~= Set_*), but (i) there is no topological base -- no Top/CGHaus -- so pointed compactly generated SPACES cannot be formed, and (ii) the pointed function space / pointed internal hom is not developed even at the Set level."
+    },
+    "gap": "No topological base category (Top/CGHaus) exists, so pointed compactly generated spaces are not formalizable; and the pointed function space (pointed internal hom X^(*)Y) is not developed even at the Set level. Present fragment: the general 'category of pointed objects = coslice under the terminal' (Construction/Slice.v Coslice) and a concrete pointed-sets category (Instance/Coq/Par.v, ~= Set_*).",
+    "negative_search_log": [
+      "grep -rniE 'pointed|smash|wedge|coslice' --include='*.v' . -> Coslice present; 'Pointed'/'WellPointed' (Instance/Fun.v) are pointed ENDOFUNCTORS (nat trans Id => F), not pointed objects; 'wedge' is the end/coend wedge condition; no pointed function space",
+      "grep -rniE 'pointed.set|Set_\\*|PointedSet' --include='*.v' . -> only header comments (Par.v, Slice.v); no named Set_* category and no pointed internal hom"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reproduces the evidence. Coslice VERIFIED at Construction/Slice.v:169 (obj := exists a, c ~> a; hom := exists f, `2 y = f o `2 x). Header note VERIFIED at Slice.v:82 ('pointed sets are the coslice of Set under the one-point set'). Par.v:34 VERIFIED ('equivalent (not isomorphic) to the category of pointed sets'). All three files REGISTERED in _CoqProject. PARTIAL is defensible and honestly gapped: the library ITSELF frames coslice/Par as pointed-object constructions -- a genuine in-tree counterpart to 'the category of pointed objects' (of which CGHaus_* is the unbuildable instance) -- while the precisely-stated gap (no topological base Top/CGHaus; no pointed function space X^(*)Y even at the Set level) is real. Distinct from def-smash (nothing present) which is rightly ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.9:def-smash",
+    "classification": "ABSENT",
+    "aliases": [
+      "smash product Z ^ Y / Z # Y",
+      "wedge sum Z v Y",
+      "smash-hom adjunction (- ^ Y) left adjoint to (-)^(*)Y",
+      "tensor of pointed objects (product mod wedge)",
+      "reduced / half smash"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniw 'smash' --include='*.v' . -> hits ONLY in comments: Instance/Coq/ParE.v:122,174,178 and Instance/Coq/Par.v:101,103. ParE.v:174-181 explicitly states the smash tensor 'and its closure are not formalized here; this remark only records the structure that exists' (it 'makes the underlying category of pointed objects symmetric monoidal closed')",
+      "grep -rniE 'pointed|smash|wedge|coslice' --include='*.v' . -> 'wedge'/'cowedge' are exclusively the end/coend wedge condition (Structure/Wedge.v, Cowedge_cond); no topological wedge Z v Y and no quotient collapsing it",
+      "grep -rniE 'pointed.set|Set_\\*|PointedSet' --include='*.v' . -> Par.v:101-103 has the CARTESIAN product of pointed sets, 'NOT the smash product (which would collapse the whole wedge)'; the smash and its hom-adjunction are absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: 'smash' occurs ONLY in comments. VERIFIED Instance/Coq/ParE.v:174-181 explicitly disclaims it: 'That tensor and its closure are not formalized here; this remark only records the structure that exists.' Structure/Wedge.v is the end/coend (dinatural) wedge, NOT the topological wedge sum. No smash product, no wedge-collapse quotient, no smash-hom adjunction. CONFIRMED ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.9:def-suspension-loop",
+    "classification": "ABSENT",
+    "aliases": [
+      "reduced suspension Sigma X = X ^ S^1",
+      "loop space Omega X = X^(*)S^1",
+      "based loops / based loop space",
+      "Sigma left adjoint to Omega (Sigma -| Omega)",
+      "iterated Sigma^n -| Omega^n"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bcircle\\b|\\bS\\^?1\\b|unit.interval|suspension|reduced' --include='*.v' . -> nothing topological: 'circle' = operad circle-i composition (Theory/Multicategory.v) or the TQFT circle (2Cob, Frobenius); 'reduced' = 'reduced representation' (Equivalence/Monoidal.v); no S^1, no interval, no suspension functor",
+      "grep -rniE 'suspension|loop.space|path.space' --include='*.v' . -> only background-essay mentions of 'iterated loop spaces' (Theory/Multicategory.v citing May); no loop-space or suspension functor",
+      "Phase-D blind pass: independently searched CGHaus/compactly.generated/hausdorff/kelley/topolog/smash/suspension/loop/path.space/locally.compact across all *.v; zero DEFINITIONS (only prose/background-essay citations + disclaiming comments). No Top/Haus/CGHaus/Top_* category exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "OVERTURN OUT_OF_SCOPE->ABSENT. The classifier's 'not definable' holds ONLY because Top, the circle S^1, and the interval I are not built -- all standard, routinely-formalized structures -- not because they are inherently un-formalizable. Absence of formalizable prerequisites = ABSENT. Blind search: no suspension/loop functor anywhere; the only hits are May-LNM-271 prose citations in Theory/Multicategory.v."
+    },
+    "phase_c_classification": "OUT_OF_SCOPE"
+  },
+  {
+    "id": "maclane:VII.9:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "left adjoint of Set_*(S, -) on pointed sets",
+      "smash with S as left adjoint to pointed hom",
+      "- ^ S left adjoint to Set_*(S, -)",
+      "tensor-hom adjunction for pointed sets",
+      "copower/smash of pointed sets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniw 'smash' --include='*.v' . -> only comments; no '- ^ S' construction on pointed sets",
+      "grep -rniE 'pointed.set|Set_\\*|PointedSet' --include='*.v' . -> Instance/Coq/Par.v is equivalent to Set_* (pointed sets) but neither the functor Set_*(S,-) nor its left adjoint is developed; Par.v:222 mentions an earlier Par_ClosedMonoidal but for the product-based tensor, not the smash",
+      "Coslice (Construction/Slice.v:169) makes Set_* = 1/Sets expressible, so the item is meaningfully formalizable, but the pointed hom functor and its left adjoint are absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. No Set_* named instance; Instance/Coq/Par.v is equivalent to pointed sets but constructs NO smash-with-S left adjoint and no pointed-hom functor Set_*(S,-). Coslice makes Set_* expressible (so the item is formalizable -> correctly ABSENT not OOS), but the specific adjoint is entirely absent. CONFIRMED ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.9:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "smash makes CGHaus_* symmetric monoidal",
+      "smash product symmetric monoidal on pointed objects",
+      "pointed monoidal category with unit the two-point space",
+      "commutativity/associativity coherence for smash",
+      "symmetric monoidal (closed) structure on pointed sets/objects"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniw 'smash' --include='*.v' . -> Instance/Coq/ParE.v:178-181 states the smash product 'makes the underlying category of pointed objects symmetric monoidal closed. That tensor and its closure are not formalized here' -- explicitly acknowledged as absent",
+      "grep -rniE 'symmetric.monoidal|SymmetricMonoidal' --include='*.v' . -> the symmetric-monoidal framework is present (Structure/Monoidal.v and its Symmetric layer) but no smash tensor instance realizes it; Par.v:103 notes the smash 'is not cartesian' and is not built"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. The symmetric-monoidal FRAMEWORK exists (Structure/Monoidal.v + Symmetric layer) but NO smash tensor instantiates it; ParE.v:178-181 explicitly states the smash 'makes the underlying category of pointed objects symmetric monoidal closed. That tensor and its closure are not formalized here.' CONFIRMED ABSENT. (Note: this ABSENT-despite-framework-present call is the exact template I applied to overturn the parallel VII.9:ex3 from PARTIAL to ABSENT.)"
+    }
+  },
+  {
+    "id": "maclane:VII.9:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "functor with no right adjoint (fails to preserve coproducts)",
+      "left adjoints preserve colimits (LAPC) obstruction",
+      "no right adjoint in Top_* / pointed spaces",
+      "smash or product does not preserve coproducts",
+      "adjoint-continuity / RAPL-LAPC contrapositive"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 223,
+        "symbol": "left_adjoint_preserves_colimits",
+        "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D \u27f6 C} {U : C \u27f6 D} (A : F \u22a3 U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G."
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 202,
+        "symbol": "right_adjoint_preserves_limits",
+        "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G."
+      }
+    ],
+    "statement_record": {
+      "book": "In Top_* (pointed spaces), the functor - (op) Y has no right adjoint, exhibited by its failure to preserve coproducts (a right adjoint would force preservation of all colimits).",
+      "intree": "left_adjoint_preserves_colimits (A : F \u22a3 U) : PreservesAllColimits F -- every functor with a right adjoint (i.e. every left adjoint) preserves all colimits, hence coproducts. Contrapositive: a functor not preserving coproducts has no right adjoint.",
+      "strength_comparison": "intree-weaker: the general obstruction principle (a functor with a right adjoint preserves colimits, so failure to preserve coproducts implies no right adjoint) is present in full; but the concrete witnessing functor lives in Top_* (pointed topological spaces), which the library does not have, so no in-tree instance realizes the exercise's counterexample."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'topolog|hausdorff|CGHaus' --include='*.v' . -> no Top_* / pointed topological spaces",
+      "grep -rniE 'no.right.adjoint|has no.*adjoint|not.*preserve.*coproduct' --include='*.v' . -> no in-tree no-right-adjoint counterexample witness",
+      "Phase-D blind pass: verified left_adjoint_preserves_colimits at Adjunction/Continuity.v:223 (accurate) but it is GENERAL tooling, not this item; no Top_*, no witnessing functor, no coproduct-non-preservation in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "OVERTURN PARTIAL->ABSENT. left_adjoint_preserves_colimits (Continuity.v:223) is verified/accurate BUT is general ambient tooling (the proof-engine), NOT a formalization of THIS item ('a functor in Top_* with no right adjoint'). The item's entire concrete content -- Top_*, the functor, the coproduct-non-preservation witness -- is absent and not even statable in-tree. This is exactly parallel to the classifier's OWN VII.9:ex2=ABSENT verdict ('symmetric-monoidal framework present, smash instance absent'); harmonizing to ABSENT for consistency. LAPC retained in evidence as related in-tree tooling."
+    },
+    "phase_c_classification": "PARTIAL"
+  },
+  {
+    "id": "maclane:VII.9:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "loop space as pullback of the path fibration",
+      "Omega X = fibre of PX -> X",
+      "path-space functor P X = X^(*)I, pi: P -> Id, f |-> f(1)",
+      "based path space / path-loop fibration",
+      "Omega as pullback P ->Id<- *"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'path.space|\\bfibration\\b' --include='*.v' . -> 'fibration' in-tree is exclusively the Grothendieck/categorical fibration (Theory/Fibration.v), NOT a topological path fibration; no path-space functor",
+      "grep -rniE '\\bcircle\\b|unit.interval|\\bloops?\\b' --include='*.v' . -> no unit interval I, no based loops; 'loop' means permutation/quiver loops",
+      "Phase-D blind pass: independently searched CGHaus/compactly.generated/hausdorff/kelley/topolog/smash/suspension/loop/path.space/locally.compact across all *.v; zero DEFINITIONS (only prose/background-essay citations + disclaiming comments). No Top/Haus/CGHaus/Top_* category exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "OVERTURN OUT_OF_SCOPE->ABSENT. Pullbacks are fully in-tree (Structure/Pullback.v); only the topological path-space functor PX=X^(*)I, the interval I, and the loop space are missing -- formalizable prerequisites not yet built = ABSENT. Verified 'fibration' in-tree is exclusively the Grothendieck/categorical fibration (Theory/Fibration.v), unrelated to a topological path fibration."
+    },
+    "phase_c_classification": "OUT_OF_SCOPE"
+  },
+  {
+    "id": "maclane:VII.9:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "counit of the suspension-loop adjunction",
+      "counit of Sigma -| Omega, Sigma Omega X -> X",
+      "evaluation of the Sigma-Omega adjunction",
+      "co-unit epsilon: Sigma Omega => Id",
+      "adjunction unit/counit for reduced suspension and loops"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'suspension|loop.space' --include='*.v' . -> no Sigma/Omega functors (see VII.9:def-suspension-loop); the adjunction whose counit is requested does not exist in-tree",
+      "counit-of-an-adjunction is fully in-tree in general (Theory/Adjunction.v unit/counit), but not for this topological adjunction",
+      "Phase-D blind pass: independently searched CGHaus/compactly.generated/hausdorff/kelley/topolog/smash/suspension/loop/path.space/locally.compact across all *.v; zero DEFINITIONS (only prose/background-essay citations + disclaiming comments). No Top/Haus/CGHaus/Top_* category exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "OVERTURN OUT_OF_SCOPE->ABSENT. Adjunction counits are fully in-tree (Theory/Adjunction.v unit/counit); only the topological Sigma-|Omega adjunction (itself ABSENT per def-suspension-loop) is missing. A missing but formalizable prerequisite = ABSENT, not OUT_OF_SCOPE."
+    },
+    "phase_c_classification": "OUT_OF_SCOPE"
+  }
+]

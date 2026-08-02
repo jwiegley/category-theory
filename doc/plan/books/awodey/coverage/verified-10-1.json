@@ -1,0 +1,435 @@
+[
+  {
+    "id": "awodey:10.3:construction-comparison-functor",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comparison functor",
+      "Eilenberg-Moore comparison",
+      "EM_Comparison",
+      "canonical functor D -> C^T",
+      "terminal resolution / terminality of the Eilenberg-Moore adjunction",
+      "Phi : D -> C^T with U^T Phi = U and Phi F = F^T"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Comparison.v",
+        "line": 198,
+        "symbol": "EM_Comparison_Forget",
+        "intree_statement": "Theorem EM_Comparison_Forget : @EM_Forget D (U ◯ F) Adjunction_Induced_Monad ◯ EM_Comparison ≈ U."
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 260,
+        "symbol": "EM_Comparison_Free",
+        "intree_statement": "Theorem EM_Comparison_Free : EM_Comparison ◯ F ≈ @EM_Free D (U ◯ F) Adjunction_Induced_Monad."
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 186,
+        "symbol": "EM_Comparison",
+        "intree_statement": "Definition EM_Comparison : C ⟶ @EilenbergMoore D (U ◯ F) Adjunction_Induced_Monad := @Build_Functor C (@EilenbergMoore D (U ◯ F) Adjunction_Induced_Monad) (fun c => (U c; EM_Comparison_Algebra c)) (fun c c' h => EM_Comparison_fmap h) ... — the algebra on U c has structure map fmap[U] (counit c) (EM_Comparison_Algebra, line 151)"
+      }
+    ],
+    "statement_record": {
+      "book": "For an arbitrary adjunction F ⊣ U : D → C with induced monad T = U∘F, there is a comparison functor Φ : D → C^T into the Eilenberg–Moore category, satisfying U^T ∘ Φ ≅ U and Φ ∘ F = F^T, and Φ is the UNIQUE functor with that property (so C^T is terminal among the categories/adjunctions inducing T).",
+      "intree": "Definition EM_Comparison : C ⟶ @EilenbergMoore D (U ◯ F) Adjunction_Induced_Monad; Theorem EM_Comparison_Forget : EM_Forget ◯ EM_Comparison ≈ U; Theorem EM_Comparison_Free : EM_Comparison ◯ F ≈ EM_Free.",
+      "strength_comparison": "intree-weaker: existence and BOTH commutation laws are proved (the two ≈ are natural isomorphisms in Fun whose components are identities / identity underlying arrows, which is the faithful setoid rephrasing of the book's `≅` and `=`), but the UNIQUENESS clause — and with it the terminality of the Eilenberg–Moore resolution among all adjunctions inducing T — is never stated in-tree."
+    },
+    "gap": "No in-tree statement that EM_Comparison is unique: nothing of the form `∀ K : C ⟶ EilenbergMoore T, EM_Forget ◯ K ≈ U → K ◯ F ≈ EM_Free → K ≈ EM_Comparison`, and no packaging of `C^T` as a terminal object in a category of resolutions/adjunctions inducing T. (Searches for `uniqu` across Monad/ and Comonad/ turn up only Monad/Lifting.v's lift_factor_unique, Monad/Eilenberg/Moore/Adjunction.v's EM_extend_unique and Monad/Monadicity/BeckObjects.v's created_algebra_unique — all unrelated to comparison-functor uniqueness. Dually, no Kleisli-to-C^T comparison exists either, so neither extremal resolution is characterized by a universal property in-tree.)",
+    "negative_search_log": [
+      "grep -rn 'Comparison' --include='*.v' . — hits only EM_Comparison (Monad/Comparison.v), RoundTrip/RT_Comparison (Grothendieck), Lawvere_EM_Comparison; none states uniqueness",
+      "grep -rn 'uniqu' -i --include='*.v' Monad/ Comonad/ — no comparison-functor uniqueness lemma",
+      "grep -rn 'terminal resolution|resolution' -i --include='*.v' . — only prose in headers (Monad/Eilenberg/Moore/Adjunction.v:48, Comonad/Duality.v:74-80)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently. Cited lines verified: Monad/Comparison.v:186 EM_Comparison (algebra U c with structure map fmap[U] (counit c), EM_Comparison_Algebra:151), :198 EM_Comparison_Forget, :260 EM_Comparison_Free — all quotes accurate, file registered in _CoqProject. Uniqueness independently re-searched: `rg -i uniqu Monad/ Comonad/` yields only lift_factor_unique (Monad/Lifting.v:417), em_reflect_desc_unique (Monad/Monadicity/Beck.v:878 — the classifier's enumeration omitted this one, immaterial), created_algebra_unique (BeckObjects.v:369), EM_extend_unique (Moore/Adjunction.v:120); none is comparison-functor uniqueness, and no terminal-object-in-a-category-of-resolutions packaging exists. Note the in-tree orientation is transposed from Awodey's (in-tree U : C ⟶ D, F : D ⟶ C, K : C ⟶ D^T); this is pure renaming, not a strength difference, and the record's statement_record handles it correctly."
+    }
+  },
+  {
+    "id": "awodey:10.3:def-monadic",
+    "classification": "PRESENT",
+    "aliases": [
+      "monadic functor",
+      "Monadic",
+      "monadic adjunction",
+      "algebraic functor / tripleable",
+      "comparison functor is an equivalence",
+      "U : D -> C monadic"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Comparison.v",
+        "line": 273,
+        "symbol": "Monadic",
+        "intree_statement": "Definition Monadic {C D : Category} (U : C ⟶ D) : Type := ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A)."
+      },
+      {
+        "file": "Monad/Monadicity/Examples.v",
+        "line": 155,
+        "symbol": "Identity_Monadic",
+        "intree_statement": "Definition Identity_Monadic {C : Category} : Monadic Id[C] := (Id[C]; (Adjunction_Id; identity_monadic))."
+      }
+    ],
+    "statement_record": {
+      "book": "A functor U : D → C is MONADIC if it has a left adjoint F ⊣ U such that the comparison functor Φ : D → C^T for the induced monad T = UF is an equivalence of categories; the forgetful functors from algebraic categories (monoids, groups, rings) to Sets are the typical examples, and monadicity may be taken as the definition of 'algebraic'.",
+      "intree": "Definition Monadic {C D : Category} (U : C ⟶ D) : Type := ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A).  [EquivalenceOfCategories F is the quasi-inverse class: quasi_inverse : D ⟶ C with F ◯ quasi_inverse ≈ Id and Id ≈ quasi_inverse ◯ F, Theory/Equivalence.v:151]",
+      "strength_comparison": "same — the in-tree definition is the book's, clause for clause (existence of a left adjoint, the induced monad, the comparison functor, equivalence of categories). NOTE on the book's illustrative half: the only in-tree witness of the predicate is Identity_Monadic; the algebraic examples the book names (Mon/Grp/Rng over Sets) are not constructed in-tree, and the general characterization is available only through the hypothesis-scoped beck_monadicity (Monad/Monadicity/Beck.v:739) and crude monadicity (Monad/Monadicity/Crude.v)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same single definition. Monad/Comparison.v:273 `Definition Monadic {C D} (U : C ⟶ D) : Type := ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A)` verified verbatim; Theory/Equivalence.v:151 EquivalenceOfCategories verified as the quasi-inverse class (quasi_inverse, equivalence_counit, equivalence_unit) as quoted; Monad/Monadicity/Examples.v:154-155 Identity_Monadic verified (record cites 155, the body line — Definition head is 154, immaterial). strength_comparison 'same' is honest, and its NOTE that the only inhabitant is Identity_Monadic is correct (no Mon/Grp/Rng forgetful functors in-tree; the only structured-category forgetful functor is CMon_Forget)."
+    }
+  },
+  {
+    "id": "awodey:10.3:remark-kleisli-nonuniqueness",
+    "classification": "PARTIAL",
+    "aliases": [
+      "every monad arises from an adjunction",
+      "Kleisli category",
+      "Kleisli_Adjunction / Kleisli_Monad_agrees",
+      "EM_Adjunction / EM_Monad_agrees",
+      "resolution of a monad",
+      "the adjunction inducing a monad is not unique"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Eilenberg/Moore/Adjunction.v",
+        "line": 219,
+        "symbol": "EM_Monad_agrees",
+        "intree_statement": "Theorem EM_Monad_agrees : EM_Forget ◯ EM_Free ≈ T.  [with Program Definition EM_Adjunction : EM_Free ⊣ EM_Forget at line 183 — so every monad T on C arises from an adjunction]"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 157,
+        "symbol": "Kleisli_Monad_agrees",
+        "intree_statement": "Theorem Kleisli_Monad_agrees : Kleisli_Forget ◯ Kleisli_Free ≈ M.  [with Program Definition Kleisli_Adjunction : Kleisli_Free ⊣ Kleisli_Forget at line 125 — a SECOND adjunction, through a different category, inducing the same monad]"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 146,
+        "symbol": "Kleisli_join_agrees",
+        "intree_statement": "Lemma Kleisli_join_agrees {x : C} : fmap[Kleisli_Forget] (@counit _ _ _ _ Kleisli_Adjunction x) ≈ join[M].  [the multiplication that Monad/Adjunction.v extracts from the Kleisli adjunction is M's own join, so the induced monad is M on the nose, not merely up to a renaming]"
+      }
+    ],
+    "statement_record": {
+      "book": "Starting from a monad T on C, the Eilenberg–Moore adjunction F^T ⊣ U^T : C^T → C recovers T as U^T ∘ F^T, so every monad arises from an adjunction; but the triple (C^T, U^T, F^T) is NOT unique with this property — many categories D and adjunctions F ⊣ U : D → C induce the same monad, and besides C^T there is the Kleisli category, generally different from C^T, also carrying an adjoint pair to C inducing T.",
+      "intree": "Theorem EM_Monad_agrees : EM_Forget ◯ EM_Free ≈ T (over Program Definition EM_Adjunction : EM_Free ⊣ EM_Forget); Theorem Kleisli_Monad_agrees : Kleisli_Forget ◯ Kleisli_Free ≈ M (over Program Definition Kleisli_Adjunction : Kleisli_Free ⊣ Kleisli_Forget).",
+      "strength_comparison": "intree-weaker: both resolutions are constructed and both are proved to recover the monad they resolve (with identity-component natural isomorphisms), which supplies the book's positive content in full; but nothing in-tree ASSERTS that the two differ, so the negative claim 'the inducing triple is not unique' is not formally established — a reader has two constructions and no theorem separating them."
+    },
+    "gap": "No in-tree separation of the two resolutions: there is no instance (e.g. a concrete monad on Sets or Coq) where `Kleisli M` is shown NOT equivalent/isomorphic to `EilenbergMoore M`, and no comparison functor Kleisli M ⟶ EilenbergMoore M (the standard 'Kleisli embeds as the free algebras' functor) exists in-tree at all — grep for 'Comparison' in Monad/ finds only EM_Comparison. Consequently the non-uniqueness assertion, and the initial/terminal characterization of the two resolutions that Monad/Eilenberg/Moore/Adjunction.v:48 and Comonad/Duality.v:74-80 describe in prose, are unformalized.",
+    "negative_search_log": [
+      "grep -rn 'Kleisli.*EilenbergMoore|EilenbergMoore.*Kleisli|Kleisli_EM' --include='*.v' . — 0 hits (no comparison between the two resolutions)",
+      "grep -rn 'Kleisli' --include='*.v' Monad/Comparison.v Monad/Monadicity/ Theory/Monad.v — only header prose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL on the same grounds. Verified Monad/Kleisli/Adjunction.v:125 Kleisli_Adjunction, :146 Kleisli_join_agrees, :157 Kleisli_Monad_agrees, and Monad/Eilenberg/Moore/Adjunction.v:183 EM_Adjunction, :219 EM_Monad_agrees — quotes accurate. Independently re-ran the separation search: `rg 'Kleisli.*EilenbergMoore|EilenbergMoore.*Kleisli|Kleisli_EM'` returns 0 hits, so there is indeed no Kleisli→C^T comparison and nothing separating the two resolutions. The classifier's honesty about the negative half being unformalized is correct."
+    }
+  },
+  {
+    "id": "awodey:10.3:example-pos-not-monadic",
+    "classification": "ABSENT",
+    "aliases": [
+      "Pos (category of posets and monotone maps)",
+      "Ord / Preord / category of preorders",
+      "forgetful functor Pos -> Sets",
+      "discrete poset functor (left adjoint to the underlying-set functor)",
+      "right adjoint that is not monadic / non-monadic functor",
+      "identity monad has Eilenberg-Moore category the base"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Definition Pos |Program Definition Pos |Instance Pos |Category of posets|category of posets' --include='*.v' . — 0 hits; the library has NO category whose objects are posets. Instance/Poset.v:116 defines `Poset` as the thin category OF a single poset (Proset + antisymmetry), and its own header (line 22) points to '[Pos], the category of posets' as something that does not exist in-tree.",
+      "grep -rn 'monotone' --include='*.v' . — only Construction/Enriched/Two.v (Record MonotoneMap between TwoPreorders, EnrichedFunctor_Two_monotone), which is a bijection statement about 2-enrichment, not a category of posets and not a functor to Sets",
+      "grep -rni 'discrete poset|discrete order|free poset|DiscretePoset' --include='*.v' . — 0 hits (Instance/Discrete.v is DiscreteCat on a Type, and is never adjoined to an order-forgetful functor)",
+      "grep -rni 'not monadic|non-monadic|nonmonadic|fails to be monadic' --include='*.v' . — 0 hits; nothing in the tree asserts that any functor FAILS to be monadic (the only inhabitant of `Monadic` is Identity_Monadic in Monad/Monadicity/Examples.v:155)",
+      "grep -rn 'Forget' --include='*.v' Instance/ — the only forgetful-to-Sets functor over a structured category is CMon_Forget (Instance/CMon.v:169); no order-theoretic analogue",
+      "grep -rn 'Pos\\b|Poset|Proset' -l --include='*.v' . — Test/Poset.v, Instance/Proset.v, Instance/Poset.v, Instance/Two.v, Instance/Roof.v, Instance/Props.v, Construction/Enriched.v, Lib/MapDecide.v, Structure/Span.v, Structure/Pullback/Limit.v, Adjunction/GAFT.v — read; all treat an individual (pre)order AS a category, never the category of all of them",
+      "NOTE (nearest neighbour, deliberately not cited as evidence since it asserts the opposite conclusion): Monad/Monadicity/Examples.v:145 `identity_monadic : EquivalenceOfCategories K` proves C^Id ≃ C for the identity adjunction, which is the reusable half of the book's argument; but the example's own subject (Pos, its underlying-set functor, and the failure of monadicity) has no in-tree counterpart whatsoever."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: ABSENT. Independently confirmed Instance/Poset.v:116 defines `Poset ... : Category := Proset P` — a single poset viewed AS a thin category, not the category Pos of posets and monotone maps; `rg 'Definition Pos|Program Definition Pos|Instance Pos'` gives 0 hits; `rg -i 'not monadic|non-monadic|fails to be monadic'` gives 0 hits; no discrete-poset functor and no order-forgetful functor to Sets exist. The record's nearest-neighbour note (identity_monadic at Examples.v:145 supplies the reusable half of the book's argument) is accurate and correctly not counted as evidence."
+    }
+  },
+  {
+    "id": "awodey:10.4:def-comonad",
+    "classification": "PRESENT",
+    "aliases": [
+      "comonad",
+      "cotriple",
+      "Comonad := Monad on C^op",
+      "counit epsilon / extract, comultiplication delta / duplicate",
+      "coassociativity + counit laws",
+      "W-coalgebra carrier structure (dual of Monad)"
+    ],
+    "evidence": [
+      {
+        "file": "Comonad/Core.v",
+        "line": 169,
+        "symbol": "duplicate_duplicate",
+        "intree_statement": "Lemma duplicate_duplicate {x : C} : duplicate ∘ @duplicate x ≈ fmap[W] duplicate ∘ @duplicate x.  [coassociativity δ_G ∘ δ ≈ G δ ∘ δ]"
+      },
+      {
+        "file": "Comonad/Core.v",
+        "line": 160,
+        "symbol": "extract_duplicate",
+        "intree_statement": "Lemma extract_duplicate {x : C} : extract ∘ duplicate ≈ id[W x].  [counit law ε_G ∘ δ = 1_G]"
+      },
+      {
+        "file": "Comonad/Core.v",
+        "line": 164,
+        "symbol": "fmap_extract_duplicate",
+        "intree_statement": "Lemma fmap_extract_duplicate {x : C} : fmap[W] extract ∘ duplicate ≈ id[W x].  [counit law G ε ∘ δ = 1_G]"
+      },
+      {
+        "file": "Comonad/Core.v",
+        "line": 149,
+        "symbol": "extract_natural",
+        "intree_statement": "Lemma extract_natural {x y : C} (f : x ~> y) : f ∘ extract ≈ extract ∘ fmap[W] f.  [ε : G ⟹ 1 is a natural transformation; duplicate_natural at line 155 is the same for δ : G ⟹ G²]"
+      },
+      {
+        "file": "Theory/Monad.v",
+        "line": 144,
+        "symbol": "Comonad",
+        "intree_statement": "Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op).  [this IS the book's primary definition — 'a comonad on C is by definition a monad on C^op' — and it is definitional, not a transport: Comonad/Duality.v:115-141 proves the four conversions are identities up to `=`]"
+      }
+    ],
+    "statement_record": {
+      "book": "A comonad on C is by definition a monad on C^op; explicitly, an endofunctor G : C → C with natural transformations ε : G → 1 (counit) and δ : G → G² (comultiplication) satisfying the duals of the monad laws: δ_G ∘ δ = G δ ∘ δ (coassociativity) and ε_G ∘ δ = 1_G = G ε ∘ δ (counit laws).",
+      "intree": "Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op) (Theory/Monad.v:144), with the covariant API of Comonad/Core.v: extract : W x ~> x, duplicate : W x ~> W (W x), extract_natural, duplicate_natural, extract_duplicate : extract ∘ duplicate ≈ id, fmap_extract_duplicate : fmap[W] extract ∘ duplicate ≈ id, duplicate_duplicate : duplicate ∘ duplicate ≈ fmap[W] duplicate ∘ duplicate.",
+      "strength_comparison": "same — both the book's `by definition' clause (Comonad = Monad on C^op, and by the library's built-in duality C^op^op = C holds by reflexivity, so no coercion overhead) and the explicit clause (ε, δ, naturality, coassociativity, both counit laws) are in force, each explicit law being a named in-tree lemma. The equations are hom-setoid ≈ rather than =, the library's faithful rephrasing."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: PRESENT. Verified Theory/Monad.v:144 `Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op)` and the four covariant laws at Comonad/Core.v:149 extract_natural, :155 duplicate_natural (cited inside the :149 entry), :160 extract_duplicate, :164 fmap_extract_duplicate, :169 duplicate_duplicate — every quote matches the source exactly, each proved by `exact` of the op-read monad law. Comonad/Core.v and Theory/Monad.v both registered in _CoqProject. strength_comparison 'same' is honest."
+    }
+  },
+  {
+    "id": "awodey:10.4:construction-comonad-from-adjunction",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comonad induced by an adjunction",
+      "Adjunction_Comonad",
+      "G = F ∘ U with counit eps and comultiplication F eta U",
+      "dual of Adjunction_Monad / Proposition 10.3",
+      "cotriple of an adjunction"
+    ],
+    "evidence": [
+      {
+        "file": "Comonad/Duality.v",
+        "line": 170,
+        "symbol": "Adjunction_Comonad",
+        "intree_statement": "Definition Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U) := let M : @Monad (C^op) (F^op ◯ U^op) := Adjunction_Monad (Opposite_Adjunction F U A) in @Build_Monad (C^op) ((F ◯ U)^op) (fun x => @ret ... M x) (fun x => @join ... M x) ... [F : D ⟶ C, U : C ⟶ D, so the comonad sits on C with endofunctor F ◯ U]"
+      }
+    ],
+    "statement_record": {
+      "book": "An adjoint pair F ⊣ U (U : D → C, F : C → D) with unit η : 1_C → UF and counit ε : FU → 1_D gives rise to a comonad (G, ε, δ) on D with G = F∘U, counit the adjunction counit ε : G → 1, and comultiplication δ = F η_U : G → G²; proof left to the reader as an exercise in duality.",
+      "intree": "Definition Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U) — obtained by dualizing Adjunction_Monad along Opposite_Adjunction and repackaging every monad field with Build_Monad.",
+      "strength_comparison": "intree-weaker: the existence of the induced comonad on the correct endofunctor F ◯ U is fully proved, but the IDENTIFICATION of its structure maps with the book's ε and F η_U is not available — the file header (Comonad/Duality.v:150-158) discloses exactly this: 'These covariant readings hold inside the sealed proof of the Qed-opaque [Adjunction_Monad], so — unlike the reflexivity-backed agreement lemmas elsewhere in this file — they are not exposed here as lemmas about [extract]/[duplicate] of the induced comonad.'"
+    },
+    "gap": "The counit/comultiplication identification is unformalizable as the code stands: `Adjunction_Comonad` reads ret/join off `Adjunction_Monad`, which is a Theorem closed with Qed (Monad/Adjunction.v:48), so `extract (Adjunction_Comonad A) ≈ counit A` and `duplicate (Adjunction_Comonad A) ≈ fmap[F] (unit A (U x))` cannot even be stated-and-proved without first re-deriving the comonad transparently. The MONAD side already has the transparent version — Monad/Comparison.v:123 `Adjunction_Induced_Monad` is a plain Definition with ret := unit and join := fmap[U] counit, proved from the zig-zag identities — so the asymmetry is a missing dual (`Adjunction_Induced_Comonad`), not a mathematical obstacle. grep -rn 'Adjunction_Induced' --include='*.v' . confirms no comonadic counterpart exists.",
+    "negative_search_log": [
+      "grep -rn 'Adjunction_Induced|Adjunction_Comonad|Adjunction_Nat_Monad' --include='*.v' . — Adjunction_Comonad is the sole comonad-from-adjunction constructor; no transparent variant, no extract/duplicate agreement lemmas"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass initially leaned PRESENT (the comonad on F ◯ U is constructed and IS mathematically the one with counit ε and comultiplication F η U); on inspection the classifier's PARTIAL is the better call and its gap is exactly right. Verified: Comonad/Duality.v:170 Adjunction_Comonad reads ret/join off `Adjunction_Monad (Opposite_Adjunction F U A)`, and Monad/Adjunction.v:48 Adjunction_Monad is a `Theorem ... Qed`, so those fields are opaque; the file header at Comonad/Duality.v:150-153 discloses precisely this. The asymmetry is real and load-bearing: the monad side has the transparent Monad/Comparison.v:123 `Adjunction_Induced_Monad` with ret = η and join = fmap[U] (counit (F x)) written out in the term (verified verbatim), which is why the sibling record awodey:10.2:prop3 could be PRESENT; no `Adjunction_Induced_Comonad` exists. The two verdicts are therefore consistent, not contradictory."
+    }
+  },
+  {
+    "id": "awodey:10.4:def-coalgebra",
+    "classification": "PARTIAL",
+    "aliases": [
+      "coalgebra for a comonad",
+      "WCoalgebra / G-coalgebra",
+      "co-Eilenberg-Moore category",
+      "comonadic functor",
+      "Comonadic (dual of Monadic)",
+      "co-comparison functor into coalgebras"
+    ],
+    "evidence": [
+      {
+        "file": "Comonad/Coalgebra.v",
+        "line": 116,
+        "symbol": "WCoalgebra",
+        "intree_statement": "Class WCoalgebra {C : Category} (W : C ⟶ C) {H : @Comonad C W} (a : C) := { w_coalg : a ~> W a; w_counit_law : @extract C W H a ∘ w_coalg ≈ id; w_coaction : fmap[W] w_coalg ∘ w_coalg ≈ @duplicate C W H a ∘ w_coalg }."
+      },
+      {
+        "file": "Comonad/Coalgebra.v",
+        "line": 132,
+        "symbol": "WCoalgebraHom",
+        "intree_statement": "Class WCoalgebraHom {C : Category} (W : C ⟶ C) {H : @Comonad C W} (a b : C) (F : @WCoalgebra C W H a) (G : @WCoalgebra C W H b) := { w_coalg_hom : a ~> b; w_coalg_hom_commutes : w_coalg[G] ∘ w_coalg_hom ≈ fmap[W] w_coalg_hom ∘ w_coalg[F] }."
+      },
+      {
+        "file": "Comonad/Coalgebra.v",
+        "line": 224,
+        "symbol": "WCoalgebras",
+        "intree_statement": "Program Definition WCoalgebras : Category := {| obj := ∃ a : C, @WCoalgebra C W H a; hom := fun x y => @WCoalgebraHom C W H ``x ``y (projT2 x) (projT2 y); ... |}  [and line 304: WCoalgebras ≅[Cat] CoEilenbergMoore, where CoEilenbergMoore := (@EilenbergMoore (C^op) (W^op) H)^op]"
+      },
+      {
+        "file": "Comonad/Duality.v",
+        "line": 362,
+        "symbol": "CoEM_Comonad_agrees",
+        "intree_statement": "Theorem CoEM_Comonad_agrees : CoEM_Forget ◯ CoEM_Cofree ≈ W.  [over Definition CoEM_Adjunction : CoEM_Forget ⊣ CoEM_Cofree, line 324 — the cofree/forgetful adjunction that a comonadicity definition would compare against]"
+      }
+    ],
+    "statement_record": {
+      "book": "Coalgebras for a comonad and comonadic functors are the exact duals of T-algebras and monadic functors: a G-coalgebra is an object A with A → GA satisfying the duals of the unit and associativity laws; morphisms commute with the structure maps; and a functor is COMONADIC when it has a right adjoint whose induced comparison functor into the category of coalgebras is an equivalence.",
+      "intree": "Class WCoalgebra (w_coalg : a ~> W a; w_counit_law : extract ∘ w_coalg ≈ id; w_coaction : fmap[W] w_coalg ∘ w_coalg ≈ duplicate ∘ w_coalg); Class WCoalgebraHom (w_coalg_hom with w_coalg[G] ∘ f ≈ fmap[W] f ∘ w_coalg[F]); Program Definition WCoalgebras : Category, isomorphic in Cat to CoEilenbergMoore := (EilenbergMoore (C^op) (W^op))^op; Definition CoEM_Adjunction : CoEM_Forget ⊣ CoEM_Cofree with CoEM_Comonad_agrees.",
+      "strength_comparison": "intree-weaker overall: the coalgebra half is a clause-for-clause match (structure map, counit law, coaction law, homomorphism square, the category, and its identification with the opposite of the algebras of the opposite monad), and the cofree/forgetful adjunction it needs exists — but the comonadic-functor half has no in-tree counterpart at all."
+    },
+    "gap": "No `Comonadic` predicate and no co-Eilenberg–Moore comparison functor. `grep -rn 'Comonadic' --include='*.v' .` returns exactly one hit, a bibliography line (Comonad/Core.v:38, the Uustalu–Vene title); the two places that describe comonadicity (Comonad/Coalgebra.v:86 'A functor is comonadic when it has a right adjoint…' and Comonad/Duality.v:84) are header COMMENTS. Concretely missing: (i) the dual of Monad/Comparison.v's EM_Comparison — a functor D ⟶ WCoalgebras (equivalently CoEilenbergMoore) for an adjunction U ⊣ R, together with the dual commutations; (ii) `Definition Comonadic (F : C ⟶ D) := ∃ R, ∃ A : F ⊣ R, EquivalenceOfCategories (CoEM_Comparison A)`. Note this is NOT obtainable for free from `Monadic` by op-ing, because `Monadic` is stated over `EM_Comparison`, which is itself only defined for the covariant EilenbergMoore, so the dual comparison must be built (as WCoalgebras/CoEilenbergMoore were).",
+    "negative_search_log": [
+      "grep -rn 'Comonadic' --include='*.v' . — single hit, a paper title in Comonad/Core.v:38; no symbol named Comonadic exists",
+      "grep -rn 'Comparison' --include='*.v' . — no hit anywhere under Comonad/; the only monad-side comparison is EM_Comparison (Monad/Comparison.v:186)",
+      "grep -rn 'CoEM' --include='*.v' . — CoEM_Forget, CoEM_Cofree, CoEM_Adjunction, CoEM_counit_agrees, CoEM_unit_agrees, CoEM_duplicate_agrees, CoEM_Comonad_agrees (all Comonad/Duality.v); no CoEM_Comparison"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL on the same split (coalgebras yes, comonadic functor no). Verified Comonad/Coalgebra.v:116 WCoalgebra (w_coalg, w_counit_law, w_coaction), :132 WCoalgebraHom, :224 WCoalgebras, :303-304 WCoalgebras_CoEilenbergMoore_Iso, and Comonad/Duality.v:324 CoEM_Adjunction / :362 CoEM_Comonad_agrees — quotes accurate. Re-ran both negative greps: case-sensitive `rg 'Comonadic' --glob '*.v'` returns exactly one hit, Comonad/Core.v:38 (the Uustalu–Vene paper title), and case-sensitive `Comparison` under Comonad/ returns 0 hits (only lowercase prose at Duality.v:81-82,192 and Coalgebra.v:87). The gap note that `Comonadic` is not obtainable for free by op-ing `Monadic` (since Monadic is stated over the covariant EM_Comparison) is correct."
+    }
+  },
+  {
+    "id": "awodey:10.4:example-limit-comonad",
+    "classification": "ABSENT",
+    "aliases": [
+      "the comonad Delta ∘ lim on Sets^C",
+      "constant-diagram functor Delta adjoint to the limit functor",
+      "coalgebras of Delta∘lim are the constant functors",
+      "Sets is comonadic over Sets^C",
+      "coalgebras of a comonad on a topos form a topos",
+      "presheaf category Sets^C / diagram category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Diagonal|Δ ⊣|⊣ lim|lim_adj|colim ⊣' --include='*.v' . — Functor/Diagonal.v:33 defines `Diagonal {C} (J) : C ⟶ [J, C]`, but the only adjunction involving a diagonal in the whole tree is Adjunction/Diagonal/Product.v:37 `Diagonal_Product C ⊣ ×(C)` (the BINARY case, Δ : C ⟶ C ∏ C). The general `Δ ⊣ lim` appears only as prose: Functor/Diagonal.v:28 and Instance/Fun.v:70 both merely SAY 'colim ⊣ Δ ⊣ lim'.",
+      "grep -rn 'Limit_Functor|LimitFunctor|lim :' --include='*.v' . — 0 hits; there is no limit FUNCTOR [J,C] ⟶ C in-tree. Structure/Limit.v presents a limit object-by-object as a terminal cone (`Limit F`), never assembled into a right adjoint, so the endofunctor Δ ∘ lim on a diagram category cannot even be written down.",
+      "grep -rn 'Comonadic' --include='*.v' . — no such predicate exists (single hit is a paper title), so 'Sets is comonadic over Sets^C' is not statable either",
+      "grep -rni 'presheaf.*topos|topos.*presheaf' --include='*.v' . — single hit, header prose at Theory/Sheaf.v:84; [C, Sets] is never given an ElementaryTopos instance (the in-tree topos witness is FinSet_Topos, Instance/FinSet/Topos.v), so 'the coalgebras again form a topos' has no in-tree counterpart",
+      "grep -rni 'constant functor' --include='*.v' . — hits are all about Δ/Const as a functor (Functor/Diagonal.v, Theory/Coq/Functor.v:114, Instance/Cones/Comma.v); nothing characterizes a subcategory of constant functors, and no coalgebra-of-Δ∘lim classification exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: ABSENT. Independently confirmed there is no limit functor [J,C] ⟶ C (Structure/Limit.v gives `Limit F` per diagram as a terminal cone; `Colimit F := Limit (F^op)`), so Δ ∘ lim cannot be written; the only diagonal adjunction in-tree is the binary Adjunction/Diagonal/Product.v:37 `Diagonal_Product C ⊣ ×(C)`, and colim ⊣ Δ ⊣ lim appears only as header prose (Functor/Diagonal.v:28, Instance/Fun.v:70). Also confirmed the presheaf-topos claim: `rg -i 'presheaf.*topos|topos.*presheaf'` has the single hit Theory/Sheaf.v:84, and [C, Sets] carries no ElementaryTopos instance."
+    }
+  },
+  {
+    "id": "awodey:10.4:construction-adjoint-triple",
+    "classification": "PARTIAL",
+    "aliases": [
+      "adjoint triple L ⊣ U ⊣ R",
+      "adjoint string / adjoint sandwich",
+      "monad T = U∘L and comonad G = U∘R on C",
+      "T ⊣ G (adjoint monad/comonad pair)",
+      "colim ⊣ Delta ⊣ lim",
+      "composite of adjunctions"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Compose.v",
+        "line": 173,
+        "symbol": "Adjunction_Compose",
+        "intree_statement": "Definition Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U') := @Build_Adjunction E D (F' ◯ F) (U ◯ U') adj_compose_iso adj_compose_to_nat_l adj_compose_to_nat_r adj_compose_from_nat_l adj_compose_from_nat_r.  [given A : F ⊣ U and A' : F' ⊣ U'.  Instantiating F := L, U := U, F' := U, U' := R at an adjoint triple L ⊣ U ⊣ R yields exactly (U ◯ L) ⊣ (U ◯ R), i.e. T ⊣ G]"
+      },
+      {
+        "file": "Monad/Adjunction.v",
+        "line": 48,
+        "symbol": "Adjunction_Monad",
+        "intree_statement": "Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F).  [at the left leg L ⊣ U this is the monad T = U ◯ L on C]"
+      },
+      {
+        "file": "Comonad/Duality.v",
+        "line": 170,
+        "symbol": "Adjunction_Comonad",
+        "intree_statement": "Definition Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U).  [at the right leg U ⊣ R this is the comonad G = U ◯ R on C]"
+      }
+    ],
+    "statement_record": {
+      "book": "Given three composable adjoint functors L ⊣ U ⊣ R with L, R : C → D and U : D → C, one obtains simultaneously a monad T = U∘L and a comonad G = U∘R on C, and moreover T ⊣ G. Instantiated by colim ⊣ Δ ⊣ lim, giving the comonad Δ∘lim and the monad Δ∘colim on a diagram category.",
+      "intree": "Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U') for any composable pair of adjunctions; Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F); Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U).",
+      "strength_comparison": "intree-stronger on the three general clauses (each is proved for arbitrary adjunctions, and the adjoint triple is a type-checking instantiation with no extra hypotheses: Adjunction_Compose applied to L ⊣ U and U ⊣ R is literally (U ◯ L) ⊣ (U ◯ R)); intree-weaker on the instantiation clause, which cannot even be stated."
+    },
+    "gap": "Two things are missing. (1) The construction is never PACKAGED: there is no `AdjointTriple` record and no theorem naming T = U∘L, G = U∘R and T ⊣ G together — grep -rn 'adjoint triple|Adjoint_Triple|AdjointTriple' --include='*.v' . finds only header prose (Theory/Adjunction.v:75, Instance/Poset.v:70, Comonad/Coalgebra.v:97), so the reader must assemble the instantiation by hand. (2) The book's instantiating example colim ⊣ Δ ⊣ lim is unavailable at any arity beyond two: the only diagonal adjunction in-tree is the binary Diagonal_Product C ⊣ ×(C) (Adjunction/Diagonal/Product.v:37), and there is no limit or colimit FUNCTOR [J,C] ⟶ C to be right/left adjoint to Functor/Diagonal.v's Δ (Structure/Limit.v gives limits object-wise as terminal cones only).",
+    "negative_search_log": [
+      "grep -rn 'adjoint triple|Adjoint_Triple|AdjointTriple|L ⊣ U ⊣ R' --include='*.v' . — prose only (Theory/Adjunction.v:75-76, Instance/Poset.v:70, Comonad/Coalgebra.v:97, Functor/Diagonal.v:28, Instance/Fun.v:70)",
+      "grep -rn 'Limit_Adjunction|lim ⊣|⊣ Diagonal|Diagonal.*⊣' --include='*.v' . — only Adjunction/Diagonal/Product.v:37",
+      "grep -rn 'Limit_Functor|LimitFunctor|lim :' --include='*.v' . — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass preliminarily said ABSENT (no AdjointTriple packaging, no T ⊣ G theorem, adjoint triples appear only in prose at Theory/Adjunction.v:75-76, Instance/Poset.v:70, Comonad/Coalgebra.v:97, Construction/Arrow.v:61, Structure/Pullback.v:127). I OVERTURN MY OWN preliminary in favour of the classifier's PARTIAL after checking the instantiation claim, which is exact: Adjunction/Compose.v has Context F : D ⟶ C, U : C ⟶ D, F' : C ⟶ E, U' : E ⟶ C and :173 `Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U')`; setting F := L, U := U, F' := U, U' := R at an adjoint triple L ⊣ U ⊣ R type-checks with E := the book's C and yields literally (U ◯ L) ⊣ (U ◯ R), i.e. T ⊣ G, with no extra hypotheses. Combined with Adjunction_Monad (T = U ◯ L) and Adjunction_Comonad (G = U ◯ R on the book's C), all three general clauses are in force; only the packaging and the colim ⊣ Δ ⊣ lim instantiation are missing, exactly as the gap states. The strength_comparison's split verdict is honest."
+    }
+  },
+  {
+    "id": "awodey:10.4:remark-modal-s5",
+    "classification": "ABSENT",
+    "aliases": [
+      "modal logic S5",
+      "possibility operator ◇ as a monad",
+      "necessity operator □ as a comonad",
+      "◇ ⊣ □ / adjoint modality",
+      "interior algebra / modal algebra / Kripke semantics",
+      "Lawvere modal operators from an adjoint triple"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'modal|\\bS5\\b|necessity|possibility|kripke' --include='*.v' . — the only 'modal' hits are the LINEAR-logic exponential modality ! as a comonad (Comonad/CoKleisli.v:50,87, Comonad/Core.v:99 — all header prose, no formalized modal operator) and 'reflective modality' cited from Rijke–Shulman–Spitters at Construction/Localization.v:119; 'necessity'/'possibility' hits (Construction/Sq.v:140,159, Structure/Coequalizer/Split.v:65, Adjunction/SAFT.v:52) are ordinary English usage",
+      "grep -rn 'box|diamond|◇|□' --include='*.v' . — □ is the FUNNY TENSOR of Construction/Funny.v (Instance/StrictCat/Funny.v, Test/ProbeFunnyPoly.v); ◇ has no occurrence. No modal operator notation exists.",
+      "grep -rn 'adjoint triple|AdjointTriple' --include='*.v' . — prose only, so even the underlying construction the remark specializes is unpackaged (see awodey:10.4:construction-adjoint-triple)",
+      "No propositional-logic syntax, deduction system, or Boolean/Heyting/interior algebra appears anywhere in the tree; the closest logical objects are Instance/Props.v (the poset of Props) and Instance/Lambda/ (simply-typed lambda calculus), neither carrying modal operators. Classified ABSENT rather than OUT_OF_SCOPE because the categorical half IS formalizable here (a monotone adjoint pair ◇ ⊣ □ on a Proset/Poset with ◇ a monad and □ a comonad is directly expressible via Instance/Poset.v + Theory/Adjunction.v); it is only the syntactic 'equivalent to the S5 axiom scheme' half that would need a logic development."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: ABSENT. Re-verified: `rg '◇' --glob '*.v'` returns 0 occurrences; □ occurs only as the funny tensor of Construction/Funny.v; -i searches for modal/S5/necessity/possibility/Kripke return only linear-logic-exponential prose (Comonad/CoKleisli.v:50,87, Comonad/Core.v:99), Construction/Localization.v:119's 'reflective modality' citation, and ordinary English usage. The record's ABSENT-not-OUT_OF_SCOPE justification is correct under the frozen definitions: the categorical half (a monotone ◇ ⊣ □ on Instance/Poset.v with ◇ a monad and □ a comonad) is directly expressible in-tree, so this is a coverage gap rather than a foundational impossibility."
+    }
+  },
+  {
+    "id": "awodey:10.4:example-interior-closure",
+    "classification": "ABSENT",
+    "aliases": [
+      "topological interior operator as a comonad",
+      "topological closure operator as a monad",
+      "Kuratowski closure axioms",
+      "poset of subsets of a space ordered by inclusion",
+      "monad on a poset = closure operator (inflationary, idempotent, monotone)",
+      "comonad on a poset = interior/kernel operator (deflationary, idempotent, monotone)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'interior operator|closure monad|interior comonad|kuratowski|inflationary|deflationary' --include='*.v' . — 0 hits",
+      "grep -rni 'powerset|subsets of|poset of subsets' --include='*.v' . — 0 hits; there is no powerset poset in-tree (Structure/Topos.v's `Pow a := Ω ^ a` is an internal power OBJECT in an elementary topos, not the inclusion-ordered poset of subsets of a space, and Theory/Subobject.v's SubObj is the quotient of monos, never instantiated at a topological space)",
+      "grep -rni 'topological space|\\bTopology\\b|open set' --include='*.v' . — the only 'topology' hits are Grothendieck topologies (Theory/Sheaf.v:44-91, Construction/Grothendieck.v:89) and bibliographic references (Structure/Pullback.v:103-108, Theory/Category.v:84); no topological space, no lattice of open sets",
+      "grep -rn 'closure operator' --include='*.v' . — Instance/Poset.v:48 and :64-68 only, and both are COMMENT lines in the file's background essay ('a monad is a closure operator, the unit giving extensivity and the multiplication idempotency'); the dictionary is asserted in prose and never proved, and there is no comonad/interior counterpart even in prose",
+      "No in-tree lemma of the form 'a Monad on a Proset/Poset is exactly a closure operator' exists to be instantiated; grep -rn 'Monad' Instance/Poset.v Instance/Proset.v — 0 hits outside the essay"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: ABSENT. Re-verified: no topological space, no lattice of opens, no inclusion-ordered poset of subsets anywhere (the only 'power set' hit is Structure/Topos.v:75, the INTERNAL power object Pow a := Ω ^ a in an elementary topos — not the subsets of a space; the classifier's exact grep pattern 'powerset' legitimately missed that spelled-with-a-space occurrence and its parenthetical addresses the object anyway). `rg 'closure operator'` hits only the background essay of Instance/Poset.v (:48, :64-68), which asserts the monad/closure-operator dictionary in prose and never proves it, and offers no interior/comonad counterpart even in prose. No Monad or Comonad instance is built over Proset/Poset."
+    }
+  }
+]

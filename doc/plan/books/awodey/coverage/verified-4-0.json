@@ -1,0 +1,207 @@
+[
+  {
+    "id": "awodey:4.1:def1",
+    "classification": "PRESENT",
+    "aliases": ["group object", "internal group", "GroupObject", "group in a category", "group scheme / topological group (ambient instances)"],
+    "evidence": [
+      {"file": "Structure/Group.v", "line": 109, "symbol": "GroupObject",
+       "intree_statement": "Context `{@CartesianMonoidal C}. Class GroupObject (grp : C) := { groupobject_is_monoid : MonoidObject grp; inverse : grp ~> grp; left_inverse : mappend ∘ inverse ⨂ id ∘ ∆ grp ≈ mempty ∘ eliminate; right_inverse : mappend ∘ id ⨂ inverse ∘ ∆ grp ≈ mempty ∘ eliminate }"},
+      {"file": "Structure/Monoid.v", "line": 124, "symbol": "MonoidObject",
+       "intree_statement": "Class MonoidObject (mon : C) := { mempty : I ~> mon; mappend : mon ⨂ mon ~> mon; mempty_left; mempty_right; mappend_assoc } — supplies the associativity + two-sided-unit laws the group object inherits"}
+    ],
+    "statement_record": {
+      "book": "In a category C with finite products, a group object is an object G with m:G×G→G, u:1→G, i:G→G satisfying associativity, two-sided unit (both triangles), and two-sided inverse m∘(1×i)∘Δ = u∘! = m∘(i×1)∘Δ.",
+      "intree": "GroupObject grp over a CartesianMonoidal C: an underlying MonoidObject (mappend=m, mempty=u with assoc + two-sided unit) plus inverse ι:grp~>grp with left_inverse/right_inverse: mappend ∘ ι⨂id ∘ ∆ ≈ mempty ∘ eliminate ≈ mappend ∘ id⨂ι ∘ ∆.",
+      "strength_comparison": "same — the CartesianMonoidal base packages 'finite products' (⨂ = ×, I = 1); ∆ is the diagonal and mempty∘eliminate is exactly u∘! (the constant-at-unit map). The file header explicitly cites Awodey Ch.4 as the source. Faithful setoid rendering."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently landed on Structure/Group.v GroupObject (registered in _CoqProject:321, .vo present). Verified line 109 = 'Class GroupObject (grp : C) := {' and MonoidObject at Structure/Monoid.v:124 with fields mempty/mappend/mempty_left/mempty_right/mappend_assoc as quoted. Header (lines 8-31) explicitly cites nLab, Eckmann-Hilton, and Awodey Ch.4 as the source; associativity/unit inherited from the underlying MonoidObject rather than restated is a faithful factoring, not a gap. PRESENT confirmed."}
+  },
+  {
+    "id": "awodey:4.1:remark-generalized-elements",
+    "classification": "ABSENT",
+    "aliases": ["generalized elements", "functor of points", "points functor", "Yoneda reformulation of group object", "Hom(X,grp) is a group naturally in X", "representable group"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'functor of points|generalized element|points functor|Hom\\(X, ?grp\\)|group naturally|yoneda.*group|group.*hom-set' --include=*.v : only prose hits — Structure/Group.v:28 and :59 MENTION the equivalence ('grp is a group object iff each hom Hom(X, grp) is a group naturally in X') in the header essay but state no lemma; Structure/Terminal.v:61 and Preadditive.v:15 unrelated.",
+      "Inspected Structure/Group/Proofs.v (grep for Lemma/Theorem): contains only morphism-level derived facts (mempty_right_diagonal, left_inverse_unique, mappend_inverse antihomomorphism) — no functor-of-points / natural-group-structure equivalence, no Yoneda-mediated reformulation.",
+      "grep for 'generalized element' element-wise group axioms: no lemma proving the diagram axioms equivalent to element equations m(m(x,y),z)=m(x,m(y,z)) etc. for all Z→G."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent blind search for 'generalized element|functor of points|points functor' returned only Structure/Terminal.v (unrelated global-elements notion); the Yoneda functor-of-points equivalence for group objects appears only as prose in Structure/Group.v:28 (header essay), never as a proved lemma. No element-wise↔diagrammatic equivalence anywhere. ABSENT confirmed."}
+  },
+  {
+    "id": "awodey:4.1:def2",
+    "classification": "PARTIAL",
+    "aliases": ["group homomorphism (of group objects)", "GroupObjectHom", "GroupHom", "morphism of group objects", "structure-preserving map", "MonoidHom (near analog)"],
+    "evidence": [
+      {"file": "Theory/Algebra/Monoid/Hom.v", "line": 34, "symbol": "MonoidHom",
+       "intree_statement": "Class MonoidHom {x y} (Mx : Monoid x) (My : Monoid y) (f : x ~> y) := { hom_mu : f ∘ mu[Mx] ≈ mu[My] ∘ (f ⨂ f); hom_eta : f ∘ eta[Mx] ≈ eta[My] }"}
+    ],
+    "statement_record": {
+      "book": "A homomorphism h:G→H of group objects is a C-arrow preserving the group structure: h∘m = m∘(h×h), h∘u = u, and h∘i = i∘h.",
+      "intree": "MonoidHom (for monoid objects) requires exactly the multiplication square h∘mu ≈ mu∘(h⨂h) and unit triangle h∘eta ≈ eta; these are book conditions (1) and (2).",
+      "strength_comparison": "intree-weaker/mismatched: MonoidHom is a homomorphism of MONOID objects, not group objects — it carries no inverse-preservation clause (h∘i = i∘h) and is not tied to GroupObject. Moreover it is built over the sibling Theory.Algebra.Monoid (mu/eta), whereas GroupObject is built over Structure.Monoid.MonoidObject (mappend/mempty); the two are equivalent but not wired together in-tree. (Note: for group objects inverse preservation is automatic from uniqueness of inverses, but that theorem is not stated, and no group-object hom type exists.)"
+    },
+    "gap": "No homomorphism-of-group-objects notion exists: no GroupObjectHom class, no inverse-preservation field, and the existing MonoidHom applies to monoid objects only and is not connected to GroupObject. Conditions (1)-(2) are covered by MonoidHom on the underlying monoid; condition (3) and the group-object specialization are missing.",
+    "negative_search_log": [
+      "grep -rniE 'GroupHom|GroupObjectHom|preserves.*inverse|hom_inverse|Group.*⟶' --include=*.v : no group-object homomorphism type; only 'Homomorphism Theorem' docstrings.",
+      "grep for hom_inverse / inverse-preservation field: none."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agreed a group-object hom is absent (no GroupHom/GroupObjectHom, no inverse-preservation field). Verified MonoidHom at Theory/Algebra/Monoid/Hom.v:34 with fields hom_mu/hom_eta exactly as quoted — but confirmed the mismatch the record already flags: that MonoidHom is over Theory.Algebra.Monoid.Monoid (mu/eta), NOT over Structure.Monoid.MonoidObject (mappend/mempty) which is the class GroupObject actually extends, so it is not even the hom class of the monoid underlying a GroupObject. I weighed ABSENT (my first lean) but PARTIAL is the more honest label: a hom preserving multiplication+unit (book conditions 1-2) genuinely exists in-tree as a category-of-internal-algebras artifact, and the record states the exact gap (no group tie-in, no inverse clause). Kept PARTIAL."}
+  },
+  {
+    "id": "awodey:4.1:construction-group-cat",
+    "classification": "PARTIAL",
+    "aliases": ["Group(C)", "category of group objects", "Grp(C)", "Groups(C)", "internal groups category", "Mon(C) (monoid analog)", "Algs / category of algebras"],
+    "evidence": [
+      {"file": "Theory/Algebra/Monoid/Hom.v", "line": 83, "symbol": "Mon",
+       "intree_statement": "Program Definition Mon : Category := { obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; homset := equiv of underlying morphisms; id; compose } — the category of internal monoids in C"},
+      {"file": "Instance/Comp.v", "line": 382, "symbol": "Group := Algebra GroupOp GroupEq",
+       "intree_statement": "Definition Group := Algebra GroupOp GroupEq (models of the group signature+equations); the ambient Algs : Category (OpAlgebra S objects, AlgHom morphisms) is the category of algebras of a signature"}
+    ],
+    "statement_record": {
+      "book": "Group objects in C and their homomorphisms, with identities and composites inherited from C, form a category Group(C).",
+      "intree": "The category-of-internal-algebras pattern is realized as Mon(C) (sigma-packaged internal monoids and MonoidHom in an arbitrary monoidal C) and, separately, as the universal-algebra category Algs with Group := Algebra GroupOp GroupEq (groups as equational models over Coq Type).",
+      "strength_comparison": "intree-weaker: no Group(C) of GROUP objects is assembled. Mon(C) is the exact construction pattern but for monoid objects only (no inverse). Instance/Comp.v's Group is a category of groups only for the single ambient of Coq types via a separate universal-algebra encoding, not group objects in a general C, and is not connected to Structure/Group.v's GroupObject."
+    },
+    "gap": "No category Group(C) built from GroupObject + a group-object homomorphism (which itself is absent, cf. def2). The two in-tree witnesses are the monoid-object category Mon(C) (pattern present, but monoids not groups) and a universal-algebra category of groups over Type (single ambient, different encoding).",
+    "negative_search_log": [
+      "grep -rniE 'Group\\(C\\)|category of group|Groups :|Group : Category' --include=*.v : no Group(C)/Grp category built from GroupObject; only Instance/Comp.v Group (algebra) and Groupoid.v (a different construction).",
+      "Confirmed Structure/Group/ contains only Group.v and Group/Proofs.v (no Category file)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Theory/Algebra/Monoid/Hom.v:83 'Program Definition Mon : Category' with the sigma { x & Monoid x } / { f & MonoidHom } shape as quoted, and Instance/Comp.v:382 'Definition Group := Algebra GroupOp GroupEq'. Confirmed ls of Structure/Group/ = {Proofs.v} only, no Category file. No Group(C) is assembled from GroupObject. My blind lean was ABSENT, but the internal-algebra category pattern (Mon) plus a universal-algebra Group category do constitute 'some of the item'; the record's gap is precise. Kept PARTIAL."}
+  },
+  {
+    "id": "awodey:4.1:example3",
+    "classification": "ABSENT",
+    "aliases": ["group in Sets = ordinary group", "topological group (group in Top)", "ordered group (group in Pos)", "GroupObject instance", "ℝ under addition as topological/ordered group"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'GroupObject' instances outside Structure/Group.v : NONE — no @GroupObject Sets, Top, or Pos instance; the only 'Instance ... Group' hits are Semigroup_Maybe / netlist, unrelated.",
+      "find -iname '*top*.v' : no category Top (only Topos.v, Opposite/Transformation files); no topological-space category exists, so 'group in Top' cannot be instantiated.",
+      "grep -rniE 'topological group|ordered group' --include=*.v : 0 hits.",
+      "Instance/Poset.v exists (Pos) but no ordered-group object over it. Instance/Comp.v gives groups-as-equational-models over Coq Type with a Bool example (Structure/Group.v:47-48 header also lists Top/Lie/scheme instances in PROSE) but no in-tree theorem establishes 'group object in Sets ≅ ordinary group' or the Top/Pos variants."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independently confirmed the sole @GroupObject occurrences are in Structure/Group.v, Structure/Monoid.v, Structure/Group/Proofs.v (definition/derived-facts files) — no GroupObject INSTANCE in any concrete category. No Top category exists in-tree. Instance/Comp.v's universal-algebra Group (groups as Type-models) is a distinct encoding and does not establish the example's equivalence 'group object in Sets ≅ ordinary group', nor the Top/Pos variants. ABSENT confirmed (not PARTIAL: the example is about instantiating the group-OBJECT definition, which is never done)."}
+  },
+  {
+    "id": "awodey:4.2:def-kernel",
+    "classification": "PRESENT",
+    "aliases": ["kernel of a homomorphism", "kernel as equalizer", "ker(h) = eq(h, u!)", "IsKernel", "equalizer of f and the zero/constant map"],
+    "evidence": [
+      {"file": "Structure/Kernel.v", "line": 53, "symbol": "IsKernel",
+       "intree_statement": "Definition IsKernel {x y k : C} (f : x ~> y) (i : k ~> x) : Type := IsEqualizer f zero_mor k i"},
+      {"file": "Structure/Kernel.v", "line": 118, "symbol": "kernel_desc",
+       "intree_statement": "Lemma kernel_desc (K : IsKernel f i) (h : z ~> x) (Hh : f ∘ h ≈ zero_mor) : ∃! u : z ~> k, i ∘ u ≈ h — the equalizer universal property of the kernel"}
+    ],
+    "statement_record": {
+      "book": "For h:G→H, ker(h) = {g | h(g)=u}, and ker(h)→G is the equalizer of h and the constant homomorphism u! : G→1→H.",
+      "intree": "IsKernel f i := IsEqualizer f zero_mor k i — the kernel is exactly the equalizer of f with the zero morphism (the constant map through the zero object), with kernel_monic and the descent property kernel_desc.",
+      "strength_comparison": "same up to generality (intree-more-general): the categorical kernel is defined for any pointed category (with zero_mor); in Grp the zero morphism G→H IS the constant-at-unit map u∘!, so IsKernel specializes to the book's kernel-as-equalizer. The concrete {g|h(g)=u} description is the Sets reading of the same equalizer. Faithful categorical rendering; not instantiated for a concrete Grp (which the library lacks)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified IsKernel at Structure/Kernel.v:53 = 'IsEqualizer f zero_mor k i' and kernel_desc at :118 exactly as quoted. My first lean was PARTIAL (the def is stated for group homs in Sets, and IsKernel needs a ZeroObject that Sets lacks), but on reflection PRESENT holds: this is a DEFINITION item, and the categorical kernel-as-equalizer-of-the-constant/zero-map faithfully and more-generally renders Awodey's definition; in Grp (which has a zero object, the trivial group) zero_mor IS the constant-unit map u∘!, so it specializes exactly. Caveat retained: never instantiated for a concrete Grp (library has no category of groups). PRESENT confirmed."}
+  },
+  {
+    "id": "awodey:4.2:def-normal-subgroup",
+    "classification": "PARTIAL",
+    "aliases": ["normal subgroup", "normal monomorphism", "kernel is normal", "conjugation-closed subgroup", "N ⊆ G normal", "normal_mono"],
+    "evidence": [
+      {"file": "Structure/Kernel.v", "line": 146, "symbol": "normal_mono",
+       "intree_statement": "Definition normal_mono {k x : C} (i : k ~> x) : Type := ∃ (y : C) (f : x ~> y), IsKernel f i — a mono is normal when it arises as a kernel"}
+    ],
+    "statement_record": {
+      "book": "A subgroup N⊆G is normal when closed under conjugation (∀g,k: g·k·g⁻¹∈N); in particular ker(h) is always normal.",
+      "intree": "normal_mono i := i arises as a kernel of some morphism. In Grp the normal monomorphisms are exactly the normal-subgroup inclusions, and every kernel is trivially a normal_mono (so 'ker(h) is normal' is definitional here).",
+      "strength_comparison": "intree-different-characterization: the library renders normal-subgroup categorically as 'a subobject that is a kernel' (nLab: normal monomorphism), which coincides with Awodey's normal subgroups in Grp. But the group-theoretic conjugation-closure definition is not stated, there is no groups-in-Sets instance carrying elements to conjugate, and no theorem links GroupObject kernels to conjugation-closed subobjects."
+    },
+    "gap": "Only the categorical stand-in normal_mono (kernel-subobject) exists, over a pointed/abelian setting. The concrete conjugation-closure definition of a normal subgroup, and its instantiation for group objects/groups, are absent; the classical equivalence 'normal subgroup ⟺ kernel' is not proved for Grp.",
+    "negative_search_log": [
+      "grep -rniE 'normal sub|normal_sub|Normal' --include=*.v : the only 'normal' notions are normal_mono/normal_epi (kernel/cokernel subobjects) in Structure/Kernel.v and the Solver's 'normal form'; no subgroup-conjugation definition.",
+      "No group-element / conjugation machinery exists (no groups-in-Sets instance with elements)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified normal_mono at Structure/Kernel.v:146 = '∃ (y : C) (f : x ~> y), IsKernel f i' exactly as quoted, plus normal_mono_kernel_of_cokernel at :226. My blind lean was ABSENT (the conjugation-closure definition literally never appears and there is no group-element machinery), but PARTIAL is the more honest verdict: normal_mono is the standard nLab categorical rendering of 'normal subgroup' (subobject arising as a kernel), coinciding with Awodey's normal subgroups in Grp. The record precisely states the gap (no conjugation definition, no Grp instance, no 'normal ⟺ kernel' theorem for groups). Kept PARTIAL."}
+  },
+  {
+    "id": "awodey:4.2:construction-factor-group",
+    "classification": "PARTIAL",
+    "aliases": ["factor group G/N", "quotient group", "coequalizer of inclusion and constant", "cokernel", "IsCokernel", "quotient by a normal subgroup"],
+    "evidence": [
+      {"file": "Structure/Kernel.v", "line": 58, "symbol": "IsCokernel",
+       "intree_statement": "Definition IsCokernel {x y q : C} (f : x ~> y) (e : y ~> q) : Type := IsCoequalizer f zero_mor q e"},
+      {"file": "Structure/Kernel.v", "line": 132, "symbol": "cokernel_desc",
+       "intree_statement": "Lemma cokernel_desc (K : IsCokernel f e) (h : y ~> z) (Hh : h ∘ f ≈ zero_mor) : ∃! u : q ~> z, u ∘ e ≈ h — the coequalizer universal property of the cokernel/quotient"}
+    ],
+    "statement_record": {
+      "book": "For a normal subgroup N↣G, the factor group G/N (cosets, multiplied [g]·[g']=[gg'], well-defined because N is normal) together with the quotient map π:G→G/N is the coequalizer of the inclusion i:N→G and the constant map u:N→G.",
+      "intree": "IsCokernel f e := IsCoequalizer f zero_mor q e — the cokernel is exactly the coequalizer of the inclusion with the zero (constant) map, with the universal quotient property cokernel_desc and cokernel_epic.",
+      "strength_comparison": "intree-weaker (as a construction): the categorical target — G/N as coequalizer of (inclusion, constant) — is captured abstractly by IsCokernel, but only as a predicate/universal property. The concrete construction of the coset group, the well-definedness from normality, and existence for groups are not carried out; the library builds no Grp and no quotient-group object."
+    },
+    "gap": "Only the abstract cokernel/coequalizer-with-zero notion and its UMP exist; the concrete factor group G/N (cosets, coset multiplication, well-definedness via normality) is not constructed, and no HasCokernels instance for groups establishes existence.",
+    "negative_search_log": [
+      "grep -rniE 'factor group|quotient group|G/N' --include=*.v : 0 hits for a concrete factor-group construction; only the abstract IsCokernel/cokernel_desc.",
+      "No coset / equivalence-class-of-group-elements construction anywhere."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified IsCokernel at Structure/Kernel.v:58 = 'IsCoequalizer f zero_mor q e' and cokernel_desc at :132 exactly as quoted. The abstract cokernel = coequalizer-with-zero and its UMP are present; the concrete factor-group construction (cosets, coset multiplication, well-definedness from normality, existence for a Grp) is genuinely absent — no coset machinery anywhere. My blind lean was ABSENT, but the abstract quotient/cokernel UMP is a real fragment of the construction, so PARTIAL with the record's precise gap is honest. Kept PARTIAL."}
+  },
+  {
+    "id": "awodey:4.2:thm4",
+    "classification": "PARTIAL",
+    "aliases": ["Homomorphism Theorem for groups", "universal property of the quotient", "factor through G/N", "N ⊆ ker h iff h factors", "cokernel universal property", "first isomorphism theorem (part)"],
+    "evidence": [
+      {"file": "Structure/Kernel.v", "line": 132, "symbol": "cokernel_desc",
+       "intree_statement": "Lemma cokernel_desc (K : IsCokernel f e) (h : y ~> z) (Hh : h ∘ f ≈ zero_mor) : ∃! u : q ~> z, u ∘ e ≈ h"},
+      {"file": "Structure/Kernel.v", "line": 118, "symbol": "kernel_desc",
+       "intree_statement": "Lemma kernel_desc (K : IsKernel f i) (h : z ~> x) (Hh : f ∘ h ≈ zero_mor) : ∃! u : z ~> k, i ∘ u ≈ h"}
+    ],
+    "statement_record": {
+      "book": "Every h:G→H has kernel ker(h) (a normal subgroup) with the UMP: for any normal N⊆G, N⊆ker(h) iff there is a unique homomorphism h̄:G/N→H with h̄∘π = h.",
+      "intree": "cokernel_desc supplies the factorization half: any h with h∘(inclusion) ≈ 0 (i.e. that kills N) descends uniquely through the quotient/cokernel π. kernel_desc supplies the kernel's dual UMP.",
+      "strength_comparison": "intree-weaker: the individual universal properties of the cokernel (quotient) and kernel are present abstractly, but the group-specific Homomorphism Theorem — the biconditional over the poset of normal subgroups, packaged around G/N and ker(h) with the explicit h̄ — is not assembled, and there is no group instance. (Its general categorical analogue, Awodey Thm 4.7 kernel-category UMP, is a §4.3 item outside this batch.)"
+    },
+    "gap": "The book's assembled statement (N⊆ker(h) ⟺ unique factorization h̄:G/N→H through π, with ker(h) exhibited as a normal subgroup) is not formalized as a single theorem. Only the constituent cokernel/kernel universal properties (cokernel_desc, kernel_desc) exist, abstractly and not for groups.",
+    "negative_search_log": [
+      "grep -rniE 'homomorphism theorem|first isomorphism|first iso' --include=*.v : hits are only header prose in Abelian.v; no theorem named/stated.",
+      "No biconditional 'N ⊆ ker ⟺ factors through quotient' anywhere; no Grp instance."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified cokernel_desc:132 and kernel_desc:118 as quoted. The factorization half of the homomorphism theorem — any h killing N descends uniquely through the quotient/cokernel — is genuinely present abstractly (cokernel_desc). The assembled group-specific biconditional over normal subgroups, packaged around G/N and ker(h) with h̄, is not stated and there is no Grp instance. My blind lean was ABSENT, but the constituent quotient UMP is a substantial fragment; PARTIAL with the stated gap is honest. Kept PARTIAL."}
+  },
+  {
+    "id": "awodey:4.2:cor5",
+    "classification": "PARTIAL",
+    "aliases": ["epi-mono factorization", "first isomorphism theorem", "G/ker(h) ≅ im(h)", "image factorization", "coimage ≅ image", "surjection followed by injection", "Regular_OFS"],
+    "evidence": [
+      {"file": "Structure/Abelian.v", "line": 371, "symbol": "abelian_epi_mono_factorization",
+       "intree_statement": "Theorem abelian_epi_mono_factorization {x y} (f : x ~> y) : ∃ (i : C) (e : x ~> i) (m : i ~> y), (Epic e) ∧ (Monic m) ∧ (m ∘ e ≈ f)"},
+      {"file": "Structure/Regular/Factorization.v", "line": 282, "symbol": "Regular_OFS",
+       "intree_statement": "Definition Regular_OFS : OFS (@RegularEpiClass C) (@MonoClass C) — the (RegularEpi, Mono) orthogonal factorization system of a regular category: every f factors as a regular epi followed by a mono (image factorization)"}
+    ],
+    "statement_record": {
+      "book": "Every h:G→H factors as a surjective quotient π:G→G/ker(h) followed by an injective h̄, with h̄:G/ker(h) ≅ im(h)⊆H; hence h injective iff ker(h)={u}.",
+      "intree": "abelian_epi_mono_factorization gives f = m∘e with e Epic and m Monic through the image object; Regular_OFS gives the (regular epi, mono) image factorization in any regular category.",
+      "strength_comparison": "intree-different-setting: the categorical image/epi-mono factorization is present, but the abelian version assumes an abelian base (Grp is NOT abelian), and the regular version (Regular_OFS) is the applicable one (Grp is regular) yet is not instantiated for groups. Neither states the group-specific coimage≅image isomorphism G/ker(h) ≅ im(h) nor the corollary 'injective ⟺ trivial kernel'."
+    },
+    "gap": "The general epi-mono/image factorization exists (abelian and regular versions), but it is not instantiated for groups, and the group-specific content — G/ker(h) ≅ im(h) as the canonical factorization and 'h monic ⟺ ker(h) trivial' — is not derived. Grp being non-abelian, only the regular-category route applies, and no Grp instance witnesses it.",
+    "negative_search_log": [
+      "grep -rniE 'first iso|coimage|im\\(h\\)|isomorphism theorem' --include=*.v : no group-specific G/ker ≅ im statement; image factorization lives only in Abelian.v and Regular/Factorization.v abstractly.",
+      "No Grp instance; no 'injective iff trivial kernel' lemma for groups."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified abelian_epi_mono_factorization at Structure/Abelian.v:371 exactly as quoted (∃ i e m, Epic e ∧ Monic m ∧ m∘e ≈ f). CORRECTED the Regular_OFS citation: the coverage record placed it at Regular/Factorization.v:53, which is header prose ('The packaged system is [Regular_OFS]'); the actual 'Definition Regular_OFS : OFS (@RegularEpiClass C) (@MonoClass C)' is at line 282 — line number and intree_statement updated. The general (regular-epi, mono) and abelian epi-mono factorizations exist; neither is instantiated for groups nor states G/ker(h) ≅ im(h) or 'monic ⟺ trivial kernel'. PARTIAL confirmed."}
+  }
+]

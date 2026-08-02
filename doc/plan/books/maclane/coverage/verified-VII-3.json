@@ -1,0 +1,324 @@
+[
+  {
+    "id": "maclane:VII.4:ex7",
+    "classification": "ABSENT",
+    "aliases": [
+      "coherence for a monoid action",
+      "canonical maps of an action nu_w",
+      "module / action of a monoid in a monoidal category on an object",
+      "coherence theorem for actions (extending Mac Lane coherence)",
+      "action canonical isomorphism / associativity+unit coherence"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'action|module|acts on|left action|right action|bimodule|Lact|Ract' --include=*.v . -> broad match, but the ONLY 'action'-record definitions in the tree are Theory/Multicategory/Algebra.v:152 'Record OperadAction' (operad action, unrelated) and Monad/Algebra.v:24 'Class TAlgebra' (Eilenberg-Moore monad algebra = action of a monoid ONLY in the endofunctor special case B=[C,C]); there is NO general 'left/right action of a monoid-object in a monoidal category on an object', and no cLact/Ract category.",
+      "grep -rniE 'MonoidAction|Module_|LeftAction|RightAction|acts_on|Record .*[Aa]ction|Record .*[Mm]odule' -> only OperadAction and a Cayley comment; no monoid-in-monoidal action record.",
+      "grep -rni 'coherence theorem|Mac?Lane coherence|coherence for' --include=*.v . -> all hits are essay prose (Structure/Monoidal.v:43, Structure/Monoidal/Symmetric.v:47 CITE Mac Lane's coherence theorem as motivation) or unrelated coherence lemmas (adjoint-equivalence, cone, pseudofunctor, Fong-Spivak supply). The monoidal coherence theorem itself (VII.2 W / can_B) is NOT formalized.",
+      "grep -rniE '\\bcan_B\\b|word categor|free monoidal categor|binary word|W is free' --include=*.v . -> 0 hits: the underlying coherence apparatus (word category W, canonical maps can_B) that this exercise extends to actions does not exist in-tree.",
+      "Base concept 'monoid in a monoidal category' DOES exist (Structure/Monoid.v:124 Class MonoidObject), but neither the general action nor any coherence result for its canonical maps nu_w is formalized. The exercise's mathematical content (a coherence theorem for actions) has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Verified cited symbols exist exactly as claimed: Structure/Monoid.v:124 'Class MonoidObject', Theory/Multicategory/Algebra.v:152 'Record OperadAction', Monad/Algebra.v:24 'Class TAlgebra'. Also confirmed Theory/Algebra/Monoid.v:44 'Class Monoid' (a second monoid-object definition) — so the base notion 'monoid in a monoidal category' is doubly present, but no monoid ACTION / module over a monoid object, and no canonical-map (nu_w) coherence for actions exists. The prerequisite VII.2 coherence apparatus (word category W, can_B) is also absent. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:VII.5:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "simplicial category Delta",
+      "category of finite ordinals and monotone maps",
+      "augmented simplex category / algebraists' Delta",
+      "ordinal-sum strict monoidal category with universal monoid",
+      "walking monoid / free strict monoidal category on a monoid, FinOrd"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'simplicial' --include=*.v . -> 7 files (Comonad/Core, Comonad/Coalgebra, Theory/Kan/Extension, Instance/FinSet, Construction/Enriched, Structure/Group, Structure/Coend); EVERY hit is background-essay prose, none a construction.",
+      "grep -rni 'simplex|simplices' --include=*.v . -> Instance/FinSet.v:89 'the simplex category Delta embedding into FinSet' and Instance/Two.v:81 '1-simplex' -- both prose; Delta is only ANTICIPATED as a subcategory of FinSet, never built.",
+      "grep -rniE 'finite ordinal|category of ordinals|FinOrd|walking monoid|free strict monoidal|universal monoid' --include=*.v . -> 0 constructive hits ('universal monoid'/'free monoid' hits are all prose about lists/PROPs).",
+      "grep -rni 'ordinal' --include=*.v . -> only Instance/Omega.v (the single poset omega 0->1->2->... as a thin category) and Instance/Two.v (the 2-object ordinal {0<1}); neither is the category whose OBJECTS are ordinals and whose ARROWS are monotone maps.",
+      "grep -rni 'monotone|order-preserving' -> Instance/Poset.v & Instance/Proset.v (categories of ALL posets/prosets with monotone maps -- not the skeletal finite Delta), plus Lambda order-preserving embeddings; no skeletal finite-ordinal category.",
+      "FinSet (Instance/FinSet.v) has arbitrary Fin.t functions as morphisms, NOT monotone maps, so it is not Delta. find . -name '*.v' | grep -iE 'delta|simpl|ordinal|simplex|nerve' -> no such file. Delta (finite ordinals + monotone maps) with ordinal-sum monoidal structure and its universal monoid <1,mu,eta> is wholly absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Confirmed: `rg '\\bDelta\\b'` (word) = 0 hits; the Unicode Δ occurs ONLY as the diagonal functor (Adjunction/Diagonal, GAFT) and diagonal relation (Rel), never a simplex category. Verified Instance/FinSet.v:118 defines hom m~>n := Fin.t m -> Fin.t n (ARBITRARY functions, not monotone), so FinSet is provably not Δ. Instance/Omega.v header line 11: 'the thin category whose objects are the natural numbers' (the ordinal ω, one poset), not the category of ordinals-with-monotone-maps. No ordinal-sum monoidal category, no universal monoid <1,mu,eta>. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:VII.5:prop1",
+    "classification": "ABSENT",
+    "aliases": [
+      "universal property of the simplicial category Delta",
+      "Delta is the free strict monoidal category containing a monoid",
+      "walking-monoid universal property",
+      "unique strict monoidal functor from Delta out of a monoid",
+      "PROP/theory of monoids as free monoidal category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Subject of the theorem (the category Delta) is itself absent -- see maclane:VII.5:construction1 log.",
+      "grep -rniE 'free strict monoidal|walking monoid|universal monoid|theory of monoids|PROP of monoids|present.*monoid' --include=*.v . -> 0 constructive hits.",
+      "Construction/PROP/Presentation.v exists (present a strict/braided/symmetric monoidal category by generators & relations, Presented_Monoidal/Presented_Strict) -- the CLOSEST machinery -- but (a) it targets SYMMETRIC monoidal theories/PROPs (line 36 'Presentations of PROPs by symmetric monoidal theories'), i.e. the commutative/braided setting, not the non-symmetric Delta, and (b) it is NEVER instantiated to present the theory of monoids or to yield Delta; no such presentation or universal-property statement 'monoid in <B,box,e> => unique strict monoidal F:Delta->B' appears anywhere.",
+      "grep for the conclusion shape (unique strict monoidal morphism determined by a monoid) via 'StrictMonoidal' functor-from-Delta -> no Delta domain exists. The universal property of Delta is absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. The theorem's TARGET (monoid in a strict monoidal category) is present twice (Theory/Algebra/Monoid.v:44 Class Monoid; Structure/Monoid.v:124 Class MonoidObject), but its SOURCE, the category Δ, is absent (see construction1), so the universal property is unstateable. Verified Construction/PROP/Presentation.v:36 title 'Presentations of PROPs by symmetric monoidal theories' and its Presented_Monoidal/Braided/Symmetric (lines 226/260/...) are the symmetric-world presentations; grep in that file for 'Delta'/'theory of monoid' instantiation = none (only a Wikipedia URL in a comment). No presentation yields Δ. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:VII.5:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "coface maps delta_i in Delta",
+      "epi-mono (surjective-monotone / injective-monotone) factorization of a monotone map",
+      "injective monotone maps n -> n+1",
+      "face inclusions of the simplex category",
+      "elementary face operators"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'coface|codegeneracy|degeneracy' --include=*.v . -> only Monad/Graded.v and Structure/Monoidal/CopyDiscard.v; verified their 'degenerate/degeneracy' is about degenerate gradings / non-degeneracy of a discard map, NOT simplicial face/degeneracy operators.",
+      "Category Delta is absent (see construction1), so its coface maps delta_i and the factorization of monotone maps cannot be stated.",
+      "Nearest in-tree relative: Structure/Factorization.v provides ABSTRACT orthogonal factorization systems, and Regular/Factorization.v the (RegularEpi,Mono) image factorization, and Instance/Sets/Image.v concrete images -- but these factor morphisms in an arbitrary/regular category via an OFS; they are NOT the specific surjective-monotone / injective-monotone factorization of arrows of Delta, and Delta does not exist. Construction absent.",
+      "grep -rniE 'inject.*monotone|surject.*monotone|face inclusion|face operator' --include=*.v . -> 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Confirmed the 'coface/codegeneracy/degeneracy/face' matches are all false positives: Monad/Graded.v:37 'degeneracy' = collapse of a graded monad to a plain one; Structure/Monoidal/CopyDiscard.v:36 'not a degeneracy' = about discard naturality; other 'face' hits use 'face' idiomatically ('representability face', 'list-level face'). No simplicial coface δ_i, no injective/surjective-monotone factorization; the abstract OFS machinery (Structure/Factorization.v) is not this specific construction and has no Δ to act on. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:VII.5:lem-normalform",
+    "classification": "ABSENT",
+    "aliases": [
+      "unique epi-mono normal form of an arrow of Delta",
+      "cosimplicial identities (11)(12)(13)",
+      "simplicial identities for delta_i / sigma_j",
+      "coface-codegeneracy canonical factorization",
+      "normal form / Eilenberg-Zilber lemma for Delta"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'cosimplicial' --include=*.v . -> 1 hit, Theory/Kan/Extension.v:91, essay prose ('nerve of a cosimplicial space').",
+      "grep -rni 'coface|codegeneracy|degeneracy|simplicial identit' --include=*.v . -> no simplicial-identity formalization (see construction2 log; 'degeneracy' hits are unrelated grading/discard prose).",
+      "Category Delta and its generators (cofaces delta_i, codegeneracies sigma_j) are absent, so the unique normal-form lemma and the cosimplicial relations delta_i delta_j = delta_{j+1} delta_i etc. are not stated anywhere.",
+      "grep -rniE 'normal form|Eilenberg.?Zilber' --include=*.v . -> no relevant hit. Lemma absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. 'cosimplicial' occurs once, in Theory/Kan/Extension.v background prose ('nerve of a cosimplicial space'), not a definition. No simplicial identities (11)/(12)/(13), no unique epi-mono normal form; all depend on the absent Δ and its generators. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:VII.5:prop2",
+    "classification": "ABSENT",
+    "aliases": [
+      "generators and relations for Delta",
+      "presentation of the simplicial category by delta_i, sigma_j and simplicial identities",
+      "Delta generated by cofaces and codegeneracies mod (11)(12)(13)",
+      "free category on the simplicial generators modulo relations",
+      "simplicial category as a presented category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Delta, its cofaces/codegeneracies, and the cosimplicial identities are all absent (see construction1, construction2, lem-normalform logs).",
+      "Construction/PROP/Presentation.v and Construction/ColouredPROP/Presentation.v give generic 'category by generators and relations' machinery, but for SYMMETRIC monoidal theories (PROPs), never instantiated as Delta, and Delta is non-symmetric. No presentation of Delta exists.",
+      "grep -rniE 'generators and relations|presented.*(Delta|simplicial)|Delta.*presented' --include=*.v . -> 0 hits pertaining to Delta. Proposition absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. The generic presentation machinery (Construction/PROP/Presentation.v, verified title line 36 'Presentations of PROPs by symmetric monoidal theories') targets the symmetric/PROP setting and is never instantiated to present the non-symmetric Δ; grep for 'Delta' in that file = 0. No generators/relations presentation of Δ. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:VII.5:construction-geometric",
+    "classification": "ABSENT",
+    "aliases": [
+      "geometric realization functor Delta -> Top",
+      "standard affine n-simplex / topological simplex",
+      "barycentric coordinates functor",
+      "Delta as a subcategory of Top (ordered simplices, affine maps)",
+      "realization of cofaces as face inclusions"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'geometric|realization|realisation' --include=*.v . -> all hits prose; Structure/Coend.v:113 mentions 'geometric realization of a simplicial set as a single coend' and Theory/Kan/Extension.v:36/91 'nerve and realization' -- essay only, no functor.",
+      "grep -rniE 'topological space|open set|continuous map|continuous function' --include=*.v . -> 0 hits: there is NO category Top of topological spaces in the tree (Structure/Topos.v / Instance/FinSet/Topos.v are elementary TOPOS, not Top).",
+      "find . -name '*.v' | grep -iE '/Top|simplex|geometric' -> only Topos files. Neither Delta, nor Top, nor the affine-simplex functor exists. Construction absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Verified `rg 'topological space|continuous map|continuous function|open set'` = 0 hits — no category Top exists; the bare token 'Top' occurs only as the Solver's truth-value constructor (Solver/Expr.v, Denote.v, Normal.v), utterly unrelated. Structure/Coend.v:113 geometric realization is nLab-cited background prose, no functor. No Δ, no affine-simplex functor. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:VII.5:def-deltaplus",
+    "classification": "ABSENT",
+    "aliases": [
+      "Delta^+ subcategory of positive ordinals",
+      "topologists' simplex category (objects relabelled by dimension)",
+      "full subcategory of Delta on nonzero ordinals",
+      "semi-simplex / augmented-vs-nonaugmented base category",
+      "Delta without the initial object 0"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Delta itself is absent (see construction1), so its full subcategory Delta^+ on positive ordinals cannot exist.",
+      "grep -rniE 'Delta.?\\+|positive ordinal|Delta plus|topologist' --include=*.v . -> 0 relevant hits.",
+      "No full-subcategory-of-Delta construction; the general full-subcategory machinery (Construction/Subcategory.v) exists but has no Delta to restrict. Definition absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Δ⁺ is a full subcategory of Δ, and Δ is absent (confirmed above); the generic Construction/Subcategory.v exists but has no Δ to restrict. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:VII.5:def-simplicialset",
+    "classification": "ABSENT",
+    "aliases": [
+      "simplicial set",
+      "contravariant functor Delta^+ -> Set",
+      "presheaf on the simplex category, sSet",
+      "functor (Delta^+)^op -> Set",
+      "presheaf category [Delta^op, Set]"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'simplicial set|sSet' --include=*.v . -> Construction/Enriched.v:72 ('K = sSet, the simplicial sets') and Structure/Group.v:47 ('simplicial groups in simplicial sets') and Instance/FinSet.v:86-89 ('augmented symmetric simplicial sets of Grandis'); ALL essay prose, no definition.",
+      "The domain Delta^+ is absent (see def-deltaplus), so the presheaf category [Delta^op, Set] / the functor-category definition of a simplicial set is not constructible here.",
+      "Note the FinSet essay (Instance/FinSet.v:86) records that PRESHEAVES ON FINSET are the augmented SYMMETRIC simplicial sets of Grandis -- a DIFFERENT object from Mac Lane's ordered simplicial sets, and stated only as motivation, not built. Functor categories [C,D] exist generically (Instance/Fun.v) and Sets exists, but with no Delta the specific notion 'simplicial set' is absent.",
+      "grep -rniE 'presheaf.*Delta|Delta.*Set|\\[Delta' --include=*.v . -> 0 hits. Definition absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. All simplicial-set mentions are background prose. Crucially verified the classifier's key distinction: Instance/FinSet.v morphisms are arbitrary Fin.t functions (line 118), so presheaves on FinSet are the augmented SYMMETRIC simplicial sets of Grandis (as the FinSet.v:86 essay states) — a different object from Mac Lane's ordered simplicial sets, which need Δ (monotone maps only). Generic functor categories [C,D] (Instance/Fun.v) exist but do not by themselves constitute 'simplicial set' without Δ⁺. ABSENT stands (not PARTIAL: no Δ-specific content is built)."
+    }
+  },
+  {
+    "id": "maclane:VII.5:def-simplicialobject",
+    "classification": "ABSENT",
+    "aliases": [
+      "simplicial object in a category X",
+      "functor (Delta^+)^op -> X",
+      "face operators d_i and degeneracies s_i with simplicial identities (11op)-(13op)",
+      "simplicial diagram / sequence S_0, S_1, ...",
+      "simplicial object and its morphisms (natural transformations)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'simplicial object|simplicial bar|face operator|degeneracy operator' --include=*.v . -> Comonad/Core.v:103 and Comonad/Coalgebra.v:100 mention 'the simplicial bar resolution' as MOTIVATION only; the resolutions actually built in Comonad/Duality.v are the co-Kleisli and co-Eilenberg-Moore two-sided adjunction resolutions, NOT a simplicial object.",
+      "Domain (Delta^+)^op is absent (see def-deltaplus), so the functor-out-of-Delta definition and the equivalent d_i/s_i face-degeneracy presentation with the dual simplicial identities are not formalized.",
+      "grep -rniE 'd_i|s_i|face.?operator|Record .*[Ss]implicial' --include=*.v . -> no simplicial-object record. Definition absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Confirmed the 'simplicial bar resolution' phrases in Comonad/Core.v:103 and Comonad/Coalgebra.v:100 are historical background essays; consistent with CLAUDE.md, Comonad/Duality.v builds the adjunction-induced comonad and its co-resolutions (not a Δ^op-indexed simplicial object — impossible without Δ). No simplicial-object record, no d_i/s_i with simplicial identities. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:VII.5:def-augmented",
+    "classification": "ABSENT",
+    "aliases": [
+      "augmented simplicial object",
+      "functor Delta^op -> X (over the full Delta including 0)",
+      "augmentation eps : S_0 -> S_{-1} with eps d_0 = eps d_1",
+      "augmented simplicial set / group",
+      "comonad-induced augmented simplicial object (dual universal property of Delta^op)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'augment' --include=*.v . -> Instance/FinSet.v:86 ('augmented symmetric simplicial sets', prose) and Structure/Monoidal/Heunen_Vicary*.v (augmentation = counit/eliminate of a comonoid supply, an UNRELATED copy/discard notion). No augmented simplicial object.",
+      "Delta (with the initial object 0) and simplicial objects are absent (see construction1, def-simplicialobject), so the augmented functor Delta^op -> X and the augmentation datum eps are not formalizable in-tree as stated.",
+      "The comonad <-> augmented-simplicial-object bridge (Mac Lane VII.6 remark) is essay prose only; no simplicial object is derived from a comonad in Comonad/*. Definition absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Verified the two 'augment' hit-sites: Instance/FinSet.v:86 is prose; Structure/Monoidal/Heunen_Vicary.v:31/38/45 uses 'augmentations e' for comonoid counits (x -> I), an unrelated copy/discard notion, not a simplicial augmentation. No augmented simplicial object, no augmentation datum eps. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:VII.5:construction-homology",
+    "classification": "ABSENT",
+    "aliases": [
+      "homology of a simplicial object in an abelian category",
+      "alternating-sum boundary d = sum (-1)^i d_i, chain complex",
+      "Moore/normalized chain complex, H_n = ker d / im d",
+      "boundary operator with dd = 0",
+      "augmented chain complex from an augmentation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'ChainComplex|Chain_Complex|Homolog|differential|boundary.operator|alternating' --include=*.v . -> every hit is background-essay prose (Structure/Abelian.v:70/75/100 CITE 'chain complexes' and 'homology' as context; Comonad essays cite cotriple cohomology). No definition. (Construction/Chain.v is the omega-CHAIN of an endofunctor, Omega -> C, unrelated.)",
+      "Simplicial objects are absent (see def-simplicialobject), so the alternating-sum boundary cannot be formed.",
+      "Base category theory IS present: Structure/Abelian.v defines abelian categories with kernels, cokernels, images and the (Epi,Mono) factorization (Abelian_OFS) -- exactly the setting Mac Lane uses -- but NO chain complex object, NO boundary differential, NO homology functor is built on it. The construction is absent (an unfilled gap over an existing abelian-category base)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Confirmed all 'homolog/chain complex/differential' matches are background-essay prose (Structure/Abelian.v:70/75/100, Construction/Localization.v, Construction/Enriched.v, Comonad essays); Construction/Chain.v is the ω-chain of an endofunctor (Omega -> C), unrelated. The abelian-category base (Structure/Abelian.v, kernels/cokernels/images/Abelian_OFS) is the ambient setting but no chain-complex object, boundary d, or homology H_n is built — and no simplicial object to feed it. Correctly ABSENT (not PARTIAL): none of the construction's specific content exists; the classifier's honest 'unfilled gap over an existing abelian-category base' framing is accurate."
+    }
+  },
+  {
+    "id": "maclane:VII.5:construction-singular",
+    "classification": "ABSENT",
+    "aliases": [
+      "singular chain complex of a space",
+      "singular homology",
+      "singular n-simplex hom(Delta_n, X)",
+      "singular simplicial abelian group S(X) = Z . hom(Delta -, -)",
+      "free abelian group functor Set -> Ab composed with the singular simplicial set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'singular' --include=*.v . -> 0 hits anywhere in the tree.",
+      "Every ingredient is absent: no category Top / topological spaces (grep 'topological space|continuous map|open set' -> 0 hits), no geometric-realization functor (see construction-geometric), no Delta (see construction1), no chain complex / homology (see construction-homology).",
+      "No Ab (abelian groups) category and no free-abelian-group functor Z : Set -> Ab: grep -rniE 'abelian group|free abelian|\\bAb\\b' -> only Theory/Adjunction.v essay prose about abelian groups and the local variable 'Ab' in Theory/Bicategory/Adjunction.v; no such category or functor. (Instance/CMon.v is commutative MONOIDS, not abelian groups.)",
+      "Construction wholly absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Verified `rg 'singular'` = 0 hits tree-wide and `rg 'topological space|continuous map|continuous function|open set'` = 0 hits. Confirmed no category of (abelian) groups: Structure/Group.v defines 'Class GroupObject' (group OBJECTS in a cartesian monoidal category, line 109), not the category Grp/Ab; no Instance/{Group,Ab} file; Instance/CMon.v is commutative monoids. Every ingredient (Top, geometric realization, Δ, free-abelian-group functor, chain complex/homology) is absent. ABSENT stands."
+    }
+  }
+]

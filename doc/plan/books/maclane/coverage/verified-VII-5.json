@@ -1,0 +1,364 @@
+[
+  {
+    "id": "maclane:VII.6:remark-grouphomology",
+    "classification": "ABSENT",
+    "aliases": [
+      "group homology H_n(Pi,C)",
+      "H_n(G,-)",
+      "Tor over the group ring",
+      "abelianization Pi/[Pi,Pi]",
+      "factor commutator",
+      "C tensor_Pi (standard resolution) then homology"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni -E 'group ring|group.ring|monoid ring|Pi-module|Pi-Mod|group homology|group cohomology|\\bTor\\b|\\bExt\\b|factor commutator|abelianization|standard resolution|bar resolution|chain complex' --include=*.v . -> only background-essay prose: Comonad/Core.v:103 (bar resolution, essay), Instance/Cat.v:90 (standard resolution, essay), Construction/Localization.v:106 ('abelianizations' as an example reflector, essay), Construction/Enriched.v:47/71 (chain complexes as enrichment example), Structure/Abelian.v:70 (chain complexes named in essay). No construction.",
+      "grep -rni -E 'homology|abelianization|group cohomology|bar resolution|commutator' --include=*.v . -> every hit is a historical/background comment (Eilenberg-Mac Lane 'Group Extensions and Homology' cited in Theory/Functor.v:35, Theory/Category.v:48; Barr-Beck cotriple cohomology in Comonad/Coalgebra.v:103, Comonad/Core.v:104). No H_n(Pi,C) functor, no Z-module abelianization computation, no C tensor_Pi resolution.",
+      "The item's content (apply the covariant additive functor C tensor_Pi - to the standard/bar resolution, take homology, obtaining H_n(Pi,C) with H_0(Pi,Z)=Z and H_1(Pi,Z)=Pi/[Pi,Pi]) requires (a) group rings / Pi-modules, (b) the free resolution, (c) tensor over a monoid, (d) a homology-of-a-chain-complex functor. Structure/Abelian.v provides abelian categories with kernels/cokernels/images (Structure/Kernel.v) but NO homology functor and NO group (co)homology is constructed anywhere in-tree. The sibling constructions construction-barresolution / construction-groupcohomology are also purely book-side (not this agent's items and equally uninstantiated)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind whole-tree search (group homology, H_n, H_0/H_1, abelianization, bar/standard resolution, commutator, Tor/Ext, Pi-module, group ring) found only background-essay prose (Comonad/Core.v:103, Instance/Cat.v:90, Construction/Localization.v:~106 'abelianizations' as an example reflector, all confirmed to be essay text with no construction). No homology-of-a-complex functor, no group (co)homology, no group ring / tensor-over-a-monoid anywhere in-tree. ABSENT confirmed. ABSENT (not OUT_OF_SCOPE) is correct: group homology is a concrete development the library could contain, not a size/foundations obstruction."
+    }
+  },
+  {
+    "id": "maclane:VII.7:def-symmetric",
+    "classification": "PRESENT",
+    "aliases": [
+      "symmetric monoidal category",
+      "SymmetricMonoidal",
+      "symmetry / braiding gamma_{a,b}",
+      "commutativity constraint",
+      "braided + involution (braid o braid = id)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Symmetric.v",
+        "line": 103,
+        "symbol": "SymmetricMonoidal",
+        "intree_statement": "Class SymmetricMonoidal := { symmetric_is_braided : @BraidedMonoidal C; braid_invol {x y} : braid o braid ~ id[x (x) y] }."
+      },
+      {
+        "file": "Structure/Monoidal/Braided.v",
+        "line": 128,
+        "symbol": "BraidedMonoidal",
+        "intree_statement": "Class BraidedMonoidal := { braided_is_monoidal : @Monoidal C; braid {x y} : x (x) y ~> y (x) x; braid_natural : natural (@braid); hexagon_identity {x y z} : tensor_assoc o braid o tensor_assoc << (x(x)y)(x)z ~~> y(x)(z(x)x) >> id (x) braid o tensor_assoc o braid (x) id; hexagon_identity_sym {...} : ... }."
+      }
+    ],
+    "statement_record": {
+      "book": "A monoidal category B is symmetric when equipped with natural isomorphisms gamma_{a,b} : a(x)b ~= b(x)a satisfying (1) gamma_{b,a} o gamma_{a,b} = 1, (2) the unit compatibility rho_b = lambda_b o gamma_{b,e}, and (3) the hexagon coherence with the associator.",
+      "intree": "SymmetricMonoidal = BraidedMonoidal (a natural iso braid : x(x)y ~> y(x)x with braid_natural and the two hexagon_identity / hexagon_identity_sym laws) together with braid_invol : braid o braid ~ id.",
+      "strength_comparison": "same. The in-tree class follows the modern Joyal-Street/nLab axiomatization (braided base + involution). Mac Lane's condition (1) gamma o gamma = 1 IS braid_invol; his hexagon (3) is hexagon_identity (the braided base even supplies BOTH hexagons, redundantly equivalent under braid_invol, per the file's hexagon_rotated lemma). Mac Lane's separate unit-braiding axiom (2) rho_b = lambda_b o gamma_{b,e} is not stated as a field because it is derivable from the hexagons+triangle+pentagon in any braided monoidal category (standard; the same fact is noted at Structure/Monoidal/Heunen_Vicary.v:58 as 'derivable from Mac Lane's coherence theorem'). The two definitions pick out exactly the same class of categories."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Read Symmetric.v:103 and Braided.v:128 directly; both quotes accurate; both files registered in _CoqProject and compiled (.vo present). SymmetricMonoidal = BraidedMonoidal (natural braid + hexagon_identity + hexagon_identity_sym) plus braid_invol (gamma o gamma = id) pins out exactly Mac Lane's class. Mac Lane's unit-braiding axiom (2) rho_b = lambda_b o gamma_{b,e} is not an independent field but is automatically satisfied by every model (standard Joyal-Street result); the library's OWN Heunen_Vicary.v:58 comment (verified verbatim) states it is 'derivable from Mac Lane's coherence theorem' and that this library's SymmetricMonoidal 'does not expose that derivation'. The definition is therefore faithful up to an equivalent minimal axiomatization -> PRESENT/'same' stands. strength_comparison is honest (does not falsely claim the library proves axiom (2))."
+    }
+  },
+  {
+    "id": "maclane:VII.7:remark-symmetric",
+    "classification": "PARTIAL",
+    "aliases": [
+      "coherence for symmetric monoidal categories",
+      "all diagrams commute (same permutation)",
+      "product/coproduct monoidal is symmetric",
+      "cartesian monoidal is symmetric",
+      "CC_SymmetricMonoidal",
+      "swap braiding"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 314,
+        "symbol": "CC_SymmetricMonoidal",
+        "intree_statement": "Definition CC_SymmetricMonoidal : @SymmetricMonoidal C := {| symmetric_is_braided := CC_BraidedMonoidal; braid_invol := @swap_invol _ _ |}. (over Context `{@Cartesian C}` `{@Terminal C}`, with braid := swap = <exr, exl>) -- any category with finite products is symmetric monoidal via the product swap."
+      },
+      {
+        "file": "Structure/Monoidal/Symmetric.v",
+        "line": 137,
+        "symbol": "bimap_braid / braid_bimap_braid",
+        "intree_statement": "Lemma bimap_braid {x y z w} (f) (g) : g (x) f o braid ~ braid o f (x) g. Lemma braid_bimap_braid ... : braid o g (x) f o braid ~ f (x) g. -- small instances of symmetric coherence only (the file header calls them 'small instances of this collapse'), not the general theorem."
+      }
+    ],
+    "statement_record": {
+      "book": "Two claims: (a) the symmetry conditions suffice (Mac Lane 1963b) to prove a coherence theorem -- 'all' relevant diagrams built from associators, unitors and symmetries commute (provided both sides induce the same permutation of factors); (b) any monoidal category whose tensor is the categorical product or coproduct is automatically symmetric, with gamma the canonical iso commuting with the projections.",
+      "intree": "Claim (b) is realized: CC_SymmetricMonoidal makes every Cartesian+Terminal category symmetric monoidal via braid := swap and braid_invol := swap_invol (Structure/Monoidal/Internal/Product.v:314); by duality (symmetric monoidal is self-dual) the coproduct case follows from the cocartesian structure. Claim (a) is NOT formalized: no general symmetric-monoidal coherence theorem exists in-tree; only ad hoc instances (bimap_braid, braid_bimap_braid, Yang_Baxter_equation) are proved.",
+      "strength_comparison": "intree-weaker: the product-is-symmetric half is present (CC_SymmetricMonoidal, directly for products; coproducts by duality), but the coherence-theorem half ('all diagrams with the same underlying permutation commute') is absent. The only general coherence theorem in the library is the PLAIN monoidal one (VII.2 Thm 1 / free monoidal category W, a separate item); nothing proves the symmetric coherence theorem. Grep for a symmetric coherence theorem returned only the unrelated definitional sanity Example Lawvere_Symmetric_monoidal_coherence (Theory/Lawvere/PROP.v:131, an eq_refl checking two monoidal structures agree)."
+    },
+    "gap": "The general coherence theorem for symmetric monoidal categories (Mac Lane 1963b: every diagram built from alpha, lambda, rho and gamma commutes iff its two sides realize the same permutation of tensor factors) is NOT proved in-tree. Only isolated consequences exist (bimap_braid, braid_bimap_braid in Structure/Monoidal/Symmetric.v; Yang_Baxter_equation in Braided.v). The product/coproduct-is-symmetric half of the remark IS present (CC_SymmetricMonoidal).",
+    "negative_search_log": [
+      "grep -rni -E 'all.*diagram.*commut|coherence.*theorem|symmetric.*coheren|permut.*commut' --include=*.v . -> no symmetric coherence theorem; hits are background essays (Theory/Bicategory.v:112) or the PROP braid-naturality coherence FIELDS (Construction/PROP/TermEq.v:32, Construction/PROP/Universal.v:515) and the eq_refl Example at Theory/Lawvere/PROP.v:131.",
+      "grep -rni coherence --include=*.v Structure/Monoidal/*.v -> only per-structure axiom mentions and background prose; Structure/Monoidal/Symmetric.v header explicitly says the coherence theorem is a consequence but bimap_braid/braid_bimap_braid are only 'small instances of this collapse'."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Product-is-symmetric half is realized: CC_SymmetricMonoidal (Internal/Product.v:314, symmetric_is_braided := CC_BraidedMonoidal, braid_invol := @swap_invol _ _) verified verbatim over Context {@Cartesian C}{@Terminal C} with braid := swap. The symmetric coherence theorem is genuinely ABSENT: verified Theory/Lawvere/PROP.v:131 Lawvere_Symmetric_monoidal_coherence is only an Example ... := eq_refl definitional sanity check, and no 'all diagrams with the same permutation commute' theorem exists in-tree (only bimap_braid/braid_bimap_braid/Yang_Baxter as isolated consequences). Gap correctly and precisely stated. Nuance (does not change PARTIAL): the coproduct half is NOT instantiated in-tree -- no CocartesianMonoidal / coproduct-as-tensor symmetric instance exists (blind grep found only an essay mention in Cospan/Hypergraph.v:830); the record's 'coproduct case follows from the cocartesian structure by duality' is a mathematical assertion, not an in-tree witness. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "maclane:VII.7:def-closed",
+    "classification": "PRESENT",
+    "aliases": [
+      "closed category (Mac Lane)",
+      "symmetric monoidal closed category",
+      "SymMonClosed",
+      "ClosedMonoidal / closed monoidal",
+      "internal hom (-)^b / y => -",
+      "tensor-hom adjunction (-(x)b) -| (b=>-)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/StarAutonomous.v",
+        "line": 109,
+        "symbol": "SymMonClosed",
+        "intree_statement": "Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj -> obj -> obj (* x => y *); exp_iso {x y z} : x (x) y ~> z =~= x ~> y => z; eval' {x y} : (x=>y)(x)x ~> y := uncurry' id; ump_exponents' {x y z} (f : x(x)y ~> z) : exists! h : x ~> y=>z, f ~ eval' o (h (x) id) }."
+      }
+    ],
+    "statement_record": {
+      "book": "A closed category V (Mac Lane VII.7) is a symmetric monoidal category in which each functor -(x)b : V -> V has a specified right adjoint (-)^b : V -> V (an internal hom). Examples: <Ab,(x),Z> with A^B = hom(B,A); <K-Mod,(x)_K>; and the cartesian closed Set and Cat.",
+      "intree": "SymMonClosed bundles a SymmetricMonoidal base (smc_is_symmetric), an internal-hom object map exponent_obj (x => y), the tensor-hom adjunction exp_iso : (x (x) y ~> z) =~= (x ~> y => z) as an iso of hom-setoids for all x,y,z, and its universal property ump_exponents' with evaluation eval'. This is exactly 'symmetric monoidal category with each -(x)y having a right adjoint y=>-'.",
+      "strength_comparison": "same (via SymMonClosed, the GENUINE match). Actively avoided trap: the more obvious-looking in-tree class ClosedMonoidal (Structure/Monoidal/Closed.v:47, field closed_is_cartesian : @CartesianMonoidal C) is STRICTLY NARROWER than Mac Lane's closed category -- it bundles a CARTESIAN monoidal structure, excluding Mac Lane's leading non-cartesian examples <Ab,(x)> and <K-Mod,(x)_K>; over a cartesian closed base a dualizing object forces a preorder (Joyal no-go), as the StarAutonomous.v header (lines 45-61) documents. SymMonClosed is 'ClosedMonoidal verbatim with the cartesian field replaced by a symmetric monoidal one' (header line 56-59), and ClosedMonoidal is exactly its special case when (x) is the product. SymMonClosed matches Mac Lane's definition faithfully. (Presentation nuance: exp_iso is given componentwise as a Sets-iso plus ump_exponents' rather than as a packaged adjoint functor -- the standard in-tree UMP packaging of a right adjoint, equivalent to Mac Lane's 'specified right adjoint'.) Note Structure/Closed.v is a separate Eilenberg-Kelly 'closed category' stub whose Class Closed is commented out / not in force, so it is not the match."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Read StarAutonomous.v:109 directly; quote accurate; file registered + compiled. SymMonClosed = SymmetricMonoidal base + internal hom exponent_obj + tensor-hom adjunction exp_iso (x(x)y ~> z ~= x ~> y=>z) + universal property ump_exponents' with eval' -- faithful to Mac Lane's 'symmetric monoidal category in which each -(x)b has a specified right adjoint'; the UMP form is the library's standard packaging of a right adjoint (naturality follows from UMP uniqueness). Trap-avoidance VERIFIED correct: ClosedMonoidal (Monoidal/Closed.v:71) genuinely bundles CartesianMonoidal via closed_is_cartesian (strictly narrower, excludes Mac Lane's Ab/K-Mod examples), and Structure/Closed.v's `Class Closed` is genuinely INSIDE a comment block -- the closing `*)` sits just before `End Closed`, so the class 'is not in force' exactly as claimed (my initial grep hit at line 166 is a line within that comment). PRESENT/'same' confirmed."
+    }
+  },
+  {
+    "id": "maclane:VII.7:def-enriched",
+    "classification": "PRESENT",
+    "aliases": [
+      "enriched category",
+      "B-category / V-category",
+      "category enriched over a monoidal category",
+      "Enriched K",
+      "hom-object R(r,s)",
+      "ecompose / eid"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched.v",
+        "line": 111,
+        "symbol": "Enriched",
+        "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj -> eobj -> K where \"a |-> b\" := (ehom a b); eid {x} : I ~{K}~> (x |-> x); ecompose {x y z} : (y|->z) (x) (x|->y) ~{K}~> (x|->z); eid_left {x y} : ecompose o eid (x) id << I (x) (x|->y) ~~> (x|->y) >> unit_left; eid_right {x y} : ecompose o id (x) eid << (x|->y)(x)I ~~> (x|->y) >> unit_right; ecompose_assoc {x y z w} : ecompose o ecompose (x) id << ... >> ecompose o id (x) ecompose o tensor_assoc }."
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 163,
+        "symbol": "Category_is_Enriched_over_Set",
+        "intree_statement": "Theorem Category_is_Enriched_over_Set : Enriched Sets <-> Category. (both directions Defined) -- the underlying ordinary category obtained by the base's Set-valued hom, exactly Mac Lane's U R via U = B(e,-)."
+      }
+    ],
+    "statement_record": {
+      "book": "Relative to a monoidal category B, a B-category (V-category, category enriched over B) consists of a set R of objects, a hom-object R(r,s) in B for each pair, composition arrows R(s,t)(x)R(r,s) -> R(r,t), unit arrows e -> R(r,r), subject to the usual associativity and unit axioms. Applying a functor U : B -> Set (e.g. U = B(e,-)) to the hom-objects yields an ordinary underlying category U R.",
+      "intree": "Class Enriched (K){@Monoidal K}: objects eobj : Type, hom-object ehom : eobj->eobj->K, identity eid : I ~> (x|->x), composition ecompose : (y|->z)(x)(x|->y) ~> (x|->z), with eid_left, eid_right (unit axioms) and ecompose_assoc (associativity). Category_is_Enriched_over_Set gives the K=Set underlying-category correspondence in both directions.",
+      "strength_comparison": "same. Field-for-field match to Mac Lane's B-category: eobj = the object-set R (rendered as a Type, the setoid-library convention), ehom = R(r,s) in B, ecompose = composition R(s,t)(x)R(r,s)->R(r,t) (codomain factor on the left, as Mac Lane writes it), eid = unit e->R(r,r), and the three coherence fields = the associativity + two unit axioms. Base is bare Monoidal K, precisely the level Mac Lane states the definition at ('this has only hom-objects... The full theory works when B is closed, not merely monoidal'). Mac Lane's underlying-category-via-U remark is realized by Category_is_Enriched_over_Set (the U = Set case, the cleanest instance)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Read Enriched.v:111-131 and :163 directly; quotes accurate; file registered + compiled. Class Enriched (K){@Monoidal K} is a field-for-field match to Mac Lane's B-category: eobj (object collection as Type, the setoid-library rendering of 'a set R of objects'), ehom = R(r,s) in K, eid = unit e->R(r,r), ecompose = R(s,t)(x)R(r,s)->R(r,t), and eid_left/eid_right/ecompose_assoc = the two unit axioms + associativity. Base is a bare Monoidal K, exactly the level Mac Lane states it. Mac Lane's underlying-category-via-U remark is realized by Category_is_Enriched_over_Set (Enriched Sets <-> Category, iff, both directions). PRESENT/'same' confirmed."
+    }
+  },
+  {
+    "id": "maclane:VII.8:construction-compactopen",
+    "classification": "ABSENT",
+    "aliases": [
+      "compact-open topology Cop(Y,Z)",
+      "function space topology",
+      "N(C,U) subbasis",
+      "local-compactness exponential adjunction Top(XxY,Z) ~= Top(X,Cop(Y,Z))",
+      "locally compact Hausdorff exponentiable"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i -E 'CGHaus|kelley|compactly.generated|compact.open' --include=*.v . -> 0 matches (exit 1).",
+      "grep -rn -i 'topolog' --include=*.v . -> only background-essay prose (Theory/Category.v:84, Construction/Enriched.v:70 'K = Top', etc.); no topological-space category, no function-space topology.",
+      "grep -rni -E '\\bHaus\\b|category of (topological )?spaces|Instance.Top|:= *Top\\b' --include=*.v . -> no in-tree Top/Haus category (Construction/Localization.v:97 'Top[W-1]' is essay prose; Structure/Topos.v hits are 'topos_*').",
+      "find Instance -name '*.v' -> no Instance/Top.v, no Instance/Haus.v; the concrete categories are Sets, Coq, Cat, FinSet, Rel, CMon, Lambda, posets, etc. -- no point-set topology. The compact-open topology and the local-compactness exponential law have no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search (CGHaus, Kelley, compactly.generated, compact.open, Hausdorff, Top/Haus category, function-space topology, continuous/open_set/neighborhood) found no point-set-topology category anywhere; no Instance/Top or Instance/Haus (Instance/ has Sets, Coq, Cat, FinSet, Rel, CMon, Lambda, posets -- no topology). The abstract CCC hom-adjunction Hom(X x Y,Z)=Hom(X,Z^Y) exists for CCCs but the compact-open construction and the local-compactness exponential law for Top have no in-tree counterpart. ABSENT confirmed (concrete topology, not a foundations/size issue -> not OUT_OF_SCOPE)."
+    }
+  },
+  {
+    "id": "maclane:VII.8:def-compactlygenerated",
+    "classification": "ABSENT",
+    "aliases": [
+      "compactly generated space",
+      "Kelley space",
+      "category CGHaus",
+      "k-space",
+      "compactly generated Hausdorff spaces",
+      "closure test against compact subsets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i -E 'CGHaus|kelley|compactly.generated|compact.open' --include=*.v . -> 0 matches (exit 1). No compactly generated space, no Kelley space, no CGHaus.",
+      "grep -rni -E '\\bHaus\\b|category of (topological )?spaces|Instance.Top' --include=*.v . -> no category of topological or Hausdorff spaces in-tree.",
+      "find Instance -name '*.v' -> no topology instance of any kind. The definition of a compactly generated space (A closed iff A meets every compact set in a relatively closed set) and the category CGHaus have no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no compactly generated space, no Kelley space, no CGHaus, no category of topological/Hausdorff spaces, no Instance/Top. The compact-closure-test definition and the category CGHaus have no in-tree counterpart. ABSENT confirmed (not OUT_OF_SCOPE -- a concrete category the library could build)."
+    }
+  },
+  {
+    "id": "maclane:VII.8:prop1",
+    "classification": "ABSENT",
+    "aliases": [
+      "CGHaus is coreflective in Haus",
+      "coreflective subcategory",
+      "Kelleyfication counit",
+      "right adjoint to full inclusion CGHaus -> Haus",
+      "coreflection"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i -E 'CGHaus|kelley|compactly.generated' --include=*.v . -> 0 matches. Neither CGHaus nor Haus nor the Kelleyfication coreflection exists.",
+      "grep -rni -E 'coreflectiv|coreflection' --include=*.v . -> the ABSTRACT notion exists (Construction/Reflective.v:85 'Definition Coreflective {C} (S : Subcategory C) := Reflective (op_subcategory S)'), but it is NOT instantiated for topology; the specific proposition 'CGHaus is a full coreflective subcategory of Haus' has no in-tree witness because neither category is defined.",
+      "The item's content is the specific topological coreflection (Kelleyfication as right adjoint to CGHaus -> Haus). The general coreflective-subcategory vocabulary being present is ambient scaffolding only, not a partial formalization of this proposition -> ABSENT."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: neither CGHaus nor Haus nor the Kelleyfication coreflection exists in-tree. The abstract Coreflective vocabulary IS present (Construction/Reflective.v:85 Coreflective S := Reflective (op_subcategory S)), correctly noted by the classifier as ambient scaffolding only, NOT a partial formalization of the specific topological proposition. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VII.8:construction-kelleyfication",
+    "classification": "ABSENT",
+    "aliases": [
+      "Kelleyfication functor K : Haus -> CGHaus",
+      "k-ification",
+      "coreflector onto compactly generated spaces",
+      "KY same points finer topology",
+      "right adjoint of inclusion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i -E 'CGHaus|kelley|compactly.generated' --include=*.v . -> 0 matches. No Kelleyfication functor K.",
+      "grep -rni -E '\\bHaus\\b|Instance.Top|category of (topological )?spaces' --include=*.v . -> no source/target topological categories exist, so the functor K : Haus -> CGHaus (retopologizing by the compact-closure test, right adjoint to the inclusion) has no in-tree counterpart.",
+      "find Instance -name '*.v' -> no topology instances."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no Kelleyfication/k-ification functor, no source/target topological categories Haus/CGHaus. K : Haus -> CGHaus (retopologize by the compact-closure test; right adjoint to the inclusion) has no in-tree counterpart. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VII.8:prop2",
+    "classification": "ABSENT",
+    "aliases": [
+      "CGHaus is complete and cocomplete",
+      "limits and colimits in CGHaus",
+      "product X box Y = K(X x Y)",
+      "coequalizers/coproducts of k-spaces",
+      "right adjoint preserves limits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i -E 'CGHaus|kelley|compactly.generated' --include=*.v . -> 0 matches. No CGHaus, hence no completeness/cocompleteness result about it.",
+      "The library HAS abstract (co)completeness vocabulary (Structure/Complete.v, Structure/Limit.v, Structure/Cocartesian.v, Structure/Coequalizer.v) and the fact that right adjoints preserve limits (Adjunction/Continuity.v RAPL), but none of this is applied to a topological category because none exists (find Instance -name '*.v' shows no Top). The proposition 'CGHaus is small-complete and cocomplete, with product K(X x Y)' has no in-tree counterpart.",
+      "grep -rni -E '\\bHaus\\b|Instance.Top' --include=*.v . -> no topological space category."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no CGHaus, hence no completeness/cocompleteness statement about it. The library has abstract (co)completeness and RAPL (right adjoints preserve limits, Adjunction/Continuity.v) but none applied to a topological category because none exists. The specific proposition (CGHaus complete+cocomplete, product K(X x Y)) has no in-tree counterpart. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VII.8:thm3",
+    "classification": "ABSENT",
+    "aliases": [
+      "CGHaus is cartesian closed",
+      "exponential X^Y = K(Cop(Y,X))",
+      "convenient category of spaces",
+      "cartesian closed category of k-spaces",
+      "evaluation e : X^Y box Y -> X universal"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i -E 'CGHaus|kelley|compactly.generated|compact.open' --include=*.v . -> 0 matches. No CGHaus and no exponential K(Cop(Y,X)).",
+      "The library HAS the abstract cartesian-closed-category notion (Structure/Cartesian/Closed.v) with concrete CCC instances Sets (Instance/Sets/Cartesian/Closed.v), Cat (Instance/Cat/Cartesian/Closed.v) and FinSet (Instance/FinSet/Closed.v), but NOT the topological instance: no category of compactly generated Hausdorff spaces is defined, so the theorem 'CGHaus is cartesian closed' (Steenrod's convenient category) has no in-tree counterpart.",
+      "find Instance -name '*.v' -> no Top/Haus/CGHaus; grep for '\\bHaus\\b' -> none."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no CGHaus, no exponential K(Cop(Y,X)). The abstract cartesian-closed notion and concrete CCC instances (Sets, Cat, FinSet) exist, but the topological instance -- Steenrod's convenient category CGHaus as a CCC -- is not built. ABSENT confirmed (concrete instance missing, not the abstract concept)."
+    }
+  },
+  {
+    "id": "maclane:VII.8:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "KY as colimit of compact subspaces",
+      "colimit over the poset of compact subsets",
+      "k-ification as a colimit in Haus",
+      "directed colimit of compacta"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i -E 'CGHaus|kelley|compactly.generated' --include=*.v . -> 0 matches. Exercise content (for Y Hausdorff, KY is the colimit in Haus of the diagram of compact subspaces ordered by inclusion) presupposes the topological categories Haus and the Kelleyfication KY, neither of which exists in-tree.",
+      "find Instance -name '*.v' -> no topology instances; grep for '\\bHaus\\b' -> only essay prose. The library has colimits abstractly (Structure/Limit.v) but nothing to state this over."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: KY and Haus do not exist in-tree, so 'KY is the colimit in Haus of the compact subspaces ordered by inclusion' cannot be stated. Abstract colimits exist (Structure/Limit.v) but nothing topological to state it over. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VII.8:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "closed/open subset of a k-space is compactly generated",
+      "subspace of a compactly generated space",
+      "hereditary property of CGHaus for closed/open subsets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i -E 'CGHaus|kelley|compactly.generated|subspace' --include=*.v . -> 0 matches for the compactly-generated terms. Exercise content (a closed or open subspace of a compactly generated Hausdorff space, with the subspace topology, is again compactly generated) is a point-set-topology statement about CGHaus, which is not defined in-tree.",
+      "find Instance -name '*.v' -> no topological space category; grep '\\bHaus\\b' -> essay prose only. No subspace-topology machinery exists to formalize this."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no CGHaus, no subspace-topology machinery. The exercise (closed/open subspace of a compactly generated Hausdorff space is again compactly generated) is a point-set-topology statement about CGHaus, absent in-tree. ABSENT confirmed."
+    }
+  }
+]

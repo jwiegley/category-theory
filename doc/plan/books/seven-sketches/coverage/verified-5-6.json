@@ -1,0 +1,343 @@
+[
+  {
+    "id": "7sketches:5.4.2:def5.65",
+    "classification": "PRESENT",
+    "aliases": [
+      "monoid object in a monoidal category",
+      "internal monoid / monoid in (C, I, tensor)",
+      "MonoidObject (mempty/mappend spelling)",
+      "Monoid class with mu : X (x) X ~> X and eta : I ~> X",
+      "commutative monoid object / CommutativeMonoid (mu o braid = mu)",
+      "dual form: comonoid / cocommutative comonoid"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Algebra/Monoid.v",
+        "line": 44,
+        "symbol": "Monoid",
+        "intree_statement": "Class Monoid (X : C) : Type := { mu : X ⨂ X ~> X; eta : I ~> X; mu_assoc : mu ∘ bimap mu id[X] ≈ mu ∘ bimap id[X] mu ∘ to tensor_assoc; mu_unit_left : mu ∘ bimap eta id[X] ≈ to (@unit_left C M X); mu_unit_right : mu ∘ bimap id[X] eta ≈ to (@unit_right C M X) }   (Context {C : Category}, `{M : @Monoidal C})"
+      },
+      {
+        "file": "Theory/Algebra/CommutativeMonoid.v",
+        "line": 46,
+        "symbol": "CommutativeMonoid",
+        "intree_statement": "Class CommutativeMonoid (X : C) : Type := { cmon_monoid : @Monoid C (@braided_is_monoidal C (@symmetric_is_braided C S)) X; mu_commutative_of_cmon : (@mu _ _ _ cmon_monoid) ∘ braid ≈ (@mu _ _ _ cmon_monoid) }   (Context `{S : @SymmetricMonoidal C})"
+      },
+      {
+        "file": "Structure/Monoid.v",
+        "line": 124,
+        "symbol": "MonoidObject",
+        "intree_statement": "Class MonoidObject (mon : C) := { mempty : I ~> mon; mappend : mon ⨂ mon ~> mon; mempty_left : mappend ∘ bimap mempty id ≈ to (@unit_left C _ mon); mempty_right : mappend ∘ bimap id mempty ≈ to (@unit_right C _ mon); mappend_assoc : mappend ∘ bimap mappend id ≈ mappend ∘ bimap id mappend ∘ to tensor_assoc }"
+      }
+    ],
+    "statement_record": {
+      "book": "A monoid object in a symmetric monoidal category (C, I, ⊗) is a triple (M, μ : M⊗M → M, η : I → M) satisfying (a) associativity (μ⊗id);μ = (id⊗μ);μ and (b) two-sided unitality (η⊗id);μ = id = (id⊗η);μ; it is a COMMUTATIVE monoid object when additionally (c) σ_{M,M};μ = μ for the symmetry σ. Coherence isomorphisms are suppressed because the ambient setting there is strict.",
+      "intree": "Class Monoid (X : C) with mu/eta and mu_assoc / mu_unit_left / mu_unit_right over an arbitrary `{M : @Monoidal C}; Class CommutativeMonoid (X : C) over `{S : @SymmetricMonoidal C} adding mu_commutative_of_cmon : mu ∘ braid ≈ mu. Structure/Monoid.v:124 gives the same class again under the names mempty/mappend.",
+      "strength_comparison": "intree-stronger: the in-tree laws are stated over an ARBITRARY (non-strict) monoidal category with the associator `to tensor_assoc` and the unitors `to unit_left` / `to unit_right` written in explicitly, so the book's strict-setting suppression of coherence is the special case; clause (c) is stated with `braid` in a SymmetricMonoidal ambient, matching σ exactly. Equations are hom-setoid ≈ rather than =, the library's faithful rephrasing. Note the library carries TWO equivalent spellings of the same class (Theory/Algebra/Monoid.v's mu/eta and Structure/Monoid.v's mempty/mappend), and the dual (Comonoid, CommutativeComonoid) as well."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same three files independently (rg 'Class Monoid|MonoidObject|CommutativeMonoid'). Opened and read all three: Theory/Algebra/Monoid.v:44 Class Monoid {mu, eta, mu_assoc, mu_unit_left, mu_unit_right} over `{M : @Monoidal C}; Theory/Algebra/CommutativeMonoid.v:46 Class CommutativeMonoid over `{S : @SymmetricMonoidal C} adding mu_commutative_of_cmon : mu ∘ braid ≈ mu; Structure/Monoid.v:124 MonoidObject with mempty/mappend. All three quotes are verbatim-accurate at the cited lines. The 'intree-stronger' claim is honest and checkable: the book's clauses (a)/(b) are stated in a STRICT ambient with the coherence isos suppressed, while the in-tree laws carry `to tensor_assoc` / `to unit_left` / `to unit_right` explicitly, so the book's form is the specialization. Clause (c) matches `mu ∘ braid ≈ mu` on the nose. Field-by-field the two spellings really are alpha-variants (mu/mappend, eta/mempty, mu_assoc/mappend_assoc, mu_unit_left/mempty_left, mu_unit_right/mempty_right), so Structure/Monoid.v:36-42's 'equivalent up to field renaming' is accurate. Same-name-weaker check: Theory/Coq/Monoid.v:37's `Class Monoid `{Semigroup m} = { mempty : m }` is an unrelated ops-only FP class and is NOT cited here, correctly. Definition-without-required-API check passes: the class ships mappend_assoc_sym (Structure/Monoid.v:144), homomorphisms and the model category Mon C with Mon_Forget/Mon_Forget_Faithful (Theory/Algebra/Monoid/Hom.v), the dual pair Comonoid/CommutativeComonoid, and closure instances Product_Monoid/Hom_Monoid. All cited files are registered in _CoqProject (checked individually)."
+    }
+  },
+  {
+    "id": "7sketches:5.4.2:example5.66",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monoid object in (Set, 1, x) is an ordinary monoid",
+      "classical monoid / monoid in Set with cartesian product",
+      "monoid object at the cartesian monoidal structure (CC_Monoidal / Cartesian_Monoidal)",
+      "Sets_Product_Monoidal monoid object",
+      "unpacking a monoid object at a particular tensor (cf. Monoid_Monad)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoid.v",
+        "line": 179,
+        "symbol": "Product_Monoid",
+        "intree_statement": "#[export] Program Instance Product_Monoid `(X : Monoid x) `(Y : Monoid y) : @MonoidObject C CC_Monoidal (x × y) := {| mempty := @mempty _ _ _ X △ @mempty _ _ _ Y; mappend := split (@mappend _ _ _ X) (@mappend _ _ _ Y) ∘ toggle |}   — an assertion about monoid objects taken at the CARTESIAN monoidal structure (tensor = ×, unit = terminal), the ambient the example works in; likewise Hom_Monoid at Structure/Monoid.v:290."
+      },
+      {
+        "file": "Monad/Graded.v",
+        "line": 70,
+        "symbol": "GradeMonoid",
+        "intree_statement": "Record GradeMonoid : Type := { grade :> Type; gunit : grade; gmul : grade → grade → grade; gmul_assoc {a b c} : gmul (gmul a b) c = gmul a (gmul b c); gmul_unit_l {a} : gmul gunit a = a; gmul_unit_r {a} : gmul a gunit = a }   — the 'ordinary monoid' side of the example (carrier, unit element, associative binary operation with two-sided unit), as a plain in-tree record."
+      }
+    ],
+    "statement_record": {
+      "book": "Unpacking Definition 5.65 in the cartesian monoidal category (Set, 1, ×): a monoid object there is exactly an ordinary monoid — a set M, a binary operation μ written a*b, and an element e = η(1), with (a*b)*c = a*(b*c) and a*e = a = e*a.",
+      "intree": "`Definition Monoid := @MonoidObject C CC_Monoidal` (Structure/Monoid.v:173) names the cartesian specialization but asserts nothing; the assertions that exist are Product_Monoid / Hom_Monoid at CC_Monoidal, and, independently, Record GradeMonoid as an ordinary monoid on a Coq type.",
+      "strength_comparison": "intree-weaker: the two sides of the identification exist separately, but the identification itself is asserted in neither direction. The cartesian monoidal ambient exists (Sets_Product_Monoidal at Instance/Sets.v:283, Coq_Monoidal at Instance/Coq.v:159), yet no monoid-object instance is ever built there."
+    },
+    "gap": "No in-tree statement unpacks a monoid object at the cartesian monoidal structure into an ordinary monoid, or builds one from an ordinary monoid. Structure/Monoid.v:173 is only the bare naming alias `Definition Monoid := @MonoidObject C CC_Monoidal` (excluded as evidence per the contract: it asserts nothing). Neither Sets_Product_Monoidal (Instance/Sets.v:283) nor Coq_Monoidal (Instance/Coq.v:159) carries a single MonoidObject instance. The ordinary-monoid record that exists (GradeMonoid) is phrased with propositional `=` on a Coq type and is never connected to MonoidObject; Theory/Coq/Monoid.v:37's `Class Monoid `{Semigroup m} := { mempty : m }` is ops-only (its own header states the laws are 'stated in prose rather than enforced'), so it is not the laws-carrying ordinary monoid either. The library DOES prove exactly this kind of unpacking at other tensors — Monoid_Monad (Monad/Monoid.v:40, `@MonoidObject (Endofunctors C) Compose_Monoidal M ↔ Monad M`) and StrictPremonoidal_of_Monoid / Monoid_of_StrictPremonoidal with definitional round trips (Instance/StrictCat/Premonoid.v:136,145,165) at the funny tensor — so only the (Set, ×, 1) instance of the pattern is missing.",
+    "negative_search_log": [
+      "grep -rn 'MonoidObject' --include='*.v' . — hits only in Structure/Monoid.v, Structure/Group.v, Monad/Monoid.v, Instance/StrictCat/Premonoid.v; no Sets/Coq instance",
+      "grep -rni 'ordinary monoid' --include='*.v' . — 5 hits, all prose in file headers (Theory/Coq/Monoid.v:34, Structure/Monoid.v:40,68, Monad/Graded.v:13)",
+      "grep -rn 'Sets_Product_Monoidal|CC_Monoidal' --include='*.v' . — the cartesian monoidal structures exist but carry no monoid-object instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent search reached the same conclusion before opening the coverage file. My log: rg 'MonoidObject' (files: Structure/Monoid.v, Structure/Group.v, Monad/Monoid.v, Instance/StrictCat/Premonoid.v, Theory/Algebra/*, Cospan/*, Test/*) — no Sets/Coq instance; rg 'ordinary monoid|monoids in Set' — prose only, at Structure/Monoid.v:40,68,171 and Theory/Coq/Monoid.v:34-35; Instance/CMon.v's own header (lines 20-26) states the internal-object route is 'deliberately not taken here'. Verified the cited lines: Structure/Monoid.v:173 is indeed the bare alias `Definition Monoid := @MonoidObject C CC_Monoidal` (correctly EXCLUDED from evidence as asserting nothing), :179 Product_Monoid and :290 Hom_Monoid are genuinely at CC_Monoidal, Monad/Graded.v:70 GradeMonoid is the laws-carrying ordinary monoid on a Coq type, Instance/Sets.v:283 Sets_Product_Monoidal and Instance/Coq.v:159 Coq_Monoidal exist. The 'intree-weaker' verdict is honest: both sides exist, the identification does not. Worth carrying into the issue: the library proves precisely this shape of unpacking at two OTHER tensors — Monad/Monoid.v:40 `Monoid_Monad : @MonoidObject (Endofunctors C) Compose_Monoidal M ↔ Monad M` (verified at the line) and Instance/StrictCat/Premonoid.v:136/145 with reflexivity round trips — so the missing (Set, ×, 1) case has two in-tree templates."
+    }
+  },
+  {
+    "id": "7sketches:5.4.2:ex5.67",
+    "classification": "ABSENT",
+    "aliases": [
+      "(R, *, 1) is a commutative monoid",
+      "(R, +, 0) is a commutative monoid",
+      "multiplicative / additive monoid of the real numbers",
+      "concrete commutative monoid object in Sets",
+      "arithmetic monoid instance (nat, +, 0) / (nat, *, 1)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Coq.Reals|R_scope|Rmult|Rplus' --include='*.v' . — 0 hits; the library imports no real-number theory anywhere",
+      "grep -rn 'Reals|Rdefinitions|realnum' --include='*.v' . — 0 hits",
+      "grep -rn 'CMonObject' --include='*.v' . — the only concrete commutative-monoid carriers in-tree are CMon_trivial (Instance/CMon/Biproduct.v:72), CMon_product (:167) and Comm_algebra_to_CMon (Theory/Multicategory/Algebra.v:523); none is an arithmetic monoid on a number type",
+      "grep -rn '@Monoid |: Monoid |MonoidObject' --include='*.v' . — the only monoid-object instances are the generic Product_Monoid / Hom_Monoid (Structure/Monoid.v:179,290), cospan_monoid (Construction/Cospan/SCFA.v:616), frob_monoid (Theory/Algebra/Frobenius.v:128) and the op-duality transports (Construction/Opposite/Monoidal.v:192-252); no numeric carrier",
+      "grep -n 'Trivial_GradeMonoid|AndGrade' Monad/Graded.v — the two concrete ORDINARY monoids in-tree are Trivial_GradeMonoid (:158) and AndGrade (bool, andb, true); neither is an arithmetic monoid, and neither is exhibited as a monoid OBJECT in Sets",
+      "grep -rni 'commutative monoid' --include='*.v' Instance/ — Instance/CMon.v defines the category CMon of commutative monoids but populates it only with the trivial and product objects"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind searches agree and add nothing. rg 'Reals|R_scope|Rdefinitions|QArith' over all .v files returns 0 hits — the library imports no real-number theory at all, so (ℝ, ×, 1) and (ℝ, +, 0) have no carrier. Spot-checked the classifier's inventory of concrete carriers: Instance/CMon/Biproduct.v:72 CMon_trivial, :167 CMon_product, Theory/Multicategory/Algebra.v:523 Comm_algebra_to_CMon, Monad/Graded.v:158 Trivial_GradeMonoid — all present at the cited lines, none arithmetic. ABSENT (not OUT_OF_SCOPE) is the right call: Coq's stdlib Reals is importable and Instance/Sets is cartesian, so nothing about the setting blocks the exercise; the library has simply never needed a numeric monoid. Note for issue-drafting: the natural in-tree instantiation would be (nat, +, 0) / (nat, ×, 1) rather than ℝ, since nat already appears throughout (Instance/Omega.v, Instance/FinSet.v, the PROP arity layer)."
+    }
+  },
+  {
+    "id": "7sketches:5.4.2:example5.68",
+    "classification": "ABSENT",
+    "aliases": [
+      "Mat(R): the prop of matrices over a rig",
+      "(1, addition, zero) as a commutative monoid object",
+      "addition icon 2 -> 1 and zero icon 0 -> 1 generators",
+      "biproduct prop / prop of linear maps",
+      "reading a commutative monoid object off a graphical presentation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'Mat\\b|MatR|matrix|matrices' --include='*.v' . — hits are prose only (Functor/Hom/Yoneda.v:89, Theory/Profunctor.v:64, Structure/Semiadditive.v:99,287, Structure/Abelian.v:120, Structure/Monoidal/Traced.v:85); there is NO category of matrices in the tree",
+      "grep -rni 'rig|semiring' --include='*.v' . — only Theory/Algebra.v:16,25 prose about 'rig category' as a metaphor for a BiCCC; no Rig / Semiring class exists, so Mat(R) has no coefficient structure to be built over",
+      "grep -rn 'Class Rig|Record Rig|rig_|Semiring' --include='*.v' . — 0 structural hits",
+      "grep -rn 'Build_Signature|: Signature :=|Signature :=' --include='*.v' . — the only in-tree PROP signatures are Empty_Sig / Single_Sig / Sum_Sig (Construction/PROP/Signature.v:58,68,79) plus the coloured analogues; no signature presenting matrix arithmetic, and no SMT instance anywhere (grep -rn 'smt_sig' finds only Presentation.v and the generic Tietze extension)",
+      "grep -rni 'FinVect|FdVect|Vect\\b' --include='*.v' . — prose only",
+      "NEAREST ANALOGUE (deliberately NOT counted as evidence, different category): cospan_monoid (Construction/Cospan/SCFA.v:616) with cospan_mu_commutative (:701), packaged as cospan_commutative_frobenius (:1258), does exhibit a commutative monoid object on every object of a symmetric monoidal category assembled from a universal (pushout) presentation — the same manoeuvre the example performs, but in Cospan, not Mat(R)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed the two hard blockers. rg -i 'Mat\\(|matrix|matrices' returns only prose hits (Structure/Semiadditive.v:99,287, Structure/Abelian.v:120, Structure/Monoidal/Traced.v:85, Structure/Monoidal/CompactClosed.v:95, Functor/Hom/Yoneda.v:89, Theory/Profunctor.v:64, Theory/Equivalence.v:87, Instance/ZX.v) — no category of matrices; rg -i 'rig|semiring' returns only Theory/Algebra.v:16,25, which is about RIG CATEGORIES (categorified high-school algebra in a BiCCC), a different notion, so there is no coefficient structure to build Mat(R) over either. The classifier's discipline in NOT counting the nearest analogue as evidence is correct and I verified the analogue is real: Construction/Cospan/SCFA.v:616 cospan_monoid, :701 cospan_mu_commutative, :1258 cospan_commutative_frobenius all exist at the cited lines and do exhibit a commutative monoid object on every object of a symmetric monoidal category read off a universal presentation — the same manoeuvre, different category."
+    }
+  },
+  {
+    "id": "7sketches:5.4.2:ex5.69",
+    "classification": "ABSENT",
+    "aliases": [
+      "underlying-set functor U : Mat(R) -> Set, n |-> R^n",
+      "U preserves the monoidal unit and product (strong/lax monoidal functor)",
+      "a monoidal functor carries monoid objects to monoid objects",
+      "transport of monoid objects along a lax monoidal functor",
+      "induced functor Mon(C) -> Mon(D)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Part (1) — Mat(R) itself: same searches as example5.68 (grep -rni 'Mat\\b|matrix|matrices|rig|semiring'); no category of matrices and no rig class exist, so U : Mat(R) -> Set has no domain to be defined on",
+      "Part (2) — the GENERAL claim 'a (lax) monoidal functor sends monoid objects to monoid objects': grep -rn 'LaxMonoidalFunctor' --include='*.v' . | grep -i 'Monoid X|MonoidObject|Monoid x|preserve' — 0 hits",
+      "grep -rn 'Monoid' --include='*.v' Functor/ — every hit is either a Monoidal-STRUCTURE file (Functor/Structure/Monoidal*.v: MonoidalFunctor, LaxMonoidalFunctor, StrictMonoidalFunctor, BraidedMonoidalFunctor) or header prose; there is no lemma transporting a Monoid/MonoidObject along a functor",
+      "grep -rni 'preserves monoid|monoid_of_|Monoid_map|transport.*monoid|monoid.*transport' --include='*.v' . — 0 relevant hits (only Theory/Equivalence/Monoidal.v's transport of the MONOIDAL STRUCTURE itself, not of monoid objects)",
+      "grep -rn 'Mon C ⟶|Mon D|Mon_map|Mon_fmap' --include='*.v' . — 0 hits; Theory/Algebra/Monoid/Hom.v builds Mon C (line ~84) and Mon_Forget : Mon C ⟶ C (line ~93) but no functor Mon C ⟶ Mon D induced by a monoidal functor",
+      "NOTE: Structure/Monoid.v's own header (line ~72) advertises 'transport along lax monoidal functors' as the kind of theorem the generality buys — it is advertised but never proved, so part (2), the one clause of this exercise that is category-generic and would be reusable library-wide, is the sharpest gap here",
+      "Part (3) depends on parts (1)+(2) and on Exercise 5.67's (R,+,0), all absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed, and I independently reached the same identification of part (2) as the sharpest gap. Searched for a monoid-transport lemma from several angles — rg 'Monoid' over Functor/ (only Monoidal-STRUCTURE files: MonoidalFunctor, LaxMonoidalFunctor, StrictMonoidalFunctor, BraidedMonoidalFunctor, plus header prose), rg -i 'preserv.*monoid|monoid.*preserv', rg 'Mon C ⟶|Mon_map' — all 0 relevant hits. Theory/Algebra/Monoid/Hom.v does build `Mon` and `Mon_Forget : Mon ⟶ C` (read the file in full) but induces no functor Mon(C) ⟶ Mon(D) from a monoidal functor. The vocabulary for part (1) does exist — Functor/Structure/Monoidal.v:77 MonoidalFunctor and :110 LaxMonoidalFunctor with lax_pure/lax_ap and the three coherence laws — but an item whose every clause is unproven is ABSENT, not PARTIAL, and the classifier drew that line the same way for example5.72. On the classifier's note about Structure/Monoid.v:73 ('transport along lax monoidal functors' advertised): I read the surrounding paragraph and it is a general remark about what the generality buys, immediately followed by 'The library proves the canonical instance one directory away: ...' naming what IS proved — so it is not a false header claim, only a signpost to an unbuilt theorem. Not filed as a library defect."
+    }
+  },
+  {
+    "id": "7sketches:5.4.2:example5.70",
+    "classification": "PARTIAL",
+    "aliases": [
+      "(1, copy, discard) is a cocommutative comonoid object",
+      "commutative monoid object in Mat(R)^op",
+      "comonoid in C = monoid in C^op (duality transfer)",
+      "copy/discard supply, gs-monoidal / CopyDiscard structure",
+      "cocommutative comonoid on a wire of a prop"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/ColouredPROP/Supply/Instance.v",
+        "line": 260,
+        "symbol": "supply_wire_comonoid",
+        "intree_statement": "Definition supply_wire_comonoid (c : Colour) (H : copyable c = true) : @CommutativeComonoid (@cprop_cat Colour SupplyPROP) (@cprop_symmetric Colour SupplyPROP) (wire (P := SupplyPROP) c) := @Build_CommutativeComonoid (CPresentedCat SupplySMT) (CPresented_Symmetric SupplySMT Cdec) ([c] : list Colour) (supply_wire_comonoid_raw c H) (supply_wire_cocomm c H)   — the wire object of a PRESENTED (coloured) prop, equipped with exactly the drawn duplicator SG_dup c : [c] -> [c;c] and deleter SG_del c : [c] -> [], IS a cocommutative comonoid object; the four laws are supply_wire_coassoc/_counit_left/_counit_right/_cocomm (:198,210,221,229)."
+      },
+      {
+        "file": "Construction/Opposite/Monoidal.v",
+        "line": 232,
+        "symbol": "op_Monoid_to_Comonoid",
+        "intree_statement": "Program Definition op_Monoid_to_Comonoid `{M : @Monoidal C} {x : C} (Mn : @Monoid (C^op) Monoidal_op x) : @Comonoid C M x := {| delta := mu[Mn]; epsilon := eta[Mn] |}   — with the converse Comonoid_to_op_Monoid (:192) and the round trips Comonoid_op_roundtrip (:273) / Monoid_op_roundtrip (:279) proved by reflexivity: this IS the example's 'equivalently one says' clause, that a monoid object in C^op and a comonoid object in C are the same data."
+      }
+    ],
+    "statement_record": {
+      "book": "Dual of Example 5.68: the object 1 together with the copy icon (1 → 2) and the discard icon (1 → 0) is a commutative monoid object in the opposite prop Mat(R)^op; equivalently, (1, copy, discard) is a co-commutative comonoid object in Mat(R).",
+      "intree": "op_Monoid_to_Comonoid / Comonoid_to_op_Monoid establish `Monoid (C^op, Monoidal_op) x` ≡ `Comonoid (C, M) x` on the nose, with both round trips by reflexivity; supply_wire_comonoid exhibits a concrete CommutativeComonoid on the copy/discard wire of the free supplied coloured PROP.",
+      "strength_comparison": "intree-weaker in two respects: the op-duality is proved only for PLAIN monoid/comonoid objects (the commutativity/cocommutativity clause is not transported), and the concrete cocommutative-comonoid witness lives in the free supplied coloured PROP rather than in Mat(R), which does not exist in-tree."
+    },
+    "gap": "(i) Mat(R) does not exist in-tree — there is no rig/semiring class and no category of matrices (see the negative log of example5.68) — so the specific object `1` with the copy/discard icons has no counterpart. (ii) The 'equivalently' clause is proved only at the PLAIN level: Construction/Opposite/Monoidal.v transports BraidedMonoidal and SymmetricMonoidal to C^op (Braided_op ~line 149, Symmetric_op ~line 176) and dualizes Monoid ↔ Comonoid (and MonoidHom ↔ ComonoidHom, :288,301), but it never states `CommutativeMonoid (C^op) x ↔ CommutativeComonoid C x`; the braid clauses `mu ∘ braid ≈ mu` and `braid ∘ delta ≈ delta` are not related, so the COMMUTATIVE half of the example's equivalence is missing. (iii) supply_wire_comonoid is a comonoid on a wire of SupplyPROP (the free coloured PROP presented by per-colour dup/del generators), not of Mat(R); the general per-object version is the CopyDiscard class (Structure/Monoidal/CopyDiscard.v:88, field cd_comonoid (X : C) : CommutativeComonoid X), which assumes rather than derives the structure.",
+    "negative_search_log": [
+      "grep -rn 'Commutative|braid' Construction/Opposite/Monoidal.v — no CommutativeMonoid/CommutativeComonoid duality lemma; only the Braided_op / Symmetric_op structure transports",
+      "grep -rni 'Mat\\b|matrix|rig|semiring' --include='*.v' . — no Mat(R) (see example5.68)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass landed on the same two pieces of evidence (I found Construction/ColouredPROP/Supply/Instance.v from rg 'CommutativeComonoid' and read its header, which states the wire generators SG_dup/SG_del are quotiented by the per-wire commutative-comonoid equations SupplyEqs and descend to a comonoid in the quotient). Verified both citations at their lines: Supply/Instance.v:260 supply_wire_comonoid returns a genuine @CommutativeComonoid on `wire c`; Construction/Opposite/Monoidal.v:192/232 Comonoid_to_op_Monoid / op_Monoid_to_Comonoid with the :272/:278 round trips. I INDEPENDENTLY CONFIRMED gap (ii) by enumerating every top-level definition in Construction/Opposite/Monoidal.v (grep of Program Definition/Lemma): the file has Braided_op (:148) and Symmetric_op (:175) transporting the AMBIENT structure, and Monoid↔Comonoid plus MonoidHom↔ComonoidHom dualities, but no lemma whose statement mentions CommutativeMonoid or CommutativeComonoid — so the commutative half of the example's 'equivalently one says' really is missing. PARTIAL is the honest call; the drafted gap is precise on all three counts. Cited files are in _CoqProject."
+    }
+  },
+  {
+    "id": "7sketches:5.4.2:example5.71",
+    "classification": "PARTIAL",
+    "aliases": [
+      "strict monoidal category = monoid object in (Cat, x, 1)",
+      "symmetric strict monoidal category = commutative monoid in Cat",
+      "pseudomonoid / monoid in a 2-category",
+      "delooping of a monoidal category",
+      "monoid object in (StrictCat, x, 1)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/StrictCat/Premonoid.v",
+        "line": 145,
+        "symbol": "Monoid_of_StrictPremonoidal",
+        "intree_statement": "Definition Monoid_of_StrictPremonoidal {c : Category} (p : StrictPremonoidal c) : @MonoidObject StrictCat Funny_Monoidal c := @Build_MonoidObject StrictCat Funny_Monoidal c (sp_unit p) (sp_tensor p) (sp_unit_left p) (sp_unit_right p) (sp_assoc p)   — with the converse StrictPremonoidal_of_Monoid (:136) and both record-level round trips by reflexivity (roundtrip_monoid :165, roundtrip_strict_premonoidal :169). This is the SAME-SHAPED correspondence the example asserts, but taken at the FUNNY tensor □ rather than the cartesian product, so it characterises strict PREmonoidal (separately functorial, no interchange) rather than strict monoidal categories."
+      },
+      {
+        "file": "Structure/Monoidal/Strict.v",
+        "line": 52,
+        "symbol": "StrictMonoidal",
+        "intree_statement": "Class StrictMonoidal : Type := { strict_is_monoidal : @Monoidal C; strict_assoc_obj : ∀ X Y Z, ((X ⨂ Y) ⨂ Z)%object = (X ⨂ (Y ⨂ Z))%object; strict_unit_left_obj : ∀ X, (I ⨂ X)%object = X; strict_unit_right_obj : ∀ X, (X ⨂ I)%object = X; strict_assoc_to / strict_unit_*_to : the structural isomorphisms ARE the transported identity }   — the example's left-hand side (a strict monoidal category) exists as an in-tree class, and SymmetricMonoidal (Structure/Monoidal/Symmetric.v:103) supplies the 'symmetric' qualifier."
+      }
+    ],
+    "statement_record": {
+      "book": "A symmetric strict monoidal category is precisely a commutative monoid object, in the sense of Definition 5.65, in the cartesian monoidal category (Cat, ×, 1): the multiplication is the tensor functor and the unit picks out the monoidal unit object.",
+      "intree": "Monoid_of_StrictPremonoidal / StrictPremonoidal_of_Monoid : StrictPremonoidal c ≅ @MonoidObject StrictCat Funny_Monoidal c, mutually inverse on the nose — a monoid object in (StrictCat, □, 1) is a strict PREmonoidal structure.",
+      "strength_comparison": "intree-weaker, and a same-name trap: the in-tree correspondence is at the FUNNY tensor □, not the cartesian ×, and its conclusion is strict PREmonoidal (a binoidal tensor with no interchange law), strictly weaker than the book's strict monoidal. The commutative/symmetric clause is absent on both sides."
+    },
+    "gap": "The book's identification — commutative monoid object in the CARTESIAN monoidal (Cat, ×, 1) = symmetric strict monoidal category — is nowhere stated. Instance/StrictCat/Premonoid.v's own header (lines 21-26) names the (Cat, ∏, 1) statement as the classical fact its funny-tensor theorem is 'the counterpart of', i.e. explicitly as not-done. Concretely missing: (i) StrictCat has no cartesian or product monoidal structure in-tree — `ls Instance/StrictCat/` yields only Funny.v, Terminal.v, Premonoid.v, ToCat.v — and Cat_Cartesian (Instance/Cat/Cartesian.v:39) lives on Cat, whose hom-setoid is Functor_Setoid (Instance/Cat.v:145), i.e. equivalence of functors rather than the strict Functor_StrictEq_Setoid of StrictCat (Instance/StrictCat.v:59), so a monoid object there would deliver a PSEUDOmonoid, not a strict monoidal category; (ii) the COMMUTATIVE clause (a CommutativeMonoid at the cartesian tensor, with braid = the product swap) is not addressed at all; (iii) no bridge from StrictPremonoidal to a monoidal/premonoidal class is built — the file itself defers 'the bridge from StrictPremonoidal to the library's iso-weakened Premonoidal class'.",
+    "negative_search_log": [
+      "grep -rn 'StrictCat' --include='*.v' . | grep -i 'cartesian|product|monoidal' — only Funny_Monoidal and StrictCat_Terminal; no cartesian monoidal structure on StrictCat",
+      "grep -rn 'Cat_Cartesian|Cat_Terminal|Cat_Monoidal' --include='*.v' . — Cat_Cartesian (Instance/Cat/Cartesian.v:39) and Cat_Terminal (Instance/One.v:54) exist, but no @MonoidObject Cat CC_Monoidal instance or correspondence anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed, including the same-name trap the classifier flagged: I found Instance/StrictCat/Premonoid.v myself and read its header, which states in its own words that the funny-tensor theorem is 'the funny counterpart of the classical fact that a monoid in (Cat, ∏, 1) is a strict monoidal category' — i.e. the book's statement is named there explicitly as NOT done. Verified every citation at its line (:136, :145, :165, :170 for roundtrip_strict_premonoidal — the record says :169, which is the blank line immediately before; harmless off-by-one, not worth overturning), plus Structure/Monoidal/Strict.v:52, Instance/Cat/Cartesian.v:39, Instance/Cat.v:145 (homset := @Functor_Setoid) and Instance/StrictCat.v:59 (homset := @Functor_StrictEq_Setoid). I independently reproduced the decisive structural point of the gap: `ls Instance/StrictCat/` yields exactly Funny.v, Premonoid.v, Terminal.v, ToCat.v — there is no cartesian/product monoidal structure on StrictCat — while Cat, which does have Cat_Cartesian, carries natural ISOMORPHISM as its hom-equivalence, so a monoid object over Cat's setoid yields a pseudomonoid rather than the book's STRICT monoidal category. PARTIAL rather than ABSENT is consistent with the batch's own line (the ambient (Cat, ×, 1) is expressible here, unlike (Preord, ×, 1) in example5.72), and the record's strength_comparison states the weakening plainly instead of hiding it."
+    }
+  },
+  {
+    "id": "7sketches:5.4.2:example5.72",
+    "classification": "ABSENT",
+    "aliases": [
+      "symmetric monoidal preorder",
+      "commutative monoid object in (Preord, x, 1)",
+      "category of preorders and monotone maps (Preord / Ord / Pos)",
+      "monoidal poset / quantale",
+      "thin symmetric monoidal category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'monoidal preorder|MonoidalPreorder' --include='*.v' . — 0 hits; the notion of a symmetric monoidal preorder (7 Sketches ch. 2) has no in-tree counterpart under that or any nearby name",
+      "grep -rn 'Preord|Definition Ord\\b|Instance Ord|Category of preorders|Preorders' --include='*.v' . — the only hit is prose at Instance/Proset.v:19 ('See also [Ord], for the category of preordered sets'), pointing at a module that does not exist; Instance/Proset.v:34 builds `Proset (P : PreOrder R) : Category`, the category OF one preorder, not the category of all preorders",
+      "grep -rn 'MonotoneMap' --include='*.v' . — Construction/Enriched/Two.v:175 `Record MonotoneMap (P Q : TwoPreorder)` and :183 `EnrichedFunctor_Two_monotone`; objects (TwoPreorder, :60) and maps exist but are never assembled into a category, and no monoidal structure is put on them",
+      "grep -rni 'quantale|closed preorder' --include='*.v' . — only Construction/Enriched.v:78 prose",
+      "ls Instance/ — no Preord/Ord/Pos module; Instance/Poset.v is again the category of ONE poset",
+      "NOTE (why this is ABSENT rather than PARTIAL): NEITHER side of the equivalence is in-tree. The ambient (Preord, ×, 1) does not exist, and 'symmetric monoidal preorder' is not defined. The library does have SymmetricMonoidal (Structure/Monoidal/Symmetric.v:103) and thin categories (Instance/Proset.v), and Two_Monoidal (Instance/Two/Monoidal.v:105) is a cartesian monoidal structure on the two-element preorder — an INSTANCE of the book's notion — but the example's correspondence is not expressible without Preord"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind searches match: rg -i 'monoidal preorder|MonoidalPreorder' — 0 hits; no Preord/Ord/Pos module anywhere (`find . -name 'Ord*.v'` and `find . -name 'Pos*.v'` both empty); Instance/Proset.v:34 builds the category OF one preorder, Instance/Poset.v the same for one poset, neither the category of all preorders. Verified Construction/Enriched/Two.v:60 TwoPreorder and :175 MonotoneMap exist but are never assembled into a category, and Instance/Two/Monoidal.v:105 Two_Monoidal is indeed `@Cartesian_Monoidal _2 Two_Cartesian Two_Terminal`. The ABSENT-not-PARTIAL reasoning holds under the frozen definitions because the example's AMBIENT does not exist: (Preord, ×, 1) is not expressible, so unlike example5.71 neither side of the correspondence can even be typed. One refinement for issue-drafting that the record does not state: the book's left-hand side IS expressible today as `@SymmetricMonoidal (Proset P)` — Structure/Monoidal/Internal/Product.v:314 supplies CC_SymmetricMonoidal for any cartesian+terminal category, and a preorder with binary meets and a top is such — so the work to be done is (a) the category Preord of preorders and monotone maps and (b) the correspondence, not the notion of monoidal preorder from scratch."
+    }
+  },
+  {
+    "id": "7sketches:5.4.2:example5.73",
+    "classification": "ABSENT",
+    "aliases": [
+      "a rig is a monoid object in (CMon, tensor, N)",
+      "rig / semiring",
+      "tensor product of commutative monoids",
+      "ring as a monoid object in (Ab, tensor, Z)",
+      "monoidal structure on CMon"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Class Rig|Record Rig|Semiring|rig_' --include='*.v' . — 0 structural hits; Theory/Algebra.v:16,25 mentions 'rig category' only in prose about categorified high-school algebra in a BiCCC, which is a different notion",
+      "grep -rn 'CMon' --include='*.v' . | grep -i 'monoidal|tensor' — 0 hits. Instance/CMon.v:141 builds CMon as a Category (obj := CMonObject, hom := CMonHom) but no Monoidal instance is ever declared on it",
+      "grep -rn 'CMon_tensor|tensor of commutative|CMon_Monoidal|Monoidal CMon' --include='*.v' . — 0 hits",
+      "ls Instance/CMon/ — only Biproduct.v, which supplies CMon_product / biproducts, i.e. the CARTESIAN structure, not the tensor product ⊗ of commutative monoids that the example's ambient requires",
+      "The monoidal unit of the example, the natural numbers as a commutative monoid, also has no in-tree CMonObject instance (grep -rn 'CMonObject' shows only CMon_trivial, CMon_product and Comm_algebra_to_CMon)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently reproduced every negative. rg 'Class Rig|Record Rig|Semiring' — 0 structural hits (Theory/Algebra.v:16,25 is about rig CATEGORIES, a different notion). Read Instance/CMon.v end to end: it defines CMonObject, CMonHom, the category CMon (:141 at the cited fields) and CMon_Forget, and declares no Monoidal instance; `ls Instance/CMon/` is Biproduct.v only, i.e. the CARTESIAN/biproduct structure, not the tensor ⊗ of commutative monoids the example's ambient requires. So both the ambient (CMon, ⊗, ℕ) and the conclusion (rig) are missing, which is squarely ABSENT. Not OUT_OF_SCOPE: CMon is already in-tree and universe-polymorphic, so the tensor product of commutative monoids is an ordinary (if laborious) construction here, not a foundational obstruction."
+    }
+  },
+  {
+    "id": "7sketches:5.4.2:remark5.74",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the prop M presenting the theory of monoids",
+      "presented PROP / symmetric monoidal theory by generators and relations",
+      "monoid objects in C = strict monoidal functors M -> C",
+      "models of an algebraic theory as structure-preserving functors",
+      "Lawvere theory / algebraic theory"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/PROP/Presentation/Universal.v",
+        "line": 435,
+        "symbol": "Presented_unique",
+        "intree_statement": "Theorem Presented_unique : ∀ m n (f : m ~{PresentedCat E}~> n), fmap[G] f ≈ hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (interp P Σ v f)   — for any competitor G : PresentedCat E ⟶ P that is StrictMonoidalFunctor, symmetric (SymmetricStrictW), identified on objects (Hobj) and agreeing with the valuation v on generators (Hgen). I.e. a model of the presented theory determines the structure-preserving functor out of the presented PROP UNIQUELY."
+      },
+      {
+        "file": "Construction/PROP/Presentation/Universal.v",
+        "line": 340,
+        "symbol": "Presented_factor",
+        "intree_statement": "Theorem Presented_factor : ∀ m n (t : Term Σ m n), fmap[PresentedInterp] (fmap[PresentedProj E] t) ≈ interp P Σ v t   — the existence half: given a valuation v of the generators satisfying the theory's equations (ESound, :139, via interpW_sound :180), PresentedInterp : PresentedCat E ⟶ P (:194) is a strict (PresentedInterp_Strict :304) symmetric (PresentedInterp_SymmetricStrict :327) monoidal functor extending v."
+      }
+    ],
+    "statement_record": {
+      "book": "The prop M presented by two generators μ : 2 → 1 and η : 0 → 1 subject to the three equations of Definition 5.65 deserves to be called 'the theory of monoids in monoidal categories': for any monoidal category C, the monoid objects in C correspond to strict monoidal functors M → C. This is the germ of Lawvere's algebraic theories.",
+      "intree": "Presentations by generators and equations exist generically (Record SMT { smt_sig : Signature; smt_eqs : EqSystem smt_sig }, Construction/PROP/Presentation.v:113, with the quotient PresentedCat), and the universal property of the presented PROP is proved in both halves (Presented_factor, Presented_unique): equation-respecting valuations correspond bijectively to strict symmetric monoidal functors out of the presented PROP.",
+      "strength_comparison": "intree-weaker in two ways: the target is restricted to PROPs rather than an arbitrary monoidal category, and the monoid theory M itself is never instantiated, so the specific correspondence 'monoid objects in C ↔ strict monoidal functors M → C' is not stated."
+    },
+    "gap": "(1) The theory M is never instantiated. The only in-tree PROP signatures are Empty_Sig, Single_Sig and Sum_Sig (Construction/PROP/Signature.v:58,68,79); grep for `smt_sig`/`SMT` finds no concrete SMT beyond Tietze.v's generic extension. So there is no Σ = {μ : 2 → 1, η : 0 → 1} with the three Definition-5.65 equations as smt_eqs, and no theorem relating models of it to MonoidObject/Monoid in a monoidal category — even though both sides of that theorem exist separately (Theory/Algebra/Monoid.v:44 and the machinery above). (2) The universal property is scoped to targets that are themselves PROPs: both Construction/PROP/Universal.v and Construction/PROP/Presentation/Universal.v open with `Context (P : PROP)` plus `HomEqProp P` and `ObjDecEq P` side conditions, and `Class PROP` (Construction/PROP.v:68) demands a category whose objects are ℕ carrying BOTH a StrictMonoidal and a SymmetricMonoidal structure with a propositional coherence between them. The remark quantifies over an ARBITRARY monoidal category C, and asks only for strict MONOIDAL (not symmetric) functors. (3) Construction/PROP/Algebra.v:234's `Alg` is the category of models of a bare SIGNATURE (obj := Valuation P S), with the theory's equations not imposed, so it is not the model category the remark needs either. (4) The Lawvere sibling the remark forward-references exists (Theory/Lawvere.v's LawvereTheory, Theory/Lawvere/Model.v:50 Record Model and :77 the category Models as product-preserving functors), again with no monoid theory instantiated.",
+    "negative_search_log": [
+      "grep -rn 'theory of monoids|MonoidPresentation|monoid presentation' --include='*.v' . — 0 hits",
+      "grep -rn 'Build_Signature|: Signature :=|Signature :=' --include='*.v' . — only Empty_Sig / Single_Sig / Sum_Sig and the coloured analogues; no monoid signature",
+      "grep -rn 'smt_sig|SymMonTheory|Build_SMT' --include='*.v' . — only Construction/PROP/Presentation.v (the generic record) and Construction/PROP/Tietze.v (generic extension/conservativity); no concrete theory"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed after opening Construction/PROP/Presentation/Universal.v and checking each cited line: :139 ESound, :180 interpW_sound, :194 PresentedInterp, :304 PresentedInterp_Strict, :327 PresentedInterp_SymmetricStrict, :340 Presented_factor, :435 Presented_unique — all present and quoted accurately, and together they really are both halves of a universal property (existence + uniqueness up to hom_cast along an object-agreement family). I independently verified all four clauses of the gap: (1) rg 'Build_Signature|Signature :=' yields only Empty_Sig/Single_Sig/Sum_Sig (Construction/PROP/Signature.v:58,68,79, each checked at its line) plus the coloured analogues, and rg 'smt_sig|Build_SMT' finds only the generic record at Construction/PROP/Presentation.v:113 and Tietze.v's generic extension — no monoid theory; (2) Construction/PROP.v:68 `Class PROP` does demand a category whose objects are ℕ with both StrictMonoidal and SymmetricMonoidal structure, so the universal property's target is a PROP, strictly narrower than the remark's arbitrary monoidal C, and the in-tree functors must be SYMMETRIC strict monoidal where the remark asks only for strict monoidal; (3) Construction/PROP/Algebra.v:234 `Alg` really is `obj := Valuation P S` over a bare SIGNATURE with no equations imposed, so it is not the model category the remark needs; (4) Theory/Lawvere/Model.v:50 Record Model and :77 Models exist, uninstantiated at the monoid theory. PARTIAL with this gap is honest — the machinery is genuinely there and only the instantiation plus the C-generic statement are missing."
+    }
+  }
+]

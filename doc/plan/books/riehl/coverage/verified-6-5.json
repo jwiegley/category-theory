@@ -1,0 +1,309 @@
+[
+  {
+    "id": "riehl:6.4:def11",
+    "classification": "ABSENT",
+    "aliases": [
+      "left deformation / right deformation (Dwyer-Kan-Hirschhorn-Smith)",
+      "cofibrant replacement functor / fibrant replacement functor",
+      "endofunctor Q with natural weak equivalence q : Q => Id (copointed endofunctor valued in weak equivalences)",
+      "Deformation / LeftDeformation / RightDeformation class over a homotopical category",
+      "deformation FOR a functor (F preserves weak equivalences between objects in the image of Q)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i \"deformation|deformable\" --include=\"*.v\" . -> 2 hits, both prose in unrelated headers (Theory/Algebra/Frobenius.v:82 'the same surface up to deformation'; Structure/Monoidal.v:101 'deforming the picture'). No definition, no class, no lemma.",
+      "grep -rn -i \"homotop\" --include=\"*.v\" . -> 33 hits, ALL inside comment/header essays (Theory/Kan/Extension.v:52-53,95; Construction/Localization.v:76,97,107; Instance/Cat.v:31; Instance/StrictCat.v:36; Structure/Factorization.v:102-104; ...). Zero Coq assertions. There is no `HomotopicalCategory`, no class of weak equivalences, no `Ho C`.",
+      "grep -rn -i \"weak.equival|WeakEquiv\" --include=\"*.v\" . -> 5 hits, all comments (Test/Issue138.v:15,40 about Cat's Functor_Setoid; Theory/Kan/Extension.v:95; Construction/Localization.v:57; Structure/Factorization.v:104).",
+      "grep -rn -i \"cofibrant|fibrant|model.categor|Quillen\" --include=\"*.v\" . -> 3 hits, all comments (Construction/Arrow.v:65; Structure/Factorization.v:102,104).",
+      "grep -rn -i \"replacement\" --include=\"*.v\" . -> 0 hits.",
+      "grep -rn -i \"relative categor|marked categor|category with weak\" --include=\"*.v\" . -> 0 hits.",
+      "find . -iname \"*homotop*\" -o -iname \"*derived*\" -o -iname \"*deform*\" -o -iname \"*model*\" -> only Theory/Lawvere/Model.v (Lawvere-theory models), nothing homotopical.",
+      "NEAR MISS, deliberately NOT cited as evidence: Instance/Fun.v:231 `Class Pointed {C : Category} (F : C ⟶ C) := { point : Id ⟹ F }` (with `WellPointed` at :240) supplies the bare SHAPE of a right deformation's data (endofunctor + natural transformation from the identity). It carries no homotopical category, no class W of weak equivalences, and no requirement that `point` be levelwise a weak equivalence — i.e. it lacks exactly the content that makes a deformation a deformation, so it is a same-shape/different-content match, not a partial formalization."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. My independent blind pass reached ABSENT before opening the coverage file and found no counterpart the classifier missed. There is no homotopical-category class, no class of weak equivalences, and no deformation anywhere in the tree. The 'near miss' the record declines to cite is real and correctly declined: Instance/Fun.v:230 `Class Pointed {C : Category} (F : C ⟶ C) := { point : Id ⟹ F }` (WellPointed at :240) is the DUAL pointing (Id ⟹ F, i.e. a pointed rather than copointed endofunctor) and carries no weak-equivalence condition, so it is shape-only. Log nit (does not affect the verdict): the record's first entry claims the 'deformation|deformable' grep returns 2 hits including Structure/Monoidal.v:101; that line actually reads 'deforming the picture', which the quoted pattern would not match — the hit count is 1, not 2. Verified evidence-free record needs no further checks. BLIND PASS (run before opening coverage-6-5.json), whole-tree over *.v: rg -il 'homotopical' -> 4 files, ALL prose (Structure/Factorization.v, Construction/Localization.v, Construction/Arrow.v, Theory/Kan/Extension.v); rg -il 'weak.?equiv' -> 5 files, all prose; rg -in '2.of.6|two.of.six|2of6|2-of-3|two.out.of' -> 0 hits; rg -in 'deformation|deformable' -> 1 hit (Theory/Algebra/Frobenius.v:82, 'up to deformation', unrelated); rg -in 'derived.functor|DerivedFunctor|LeftDerived|RightDerived' -> prose only (Structure/Abelian.v narrative; Theory/Kan/Extension.v:94); rg -in 'absolute' -> Structure/Coequalizer/Split.v (split coequalizers), Construction/Karoubi.v:67-70, Comonad/Coalgebra.v:102, Construction/Slice.v:69 (prose); rg -in 'AbsoluteKan|absolute.*[Kk]an' -> 0; rg -in 'Maltsiniotis|Dwyer|Hirschhorn|DHKS' -> 0; rg -in 'Quillen|model.categor' -> 3 prose hits; rg -in 'homotopy.categ|HoC' -> prose only; rg -in 'pointed.endofunctor|copointed' -> Instance/Fun.v:230 Class Pointed (Id => F) only. Also read Theory/Morphisms/Classes.v, Theory/Kan/Extension.v, Construction/Localization.v and Construction/Localization/Universal.v in full."
+    }
+  },
+  {
+    "id": "riehl:6.4:prop12",
+    "classification": "ABSENT",
+    "aliases": [
+      "deformations construct point-set derived functors",
+      "LF = FQ is the (point-set) left derived functor of F",
+      "left derived functor / total left derived functor / point-set derived functor",
+      "delta.FQ with delta.Fq is a right Kan extension of delta.F along gamma",
+      "derived functor computed by cofibrant replacement"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i \"derived\" --include=\"*.v\" . -> ~30 hits, none a derived FUNCTOR in the homotopical sense; every hit is either 'derived corollary/lemma/iso' in prose (Theory/Adjunction.v:22,50; Theory/Displayed.v:55; Theory/Multicategory.v:429; ...) or `DerivedEquivalence` in Theory/Category/Raw.v:110, which is a derived hom-SETOID for raw categories, unrelated.",
+      "grep -rn -i \"left derived|right derived|total.derived\" --include=\"*.v\" . -> only Theory/Kan/Extension.v:94, a COMMENT: 'total derived functors are Kan extensions along localization at the weak equivalences (Riehl, Category Theory in Context, §6.4)'. Comment only; nothing is defined or proved.",
+      "grep -rn -i \"deformation|deformable\" --include=\"*.v\" . -> 0 relevant hits (see riehl:6.4:def11 log), so the hypothesis of the proposition cannot even be stated in-tree.",
+      "grep -rn -i \"homotopical|homotopy category|Ho\\(C\\)\" --include=\"*.v\" . -> comments only; no localization functor gamma : C -> HoC exists.",
+      "grep -rn -i \"localization functor\" --include=\"*.v\" . -> 1 hit, Construction/Localization/Universal.v:34, a comment about the reflector; the in-tree localization is the orthogonal-subcategory/reflective one (Construction/Localization.v), not C[W^-1], and CLAUDE.md records the calculus of fractions as descoped (ledger 15).",
+      "grep -rn -i \"Dwyer|Hirschhorn|Maltsiniotis\" --include=\"*.v\" . -> 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed. Spot-checked the log's specific citations: Theory/Kan/Extension.v:94-96 does read 'total derived functors are Kan extensions along localization at the weak equivalences (Riehl, Category Theory in Context, §6.4)' and is comment-only; Theory/Category/Raw.v:110 `Program Definition DerivedEquivalence` exists and is an unrelated raw-category hom-setoid. Construction/Localization.v is indeed the reflective/orthogonal-subcategory localization (WLocal at :132, reflector_inverts_W at :241), not C[W^-1], so neither the deformation hypothesis nor the localization functor gamma can be stated. Both localization files are registered in _CoqProject (lines 56-57)."
+    }
+  },
+  {
+    "id": "riehl:6.4:def-absolute-kan-extension",
+    "classification": "PARTIAL",
+    "aliases": [
+      "absolute Kan extension",
+      "Kan extension preserved by all functors / by every functor",
+      "absolute colimit, absolute coequalizer (the colimit special case)",
+      "preserves_left_Kan / preserves_right_Kan (this library's preservation vocabulary)",
+      "split coequalizers are absolute"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Coequalizer/Split.v",
+        "line": 104,
+        "symbol": "functor_preserves_split",
+        "intree_statement": "Theorem functor_preserves_split {C D : Category} (F : C ⟶ D) {x y : C} (f g : x ~> y) : SplitCoequalizer f g → SplitCoequalizer (fmap[F] f) (fmap[F] g)."
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 313,
+        "symbol": "preserves_right_Kan",
+        "intree_statement": "Definition preserves_right_Kan `(R : E ⟶ F) := ∀ C D (G : C ⟶ E) (K : C ⟶ D) `(!RightKan K E) `(!RightKan K F), R ◯ Ran K G ≈ Ran K (R ◯ G)."
+      }
+    ],
+    "statement_record": {
+      "book": "A Kan extension is ABSOLUTE when it is preserved not merely by the representables (which is pointwiseness) but by ALL functors out of its codomain: postcomposing the extension diagram with any functor whatsoever again yields a Kan extension. Absoluteness therefore strictly strengthens pointwiseness.",
+      "intree": "Theorem functor_preserves_split (F : C ⟶ D) (f g : x ~> y) : SplitCoequalizer f g → SplitCoequalizer (fmap[F] f) (fmap[F] g).  /  Definition preserves_right_Kan `(R : E ⟶ F) := ∀ C D (G : C ⟶ E) (K : C ⟶ D) `(!RightKan K E) `(!RightKan K F), R ◯ Ran K G ≈ Ran K (R ◯ G).",
+      "strength_comparison": "intree-weaker: the two halves of the book's definition exist separately and never meet. (i) `functor_preserves_split` gives the absoluteness QUANTIFIER (`for every functor F ...`) but only for split coequalizers, stated in the elementary cofork API, never identified with a Kan extension — the in-tree limit/Kan bridge `Kan_Limit` (Structure/Limit/Kan/Extension.v:46) is stated only for limits and Ran, and its colimit/Lan dual is not in the tree, so the absolute split coequalizer is not exhibited as an absolute Lan. (ii) `preserves_right_Kan` is about Kan extensions but has the quantifiers INVERTED relative to absoluteness: it fixes a functor R and quantifies over all extensions, and it demands the extension exist globally on BOTH sides (`!RightKan K E` and `!RightKan K F`). There is no per-extension preservation predicate at all — no `preserves this LocalRightKan` — so the sentence 'this Kan extension is absolute' cannot even be written."
+    },
+    "gap": "No `Absolute` predicate on a Kan extension exists. What is missing: (a) a LOCAL preservation predicate `H preserves the LocalLeftKan/LocalRightKan (L, eta)` (the in-tree `preserves_left_Kan`/`preserves_right_Kan` are global in the extension and local in the functor — the wrong way round); (b) the definition `absolute := ∀ E (H : D ⟶ E), H preserves this extension`; (c) the comparison with pointwiseness, which cannot be stated either since preservation-by-representables is likewise undefined (grep -rn -i pointwise --include=*.v . returns only comments plus unrelated 'pointwise equivalence' uses). The only in-tree absoluteness result, `functor_preserves_split`, is not connected to the Kan-extension API.",
+    "negative_search_log": [
+      "grep -rn -iE \"absolute (kan|right kan|left kan|extension)\" --include=\"*.v\" . -> 0 hits.",
+      "grep -rn -i \"absolute\" --include=\"*.v\" . -> 11 hits: Structure/Coequalizer/Split.v:9,32,33,98 (headers) + the cited theorem; Monad/Monadicity/BeckObjects.v:53,200 (comments); Construction/Karoubi.v:67,70 (comment, 'splitting an idempotent is an absolute colimit'); Comonad/Coalgebra.v:102, Construction/Slice.v:69, Instance/Coq/Comonad/Store.v:71 (unrelated prose).",
+      "grep -rn -i \"pointwise\" --include=\"*.v\" . -> no `pointwise Kan extension` definition; Theory/Kan/Extension.v:148 in fact names `LocalRightKan` the '(pointwise-free)' local extension, confirming pointwiseness is not formalized."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. My blind pass independently landed on PARTIAL with the same two components. Both citations verified at the cited locations and both quotes are accurate: Structure/Coequalizer/Split.v:104 is exactly `Theorem functor_preserves_split {C D : Category} (F : C ⟶ D) {x y : C} (f g : x ~> y) : SplitCoequalizer f g → SplitCoequalizer (fmap[F] f) (fmap[F] g)` (proof ends `Defined.`, under the header '** Absoluteness: every functor preserves split coequalizers' at :98); Theory/Kan/Extension.v:313 is exactly `Definition preserves_right_Kan `(R : E ⟶ F) := ∀ C D (G : C ⟶ E) (K : C ⟶ D) `(!RightKan K E) `(!RightKan K F), R ◯ Ran K G ≈ Ran K (R ◯ G)` (its dual preserves_left_Kan at :307). The strength_comparison is honest and I confirmed each of its load-bearing sub-claims: (i) Kan_Limit is at Structure/Limit/Kan/Extension.v:46 and is stated only for Limit/Ran (`Lim ≅ Ran (Erase J) F ttt`), its colimit/Lan dual appearing only as prose at that file's line 23 — so the absolute split coequalizer is genuinely never exhibited as an absolute Lan; (ii) the quantifier inversion is real — `preserves_*_Kan` fixes the functor and quantifies over all extensions AND demands global `!RightKan K E`/`!RightKan K F` on both sides, so it cannot express 'this extension is absolute', and there is no preservation predicate for the per-extension `LocalRightKan`/`LocalLeftKan` classes (Theory/Kan/Extension.v:154 ff.). Gap claim (c) checked: an independent `rg -in pointwise` returns only pointwise structure on functor categories and pointwise setoid equality — no pointwise-Kan definition — and Theory/Kan/Extension.v:148 does read 'Local (pointwise-free) right Kan extension'. Both cited files are in _CoqProject (Structure/Coequalizer/Split.v:308, Theory/Kan/Extension.v:445). No same-name-weaker or definition-without-API defect found; the record already discloses the API gap it has."
+    }
+  },
+  {
+    "id": "riehl:6.4:def-deformable",
+    "classification": "ABSENT",
+    "aliases": [
+      "deformable functor / left deformable / right deformable",
+      "functor admitting a left (right) deformation",
+      "Deformable class over homotopical categories",
+      "left Quillen functor / right Quillen functor (the model-category avatar)",
+      "functor with a cofibrant (fibrant) replacement adapted to it"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i \"deformable\" --include=\"*.v\" . -> 0 hits.",
+      "grep -rn -i \"deformation\" --include=\"*.v\" . -> 2 hits, both unrelated prose (Theory/Algebra/Frobenius.v:82; Structure/Monoidal.v:101); the notion this predicate quantifies over does not exist in-tree, so the predicate cannot.",
+      "grep -rn -i \"cofibrant|fibrant|model.categor|Quillen\" --include=\"*.v\" . -> comments only (Construction/Arrow.v:65; Structure/Factorization.v:102,104).",
+      "grep -rn -i \"homotop\" --include=\"*.v\" . -> comments only; no homotopical category class, hence no ambient setting for deformability.",
+      "grep -rn -i \"copointed|pointed.endofunctor|PointedFunctor\" --include=\"*.v\" . -> Instance/Fun.v:231 `Class Pointed (F : C ⟶ C) := { point : Id ⟹ F }`. Records only the DATA shape of a deformation, with no weak-equivalence condition and no 'for a functor F' clause; not a partial formalization of deformability."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed; 'deformable' has 0 hits tree-wide and the ambient notion (homotopical category with a class of weak equivalences) does not exist, so the predicate is not merely unstated but unstatable. The Instance/Fun.v `Pointed` near-miss is correctly recorded as non-evidence (the record cites it at :231, the class opens at :230 — the field `point : Id ⟹ F` is on :231; immaterial)."
+    }
+  },
+  {
+    "id": "riehl:6.4:prop13",
+    "classification": "ABSENT",
+    "aliases": [
+      "total left derived functor of a left deformable functor is an absolute right Kan extension",
+      "derived functors of deformable functors are pointwise Kan extensions",
+      "absoluteness of LF",
+      "H . delta . F still has the deformation (Q, q) because H preserves isomorphisms",
+      "left derived functor absolute Kan extension"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -iE \"absolute (kan|right kan|left kan|extension)\" --include=\"*.v\" . -> 0 hits (the conclusion cannot be stated).",
+      "grep -rn -i \"deformable|deformation\" --include=\"*.v\" . -> 0 relevant hits (the hypothesis cannot be stated).",
+      "grep -rn -i \"left derived|right derived|total.derived\" --include=\"*.v\" . -> only the comment at Theory/Kan/Extension.v:94.",
+      "grep -rn -i \"homotopical|homotopy category\" --include=\"*.v\" . -> comments only; no HoC, no localization functor delta.",
+      "Read Theory/Kan/Extension.v (whole Kan API: RightKan, LocalRightKan, LeftKan, LocalLeftKan, preserves_left_Kan, preserves_right_Kan, left_adjoint_impl, left_adjoints_preserve). Nothing about absoluteness of a particular extension, and nothing about derived functors."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed. Both the hypothesis (left deformable) and the conclusion (absolute right Kan extension) are absent; I re-read the whole Kan API myself (RightKan :140, LocalRightKan :154, LeftKan/LocalLeftKan, preserves_left_Kan :307, preserves_right_Kan :313, left_adjoint_impl :328, left_adjoints_preserve :386) and confirm nothing states absoluteness of a particular extension. Note the asymmetry with def-absolute-kan-extension is correct: that item is a DEFINITION whose preservation half exists, whereas this PROPOSITION has neither hypothesis nor conclusion available."
+    }
+  },
+  {
+    "id": "riehl:6.4:prop14",
+    "classification": "ABSENT",
+    "aliases": [
+      "derived adjunction (Maltsiniotis): LF -| RG between homotopy categories",
+      "an adjunction descends to the localizations / homotopy categories",
+      "Quillen adjunction induces an adjunction on homotopy categories",
+      "total derived functors of an adjoint pair are adjoint",
+      "adjunction transported along the localization functors gamma, delta"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i \"Maltsiniotis\" --include=\"*.v\" . -> 0 hits.",
+      "grep -rn -i \"derived\" --include=\"*.v\" . -> no derived functor in the homotopical sense (see riehl:6.4:prop12 log), so `LF ⊣ RG` cannot be stated.",
+      "grep -rn -iE \"absolute (kan|extension)\" --include=\"*.v\" . -> 0 hits; the load-bearing hypothesis (absoluteness) is not formalized.",
+      "grep -rn -i \"homotopical|homotopy category|Ho\\(C\\)\" --include=\"*.v\" . -> comments only.",
+      "ls Adjunction/ and Theory/Equivalence/ + grep for adjunction-transport theorems: Theory/Equivalence/Adjunction.v:105 `Transported_Adjunction` transports an adjunction along EQUIVALENCES of both categories (with `transported_adj_dom : Kinv ⊣ K`, `transported_adj_cod : G ⊣ Ginv`). NOT the derived adjunction: a localization gamma : C -> HoC is not an equivalence, and the transport there is by conjugating with quasi-inverses, not by deriving. Adjunction/Compose.v (composition), Adjunction/Continuity.v (RAPL/LAPC), Adjunction/GAFT.v, Adjunction/SAFT.v — none produce an adjunction between localizations.",
+      "grep -rn -i \"localization functor\" --include=\"*.v\" . -> 1 comment hit only; Construction/Localization.v is orthogonal-subcategory (reflective) localization, and even there no adjunction is derived across the reflector."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed. The log's strongest near-miss is verified and correctly rejected: Theory/Equivalence/Adjunction.v:105 `Definition Transported_Adjunction` really is built as `Adjunction_Compose (Adjunction_Compose transported_adj_dom A) transported_adj_cod` with `transported_adj_dom : Kinv ⊣ K` (:89) and `transported_adj_cod : G ⊣ Ginv` (:94) — i.e. conjugation by quasi-inverses of an EQUIVALENCE, which a localization is not. I also checked Adjunction/Compose.v, Adjunction/Continuity.v, GAFT.v and SAFT.v independently: none produces an adjunction between localizations."
+    }
+  },
+  {
+    "id": "riehl:6.4:remark15",
+    "classification": "ABSENT",
+    "aliases": [
+      "uniqueness of the derived adjunction compatible with localization",
+      "the derived adjunction is the unique one compatible with gamma and delta",
+      "compatibility square D(Fc,d) = C(c,Gd) -> HoD(LFc,d) = HoC(c,RGd)",
+      "morphism of adjunctions / strict map of adjunctions (Exercise 4.2.v)",
+      "canonical/unique adjunction on homotopy categories"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The remark's subject (the derived adjunction LF ⊣ RG of Proposition 6.4.14) is itself ABSENT — see the riehl:6.4:prop14 log — so its uniqueness cannot be stated.",
+      "grep -rn -i \"homotopical|homotopy category|Ho\\(C\\)\" --include=\"*.v\" . -> comments only; no localization functors gamma : C -> HoC, delta : D -> HoD.",
+      "grep -rn -i \"derived\" --include=\"*.v\" . -> no derived functors in the homotopical sense.",
+      "grep -rn -i \"Maltsiniotis|Dwyer|Hirschhorn\" --include=\"*.v\" . -> 0 hits.",
+      "Searched for a morphism-of-adjunctions notion (the footnote's foil): grep -rn -i \"morphism of adjunction|map of adjunction|adjunction morphism\" --include=\"*.v\" . -> 0 hits; Adjunction/ contains Compose.v, Continuity.v, Hom.v, Opposite.v, GAFT.v, SAFT.v, Diagonal/, Natural/ only."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed. The subject of the remark is itself absent, and my own search for a morphism-of-adjunctions notion (the footnote's foil, Exercise 4.2.v) likewise found nothing under 'morphism of adjunction' / 'map of adjunction' / 'adjunction morphism'."
+    }
+  },
+  {
+    "id": "riehl:6.4:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "2-of-6 property (two-out-of-six)",
+      "a class containing the identities and satisfying 2-of-6 contains the isomorphisms",
+      "the isomorphisms satisfy 2-of-6",
+      "the class of morphisms inverted by a functor F satisfies 2-of-6 (saturation of F-inverted maps)",
+      "MorphismClass closure properties / 2-of-3 / saturated class of maps"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -iE \"2-of-6|2 of 6|two-out-of-six|2-out-of-6|2-of-3|two-out-of-three|two_of\" --include=\"*.v\" . -> 0 hits.",
+      "grep -rn -i \"saturat\" --include=\"*.v\" . -> 3 hits, all comments about the reflective localization's saturation hypothesis (Construction/Localization.v:115; Construction/Localization/Universal.v:53,146); none is a closure property of a morphism class.",
+      "grep -rn -i \"inverted by|inverts\" --include=\"*.v\" . -> the only assertion is Construction/Localization.v:241 `Theorem reflector_inverts_W {a b : C} (w : a ~> b) (Hw : W a b w) : IsIsomorphism (fmap[Refl] w)` — the reflector inverts a GIVEN class W. Nothing forms the class of F-inverted maps, and nothing proves any closure property of it.",
+      "Read Theory/Morphisms/Classes.v in full (the MorphismClass vocabulary): `MorphismClass C := ∀ x y, (x ~> y) → Type`, then `MonoClass`, `EpiClass`, `IsoClass`, `SplitMonoClass`, `SplitEpiClass` and the five inclusion lemmas `split_mono_in_mono`, `split_epi_in_epi`, `iso_in_split_mono`, `iso_in_split_epi`, `iso_in_mono`, `iso_in_epi`. These are INCLUSIONS between named classes, not cancellation/closure axioms; no class is asserted to satisfy 2-of-6, and there is no predicate `Satisfies2of6`.",
+      "grep -rn -i \"closed under\" --include=\"*.v\" . -> composition-closure only (Theory/Morphisms.v:200,211 for epis/monos; Theory/Orthogonality.v:105 for the left orthogonality class; Construction/Subcategory.v:37). 2-of-6 is a CANCELLATION property strictly stronger than closure under composition, and no cancellation statement of that shape exists.",
+      "grep -rn -E \"(→|->) IsIsomorphism\" --include=\"*.v\" . -> 4 hits, none of them 2-of-6: Instance/Sets.v:401 (injective+surjective ⇒ iso), Structure/Limit/Preservation.v:245 (conservativity: `IsIsomorphism (fmap[F] f) → IsIsomorphism f`), Structure/Factorization/StrongEpi.v:155 (strong epi + mono ⇒ iso), Construction/Localization/Universal.v:144 (a Context hypothesis).",
+      "Theory/Isomorphism.v carries only `iso_id`, `iso_sym`, `iso_compose` (line 166) and `iso_equivalence` — i.e. the isomorphisms form an equivalence relation on objects. That gives closure under composition but not the 2-of-6 cancellations the exercise asks for."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed; my own `rg -in '2.of.6|two.of.six|2of6|2-of-3|two.out.of'` returned 0 hits independently. Spot-checked the log's cited near-misses, all accurate up to +/-1 line and all correctly rejected: Theory/Morphisms/Classes.v gives only `MorphismClass C := ∀ x y, (x ~> y) → Type` with Mono/Epi/Iso/SplitMono/SplitEpi classes and six INCLUSION lemmas (no cancellation axioms); Construction/Localization.v:241 `Theorem reflector_inverts_W ... IsIsomorphism (fmap[Refl] w)` inverts a GIVEN class rather than forming the class of F-inverted maps; Structure/Limit/Preservation.v:243-245 is `Class ReflectsIsos` with field `reflects_iso : IsIsomorphism (fmap[F] f) → IsIsomorphism f` (conservativity, not 2-of-6); Structure/Factorization/StrongEpi.v:154 `strong_epi_mono_is_iso`; Instance/Sets.v:400 `bijective_is_iso`; Theory/Isomorphism.v:166 `iso_compose` with `iso_equivalence` at :187. The record's observation that 2-of-6 is a cancellation property strictly stronger than the composition closure the tree does have (Theory/Orthogonality.v `ortho_left_compose`) is correct."
+    }
+  },
+  {
+    "id": "riehl:6.4:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "2-dimensional universal property of localization",
+      "restriction along gamma is a bijection on natural transformations",
+      "precomposition with the localization functor is fully faithful",
+      "[HoC, E] -> [C, E] is full and faithful onto the homotopical functors",
+      "local (2-categorical) universal property of C[W^-1]"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i \"localiz\" --include=\"*.v\" -l . -> Construction/Localization.v, Construction/Localization/Universal.v (plus comment-only mentions in Theory/Sheaf.v, Theory/Kan/Extension.v, Theory/Lawvere/Model.v, Construction/Groupoid.v, Structure/Abelian.v, Structure/Factorization.v, Adjunction/GAFT.v, Construction/Funny/StrictEq.v).",
+      "Read Construction/Localization/Universal.v in full. Its headline is `Theorem localization_universal : { G' : Su ⟶ E & (G ≈ G' ◯ Refl) * (∀ H : Su ⟶ E, G ≈ H ◯ Refl → H ≈ G') }` (line 188). This is ONE-dimensional and up-to-natural-isomorphism: existence of a factoring FUNCTOR plus its uniqueness up to `≈`. It asserts nothing about natural transformations between two such functors, so it is not evidence for the 2-dimensional statement the exercise asks for — and it is a different localization anyway (orthogonal-subcategory/reflective, requiring `Reflective (C_W W)` plus a saturation hypothesis `Hunit`, not C[W^-1]; CLAUDE.md records the calculus of fractions as descoped, ledger 15).",
+      "grep -rn -iE \"bijection.*natural transformation|natural transformations.*bijection\" --include=\"*.v\" . -> 1 hit, Functor/Hom/Yoneda.v:19, a comment about the Yoneda lemma; unrelated to localization.",
+      "grep -rn -i \"precompos\" --include=\"*.v\" . | grep -iE \"Full|Faithful\" -> 0 relevant hits. The precomposition functor `Induced := (− ◯ F) : [B,C] ⟶ [A,C]` does exist (Theory/Kan/Extension.v:127), but no theorem asserts it is full or faithful for any class of F, let alone for a localization.",
+      "grep -rn -i \"homotopical|homotopy category\" --include=\"*.v\" . -> comments only; the exercise's very setting (gamma : C -> HoC, homotopical functors) is not in the tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed, and I reached the same near-miss independently: Construction/Localization/Universal.v:188 `Theorem localization_universal : { G' : Su ⟶ E & (G ≈ G' ◯ Refl) * (∀ H : Su ⟶ E, G ≈ H ◯ Refl → H ≈ G') }` — verified verbatim at that line. The record's rejection is honest on both counts I checked: it is 1-dimensional (existence of a factoring functor plus uniqueness up to the functor setoid `≈`, never a bijection on natural transformations) and it is the reflective localization, sitting under a `Reflective (C_W W)` context plus the unit hypothesis, not C[W^-1]. I additionally confirmed the precomposition functor `Induced := (− ◯ F)` exists at Theory/Kan/Extension.v:127 with no fullness/faithfulness theorem attached anywhere. Considered and rejected PARTIAL: the 1-dimensional property is the exercise's HYPOTHESIS, not any part of its conclusion, so nothing of the item itself is in-tree."
+    }
+  },
+  {
+    "id": "riehl:6.4:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "an endofunctor with a natural weak equivalence to the identity is homotopical",
+      "Q preserves weak equivalences when q : Q => id is a natural weak equivalence",
+      "homotopical functor (preserves the class of weak equivalences)",
+      "2-of-6 / 2-of-3 argument on the naturality square of q",
+      "cofibrant replacement is a homotopical functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i \"homotop\" --include=\"*.v\" . -> comments only; there is no `Homotopical` class of functors, and no class of weak equivalences for such a functor to preserve.",
+      "grep -rn -i \"weak.equival|WeakEquiv\" --include=\"*.v\" . -> 5 hits, all comments.",
+      "grep -rn -iE \"preserves.*equival|reflects.*equival\" --include=\"*.v\" . -> hits are about preserving the setoid `≈` (Functor/Hom/Yoneda.v) or preserving limits/isos under an equivalence of categories (Theory/Equivalence/Limit.v); nothing about a class of weak equivalences.",
+      "grep -rn -iE \"2-of-6|2-of-3|two-out-of\" --include=\"*.v\" . -> 0 hits (the exercise's proof tool is likewise absent).",
+      "grep -rn -i \"copointed|pointed.endofunctor\" --include=\"*.v\" . -> Instance/Fun.v:231 `Class Pointed (F : C ⟶ C) := { point : Id ⟹ F }` and :240 `WellPointed`. These package an endofunctor with a natural transformation to/from the identity, but assert nothing about preservation of any class of maps; the exercise's conclusion has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed. No `Homotopical` functor class and no class of weak equivalences to preserve; the data shape (an endofunctor with a natural transformation to the identity) is not even present in the correct variance — Instance/Fun.v:230 `Pointed` is `Id ⟹ F`, the copointed dual is not in the tree."
+    }
+  },
+  {
+    "id": "riehl:6.4:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "prove the derived adjunction: LF -| RG when both derived functors are absolute Kan extensions",
+      "adjunction between homotopy categories from absolute Kan extensions",
+      "Maltsiniotis derived adjunction proof",
+      "absolute Kan extension implies the adjunction descends",
+      "Quillen adjunction descends to Ho"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "This exercise asks for the proof of Proposition 6.4.14, which is ABSENT — see the riehl:6.4:prop14 log (grep -rn -i \"Maltsiniotis\" -> 0 hits; no derived functors; no homotopy categories).",
+      "grep -rn -iE \"absolute (kan|extension)\" --include=\"*.v\" . -> 0 hits: the exercise's hypothesis (both derived functors are absolute Kan extensions) cannot be stated in-tree.",
+      "Read Theory/Kan/Extension.v: the only adjoint/Kan interaction proved is `Theorem left_adjoint_impl (L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R -> ∀ {E} (G : E ⟶ C) (H : E ⟶ D), [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H)` (line 328) — it derives a hom-iso FROM an adjunction, the opposite direction to this exercise. (`left_adjoints_preserve` at line 386 is moreover an abandoned sketch, per the header comment at line 376: 'the proof script is abandoned before Qed, so the theorem is NOT added to the environment'.)",
+      "grep -rn -i \"derived|homotopical|deformation\" --include=\"*.v\" . -> no counterpart to LF, RG, HoC or HoD."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed. I verified the log's most falsifiable claim myself: Theory/Kan/Extension.v:386 `Theorem left_adjoints_preserve `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R → preserves_left_Kan L` is genuinely abandoned — the proof script terminates with `Abort.` at line 438, so the header comment at :376 ('the proof script is abandoned before Qed, so the theorem is NOT added to the environment and introduces no axioms') is ACCURATE and no defect arises there. `left_adjoint_impl` is at :328 as cited and does run in the opposite direction (adjunction ⇒ hom-iso of natural-transformation setoids), so it is correctly not counted as evidence."
+    }
+  }
+]

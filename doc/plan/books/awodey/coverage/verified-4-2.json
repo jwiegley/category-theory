@@ -1,0 +1,163 @@
+[
+ {
+  "id": "awodey:4:ex1",
+  "classification": "ABSENT",
+  "aliases": [
+   "congruences on a group correspond to normal subgroups",
+   "normal subgroup",
+   "factor group / quotient group G/N",
+   "delooping of a group as a one-object groupoid (BG)",
+   "homomorphism theorem for groups as special case of that for categories"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rli 'normal' --include=*.v .  -> hits are 'normalization/normal form' (Solver/*, Lambda), 'normality' of monos/kernels in Structure/Kernel.v and Structure/Regular.v; NO group-theoretic normal subgroup",
+   "grep -rli 'factor group|quotient group' --include=*.v .  -> 0 hits",
+   "grep -rli 'deloop|one-object|one object|BG' --include=*.v .  -> hits are OneObject bicategory (Theory/Bicategory/OneObject.v, monoidal cat as one-object bicategory) and Cayley; NO delooping of a group into a one-object category with a congruence<->normal-subgroup bijection",
+   "Structure/Group.v read in full: GroupObject is a group OBJECT in a cartesian monoidal category (monoid object + inverse morphism); it carries no notion of subgroup, normal subgroup, factor group, or one-object-category presentation",
+   "Construction/Cayley.v read: Cayley/Yoneda embedding of a category, not a delooping-with-congruence correspondence",
+   "Construction/Quotient.v provides HomCongruence + Quotient category but is stated for a general category; no specialization to a group-as-one-object-category, and no normal-subgroup theory to put in bijection with congruences"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT: no normal subgroups, factor groups, or group-as-one-object-category congruence bijection. Structure/Group.v is group OBJECTS in a cartesian monoidal category (monoid object + inverse), carrying no subgroup/normal-subgroup/homomorphism-theorem content."
+  }
+ },
+ {
+  "id": "awodey:4:ex2",
+  "classification": "ABSENT",
+  "aliases": [
+   "group object in a slice category Sets/I",
+   "internal group in Sets/I",
+   "I-indexed family of groups",
+   "category Groups(C) of group objects",
+   "functor Groups(Sets/I) -> Groups^I"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "Structure/Group.v read in full: GroupObject grp is a class of group objects, but there is NO category Group(C)/Groups(C) of group objects and their homomorphisms assembled anywhere",
+   "grep -rn 'Groups' --include=*.v .  -> matches are the word 'Group'/'Groupoid' in prose/Opposite/Braided; no 'Groups(C)' category or 'Groups^I' indexed family",
+   "Construction/Slice.v exists (slice/coslice C/c), but no analysis of group objects internal to Sets/I nor the claimed equivalence/functor to indexed families of groups",
+   "grep -rli 'indexed famil' --include=*.v .  -> IndexedCat (Construction/Indexed.v) is for the Grothendieck construction, not families of groups; no Groups^I",
+   "No in-tree development of internal groups relative to a slice, nor the functor Groups(Sets/I) -> Groups^I"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT: no category Groups(C) of group objects assembled anywhere, no Groups^I indexed family, no analysis of internal groups in the slice Sets/I. Slice.v exists but is unused for this."
+  }
+ },
+ {
+  "id": "awodey:4:ex3",
+  "classification": "ABSENT",
+  "aliases": [
+   "presentation of a category by generators and relations",
+   "finitely presented category C(G,Sigma)",
+   "the poset category 3 (1->2->3 with composite, commuting triangle)",
+   "is the category 3 free",
+   "free category on a quiver / path category"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rli 'present' --include=*.v .  -> category-level presentations exist only for PROPs/coloured PROPs (Construction/PROP/Presentation.v, Construction/ColouredPROP/Presentation.v), NOT the finitely-presented-category C(G,Sigma) of Awodey 4.4",
+   "Construction/Free/Quiver.v and Construction/Free.v: free category on a quiver/path category exist, but there is no quotient-by-relations 'presented category' notion built on top, and no treatment of the specific poset 3 by four presentations",
+   "grep -rli 'walking|Three|triangle' --include=*.v Instance/  -> Instance/Two.v (walking arrow), Instance/Parallel.v, Instance/Roof.v, Instance/Fact.v; no 'category 3' with generators/relations presentations nor a freeness determination",
+   "No in-tree statement giving multiple presentations of a fixed category, nor deciding whether a given category is free"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT: category-level presentations by generators/relations exist only for PROPs; Construction/Free.v gives the path category on a quiver but no quotient-by-relations presented category, and no treatment of the poset 3 or a freeness determination. Roof.v is the span shape, not the commuting triangle 3."
+  }
+ },
+ {
+  "id": "awodey:4:ex4",
+  "classification": "PRESENT",
+  "aliases": [
+   "congruence respects composition of composable pairs",
+   "f~f' and g~g' imply g o f ~ g' o f'",
+   "cong_comp field of a hom-congruence",
+   "two-sided composition-compatibility of a congruence"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Quotient.v",
+    "line": 231,
+    "symbol": "HomCongruence.cong_comp",
+    "intree_statement": "cong_comp {x y z : C} {f f' : y ~> z} {g g' : x ~> y} : R y z f f' -> R x y g g' -> R x z (f o g) (f' o g')"
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 226,
+    "symbol": "HomCongruence",
+    "intree_statement": "Class HomCongruence {C : Category} (R : HomRel C) := { cong_incl ...; cong_sym ...; cong_trans ...; cong_comp ... }  (* R is a Prop-valued equivalence on each hom, containing ~ and compatible with composition *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Given a congruence ~ on a category C and arrows f,f':A=>B and g,g':B=>C, show f~f' and g~g' imply g o f ~ g' o f' (compatibility of a congruence with composition of composable pairs).",
+   "intree": "cong_comp : R y z f f' -> R x y g g' -> R x z (f o g) (f' o g')  (a field of the HomCongruence class in Construction/Quotient.v)",
+   "strength_comparison": "same content; intree encodes the two-sided composition-compatibility directly as a class field (cong_comp) rather than deriving it from Awodey Def 4.6's one-sided pre-/post-composition compatibility. The fact that Awodey's ex4 asks to derive is therefore taken as definitional in-tree and is discharged for the concrete quotient (used in id_left/comp_assoc obligations of the Quotient category); the mathematical statement is present and stronger-or-equal (an axiom rather than a derived lemma)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Verified: Construction/Quotient.v:231 cong_comp field states exactly f~f'-> g~g'-> f∘g ~ f'∘g'. File registered in _CoqProject:67. strength_comparison honestly notes it is a class field (definitional two-sided compatibility) rather than derived from a one-sided congruence definition; mathematical content present."
+  }
+ },
+ {
+  "id": "awodey:4:ex5",
+  "classification": "PARTIAL",
+  "aliases": [
+   "coequalizer of two functors via a congruence",
+   "coequalizer in Cat",
+   "kernel congruence of a family of functors",
+   "quotient category and its universal property",
+   "QuotientLift / QuotientProj"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Quotient.v",
+    "line": 254,
+    "symbol": "Quotient",
+    "intree_statement": "Definition Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category := {| obj := @obj C; hom := @hom C; homset := fun x y => {| equiv := R x y; ... |}; ... |}"
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 313,
+    "symbol": "QuotientLift",
+    "intree_statement": "Definition QuotientLift : Quotient C R -> D := ... (a functor F : C -> D with (forall f g, R f g -> fmap[F] f ~ fmap[F] g) lifts uniquely through the projection)"
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 334,
+    "symbol": "QuotientLift_unique",
+    "intree_statement": "Lemma QuotientLift_unique (G : Quotient C R -> D) (Hobj : forall x, fobj[G] x = fobj[F] x) (HG : ...) : forall x y f, hom_cast (Hobj x) (Hobj y) (fmap[G] f) ~ fmap[QuotientLift] f"
+   }
+  ],
+  "statement_record": {
+   "book": "For functors F,G : C -> D agreeing on objects, define f ~ g on arrows of D by dom/cod agreement and: for every functor H : D -> E with HF = HG, H(f) = H(g). Prove ~ is a congruence on D and that the quotient D/~ (with the projection) is the coequalizer of F and G in Cat.",
+   "intree": "Quotient C R : Category (quotient of a category by a Prop-valued hom-congruence R), with QuotientProj : C -> Quotient C R and the lifting universal property QuotientLift / QuotientLift_unique (any functor identifying R-related arrows factors uniquely through the projection).",
+   "strength_comparison": "intree-weaker: the reusable engine of the exercise -- the congruence-quotient category plus its identity-on-objects projection and unique-lifting universal property -- is present in full and general form. But the exercise's two specific deliverables are NOT in-tree: (1) the particular relation 'H(f)=H(g) for all H:D->E with HF=HG' is never defined nor shown to be a HomCongruence, and (2) the conclusion that D/~ is the COEQUALIZER of F,G in Cat is never stated or proved (Cat is not shown to have coequalizers; grep of Instance/Cat* for 'coequalizer' returns 0 hits)."
+  },
+  "gap": "Missing: (a) the specific ex5 relation on Arr(D) and a proof it is a HomCongruence; (b) coequalizers in Cat and the theorem that the congruence-quotient D/~ is the coequalizer of the object-agreeing functor pair F,G. Only the generic congruence-quotient with its lifting UMP (Quotient / QuotientLift / QuotientLift_unique) is available as the building block.",
+  "negative_search_log": [
+   "grep -rn 'oequalizer' Instance/Cat.v Instance/Cat/*.v  -> 0 hits (Cat has no coequalizer construction)",
+   "grep -rli 'coequalizer' --include=*.v .  -> only Structure/Coequalizer*.v (abstract UMP + split/reflexive), Beck monadicity, Kernel/Regular/Abelian; none constructs a coequalizer of functors in Cat via a congruence",
+   "Construction/Quotient.v QuotientLift_proj/QuotientLift_unique give the factorization UMP but are not packaged as a Structure/Coequalizer.IsCoequalizer of a functor pair"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Verified: Quotient (254), QuotientLift (313), QuotientLift_unique (334) all present and cited accurately. Generic congruence-quotient + identity-on-objects projection + unique lifting UMP present; the specific ex5 relation on Arr(D) and the coequalizer-of-functors-in-Cat conclusion are absent. grep of Instance/Cat* for coequalizer = 0 hits confirmed. PARTIAL and gap statement accurate."
+  }
+ }
+]

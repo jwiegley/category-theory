@@ -1,0 +1,660 @@
+[
+ {
+  "id": "awodey:5.1:def1",
+  "classification": "PARTIAL",
+  "aliases": [
+   "subobject",
+   "Sub_C(X) / SubObj x",
+   "preorder of monomorphisms into x",
+   "full subcategory of the slice C/X on monos",
+   "inclusion of subobjects m ⊆ m' / sub_le",
+   "equivalence of subobjects m ≡ m' / SubObj_Setoid",
+   "thin category, Proset, poset of subobjects"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Subobject.v",
+    "line": 15,
+    "symbol": "SubObj",
+    "intree_statement": "Record SubObj {C : Category} (x : C) := { sub_dom : C; (* the domain of the mono *) sub_mono : sub_dom ~> x; (* the mono into x *) sub_is_monic : Monic sub_mono }."
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 33,
+    "symbol": "SubObj_Setoid",
+    "intree_statement": "#[export] Program Instance SubObj_Setoid : Setoid (SubObj x) := { equiv := fun u v => { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u } }."
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 59,
+    "symbol": "sub_le",
+    "intree_statement": "Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }."
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 62,
+    "symbol": "sub_le_refl / sub_le_trans",
+    "intree_statement": "Lemma sub_le_refl (u : SubObj x) : sub_le u u.  ...  Lemma sub_le_trans (u v w : SubObj x) : sub_le u v → sub_le v w → sub_le u w."
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 78,
+    "symbol": "sub_le_unique",
+    "intree_statement": "Lemma sub_le_unique (u v : SubObj x) (k k' : sub_dom u ~> sub_dom v) : sub_mono v ∘ k ≈ sub_mono u → sub_mono v ∘ k' ≈ sub_mono u → k ≈ k'."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 180,
+    "symbol": "Sub",
+    "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x ; is_setoid := @SubObj_Setoid C x |}; ... |}"
+   }
+  ],
+  "statement_record": {
+   "book": "A subobject of X is a mono m : M >-> X; a morphism of subobjects m -> m' is an arrow f of the slice C/X (m' ∘ f = m); these form a category Sub_C(X), which is a preorder because m' is monic so at most one such f exists. Inclusion m ⊆ m' means such an f exists; m ≡ m' means mutual inclusion, i.e. isomorphism in Sub_C(X).",
+   "intree": "`SubObj x` is a record bundling `sub_dom`, `sub_mono : sub_dom ~> x` and `sub_is_monic : Monic sub_mono`; `sub_le u v := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }` with `sub_le_refl`/`sub_le_trans`; `sub_le_unique` shows any two such mediators are ≈; `SubObj_Setoid` makes `u ≈ v` mean `{ i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u }`.",
+   "strength_comparison": "intree-weaker: every ingredient of the definition is present pointwise (subobject, mediating arrow, reflexivity/transitivity, at-most-one-mediator, the equivalence), but Sub_C(X) is never assembled as a categorical OBJECT — there is no `Category` instance (nor an application of `Instance/Proset.v`'s `Proset`) whose homs are `sub_le`, so 'Sub_C(X) is a preorder category' is a collection of lemmas rather than a construction. `sub_le` is also Type-valued (a sigma carrying the mediator), so it cannot be fed to `Proset`, whose `R : relation A` is Prop-valued."
+  },
+  "gap": "Sub_C(X) is not built as a category or preorder object: no `Category`/`Proset` instance over `sub_le`, and no identification of subobject morphisms with arrows of the slice `C/X` (Construction/Slice.v exists, but there is no full subcategory of it cut out by `Monic`). The in-tree `Sub` functor lands in `Sets`, so its value at x is the QUOTIENT SETOID of subobjects — the order `sub_le` is discarded at the functor level. Thinness appears only as `sub_le_unique` (two mediators are ≈), never as 'the hom-type of Sub_C(X) is a subsingleton'.",
+  "negative_search_log": [
+   "rg -l -i 'subobject' --glob '*.v' — 16 files; only Theory/Subobject.v defines the notion",
+   "rg -n 'SubObj|sub_le|sub_dom|sub_mono' --glob '*.v' (outside Theory/Subobject*) — hits only in Adjunction/SAFT.v (an unrelated indexed family), Structure/SubobjectClassifier.v, Structure/Topos.v, Instance/Sets/Classifier.v; none builds a category of subobjects",
+   "rg -n 'Proset' --glob '*.v' — only Instance/Proset.v, Instance/Poset.v, Test/Poset.v, Instance/Props.v; never applied to sub_le",
+   "rg -n -i 'thin categ' --glob '*.v' — Proset/Poset/Omega/Props/Enriched.Two only",
+   "rg -n 'Monic|mono' Construction/Slice.v — 0 hits (no monos-in-a-slice development)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first: rg -l -i 'subobject' (16 files, only Theory/Subobject.v defines it); read Theory/Subobject.v in full; rg 'SubObj' tree-wide; rg 'Proset'; rg -c -i 'monic|mono' Construction/Slice.v -> 0 hits. My own preliminary verdict was PRESENT-leaning (record, setoid, sub_le, refl/trans, sub_le_unique are all there verbatim at the cited lines 15/33/59/62/78, quotes accurate). I accept PARTIAL: the gap is real and precisely stated -- Sub_C(X) is never assembled as a Category/preorder OBJECT. Independently verified the two supporting sub-claims: (a) Instance/Proset.v:33 takes {R : relation A} with relation = A -> A -> Prop, so the Type-valued sigma sub_le genuinely cannot be fed to it; (b) Sub : C^op -> Sets at Theory/Subobject/Functor.v:180 has fobj x = {carrier := SubObj x; is_setoid := SubObj_Setoid}, so the order is indeed discarded at the functor level. Scoping note for Phase E: every piece of MATHEMATICS in Definition 5.1 is in-tree; the missing work is packaging (a thin Category over sub_le, or a Monic-cut full subcategory of Construction/Slice.v's Slice C x), not new proof."
+  }
+ },
+ {
+  "id": "awodey:5.1:prop-equivalent-subobjects-iso",
+  "classification": "PRESENT",
+  "aliases": [
+   "equivalent subobjects have isomorphic domains",
+   "mutual inclusion implies isomorphism",
+   "sub_equiv_iff_mutual",
+   "antisymmetry of the subobject preorder up to iso",
+   "isomorphic in the slice over X"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Subobject.v",
+    "line": 93,
+    "symbol": "sub_equiv_iff_mutual",
+    "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u)."
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 106,
+    "symbol": "sub_equiv_iff_mutual (backward branch)",
+    "intree_statement": "intros [[k Hk] [l Hl]]. unshelve eexists {| to := k; from := l |}; simpl. + (* k ∘ l ≈ id, by monicity of sub_mono v *) apply (monic (Monic:=sub_is_monic v)); rewrite comp_assoc, Hk, Hl; cat. + (* l ∘ k ≈ id, by monicity of sub_mono u *) apply (monic (Monic:=sub_is_monic u)); rewrite comp_assoc, Hl, Hk; cat."
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 33,
+    "symbol": "SubObj_Setoid",
+    "intree_statement": "equiv := fun u v => { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u }"
+   }
+  ],
+  "statement_record": {
+   "book": "If m : M >-> X and m' : M' >-> X are mutually included subobjects, witnessed by f with m' f = m and f' with m f' = m', then f' f = id_M and f f' = id_M' (by monicity), so f : M ≅ M' is an isomorphism commuting with the two monos over X.",
+   "intree": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u).  — where `u ≈ v` unfolds to `{ i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u }` and the backward branch builds `{| to := k; from := l |}` and discharges both round trips via `monic (Monic := sub_is_monic _)`.",
+   "strength_comparison": "intree-stronger: the book asserts one direction (mutual inclusion ⇒ isomorphic domains); the in-tree result is a biconditional between the setoid equivalence and mutual `sub_le`, and it is `Defined` (data-carrying) so the isomorphism is extractable rather than merely asserted. The proof is literally the book's: cancel the monos on the two round trips."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found the same evidence independently. Theory/Subobject.v:93 sub_equiv_iff_mutual verified verbatim; the backward branch at lines 106-115 builds {| to := k; from := l |} and discharges both round trips by monic (Monic := sub_is_monic _) -- literally Awodey's argument (m = m' f = m f' f, cancel m). Ends in Defined, so the isomorphism is extractable, which supports the 'intree-stronger' claim. File is in _CoqProject:465 and Theory/Subobject.vo is present."
+  }
+ },
+ {
+  "id": "awodey:5.1:prop-factor-through-mono-is-mono",
+  "classification": "ABSENT",
+  "aliases": [
+   "a factorization of a mono through a mono is monic",
+   "right cancellation for monomorphisms",
+   "Monic (m' ∘ f) → Monic f",
+   "left factor / first factor of a mono is monic",
+   "monic_cancel / mono_cancel_right",
+   "MonoClass closed under left cancellation",
+   "the mediating arrow of sub_le is itself monic"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n 'Monic \\(' --glob '*.v' — 8 hits total: Adjunction/SAFT.v:123,224; Structure/Abelian.v:272; Structure/Regular/Factorization.v:175; Theory/Isomorphism.v:276; Theory/Morphisms.v:135; Theory/Morphisms.v:213 (monic_compose, the CONVERSE closure); Theory/Morphisms/Stability.v:228 (pullback stability). None is a right-cancellation.",
+   "rg -n 'Monic.*→ Monic' --glob '*.v' — 3 hits: Theory/Morphisms.v:213 `Monic f → Monic g → Monic (f ∘ g)`; Structure/Abelian.v:399 and Structure/Regular/Factorization.v:100, both `f ≈ g → Monic f → Monic g` (transport along ≈). No hypothesis mentioning a composite.",
+   "rg -n -i 'left factor|right cancel|cancellation of mono|mono.*cancel|cancel.*mono' --glob '*.v' — the only cancellation lemma of this shape is Structure/Factorization/StrongEpi.v:62 `strong_epi_cancel` (dual side, strong EPIs only, `f ∘ g` strong epi ⇒ `f` strong epi).",
+   "rg -n 'Monic' Theory/Morphisms/Classes.v — only the class inclusions Iso ⊆ SplitMono ⊆ Mono; no closure under cancellation.",
+   "rg -n 'Monic' Theory/Subobject.v — `sub_is_monic` (field) and `sub_le_unique`, which proves the mediator is UNIQUE (by monicity of the target mono) but says nothing about the mediator being monic. The file's own comment at line 56 asserts 'The factorization is automatically monic-through' in prose, with no corresponding lemma.",
+   "rg -n 'Monic|monic' Structure/Factorization.v Theory/Orthogonality.v — orthogonality/OFS machinery only; the left/right class closure lemmas there are about Epi/StrongEpi, not mono right-cancellation."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My independent blind search reproduced the negative result and found nothing the classifier missed. Commands run: rg -n 'Monic' tree-wide filtered to ': Monic' / '-> Monic' (30 hits, enumerated); Theory/Morphisms.v read in full lines 100-227 (only monic_compose, the CLOSURE direction, plus id_monic and sections_are_monic); rg -n -i 'cancell' tree-wide (the only cancellation lemma of this shape is Structure/Factorization/StrongEpi.v strong_epi_cancel, dual side and strong epis only). No lemma of the form Monic (m' o f) -> Monic f, and Theory/Subobject.v carries no monicity claim about the sub_le mediator. ABSENT stands. See problems[]: Theory/Subobject.v:56 asserts this fact in prose with no in-tree proof."
+  }
+ },
+ {
+  "id": "awodey:5.1:construction-subobject-pushforward",
+  "classification": "PARTIAL",
+  "aliases": [
+   "direct image functor i_*",
+   "pushforward of subobjects along a mono",
+   "post-composition functor on Sub",
+   "Sub(M') -> Sub(X), m ↦ i ∘ m",
+   "Σ_i / Bang_Functor (dependent sum, lower shriek)",
+   "composite of monos is monic"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Morphisms.v",
+    "line": 212,
+    "symbol": "monic_compose",
+    "intree_statement": "Definition monic_compose {x y z : C} {f : y ~> z} {g : x ~> y} : Monic f → Monic g → Monic (f ∘ g)."
+   },
+   {
+    "file": "Construction/Slice/Pullback.v",
+    "line": 50,
+    "symbol": "Bang_Functor",
+    "intree_statement": "Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {| fobj := λ '(o; h), (o; f ∘ h); fmap := λ x y f, (_; _) |}"
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 67,
+    "symbol": "sub_le_trans",
+    "intree_statement": "Lemma sub_le_trans (u v w : SubObj x) : sub_le u v → sub_le v w → sub_le u w.  Proof. intros [k Hk] [l Hl]. exists (l ∘ k). rewrite comp_assoc. now rewrite Hl. Defined."
+   }
+  ],
+  "statement_record": {
+   "book": "For a mono i : M' >-> X there is a functor i_* : Sub(M') -> Sub(X) given by post-composition with i; it is well defined because a composite of monomorphisms is again monic, and monotone for inclusion of subobjects since Sub is a preorder.",
+   "intree": "`monic_compose : Monic f → Monic g → Monic (f ∘ g)` supplies exactly the well-definedness ingredient. The post-composition functor exists only at slice level: `Bang_Functor f : C ̸ a ⟶ C ̸ b`, `fobj := λ '(o; h), (o; f ∘ h)` — defined on ALL slice objects, with no `Monic` hypothesis on `f` and no mono-preservation claim.",
+   "strength_comparison": "intree-weaker: the composite-of-monos lemma is present in full generality, and the object part (post-compose with i) exists as `Bang_Functor` but at the slice, not the subobject, level. Nothing in-tree maps `SubObj m'` to `SubObj x`, nothing states monotonicity for `sub_le`, and nothing states that the map respects `SubObj_Setoid`."
+  },
+  "gap": "No definition `sub_pushforward : SubObj (sub_dom i) → SubObj x` (or `i_* `) exists anywhere in the tree; consequently there is no proof that it is monotone for `sub_le`, no `Proper (equiv ==> equiv)` instance for it, and no functoriality (identity/composition) statement. `monic_compose` supplies only the well-definedness half. `Bang_Functor` (Σ_f) is the slice-level post-composition functor but is not restricted to monos and carries no statement that it preserves monomorphisms.",
+  "negative_search_log": [
+   "rg -n 'sub_push|sub_direct|sub_image|exists_left_adjoint|∃_f' --glob '*.v' — 0 hits",
+   "rg -n -i 'pushforward|push-forward|direct image|postcompos|post-compos' --glob '*.v' — no subobject-level construction; only Bang_Functor's header and unrelated postcomposition lemmas (Theory/Coend/Fubini.v, Theory/Bicategory/Mates.v, Monad/Kleisli/Premonoidal.v)",
+   "rg -n 'SubObj' --glob '*.v' — the only maps out of `SubObj` in-tree are `sub_reindex` (pullback, contravariant) and `char` (classifier); nothing covariant"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind verdict was ABSENT; I accept PARTIAL because the record's gap is fully honest and states outright that nothing in-tree maps SubObj to SubObj. Evidence checked: Theory/Morphisms.v:212 monic_compose verified verbatim (this is exactly Awodey's stated justification); Construction/Slice/Pullback.v:50 Bang_Functor verified -- 'Program Definition Bang_Functor `(f : a ~> b) : @Slice C a --> @Slice C b := {| fobj := lam (o; h), (o; f o h) ... |}', post-composition with NO Monic hypothesis and no mono-preservation lemma, as claimed. One loose thread: the third evidence entry (Theory/Subobject.v:67 sub_le_trans) is not monotonicity of i_* (which would be: sub_le u v -> sub_le (i o u) (i o v)); it is only suggestive. Does not change the classification -- the strength_comparison does not claim otherwise. Either ABSENT or PARTIAL yields the same Phase-E work item."
+  }
+ },
+ {
+  "id": "awodey:5.1:def-local-membership",
+  "classification": "PARTIAL",
+  "aliases": [
+   "local membership z ∈_X M",
+   "generalized element factors through a subobject",
+   "z factors through the mono m",
+   "sub_le (the mono-restricted case)",
+   "elementhood relation between generalized elements and subobjects",
+   "Kripke-Joyal / internal membership"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Subobject.v",
+    "line": 59,
+    "symbol": "sub_le",
+    "intree_statement": "Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }."
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 78,
+    "symbol": "sub_le_unique",
+    "intree_statement": "Lemma sub_le_unique (u v : SubObj x) (k k' : sub_dom u ~> sub_dom v) : sub_mono v ∘ k ≈ sub_mono u → sub_mono v ∘ k' ≈ sub_mono u → k ≈ k'.  Proof. intros Hk Hk'. apply (monic (Monic:=sub_is_monic v)). now rewrite Hk, Hk'. Qed."
+   },
+   {
+    "file": "Structure/Terminal.v",
+    "line": 61,
+    "symbol": "(prose)",
+    "intree_statement": "A morphism `1 ~> x` is a global element of `x` — in the nLab's phrasing, a generalized element at stage of definition `1`"
+   }
+  ],
+  "statement_record": {
+   "book": "For a generalized element z : Z -> X and a subobject m : M >-> X, define z ∈_X M to hold iff there exists f : Z -> M with z = m ∘ f. Since m is monic such an f is unique when it exists, so this is a relation (proof-irrelevant), not extra structure.",
+   "intree": "`sub_le u v := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }` — the same 'factors through the mono' predicate, but with the element `sub_mono u` required to be a MONO into x, i.e. `u` must itself be a subobject. The uniqueness clause is `sub_le_unique`, again stated only for `u v : SubObj x`, though its proof uses only `sub_is_monic v`.",
+   "strength_comparison": "intree-weaker: special case only. The defining formula and its proof-irrelevance argument exist, but only for elements that are themselves subobjects (`u : SubObj x`), not for an arbitrary generalized element `z : Z ~> x`. The general relation is never defined and no notation for it exists."
+  },
+  "gap": "There is no definition of `z ∈_x m` for a general generalized element `z : Z ~> x` — the in-tree `sub_le` requires both arguments to be `SubObj x`, so the element's arrow must be monic. Correspondingly `sub_le_unique` (the proof-irrelevance clause the book highlights) is stated only for subobject domains, even though its proof needs only monicity of the target. No membership notation, no `Definition sub_elem`, and no lemma that the relation is `Proper` in the element up to ≈ or invariant under `SubObj_Setoid` in the subobject.",
+  "negative_search_log": [
+   "rg -n -i 'generalized element' --glob '*.v' — 2 hits, both prose in headers (Structure/Constant.v:15, Structure/Terminal.v:61); no definition",
+   "rg -n 'Notation.*∈|∈\\b' --glob '*.v' — hits only in Theory/Sheaf.v prose (index-set notation) and Instance/Ens.v (Coq `Ensembles` membership); no categorical membership relation",
+   "rg -n -i 'membership' --glob '*.v' — Lib/MapDecide.v (finite maps), Instance/Cat.v & Instance/Coq.v (prose about set-theoretic membership), Instance/FinSet/Topos.v:89 `FinSet_Pow_membership` (an `eval` computation at the power object, not a subobject membership relation)",
+   "rg -n -i 'factors through' --glob '*.v' — all hits are prose in headers or unrelated factorization results; none defines a membership predicate"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind verdict was ABSENT; PARTIAL is the better call and I accept it. Independent searches: rg -n -i 'generalized element' -> 2 hits, both header prose (Structure/Constant.v:15, Structure/Terminal.v:61), no definition; rg -n -i 'member|belongs' -> nothing categorical (Instance/Ens.v is Coq Ensembles, Instance/FinSet/Topos.v:89 is a Pow evaluation); no membership notation. The PARTIAL rests on a genuine special-case relation: sub_le u v unfolds to sub_mono u factoring through sub_mono v, i.e. exactly z in_X M for the sub-case where the element z is itself monic -- verified at Theory/Subobject.v:59-60. The proof-irrelevance clause Awodey highlights is sub_le_unique (line 78), whose proof uses only monicity of the TARGET, so the generalization is a two-line restatement. Gap statement is precise and correct."
+  }
+ },
+ {
+  "id": "awodey:5.1:example3",
+  "classification": "PARTIAL",
+  "aliases": [
+   "equalizer is a monomorphism",
+   "equalizer as a subobject",
+   "regular subobject",
+   "comprehension / { z | f z = g z }",
+   "equalizer_monic",
+   "IsEqualizer eq_desc universal property"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Equalizer/Fork.v",
+    "line": 83,
+    "symbol": "equalizer_monic",
+    "intree_statement": "Lemma equalizer_monic {q : C} {e : q ~> x} (E : IsEqualizer f g q e) : Monic e."
+   },
+   {
+    "file": "Structure/Equalizer/Fork.v",
+    "line": 52,
+    "symbol": "IsEqualizer",
+    "intree_statement": "Record IsEqualizer {C : Category} {x y : C} (f g : x ~> y) (q : C) (e : q ~> x) := { fork_eq : f ∘ e ≈ g ∘ e; eq_desc {z} (h : z ~> x) (Hh : f ∘ h ≈ g ∘ h) : ∃! u : z ~> q, e ∘ u ≈ h }."
+   },
+   {
+    "file": "Structure/Equalizer.v",
+    "line": 72,
+    "symbol": "(header prose)",
+    "intree_statement": "It follows from monicity that equalizers are a canonical source of subobjects — those carved out by an equation — and monomorphisms arising this way are called regular."
+   }
+  ],
+  "statement_record": {
+   "book": "An equalizer e : E -> A of f, g : A -> B is monic, hence a subobject of A, and for every generalized element z : Z -> A one has z ∈_A E iff f z = g z. So E is the subobject of generalized elements on which f and g agree — the internalized comprehension {z : Z -> A | f z = g z}.",
+   "intree": "`equalizer_monic : IsEqualizer f g q e → Monic e` gives the subobject half. The membership half is split across the two `IsEqualizer` fields: `fork_eq : f ∘ e ≈ g ∘ e` (whence any z factoring through e is equalized, after one rewrite) and `eq_desc {z} (h : z ~> x) (Hh : f ∘ h ≈ g ∘ h) : ∃! u, e ∘ u ≈ h` (the converse, with uniqueness).",
+   "strength_comparison": "intree-weaker: the mathematical content is present but only as unassembled halves. `equalizer_monic` and `eq_desc` are exactly the book's ingredients; the biconditional the example asserts is never stated, because the membership relation `∈_A` does not exist in-tree, and the forward half (`z factors through e ⇒ f z ≈ g z`) is nowhere recorded as a lemma."
+  },
+  "gap": "Two things are missing. (1) The equalizer is never packaged as a subobject: no `Build_SubObj` (or definition of that shape) is fed by `equalizer_monic`, so an equalizer is not an inhabitant of `SubObj x` anywhere in the tree — the connection lives only in Structure/Equalizer.v's header prose. (2) The characterizing biconditional `z ∈_A E ↔ f ∘ z ≈ g ∘ z` is unstatable and unstated, since the local-membership relation of awodey:5.1:def-local-membership is itself absent; the ⇐ direction exists as `eq_desc`, the ⇒ direction is a one-rewrite consequence of `fork_eq` but is not recorded.",
+  "negative_search_log": [
+   "rg -n 'SubObj' --glob '*.v' — no hit combines SubObj with an equalizer; the only SubObj producers are truth_subobject, sub_reindex, and the Sets image subobject",
+   "rg -n -i 'regular subobject|regular mono' --glob '*.v' — Structure/Regular.v defines `RegularEpi` only; the dual regular-mono / equalizer-subobject notion is not defined",
+   "rg -n 'Pullback|pullback' Structure/Equalizer.v Structure/Equalizer/Fork.v — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed independently on PARTIAL. Verified Structure/Equalizer/Fork.v:52 Record IsEqualizer (fields fork_eq and eq_desc, quoted accurately) and :83-84 equalizer_monic : IsEqualizer f g q e -> Monic e. Confirmed by rg that no in-tree Build_SubObj is ever fed by equalizer_monic (the only SubObj producers tree-wide are truth_subobject, sub_reindex, and Instance/Sets/Classifier.v's image subobject), so 'an equalizer IS an inhabitant of SubObj x' is genuinely unstated. Minor citation imprecision: the header prose the record anchors at Structure/Equalizer.v:72 actually says 'equalizers are a canonical source of subobjects' at lines 67-69; line 72 is the type-theory sentence. Prose citation only, no bearing on the verdict."
+  }
+ },
+ {
+  "id": "awodey:5.1:remark4",
+  "classification": "PARTIAL",
+  "aliases": [
+   "poset of subobjects Sub_C(X)/≡",
+   "subobject = equivalence class of monos",
+   "Sub_Sets(X) ≅ P(X)",
+   "powerset / power object Pow",
+   "classifier_classifies : SubObj x ≅ (x ~> Ω)",
+   "every subobject of a set is a unique subset"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Subobject.v",
+    "line": 8,
+    "symbol": "(header)",
+    "intree_statement": "A subobject of an object x is (an equivalence class of) a monomorphism into x. Here the setoid structure itself carries the quotient: two monos into x are equivalent when there is an isomorphism of their domains commuting with them over x."
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 33,
+    "symbol": "SubObj_Setoid",
+    "intree_statement": "#[export] Program Instance SubObj_Setoid : Setoid (SubObj x) := { equiv := fun u v => { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u } }."
+   },
+   {
+    "file": "Structure/SubobjectClassifier.v",
+    "line": 187,
+    "symbol": "classifier_classifies",
+    "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}."
+   },
+   {
+    "file": "Instance/Sets/Classifier.v",
+    "line": 341,
+    "symbol": "sets_char_subobject",
+    "intree_statement": "Theorem sets_char_subobject@{o so} {A B : SetoidObject@{o o}} (m : A ~{Sets@{o so}}~> B) (Hm : @Monic Sets@{o so} A B m) : @equiv _ (@SubObj_Setoid Sets@{o so} B) (@Build_SubObj Sets@{o so} B A m Hm) (@Build_SubObj Sets@{o so} B (Sets_Image m) (Sets_Image_mono m) (Sets_Image_mono_monic m))."
+   },
+   {
+    "file": "Structure/Topos.v",
+    "line": 129,
+    "symbol": "Pow",
+    "intree_statement": "Definition Pow {C : Category} {H : ElementaryTopos C} (a : C) : C := Ω ^ a."
+   },
+   {
+    "file": "Instance/FinSet/Topos.v",
+    "line": 52,
+    "symbol": "FinSet_Pow_two",
+    "intree_statement": "Example FinSet_Pow_two : @Pow FinSet FinSet_Topos 2%nat = 4%nat := eq_refl."
+   }
+  ],
+  "statement_record": {
+   "book": "It is convenient to replace the preorder Sub_C(X) by the poset obtained by quotienting by ≡ (mutual inclusion); under that reading a subobject IS an equivalence class of monos into X. In Sets this poset is isomorphic to the powerset: Sub_Sets(X) = P(X), every subobject being represented by a unique subset.",
+   "intree": "The quotient reading is the library's DEFAULT: `SubObj_Setoid` makes the setoid equivalence on `SubObj x` be exactly mutual factorization (via `sub_equiv_iff_mutual`), and the header states 'the setoid structure itself carries the quotient'. The Sets-side statement appears as `sets_char_subobject`: every mono `m : A ~> B` of Sets is `SubObj_Setoid`-equal to the sub-setoid `Sets_Image m ⊆ B`. The general classification is `classifier_classifies : SubObj x ≅ (x ~> Ω)` in Sets.",
+   "strength_comparison": "intree-weaker: the quotient half is present (indeed built in), and the 'unique subset representative' half is proved for Sets as `sets_char_subobject`. What is missing is the POSET structure on the quotient and the isomorphism with a powerset OBJECT: `Sub_Sets(X) ≅ P(X)` cannot be stated in-tree for the library's `Sets`, which has no `SubobjectClassifier` instance (only cross-universe theorems, by the documented size obstruction) and no powerset object for setoids."
+  },
+  "gap": "Two gaps. (1) The quotient is a SETOID, not a POSET: `sub_le` is never descended to `SubObj_Setoid`-classes, no antisymmetry-up-to-≈ statement is made, and no order structure (Proset/Poset/lattice) is put on `SubObj x` — cf. the same gap flagged for awodey:5.1:def1. (2) `Sub_Sets(X) ≅ P(X)` is not available for the library's `Sets`: Instance/Sets/Classifier.v proves only CROSS-UNIVERSE classifier theorems (the truth-value setoid provably lives one universe up), there is no `SubobjectClassifier Sets` instance and hence no `classifier_classifies` at Sets, and no powerset object of a setoid is constructed. The corresponding statement holds concretely only in skeletal `FinSet` (via `FinSet_Topos` + `classifier_classifies`, with `Pow` computing by `eq_refl`).",
+  "negative_search_log": [
+   "rg -n -i 'powerset|power set|power object|Pow ' --glob '*.v' — only Structure/Topos.v's `Pow a := Ω ^ a` and its FinSet examples; no powerset of a setoid, and no Sets-level statement",
+   "rg -n -i 'lattice of subobjects|subobject lattice|heyting' --glob '*.v' — Heyting appears only in prose (Structure/Topos.v:81, Theory/Sheaf.v:85) and as Instance/Props.v (a thin category of Props), never as the subobject lattice",
+   "rg -n 'Sets_Cartesian|Program Instance' Instance/Sets/Cartesian.v and rg -n 'HasPullbacks' --glob '*.v' — `Sets` has products but no classifier instance and no pullbacks instance"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL for the same two reasons. Verified: Theory/Subobject.v header does say 'the setoid structure itself carries the quotient' (the sentence is at line 11-12; the record cites line 8, the start of the header block -- cosmetic). Structure/SubobjectClassifier.v:187 classifier_classifies : @Isomorphism Sets {|carrier := SubObj x|} {|carrier := x ~> Omega|} verified verbatim, and it is stated over Context `{HP : @HasPullbacks C} + `{HS : SubobjectClassifier}, so it is NOT available at Sets -- confirmed independently that no SubobjectClassifier Sets and no HasPullbacks Sets instance exists tree-wide, matching Instance/Sets/Classifier.v's documented cross-universe obstruction (header lines 29-45). Instance/Sets/Classifier.v:341 sets_char_subobject verified (every mono of Sets is SubObj_Setoid-equal to Sets_Image m). Structure/Topos.v:129 Pow and Instance/FinSet/Topos.v:52 FinSet_Pow_two verified at the cited lines. The 'no poset structure on the quotient' half of the gap is correct: sub_le is never descended to equivalence classes."
+  }
+ },
+ {
+  "id": "awodey:5.2:def5",
+  "classification": "PRESENT",
+  "aliases": [
+   "pullback",
+   "fiber product / fibered product A ×_C B",
+   "cartesian square",
+   "Pullback record / ump_pullbacks",
+   "IsPullback (apex-pinned)",
+   "limit of a cospan"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Pullback.v",
+    "line": 161,
+    "symbol": "Pullback",
+    "intree_statement": "Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := { Pull : C; pullback_fst : Pull ~> x; pullback_snd : Pull ~> y; pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd; ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2 }."
+   },
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 53,
+    "symbol": "IsPullback",
+    "intree_statement": "Record IsPullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) (P : C) (p1 : P ~> x) (p2 : P ~> y) := { is_pullback_commutes : f ∘ p1 ≈ g ∘ p2; is_pullback_ump : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> P, p1 ∘ u ≈ q1 ∧ p2 ∘ u ≈ q2 }."
+   },
+   {
+    "file": "Structure/Pullback.v",
+    "line": 215,
+    "symbol": "HasPullbacks",
+    "intree_statement": "Class HasPullbacks (C : Category) : Type := { pullback : forall {x y z : C} (f : x ~> z) (g : y ~> z), Pullback f g }."
+   },
+   {
+    "file": "Structure/Pullback/Limit.v",
+    "line": 54,
+    "symbol": "Pullback_Limit",
+    "intree_statement": "Definition Pullback_Limit {C : Category} (F : Cospan C) := Limit F."
+   }
+  ],
+  "statement_record": {
+   "book": "A pullback of f : A -> C and g : B -> C is an object P with p1 : P -> A, p2 : P -> B such that f p1 = g p2, universal: for every Z, z1 : Z -> A, z2 : Z -> B with f z1 = g z2 there is a UNIQUE u : Z -> P with z1 = p1 u and z2 = p2 u. The object is written A ×_C B, the mediator ⟨z1,z2⟩.",
+   "intree": "Record Pullback ... := { Pull : C; pullback_fst : Pull ~> x; pullback_snd : Pull ~> y; pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd; ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2 }.",
+   "strength_comparison": "same (setoid rephrasing: `=` becomes `≈`, and `∃!` is the library's Type-valued `Unique` record so the mediator is data). Both presentations are given — the existentially-packaged `Pullback` and the apex-pinned `IsPullback`, with conversions `pullback_is_pullback`/`is_pullback_pullback` — and the limit-of-a-cospan reading is reconciled in Structure/Pullback/Limit.v. The notation `A ×_C B` and `⟨z1,z2⟩` is not introduced, which is presentation only."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found the identical evidence. Structure/Pullback.v:161-173 Record Pullback quoted verbatim and accurately (Pull, pullback_fst, pullback_snd, pullback_commutes, ump_pullbacks with the Type-valued exists-unique). Theory/Morphisms/Stability.v:53 IsPullback (apex-pinned) and the conversions pullback_is_pullback/is_pullback_pullback (lines 65/71) verified; Structure/Pullback/Limit.v:54 Pullback_Limit verified. Structure/Pullback.v is _CoqProject:368 and .vo present. Strength 'same' is honest -- the only divergence is notation (no A x_C B, no <z1,z2>), correctly called presentation-only. NOTE the two library defects found in this file while confirming (problems[] entries 1-3); they concern the header and pullback_unique, not the Definition itself."
+  }
+ },
+ {
+  "id": "awodey:5.2:prop-pullback-unique",
+  "classification": "PRESENT",
+  "aliases": [
+   "pullbacks are unique up to isomorphism",
+   "pullback_unique",
+   "pullback_transport / PullbackTransport",
+   "uniqueness of limits up to unique iso",
+   "the canonical comparison of two pullbacks is invertible"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 329,
+    "symbol": "pullback_transport",
+    "intree_statement": "Lemma pullback_unique {C : Category} {x y z : C} {f : x ~> z} {g : y ~> z} (P Q : Pullback f g) : Pull f g P ≅ Pull f g Q.",
+    "note": "fess F2: repointed from Structure/Pullback.v:182 pullback_unique, which is Qed-opaque and does NOT carry transport_fst/transport_snd"
+   },
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 313,
+    "symbol": "PullbackTransport",
+    "intree_statement": "Record PullbackTransport ... (P P' : Pullback f g) := { transport_iso : Pull f g P ≅ Pull f g P'; transport_fst : pullback_fst f g P' ∘ to transport_iso ≈ pullback_fst f g P; transport_snd : pullback_snd f g P' ∘ to transport_iso ≈ pullback_snd f g P }."
+   },
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 329,
+    "symbol": "pullback_transport",
+    "intree_statement": "Lemma pullback_transport {C : Category} {x y z : C} {f : x ~> z} {g : y ~> z} (P P' : Pullback f g) : PullbackTransport P P'."
+   }
+  ],
+  "statement_record": {
+   "book": "Any two pullbacks of the same pair f, g are isomorphic; the arrows between them determined by the two universal properties are mutually inverse.",
+   "intree": "`pullback_unique (P Q : Pullback f g) : Pull f g P ≅ Pull f g Q`, proved exactly as in the book (each pullback mediates into the other; each round trip equals the self-mediator, which equals id by uniqueness). The strengthened `pullback_transport` returns a `PullbackTransport` record additionally carrying `transport_fst`/`transport_snd`, i.e. that the isomorphism COMMUTES WITH BOTH PROJECTIONS.",
+   "strength_comparison": "intree-stronger: `pullback_unique` alone matches the book's assertion, but is `Qed`-opaque (its triangles are hidden), which the header at Structure/Pullback.v:136-144 notes; `pullback_transport` supplies the same isomorphism together with the two commuting triangles, which is the full 'unique isomorphism respecting the pullback structure' the book alludes to. Uniqueness of the comparison arrow itself is immediate from `ump_pullbacks` but is not separately named."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found pullback_unique immediately and pullback_transport on inspecting Stability.v. Structure/Pullback.v:182-211 verified: the statement is only 'Pull f g P =~ Pull f g Q' and the proof is exactly the book's (mutual mediators, round trips equal the self-mediator, hence id). Theory/Morphisms/Stability.v:313-321 PullbackTransport verified to carry transport_iso + transport_fst + transport_snd (both projection triangles), and :329 pullback_transport produces it; note pullback_transport also ends in Qed, but its record fields are still usable as facts (Theory/Subobject/Functor.v:51 consumes them), so the 'intree-stronger' claim holds. The record is honest that pullback_unique ALONE is weaker than the book's phrasing -- which is precisely the library defect I log in problems[] (the file's own comments claim more for pullback_unique than it proves)."
+  }
+ },
+ {
+  "id": "awodey:5.2:prop7",
+  "classification": "ABSENT",
+  "aliases": [
+   "pullback as an equalizer of f∘π1 and g∘π2",
+   "equalizer of the two composites out of A × B",
+   "pullback ⟺ equalizer characterization",
+   "A ×_C B as the subobject {⟨z1,z2⟩ | f z1 = g z2} of A × B",
+   "limits by products and equalizers (Mac Lane V.2)",
+   "finite limits from products + equalizers"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n 'Pullback|pullback' Structure/Equalizer.v Structure/Equalizer/Fork.v — 0 hits (the equalizer files never mention pullbacks)",
+   "rg -n 'Equalizer|equalizer' Structure/Pullback.v — the only occurrences are the two `jww (2017-06-01/02): TODO` comment blocks at lines 254-274 quoting Wikipedia's statement of exactly this proposition, i.e. it is recorded as an OPEN todo, not proved",
+   "rg -n 'Equalizer' Structure/Pullback/Limit.v Structure/Complete.v — 0 relevant hits (Pullback/Limit.v only reconciles Pullback with Limit over the Roof/Cospan shape)",
+   "rg -n -i 'products and equalizers|products \\+ equalizers|by products' --glob '*.v' — 5 hits, ALL prose: Structure/Equalizer.v:80-83 and Structure/Complete.v:51 and Structure/Limit.v:71 cite Mac Lane §V.2 as background; Structure/Topos.v:23 states outright 'the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library, so we do not pretend one component subsumes another'",
+   "rg -n 'HasEqualizers' --glob '*.v' — only Structure/Equalizer/Fork.v:68 (the class), Theory/WeaklyInitial.v:94 and Adjunction/GAFT.v:193 (`Complete_HasEqualizers`, the opposite direction: completeness ⇒ equalizers). Nothing produces pullbacks from equalizers.",
+   "rg -n 'HasPullbacks' --glob '*.v' — the class and its only instance `FinSet_Pullbacks` (computed directly, not via products+equalizers), plus the op-transfer to/from HasPushouts. No derivation from Cartesian + HasEqualizers."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass reached ABSENT independently and by a different route: rg -n 'Pullback' tree-wide (filtering out Structure/Pullback.v and pushouts) enumerated every producer of a Pullback in the tree -- FinSet_Pullbacks (counted subsets), image_kernel_pair, codomain_cleaving, Span/Cospan consumers -- none from products+equalizers; and Structure/Pullback.v's own lines 267-274 carry a 'jww (2017-06-02)' TODO quoting exactly this proposition. Also verified independently that no concrete in-tree category carries a HasEqualizers instance, so neither direction is even instantiable today. The record's citation of Structure/Topos.v:20-26 is accurate verbatim ('the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library'). ABSENT confirmed."
+  }
+ },
+ {
+  "id": "awodey:5.2:cor8",
+  "classification": "ABSENT",
+  "aliases": [
+   "products + equalizers imply pullbacks",
+   "Cartesian C → HasEqualizers C → HasPullbacks C",
+   "finite completeness from terminal + products + equalizers",
+   "existence theorem for finite limits",
+   "Complete_HasPullbacks"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n 'HasPullbacks' --glob '*.v' — 20 hits: the class (Structure/Pullback.v:215), the sole instance `FinSet_Pullbacks` (Instance/FinSet/Classifier.v:264, built directly from counted subsets), the op-transfers in Structure/Pushout.v:158/168, `codomain_cleaving_pullbacks` (Construction/Displayed/Codomain.v:233, from a cleaving), and consumers (Topos, Regular, Span, SubobjectClassifier, Subobject/Functor, Slice/Pullback). No producer from products+equalizers, and no `Complete_HasPullbacks`.",
+   "rg -n 'Complete_HasEqualizers|Complete_' --glob '*.v' — only `Complete_HasEqualizers` (Adjunction/GAFT.v:193, completeness ⇒ equalizers) and `Comma_Complete_right_adjoint`; no analogue producing pullbacks",
+   "rg -n -i 'equalizer' Instance/ --glob '*.v' — no concrete category in the tree even carries a `HasEqualizers` instance (only the shape categories Parallel/Two are mentioned), so the hypothesis of the corollary is nowhere discharged",
+   "Structure/Topos.v:20-26 explicitly records this as a known in-tree gap: 'Finite limits are carried EXPLICITLY here as terminal object + binary products + pullbacks: the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library'"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Same blind route as prop7; ABSENT confirmed. Independently verified the full HasPullbacks census: class at Structure/Pullback.v:215; sole instance FinSet_Pullbacks at Instance/FinSet/Classifier.v:264; op-transfers at Structure/Pushout.v:158/168; Construction/Displayed/Codomain.v:233 derives HasPullbacks from a Cleaving (not from products+equalizers); everything else is a consumer. No Complete_HasPullbacks analogue of Adjunction/GAFT.v:193 Complete_HasEqualizers. The corollary's hypothesis is nowhere discharged in-tree."
+  }
+ },
+ {
+  "id": "awodey:5.2:construction-pullback-in-sets",
+  "classification": "PARTIAL",
+  "aliases": [
+   "pullback in Sets as {⟨a,b⟩ ∈ A × B | f a = g b}",
+   "explicit fiber product of sets",
+   "Sets_Pullbacks / HasPullbacks Sets",
+   "FinSet_Pullbacks",
+   "agreement subset of the product",
+   "inner join"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/FinSet/Classifier.v",
+    "line": 264,
+    "symbol": "FinSet_Pullbacks",
+    "intree_statement": "#[export] Program Instance FinSet_Pullbacks : HasPullbacks FinSet := { pullback := fun m n k (f : Fin.t m → Fin.t k) (g : Fin.t n → Fin.t k) => {| Pull := fin_countP (finset_pb_pred f g); pullback_fst := fun q => fst (fin_unpair (fin_select (finset_pb_pred f g) q)); pullback_snd := fun q => snd (fin_unpair (fin_select (finset_pb_pred f g) q)) |} }."
+   },
+   {
+    "file": "Instance/FinSet/Classifier.v",
+    "line": 257,
+    "symbol": "finset_pb_pred",
+    "intree_statement": "Definition finset_pb_pred {m n k : nat} (f : Fin.t m → Fin.t k) (g : Fin.t n → Fin.t k) : Fin.t (m * n) → bool := fun p => fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p)))."
+   },
+   {
+    "file": "Structure/Pullback.v",
+    "line": 29,
+    "symbol": "(header)",
+    "intree_statement": "A pullback is the subset of the cartesian product of A and B, X ⊆ A × B, consisting of exactly those pairs (a, b) for which f(a) = g(b)"
+   }
+  ],
+  "statement_record": {
+   "book": "Instantiating the product-plus-equalizer recipe in Sets gives the pullback of f : A -> C and g : B -> C explicitly as A ×_C B = {⟨a,b⟩ ∈ A × B | f a = g b}, with the inclusion into A × B and the two coordinate projections as the pullback cone.",
+   "intree": "`FinSet_Pullbacks : HasPullbacks FinSet` with `Pull := fin_countP (finset_pb_pred f g)` where `finset_pb_pred f g p := fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p)))` — literally the subset of the encoded product `Fin.t (m * n)` on which f and g agree — and `pullback_fst`/`pullback_snd` decode-then-project.",
+   "strength_comparison": "intree-weaker: the construction is realized for skeletal FinSet (finite sets encoded as `Fin.t n`), not for the library's `Sets` (setoids) or `Coq` (types and functions). The recipe is also NOT obtained by instantiating products+equalizers (that reduction is absent in-tree, see awodey:5.2:prop7/cor8); it is built directly via the rank/select count codec. The described subset-of-the-product presentation matches the book exactly, and it reduces on closed inputs."
+  },
+  "gap": "There is no `HasPullbacks Sets` (nor `HasPullbacks Coq`) instance anywhere in the tree, so the book's construction is not realized for the library's category of sets/setoids; the only witness is `FinSet_Pullbacks` for skeletal finite sets. Additionally the construction is not derived from the product-plus-equalizer recipe the book uses (no equalizers exist in any concrete instance in-tree), so the 'instantiate Cor. 5.8' framing has no in-tree counterpart. The set-theoretic description appears for `Sets` only as prose in Structure/Pullback.v's header.",
+  "negative_search_log": [
+   "rg -n -i 'pullback' Instance/Sets.v — 1 hit, a cross-reference to Instance/Sets/Classifier.v; no pullback construction",
+   "rg -n -i 'pullback' Instance/Sets/*.v — only Instance/Sets/Pushout.v (pushouts, packaged as Pullbacks in Sets^op) and Instance/Sets/Classifier.v (the classifier square)",
+   "rg -n 'HasPullbacks' --glob '*.v' — the only instance in the tree is `FinSet_Pullbacks`",
+   "rg -n -i 'pullback|equalizer' Instance/Coq.v Instance/Coq/*.v — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same PARTIAL. Verified Instance/FinSet/Classifier.v:257 finset_pb_pred and :264 FinSet_Pullbacks verbatim -- Pull := fin_countP (finset_pb_pred f g) with finset_pb_pred p := fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p))), i.e. literally the subset of the encoded product on which f and g agree, with both obligations proved (commuting square + full UMP with uniqueness). Independently re-ran the negatives: no HasPullbacks Sets, no Instance/Sets/Pullback.v, and rg -c -i 'pullback|equalizer' over Instance/Coq.v and Instance/Coq/** returns nothing (exit 1). The 'not obtained by instantiating products+equalizers' remark is correct and consistent with the prop7/cor8 records."
+  }
+ },
+ {
+  "id": "awodey:5.2:example9",
+  "classification": "PARTIAL",
+  "aliases": [
+   "inverse image f^{-1}(V) is a pullback",
+   "preimage square is cartesian",
+   "restriction of f to a preimage",
+   "pullback of a subset inclusion along a function",
+   "char_pullback / sets_char_pullback (the V = {true} case)",
+   "z factors through f^{-1}(V) iff f z factors through V"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets/Classifier.v",
+    "line": 224,
+    "symbol": "sets_char_pullback",
+    "intree_statement": "Theorem sets_char_pullback@{o so sso} {A B : SetoidObject@{o o}} (m : A ~{Sets@{o so}}~> B) (Hm : @Monic Sets@{o so} A B m) : @IsPullback Sets@{so sso} (Setoid_Lift@{o so} B) unit_setoid_object@{so so} PropSetoid@{o so} (char_setoid@{o so} m) sets_true@{o so} (Setoid_Lift@{o so} A) (SetoidMorphism_Lift@{o so} m) sets_to_unit@{so}."
+   },
+   {
+    "file": "Instance/FinSet/Classifier.v",
+    "line": 360,
+    "symbol": "FinSet_Classifier (char_pullback obligation)",
+    "intree_statement": "Next Obligation. (* char_pullback: u is the preimage of fin_true under char m *) intros u x m M. unshelve econstructor. - (* the classifying square commutes *) ... - (* the universal property *) ..."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 46,
+    "symbol": "sub_reindex_transport",
+    "intree_statement": "Lemma sub_reindex_transport {x y : C} (f : y ~> x) (u : SubObj x) (v : SubObj y) (p2 : sub_dom v ~> sub_dom u) (HP : IsPullback f (sub_mono u) (sub_dom v) (sub_mono v) p2) : sub_reindex f u ≈ v."
+   }
+  ],
+  "statement_record": {
+   "book": "In Sets, for f : A -> B and V ⊆ B, put f^{-1}(V) = {a ∈ A | f a ∈ V}; with the inclusions i : V >-> B, j : f^{-1}(V) >-> A and the restriction f̄, the square is a pullback: for all z : Z -> A, z factors through f^{-1}(V) iff f z factors through V. Hence f^{-1}(V) as a subobject of A is determined up to isomorphism as the pullback of V along f.",
+   "intree": "The 'preimage square is a pullback' phenomenon is proved in-tree only for the CLASSIFIER instance of it, i.e. V = the generic subobject: `sets_char_pullback` shows in (lifted) Sets that A with m and the terminal map is the pullback of `sets_true : 1 ~> PropSetoid` along `char_setoid m`, and the FinSet classifier obligation at Instance/FinSet/Classifier.v:360 is annotated 'char_pullback: u is the preimage of fin_true under char m'. The closing generalization of the example — that the pullback of a subobject along f determines a subobject up to iso — IS present in full generality as `sub_reindex` + `sub_reindex_transport`.",
+   "strength_comparison": "intree-weaker: special case only for the concrete half. No statement in-tree says that in Sets (or FinSet) the pullback of an arbitrary subset inclusion i : V >-> B along an arbitrary f : A -> B is the preimage {a | f a ∈ V}; what is proved is the classifier square, which is the instance V = 1 ↪ Ω along a characteristic map. The general-category consequence the example draws is fully present (and stronger, being functorial)."
+  },
+  "gap": "No in-tree statement identifies the pullback of a subobject along a map in `Sets` (or `FinSet`) with the concrete preimage, and `Sets` has no pullbacks at all (no `HasPullbacks Sets` instance), so the square of the example cannot even be exhibited there without the universe lift of Instance/Sets/Classifier.v. There is likewise no lemma of the form `z ∈_A f^{-1}(V) ↔ f ∘ z ∈_B V` (the local-membership relation is itself absent — see awodey:5.1:def-local-membership). What survives is (i) the classifier special case, and (ii) the abstract statement that the pullback of a subobject along f determines a subobject up to `SubObj_Setoid` equivalence (`sub_reindex_transport`).",
+  "negative_search_log": [
+   "rg -n -i 'preimage|inverse image' --glob '*.v' — the only preimage-of-a-subobject statements are the classifier obligations (Instance/FinSet/Classifier.v:361, Instance/Sets/Classifier.v:333) and Structure/Pullback.v:92's header prose 'Pulling a monomorphism back along f computes the preimage of the subobject it names'; no lemma",
+   "rg -n -i 'pullback' Instance/Sets.v Instance/Sets/*.v — no pullback of a general cospan in Sets",
+   "rg -n 'HasPullbacks' --glob '*.v' — `Sets` has no instance"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass had this as ABSENT-leaning; PARTIAL is justified and I accept it. The classifier square genuinely IS an instance of Example 5.9 (take f := char m : B -> Omega and V := the generic subobject 1 >-> Omega; the preimage is the domain of m), so it is a legitimate special case rather than a stretch. Verified Instance/Sets/Classifier.v:224 sets_char_pullback (stated with @IsPullback Sets@{so sso} -- the lifted, cross-universe form, as the record says) and Instance/FinSet/Classifier.v:360-361, whose obligation comment reads 'char_pullback: u is the preimage of fin_true under char m'. Verified Theory/Subobject/Functor.v:46 sub_reindex_transport supplies the abstract half. The gap correctly notes both the absent Sets-level general statement and the absent z in f^-1(V) <-> f z in V biconditional (which is unstatable given the absent membership relation)."
+  }
+ },
+ {
+  "id": "awodey:5.2:construction-inverse-image",
+  "classification": "PRESENT",
+  "aliases": [
+   "inverse image map f^{-1} : Sub(B) -> Sub(A)",
+   "reindexing / base change of subobjects",
+   "pullback of a mono is a mono",
+   "sub_reindex",
+   "the subobject presheaf Sub : C^op ⟶ Sets",
+   "substitution functor, f*"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 35,
+    "symbol": "sub_reindex",
+    "intree_statement": "Definition sub_reindex {x y : C} (f : y ~> x) (u : SubObj x) : SubObj y := {| sub_dom := Pull f (sub_mono u) (pullback f (sub_mono u)); sub_mono := pullback_fst f (sub_mono u) (pullback f (sub_mono u)); sub_is_monic := monic_pullback_stable f (sub_mono u) (sub_is_monic u) (pullback f (sub_mono u)) |}."
+   },
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 226,
+    "symbol": "monic_pullback_stable",
+    "intree_statement": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P)."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 60,
+    "symbol": "sub_reindex_respects",
+    "intree_statement": "#[export] Instance sub_reindex_respects {x y : C} (f : y ~> x) : Proper (equiv ==> equiv) (@sub_reindex x y f)."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 143,
+    "symbol": "sub_reindex_id",
+    "intree_statement": "Lemma sub_reindex_id {x : C} (u : SubObj x) : sub_reindex id u ≈ u."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 152,
+    "symbol": "sub_reindex_comp",
+    "intree_statement": "Lemma sub_reindex_comp {x y z : C} (g : y ~> x) (f : z ~> y) (u : SubObj x) : sub_reindex (g ∘ f) u ≈ sub_reindex f (sub_reindex g u)."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 180,
+    "symbol": "Sub",
+    "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x ; is_setoid := @SubObj_Setoid C x |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f) ; proper_morphism := sub_reindex_respects (unop f) |} |}."
+   }
+  ],
+  "statement_record": {
+   "book": "In any category, given f : A -> B and a subobject m : M >-> B, form the pullback A ×_B M of m along f with leg m' : A ×_B M -> A. Since m is monic so is m' (left as an exercise), so pulling back along f defines a map f^{-1} : Sub(B) -> Sub(A), m ↦ m'. Section 5.3 will show f^{-1} is a functor, hence M ≡ N implies f^{-1}(M) ≡ f^{-1}(N).",
+   "intree": "`sub_reindex f u : SubObj y` is exactly m ↦ (pullback of `sub_mono u` along f, first projection), with monicity supplied by `monic_pullback_stable`. `sub_reindex_respects : Proper (equiv ==> equiv) (sub_reindex f)` is the ≡-invariance the book promises, and `sub_reindex_id`/`sub_reindex_comp` (the latter via `pullback_paste`) assemble `Sub : C^op ⟶ Sets`.",
+   "strength_comparison": "intree-stronger: the exercise the book defers (pullback of a mono is a mono) is proved as `monic_pullback_stable`; the functoriality announced for §5.3 is already discharged here (`sub_reindex_id`, `sub_reindex_comp`, `sub_reindex_respects`, packaged as the presheaf `Sub`), and there is an extra invariance in the MORPHISM argument (`sub_reindex_respects_mor : f ≈ f' → sub_reindex f u ≈ sub_reindex f' u`) which the book does not mention. Requires `HasPullbacks C` (chosen pullbacks) where the book merely forms 'the' pullback; the chosen-vs-any discrepancy is bridged by `sub_reindex_transport`."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass located Theory/Subobject/Functor.v independently and reached PRESENT. All six evidence anchors verified at the cited lines: sub_reindex:35, monic_pullback_stable (Theory/Morphisms/Stability.v:226-228, full proof read), sub_reindex_respects:60, sub_reindex_id:143, sub_reindex_comp:152 (via pullback_paste), Sub:180. The 'intree-stronger' claim is accurate on all three counts: Awodey defers pullback-stability of monos to an exercise and it is proved here; the functoriality he announces for 5.3 is already discharged; and sub_reindex_respects_mor (line 113) is an extra invariance. The chosen-vs-any caveat is real (HasPullbacks C is required) and correctly bridged by sub_reindex_transport. Both files are registered (_CoqProject:464,466) with .vo present."
+  }
+ }
+]

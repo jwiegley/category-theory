@@ -1,0 +1,12 @@
+[
+  {
+    "item_id": "maclane:App.1:remark1",
+    "issue": 404,
+    "append_block": "### Also covered by\n\nMac Lane, *Categories for the Working Mathematician* (2nd ed.), Appendix \"Foundations\", §App.1, book p. 290 (PDF p. 296); item `maclane:App.1:remark1`.\n\nThe Appendix revisits \"the category of sets is an elementary topos\" with the explicit set-theoretic witnesses this issue must realize: the terminal object is any one-element set; the pullback of `a -> 1 <- b` is the ordinary cartesian product with its projections; the truth-value object is `Ω = 2 = {0,1}` with `truth : 1 -> 2` the inclusion of `1`, so each mono `m : a >-> b` has classifying map `ψ : b -> 2` with `ψ(y) = 1` iff `y ∈ a`; and the power object `Pb` is the power set of `b` with membership `ε_b(x, s) = 1` iff `x ∈ s`. These are exactly the witnesses already realized on FINITE sets by `FinSet_Topos` (`Instance/FinSet/Topos.v:38`); the outstanding work for the full category of sets/setoids is unchanged from this issue (the predicative size obstruction on `Ω` documented at `Instance/Sets/Classifier.v`). No additional formalizable scope beyond this issue's."
+  },
+  {
+    "item_id": "maclane:App.1:remark2",
+    "issue": 405,
+    "append_block": "### Also covered by\n\nMac Lane, *Categories for the Working Mathematician* (2nd ed.), Appendix \"Foundations\", §App.1, book p. 290 (PDF p. 296); item `maclane:App.1:remark2`.\n\nThe Appendix states finite (co)completeness and cartesian closure as strong CONSEQUENCES of the elementary-topos axioms: all finite products and pullbacks; all finite coproducts including an initial object (\"the analogue of the empty set\"); and a right adjoint to `a × (−)` for each `a`, yielding exponentials `c^b` with `hom(a × b, c) ≅ hom(a, c^b)` (cross-referencing IV.6). The finite-limit and cartesian-closure halves already hold in-tree as `ElementaryTopos` fields (`topos_cartesian`, `topos_pullbacks`, `topos_closed`, with `exp_iso` at `Structure/Cartesian/Closed.v:51`). The one genuinely missing half — finite coproducts and the initial object — is exactly the obligation of this issue (\"every elementary topos has finite colimits\"), of which the Appendix's initial-object-plus-finite-coproducts claim is a sub-case. New aspect: the Appendix frames these as derived consequences of the axioms and singles out the initial object. No additional formalizable scope beyond this issue's."
+  }
+]

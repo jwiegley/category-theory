@@ -1,0 +1,313 @@
+[
+  {
+    "id": "riehl:6.1:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "Kan extension along the identity functor",
+      "Lan_{id_C} F ≅ F / Ran_{id_C} F ≅ F",
+      "restriction along Id is (naturally isomorphic to) the identity functor",
+      "Induced Id ⊣ Ran / Lan ⊣ Induced Id",
+      "extension along Id[C]; adjoints of the identity precomposition functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -l -i 'kan' . — 15 files; only Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v carry Kan-extension assertions, the rest are prose mentions",
+      "grep -rn --include='*.v' -iE 'Lan_(Id|identity)|Ran_(Id|identity)|kan.*identity|identity.*kan' . — 1 hit, Theory/Kan/Extension.v:71, a header COMMENT ('the right Kan extension of the identity along it exists and is preserved by it'), not an assertion and about Ran_K Id, not Lan_Id",
+      "grep -rn --include='*.v' -E '(Lan|Ran)[ (]+(Id|id)' . — 0 hits",
+      "grep -rn --include='*.v' -E 'Induced +\\(?Id' . — 0 hits (the restriction functor Induced of Theory/Kan/Extension.v:127 is never instantiated at the identity)",
+      "grep -rn --include='*.v' -E 'Id ⊣ Id|Adjunction_Id|adj_id' . — Instance/Adjoints.v:42 adj_id and Adjunction/Compose.v:65 Adjunction_Id exist, but these are Id[C] ⊣ Id[C] on a base category, NOT an adjoint to precomposition along Id in functor categories, and neither mentions Kan extensions",
+      "grep -rn --include='*.v' -E 'fun_equiv_id_right|fun_equiv_id_left' . — Theory/Functor.v:304,309 prove F ◯ Id ≈ F and Id ◯ F ≈ F; these are the ingredient the exercise would use, but no in-tree statement draws the Kan-extension conclusion",
+      "grep -rn --include='*.v' -iE 'ump_lan|ump_ran|LocalLeftKan|LocalRightKan|LeftKan|RightKan' . — the only consumer of the Kan classes outside Theory/Kan/Extension.v is Structure/Limit/Kan/Extension.v:46 (Kan_Limit, along Erase J), so no identity instance exists anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass independently reached ABSENT before opening the coverage file. Reproduced: `rg 'Lan\\b|Ran\\b' --glob '*.v'` shows Lan/Ran occur in exactly two files tree-wide (Theory/Kan/Extension.v, Structure/Limit/Kan/Extension.v) and never at Id; `Induced` (Theory/Kan/Extension.v:127) is never instantiated at Id[C]; the only consumer of the Kan classes outside the defining file is Structure/Limit/Kan/Extension.v:46 (K := Erase J). Verified the log's positive sub-claims at their cited lines: Theory/Functor.v:304 fun_equiv_id_right / :309 fun_equiv_id_left exist and are the only ingredient; Instance/Adjoints.v:42 adj_id and Adjunction/Compose.v:65 `Definition Adjunction_Id {C} : Id[C] ⊣ Id[C] := adj_id` are indeed base-category statements, not adjoints of precomposition in functor categories. The Theory/Kan/Extension.v:71 quote is verbatim (lines 70-72) and is prose. All cited files are registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:6.1:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "essential uniqueness of left Kan extensions",
+      "left Kan extensions are unique up to unique natural isomorphism compatible with the units",
+      "uniqueness of adjoints (left_adjoint_iso / right_adjoint_iso)",
+      "initial objects are unique up to unique isomorphism (applied to the category of extension candidates)",
+      "Lan unique / kan_unique / universal property determines the object"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 404,
+        "symbol": "left_adjoint_iso",
+        "intree_statement": "Theorem left_adjoint_iso `(G : D ⟶ C) (F F' : C ⟶ D) : F ⊣ G → F' ⊣ G → F ≈ F'.   (* ≈ on functors is Functor_Setoid, Theory/Functor.v:148: { iso : ∀ x, F x ≅ G x & ∀ x y f, fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) }, i.e. natural isomorphism *)"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 222,
+        "symbol": "LeftKan",
+        "intree_statement": "Class LeftKan := { Lan : [A, C] ⟶ [B, C]; lan_adjoint : Lan ⊣ Induced }.   (* the in-tree global left Kan extension IS by definition a left adjoint of Induced := (− ◯ F) : [B,C] ⟶ [A,C], so left_adjoint_iso applies to it verbatim *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Any two left Kan extensions (L, η) and (L', η') of F : C ⟶ E along K : C ⟶ D are UNIQUELY isomorphic: there is a natural isomorphism L ≅ L' that COMMUTES WITH the units η, η'.",
+      "intree": "Theorem left_adjoint_iso `(G : D ⟶ C) (F F' : C ⟶ D) : F ⊣ G → F' ⊣ G → F ≈ F'  — applied at G := Induced, with Class LeftKan := { Lan : [A,C] ⟶ [B,C]; lan_adjoint : Lan ⊣ Induced }.",
+      "strength_comparison": "intree-weaker: (a) it is uniqueness of LEFT ADJOINTS in general, never instantiated at Induced, so no in-tree statement mentions Kan extensions at all; (b) it concerns the GLOBAL extension functor Lan : [C,E] ⟶ [D,E] (which requires the extension of EVERY F to exist), not the local (single-F) extension the exercise is about — the Class LocalLeftKan of Theory/Kan/Extension.v:234 carries no uniqueness lemma; (c) the isomorphism is not shown to be compatible with the units η (the exercise's substantive clause), and the isomorphism's own uniqueness is not proven."
+    },
+    "gap": "No in-tree statement asserts uniqueness of a Kan extension. The available theorem is generic uniqueness of left adjoints (Theory/Adjunction.v:404), which specialises to the GLOBAL Lan (Class LeftKan is literally an adjoint to Induced) but (i) is never so specialised in-tree, (ii) says nothing about the LOCAL LocalLeftKan of a single functor F, (iii) does not prove the isomorphism commutes with the units lan_transform, and (iv) does not prove the isomorphism is itself unique. Riehl's exercise is exactly clauses (iii)+(iv) at the local level.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'kan[_ ].*uniq|uniq.*kan|essentially unique' . — 3 hits, all prose comments (Construction/Localization.v:56, Monad/Monadicity/Examples.v:29, Structure/Limit.v:78); none about Kan extensions",
+      "grep -rn --include='*.v' -E 'LocalLeftKan|LocalRightKan' . — used only inside Theory/Kan/Extension.v; no downstream lemma, hence no uniqueness result for local Kan extensions"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL; my blind pass independently classified PARTIAL on the same evidence (left_adjoint_iso applied through Class LeftKan). Theory/Adjunction.v:404 verified verbatim: `Theorem left_adjoint_iso `(G : D ⟶ C) (F F' : C ⟶ D) : F ⊣ G → F' ⊣ G → F ≈ F'`; the Functor_Setoid quote is accurate against Theory/Functor.v:148-159. Theory/Kan/Extension.v:222 LeftKan quoted accurately. All four gap clauses re-checked against the source: LocalLeftKan (Theory/Kan/Extension.v:234) has no downstream consumer anywhere in the tree, and the proof of left_adjoint_iso (Theory/Adjunction.v:406-440) builds the iso from the adjunct of the identity without ever stating unit compatibility or uniqueness of the iso. MINOR ARTIFACT INACCURACY (no bearing on the verdict): the first negative-log entry says the three 'essentially unique' hits are 'none about Kan extensions', but Structure/Limit.v:78 IS about Kan extensions ('exhibits the limit as the right Kan extension of F along the unique ...'); it is still only prose and not a uniqueness statement, so the conclusion stands."
+    }
+  },
+  {
+    "id": "riehl:6.1:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "composition / pasting law for left Kan extensions",
+      "Lan_K (Lan_J F) ≅ Lan_{K∘J} F; iterated Kan extension",
+      "Kan extensions compose; two-step extension along J then K",
+      "restriction is contravariantly functorial: Induced (K ◯ J) ≈ Induced J ◯ Induced K",
+      "pasting of 2-cells ζ : F ⇒ GJ and η : G ⇒ HK"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'kan.*(compos|paste|pasting|iterat)|(compos|pasting).*kan' . — 2 hits, both prose: Theory/Kan/Extension.v:300 (a quotation about PRESERVATION, not composition) and Structure/Coend.v:110 (a comment naming the pointwise left Kan extension in the profunctor-composition header)",
+      "grep -rn --include='*.v' -E '(Lan|Ran)[ (]+(Id|id)' and grep -rn --include='*.v' -E 'Induced +\\(?Id' . — 0 hits; the restriction functor Induced is never composed with another restriction, so the key ingredient Induced (K ◯ J) ≈ Induced J ◯ Induced K is not proven anywhere",
+      "grep -rn --include='*.v' -E 'Adjunction_Compose|adj_comp' . — Adjunction/Compose.v:173 Definition Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U') is the nearest machinery; it composes adjunctions but makes no claim about Kan extensions, and without the Induced-functoriality ingredient it does not yield even the global half of the pasting law",
+      "grep -rn --include='*.v' -l -i 'kan' . — Kan assertions live only in Theory/Kan/Extension.v (Induced, RightKan, LocalRightKan, LeftKan, LocalLeftKan, preserves_left/right_Kan, left_adjoint_impl) and Structure/Limit/Kan/Extension.v (Kan_Limit); none of these is a composition/pasting statement, and neither the forward direction nor the converse ('iff') of the exercise appears"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass reached ABSENT independently. Re-ran the searches: no Kan composition/pasting statement exists, and the ingredient `Induced (K ◯ J) ≈ Induced J ◯ Induced K` is nowhere proven (Induced is never composed with another restriction). Adjunction/Compose.v:173 `Definition Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U')` verified at the cited line and makes no Kan claim. Neither the forward direction nor the converse half of the exercise's iff appears, at either the local or the global level."
+    }
+  },
+  {
+    "id": "riehl:6.1:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "Kan extensions along d^1 : 2 ⟶ 3 (walking arrow into the commutative triangle)",
+      "coface map d^1; the free/commutative triangle category 3; the walking arrow _2",
+      "extension along a fully faithful functor whose two Kan extensions differ",
+      "left and right Kan extension of f : 2 ⟶ C both exist but are not isomorphic",
+      "simplex-category face inclusion Δ^1 ⟶ Δ^2"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'coface|\\bd\\^1\\b|face map|degeneracy' . — 2 hits, both unrelated prose (Monad/Graded.v:37, Structure/Monoidal/CopyDiscard.v:36); no coface/face-inclusion functor exists in-tree",
+      "grep -rn --include='*.v' -E '\\b_3\\b|walking (triangle|commutative)|Three' . — the walking commutative triangle DOES exist as Theory/Metacategory.v:413 'Definition Three : Category := FromArrows ThreeArrows' (ThreeArrows at :396 has identities 0,1,2 and arrows 3 : 0→1, 4 : 1→2, 5 = 4∘3 : 0→2), and the walking arrow exists as Instance/Two.v:134 'Program Definition _2 : Category'; but no functor between them is defined",
+      "grep -rn --include='*.v' -E '_2 ⟶|⟶ Three|Three ⟶' . — Theory/Metacategory.v:533 FromThree is inside a COMMENT block (commented out); Theory/Metacategory/ArrowsOnly.v:508 Two_from_Two and Instance/Two.v:174 _2_as_Set are unrelated; no d^1 : _2 ⟶ Three",
+      "grep -rn --include='*.v' -iE 'simplicial|simplex' . — only prose (Theory/Kan/Extension.v:47,91; Instance/FinSet.v:87-89; Construction/Enriched.v:72); no simplex category Δ is constructed, so no simplicial coface either",
+      "grep -rn --include='*.v' -l -i 'kan' . — the only Kan-extension assertions are in Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v; neither constructs any Kan extension along a concrete finite functor, so the exercise's explicit construction, the invertibility of the unit/counit along a fully faithful K, and the non-isomorphy of the two extensions are all unformalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass reached ABSENT independently (I found Instance/Two.v but no `3`). Verified every positive sub-claim in the log at its cited line: Theory/Metacategory.v:396 `Program Definition ThreeArrows : Metacategory`, :413 `Definition Three : Category := FromArrows ThreeArrows`, :533 `Program Definition FromThree` sitting inside an open `(* ... *)` comment block; Instance/Two.v:134 `Program Definition _2 : Category`, :174 _2_as_Set; Theory/Metacategory/ArrowsOnly.v:508 Two_from_Two. Confirmed no functor _2 ⟶ Three exists. MINOR ARTIFACT INACCURACY (no bearing on the verdict): the log states ThreeArrows' arrows as 3 : 0→1, 4 : 1→2, 5 : 0→2; under the file's own convention (`composite f g h := M.MapsTo (f,g) h pairs`, i.e. f∙g = h, Theory/Metacategory.v:143) the entries (0,3)+=>3 and (3,1)+=>3 make 3 : 1→0, dually 4 : 2→1 and 5 = 3∙4 : 2→0. Same walking commutative triangle, arrows named in the opposite direction."
+    }
+  },
+  {
+    "id": "riehl:6.1:exv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "right Kan extension as a terminal object",
+      "category of pairs (G : D ⟶ E, δ : G K ⇒ F); comma category Induced ↓ =(F)",
+      "co-universal arrow from the restriction functor K^* to F; terminal object of K^* ↓ F",
+      "category of elements of the presheaf E^C(− ◯ K, F) : (E^D)^op ⟶ Set; representability",
+      "dual of UniversalArrow (initial object of =(c) ↓ F)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 154,
+        "symbol": "LocalRightKan",
+        "intree_statement": "Class LocalRightKan (X : A ⟶ C) := { LocalRan : B ⟶ C; ran_transform : LocalRan ◯ F ⟹ X; ump_ran (M : B ⟶ C) (μ : M ◯ F ⟹ X) : (∃! δ, μ ≈ ran_transform ∙ δ ⊲ F); }."
+      }
+    ],
+    "statement_record": {
+      "book": "Define a category whose objects are the pairs (G : D ⟶ E, δ : G K ⇒ F), in which the right Kan extension of F along K is the TERMINAL object; and explain how that category relates to the functor E^C(− ◯ K, F) : (E^D)^op ⟶ Set (it is the category of elements of that presheaf, so terminality = representability) when the functor categories are locally small.",
+      "intree": "Class LocalRightKan (X : A ⟶ C) := { LocalRan : B ⟶ C; ran_transform : LocalRan ◯ F ⟹ X; ump_ran (M : B ⟶ C) (μ : M ◯ F ⟹ X) : (∃! δ, μ ≈ ran_transform ∙ δ ⊲ F) }.",
+      "strength_comparison": "intree-weaker: ump_ran is exactly terminality UNWOUND (every candidate pair (M, μ) admits a unique δ compatible with the counit), so the first half's mathematical content is in-tree in ∃!-form; but the pairs (G, δ) are never assembled into a CATEGORY, no @Terminal instance is exhibited, and the second half — the presheaf E^C(− ◯ K, F) : (E^D)^op ⟶ Set, its category of elements, and terminality-as-representability — has no in-tree counterpart at all."
+    },
+    "gap": "Only the ∃!-form of the universal property exists (ump_ran). Missing: (i) the category of extension candidates (G, δ) as a category — it would be the comma @Comma [D,E] 1 [C,E] Induced (=(F)), constructible from Construction/Comma.v but never formed; (ii) any assertion that LocalRan is a Terminal object of it (Theory/Universal/Arrow.v:127 packages the DUAL pattern, UniversalArrow c F := @Initial (=(c) ↓ F), for universal arrows only, and its comment at :24 notes the terminal dual is not developed); (iii) the presheaf E^C(− ◯ K, F) : (E^D)^op ⟶ Set is never built, there is no category-of-elements construction in the library at all, and the terminality ⟺ representability half is therefore entirely absent.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'Elements|category of elements|Grothendieck.*presheaf|presheaf.*Grothendieck|discrete fibration' . — no category-of-elements construction exists; Construction/Grothendieck.v is the Cat-valued IndexedCat construction, never specialised to a Set-valued presheaf",
+      "grep -rn --include='*.v' -E 'Terminal.*↓|↓.*Terminal' . — 0 hits; no comma category is ever equipped with a Terminal instance",
+      "grep -rn --include='*.v' -iE 'kan[_ ].*uniq|uniq.*kan' . — no Kan-extension universal property is restated as (co)terminality"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL; my own blind pass wavered between PARTIAL and ABSENT and settled on the same reading the record gives — ump_ran IS terminality unwound, so the first half's mathematical content is in-tree in ∃!-form while the category of candidates is never formed. Theory/Kan/Extension.v:154-163 quoted verbatim. Verified Theory/Universal/Arrow.v:127 `arrow_initial : @Initial (=(c) ↓ F)` and that no dual class exists (0 hits for couniversal/CoUniversalArrow; 0 hits for a Terminal instance on any comma). The comma the exercise wants, `Induced ↓ =(X)` in functor categories, is constructible from Construction/Comma.v but is never formed, and no category-of-elements construction exists anywhere, so the representability half is entirely absent as claimed. MINOR WORDING IMPRECISION: the gap says the comment at Theory/Universal/Arrow.v:24 'notes the terminal dual is not developed'; the comment (lines 23-24) in fact only states what the dual IS ('a universal arrow from F to c is a terminal object of F ↓ =(c)'). The non-development is established by the grep, not by the comment. Substance unaffected."
+    }
+  },
+  {
+    "id": "riehl:6.2:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the (co)limit formula for Kan extensions",
+      "Lan_K F(d) = colim((K↓d) --Π^d--> C --F--> E); Ran_K F(d) = lim((d↓K) --Π_d--> C --F--> E)",
+      "pointwise/Kelly coend formula ∫^c D(Kc,d) · Fc",
+      "Kan extension computed as a colimit over a comma category",
+      "limits as right Kan extensions along the terminal functor (the D = 1 special case)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Kan/Extension.v",
+        "line": 46,
+        "symbol": "Kan_Limit",
+        "intree_statement": "Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt."
+      }
+    ],
+    "statement_record": {
+      "book": "For F : C ⟶ E and K : C ⟶ D: if for every d ∈ D the colimit of (K↓d) --Π^d--> C --F--> E exists in E, then those colimits define a functor Lan_K F : D ⟶ E which IS the left Kan extension of F along K, with unit η_c the colimit-cone leg at id_{Kc} ∈ K↓Kc; dually, if every limit of (d↓K) --Π_d--> C --F--> E exists, these define Ran_K F with counit ε_c the limit-cone leg at id_{Kc}.",
+      "intree": "Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt.",
+      "strength_comparison": "intree-weaker, on four counts: (1) it is the single special case K := Erase J : J ⟶ 1 (where d↓K ≅ J for the unique object ttt), not a general K; (2) it ASSUMES a global RightKan already exists and merely compares its value with the limit — it does NOT construct a Kan extension out of the limits, which is the whole existence content of Theorem 6.2.1; (3) it is object-level only (an iso in C at the single object ttt): no comma category K↓d, no reindexing functor g_*, no functoriality of d ↦ Lan_K F(d), and no identification of the unit/counit with a (co)limit-cone leg; (4) only the right/limit side is proven — there is no Kan_Colimit dual."
+    },
+    "gap": "The general (co)limit formula is not formalized. Theory/Kan/Extension.v's own header (lines 74-79) states the position explicitly: 'Pointwise, the left extension at b is a colimit over the comma category F ↓ b and the right a limit over b ↓ F, equivalently Kelly's coend and end formulas ... the coend calculus of Structure/Coend.v ... is the in-tree machinery those formulas would rest on, a bridge not yet formalized.' Missing: the construction of Lan_K F / Ran_K F from pointwise (co)limits over K↓d / d↓K for a general K; its functoriality via the reindexing g_* ; the extraction of η/ε from the (co)limit cones; the verification of the universal property; and the entire colimit/left-hand half.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'colim.*comma|comma.*colim|colim.*↓|↓.*colim|limit.*comma|comma.*limit' . — the only comma-limit assertions are Construction/Comma/Limit.v (comma_limit, Comma_Complete: limits are CREATED in =(d) ↓ U), which is the GAFT input, not a Kan-extension formula",
+      "grep -rn --include='*.v' -E 'Kan_Colimit|Colimit.*Lan|Lan.*Colimit' . — 0 hits; no dual of Kan_Limit exists",
+      "grep -rn --include='*.v' -iE 'coend.*(kan|Lan)|(kan|Lan).*coend' . — 2 hits, both prose comments (Theory/Kan/Extension.v:76, Structure/Coend.v:93); Construction/Day.v builds Day convolution as a genuine coend but never asserts the Kan-extension identification (its line 46 claim is a header comment)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. My own blind pass classified this ABSENT and I seriously considered overturning; on re-reading I kept PARTIAL, because Kan_Limit genuinely IS formula (6.2.3) instantiated at K := Erase J (where ttt↓K ≅ J), and the record's strength_comparison is unusually honest — it enumerates exactly the four ways it falls short (special case only; assumes RightKan rather than constructing it from limits, so none of the existence content of Thm 6.2.1 is present; object-level at ttt with no comma category, no reindexing g_*, no functoriality, no cone-leg identification of η/ε; and no colimit dual). Kan_Limit verified verbatim at Structure/Limit/Kan/Extension.v:46. The header quotation inside `gap` is verbatim from Theory/Kan/Extension.v:74-79 ('a bridge not yet formalized'), which is the strongest possible in-tree corroboration of the gap. MINOR ARTIFACT INACCURACY (no bearing on the verdict): the third negative-log entry cites Structure/Coend.v:93 for a coend↔Kan comment; the actual prose is at Structure/Coend.v:110-112 (line 93 is about Mac Lane's tensor product of functors). That prose is itself careful and correct — it says Theory/Kan/Extension.v 'instead builds through an adjunction'."
+    }
+  },
+  {
+    "id": "riehl:6.2:construction-comma-slice-projection",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the comma category K↓d and its projection Π^d : K↓d ⟶ C",
+      "slice/over category C/d; K ↓ =(d) with the constant functor =(d) : 1 ⟶ D",
+      "category of elements of D(K−, d) : C^op ⟶ Set",
+      "reindexing g_* : K↓d ⟶ K↓d' by postcomposition, with Π^{d'} ◯ g_* = Π^d",
+      "dual: d↓K with Π_d : d↓K ⟶ C (the =(d) ↓ K form used by GAFT)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma.v",
+        "line": 127,
+        "symbol": "Comma",
+        "intree_statement": "Program Definition Comma : Category := {| obj := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p); hom := fun x y => ∃ f : (fst (`1 x) ~{A}~> fst (`1 y)) * (snd (`1 x) ~{B}~> snd (`1 y)), `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x; ... |}.   (* at S := K, T := =(d) := Diagonal 1 d this IS Riehl's K↓d: objects f : K c ~> d, morphisms h : c ~> c' with f' ∘ K h ≈ f, since fmap[=(d)] is id[d] *)"
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 196,
+        "symbol": "comma_proj1",
+        "intree_statement": "Program Instance comma_proj1 : Comma ⟶ A := {| fobj := fun x => fst ``x; fmap := fun _ _ f => fst ``f |}.   (* at S := K, T := =(d) this is exactly Riehl's projection Π^d : K↓d ⟶ C; the dual comma_proj2 : Comma ⟶ B at :204 gives Π_d : =(d) ↓ K ⟶ C *)"
+      },
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 50,
+        "symbol": "Bang_Functor",
+        "intree_statement": "Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {| fobj := λ '(o; h), (o; f ∘ h); fmap := λ x y f, (_; _) |}.   (* the reindexing g_* by postcomposition — but ONLY the K = Id case (slices C/a ⟶ C/b), not K↓d ⟶ K↓d' for general K, and the compatibility Π^{d'} ◯ g_* = Π^d is not stated *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For K : C ⟶ D and d ∈ D, the comma category K↓d has objects the morphisms f : K c → d and morphisms f → f' the h : c → c' in C with f' ∘ K h = f; it is (isomorphic to) the category of elements of D(K−, d) : C^op ⟶ Set and carries a canonical projection Π^d : K↓d ⟶ C; a morphism g : d → d' in D induces g_* : K↓d ⟶ K↓d' by postcomposition, over C, i.e. Π^{d'} ◦ g_* = Π^d. Dually d↓K with Π_d.",
+      "intree": "Program Definition Comma : Category := {| obj := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p); hom := ... `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x ... |} together with Program Instance comma_proj1 : Comma ⟶ A and Program Instance comma_proj2 : Comma ⟶ B.",
+      "strength_comparison": "same for the two core clauses (the category K↓d and the projection Π^d), with the sanctioned setoid rephrasing (≈ for =) and one harmless encoding difference: the in-tree comma objects/morphisms carry a redundant second component valued in the terminal category 1, forced to be its unique object/morphism, so `K ↓ =(d)` is Riehl's K↓d on the nose. Both orientations are in tree (=(d) ↓ K with comma_proj2 is the indexing category used by Construction/Comma/Limit.v and Adjunction/GAFT.v). intree-weaker on the two remaining clauses: the category-of-elements identification and the general reindexing g_* over C."
+    },
+    "gap": "Two of the four clauses are missing. (1) 'K↓d is the category of elements of D(K−, d)' has no in-tree counterpart: there is no category-of-elements construction anywhere in the library (Construction/Grothendieck.v is the Cat-valued IndexedCat construction and is never specialised to a Set-valued presheaf). (2) The reindexing functor g_* : K↓d ⟶ K↓d' induced by g : d ~> d' is not constructed for general K — only Bang_Functor, the K = Id case on slices — and the projection-compatibility equation Π^{d'} ◯ g_* = Π^d (the fact Theorem 6.2.1 needs to make Lan_K F functorial) is nowhere stated.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'Elements|category of elements|Grothendieck.*presheaf|presheaf.*Grothendieck|discrete fibration' . — no category-of-elements construction",
+      "grep -rn --include='*.v' -E 'Comma ⟶ Comma|↓ .* ⟶ .*↓|Slice.*⟶.*Slice|postcompose' . — only Construction/Slice/Pullback.v:50 Bang_Functor and :67 Star_Functor (slices, K = Id) and Construction/Comma/Isomorphism.v (transport along a natural iso of the DEFINING functors, not along a morphism of the target object)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL; my blind pass reached the same classification and the same two missing clauses. Construction/Comma.v:127 Comma and :196 comma_proj1 verified verbatim. Verified the encoding claim from source: `=( c )` is notation for `Diagonal 1 c` (Functor/Diagonal.v:55) and Diagonal's fobj is the constant functor with `fmap := fun _ _ _ => id[x]` (Functor/Diagonal.v:32-38), so with S := K and T := =(d) the comma hom-condition ``2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x` collapses to f' ∘ K h ≈ f exactly as the evidence asserts. Both orientations confirmed IN USE, not merely constructible: Construction/Comma/Limit.v:68-84 works in `=(d) ↓ U` (comma_square) and Adjunction/GAFT.v:247-251 instantiates it. Construction/Slice/Pullback.v:50 Bang_Functor verified at the cited line and is indeed only the K = Id case (slices), with no Π-compatibility equation. Re-verified both gap clauses: no category-of-elements construction anywhere, and no functor K↓d ⟶ K↓d' for general K."
+    }
+  },
+  {
+    "id": "riehl:6.2:def6",
+    "classification": "ABSENT",
+    "aliases": [
+      "pointwise left / right Kan extension",
+      "Kan extension computed objectwise as a (co)limit; PointwiseLan / PointwiseRan",
+      "Kan extension preserved by all representables (the Def 6.3.5-6.3.6 / Thm 6.3.7 characterization)",
+      "L d ≅ colim((K↓d) ⟶ C ⟶ E) with η_c the cone leg at id_{Kc}",
+      "Kelly's 'Kan extension' proper vs 'weak Kan extension'"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'pointwise' . — no hit is a Kan-extension notion: Theory/DoubleCategory.v:140 and Theory/Kan/Extension.v:74,148 are prose (:148 says 'Local (pointwise-free) right Kan extension', i.e. the class deliberately does NOT encode pointwiseness), Structure/Coend.v:110 is a header comment, and every other hit is 'pointwise' in the setoid/extensional-equality sense",
+      "grep -rn --include='*.v' -iE 'pointwise.*(kan|extension)|(kan|extension).*pointwise' . — 7 hits, all comments, no assertion",
+      "grep -rn --include='*.v' -iE 'objectwise|preserved by (all )?representable|represent.*kan' . — no Kan-extension hit; the objectwise hits are the pointwise tensor of functors and objectwise (co)limits in functor categories",
+      "grep -rn --include='*.v' -E 'Kan_Colimit|Colimit.*Lan|Lan.*Colimit' . — 0 hits; there is no class, definition or predicate distinguishing pointwise from non-pointwise Kan extensions anywhere in the tree (the only Kan classes are RightKan/LeftKan/LocalRightKan/LocalLeftKan in Theory/Kan/Extension.v, none of which mentions (co)limits)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass reached ABSENT independently (`rg -i pointwise` over all .v returns no Kan-extension notion). Verified Theory/Kan/Extension.v:148 does read 'Local (pointwise-free) right Kan extension of a single functor', i.e. the class deliberately does NOT encode pointwiseness, and Theory/Kan/Extension.v:74-79 concedes the coend/comma bridge is 'not yet formalized'. All four Kan classes (RightKan:140, LocalRightKan:154, LeftKan:222, LocalLeftKan:234) were read in full: none mentions (co)limits, and no predicate distinguishes pointwise from non-pointwise extensions."
+    }
+  },
+  {
+    "id": "riehl:6.2:cor7",
+    "classification": "ABSENT",
+    "aliases": [
+      "existence of all Kan extensions along a small-domain functor into a (co)complete target",
+      "C small + D locally small + E cocomplete ⇒ Lan_K exists and Lan_K ⊣ K^*",
+      "Cocomplete → LeftKan; Complete → RightKan",
+      "all Kan extensions along K exist and are pointwise",
+      "restriction functor K^* : E^D ⟶ E^C has both adjoints"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE '(exist).*(kan|Lan\\b|Ran\\b)|(kan).*(exist)' . — 5 hits, all prose comments in Theory/Kan/Extension.v (:19, :71, :81, :150, :172); no existence theorem for Kan extensions is stated or proven",
+      "grep -rn --include='*.v' -E 'Class Cocomplete|Class Complete|Definition Cocomplete|Definition Complete' . — Structure/Complete.v:115 'Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F' and :119 the Cocomplete dual exist, but neither is ever used to produce a LeftKan/RightKan instance",
+      "grep -rn --include='*.v' -E 'LeftKan|RightKan' . — outside Theory/Kan/Extension.v the only occurrence is Structure/Limit/Kan/Extension.v:46, where @RightKan (Erase J) C is a HYPOTHESIS of Kan_Limit, never a conclusion; no instance of either class is constructed anywhere in the library",
+      "grep -rn --include='*.v' -iE 'locally small|smallness|IsSmall' . — the library has no smallness predicate (size is handled by universe polymorphism), so the corollary's hypotheses have no in-tree rendering either"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT, but with a caveat the issue drafter must have. I reproduced every fact in the negative log and weighed OVERTURNING to PARTIAL, because the CONCLUSION's adjunction packaging already exists in-tree as a DEFINITION: `Class LeftKan := { Lan : [A,C] ⟶ [B,C]; lan_adjoint : Lan ⊣ Induced }` (Theory/Kan/Extension.v:222) and `Class RightKan := { Ran : [A,C] ⟶ [B,C]; ran_adjoint : Induced ⊣ Ran }` (:140) over `Induced := (− ◯ F)` (:127) — which is precisely Riehl's K^* with Lan_K ⊣ K^* ⊣ Ran_K. I kept ABSENT because the classifier's operative boundary in this batch (PARTIAL requires a PROVED statement covering part of the item; a never-instantiated class does not qualify) is applied consistently — exii and thm1 are PARTIAL on the strength of proved theorems — and relaxing it here would inflate PARTIAL across the whole campaign wherever the library merely defines the structure a theorem concludes. Independently verified: no instance of LeftKan or RightKan is constructed anywhere in the tree (both out-of-file occurrences are hypotheses — Structure/Limit/Kan/Extension.v:46); Structure/Complete.v:115 `Definition Complete {C} := ∀ (D : Category) (F : D ⟶ C), Limit F` and :119 Cocomplete verified verbatim and never used to produce a Kan instance; no smallness predicate exists (size is universe-polymorphic), correctly NOT taken as an OUT_OF_SCOPE excuse. CONSEQUENCE FOR PHASE E: the work-to-be-done is 'construct LeftKan/RightKan instances from Cocomplete/Complete (and add a pointwise notion)', NOT 'define the classes' — an issue that re-defines them would duplicate Theory/Kan/Extension.v."
+    }
+  },
+  {
+    "id": "riehl:6.2:example8",
+    "classification": "ABSENT",
+    "aliases": [
+      "the real exponential 2^x as a Kan extension along (Q,≤) ⟶ (R,≤)",
+      "poset as a category; monotone map as a functor; sup/inf as colimit/limit",
+      "extension of 2^− from the rationals to the reals; Dedekind completion",
+      "left and right Kan extension coinciding for a monotone function",
+      "bounded suprema/infima in R_{>0} as (co)limits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE '\\bR\\b.*real|rational|Qle|Rle|posreal' . — 0 relevant hits; neither Q nor R (nor any ordered field) appears anywhere in the library",
+      "grep -rn --include='*.v' -iE 'supremum|infimum|2\\^|exponential function' . — no hit is about order-theoretic sup/inf; Instance/FinSet/Closed.v:178 '2^2' is the finite-set exponential object, Instance/ZX.v hits are diagram notation",
+      "grep -rn --include='*.v' -E '^(Program )?(Definition|Instance|Class|Record)' Instance/Poset.v Instance/Proset.v — the library does have generic poset/preorder categories (Instance/Poset.v:116 Poset, :120 LessThanEqualTo_Category over nat; Instance/Proset.v:33 Proset), so the example IS formalizable in principle, but it is not instantiated at Q ⟶ R",
+      "grep -rn --include='*.v' -iE 'inclusion.*(Q|rational)|dense.*inclusion|completion' . — only unrelated prose (Cauchy completion of a category, Rezk completion, 'equational completion' citations)",
+      "grep -rn --include='*.v' -l -i 'kan' . — no Kan extension is ever computed in a concrete category, so neither the value formula nor the coincidence of Lan and Ran in this example has any in-tree counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass reached ABSENT independently (searched rational/Qle/Rle/Reals/supremum/infimum — no ordered field or order-theoretic sup/inf anywhere; the only 'exponential' hits are exponential OBJECTS). Verified the log's positive sub-claim that generic order machinery exists: Instance/Poset.v:116 `Definition Poset`, :120 LessThanEqualTo_Category, Instance/Proset.v:33 `Program Definition Proset`. So the example is formalizable in principle and OUT_OF_SCOPE was correctly avoided; it is simply not instantiated at ℚ ⟶ ℝ, and no Kan extension is computed in any concrete category in the library."
+    }
+  }
+]

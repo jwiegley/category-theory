@@ -1,0 +1,437 @@
+[
+  {
+    "id": "riehl:4.7:def-continuous",
+    "classification": "PRESENT",
+    "aliases": [
+      "continuous functor",
+      "cocontinuous functor",
+      "limit-preserving functor / preserves all limits",
+      "PreservesAllLimits / PreservesAllColimits",
+      "PreservesLimit / PreservesColimit / PreservesImageLimit",
+      "colimit-preserving functor (dual form)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 229,
+        "symbol": "PreservesAllLimits",
+        "intree_statement": "Definition PreservesAllLimits {C D : Category} (F : C ⟶ D) : Type := ∀ (J : Category) (G : J ⟶ C), PreservesLimit G F."
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 232,
+        "symbol": "PreservesAllColimits",
+        "intree_statement": "Definition PreservesAllColimits {C D : Category} (F : C ⟶ D) : Type := ∀ (J : Category) (G : J ⟶ C), PreservesColimit G F."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 110,
+        "symbol": "PreservesImageLimit",
+        "intree_statement": "Definition PreservesImageLimit : Type := ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ◯ G)), ∃! φ : vertex_obj[N] ~{D}~> U L, ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x.   (* the cone-level, image-cone-universal reading of 'U is continuous' *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Naming definition in running prose: a functor that preserves limits is called continuous; a functor that preserves colimits is called cocontinuous. Used as the standing hypothesis of Theorems 4.7.3, 4.7.10, 4.7.15, 4.7.17.",
+      "intree": "PreservesAllLimits F := ∀ (J : Category) (G : J ⟶ C), PreservesLimit G F  /  PreservesAllColimits F := ∀ J G, PreservesColimit G F  /  PreservesImageLimit (for a fixed U) := ∀ J G L N, ∃! φ, ∀ x, image_leg L x ∘ φ ≈ cone_leg N x",
+      "strength_comparison": "same for the naming content, but the two forms differ in strength and the file says so itself. PreservesAllLimits is built on the APEX-ONLY class PreservesLimit (Preservation.v:48, `preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L)`), which only asserts that the apex object F L carries SOME limit structure, whose legs need not be the image legs — strictly weaker than the book's 'F carries the limit cone to a limit cone'. The correct cone-level reading is in-tree as PreservesImageLimit (Comma/Limit.v:110), which is exactly the book's notion and is what GAFT/SAFT actually consume; it is stated per-functor and quantified over all diagram shapes, so it IS 'U is continuous' in the book's sense, just not carrying that name. The COCONTINUOUS clause exists only in the apex-only form (PreservesAllColimits, defined by duality from PreservesColimit); there is no cone-level cocontinuity in-tree. No smallness restriction on J, so 'preserves all (small) limits' is rendered as 'preserves limits of every shape', which universe polymorphism makes the honest reading."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'continuous' . — 13 hits, all prose/comments; no Definition or Class literally named Continuous/Cocontinuous"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (before opening coverage) reached the same PRESENT, from the same three symbols. Re-checked every citation at the exact line: Structure/Limit/Preservation.v:229 `Definition PreservesAllLimits`, :232 `Definition PreservesAllColimits`, and Construction/Comma/Limit.v:110 `Definition PreservesImageLimit` — all quoted verbatim and accurately. The supporting claim in strength_comparison that the apex-only class sits at Preservation.v:48 is also exact (`Class PreservesLimit ... preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L)`). Preservation.v's own header (lines 20-24) contains the naming sentence the book gives ('A functor preserving the limits of all diagrams of all shapes is called continuous; dually for colimits and cocontinuity'), so the vocabulary is in-tree, not merely reconstructible. The strength_comparison is honest — indeed it discloses more than it had to (the apex-only/cone-level split, and that cocontinuity exists only in the apex-only form). I considered demoting to PARTIAL on that last point and rejected it: the item is a NAMING definition for 'preserves limits'/'preserves colimits', and both notions are in-tree in force (PreservesImageLimit is universally quantified over J, G, L, N, so it IS 'U is continuous' at cone level). Registered in _CoqProject (lines 25, 327) and compiled (.vo present). No same-name-weaker trap: the file itself flags which class is which."
+    }
+  },
+  {
+    "id": "riehl:4.7:lem1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "left adjoint exists iff comma categories have initial objects",
+      "universal arrow at every object gives a left adjoint",
+      "UniversalArrow / arrow_initial / GAFT_from_initials",
+      "AdjunctionFromUniversalArrows / LeftAdjointFunctorFromUniversalArrows",
+      "unit component is initial in s ↓ U (converse direction)",
+      "category of elements of S(s, U-) / parametrized representability"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 180,
+        "symbol": "GAFT_from_initials",
+        "intree_statement": "Theorem GAFT_from_initials {C D : Category} (U : C ⟶ D) (H : forall d : D, @Initial (=(d) ↓ U)) : { F : D ⟶ C & F ⊣ U }."
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 214,
+        "symbol": "AdjunctionFromUniversalArrows",
+        "intree_statement": "Definition AdjunctionFromUniversalArrows (H : forall c : C, UniversalArrow c U) : @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U.   (* with Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); ... }, Arrow.v:127 — a universal arrow IS an initial object of the comma category *)"
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 264,
+        "symbol": "to_adj_unit",
+        "intree_statement": "Corollary to_adj_unit {x y} (f : F x ~> y) : ⌊f⌋ ≈ fmap[U] f ∘ η.   (* with adj_univ (Adjunction.v:195): f ≈ ⌈g⌉ ↔ ⌊f⌋ ≈ g — the raw material for the unpackaged converse *)"
+      }
+    ],
+    "statement_record": {
+      "book": "U : A → S admits a left adjoint IF AND ONLY IF for every s ∈ S the comma category s ↓ U (objects (a, f : s → Ua)) has an initial object; the initial objects are the unit components η_s, and parametrized representability extends the object assignment to a functor.",
+      "intree": "GAFT_from_initials: forall d : D, @Initial (=(d) ↓ U)  →  { F : D ⟶ C & F ⊣ U }.  The functor assembly and the adjunction are Theory/Universal/Arrow.v's LeftAdjointFunctorFromUniversalArrows / AdjunctionFromUniversalArrows, where UniversalArrow c F is BY DEFINITION an initial object of =(c) ↓ F.",
+      "strength_comparison": "intree-weaker: only the ⇐ direction of the biconditional is asserted. The comma category is exactly the book's s ↓ U (=(d) ↓ U built from the constant functor), the objects and the collapsed triangle match, and the functorial extension by initiality is genuinely carried out (fmap is the unique factorization), so the ⇐ half is faithful and complete."
+    },
+    "gap": "The ⇒ (only-if) direction is not stated anywhere in-tree: there is no assertion that an adjunction F ⊣ U makes (F s, η_s) an initial object of =(s) ↓ U (equivalently, no `Adjunction → UniversalArrow` / `Adjunction → Initial (=(d) ↓ U)` constructor). Its two halves exist as separate one-liners — existence from to_adj_unit + from_adj_comp_law, uniqueness from adj_univ (Theory/Adjunction.v:195, 210, 264) — but nothing packages them, so the biconditional is only half formalized. Also unstated is the book's route via the category of elements of S(s, U−) and the parametrized-representability proposition (4.4.4); in-tree the functorial extension is done directly by initiality.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'UniversalArrow|AUniversalArrow' . — every consumer (Construction/Free/Quiver.v, Monad/Lifting.v, Adjunction/GAFT*.v) BUILDS universal arrows; none derives one from an adjunction",
+      "grep -rn --include='*.v' '⊣' . | grep -i 'initial|universal|comma' — hits are Lawvere's (F↓Id)≅(Id↓G) theorem (Construction/Comma/Adjunction.v:899-905) and RAPL, not the 4.7.1 converse",
+      "grep -rn --include='*.v' 'Initial \\(=\\(' . — only Theory/Universal/Arrow.v:128 and Adjunction/GAFT.v:181"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same gap (only the ⇐ direction). Verified citations: Adjunction/GAFT.v:180 `Theorem GAFT_from_initials`, Theory/Universal/Arrow.v:214 `Definition AdjunctionFromUniversalArrows`, Arrow.v:127 `Class UniversalArrow ... arrow_initial : @Initial (=(c) ↓ F)`, Theory/Adjunction.v:195 `Corollary adj_univ`, :210 `Corollary from_adj_comp_law`, :264 `Corollary to_adj_unit` — all exact, all quoted accurately. I re-ran the negative half myself and could not find the ⇒ direction either: `rg 'Initial \\(=\\('` yields only Arrow.v:128 and GAFT.v:181; every UniversalArrow consumer (Construction/Free/Quiver.v:518, Monad/Lifting.v:445, Adjunction/GAFT/Examples.v:97) BUILDS one from a UMP rather than from an adjunction; `universal_arrow_from_UMP` (Arrow.v:158) takes a raw UMP, not an `F ⊣ U`. Two near misses I checked and rejected as counterparts: Construction/Comma/Adjunction.v:904 `Adjunction_Comma : F ⊣ G ↔ lawvere_equiv` is the (F ↓ Id) ≃ (Id ↓ G) form, not initiality in =(d) ↓ U; and Structure/UniversalProperty/Universal/Arrow.v:61 `UniversalArrowIsUniversalProperty` is the representability face (AUniversalArrow c U a ≅ Nat(D(a,−), C(c,U−))), which again does not manufacture the arrow from an adjunction. The gap text's claim that the two halves exist as one-liners is correct and fair."
+    }
+  },
+  {
+    "id": "riehl:4.7:lem2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comma category forgetful functor creates limits",
+      "s ↓ U is complete when A is complete and U continuous",
+      "Comma_Complete / comma_limit",
+      "creation of limits / strictly creates / lifts limits",
+      "comma_proj2 creates limits"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 245,
+        "symbol": "Comma_Complete",
+        "intree_statement": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 238,
+        "symbol": "comma_limit",
+        "intree_statement": "Definition comma_limit : Limit K := @Build_Limit J (=(d) ↓ U) K apex_cone comma_ump.   (* apex_obj := ((ttt, vertex_obj[Ldiag]); phi) with Ldiag := HC J (comma_proj2 ◯ K) and apex_leg j the projected C-legs — the comma limit lies over the C-limit of the projected diagram, which is the creation content *)"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 271,
+        "symbol": "Comma_Complete_right_adjoint",
+        "intree_statement": "Definition Comma_Complete_right_adjoint {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) (d : D) (HC : @Complete C) : @Complete (=(d) ↓ U) := Comma_Complete (right_adjoint_PreservesImageLimit A) HC."
+      }
+    ],
+    "statement_record": {
+      "book": "For any U : A → S and any s ∈ S, the forgetful functor Π : s ↓ U → A STRICTLY CREATES the limit of any diagram whose limit exists in A and is preserved by U. In particular, if A is complete and U is continuous then s ↓ U is complete.",
+      "intree": "Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U); the underlying comma_limit builds the limit of K : J ⟶ (=(d) ↓ U) with apex ((ttt, Ldiag); φ), Ldiag the C-limit of comma_proj2 ◯ K and φ the mediator into the preserved image cone, legs the projected C-legs.",
+      "strength_comparison": "intree-weaker in FORM. The 'in particular' clause is present verbatim and in full (Comma_Complete), with the preservation hypothesis taken at the correct cone level (PreservesImageLimit). But the primary statement — per-diagram STRICT CREATION by the projection Π = comma_proj2 — is not asserted: the in-tree hypotheses are global (C complete, U image-preserving for ALL diagrams) rather than 'this one diagram has a limit in A that U preserves', and no lemma states that the projection creates (i.e. that the lift of a given A-limit cone to s ↓ U exists uniquely and is limiting)."
+    },
+    "gap": "Two precise gaps. (1) No CREATION statement: the tree has no `Creates`/`CreatesLimits` predicate for comma projections and never asserts the uniqueness-of-lift half — comma_limit merely CONSTRUCTS a limit; that its projection is the given A-limit is visible in the term (apex_obj = ((ttt, Ldiag); φ)) but is not the content of any lemma. (Contrast Monad/Monadicity/Beck.v:164 CreatesUSplitCoequalizers, which does state creation, but only for U-split coequalizers, and Theory/Equivalence/Limit.v:486 equivalence_creates_limits, for equivalences.) (2) No per-diagram form: comma_limit/Comma_Complete require the global `@Complete C` and the global `PreservesImageLimit U`, so 'the limit of any diagram whose limit exists in A and is preserved by U' cannot be instantiated for a single diagram.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'creates|CreatesLimit|Creation' . — only Theory/Equivalence/Limit.v (equivalence_creates_limits/colimits), Monad/Monadicity/{Beck,BeckObjects}.v (U-split coequalizers), and prose in Construction/Comma.v:100 ('comma_proj2 creates the limits' — a comment, not an assertion)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the same two gaps before reading the record. Line numbers verified exactly: Construction/Comma/Limit.v:238 `Definition comma_limit`, :245 `Definition Comma_Complete`, :271 `Definition Comma_Complete_right_adjoint`; the quoted bodies match. Gap (2) re-verified at source: `Section Create` opens with `Context (HC : @Complete C)` and `Context (HU : PreservesImageLimit)` (Comma/Limit.v:124-125), so both hypotheses really are global and the book's per-diagram form ('any diagram whose limit exists in A and is preserved by U') cannot be instantiated. Gap (1) re-verified: `rg -i creates` over the tree returns only Monad/Monadicity/Beck.v (U-split coequalizers, Class at :164), Theory/Equivalence/Limit.v:486/:582 (equivalences), and the prose at Construction/Comma.v:100 — no creation predicate for comma projections, and no uniqueness-of-lift half anywhere. The construction does lie over the C-limit (apex_obj = ((ttt, Ldiag); φ), Comma/Limit.v:159), which is what makes this PARTIAL rather than ABSENT, and the record says exactly that. See problems[] for the Comma.v:100 prose overstatement uncovered while confirming this record."
+    }
+  },
+  {
+    "id": "riehl:4.7:thm3",
+    "classification": "PRESENT",
+    "aliases": [
+      "General Adjoint Functor Theorem",
+      "GAFT / Freyd adjoint functor theorem",
+      "solution set condition / pre-adjointness",
+      "SolutionSet / sol_covers",
+      "jointly weakly initial set in the comma category"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 241,
+        "symbol": "GAFT",
+        "intree_statement": "Theorem GAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }."
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 159,
+        "symbol": "SolutionSet",
+        "intree_statement": "Record SolutionSet {C D : Category} (U : C ⟶ D) (d : D) := { sol_index : Type; sol_obj : sol_index -> C; sol_arr : forall i, d ~> U (sol_obj i); sol_covers {c} (h : d ~> U c) : { i : sol_index & { t : sol_obj i ~> c & fmap[U] t ∘ sol_arr i ≈ h } } }."
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 210,
+        "symbol": "wif_of_sols",
+        "intree_statement": "Definition wif_of_sols {C D : Category} (U : C ⟶ D) (d : D) (S : SolutionSet U d) : WeaklyInitialFamily (=(d) ↓ U).   (* the book's parenthetical 'the solution set condition says exactly that {f_i} is a jointly weakly initial set in s ↓ U' *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Let U : A → S be continuous with A locally small and complete. If U satisfies the solution set condition — for every s ∈ S a SET of arrows Φ_s = {f_i : s → Ua_i} through which every f : s → Ua factors as f = Uk ∘ f_i — then U admits a left adjoint.",
+      "intree": "GAFT U (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }.  Proof: Comma_Complete makes =(d) ↓ U complete, wif_of_sols turns the solution set into a WeaklyInitialFamily there, initial_from_weakly_initial produces the initial object, GAFT_from_initials concludes.",
+      "strength_comparison": "same. Every hypothesis matches: continuity is the cone-level PreservesImageLimit (the correct reading of the book's 'continuous', stronger than the apex-only class and documented as such in the file header); completeness of the domain is `@Complete C`; the solution set is the book's Φ_s with the factorization f = Uk ∘ f_i spelled as `fmap[U] t ∘ sol_arr i ≈ h`. Local smallness is not a separate hypothesis — hom-setoids already live at a fixed hom universe and the theorem is universe-polymorphic, and the place the book uses local smallness (forming the product over Hom(s↓U)) is exactly where the in-tree proof draws its endomorphism-indexed product from Comma_Complete. Two constructive rephrasings, both hypothesis-side (so no weakening of the conclusion): sol_index is a `Type` rather than 'a set' (smallness is caller-chosen via the universe of that Type), and sol_covers delivers the factorizing index and arrow as DATA (Σ-type) rather than as a bare existential."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Adjunction/GAFT.v:241 `Theorem GAFT`, :159 `Record SolutionSet`, :210 `Definition wif_of_sols` all verified at the cited lines with verbatim-accurate quotes; the proof body (GAFT.v:244-255) really does run Comma_Complete → wif_of_sols → initial_from_weakly_initial → GAFT_from_initials as described, and closes with Qed (no admit). Registered in _CoqProject:6 and compiled. Checked for the classic traps: no special-case restriction (U, C, D fully general); the conclusion `{ F : D ⟶ C & F ⊣ U }` is the full hom-setoid adjunction of Theory/Adjunction.v, not a weaker unit/counit-only or pointwise statement; the solution-set factorization `fmap[U] t ∘ sol_arr i ≈ h` is exactly the book's f = Uk ∘ f_i. The strength_comparison's handling of local smallness is fair — the book uses it to form a product indexed by a hom-collection, and that is precisely where the in-tree proof draws the endomorphism-indexed product (Theory/WeaklyInitial.v:91-93) from comma completeness. Cross-checked docs/INHABITATION.md:53: GAFT is recorded as conditional (no `Complete` instance in-tree), which is a witness question, not a statement question, and the record does not overclaim on it."
+    }
+  },
+  {
+    "id": "riehl:4.7:def4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "weakly initial object",
+      "jointly weakly initial collection / weakly initial family",
+      "WeaklyInitialFamily / wif_cover",
+      "weakly terminal (dual)",
+      "solution set as weakly initial family"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 58,
+        "symbol": "WeaklyInitialFamily",
+        "intree_statement": "Record WeaklyInitialFamily (C : Category) := { wif_index : Type; wif_obj : wif_index -> C; wif_cover (c : C) : { i : wif_index & wif_obj i ~> c } }."
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 210,
+        "symbol": "wif_of_sols",
+        "intree_statement": "Definition wif_of_sols {C D : Category} (U : C ⟶ D) (d : D) (S : SolutionSet U d) : WeaklyInitialFamily (=(d) ↓ U).   (* the notion in use: a solution set IS a jointly weakly initial family in the comma category *)"
+      }
+    ],
+    "statement_record": {
+      "book": "(i) c ∈ C is WEAKLY INITIAL if for every x ∈ C there exists at least one morphism c → x (no uniqueness). (ii) A collection Φ of objects is JOINTLY WEAKLY INITIAL if for every x ∈ C some c_i ∈ Φ admits a morphism c_i → x.",
+      "intree": "WeaklyInitialFamily C := { wif_index : Type; wif_obj : wif_index -> C; wif_cover (c : C) : { i : wif_index & wif_obj i ~> c } }",
+      "strength_comparison": "clause (ii) same, with one constructive rephrasing: wif_cover CHOOSES the covering index and arrow (a Σ-type in Type) instead of merely asserting existence, so the in-tree notion is data-bearing — a stronger requirement on the supplier, never a weaker conclusion. The index is a `Type`, matching the book's insistence that Φ be a SET (smallness is caller-chosen via that Type's universe)."
+    },
+    "gap": "Clause (i), the single WEAKLY INITIAL OBJECT, has no standalone in-tree definition. It is the one-index specialization of WeaklyInitialFamily and is used informally inside the proof of initial_from_weakly_initial (the local `wmap` witnessing that the product object P0 is weakly initial) and described in that file's header prose, but no Definition/Class/Lemma names or asserts it. Nothing dual (weakly terminal) exists either.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'weakly initial|WeaklyInitial|weakly_initial|weakly terminal|WeaklyTerminal' . — all hits are Theory/WeaklyInitial.v (the family record + initial_from_weakly_initial), Adjunction/GAFT.v (its consumers), and cross-reference prose in Structure/{Terminal,Equalizer,Initial,Complete}.v; no object-level definition and no dual"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same single symbol (Theory/WeaklyInitial.v:58 `Record WeaklyInitialFamily`, verified verbatim at that line) and hesitated between PRESENT and PARTIAL; on the frozen definitions PARTIAL is right, because the item has TWO clauses and clause (i) — the single weakly initial OBJECT — has no Definition/Class/Lemma naming it. I re-ran the negative search (`rg -i 'weakly initial|WeaklyInitial|weakly terminal'`) and got exactly the classifier's hit set: the record and its theorem in Theory/WeaklyInitial.v, the consumers in Adjunction/GAFT.v, and cross-reference prose in Structure/{Terminal,Equalizer,Initial,Complete}.v. The gap's claim that clause (i) appears only informally as the local `wmap` inside initial_from_weakly_initial is accurate — WeaklyInitial.v:101-103 defines `wmap` exactly so, and WeaklyInitial.v:26 calls P0 'itself a single weakly initial object' in prose. Worth recording for the issue drafter: clause (i) is the wif_index := unit specialization, so the fix is small."
+    }
+  },
+  {
+    "id": "riehl:4.7:lem5",
+    "classification": "PRESENT",
+    "aliases": [
+      "initial object from a jointly weakly initial set",
+      "initial_from_weakly_initial",
+      "Freyd's product-then-equalize construction",
+      "limit of the identity functor is initial (3.7.1 route)",
+      "complete + locally small + weakly initial set ⇒ initial object"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 89,
+        "symbol": "initial_from_weakly_initial",
+        "intree_statement": "Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C) (P : Limit (DiscreteCat_Functor (wif_obj W))) (Pe : Limit (DiscreteCat_Functor (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P) => iprod (wif_obj W) P))) (E : HasEqualizers C) : @Initial C."
+      }
+    ],
+    "statement_record": {
+      "book": "If C is complete, locally small, and has a jointly weakly initial SET of objects Φ, then C has an initial object. (Proof: take the limit l of the full subcategory spanned by Φ, exhibit a cone λ : l ⇒ id_C by a pullback argument, and conclude by the 'initial = limit of the identity' lemma 3.7.1.)",
+      "intree": "initial_from_weakly_initial: a WeaklyInitialFamily W, plus the product P of the family, plus the product Pe of the product object indexed by ITS OWN endomorphism hom-type, plus binary equalizers, yield @Initial C.",
+      "strength_comparison": "intree-stronger (leaner hypotheses, same conclusion). All three limit inputs are consequences of `@Complete C`, so the in-tree lemma applies wherever the book's does, and additionally in categories that are not complete. Local smallness is discharged the same way the book uses it: the second product Pe is indexed by the hom-TYPE of endomorphisms of the first product, which is small exactly because homs are setoids at a fixed universe (the file header says the explicit form is chosen precisely to leave that smallness in the caller's hands). The PROOF is Freyd's product-then-equalize rather than Riehl's limit-over-Φ-plus-pullback, and the initial object is obtained directly as a Build_Terminal in C^op rather than via 'initial = limit of the identity'; the statement is unaffected."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT with the same symbol. Theory/WeaklyInitial.v:89 `Theorem initial_from_weakly_initial` verified at the exact line, signature quoted verbatim including the endomorphism-indexed second product; the proof closes with Qed at :178 and produces `@Initial C` via Build_Terminal in C^op (:136), i.e. a genuine initial object, not a weaker 'weakly initial' or 'up to iso' surrogate. The intree-stronger claim is justified: all three limit inputs (P, Pe, E) are consequences of `@Complete C` — GAFT.v:193 `Complete_HasEqualizers` and GAFT.v:249-253 derive exactly these from comma completeness — so the lemma applies wherever the book's does and in strictly more places. The proof really is Freyd's product-then-equalize rather than Riehl's limit-over-Φ route, and the record says so without letting that affect the classification, which is correct: the STATEMENT is what is being classified. Checked that no hidden hypothesis smuggles in the conclusion (W supplies only covering arrows; initiality is earned by the endo_absorb/monicity argument at :119-133)."
+    }
+  },
+  {
+    "id": "riehl:4.7:example6",
+    "classification": "ABSENT",
+    "aliases": [
+      "solution set for the free group functor",
+      "U : Group → Set has a left adjoint",
+      "free group on a set / Grp / Group category instance",
+      "groups generated by at most |S| elements (isomorphism-class representatives)",
+      "subgroup generated by the image of η̂ inside a product of groups"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'free group' . — 3 hits, all historical prose in Theory/Universal/Arrow.v:39,45 and Structure/Terminal.v:34; no construction",
+      "grep -rn --include='*.v' 'Instance.Group|Category.Instance.Grp|Definition Grp|Program Definition Group\\b' . — 0 hits",
+      "ls Instance/ — no Group/Grp instance exists at all (the concrete categories are Sets, Coq, Cat, Fun, FinSet, CMon, Poset, Proset, Rel, Two, Omega, StrictCat, Lambda, ZX, …); Structure/Group.v defines only a GROUP OBJECT internal to a monoidal category, with no category of groups and no forgetful functor to Sets",
+      "grep -rn --include='*.v' 'SolutionSet' . — every hit is the record itself (Adjunction/GAFT.v:159), its consumers (GAFT.v:210,243; SAFT.v:255), or prose; NO concrete SolutionSet is ever inhabited in-tree",
+      "grep -rn --include='*.v' -i 'forgetful' . | grep -i 'group|monoid|set' — the only free⊣forgetful instances are Theory/Coq/List.v (free monoid on a type, informal) and Construction/Free/Quiver.v (free category on a quiver); neither is the free group",
+      "grep -rn --include='*.v' -i 'free monoid|FreeMonoid|free abelian' . — free monoid prose only; no free group, no group completion"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT before reading the record, and my searches reproduce the classifier's negative log independently: `rg -i 'free group'` → 3 hits, all historical prose (Theory/Universal/Arrow.v:39,45 and Structure/Terminal.v:34); `ls Instance/` shows no Group/Grp category at all; Structure/Group.v defines only a GROUP OBJECT internal to a cartesian monoidal category (verified by reading its header) with no underlying-set functor; `ls Construction/Free/` contains only Quiver.v. I additionally checked Instance/CMon.v (commutative monoids as a category exists, but with no free functor and no group structure) and searched for 'free monoid|free algebra|forgetful' — the only free⊣forgetful pair in-tree is the free category on a quiver (Construction/Free/Quiver.v:518 UniversalArrowQuiverCat). Nothing in the tree inhabits `SolutionSet` concretely, which docs/INHABITATION.md:53-54 independently confirms. ABSENT is correct; note for the issue drafter that filing this item implies building a category of groups first, so it is a large dependency, not a leaf."
+    }
+  },
+  {
+    "id": "riehl:4.7:def7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "separating set / separator / generating family",
+      "coseparating set / cogenerating family / cogenerator",
+      "Cogenerator / cog_separates",
+      "jointly faithful representables C(−, G_j)",
+      "separator in C^op"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 99,
+        "symbol": "Cogenerator",
+        "intree_statement": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }."
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 223,
+        "symbol": "cogenerator_canonical_monic",
+        "intree_statement": "Lemma cogenerator_canonical_monic {C : Category} (comp : @Complete C) (G : Cogenerator C) (c : C) : Monic (cogen_canonical comp G c).   (* the canonical map of c into the hom-indexed power of the cogenerating family is monic — the operative consequence, and the assertion that genuinely consumes cog_separates *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A SEPARATING SET (separator) for C is a set Φ of objects distinguishing distinct parallel morphisms: if f ≠ g : x ⇒ y then some h : c → x with c ∈ Φ has f ∘ h ≠ g ∘ h. A COSEPARATING SET in C is a separating set in C^op.",
+      "intree": "Cogenerator C := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : ∀ x y (f g : x ~> y), (∀ j (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) → f ≈ g }",
+      "strength_comparison": "the COSEPARATING clause is same, modulo two faithful rephrasings: it is stated positively as a cancellation property (all post-compositions agree ⇒ the arrows agree) instead of contrapositively with ≠, which is the constructively correct reading and avoids any decidability assumption; and 'a set of objects' is a `Type` of indices with an object family, matching the smallness intent with the universe caller-chosen. cog_separates is genuinely load-bearing (it is what makes cogenerator_canonical_monic go through), not an inert field."
+    },
+    "gap": "Only the coseparating half is in-tree. There is NO definition of a separating set / separator / generating family anywhere in the tree (the book's PRIMARY clause, of which the coseparating notion is the dual). Because the library builds duality in definitionally, the missing clause is a one-liner (`Cogenerator (C^op)`), but no Definition, Class, Record or Notation supplies it, so the vocabulary the book introduces is only half present. Neither notion is stated as 'the representables C(−, G_j) are jointly faithful'.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'separat|generator|cogenerat|separator' . — the only object-family separation notion is Adjunction/SAFT.v's Cogenerator; other hits are PROP/SCFA 'generators', Theory/Lawvere/Sets.v:61 prod_separates (cartesian projections separate, unrelated), and prose",
+      "grep -rn --include='*.v' 'Generator|Separator|SeparatingSet|generating family' . — no such symbol"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Adjunction/SAFT.v:99 `Record Cogenerator` (verified verbatim at that line, cog_separates included) and reached PRESENT-leaning; on reflection PARTIAL is the better call and I confirm it. Dissent considered and rejected: the library's duality architecture makes the book's PRIMARY clause available as `Cogenerator (C^op)` — I unfolded it to be sure, and it gives exactly Riehl's separating condition (∀ f g : y ~> x, (∀ j, ∀ k : G j ~> y, f ∘ k ≈ g ∘ k) → f ≈ g), and `Arguments Cogenerator : clear implicits` (SAFT.v:106) makes the instantiation legal. But the library's own convention is that duals get a NAME (it defines Comonad explicitly rather than leaving @Monad (C^op) to the reader), so an unnamed dual is a genuine vocabulary gap, and the record states it precisely. I re-ran the negative search for Generator/Separator/SeparatingSet and confirm 0 hits; Theory/Lawvere/Sets.v:61 `prod_separates` is unrelated (cartesian projections jointly monic), exactly as the classifier says. cog_separates is verified non-inert: it is the operative hypothesis of cogenerator_canonical_monic (SAFT.v:223-231, `apply (cog_separates G g1 g2)`)."
+    }
+  },
+  {
+    "id": "riehl:4.7:def8",
+    "classification": "PRESENT",
+    "aliases": [
+      "subobject",
+      "monomorphism into c up to isomorphism",
+      "SubObj / sub_mono / sub_is_monic",
+      "subobject lattice / poset of subobjects",
+      "Monic (Theory/Morphisms.v)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Subobject.v",
+        "line": 15,
+        "symbol": "SubObj",
+        "intree_statement": "Record SubObj {C : Category} (x : C) := { sub_dom : C; sub_mono : sub_dom ~> x; sub_is_monic : Monic sub_mono }."
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 33,
+        "symbol": "SubObj_Setoid",
+        "intree_statement": "#[export] Program Instance SubObj_Setoid : Setoid (SubObj x) := {| equiv := fun u v => { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u } |}.   (* the book's 'isomorphic subobjects are typically identified', carried by the setoid equivalence itself *)"
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 93,
+        "symbol": "sub_equiv_iff_mutual",
+        "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u)."
+      }
+    ],
+    "statement_record": {
+      "book": "A SUBOBJECT of c ∈ C is a monomorphism c' ↣ c with codomain c. Isomorphic subobjects — c' ↣ c ↢ c'' related by a commuting isomorphism c' ≅ c'' — are typically identified.",
+      "intree": "Record SubObj {C} (x : C) := { sub_dom : C; sub_mono : sub_dom ~> x; sub_is_monic : Monic sub_mono }, with SubObj_Setoid making u ≈ v mean { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u }.",
+      "strength_comparison": "same, both clauses. The record is exactly 'a mono into x', and the identification of isomorphic subobjects is not left informal — it IS the setoid equivalence on SubObj x (the file header: 'the setoid structure itself carries the quotient'), the canonical setoid-library rendering of the book's quotient. sub_equiv_iff_mutual additionally proves that this identification coincides with mutual factorization in the factorization preorder sub_le, which the book only gestures at."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT with the same file. All three citations verified at their exact lines and quoted verbatim: Theory/Subobject.v:15 `Record SubObj`, :33 `SubObj_Setoid` (equiv = { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u }), :93 `Theorem sub_equiv_iff_mutual`. Both of the book's clauses are matched: 'a mono into c' is the record, and 'isomorphic subobjects are identified' is carried by the setoid rather than left informal — the file header (lines 8-13) says exactly that, and the Setoid obligations are discharged at :37-53, so the equivalence really is proved to be one. Checked for definition-without-API: the file also supplies the factorization preorder sub_le with refl/trans and mediator uniqueness (:59-86), and downstream consumers exist (Structure/SubobjectClassifier.v:72,174,188), so this is not a bare definition. Registered in _CoqProject:465 and compiled. Not to be confused with Adjunction/SAFT.v:119 `SubobjectIndex`, a different (well-poweredness-as-data) record that reuses the field names sub_dom/sub_mono — I checked the two are independent and the record cites the right one."
+    }
+  },
+  {
+    "id": "riehl:4.7:def9",
+    "classification": "ABSENT",
+    "aliases": [
+      "intersection of a family of subobjects",
+      "limit of a diagram of monomorphisms into c / wide pullback of monos",
+      "meet / greatest lower bound in the subobject poset",
+      "maximal subobject contained in every member of the family",
+      "legs of the limit cone are monic (Lemma 1.2.11(ii) consequence)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'intersect' . — 3 hits, ALL comments: Structure/Pullback.v:94 ('the pullback of two monomorphisms is the intersection of subobjects' — prose in the background essay, no construction), Structure/Factorization.v:70 (the class intersection E ∩ M, unrelated), Construction/Groupoid.v:59 (topological prose). No Definition/Lemma/Theorem",
+      "grep -rn --include='*.v' -i 'sub_meet|subobject_meet|sub_inf|sub_glb|SubObjIntersection' . — 0 hits",
+      "grep -rn --include='*.v' -i 'wide pullback|wide_pullback|WidePullback' . — 0 hits",
+      "grep -rn --include='*.v' -i 'greatest lower bound|infimum' . — 1 hit, Instance/Poset.v:51, about limits in a poset category, not about subobjects of an object",
+      "grep -rn --include='*.v' 'Limit.*SubObj|SubObj.*Limit' . — 0 hits; Theory/Subobject.v carries only the setoid, the factorization preorder sub_le and sub_equiv_iff_mutual, with no meets, and Theory/Subobject/Functor.v only reindexes subobjects along chosen pullbacks",
+      "Nearest in-tree relative, and NOT the item: Theory/Morphisms/Stability.v:226 monic_pullback_stable (monomorphisms are stable under pullback). That asserts a stability property; it neither defines the intersection of a family of subobjects as a limit, nor proves the induced map into c is monic, nor that the intersection is the maximal subobject contained in every member."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and reproduced the classifier's key negatives: `rg -i intersect` over the tree returns exactly 3 hits, all comments (Structure/Pullback.v:94 background prose 'the pullback of two monomorphisms is the intersection of subobjects', Structure/Factorization.v:70 about the class intersection E ∩ M, Construction/Groupoid.v:59 topological prose); no wide pullback; no meet/glb on SubObj (Theory/Subobject.v carries only the setoid, sub_le and sub_equiv_iff_mutual — I read the whole 117-line file to be sure, and Theory/Subobject/Functor.v only reindexes along chosen pullbacks). I also looked for the two supporting facts the book's prose asserts and found neither: there is no lemma that the legs of a limit cone of monos are monic, and no monic-cancellation lemma (Riehl 1.2.11(ii), 'g ∘ f monic ⇒ f monic') — Theory/Morphisms.v:212 has only `monic_compose` in the composition direction. The classifier's 'nearest relative, and NOT the item' entry for Theory/Morphisms/Stability.v:226 `monic_pullback_stable` is verified at that exact line and the disclaimer is accurate: it gives monicity of a pullback leg, not the intersection as a limit, not monicity of the induced map into c, and not maximality. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:4.7:thm10",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Special Adjoint Functor Theorem",
+      "SAFT / Freyd special adjoint functor theorem",
+      "well-powered + cogenerating set ⇒ left adjoint",
+      "SubobjectIndex / Cogenerator / SubobjectCover",
+      "coseparating set + intersections of subobjects"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 274,
+        "symbol": "SAFT",
+        "intree_statement": "Definition SAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D ⟶ C & F ⊣ U } := GAFT U comp cont (SAFT_solution_set U comp G WP cover)."
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 252,
+        "symbol": "SAFT_solution_set",
+        "intree_statement": "Definition SAFT_solution_set {C D : Category} (U : C ⟶ D) (comp : @Complete C) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) (d : D) : SolutionSet U d.   (* members are the pairs (i, s) of a well-powered subobject of the cogenerator product and an arrow d ~> U (sub_dom i) *)"
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 223,
+        "symbol": "cogenerator_canonical_monic",
+        "intree_statement": "Lemma cogenerator_canonical_monic {C : Category} (comp : @Complete C) (G : Cogenerator C) (c : C) : Monic (cogen_canonical comp G c).   (* the one classical half proved internally: separation ⇒ the canonical map into the power of the cogenerating family is monic *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Let U : A → S be continuous with A complete and both A and S locally small. If A has a SMALL COSEPARATING SET and every collection of subobjects of a fixed object of A admits an INTERSECTION, then U admits a left adjoint. (Proof: each s ↓ U is locally small and complete, monos there are created by Π, a coseparating set for A gives one for s ↓ U, and Lemma 4.7.11 supplies the initial object.)",
+      "intree": "SAFT U (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D ⟶ C & F ⊣ U }, where SubobjectCover U comp G WP := ∀ d c (h : d ~> U c), { i : sub_index (WP (cogen_prod comp G)) & { s : d ~> U (sub_dom … i) & { t : sub_dom … i ~> c & fmap[U] t ∘ s ≈ h } } }.",
+      "strength_comparison": "intree-weaker: the conclusion is the full left adjoint the book claims, but the hypothesis list carries an EXTRA input, `cover`, which is (pointwise) the CONCLUSION of the classical image-factorization step rather than a premise of the book's theorem. Continuity is at the correct cone level (PreservesImageLimit) and completeness matches; the coseparating set is Cogenerator (see riehl:4.7:def7); well-poweredness is packaged as data (SubobjectIndex x: a Type of indices, a domain and a mono into x for each). The file states this deviation openly: the size argument 'the subobjects of the cogenerator product form a set, and the image of h lands in one of them' cannot be run because the library has no smallness machinery and no image factorization on a general base."
+    },
+    "gap": "Three precise gaps against the book's statement. (1) The image-factorization step is ASSUMED, not derived: `cover : SubobjectCover U comp G WP` is an extra hypothesis stating exactly what the classical proof concludes (every h : d ~> U c factors through a subobject of the cogenerator product), so the theorem as stated is the book's theorem MINUS its hardest step. (2) The book's second hypothesis — every collection of subobjects of a fixed object admits an INTERSECTION — has no in-tree counterpart at all (see riehl:4.7:def9, ABSENT); it is replaced by the different hypothesis of well-poweredness-as-data (SubobjectIndex), and the monic annotation `sub_monic` is inert (SAFT.v:70-72 says the existence proof does not consume it). (3) The comma-category half of the book's proof — that Π : s ↓ U → A creates monos and intersections and transports a coseparating set of A to one of s ↓ U, and Lemma 4.7.11 producing the initial object from a coseparating set plus intersections — is not formalized; the in-tree route detours through GAFT and the solution set instead. What IS internalized in full is the separation ⇒ monic half (cogenerator_canonical_monic).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'well-powered|wellpowered|well_powered' . — only Adjunction/SAFT.v (SubobjectIndex, as data) and prose in Structure/{Topos,Complete}.v, Adjunction/GAFT.v",
+      "grep -rn --include='*.v' -i 'intersect' . — no intersection of subobjects anywhere (comment only, Structure/Pullback.v:94), confirming hypothesis (2) has no counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with essentially gap (1) before reading the record; the record's three-part gap is sharper than mine and each part checks out. Citations verified at exact lines and quoted accurately: Adjunction/SAFT.v:274 `Definition SAFT`, :252 `SAFT_solution_set`, :223 `cogenerator_canonical_monic`, plus :240 `SubobjectCover` whose body the statement_record quotes correctly. Gap (1) confirmed by reading the term: SAFT is a one-line application `GAFT U comp cont (SAFT_solution_set ...)`, and SAFT_solution_set (:256-267) discharges sol_covers by `destruct (cover d c h)` — i.e. the image-factorization conclusion is consumed straight from the hypothesis, never derived. Gap (2) confirmed twice over: intersections are ABSENT in-tree (see riehl:4.7:def9, which I verified independently), and `sub_monic` is genuinely never inspected by SAFT_solution_set (it projects only sub_index and sub_dom), matching the file's own disclosure at SAFT.v:68-71 — the record cites that as '70-72', a two-line drift, harmless and not worth overturning for. Gap (3) confirmed: nothing in-tree states that Π creates monos or transports a coseparating set to s ↓ U, and there is no Lemma 4.7.11 counterpart. Cross-checked docs/INHABITATION.md:54, which independently records SAFT as never applied and none of its three inputs inhabited. The classification is honest and if anything understated."
+    }
+  }
+]

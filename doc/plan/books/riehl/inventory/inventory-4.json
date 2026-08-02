@@ -1,0 +1,3237 @@
+{
+ "book": "riehl",
+ "range": {
+  "pdf_start": 151,
+  "pdf_end": 200
+ },
+ "chapter": "4",
+ "chapter_title": "Adjunctions",
+ "pages": [
+  {
+   "pdf_page": 151,
+   "book_page": "131",
+   "empty": false,
+   "items": [
+    "riehl:4.0:construction-free-vector-space"
+   ],
+   "notes": "Chapter 4 opener (CHAPTER 4 / Adjunctions), Kan epigraph [Kan58] \u2014 not an item. Unnumbered roadmap prose only; no numbered environment on this page. Footnote 1 (chapter-numbered) gives a precise definition of 'finite formal sum' as a finitely supported function S -> k; folded into the construction item's summary."
+  },
+  {
+   "pdf_page": 152,
+   "book_page": "132",
+   "empty": false,
+   "items": [
+    "riehl:4.0:construction-free-vector-space",
+    "riehl:4.1:def1"
+   ],
+   "notes": "Rest of the chapter roadmap; footnote 2 plus the running prose assert (unnumbered, unproved here) that U: Vect_k -> Set has NO right adjoint, so no competing 'cofree' notion exists. Section heading 4.1 Adjoint functors with a Mac Lane epigraph (not an item). NUMBER 4.1.2 IS CONSUMED BY A NUMBERED DISPLAY \u2014 the hom-set isomorphism D(Fc,d) = C(c,Gd) inside Definition 4.1.1; there is no environment numbered 4.1.2. The terms 'left adjoint', 'right adjoint', 'adjunct', 'transposes' are all defined inside Definition 4.1.1."
+  },
+  {
+   "pdf_page": 153,
+   "book_page": "133",
+   "empty": false,
+   "items": [
+    "riehl:4.1:def1",
+    "riehl:4.1:lem3",
+    "riehl:4.1:not5"
+   ],
+   "notes": "Unnumbered expository unpacking of the naturality condition of Definition 4.1.1 (a 2-cell of hom-bifunctors valued in SET, plus two naturality squares); not recorded as a separate item since it is the content of Definition 4.1.1 and of Lemma 4.1.3. NUMBER 4.1.4 IS CONSUMED BY A NUMBERED DISPLAY \u2014 the pair of transposed commuting squares inside the statement of Lemma 4.1.3."
+  },
+  {
+   "pdf_page": 154,
+   "book_page": "134",
+   "empty": false,
+   "items": [
+    "riehl:4.1:not5",
+    "riehl:4.1:example6",
+    "riehl:4.1:def-adjoint-triple",
+    "riehl:4.1:def-galois-connection",
+    "riehl:4.1:example7",
+    "riehl:4.1:example8"
+   ],
+   "notes": "Notation 4.1.5 (started on PDF 153) concludes at the top of this page. Two bold-faced definitions are made in running prose between the examples: 'adjoint triple' and '(monotone) Galois connection' (with 'lower adjoint'/'upper adjoint'); both recorded as unnumbered definitions."
+  },
+  {
+   "pdf_page": 155,
+   "book_page": "135",
+   "empty": false,
+   "items": [
+    "riehl:4.1:example8",
+    "riehl:4.1:example9",
+    "riehl:4.1:example10"
+   ],
+   "notes": "Example 4.1.8 (started PDF 154) concludes at the top with the adjoint-triple display f_* -| f^{-1} -| f_!. Example 4.1.9 defines 'predicate'/'propositional function' in its own prose. Example 4.1.10 begins here with clauses (i)-(iv) and continues onto PDF 156."
+  },
+  {
+   "pdf_page": 156,
+   "book_page": "136",
+   "empty": false,
+   "items": [
+    "riehl:4.1:example10",
+    "riehl:4.1:example11"
+   ],
+   "notes": "Example 4.1.10 continues here with clauses (v)-(xiv) and concludes with the observation that each free-|forgetful adjunction listed is a 'monadic adjunction' (forward reference to 5.5). Bold-faced terms defined inside those clauses: 'group ring', 'group completion'/'Grothendieck group', 'restriction of scalars', 'extension of scalars', 'induction'."
+  },
+  {
+   "pdf_page": 157,
+   "book_page": "137",
+   "empty": false,
+   "items": [
+    "riehl:4.1:example12",
+    "riehl:4.1:example13",
+    "riehl:4.1:example14",
+    "riehl:4.1:example15"
+   ],
+   "notes": "Example 4.1.13 defines 'quiver' and 'atomic arrows' in its own prose. Example 4.1.15 begins here and continues onto PDF 158."
+  },
+  {
+   "pdf_page": 158,
+   "book_page": "138",
+   "empty": false,
+   "items": [
+    "riehl:4.1:example15",
+    "riehl:4.1:exi",
+    "riehl:4.1:exii",
+    "riehl:4.1:exiii",
+    "riehl:4.1:exiv",
+    "riehl:4.1:exv",
+    "riehl:4.1:exvi"
+   ],
+   "notes": "Example 4.1.15 concludes at the top (the category-of-fractions construction as a quotient of the free category on C glued to C^op along ob C, with zig-zag relations). Unnumbered 'Exercises.' heading; six exercises 4.1.i-4.1.vi, matching the pagemap count for 4.1. Section heading 4.2 The unit and counit as universal arrows. NUMBER 4.2.1 IS CONSUMED BY A NUMBERED DISPLAY \u2014 the adjunction data C <-> D together with D(Fc,d) = C(c,Gd); no environment 4.2.1 exists. Footnote 4 attaches to Exercise 4.1.v."
+  },
+  {
+   "pdf_page": 159,
+   "book_page": "139",
+   "empty": false,
+   "items": [
+    "riehl:4.2:lem2",
+    "riehl:4.2:lem3",
+    "riehl:4.2:example4"
+   ],
+   "notes": "Example 4.2.4 also defines the 'free group' on a set and identifies the unit/counit components as universal elements in the sense of Definition 2.3.3."
+  },
+  {
+   "pdf_page": 160,
+   "book_page": "140",
+   "empty": false,
+   "items": [
+    "riehl:4.2:def5",
+    "riehl:4.2:remark6",
+    "riehl:4.2:thm7"
+   ],
+   "notes": "Theorem 4.2.7 starts here (clauses (i)-(iv) on this page) and continues onto PDF 161. NUMBERS 4.2.8 AND 4.2.9 ARE CONSUMED BY NUMBERED DISPLAYS inside clauses (iii) and (iv) of Theorem 4.2.7 \u2014 the two explicit adjoint-transposition formulas; neither is a separate environment."
+  },
+  {
+   "pdf_page": 161,
+   "book_page": "141",
+   "empty": false,
+   "items": [
+    "riehl:4.2:thm7"
+   ],
+   "notes": "No item STARTS on this page. Continuation of Theorem 4.2.7: clauses (v) and (vi), the data/conditions discussion, and the first two thirds of the proof. Not empty."
+  },
+  {
+   "pdf_page": 162,
+   "book_page": "142",
+   "empty": false,
+   "items": [
+    "riehl:4.2:thm7",
+    "riehl:4.2:cor10",
+    "riehl:4.2:lem11"
+   ],
+   "notes": "End of the proof of Theorem 4.2.7. Between Corollary 4.2.10 and Lemma 4.2.11 there is an unnumbered worked instance: for f: A -> B, f(X) = f(f^{-1}(f(X))) and f^{-1}(f(f^{-1}(Y))) = f^{-1}(Y); folded into the Corollary 4.2.10 summary rather than recorded separately."
+  },
+  {
+   "pdf_page": 163,
+   "book_page": "143",
+   "empty": false,
+   "items": [
+    "riehl:4.2:exi",
+    "riehl:4.2:exii",
+    "riehl:4.2:exiii",
+    "riehl:4.2:exiv",
+    "riehl:4.2:exv"
+   ],
+   "notes": "Unnumbered 'Exercises.' heading; five exercises 4.2.i-4.2.v, matching the pagemap count for 4.2. Exercise 4.2.v itself defines a 'strict morphism of adjunctions' (recorded inside that exercise's summary). Section heading 4.3 The calculus of adjunctions with a J. P. May epigraph (not an item) and unnumbered roadmap prose."
+  },
+  {
+   "pdf_page": 164,
+   "book_page": "144",
+   "empty": false,
+   "items": [
+    "riehl:4.3:prop1"
+   ],
+   "notes": "NUMBER 4.3.2 IS CONSUMED BY A NUMBERED DISPLAY \u2014 the pair of transposed squares defining theta inside Proof 1 of Proposition 4.3.1; not an environment."
+  },
+  {
+   "pdf_page": 165,
+   "book_page": "145",
+   "empty": false,
+   "items": [
+    "riehl:4.3:prop1",
+    "riehl:4.3:prop4",
+    "riehl:4.3:prop5"
+   ],
+   "notes": "Proof 2 of Proposition 4.3.1 concludes here. NUMBER 4.3.3 IS CONSUMED BY A NUMBERED DISPLAY \u2014 the composite natural isomorphism D(F'c,d) = C(c,Gd) = D(Fc,d) in Proof 2. Proposition 4.3.5 begins at the foot of the page and its statement finishes on PDF 166."
+  },
+  {
+   "pdf_page": 166,
+   "book_page": "146",
+   "empty": false,
+   "items": [
+    "riehl:4.3:prop5",
+    "riehl:4.3:prop6"
+   ],
+   "notes": "Conclusion of the statement of Proposition 4.3.5 plus its two proofs, including the unnumbered observation that an equivalence inverse is simultaneously a left and a right adjoint (folded into the prop5 summary). Proposition 4.3.6 begins at the foot and continues onto PDF 167."
+  },
+  {
+   "pdf_page": 167,
+   "book_page": "147",
+   "empty": false,
+   "items": [
+    "riehl:4.3:prop6",
+    "riehl:4.3:def-2-functor",
+    "riehl:4.3:prop7"
+   ],
+   "notes": "Second half of Proposition 4.3.6's statement (the precomposition adjunction) plus its proof sketch, which defines '2-functor' in running prose (recorded). Footnote 5 records the smallness caveat on the functor categories; footnote 6 notes the alternative transposition order for mates. Proposition 4.3.7 begins here and continues onto PDF 168; it introduces the term 'mates'."
+  },
+  {
+   "pdf_page": 168,
+   "book_page": "148",
+   "empty": false,
+   "items": [
+    "riehl:4.3:prop7",
+    "riehl:4.3:def-conjugate",
+    "riehl:4.3:remark8",
+    "riehl:4.3:exi",
+    "riehl:4.3:exii",
+    "riehl:4.3:exiii",
+    "riehl:4.3:exiv",
+    "riehl:4.3:exv",
+    "riehl:4.3:exvi"
+   ],
+   "notes": "Proof 2 of Proposition 4.3.7 (explicit mate formulas). The special case H = K = id is developed in prose and names 'conjugates' (recorded as an unnumbered definition). Unnumbered 'Exercises.' heading; six exercises 4.3.i-4.3.vi, matching the pagemap count for 4.3. Footnote 7 attaches to Exercise 4.3.vi (double categories of adjunctions and mates, [KS74])."
+  },
+  {
+   "pdf_page": 169,
+   "book_page": "149",
+   "empty": false,
+   "items": [
+    "riehl:4.4:def1",
+    "riehl:4.4:def-antitone-galois",
+    "riehl:4.4:example2"
+   ],
+   "notes": "Section heading 4.4 Contravariant and multivariable adjoint functors, Mac Lane epigraph and the apocryphal Kan/Eilenberg dialogue (not items). The three dualizations of Definition 4.1.1 are discussed in unnumbered prose. 'Antitone Galois connection' is named in prose (recorded). Example 4.4.2 begins here and continues onto PDF 170."
+  },
+  {
+   "pdf_page": 170,
+   "book_page": "150",
+   "empty": false,
+   "items": [
+    "riehl:4.4:example2",
+    "riehl:4.4:example3",
+    "riehl:4.4:prop4"
+   ],
+   "notes": "Example 4.4.2 concludes here (Hilbert's Nullstellensatz and the Lemma 4.2.11 consequence). NUMBER 4.4.5 IS CONSUMED BY A NUMBERED DISPLAY \u2014 the isomorphism B(Fa,b) = A(a,Gb) natural in a, inside the statement of Proposition 4.4.4. Proposition 4.4.4's statement runs onto PDF 171."
+  },
+  {
+   "pdf_page": 171,
+   "book_page": "151",
+   "empty": false,
+   "items": [
+    "riehl:4.4:prop4",
+    "riehl:4.4:prop6"
+   ],
+   "notes": "End of Proposition 4.4.4's statement (including the dual representability criterion for left adjoints) and its proof; footnote 8 gives the concise Yoneda-embedding restatement. Proposition 4.4.6 (three clauses) starts here and its proof defers to Exercise 4.4.ii."
+  },
+  {
+   "pdf_page": 172,
+   "book_page": "152",
+   "empty": false,
+   "items": [
+    "riehl:4.4:def7",
+    "riehl:4.4:def-closures",
+    "riehl:4.4:example8",
+    "riehl:4.4:example9",
+    "riehl:4.4:def10",
+    "riehl:4.4:lem11"
+   ],
+   "notes": "NUMBER 4.4.12 IS CONSUMED BY A NUMBERED DISPLAY \u2014 the bijection {H x F => G} = {H => G^F} inside the proof of Lemma 4.4.11. Lemma 4.4.11 begins here and continues onto PDF 173. The bold-faced 'left closure'/'right closure'/'biclosed'/'closed' vocabulary immediately after Definition 4.4.7 is recorded as one unnumbered definition item."
+  },
+  {
+   "pdf_page": 173,
+   "book_page": "153",
+   "empty": false,
+   "items": [
+    "riehl:4.4:lem11",
+    "riehl:4.4:example14"
+   ],
+   "notes": "Remainder of the proof of Lemma 4.4.11, including the explicit counit ev. NUMBER 4.4.13 IS CONSUMED BY A NUMBERED DISPLAY \u2014 the formula G^F(c) := {C(c,-) x F => G} in that proof. Example 4.4.14 begins here (with a block quotation from Steenrod) and continues onto PDF 174."
+  },
+  {
+   "pdf_page": 174,
+   "book_page": "154",
+   "empty": false,
+   "items": [
+    "riehl:4.4:example14",
+    "riehl:4.4:example15"
+   ],
+   "notes": "Example 4.4.14 concludes here (cgHaus, k-ification, function spaces Map(X,Y)); footnote 9 notes that this adjoint implies cgHaus is complete and cocomplete. NUMBERS 4.4.16 AND 4.4.17 ARE CONSUMED BY NUMBERED DISPLAYS inside Example 4.4.15 \u2014 the tensor-hom adjunction and the representing-object formula; neither is a separate environment. Footnote 10 explains the Ab/Hom notational clash."
+  },
+  {
+   "pdf_page": 175,
+   "book_page": "155",
+   "empty": false,
+   "items": [
+    "riehl:4.4:example15",
+    "riehl:4.4:example18",
+    "riehl:4.4:def-closed-monoidal",
+    "riehl:4.4:def-n-variable-adjunction",
+    "riehl:4.4:exi",
+    "riehl:4.4:exii",
+    "riehl:4.4:exiii",
+    "riehl:4.4:exiv"
+   ],
+   "notes": "Example 4.4.15 concludes at the top. Example 4.4.18 also names 'free loop space', 'smash product', 'based loop space' and 'reduced suspension'. Two further bold terms are introduced in prose after it: 'closed monoidal categories' (informal gloss, real definition deferred to E.2) and 'n-variable adjunction' (a genuine definition). Unnumbered 'Exercises.' heading begins; 4.4.i-4.4.iii are complete here, 4.4.iv starts here and finishes on PDF 176."
+  },
+  {
+   "pdf_page": 176,
+   "book_page": "156",
+   "empty": false,
+   "items": [
+    "riehl:4.4:exiv",
+    "riehl:4.4:exv",
+    "riehl:4.5:example1",
+    "riehl:4.5:construction-quantifier-adjoint-triple"
+   ],
+   "notes": "Exercise 4.4.iv (started PDF 175) concludes with clauses (i)-(ii) and a trailing unlabelled directive to construct the analogous two-variable adjunction in the setting of Example 4.4.18. Five exercises total in 4.4, matching the pagemap. Section heading 4.5 Locally cartesian closed categories; its opening paragraph recalls Definition 4.4.10 and names 'internal homs' for the closure objects C^B (a renaming of already-defined structure, not recorded separately). Example 4.5.1 is entirely on this page. The final paragraph opens the unnumbered generalization of Example 4.1.9 to an adjoint triple over an arbitrary function f: Y -> X; the display and the rest of its development sit on PDF 177 (outside my range) \u2014 recorded here because it STARTS here. Definition 4.5.2, Lemma 4.5.3 and Lemma 4.5.4 all start on PDF 177 and are NOT recorded (other agent's range)."
+  },
+  {
+   "pdf_page": 177,
+   "book_page": "157",
+   "empty": false,
+   "items": [
+    "riehl:4.5:construction-quantifier-adjoint-triple",
+    "riehl:4.5:construction-setmono-slice",
+    "riehl:4.5:def2",
+    "riehl:4.5:lem3",
+    "riehl:4.5:lem4"
+   ],
+   "notes": "Page opens mid-construction: the adjoint triple exists_f -| Delta_f -| forall_f on predicate posets Omega^Y <- Omega^X is announced in the last line of PDF 176 and its defining display sits at the top of this page (owned by the \u00a74.1-\u00a74.4 agent, see problems[]). Footnote 11 (cancellation of monos makes (Set_mono)/X a preorder). \u00a74.5 counter is contiguous 1..14 with NO numbered displays consumed."
+  },
+  {
+   "pdf_page": 178,
+   "book_page": "158",
+   "empty": false,
+   "items": [
+    "riehl:4.5:lem4",
+    "riehl:4.5:example5",
+    "riehl:4.5:construction-slice-pullback-adjunction",
+    "riehl:4.5:prop6"
+   ],
+   "notes": "Lemma 4.5.4 clause (iii) and its proof complete at the top of this page; the item is recorded under PDF 177. Three unnumbered display diagrams (pullback as slice product; Delta_f / Sigma_f on slices; the Sigma_f -| Delta_f transposition) carry no numbers."
+  },
+  {
+   "pdf_page": 179,
+   "book_page": "159",
+   "empty": false,
+   "items": [
+    "riehl:4.5:prop6",
+    "riehl:4.5:example7"
+   ],
+   "notes": "Proof of Proposition 4.5.6 occupies most of the page (construction of Pi_f by a pullback in C/X, the [f,-]_X internal hom, and the converse via Sigma_a Delta_a -| Pi_a Delta_a). Several untagged pullback/transposition diagrams; none numbered."
+  },
+  {
+   "pdf_page": 180,
+   "book_page": "160",
+   "empty": false,
+   "items": [
+    "riehl:4.5:example7",
+    "riehl:4.5:construction-dependent-sum-product",
+    "riehl:4.5:remark8",
+    "riehl:4.5:lem9"
+   ],
+   "notes": "Example 4.5.7 continues from PDF 179 (recorded there): the Sigma_f -| Delta_f -| Pi_f triple on Set/Y <-> Set/X unpacked fiberwise. The dependent-sum / dependent-product / dependent-pair / dependent-function vocabulary is introduced in bold running prose here and is recorded as an unnumbered construction."
+  },
+  {
+   "pdf_page": 181,
+   "book_page": "161",
+   "empty": false,
+   "items": [
+    "riehl:4.5:lem9",
+    "riehl:4.5:example10",
+    "riehl:4.5:example11"
+   ],
+   "notes": "Proof of Lemma 4.5.9 (the Yoneda-defined functor from the category of elements, the L -| R equivalence between Set^{(int X)^op} and Set^{C^op}/X) fills the top half. No numbered displays."
+  },
+  {
+   "pdf_page": 182,
+   "book_page": "162",
+   "empty": false,
+   "items": [
+    "riehl:4.5:example11",
+    "riehl:4.5:def-beck-chevalley",
+    "riehl:4.5:lem12"
+   ],
+   "notes": "Example 4.5.11 concludes here (bipartite quivers; Quiver/dA ~= Set x Set; Pi_delta = join). 'Beck-Chevalley isomorphisms' is named in unnumbered prose immediately after Lemma 4.5.12 and is recorded as a prose definition."
+  },
+  {
+   "pdf_page": 183,
+   "book_page": "163",
+   "empty": false,
+   "items": [
+    "riehl:4.5:lem12",
+    "riehl:4.5:cor13",
+    "riehl:4.5:lem14"
+   ],
+   "notes": "Proof of Lemma 4.5.12 concludes (the component of beta at c is the comparison of two pullbacks of gc along f, an isomorphism when the square is a pullback by Exercise 3.1.vi)."
+  },
+  {
+   "pdf_page": 184,
+   "book_page": "164",
+   "empty": false,
+   "items": [
+    "riehl:4.5:lem14",
+    "riehl:4.5:construction-type-theoretic-ac",
+    "riehl:4.5:exi",
+    "riehl:4.5:exii",
+    "riehl:4.5:exiii"
+   ],
+   "notes": "Proof of Lemma 4.5.14 by Yoneda; then the unnumbered specialization to the 'type theoretic axiom of choice' and the Skolem function; then the unnumbered 'Exercises.' heading. \u00a74.5's arabic counter ENDS at Lemma 4.5.14 \u2014 no trailing numbered display."
+  },
+  {
+   "pdf_page": 185,
+   "book_page": "165",
+   "empty": false,
+   "items": [
+    "riehl:4.5:exiii",
+    "riehl:4.5:exiv",
+    "riehl:4.6:prop1",
+    "riehl:4.6:thm2"
+   ],
+   "notes": "Exercise 4.5.iii completes at the top (with its unnumbered pullback/pushforward diagram), Exercise 4.5.iv closes \u00a74.5 (4 exercises, matching the pagemap). \u00a74.6 heading begins mid-page. \u00a74.6 counter is contiguous 1..15 with NO numbered displays consumed."
+  },
+  {
+   "pdf_page": 186,
+   "book_page": "166",
+   "empty": false,
+   "items": [
+    "riehl:4.6:thm2"
+   ],
+   "notes": "Entirely the proof of Theorem 4.6.2 (RAPL): five large unnumbered cone diagrams over the integer-poset indexing category, transposing a cone mu: Delta c => GK across F -| G. No new numbered item begins on this page."
+  },
+  {
+   "pdf_page": 187,
+   "book_page": "167",
+   "empty": false,
+   "items": [
+    "riehl:4.6:thm2",
+    "riehl:4.6:cor3",
+    "riehl:4.6:cor4",
+    "riehl:4.6:cor5"
+   ],
+   "notes": "Proof of Theorem 4.6.2 concludes; the concise chain of natural isomorphisms C^J(Delta c, GK) ~= ... ~= C(c, G lim K) is an UNNUMBERED display."
+  },
+  {
+   "pdf_page": 188,
+   "book_page": "168",
+   "empty": false,
+   "items": [
+    "riehl:4.6:cor6",
+    "riehl:4.6:def7",
+    "riehl:4.6:prop8"
+   ],
+   "notes": "Footnote 12 defines zero object / kernel / cokernel by reference to Ch. 1 and 3. The exact-sequence displays inside Proposition 4.6.8 are unnumbered."
+  },
+  {
+   "pdf_page": 189,
+   "book_page": "169",
+   "empty": false,
+   "items": [
+    "riehl:4.6:cor9",
+    "riehl:4.6:cor10",
+    "riehl:4.6:lem11",
+    "riehl:4.6:def12",
+    "riehl:4.6:example13"
+   ],
+   "notes": "'coreflective subcategory' is named in bold prose just before Definition 4.6.12 but only the reflective case is formally defined (the coreflective case is left dual)."
+  },
+  {
+   "pdf_page": 190,
+   "book_page": "170",
+   "empty": false,
+   "items": [
+    "riehl:4.6:example13"
+   ],
+   "notes": "Continuation of Example 4.6.13, clauses (i)-(v): Stone-Cech universal property diagram, abelianization Ab <-> Group (and CRing <-> Ring), torsion-free quotient Ab_tf <-> Ab, restriction/extension of scalars with localization R -> R[S^{-1}], sheafification Shv_X <-> Set^{O(X)^op}. No new numbered item starts here."
+  },
+  {
+   "pdf_page": 191,
+   "book_page": "171",
+   "empty": false,
+   "items": [
+    "riehl:4.6:example13",
+    "riehl:4.6:prop14",
+    "riehl:4.6:cor15"
+   ],
+   "notes": "Example 4.6.13 clause (vi) (nerve N: Cat -> Set^{Delta^op} and its left adjoint ho) completes at the top; item recorded under PDF 189."
+  },
+  {
+   "pdf_page": 192,
+   "book_page": "172",
+   "empty": false,
+   "items": [
+    "riehl:4.6:exi",
+    "riehl:4.6:exii",
+    "riehl:4.6:exiii",
+    "riehl:4.6:exiv",
+    "riehl:4.6:exv",
+    "riehl:4.6:exvi",
+    "riehl:4.6:exvii",
+    "riehl:4.6:exviii",
+    "riehl:4.6:exix"
+   ],
+   "notes": "Unnumbered 'Exercises.' heading opens the page. Exercises carry unnumbered diagrams (the adjoint square of Exercise 4.6.iv, the identity square of 4.6.vi, the Cat pushout of 4.6.vii)."
+  },
+  {
+   "pdf_page": 193,
+   "book_page": "173",
+   "empty": false,
+   "items": [
+    "riehl:4.6:exx",
+    "riehl:4.6:exxi"
+   ],
+   "notes": "\u00a74.6 exercises end at 4.6.xi (11 total, matching the pagemap). \u00a74.7 heading and its motivating Ring <-> Rng prose begin mid-page; footnote 13 records that both forgetful functors to Set create all limits, so the inclusion preserves all limits. \u00a74.7 counter is contiguous 1..17 with NO numbered displays consumed."
+  },
+  {
+   "pdf_page": 194,
+   "book_page": "174",
+   "empty": false,
+   "items": [
+    "riehl:4.7:def-continuous",
+    "riehl:4.7:lem1",
+    "riehl:4.7:lem2"
+   ],
+   "notes": "Comma category s|U is recalled (objects (a, f: s -> Ua), morphisms h: a -> a' with the evident triangle) as the setting for Lemma 4.7.1; unnumbered naturality square for Ff."
+  },
+  {
+   "pdf_page": 195,
+   "book_page": "175",
+   "empty": false,
+   "items": [
+    "riehl:4.7:lem2",
+    "riehl:4.7:thm3",
+    "riehl:4.7:def4",
+    "riehl:4.7:lem5"
+   ],
+   "notes": "Proof of Lemma 4.7.2 (one line, via Exercise 3.4.ii / Proposition 3.4.8) at the top; the solution set condition is stated as a bulleted clause inside Theorem 4.7.3, not as a separate numbered item."
+  },
+  {
+   "pdf_page": 196,
+   "book_page": "176",
+   "empty": false,
+   "items": [
+    "riehl:4.7:thm3",
+    "riehl:4.7:lem5",
+    "riehl:4.7:example6"
+   ],
+   "notes": "Proof of Lemma 4.7.5 completes (large unnumbered cone/pullback diagram); the proof of Theorem 4.7.3 is then assembled from Lemmas 4.7.1, 4.7.2 and 4.7.5."
+  },
+  {
+   "pdf_page": 197,
+   "book_page": "177",
+   "empty": false,
+   "items": [
+    "riehl:4.7:example6",
+    "riehl:4.7:def7",
+    "riehl:4.7:def8",
+    "riehl:4.7:def9",
+    "riehl:4.7:thm10",
+    "riehl:4.7:lem11"
+   ],
+   "notes": "Example 4.7.6 concludes at the top (uniqueness of the factorization through the free group). Densest page of the range: five numbered items."
+  },
+  {
+   "pdf_page": 198,
+   "book_page": "178",
+   "empty": false,
+   "items": [
+    "riehl:4.7:thm10",
+    "riehl:4.7:lem11",
+    "riehl:4.7:example12",
+    "riehl:4.7:cor13",
+    "riehl:4.7:cor14"
+   ],
+   "notes": "Proof of Lemma 4.7.11 concludes and the proof of Theorem 4.7.10 (SAFT) is given, reducing to Lemma 4.7.11 in each comma category s|U."
+  },
+  {
+   "pdf_page": 199,
+   "book_page": "179",
+   "empty": false,
+   "items": [
+    "riehl:4.7:thm15",
+    "riehl:4.7:def16",
+    "riehl:4.7:thm17"
+   ],
+   "notes": "Footnote 14 defines 'regular cardinal'. Theorem 4.7.17 is given only a PROOF SKETCH, deferring to [AR94] 1.66 and 1.58."
+  },
+  {
+   "pdf_page": 200,
+   "book_page": "180",
+   "empty": false,
+   "items": [
+    "riehl:4.7:construction-unitalization",
+    "riehl:4.7:exi",
+    "riehl:4.7:exii",
+    "riehl:4.7:exiii"
+   ],
+   "notes": "Last page of Chapter 4 (no blank verso; Chapter 5 opens on PDF 201). \u00a74.7 has 3 exercises, matching the pagemap. \u00a74.7's arabic counter ENDS at Theorem 4.7.17 \u2014 no trailing numbered display."
+  }
+ ],
+ "items": [
+  {
+   "id": "riehl:4.0:construction-free-vector-space",
+   "kind": "construction",
+   "number": null,
+   "name": "free vector space functor k[-]: Set -> Vect_k, left adjoint to the underlying-set functor",
+   "statement_summary": "Chapter-opening unnumbered construction. The underlying-set functor U: Vect_k -> Vect_k's target Set is forgetful on a vector space; reversing it, the free vector space k[S] on a set S has S as a basis, its elements being finite formal sums k_1 s_1 + ... + k_n s_n with k_i in k, s_i in S, n >= 0 (footnote 1: precisely, a finitely supported function S -> k). The assignment is functorial: f: S -> T induces the linear map k[f]: k[S] -> k[T] determined on basis elements, giving k[-]: Set -> Vect_k. Its universal property is stated as k[-] being LEFT ADJOINT to U: linear maps k[S] -> V correspond naturally to functions S -> U(V), which by the Yoneda lemma determines the action of k[-] on maps. Accompanying unnumbered assertion (footnote 2): U: Vect_k -> Set has no right adjoint, so no competing 'cofree' construction exists.",
+   "book_section": "4.0",
+   "book_page": "131",
+   "pdf_pages": [
+    151,
+    152
+   ],
+   "cross_refs": [
+    "riehl:4.1:def1",
+    "riehl:4.1:example10"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "chapter-roadmap-prose",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.1:def1",
+   "kind": "definition",
+   "number": "4.1.1",
+   "name": "adjunction (adjunctions I) \u2014 hom-set definition",
+   "statement_summary": "An adjunction consists of a pair of functors F: C -> D and G: D -> C together with a specified isomorphism D(Fc,d) = C(c,Gd) for each c in C and d in D that is natural in BOTH variables. F is called left adjoint to G and G right adjoint to F. Morphisms f-sharp: Fc -> d and f-flat: c -> Gd corresponding under the bijection are called adjunct, or transposes of each other. The naturality clause means the isomorphisms assemble into a natural isomorphism of the two hom-bifunctors C^op x D -> SET obtained by restricting D(-,-) along F x id and C(-,-) along id x G (possibly valued in a larger set-theoretic universe).",
+   "book_section": "4.1",
+   "book_page": "132",
+   "pdf_pages": [
+    152,
+    153
+   ],
+   "cross_refs": [
+    "riehl:4.1:lem3",
+    "riehl:4.2:def5",
+    "riehl:4.4:def1"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.1:lem3",
+   "kind": "lemma",
+   "number": "4.1.3",
+   "name": "naturality of adjoint transposition as commuting-square correspondence",
+   "statement_summary": "Let F: C -> D and G: D -> C be equipped with specified isomorphisms D(Fc,d) = C(c,Gd) for all c in C and d in D (not assumed natural). Then naturality of this collection is EQUIVALENT to the assertion that for all morphisms h: c' -> c in C, k: d -> d' in D, f-sharp: Fc -> d, g-sharp: Fc' -> d', the square in D with sides Fh, f-sharp, g-sharp, k commutes if and only if the transposed square in C with sides h, f-flat, g-flat, Gk commutes. (Proof deferred to Exercise 4.1.i.) The two naturality directions separately say: the transpose of k . f-sharp is Gk . f-flat, and the transpose of f-sharp . Fh is f-flat . h.",
+   "book_section": "4.1",
+   "book_page": "133",
+   "pdf_pages": [
+    153
+   ],
+   "cross_refs": [
+    "riehl:4.1:def1",
+    "riehl:4.1:exi",
+    "riehl:4.2:lem2",
+    "riehl:4.3:prop1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:not5",
+   "kind": "definition",
+   "number": "4.1.5",
+   "name": "Notation 4.1.5 \u2014 the turnstile notation for adjoints",
+   "statement_summary": "Notation (numbered environment of kind Notation). Following Kan, a turnstile designates an adjoint pair: the expressions F -| G and G |- F, and each of four decorated bidirectional diagrams between C and D carrying the symbol 'perp' between the two arrows, all assert that F: C -> D is left adjoint to G: D -> C. The notation is intended for contexts involving several adjoint functors at once.",
+   "book_section": "4.1",
+   "book_page": "133",
+   "pdf_pages": [
+    153,
+    154
+   ],
+   "cross_refs": [
+    "riehl:4.1:def1"
+   ],
+   "flags": [
+    "kind-is-Notation",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.1:example6",
+   "kind": "example",
+   "number": "4.1.6",
+   "name": "discrete -| forgetful -| indiscrete for Top -> Set",
+   "statement_summary": "The forgetful functor U: Top -> Set admits BOTH a left and a right adjoint. The left adjoint sends a set S to the discrete space D(S), characterized by the universal property that any function S -> U(T) is continuous as a map D(S) -> T; the right adjoint sends S to the indiscrete space I(S), characterized by: any function U(T) -> S is continuous as a map T -> I(S). The natural isomorphisms Top(D(S),T) = Set(S,U(T)) and Set(U(T),S) = Top(T,I(S)) exhibit D -| U -| I.",
+   "book_section": "4.1",
+   "book_page": "134",
+   "pdf_pages": [
+    154
+   ],
+   "cross_refs": [
+    "riehl:4.1:def-adjoint-triple"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:def-adjoint-triple",
+   "kind": "definition",
+   "number": null,
+   "name": "adjoint triple",
+   "statement_summary": "Unnumbered definition made in running prose: when three functors F, G, H define a pair of adjunctions F -| G and G -| H, this data collectively is called an adjoint triple.",
+   "book_section": "4.1",
+   "book_page": "134",
+   "pdf_pages": [
+    154
+   ],
+   "cross_refs": [
+    "riehl:4.1:example6",
+    "riehl:4.1:example7",
+    "riehl:4.1:example8",
+    "riehl:4.1:example9",
+    "riehl:4.1:exiv"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:4.1:def-galois-connection",
+   "kind": "definition",
+   "number": null,
+   "name": "(monotone) Galois connection; lower and upper adjoint",
+   "statement_summary": "Unnumbered definition made in running prose: an adjunction between preorders is called a (monotone) Galois connection. Recalling from Exercise 1.3.ii that functors between preorders A and B are exactly order-preserving functions, an adjunction F -| G between order-preserving F: A -> B and G: B -> A asserts precisely that Fa <= b if and only if a <= Gb, for all a in A and b in B. In this context F is called the lower adjoint and G the upper adjoint.",
+   "book_section": "4.1",
+   "book_page": "134",
+   "pdf_pages": [
+    154
+   ],
+   "cross_refs": [
+    "riehl:4.1:example7",
+    "riehl:4.2:cor10",
+    "riehl:4.4:def-antitone-galois"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:4.1:example7",
+   "kind": "example",
+   "number": "4.1.7",
+   "name": "ceiling -| inclusion -| floor for Z -> R",
+   "statement_summary": "The inclusion of posets Z -> R with the usual ordering has both adjoints, given by the ceiling and floor functions. For an integer n and real r, n <= r if and only if n <= floor(r), so floor: R -> Z is right adjoint to the inclusion; dually r <= n if and only if ceiling(r) <= n, so ceiling: R -> Z is left adjoint to the inclusion. Hence an adjoint triple ceiling -| i -| floor between Z and R.",
+   "book_section": "4.1",
+   "book_page": "134",
+   "pdf_pages": [
+    154
+   ],
+   "cross_refs": [
+    "riehl:4.1:def-galois-connection",
+    "riehl:4.1:def-adjoint-triple"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:example8",
+   "kind": "example",
+   "number": "4.1.8",
+   "name": "direct image -| inverse image -| dual image for a function of sets",
+   "statement_summary": "For a function f: A -> B, the powersets PA and PB are posets ordered by inclusion. The direct image f_* : PA -> PB and inverse image f^{-1}: PB -> PA satisfy: for A' subset A and B' subset B, f(A') subset B' if and only if A' subset f^{-1}(B'); i.e. f_* -| f^{-1}. The inverse image has a further right adjoint f_! carrying A' subset A to the set of elements of B whose fibres lie entirely inside A', characterized by B' subset f_!(A') if and only if f^{-1}(B') subset A'. Together these give an adjoint triple f_* -| f^{-1} -| f_! between PA and PB.",
+   "book_section": "4.1",
+   "book_page": "134",
+   "pdf_pages": [
+    154,
+    155
+   ],
+   "cross_refs": [
+    "riehl:4.1:def-adjoint-triple",
+    "riehl:4.1:exii",
+    "riehl:4.2:cor10"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.1:example9",
+   "kind": "example",
+   "number": "4.1.9",
+   "name": "quantifiers as adjoints: exists_X -| Delta_X -| forall_X",
+   "statement_summary": "A predicate (propositional function) on X is a function p: X -> Omega where Omega := {bottom, top} is the set of truth values, made a poset category by the single non-identity morphism bottom <= top; Omega^X carries the pointwise order (p <= q iff p(x) implies q(x) for all x). Universal and existential quantification define functors forall_X, exists_X: Omega^X -> Omega by: forall_X p = top iff p(x) = top for all x in X, and exists_X p = top iff p(x) = top for some x. With the constant functor Delta_X: Omega -> Omega^X these form an adjoint triple exists_X -| Delta_X -| forall_X.",
+   "book_section": "4.1",
+   "book_page": "135",
+   "pdf_pages": [
+    155
+   ],
+   "cross_refs": [
+    "riehl:4.1:def-adjoint-triple",
+    "riehl:4.1:exii",
+    "riehl:4.5:example1",
+    "riehl:4.5:construction-quantifier-adjoint-triple"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:example10",
+   "kind": "example",
+   "number": "4.1.10",
+   "name": "the family of free -| forgetful adjunctions (fourteen instances)",
+   "statement_summary": "A large family of adjunctions F -| U: A <-> S where U is forgetful and F free; when a universal object of type A can be built on an object of type S and this construction is left adjoint to a forgetful functor, the word 'free' is used for 'universal'. Fourteen listed forgetful functors admitting left adjoints: (i) U: Set_* -> Set, free pointed set X_+ = X + {X}; (ii) U: Monoid -> Set, free monoid the set of finite lists of elements of X; (iii) U: Ring -> Ab forgetting multiplication, free ring on an abelian group A the direct sum of tensor powers A^{tensor n}, n >= 0; (iv) U: Ab -> Set, free abelian group Z[X] = direct sum over X of Z; (v) U: _R Mod -> Set, free R-module R[X] = direct sum over X of R (specializing to the free k-vector space of the chapter introduction); (vi) U: Ring -> Set, free ring the free monoid on the free abelian group, obtained by composing left adjoints (Proposition 4.3.4); (vii) U: CRing -> Set, free commutative ring = polynomials over Z in the elements of X; (viii) (-)^x: Ring -> Group carrying a ring to its group of units, whose left adjoint is the group ring Z[G]; (ix) U: Group -> Set, free group (see Examples 4.2.4 and 4.7.6); (x) I: Ab -> CMonoid, left adjoint the group completion / Grothendieck group Gr(M,+,0) = (M x M) modulo (a,b) ~ (a',b') iff a + b' + c = a' + b + c for some c; (xi) I: Group -> Monoid, left adjoint the group completion of a monoid; (xii) restriction of scalars phi^*: _S Mod -> _R Mod along phi: R -> S, whose left adjoint S tensor_R - is extension of scalars; (xiii) U: _R Mod -> Ab forgetting scalar multiplication, the special case of (xii) for the unique Z -> R; (xiv) phi^*: Set^{BG} -> Set^{BH} along a group homomorphism phi: H -> G, whose left adjoint is called induction. Each of these is a monadic adjunction (subject of section 5.5).",
+   "book_section": "4.1",
+   "book_page": "135",
+   "pdf_pages": [
+    155,
+    156
+   ],
+   "cross_refs": [
+    "riehl:4.0:construction-free-vector-space",
+    "riehl:4.1:example11",
+    "riehl:4.2:example4",
+    "riehl:4.2:exii",
+    "riehl:4.3:prop4"
+   ],
+   "flags": [
+    "multi-clause-14",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.1:example11",
+   "kind": "example",
+   "number": "4.1.11",
+   "name": "Frobenius reciprocity: induction -| restriction -| coinduction",
+   "statement_summary": "Generalizing Example 4.1.10(xiv): for any complete and cocomplete category C and any group homomorphism phi: H -> G, the restriction functor phi^*: C^{BG} -> C^{BH} admits both a left and a right adjoint (proved in Example 6.2.9). For a subgroup inclusion H subset G the left adjoint is called induction ind^G_H and the right adjoint coinduction coind^G_H, so ind -| res -| coind. Taking C = Vect_k, the adjunction ind^G_H -| res^G_H between H-representations and G-representations is Frobenius reciprocity.",
+   "book_section": "4.1",
+   "book_page": "136",
+   "pdf_pages": [
+    156
+   ],
+   "cross_refs": [
+    "riehl:4.1:example10",
+    "riehl:4.1:def-adjoint-triple"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:example12",
+   "kind": "example",
+   "number": "4.1.12",
+   "name": "the forgetful functors out of Field admit no adjoints",
+   "statement_summary": "None of the functors Field -> Ring, Field -> Ab, Field -(-)^x-> Ab, Field -> Set that forget algebraic structure on fields admits a left or a right adjoint. Reason given: the target categories admit maps from Z to fields of every characteristic, but there are no field homomorphisms between fields of differing characteristic, so no value for a hypothetical left adjoint at Z can be defined; a similar argument rules out right adjoints.",
+   "book_section": "4.1",
+   "book_page": "137",
+   "pdf_pages": [
+    157
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:example13",
+   "kind": "example",
+   "number": "4.1.13",
+   "name": "free category on a quiver",
+   "statement_summary": "The forgetful functor U: Cat -> Quiver admits a left adjoint F defining the free category on a quiver. A quiver Q is a set V of vertices, a set A of arrows, and functions s,t: A -> V giving source and target. The free category F(Q) has V as objects; its morphisms are finite directed paths of edges, with the nullary paths serving as identities and composition given by concatenation. The adjunction supplies a natural bijection between functors F(Q) -> C and quiver morphisms Q -> U(C); such data is exactly a diagram in C with no commutativity requirements, uniquely determined by the images of the vertices and arrows of Q. These images are the atomic arrows of F(Q), those admitting no non-trivial factorization; e.g. the category omega is free on the quiver with vertices the natural numbers and edges n -> n+1, so an omega-indexed diagram is specified by the images of the atomic arrows alone.",
+   "book_section": "4.1",
+   "book_page": "137",
+   "pdf_pages": [
+    157
+   ],
+   "cross_refs": [
+    "riehl:4.1:exiii",
+    "riehl:4.1:example14",
+    "riehl:4.1:example15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:example14",
+   "kind": "example",
+   "number": "4.1.14",
+   "name": "arbitrarily long finite chains of adjoints between ordinal categories",
+   "statement_summary": "For n >= 0 let n+1 denote the ordinal category freely generated by the quiver 0 -> 1 -> ... -> n. For 0 <= i <= n there is an injective functor d^i: n -> n+1, the unique functor missing the object i from the image; for 0 <= i < n there is a surjective functor s^i: n+1 -> n for which i in n is the unique object with two preimages. These functors form a sequence of 2n+1 adjoints d^n -| s^{n-1} -| d^{n-1} -| s^{n-2} -| ... -| s^1 -| d^1 -| s^0 -| d^0 between n and n+1, proving that arbitrarily long finite sequences of adjoint functors exist.",
+   "book_section": "4.1",
+   "book_page": "137",
+   "pdf_pages": [
+    157
+   ],
+   "cross_refs": [
+    "riehl:4.1:example13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:example15",
+   "kind": "example",
+   "number": "4.1.15",
+   "name": "maximal subgroupoid and category of fractions as adjoints to Groupoid -> Cat",
+   "statement_summary": "The inclusion Groupoid -> Cat admits both a left and a right adjoint. The right adjoint sends a category to its maximal subgroupoid (Lemma 1.1.14): since functors preserve isomorphisms, any functor from a groupoid G -> C factors uniquely through the maximal subgroupoid of C. The left adjoint formally inverts all morphisms, producing the category of fractions; for C it is constructed as a quotient of the free category on the quiver obtained by gluing the quiver underlying C to the quiver underlying C^op along the common discrete subcategory ob C. Its objects are those of C and its morphisms are finite zig-zags of morphisms of C, subject to relations equating the zig-zags a -f-> b <-f- a and b <-f- a -f-> b with identities. (Reference: Bor94a, section 5.2.)",
+   "book_section": "4.1",
+   "book_page": "137",
+   "pdf_pages": [
+    157,
+    158
+   ],
+   "cross_refs": [
+    "riehl:4.1:example13"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.1:exi",
+   "kind": "exercise",
+   "number": "4.1.i",
+   "name": "prove Lemma 4.1.3",
+   "statement_summary": "Show that functors F: C -> D and G: D -> C together with bijections D(Fc,d) = C(c,Gd) for each c in C and d in D define an adjunction if and only if these bijections induce a bijection between commutative squares as displayed in (4.1.4); that is, prove Lemma 4.1.3.",
+   "book_section": "4.1",
+   "book_page": "138",
+   "pdf_pages": [
+    158
+   ],
+   "cross_refs": [
+    "riehl:4.1:lem3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:exii",
+   "kind": "exercise",
+   "number": "4.1.ii",
+   "name": "quantifier adjoint triple as an instance of image/preimage",
+   "statement_summary": "Explain why Example 4.1.9 (the adjoint triple exists_X -| Delta_X -| forall_X on predicates) can be regarded as a special case of Example 4.1.8 (the direct image -| inverse image -| dual image triple on powersets).",
+   "book_section": "4.1",
+   "book_page": "138",
+   "pdf_pages": [
+    158
+   ],
+   "cross_refs": [
+    "riehl:4.1:example8",
+    "riehl:4.1:example9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:exiii",
+   "kind": "exercise",
+   "number": "4.1.iii",
+   "name": "adjoints to ob: Cat -> Set and V: Quiver -> Set",
+   "statement_summary": "Define left and right adjoints to (i) ob: Cat -> Set and (ii) V: Quiver -> Set (the vertex-set functor). Also decide whether V: Graph -> Set has a left or a right adjoint.",
+   "book_section": "4.1",
+   "book_page": "138",
+   "pdf_pages": [
+    158
+   ],
+   "cross_refs": [
+    "riehl:4.1:example13"
+   ],
+   "flags": [
+    "multi-clause-2-plus-trailing-question"
+   ]
+  },
+  {
+   "id": "riehl:4.1:exiv",
+   "kind": "exercise",
+   "number": "4.1.iv",
+   "name": "induced endofunctor adjunctions from an adjoint triple",
+   "statement_summary": "Show that any adjoint triple L -| U -| R between C and D gives rise to a canonical adjunction LU -| RU between the induced endofunctors of C, as well as an adjunction UL -| UR between the induced endofunctors of D.",
+   "book_section": "4.1",
+   "book_page": "138",
+   "pdf_pages": [
+    158
+   ],
+   "cross_refs": [
+    "riehl:4.1:def-adjoint-triple",
+    "riehl:4.3:prop4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:exv",
+   "kind": "exercise",
+   "number": "4.1.v",
+   "name": "functoriality of the free R-module construction",
+   "statement_summary": "Prove that the construction of the free R-module on a set described in Example 4.1.10(v) is functorial. Footnote 4: the intent is an explicit description of the homomorphism between formal finite sums induced by a function between generating sets, though one may instead prove functoriality via the Yoneda lemma (hint: Proposition 4.4.4).",
+   "book_section": "4.1",
+   "book_page": "138",
+   "pdf_pages": [
+    158
+   ],
+   "cross_refs": [
+    "riehl:4.1:example10",
+    "riehl:4.4:prop4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.1:exvi",
+   "kind": "exercise",
+   "number": "4.1.vi",
+   "name": "comma categories F|D and C|G of an adjunction are isomorphic",
+   "statement_summary": "Use Lemma 4.1.3 to show that if F: C <-> D :G are adjoint functors with F -| G, then the comma categories F | D and C | G, formed using F and G and the identity functors on C and D, are isomorphic, via an isomorphism that commutes with the forgetful functors to C x D defined in Exercise 1.3.vi.",
+   "book_section": "4.1",
+   "book_page": "138",
+   "pdf_pages": [
+    158
+   ],
+   "cross_refs": [
+    "riehl:4.1:lem3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:lem2",
+   "kind": "lemma",
+   "number": "4.2.2",
+   "name": "the unit of an adjunction",
+   "statement_summary": "Given an adjunction F -| G, there is a natural transformation eta: id_C => GF, called the unit, whose component eta_c: c -> GFc at c is defined to be the transpose of the identity morphism id_{Fc}. Proof: naturality of eta at f: c -> c' follows from Lemma 4.1.3 applied to the square whose transpose is the manifestly commuting square with sides Ff, id_{Fc}, id_{Fc'}, Ff. Motivation given beforehand: by the Yoneda lemma the natural isomorphism D(Fc,-) = C(c,G-) is determined by an element of C(c,GFc).",
+   "book_section": "4.2",
+   "book_page": "139",
+   "pdf_pages": [
+    159
+   ],
+   "cross_refs": [
+    "riehl:4.1:lem3",
+    "riehl:4.2:lem3",
+    "riehl:4.2:def5",
+    "riehl:4.2:thm7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:lem3",
+   "kind": "lemma",
+   "number": "4.2.3",
+   "name": "the counit of an adjunction",
+   "statement_summary": "Dual to Lemma 4.2.2: given an adjunction F -| G, there is a natural transformation epsilon: FG => id_D, called the counit, whose component epsilon_d: FGd -> d at d is defined to be the transpose of the identity morphism id_{Gd}. Obtained by dualizing Lemma 4.2.2; motivated by the Yoneda lemma applied to C(-,Gd) = D(F-,d): C^op -> Set, determined by an element of D(FGd,d).",
+   "book_section": "4.2",
+   "book_page": "139",
+   "pdf_pages": [
+    159
+   ],
+   "cross_refs": [
+    "riehl:4.2:lem2",
+    "riehl:4.2:def5",
+    "riehl:4.2:exi"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:example4",
+   "kind": "example",
+   "number": "4.2.4",
+   "name": "unit and counit of the free group adjunction",
+   "statement_summary": "The left adjoint F to U: Group -> Set defines the free group on a set S: elements of F(S) are finite 'words' whose letters are elements of S and formal inverses s^{-1}, modulo the relations identifying s s^{-1} and s^{-1} s with the empty word; the empty word is the identity and multiplication is concatenation. The unit component at S is the function eta_S: S -> UF(S) sending an element to the corresponding singleton word; the counit component at a group G is the homomorphism epsilon_G: FU(G) -> G evaluating a word in elements of G and formal inverses to the corresponding product in G. Analogous 'singleton' units and 'evaluation' counits exist for the other adjunctions of Example 4.1.10. In the terminology of Definition 2.3.3 these components are universal elements characterizing the natural isomorphisms Group(F(S),-) = Set(S,U(-)) and Set(-,U(G)) = Group(F(-),G); by Proposition 2.4.8 they enjoy the dual universal properties of Theorem 4.2.7(v)-(vi).",
+   "book_section": "4.2",
+   "book_page": "139",
+   "pdf_pages": [
+    159
+   ],
+   "cross_refs": [
+    "riehl:4.1:example10",
+    "riehl:4.2:lem2",
+    "riehl:4.2:lem3",
+    "riehl:4.2:thm7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:def5",
+   "kind": "definition",
+   "number": "4.2.5",
+   "name": "adjunction (adjunctions II) \u2014 unit/counit definition with triangle identities",
+   "statement_summary": "An adjunction consists of an opposing pair of functors F: C <-> D :G together with natural transformations eta: id_C => GF and epsilon: FG => id_D satisfying the TRIANGLE IDENTITIES: the composite F -Feta-> FGF -epsilonF-> F equals id_F (an identity of natural transformations in D^C), and the composite G -etaG-> GFG -Gepsilon-> G equals id_G (in C^D). The whiskered transformations Feta, epsilonF, etaG, Gepsilon are defined componentwise as (Gepsilon)_d = G(epsilon_d) and (epsilonF)_c = epsilon_{Fc}.",
+   "book_section": "4.2",
+   "book_page": "140",
+   "pdf_pages": [
+    160
+   ],
+   "cross_refs": [
+    "riehl:4.1:def1",
+    "riehl:4.2:thm7",
+    "riehl:4.2:remark6",
+    "riehl:4.4:exi"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:remark6",
+   "kind": "remark",
+   "number": "4.2.6",
+   "name": "the counit as a one-sided inverse of the translated unit",
+   "statement_summary": "The triangle identities say that 'the counit is a left inverse of the unit modulo translation'. The components eta_c: c -> GFc live in C while epsilon_d: FGd -> d live in D, so they are not composable; but applying F to the unit yields F eta_c: Fc -> FGFc in D whose left inverse is epsilon_{Fc}, and applying G to the counit yields G epsilon_d: GFGd -> Gd whose right inverse is eta_{Gd}.",
+   "book_section": "4.2",
+   "book_page": "140",
+   "pdf_pages": [
+    160
+   ],
+   "cross_refs": [
+    "riehl:4.2:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:thm7",
+   "kind": "theorem",
+   "number": "4.2.7",
+   "name": "six equivalent encodings of a fully-specified adjunction",
+   "statement_summary": "For a pair of functors F: C <-> D :G, the data of a fully-specified adjunction F -| G is equivalently encoded by ANY of six things. (i) A natural family of isomorphisms D(Fc,d) = C(c,Gd) for all c in C, d in D. (ii) Natural transformations eta: id_C => GF and epsilon: FG => id_D satisfying the triangle identities Gepsilon . etaG = id_G and epsilonF . Feta = id_F. (iii) A natural transformation eta: id_C => GF such that the composite function D(Fc,d) -G-> C(GFc,Gd) -(eta_c)^*-> C(c,Gd), sending f-sharp to f-flat := Gf-sharp . eta_c, is an isomorphism for all c and d (display (4.2.8)). (iv) A natural transformation epsilon: FG => id_D such that the composite C(c,Gd) -F-> D(Fc,FGd) -(epsilon_d)_*-> D(Fc,d), sending g-flat to g-sharp := epsilon_d . Fg-flat, is an isomorphism for all c and d (display (4.2.9)). (v) A natural transformation eta: id_C => GF whose component eta_c: c -> GFc at each c defines an INITIAL object of the comma category c | G. (vi) A natural transformation epsilon: FG => id_D whose component epsilon_d: FGd -> d at each d defines a TERMINAL object of the comma category F | d. The accompanying discussion notes that (ii)-(vi) supply one or both of the unit/counit as data, with conditions given by the triangle identities, invertibility, or initiality/terminality; (i) supplies a pair of natural transformations of hom-bifunctors as data with invertibility as the condition. The proof shows (iii)<=>(v) via representability and the theory of categories of elements, (iv)<=>(vi) dually, (i)=>(ii) via Lemmas 4.2.2/4.2.3 and Lemma 4.1.3, (ii)=>(iii) and (ii)=>(iv) by the triangle identities making the two transposition operations mutually inverse, and (iii)=>(i), (iv)=>(i) by invertibility; the constructions are then shown to be mutually inverse.",
+   "book_section": "4.2",
+   "book_page": "140",
+   "pdf_pages": [
+    160,
+    161,
+    162
+   ],
+   "cross_refs": [
+    "riehl:4.1:def1",
+    "riehl:4.2:def5",
+    "riehl:4.2:lem2",
+    "riehl:4.2:lem3",
+    "riehl:4.3:prop1"
+   ],
+   "flags": [
+    "multi-clause-6",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.2:cor10",
+   "kind": "corollary",
+   "number": "4.2.10",
+   "name": "fixed-point formulae for a Galois connection",
+   "statement_summary": "If A and B are posets and F: A -> B, G: B -> A form a Galois connection with F -| G, then FGF = F and GFG = G. Proof: the triangle identities give F(a) <= FGF(a) <= F(a) for all a in A, whence F = FGF; the other formula is dual. Illustrated afterwards by the direct-image -| inverse-image adjunction f_* -| f^{-1} of Example 4.1.8: while neither X subset f^{-1}(f(X)) nor f(f^{-1}(Y)) subset Y need be an equality, one always has f(X) = f(f^{-1}(f(X))) and f^{-1}(f(f^{-1}(Y))) = f^{-1}(Y).",
+   "book_section": "4.2",
+   "book_page": "142",
+   "pdf_pages": [
+    162
+   ],
+   "cross_refs": [
+    "riehl:4.1:def-galois-connection",
+    "riehl:4.1:example8",
+    "riehl:4.2:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:lem11",
+   "kind": "lemma",
+   "number": "4.2.11",
+   "name": "an adjunction restricts to an equivalence on the fixed subcategories",
+   "statement_summary": "Any pair of adjoint functors F: C <-> D :G restricts to define an equivalence between the full subcategory of C spanned by those objects c for which the unit component eta_c is an isomorphism and the full subcategory of D spanned by those objects d for which the counit component epsilon_d is an isomorphism. Proof deferred to Exercise 4.2.iv.",
+   "book_section": "4.2",
+   "book_page": "142",
+   "pdf_pages": [
+    162
+   ],
+   "cross_refs": [
+    "riehl:4.2:def5",
+    "riehl:4.2:exiv",
+    "riehl:4.3:prop5",
+    "riehl:4.4:example2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:exi",
+   "kind": "exercise",
+   "number": "4.2.i",
+   "name": "dualize Lemma 4.2.2 into Lemma 4.2.3",
+   "statement_summary": "Explain each step needed to convert the statement of Lemma 4.2.2 (existence of the unit) into the dual statement of Lemma 4.2.3 (existence of the counit).",
+   "book_section": "4.2",
+   "book_page": "143",
+   "pdf_pages": [
+    163
+   ],
+   "cross_refs": [
+    "riehl:4.2:lem2",
+    "riehl:4.2:lem3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:exii",
+   "kind": "exercise",
+   "number": "4.2.ii",
+   "name": "verify a free -| forgetful adjunction via unit, counit, triangle identities",
+   "statement_summary": "Pick a forgetful functor from the list in Example 4.1.10 and prove that it is a right adjoint by defining its left adjoint, the unit and the counit, and demonstrating that the triangle identities hold.",
+   "book_section": "4.2",
+   "book_page": "143",
+   "pdf_pages": [
+    163
+   ],
+   "cross_refs": [
+    "riehl:4.1:example10",
+    "riehl:4.2:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:exiii",
+   "kind": "exercise",
+   "number": "4.2.iii",
+   "name": "two equivalent formulations of a Galois connection",
+   "statement_summary": "Let F: (A,<=) -> (B,<=) and G: (B,<=) -> (A,<=) be order-preserving functions between preorders. Prove, either directly or by quoting a more general theorem, that the following are equivalent: (i) for all a in A and b in B, Fa <= b if and only if a <= Gb; (ii) for all a in A, a <= G(Fa), and for all b in B, F(Gb) <= b.",
+   "book_section": "4.2",
+   "book_page": "143",
+   "pdf_pages": [
+    163
+   ],
+   "cross_refs": [
+    "riehl:4.1:def-galois-connection",
+    "riehl:4.2:thm7"
+   ],
+   "flags": [
+    "multi-clause-2"
+   ]
+  },
+  {
+   "id": "riehl:4.2:exiv",
+   "kind": "exercise",
+   "number": "4.2.iv",
+   "name": "prove Lemma 4.2.11",
+   "statement_summary": "Prove Lemma 4.2.11: that any adjunction restricts to an equivalence between the full subcategories spanned by the objects at which the unit, respectively the counit, is an isomorphism.",
+   "book_section": "4.2",
+   "book_page": "143",
+   "pdf_pages": [
+    163
+   ],
+   "cross_refs": [
+    "riehl:4.2:lem11"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.2:exv",
+   "kind": "exercise",
+   "number": "4.2.v",
+   "name": "strict morphism of adjunctions \u2014 three equivalent conditions",
+   "statement_summary": "Defines a strict morphism of adjunctions from F -| G to F' -| G': a pair of functors H: C -> C' and K: D -> D' such that the square of left adjoints and the square of right adjoints both commute strictly (KF = F'H and HG = G'K), plus one additional condition. Prove that the following three forms of that condition are equivalent: (i) H eta = eta' H, where eta, eta' are the respective units; (ii) K epsilon = epsilon' K, where epsilon, epsilon' are the respective counits; (iii) transposition across the adjunctions commutes with application of H and K, i.e. for every c in C and d in D the square relating D(Fc,d) -K-> D'(KFc,Kd) = D'(F'Hc,Kd) and C(c,Gd) -H-> C'(Hc,HGd) = C'(Hc,G'Kd) commutes.",
+   "book_section": "4.2",
+   "book_page": "143",
+   "pdf_pages": [
+    163
+   ],
+   "cross_refs": [
+    "riehl:4.2:def5"
+   ],
+   "flags": [
+    "multi-clause-3",
+    "contains-unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:4.3:prop1",
+   "kind": "proposition",
+   "number": "4.3.1",
+   "name": "uniqueness of adjoints up to unique compatible natural isomorphism",
+   "statement_summary": "If F and F' are both left adjoint to G, then F = F' (naturally isomorphic), and moreover there is a UNIQUE natural isomorphism theta: F => F' commuting with the units and the counits of the two adjunctions, i.e. making the triangles (G theta) . eta = eta' : id_C => GF' and epsilon' . (theta G) = epsilon : FG => id_D commute. Two proofs are given: Proof 1 is 'syntactic', defining theta as the transpose of eta': id_C => GF' via Lemma 4.1.3 and computing theta := F -Feta'-> FGF' -epsilonF'-> F' with inverse theta' := F' -F'eta-> F'GF -epsilon'F-> F, checking theta' . theta = id_F by a diagram chase using naturality and the triangle identities; Proof 2 is 'Yoneda-style', using the composite natural isomorphism D(F'c,d) = C(c,Gd) = D(Fc,d) (display (4.3.3)) and the Yoneda lemma to obtain the same formula with invertibility automatic.",
+   "book_section": "4.3",
+   "book_page": "144",
+   "pdf_pages": [
+    164,
+    165
+   ],
+   "cross_refs": [
+    "riehl:4.1:lem3",
+    "riehl:4.2:thm7",
+    "riehl:4.3:remark8",
+    "riehl:4.4:prop4"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.3:prop4",
+   "kind": "proposition",
+   "number": "4.3.4",
+   "name": "adjunctions compose",
+   "statement_summary": "Given adjunctions F -| G between C and D and F' -| G' between D and E, the composite F'F is left adjoint to the composite GG', giving an adjunction between C and E. Proof 1 (Yoneda-style): natural isomorphisms E(F'Fc,e) = D(Fc,G'e) = C(c,GG'e). Proof 2 (unit/counit): the unit and counit of F'F -| GG' are the whiskered composites eta-bar := id_C -eta-> GF -G eta' F-> GG'F'F and epsilon-bar := F'FGG' -F' epsilon G'-> F'G' -epsilon'-> id_E, which are exactly the transposes of the identities; the triangle identities are left to Exercise 4.3.i.",
+   "book_section": "4.3",
+   "book_page": "145",
+   "pdf_pages": [
+    165
+   ],
+   "cross_refs": [
+    "riehl:4.1:example10",
+    "riehl:4.3:exi",
+    "riehl:4.3:remark8"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.3:prop5",
+   "kind": "proposition",
+   "number": "4.3.5",
+   "name": "any equivalence can be promoted to an adjoint equivalence",
+   "statement_summary": "Any equivalence of categories F: C <-> D :G with natural isomorphisms eta: id_C = GF and epsilon: FG = id_D can be promoted to an ADJOINT equivalence, in which the natural isomorphisms satisfy the triangle identities, by replacing either one of the originally specified natural isomorphisms by a new unit or counit. Consequently, by the symmetry of the definition of an equivalence (using epsilon^{-1} for eta and eta^{-1} for epsilon), an equivalence F: C -> D may be regarded as either a left or a right adjoint, and any chosen equivalence inverse G is both left and right adjoint to F. Proof 1 replaces epsilon by epsilon' := epsilon . F gamma^{-1} where gamma := G -etaG-> GFG -Gepsilon-> G, verifies one triangle identity by naturality, and derives the other from the fact that an idempotent isomorphism is an identity. Proof 2 observes that D(Fc,d) -G-> C(GFc,Gd) -(eta_c)^*-> C(c,Gd) is an isomorphism because G is fully faithful and eta_c is invertible, so Theorem 4.2.7 applies with unit eta.",
+   "book_section": "4.3",
+   "book_page": "145",
+   "pdf_pages": [
+    165,
+    166
+   ],
+   "cross_refs": [
+    "riehl:4.2:thm7",
+    "riehl:4.2:lem11",
+    "riehl:4.3:remark8"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.3:prop6",
+   "kind": "proposition",
+   "number": "4.3.6",
+   "name": "adjunctions induced on functor categories by post- and precomposition",
+   "statement_summary": "Given an adjunction F -| G between C and D: (a) postcomposition with F and G defines a pair of adjoint functors F_* -| G_* between the functor categories C^J and D^J, for any small category J; and (b) precomposition with F and G defines an adjunction G^* -| F^* between E^C and E^D, for any locally small category E. (Footnote 5: if local smallness of the functor categories is not a concern, the hypothesis that J is small can be dropped.) A third proof is sketched: Definition 4.2.5 exhibits an adjunction as data internal to the 2-category CAT (Definition 1.7.8) \u2014 a pair of objects, a pair of 1-morphisms, and a pair of 2-morphisms satisfying composition relations \u2014 and 2-functors preserve such 2-dimensional diagrams (the 2-dimensional analogue of Lemma 1.6.5), so the result follows from the fact that (-)^J: CAT -> CAT and E^{(-)}: CAT^op -> CAT are 2-functors (ignoring size issues).",
+   "book_section": "4.3",
+   "book_page": "146",
+   "pdf_pages": [
+    166,
+    167
+   ],
+   "cross_refs": [
+    "riehl:4.2:def5",
+    "riehl:4.3:def-2-functor",
+    "riehl:4.3:prop7",
+    "riehl:4.3:exii",
+    "riehl:4.3:exiii"
+   ],
+   "flags": [
+    "multi-clause-2",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.3:def-2-functor",
+   "kind": "definition",
+   "number": null,
+   "name": "2-functor",
+   "statement_summary": "Unnumbered definition made in running prose inside the proof sketch of Proposition 4.3.6: a 2-functor is a morphism between 2-categories, i.e. a map on objects, 1-morphisms, and 2-morphisms that preserves composition and identities at all levels. Immediately used via the (unproved here) 2-dimensional analogue of Lemma 1.6.5: 2-functors preserve '2-dimensional diagrams', in particular adjunctions.",
+   "book_section": "4.3",
+   "book_page": "147",
+   "pdf_pages": [
+    167
+   ],
+   "cross_refs": [
+    "riehl:4.3:prop6",
+    "riehl:4.3:remark8"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:4.3:prop7",
+   "kind": "proposition",
+   "number": "4.3.7",
+   "name": "the mates correspondence",
+   "statement_summary": "New in the second edition. Given a pair of adjunctions F -| G between C and D and F' -| G' between C' and D', together with functors H: C' -> C and K: D' -> D with NO assumed commutativity, there is a bijection between natural transformations alpha-sharp: FH => KF' (a 2-cell filling the square of left adjoints) and natural transformations alpha-flat: HG' => GK (a 2-cell filling the square of right adjoints, pointing the other way), implemented by adjoint transposition across both F -| G and F' -| G'. Corresponding transformations are called MATES. Proof 1 obtains the bijection as D^{C'}(FH,KF') = C^{C'}(H,GKF') = C^{D'}(HG',GK), the first isomorphism being transposition for the postcomposition adjunction F_* -| G_* and the second transposition for the precomposition adjunction (G')^* -| (F')^* of Proposition 4.3.6. Proof 2 gives explicit unit/counit formulas: alpha-flat := HG' -eta HG'-> GFHG' -G alpha-sharp G'-> GKF'G' -GK epsilon'-> GK and alpha-sharp := FH -FH eta'-> FHG'F' -F alpha-flat F'-> FGKF' -epsilon KF'-> KF', and a diagram chase shows they are mutually inverse. Footnote 6: the transposition may be performed in the other order, through D^{D'}, and the two agree.",
+   "book_section": "4.3",
+   "book_page": "147",
+   "pdf_pages": [
+    167,
+    168
+   ],
+   "cross_refs": [
+    "riehl:4.3:prop6",
+    "riehl:4.3:def-conjugate",
+    "riehl:4.3:exiv",
+    "riehl:4.3:exv",
+    "riehl:4.3:exvi"
+   ],
+   "flags": [
+    "second-edition-addition",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.3:def-conjugate",
+   "kind": "definition",
+   "number": null,
+   "name": "conjugate natural transformations",
+   "statement_summary": "Unnumbered definition made in running prose: specializing Proposition 4.3.7 to the case where the functors H and K are identities gives a bijection between natural transformations alpha-sharp: F => F' between left adjoints and natural transformations alpha-flat: G' => G between their right adjoints, pointing in the opposite direction. Corresponding natural transformations under this bijection are called conjugates.",
+   "book_section": "4.3",
+   "book_page": "148",
+   "pdf_pages": [
+    168
+   ],
+   "cross_refs": [
+    "riehl:4.3:prop7",
+    "riehl:4.3:exiv"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:4.3:remark8",
+   "kind": "remark",
+   "number": "4.3.8",
+   "name": "the syntactic proofs internalize to any 2-category; Yoneda-style proofs bootstrap",
+   "statement_summary": "The 'syntactic' proofs of Propositions 4.3.1, 4.3.4, 4.3.5, 4.3.6 and 4.3.7 apply immediately to adjunctions defined internally to ANY 2-category, not only to Cat, which is a reason to prefer them to the Yoneda-style arguments. Conversely, by arguments analogous to those of section 3.5, the Yoneda-style arguments can also be bootstrapped from Cat to a general 2-category: just as (co)limits in a general category are defined representably in terms of limits in Set, adjunctions and equivalences in a 2-category are defined representably in terms of adjunctions and equivalences in Cat \u2014 an instance of the slogan that 'all theorems are Yoneda'.",
+   "book_section": "4.3",
+   "book_page": "148",
+   "pdf_pages": [
+    168
+   ],
+   "cross_refs": [
+    "riehl:4.3:prop1",
+    "riehl:4.3:prop4",
+    "riehl:4.3:prop5",
+    "riehl:4.3:prop6",
+    "riehl:4.3:prop7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.3:exi",
+   "kind": "exercise",
+   "number": "4.3.i",
+   "name": "triangle identities for composed adjunctions",
+   "statement_summary": "Complete the second proof of Proposition 4.3.4 (composition of adjunctions) by verifying the triangle identities for the composite unit and counit.",
+   "book_section": "4.3",
+   "book_page": "148",
+   "pdf_pages": [
+    168
+   ],
+   "cross_refs": [
+    "riehl:4.3:prop4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.3:exii",
+   "kind": "exercise",
+   "number": "4.3.ii",
+   "name": "prove Proposition 4.3.6 via unit and counit",
+   "statement_summary": "Use the unit and counit associated to an adjunction to prove Proposition 4.3.6 (the induced post- and precomposition adjunctions between functor categories).",
+   "book_section": "4.3",
+   "book_page": "148",
+   "pdf_pages": [
+    168
+   ],
+   "cross_refs": [
+    "riehl:4.3:prop6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.3:exiii",
+   "kind": "exercise",
+   "number": "4.3.iii",
+   "name": "prove the postcomposition adjunction via hom-sets",
+   "statement_summary": "Use the natural bijection between hom-sets to prove the first half of Proposition 4.3.6, that an adjunction F -| G induces an adjunction F_* -| G_* by postcomposition. (Hint: Exercise 3.2.iv might help.)",
+   "book_section": "4.3",
+   "book_page": "148",
+   "pdf_pages": [
+    168
+   ],
+   "cross_refs": [
+    "riehl:4.3:prop6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.3:exiv",
+   "kind": "exercise",
+   "number": "4.3.iv",
+   "name": "conjugates of isomorphisms; mates of isomorphisms need not be",
+   "statement_summary": "Show that a natural transformation between left adjoints is an isomorphism if and only if its CONJUGATE natural transformation between their right adjoints is an isomorphism. Find an example demonstrating that the MATE of a natural isomorphism (in the general Proposition 4.3.7 setting, with H and K not identities) need not be an isomorphism.",
+   "book_section": "4.3",
+   "book_page": "148",
+   "pdf_pages": [
+    168
+   ],
+   "cross_refs": [
+    "riehl:4.3:prop7",
+    "riehl:4.3:def-conjugate"
+   ],
+   "flags": [
+    "two-part-prose"
+   ]
+  },
+  {
+   "id": "riehl:4.3:exv",
+   "kind": "exercise",
+   "number": "4.3.v",
+   "name": "functoriality of the mates correspondence under pasting",
+   "statement_summary": "Show that the mates correspondence commutes with (i) horizontal composition of functors and horizontal pasting of squares, and (ii) vertical composition of adjunctions and vertical pasting of squares.",
+   "book_section": "4.3",
+   "book_page": "148",
+   "pdf_pages": [
+    168
+   ],
+   "cross_refs": [
+    "riehl:4.3:prop7",
+    "riehl:4.3:exvi"
+   ],
+   "flags": [
+    "multi-clause-2"
+   ]
+  },
+  {
+   "id": "riehl:4.3:exvi",
+   "kind": "exercise",
+   "number": "4.3.vi",
+   "name": "the double category of categories, functors, adjunctions and mates",
+   "statement_summary": "Interpret the results of Exercise 4.3.v in the setting of Exercise 3.6.v by showing that there is a double category whose objects are categories, whose horizontal morphisms are functors, whose vertical morphisms are adjunctions, and whose squares are mates. Footnote 7: alternatively the results of Exercise 4.3.v define an isomorphism between a pair of double categories with the same objects and horizontal and vertical morphisms, one with squares the natural transformations of the form alpha-sharp and the other with those of the form alpha-flat (see [KS74, 2.2]).",
+   "book_section": "4.3",
+   "book_page": "148",
+   "pdf_pages": [
+    168
+   ],
+   "cross_refs": [
+    "riehl:4.3:prop7",
+    "riehl:4.3:exv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.4:def1",
+   "kind": "definition",
+   "number": "4.4.1",
+   "name": "mutually left adjoint / mutually right adjoint contravariant functors",
+   "statement_summary": "A pair of contravariant functors F: C^op -> D and G: D^op -> C are MUTUALLY LEFT ADJOINT if there is a natural isomorphism D(Fc,d) = C(Gd,c), and MUTUALLY RIGHT ADJOINT if there is a natural isomorphism D(d,Fc) = C(c,Gd). Motivating discussion: Definition 4.1.1 can be dualized in three ways by replacing C, D, or both by opposite categories; replacing both recovers ordinary adjunction (G: D^op -> C^op is left adjoint to F: C^op -> D^op iff F -| G), so any theorem about left adjoints dualizes to one about right adjoints, while the other two dualizations give these genuinely new notions. Dualizing Definition 4.2.5: mutual left adjoints come equipped with a pair of 'counit' natural transformations eta: GF => id_C and epsilon: FG => id_D, while mutual right adjoints come with a pair of 'unit' natural transformations id_C => GF and id_D => FG; the triangle identities in each case are formulated in Exercise 4.4.i.",
+   "book_section": "4.4",
+   "book_page": "149",
+   "pdf_pages": [
+    169
+   ],
+   "cross_refs": [
+    "riehl:4.1:def1",
+    "riehl:4.2:def5",
+    "riehl:4.4:exi",
+    "riehl:4.4:def-antitone-galois"
+   ],
+   "flags": [
+    "multi-clause-2"
+   ]
+  },
+  {
+   "id": "riehl:4.4:def-antitone-galois",
+   "kind": "definition",
+   "number": null,
+   "name": "antitone Galois connection",
+   "statement_summary": "Unnumbered definition made in running prose: mutual right adjoints between preorders form what is sometimes called an antitone Galois connection (contrasted with the monotone Galois connections of section 4.1).",
+   "book_section": "4.4",
+   "book_page": "149",
+   "pdf_pages": [
+    169
+   ],
+   "cross_refs": [
+    "riehl:4.4:def1",
+    "riehl:4.1:def-galois-connection",
+    "riehl:4.4:example2",
+    "riehl:4.4:example3"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:4.4:example2",
+   "kind": "example",
+   "number": "4.4.2",
+   "name": "the V/I Galois connection of algebraic geometry and the Nullstellensatz",
+   "statement_summary": "Fix n and an algebraically closed field k. There are contravariant functors V: P(k[x_1..x_n])^op -> P(k^n) and I: P(k^n)^op -> P(k[x_1..x_n]) between the posets of subsets ordered by inclusion, where V(S) is the set of common zeros in k^n of the polynomials in S, and I(T) is the set of polynomials vanishing on all of T. They are MUTUAL RIGHT ADJOINTS because T subset V(S) if and only if S subset I(T); this Galois connection is a starting point of modern algebraic geometry. The unit and counit encode T subset V(I(T)) and S subset I(V(S)). A set of points T is a fixed point (T = V(I(T))) exactly when T is Zariski closed in k^n = Spec(k[x_1..x_n]); a set of polynomials S is a fixed point (S = I(V(S))) exactly when S is a radical ideal \u2014 this is Hilbert's Nullstellensatz. Lemma 4.2.11 then implies that the poset of Zariski closed subsets of k^n is isomorphic to the OPPOSITE of the poset of radical ideals of k[x_1..x_n].",
+   "book_section": "4.4",
+   "book_page": "149",
+   "pdf_pages": [
+    169,
+    170
+   ],
+   "cross_refs": [
+    "riehl:4.4:def1",
+    "riehl:4.4:def-antitone-galois",
+    "riehl:4.2:lem11"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.4:example3",
+   "kind": "example",
+   "number": "4.4.3",
+   "name": "the Galois connection between syntax and semantics",
+   "statement_summary": "Fix a first-order signature sigma listing function, constant and relation symbols. Let Axiom_sigma be the set of sentences in the language of sigma, and Struct_sigma the set of sigma-structures (sets with interpretations of the symbols). Write M |= A when each axiom in A is satisfied by each structure in M. Form the poset categories P(Axiom_sigma) and P(Struct_sigma) ordered by inclusion. There are contravariant functors 'True in': P(Axiom_sigma)^op -> P(Struct_sigma), sending a set of axioms to the set of sigma-structures (its models) satisfying them, and 'Satisfying': P(Struct_sigma)^op -> P(Axiom_sigma), sending a set of structures to the set of axioms they satisfy. These are MUTUAL RIGHT ADJOINTS, forming the Galois connection between syntax and semantics [Smi].",
+   "book_section": "4.4",
+   "book_page": "150",
+   "pdf_pages": [
+    170
+   ],
+   "cross_refs": [
+    "riehl:4.4:def1",
+    "riehl:4.4:def-antitone-galois"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.4:prop4",
+   "kind": "proposition",
+   "number": "4.4.4",
+   "name": "pointwise representability criterion for the existence of an adjoint",
+   "statement_summary": "Let F: A -> B be a functor such that for each object b in B there exists an object Gb in A together with an isomorphism B(Fa,b) = A(a,Gb) NATURAL IN a (display (4.4.5)). Then there is a UNIQUE way to extend the object assignment G: ob B -> ob A to a functor G: B -> A so that the family of isomorphisms (4.4.5) is also natural in b. Consequently, if F: A -> B is a functor admitting a representation for each functor B(F-,b): A^op -> Set, b in B, then this data assembles into a right adjoint F -| G. A dual representability criterion characterizes functors admitting a left adjoint. Proof: naturality in f: b -> b' forces a unique morphism Gf: Gb -> Gb' by the Yoneda lemma applied to the natural transformation A(-,Gb) => A(-,Gb'); functoriality follows as in the proof of Theorem 1.5.9. Footnote 8: concisely, G is the unique restriction of B -B(F-,-)-> Set^{A^op} along the Yoneda embedding making the triangle commute up to the specified isomorphisms, and since the Yoneda embedding is fully faithful the value of G on morphisms is uniquely determined.",
+   "book_section": "4.4",
+   "book_page": "150",
+   "pdf_pages": [
+    170,
+    171
+   ],
+   "cross_refs": [
+    "riehl:4.4:prop6",
+    "riehl:4.1:exv",
+    "riehl:4.4:example15"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.4:prop6",
+   "kind": "proposition",
+   "number": "4.4.6",
+   "name": "pointwise adjoints of a bifunctor assemble into bifunctors",
+   "statement_summary": "Consider a bifunctor F: A x B -> C. (i) If for each object a in A the induced functor F(a,-): B -> C admits a right adjoint G_a: C -> B, then there is a unique bifunctor G: A^op x C -> B with G(a,-) := G_a such that the isomorphisms C(F(a,b),c) = B(b,G(a,c)) are natural in all THREE variables. (ii) If for each object b in B the induced functor F(-,b): A -> C admits a right adjoint H_b: C -> A, then there is a unique bifunctor H: B^op x C -> A with H(b,-) := H_b such that the isomorphisms C(F(a,b),c) = A(a,H(b,c)) are natural in all three variables. (iii) When both (i) and (ii) hold, then for each c in C the functors G(-,c): A^op -> B and H(-,c): B^op -> A are MUTUAL RIGHT ADJOINTS. Proof deferred to Exercise 4.4.ii.",
+   "book_section": "4.4",
+   "book_page": "151",
+   "pdf_pages": [
+    171
+   ],
+   "cross_refs": [
+    "riehl:4.4:prop4",
+    "riehl:4.4:def1",
+    "riehl:4.4:def7",
+    "riehl:4.4:exii"
+   ],
+   "flags": [
+    "multi-clause-3"
+   ]
+  },
+  {
+   "id": "riehl:4.4:def7",
+   "kind": "definition",
+   "number": "4.4.7",
+   "name": "two-variable adjunction",
+   "statement_summary": "A triple of bifunctors F: A x B -> C, G: A^op x C -> B, H: B^op x C -> A equipped with a natural isomorphism C(F(a,b),c) = B(b,G(a,c)) = A(a,H(b,c)) defines a two-variable adjunction.",
+   "book_section": "4.4",
+   "book_page": "152",
+   "pdf_pages": [
+    172
+   ],
+   "cross_refs": [
+    "riehl:4.4:prop6",
+    "riehl:4.4:def-closures",
+    "riehl:4.4:def10",
+    "riehl:4.4:def-n-variable-adjunction"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.4:def-closures",
+   "kind": "definition",
+   "number": null,
+   "name": "left closure, right closure, closed and biclosed bifunctors",
+   "statement_summary": "Unnumbered definitions made in running prose immediately after Definition 4.4.7: when the left adjoint F of a two-variable adjunction defines some sort of monoidal product, its pointwise-defined right adjoints G and H are called its LEFT and RIGHT CLOSURES respectively. When both closures exist, F is called BICLOSED, or often simply CLOSED \u2014 particularly when F: C x C -> C is naturally symmetric in its arguments, in which case the left and right closures are naturally isomorphic.",
+   "book_section": "4.4",
+   "book_page": "152",
+   "pdf_pages": [
+    172
+   ],
+   "cross_refs": [
+    "riehl:4.4:def7",
+    "riehl:4.4:example8",
+    "riehl:4.4:example9",
+    "riehl:4.4:def10"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:4.4:example8",
+   "kind": "example",
+   "number": "4.4.8",
+   "name": "tensor product of bimodules is biclosed",
+   "statement_summary": "For rings R and S let _R Mod_S denote the category of R-S bimodules (commuting left and right actions by elements of R and S). For a further ring T, the tensor product over S defines a BICLOSED bifunctor tensor_S: _R Mod_S x _S Mod_T -> _R Mod_T, with left and right closures the hom bifunctors Hom_R: (_R Mod_S)^op x _R Mod_T -> _S Mod_T and Hom_T: (_S Mod_T)^op x _R Mod_T -> _R Mod_S. For M in _R Mod_S and N in _R Mod_T, Hom_R(M,N) is the set of left R-module homomorphisms M -> N; it inherits an abelian group structure (pointwise addition), a left S-module structure by acting on the contravariant variable M, and a right T-module structure by acting via the right T-module structure on the covariant variable N. Since these actions are defined by pre- and postcomposition respectively they commute, making Hom_R(M,N) a bimodule (S-T by the typing of the displayed closure; see the flag/problem note on the printed text). The right closure is defined similarly.",
+   "book_section": "4.4",
+   "book_page": "152",
+   "pdf_pages": [
+    172
+   ],
+   "cross_refs": [
+    "riehl:4.4:def-closures",
+    "riehl:4.4:def7",
+    "riehl:4.4:example15"
+   ],
+   "flags": [
+    "source-text-inconsistency-see-problems"
+   ]
+  },
+  {
+   "id": "riehl:4.4:example9",
+   "kind": "example",
+   "number": "4.4.9",
+   "name": "currying: the product bifunctor on Set is closed",
+   "statement_summary": "The product bifunctor x: Set x Set -> Set is closed: currying gives a family of natural isomorphisms {A x B -> C} = {A -> C^B} = {B -> C^A}. Thus the product and exponential bifunctors x: Set x Set -> Set and (-)^{(-)}: Set^op x Set -> Set define a two-variable adjunction.",
+   "book_section": "4.4",
+   "book_page": "152",
+   "pdf_pages": [
+    172
+   ],
+   "cross_refs": [
+    "riehl:4.4:def7",
+    "riehl:4.4:def10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.4:def10",
+   "kind": "definition",
+   "number": "4.4.10",
+   "name": "cartesian closed category",
+   "statement_summary": "A cartesian closed category is a category C with finite products in which the product bifunctor - x -: C x C -> C is closed (in the sense of the preceding unnumbered definition, i.e. admits pointwise right adjoints). Besides Set, the categories Fin, Cat (Exercise 1.7.vi), Set^{BG}, and more generally Set^C are cartesian closed.",
+   "book_section": "4.4",
+   "book_page": "152",
+   "pdf_pages": [
+    172
+   ],
+   "cross_refs": [
+    "riehl:4.4:def-closures",
+    "riehl:4.4:example9",
+    "riehl:4.4:lem11",
+    "riehl:4.5:example1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.4:lem11",
+   "kind": "lemma",
+   "number": "4.4.11",
+   "name": "presheaf/functor categories into Set are cartesian closed",
+   "statement_summary": "For any small category C, the functor category Set^C is cartesian closed. Proof: for F, G: C -> Set define G^F: C -> Set by G^F(c) := the set of natural transformations C(c,-) x F => G, which by the Yoneda lemma is isomorphic to the set of natural transformations C(c,-) => G^F (display (4.4.13)); functoriality in c is by precomposition with f^*: C(d,-) => C(c,-), and naturality follows from naturality of the Yoneda lemma. This yields the natural bijection {H x F => G} = {H => G^F} for all H: C -> Set (display (4.4.12)). The proof also supplies explicit adjoint transposition formulas: the counit of - x F -| (-)^F at G is the evaluation natural transformation ev: G^F x F => G with components (gamma,y) |-> gamma_c(id_c, y); by Theorem 4.2.7(iv) the transpose of beta: H => G^F is alpha := ev . (beta x F), and conversely the transpose of alpha: H x F => G is beta with beta_c(x) the natural transformation whose component at d takes f: c -> d and z in Fd to alpha_d((Hf)x, z); these are mutually inverse and natural.",
+   "book_section": "4.4",
+   "book_page": "152",
+   "pdf_pages": [
+    172,
+    173
+   ],
+   "cross_refs": [
+    "riehl:4.4:def10",
+    "riehl:4.2:thm7"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.4:example14",
+   "kind": "example",
+   "number": "4.4.14",
+   "name": "a convenient category of spaces: compactly generated Hausdorff spaces",
+   "statement_summary": "Top is NOT cartesian closed. Steenrod's paper [Ste67] proves there is a convenient category of topological spaces that is complete, cocomplete, cartesian closed, and large enough to contain the CW complexes: a subcategory of the category Haus of Hausdorff spaces and continuous functions. Its objects, the compactly generated Hausdorff spaces cgHaus, are Hausdorff spaces X such that any subset A of X intersecting each compact subset K of X in a closed subset of K is itself closed in X. The inclusion cgHaus -> Haus has a right adjoint k: Haus -> cgHaus called k-ification, refining the topology on X by adding to the closed sets those subsets whose intersections with all compact subsets are closed. The product in cgHaus is the k-ification of the product in Haus (the full inclusion cgHaus -> Haus does not preserve the categorical product of Definition 3.1.9, though Haus -> Top does preserve products). The pointwise right adjoint is given by function spaces Map(X,Y): the underlying set is the set of continuous maps X -> Y with the k-ification of the compact-open topology. Footnote 9: by Exercise 4.7.ii and the dual of Proposition 4.6.14, this adjoint implies cgHaus is complete and cocomplete.",
+   "book_section": "4.4",
+   "book_page": "153",
+   "pdf_pages": [
+    173,
+    174
+   ],
+   "cross_refs": [
+    "riehl:4.4:def10",
+    "riehl:4.4:example18"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.4:example15",
+   "kind": "example",
+   "number": "4.4.15",
+   "name": "tensor-hom adjunction for abelian groups, and Kan's reversal",
+   "statement_summary": "Consider the hom bifunctor Hom: Ab^op x Ab -> Ab where Hom(B,C) is the group of homomorphisms B -> C with pointwise addition. Fixing the contravariant variable B gives an adjunction - tensor_Z B -| Hom(B,-) on Ab, with Ab(A tensor_Z B, C) = Ab(A, Hom(B,C)) (display (4.4.16)), which is exactly the universal property of the tensor product: elements of Ab(A,Hom(B,C)) are homomorphisms A -> Hom(B,C), corresponding to Z-bilinear functions A x B -> C. Once the representing objects A tensor_Z B have been defined, Proposition 4.4.4 uses (4.4.16) to extend the data to a functor - tensor_Z B: Ab -> Ab, and Proposition 4.4.6(i) extends it further to the tensor product bifunctor tensor_Z: Ab x Ab -> Ab, so that tensor and hom form a two-variable adjunction. Conversely (as Kan suspected), given the tensor product bifunctor, Hom(B,C) can be DEFINED as a representation for Ab(- tensor_Z B, C): Ab^op -> Set, i.e. by Ab(A,Hom(B,C)) = Ab(A tensor_Z B, C) (display (4.4.17)); Propositions 4.4.4 and 4.4.6(i) then imply a unique extension of Hom to a bifunctor Ab^op x Ab -> Ab natural in B and C as well as A. Footnote 10 explains the Hom/Ab notational choice.",
+   "book_section": "4.4",
+   "book_page": "154",
+   "pdf_pages": [
+    174,
+    175
+   ],
+   "cross_refs": [
+    "riehl:4.4:prop4",
+    "riehl:4.4:prop6",
+    "riehl:4.4:def7",
+    "riehl:4.4:exv"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.4:example18",
+   "kind": "example",
+   "number": "4.4.18",
+   "name": "free loop space, smash product, and the loops -| suspension adjunction",
+   "statement_summary": "Taking Top to mean the cartesian closed category of spaces of Example 4.4.14, the two-variable adjunction specializes to an adjunction S^1 x - -| Map(S^1,-) on Top, where S^1 is the unit circle; Map(S^1,X) is the FREE LOOP SPACE on X, its points being loops in X. The slice category Top_* of Top under the singleton space defines a convenient category of based spaces; by Exercise 4.4.iv, Top_* admits a two-variable adjunction with bifunctors smash: Top_* x Top_* -> Top_*, Map_*: Top_*^op x Top_* -> Top_*, and Map_*: Top_*^op x Top_* -> Top_*, where Map_*((X,x),(Y,y)) is the based space of basepoint-preserving continuous functions; the left adjoint bifunctor is called the SMASH PRODUCT. The BASED LOOP SPACE is Omega X := Map_*(S^1,(X,x)); the functor Omega has a left adjoint, the REDUCED SUSPENSION Sigma X := S^1 smash X, giving the loops -| suspension adjunction Sigma -| Omega on Top_* with Top_*(Sigma X, Y) = Top_*(X, Omega Y).",
+   "book_section": "4.4",
+   "book_page": "155",
+   "pdf_pages": [
+    175
+   ],
+   "cross_refs": [
+    "riehl:4.4:example14",
+    "riehl:4.4:def7",
+    "riehl:4.4:exiv",
+    "riehl:4.4:def-closed-monoidal"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.4:def-closed-monoidal",
+   "kind": "rough-definition",
+   "number": null,
+   "name": "closed monoidal category",
+   "statement_summary": "Unnumbered informal definition in running prose: Examples 4.4.15 (tensor-hom on Ab) and 4.4.18 (smash-Map_* on based spaces) are both examples of CLOSED MONOIDAL CATEGORIES, generalizing cartesian closed categories to situations where the left adjoint bifunctor is not necessarily defined by the categorical product. 'Closed' refers to the existence of left and right closures for the tensor product; 'monoidal' refers to the tensor product together with additional coherent natural isomorphisms, described in section E.2 (the full definition is deferred there, so this is a gloss rather than a complete definition).",
+   "book_section": "4.4",
+   "book_page": "155",
+   "pdf_pages": [
+    175
+   ],
+   "cross_refs": [
+    "riehl:4.4:example15",
+    "riehl:4.4:example18",
+    "riehl:4.4:def-closures"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "informal-definition-deferred-to-E.2"
+   ]
+  },
+  {
+   "id": "riehl:4.4:def-n-variable-adjunction",
+   "kind": "definition",
+   "number": null,
+   "name": "n-variable adjunction",
+   "statement_summary": "Unnumbered definition made in running prose generalizing Definition 4.4.7: applying Proposition 4.4.6, an n-VARIABLE ADJUNCTION is determined by a functor F: A_1 x ... x A_n -> B admitting pointwise right adjoints when any (n-1) of its variables are fixed. (See [CGR14] for more.)",
+   "book_section": "4.4",
+   "book_page": "155",
+   "pdf_pages": [
+    175
+   ],
+   "cross_refs": [
+    "riehl:4.4:def7",
+    "riehl:4.4:prop6"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:4.4:exi",
+   "kind": "exercise",
+   "number": "4.4.i",
+   "name": "dualize Definition 4.2.5 for contravariant adjoints",
+   "statement_summary": "Dualize Definition 4.2.5 (the unit/counit definition of an adjunction with triangle identities) to define mutual left adjoints and mutual right adjoints as a pair of contravariant functors equipped with appropriate natural transformations (and the corresponding triangle identities).",
+   "book_section": "4.4",
+   "book_page": "155",
+   "pdf_pages": [
+    175
+   ],
+   "cross_refs": [
+    "riehl:4.2:def5",
+    "riehl:4.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.4:exii",
+   "kind": "exercise",
+   "number": "4.4.ii",
+   "name": "prove Proposition 4.4.6",
+   "statement_summary": "Prove Proposition 4.4.6: that pointwise right adjoints to a bifunctor assemble uniquely into bifunctors with isomorphisms natural in all three variables, and that when both families exist the resulting functors G(-,c) and H(-,c) are mutual right adjoints.",
+   "book_section": "4.4",
+   "book_page": "155",
+   "pdf_pages": [
+    175
+   ],
+   "cross_refs": [
+    "riehl:4.4:prop6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.4:exiii",
+   "kind": "exercise",
+   "number": "4.4.iii",
+   "name": "the contravariant power set functor is self-mutually-right-adjoint",
+   "statement_summary": "Show that the contravariant power set functor P: Set^op -> Set is mutually right adjoint to itself.",
+   "book_section": "4.4",
+   "book_page": "155",
+   "pdf_pages": [
+    175
+   ],
+   "cross_refs": [
+    "riehl:4.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.4:exiv",
+   "kind": "exercise",
+   "number": "4.4.iv",
+   "name": "the smash product two-variable adjunction on pointed sets (and on based spaces)",
+   "statement_summary": "Consider the bifunctor Hom_*: Set_*^op x Set_* -> Set_*, where Hom_*((X,x),(Y,y)) is the set of pointed functions (X,x) -> (Y,y) with the constant function at y as basepoint. (i) Define a two-variable adjunction determined by this bifunctor, by constructing pointwise left adjoints to Hom_*((X,x),-) for each (X,x) in Set_*. (ii) Show that the left adjoint bifunctor smash: Set_* x Set_* -> Set_* constructed in (i) is isomorphic to the smash product described in Exercise 3.6.iii(iii) in the equivalent category of sets and partial functions. Trailing directive: construct a similar two-variable adjunction in the setting of Example 4.4.18 (based topological spaces).",
+   "book_section": "4.4",
+   "book_page": "155",
+   "pdf_pages": [
+    175,
+    176
+   ],
+   "cross_refs": [
+    "riehl:4.4:def7",
+    "riehl:4.4:example18"
+   ],
+   "flags": [
+    "multi-clause-2-plus-trailing-directive",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.4:exv",
+   "kind": "exercise",
+   "number": "4.4.v",
+   "name": "two-variable adjunctions from module and chain-complex hom bifunctors",
+   "statement_summary": "Define pointwise adjoints to the following bifunctors, giving rise to examples of two-variable adjunctions. (i) The discussion of Example 4.4.15 extends to any category _R Mod of modules over a COMMUTATIVE ring R; if R is not commutative then for R-modules A and B, Hom(A,B) is not necessarily an R-module but is still an abelian group, so the construction defines a bifunctor Hom: _R Mod^op x _R Mod -> Ab. Extend this data to a two-variable adjunction. (ii) Similarly, define a two-variable adjunction determined by the hom bifunctor Hom: Ch_R^op x Ch_R -> _R Mod, where R is commutative and the set Hom(A_dot, B_dot) of chain homomorphisms inherits an R-module structure with addition and scalar multiplication defined elementwise.",
+   "book_section": "4.4",
+   "book_page": "156",
+   "pdf_pages": [
+    176
+   ],
+   "cross_refs": [
+    "riehl:4.4:example15",
+    "riehl:4.4:def7"
+   ],
+   "flags": [
+    "multi-clause-2"
+   ]
+  },
+  {
+   "id": "riehl:4.5:example1",
+   "kind": "example",
+   "number": "4.5.1",
+   "name": "the category of predicates on a set is cartesian closed",
+   "statement_summary": "For a fixed set X, consider the category Omega^X of predicates on X, i.e. functions X -> Omega valued in the two-element set Omega := {bottom, top} of truth values regarded as a poset category with a unique non-identity morphism bottom -> top. Omega^X carries the pointwise order: there is a unique morphism p -> q exactly when p(x) implies q(x) for all x in X. This category has finite products (in fact all products): the terminal object is the universally true predicate top, and the product of p and q is the predicate p AND q with (p AND q)(x) = top just when p(x) = top and q(x) = top. It is also CARTESIAN CLOSED: the internal hom from q to r is the predicate q => r ('q implies r') defined by (q => r)(x) = bottom just when q(x) = top and r(x) = bottom; the logical relationship between conjunction and implication gives the required correspondence, namely that there is a morphism (p AND q) -> r if and only if there is a morphism p -> (q => r).",
+   "book_section": "4.5",
+   "book_page": "156",
+   "pdf_pages": [
+    176
+   ],
+   "cross_refs": [
+    "riehl:4.4:def10",
+    "riehl:4.1:example9",
+    "riehl:4.5:construction-quantifier-adjoint-triple"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.5:construction-quantifier-adjoint-triple",
+   "kind": "construction",
+   "number": null,
+   "name": "the adjoint triple exists_f -| Delta_f -| forall_f along an arbitrary function f: Y -> X",
+   "statement_summary": "Unnumbered construction begun in running prose immediately after Example 4.5.1, generalizing the adjoint triple exists_X -| Delta_X -| forall_X of Example 4.1.9: for ANY function f: Y -> X there is an adjoint triple of functors exists_f -| Delta_f -| forall_f between Omega^Y and Omega^X, where Delta_f: Omega^X -> Omega^Y is substitution/reindexing, sending a predicate p on X to the predicate p f on Y (so Delta_f p(y) = p(f(y))), and its two adjoints are the fibrewise existential and universal quantifiers on Omega^Y -> Omega^X. Riehl also records that the cartesian closed structure of Example 4.5.1 can be redescribed via this triple. NOTE: the sentence introducing the construction is the last paragraph of PDF 176 (printed 156); the display and the explicit definitions of exists_f and forall_f, together with the redescription (q => r = forall_i Delta_i(r), p AND q = exists_i Delta_i(r); see Exercise 4.5.i) and the Set_mono slice-category reformulation, appear on PDF 177 (printed 157), outside this range.",
+   "book_section": "4.5",
+   "book_page": "156",
+   "pdf_pages": [
+    176,
+    177
+   ],
+   "cross_refs": [
+    "riehl:4.1:example9",
+    "riehl:4.1:def-adjoint-triple",
+    "riehl:4.5:example1"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-range-boundary",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.5:construction-setmono-slice",
+   "kind": "construction",
+   "number": null,
+   "name": "slices of Set_mono as predicate categories; motivating adjoint triples",
+   "statement_summary": "Unnumbered construction in prose. First, the cartesian closed structure on the poset Omega^X of predicates on a set X is redescribed via the quantifier adjoint triple: a predicate q on X corresponds to the monomorphism i: Q >-> X on its truth set, and for predicates p, r on X one has (q => r) = forall_i Delta_i(r) and (p /\\ q) = exists_i Delta_i(r). Second, letting Set_mono be the category of sets and monomorphisms, the slice (Set_mono)/X of monomorphisms into X with arbitrary functions between them is claimed EQUIVALENT to Omega^X (a preorder, by the cancellation property of monos). Consequently each such slice is cartesian closed and its closed structure arises from the family of adjoint triples exists_f -| Delta_f -| forall_f : (Set_mono)/Y <-> (Set_mono)/X associated to monomorphisms f: Y >-> X (in fact defined for arbitrary functions). This motivates Definition 4.5.2.",
+   "book_section": "4.5",
+   "book_page": "157",
+   "pdf_pages": [
+    177
+   ],
+   "cross_refs": [
+    "riehl:4.5:def2"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "continued-from-previous-page"
+   ]
+  },
+  {
+   "id": "riehl:4.5:def2",
+   "kind": "definition",
+   "number": "4.5.2",
+   "name": "locally cartesian closed category",
+   "statement_summary": "A category C is locally cartesian closed when the slice category C/X is cartesian closed for every object X of C. (No terminal object or products in C itself are required.)",
+   "book_section": "4.5",
+   "book_page": "157",
+   "pdf_pages": [
+    177
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.5:lem3",
+   "kind": "lemma",
+   "number": "4.5.3",
+   "name": "stability of local cartesian closure under slicing",
+   "statement_summary": "TWO clauses. If C is locally cartesian closed then: (i) every slice C/X is again locally cartesian closed; (ii) if in addition C has a terminal object, then C itself is cartesian closed. Proof: for f: Y -> X there is an isomorphism of categories (C/X)/f =~ C/Y, so slices of C/X are slices of C; and if * is terminal then C =~ C/*.",
+   "book_section": "4.5",
+   "book_page": "157",
+   "pdf_pages": [
+    177
+   ],
+   "cross_refs": [
+    "riehl:4.5:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.5:lem4",
+   "kind": "lemma",
+   "number": "4.5.4",
+   "name": "finite limits in a locally cartesian closed category",
+   "statement_summary": "THREE clauses. (i) Any locally cartesian closed category has pullbacks (the pullback of a cospan A -> X <- B is the binary product of a and b in C/X). (ii) If a locally cartesian closed category also has a terminal object, then it has all finite limits. (iii) The slices of any locally cartesian closed category have finite limits (the identity on X is terminal in C/X, then apply the finite-limits-from-products-and-equalizers theorem cited as 3.5.17).",
+   "book_section": "4.5",
+   "book_page": "157",
+   "pdf_pages": [
+    177,
+    178
+   ],
+   "cross_refs": [
+    "riehl:4.5:def2"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.5:example5",
+   "kind": "example",
+   "number": "4.5.5",
+   "name": "Set_mono is locally cartesian closed but lacks products and a terminal object",
+   "statement_summary": "The category Set_mono of sets and monomorphisms is locally cartesian closed yet has neither binary products nor a terminal object; it does have the pullbacks guaranteed by Lemma 4.5.4(i). Witnesses that local cartesian closure does not imply cartesian closure absent a terminal object.",
+   "book_section": "4.5",
+   "book_page": "158",
+   "pdf_pages": [
+    178
+   ],
+   "cross_refs": [
+    "riehl:4.5:lem4",
+    "riehl:4.5:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.5:construction-slice-pullback-adjunction",
+   "kind": "construction",
+   "number": null,
+   "name": "pullback functor Delta_f between slices and the adjunction Sigma_f -| Delta_f",
+   "statement_summary": "Unnumbered construction. For f: Y -> X in a category with pullbacks, pulling back along f defines a functor Delta_f: C/X -> C/Y sending a: A -> X to the projection Delta_f a: Delta_f A -> Y of the pullback of a along f; post-composition with f defines Sigma_f: C/Y -> C/X sending b: B -> Y to fb. The universal property of the pullback exhibits Sigma_f -| Delta_f, the transposition sending g: B -> Delta_f A over Y to its composite g^# : B -> A over X.",
+   "book_section": "4.5",
+   "book_page": "158",
+   "pdf_pages": [
+    178
+   ],
+   "cross_refs": [
+    "riehl:4.5:prop6"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "riehl:4.5:prop6",
+   "kind": "proposition",
+   "number": "4.5.6",
+   "name": "adjoint-triple characterization of local cartesian closure",
+   "statement_summary": "TWO equivalent conditions. For a category C: (i) C is locally cartesian closed; (ii) for every morphism f: Y -> X in C the composition and pullback functors extend to an adjoint triple Sigma_f -| Delta_f -| Pi_f between C/Y and C/X, i.e. the pullback functor also has a RIGHT adjoint (dependent product / pushforward). Proof (i)=>(ii) builds Pi_f b by a pullback in C/X involving the internal homs [f,fb]_X and [f,f]_X and the transpose id^# of the identity on f; proof (ii)=>(i) shows the product-with-a functor on C/X is Sigma_a Delta_a and is therefore left adjoint to Pi_a Delta_a.",
+   "book_section": "4.5",
+   "book_page": "158",
+   "pdf_pages": [
+    178,
+    179
+   ],
+   "cross_refs": [
+    "riehl:4.5:def2",
+    "riehl:4.5:construction-slice-pullback-adjunction"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.5:example7",
+   "kind": "example",
+   "number": "4.5.7",
+   "name": "Set is locally cartesian closed; slices as indexed families",
+   "statement_summary": "The category of sets is locally cartesian closed. For a set X there are equivalences Set/X ~= (product over X of Set) ~= Set^X between the slice, the X-indexed power of Set, and the functor category on the discrete category X; under them an object is an X-indexed family (A_x) and a map is a family (f_x: A_x -> B_x). Each is cartesian closed with internal hom the family (B_x^{A_x}), so Set is locally cartesian closed. The associated adjoint triple Sigma_f -| Delta_f -| Pi_f: Set/Y <-> Set/X for f: Y -> X is computed fiberwise: Sigma_f sends (B_y) to the family of indexed sums over the fibers f^{-1}(x); Delta_f reindexes (A_x) to (A_{f(y)}); Pi_f sends (B_y) to the family of indexed products over the fibers.",
+   "book_section": "4.5",
+   "book_page": "159",
+   "pdf_pages": [
+    179,
+    180
+   ],
+   "cross_refs": [
+    "riehl:4.5:prop6",
+    "riehl:4.5:def2"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.5:construction-dependent-sum-product",
+   "kind": "construction",
+   "number": null,
+   "name": "dependent sum, dependent product, dependent pairs, dependent functions",
+   "statement_summary": "Unnumbered definitions in bold running prose (inside the discussion of Example 4.5.7). Specializing Sigma_! and Pi_! along the unique map !: X -> * recovers the coproduct and product of the indexed family (A_x): Sigma_{x in X} A_x is the DEPENDENT SUM, whose elements are DEPENDENT PAIRS (x_0, a_0) with x_0 in X and a_0 in A_{x_0}; Pi_{x in X} A_x is the DEPENDENT PRODUCT, whose elements are DEPENDENT FUNCTIONS f defined on X with f(x) in A_x for each x.",
+   "book_section": "4.5",
+   "book_page": "160",
+   "pdf_pages": [
+    180
+   ],
+   "cross_refs": [
+    "riehl:4.5:example7"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "riehl:4.5:remark8",
+   "kind": "remark",
+   "number": "4.5.8",
+   "name": "the adjoint triple versus the quantifiers exists_f and forall_f",
+   "statement_summary": "When f: Y -> X is a monomorphism, the Set-level adjoint triple Sigma_f -| Delta_f -| Pi_f of Example 4.5.7, restricted to Set_mono, coincides with the quantifier triple exists_f -| Delta_f -| forall_f of Example 4.5.1; so exists_f and forall_f may be regarded as alternate notation for Sigma_f and Pi_f. When f is NOT a monomorphism the two differ: exists_f is defined by applying the restricted Sigma_f and then an image factorization, since Sigma_f of a family of subsingleton fibers can have fibers of larger cardinality over points x with several preimages. Sigma_f is therefore a constructive variant of the existential quantifier, recording WHICH elements y of f^{-1}(x) have non-empty fibers B_y.",
+   "book_section": "4.5",
+   "book_page": "160",
+   "pdf_pages": [
+    180
+   ],
+   "cross_refs": [
+    "riehl:4.5:example7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.5:lem9",
+   "kind": "lemma",
+   "number": "4.5.9",
+   "name": "slices of a presheaf category are presheaves on the category of elements",
+   "statement_summary": "For any small category C and any presheaf X: C^op -> Set there is an equivalence of categories Set^{C^op}/X ~= Set^{(int X)^op} between the slice of the presheaf category over X and the category of presheaves indexed by the category of elements int X. The equivalence is built from the Yoneda-induced functor int X -> Set^{C^op}/X sending (c, x) to the map C(-, c) -> X classified by x; the right adjoint R restricts the hom bifunctor along it and the left adjoint L sends a presheaf F on int X to the presheaf c |-> coproduct over x in Xc of F(c, x), whose projection to the indexing set gives the map LF -> X.",
+   "book_section": "4.5",
+   "book_page": "160",
+   "pdf_pages": [
+    180,
+    181
+   ],
+   "cross_refs": [
+    "riehl:4.5:example10"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.5:example10",
+   "kind": "example",
+   "number": "4.5.10",
+   "name": "presheaf categories are locally cartesian closed",
+   "statement_summary": "For any small category C the presheaf category Set^{C^op} is locally cartesian closed: its slices over any presheaf X are equivalent (Lemma 4.5.9) to presheaf categories, which are cartesian closed. Since Set^{C^op} has a terminal object (indeed all limits and colimits, pointwise), Lemma 4.5.3(ii) further shows Set^{C^op} is cartesian closed. By duality the same holds for covariant functor categories Set^C.",
+   "book_section": "4.5",
+   "book_page": "161",
+   "pdf_pages": [
+    181
+   ],
+   "cross_refs": [
+    "riehl:4.5:lem9",
+    "riehl:4.5:lem3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.5:example11",
+   "kind": "example",
+   "number": "4.5.11",
+   "name": "the adjoint triple on slices of Quiver over the walking arrow",
+   "statement_summary": "Quiver is a presheaf category, hence locally cartesian closed by Example 4.5.10. Let A be the walking arrow (two vertices 0, 1 and one arrow 0 -> 1), let dA be its discrete subquiver on the two vertices, and delta: dA -> A the inclusion. This gives an adjoint triple Sigma_delta -| Delta_delta -| Pi_delta between Quiver/dA and Quiver/A. Objects of Quiver/A are 'bipartite quivers': two discrete sets of vertices (the fibers over 0 and 1) with arrows only from the first to the second; Quiver/dA ~= Set x Set. Sigma_delta forms the discrete bipartite quiver on a pair of sets; Delta_delta takes a bipartite quiver to its pair of fiber sets; Pi_delta sends (S, T) to their JOIN, the bipartite quiver with an arrow from every element of S to every element of T.",
+   "book_section": "4.5",
+   "book_page": "161",
+   "pdf_pages": [
+    181,
+    182
+   ],
+   "cross_refs": [
+    "riehl:4.5:example10",
+    "riehl:4.5:exiv"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.5:def-beck-chevalley",
+   "kind": "definition",
+   "number": null,
+   "name": "Beck-Chevalley isomorphisms",
+   "statement_summary": "Unnumbered definition in running prose immediately after Lemma 4.5.12: the natural isomorphisms beta: Sigma_h Delta_k => Delta_f Sigma_g and gamma: Delta_g Pi_f => Pi_k Delta_h arising from a PULLBACK square in a locally cartesian closed category are called the Beck-Chevalley isomorphisms.",
+   "book_section": "4.5",
+   "book_page": "162",
+   "pdf_pages": [
+    182
+   ],
+   "cross_refs": [
+    "riehl:4.5:lem12"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:4.5:lem12",
+   "kind": "lemma",
+   "number": "4.5.12",
+   "name": "Beck-Chevalley natural transformations for a commutative square",
+   "statement_summary": "TWO natural transformations asserted, both invertible under a pullback hypothesis. A commutative square fh = gk in a locally cartesian closed category C (with k: D -> C, h: D -> B, g: C -> A, f: B -> A) gives rise to canonical natural transformations beta: Sigma_h Delta_k => Delta_f Sigma_g (between functors C/C -> C/B) and gamma: Delta_g Pi_f => Pi_k Delta_h (between functors C/A -> C/C), and BOTH are invertible whenever the square is a pullback. beta is the mate of the identity Sigma_f Sigma_h = Sigma_g Sigma_k (via Proposition 4.3.7); gamma is its conjugate; by Exercise 4.3.iv invertibility of one implies invertibility of the other. Proof of invertibility: the component of beta at c: X -> C is the unique comparison map between two pullbacks of gc along f.",
+   "book_section": "4.5",
+   "book_page": "162",
+   "pdf_pages": [
+    182,
+    183
+   ],
+   "cross_refs": [
+    "riehl:4.5:def-beck-chevalley",
+    "riehl:4.5:prop6",
+    "riehl:4.5:cor13"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.5:cor13",
+   "kind": "corollary",
+   "number": "4.5.13",
+   "name": "pullback preserves the cartesian closed structure of slices",
+   "statement_summary": "For any morphism f: Y -> X in a locally cartesian closed category C, the pullback functor Delta_f: C/X -> C/Y preserves the cartesian closed structure of the slices: for an object a: A -> X of C/X, forming the product (resp. exponential) with a and then pulling back along f is naturally isomorphic to first pulling back along f and then forming the product (resp. exponential) with Delta_f a in C/Y. Proof: product with a factors as Sigma_a Delta_a and exponential with a as Pi_a Delta_a, so the claim follows from Lemma 4.5.12.",
+   "book_section": "4.5",
+   "book_page": "163",
+   "pdf_pages": [
+    183
+   ],
+   "cross_refs": [
+    "riehl:4.5:lem12",
+    "riehl:4.5:prop6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.5:lem14",
+   "kind": "lemma",
+   "number": "4.5.14",
+   "name": "distributivity of dependent product over dependent sum",
+   "statement_summary": "For a composable pair a: A -> X, b: B -> A in a locally cartesian closed category C, form Delta_a Pi_a b with counit component epsilon: Delta_a Pi_a b -> b of the adjunction Delta_a -| Pi_a at b, and let e: Delta_a Pi_a b -> Pi_a B be the associated map over Pi_a b. Then there is a natural isomorphism Pi_a Sigma_b =~ Sigma_{Pi_a b} Pi_e epsilon^* between functors C/B -> C/X. Proved by Yoneda: for c: C -> B in C/B, maps x: Y -> X into Pi_a Sigma_b c transpose to maps Delta_a Y -> Sigma_b c over A, i.e. to commuting pairs of dashed maps, which transpose back across the adjunction to a map into Sigma_{Pi_a b} Pi_e Delta_epsilon c, using Exercise 4.5.iii to identify Pi_a(c) with Pi_e Delta_epsilon c.",
+   "book_section": "4.5",
+   "book_page": "163",
+   "pdf_pages": [
+    183,
+    184
+   ],
+   "cross_refs": [
+    "riehl:4.5:prop6",
+    "riehl:4.5:construction-type-theoretic-ac",
+    "riehl:4.5:exiii"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.5:construction-type-theoretic-ac",
+   "kind": "construction",
+   "number": null,
+   "name": "type theoretic axiom of choice; Skolem function",
+   "statement_summary": "Unnumbered specialization of Lemma 4.5.14 to the evaluation diagram A x B <- A x B^A -> B^A over A -> 1 (the evaluation map being the counit component of Delta_A -| Pi_A at the projection A x B -> A). Writing an object of C/(A x B) as (C_{a,b})_{a in A, b in B}, Lemma 4.5.14 yields the natural isomorphism Pi_{a in A} Sigma_{b in B} C_{a,b} =~ Sigma_{f in B^A} Pi_{a in A} C_{a, f(a)}, the TYPE THEORETIC AXIOM OF CHOICE \u2014 a theorem, not an axiom. The forward map says: if for every a in A there exists b in B with an element of C_{a,b}, then there exists a function f: A -> B, the SKOLEM FUNCTION, with an element of C_{a, f(a)} for every a. Sigma and Pi in a locally cartesian closed category are thereby read as constructive analogues of the existential and universal quantifiers.",
+   "book_section": "4.5",
+   "book_page": "164",
+   "pdf_pages": [
+    184
+   ],
+   "cross_refs": [
+    "riehl:4.5:lem14"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "riehl:4.5:exi",
+   "kind": "exercise",
+   "number": "4.5.i",
+   "name": "cartesian closed structure on predicates via the quantifier adjoint triple",
+   "statement_summary": "Verify the claims of Example 4.5.1: that the category Omega^X of predicates on a set X is cartesian closed, with the conjunction and implication described in terms of the quantifier adjoint triple exists_i -| Delta_i -| forall_i associated to the monomorphism i: Q >-> X of a predicate's truth set (namely q => r equals forall_i Delta_i(r) and p /\\ q equals exists_i Delta_i(r)).",
+   "book_section": "4.5",
+   "book_page": "164",
+   "pdf_pages": [
+    184
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.5:exii",
+   "kind": "exercise",
+   "number": "4.5.ii",
+   "name": "functoriality of Sigma, Delta, Pi in the base morphism",
+   "statement_summary": "THREE claims. Show that for a composable pair of morphisms f, g in a locally cartesian closed category: Sigma_{gf} = Sigma_g Sigma_f (on the nose), Delta_{gf} =~ Delta_f Delta_g, and Pi_{gf} =~ Pi_g Pi_f.",
+   "book_section": "4.5",
+   "book_page": "164",
+   "pdf_pages": [
+    184
+   ],
+   "cross_refs": [
+    "riehl:4.5:prop6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.5:exiii",
+   "kind": "exercise",
+   "number": "4.5.iii",
+   "name": "the action of the pushforward functor on morphisms",
+   "statement_summary": "The pushforward Pi_f: C/Y -> C/X applied to a morphism u: a -> b of C/Y (where a: A -> Y, b: B -> Y) yields an object Pi_f u of C/(Pi_f B). Show this object coincides with the object obtained by regarding u as an object of C/B, pulling back along the counit component epsilon: Delta_f Pi_f B -> B of Delta_f -| Pi_f at b, and then pushing forward along the map g: Delta_f Pi_f B -> Pi_f B in the accompanying diagram.",
+   "book_section": "4.5",
+   "book_page": "164",
+   "pdf_pages": [
+    184,
+    185
+   ],
+   "cross_refs": [
+    "riehl:4.5:lem14"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.5:exiv",
+   "kind": "exercise",
+   "number": "4.5.iv",
+   "name": "the adjoint triple for reflexive quivers",
+   "statement_summary": "Redo the computation of Example 4.5.11 (the composition, pullback, and pushforward functors along the inclusion of the discrete subquiver of the walking arrow) in the related category rQuiver of REFLEXIVE quivers, in which every vertex carries a specified endoarrow.",
+   "book_section": "4.5",
+   "book_page": "165",
+   "pdf_pages": [
+    185
+   ],
+   "cross_refs": [
+    "riehl:4.5:example11"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:prop1",
+   "kind": "proposition",
+   "number": "4.6.1",
+   "name": "completeness as an adjoint to the constant diagram functor",
+   "statement_summary": "TWO dual claims. For a small category J: a category C admits all limits of J-indexed diagrams if and only if the constant diagram functor Delta: C -> C^J admits a RIGHT adjoint, and C admits all colimits of J-indexed diagrams if and only if Delta admits a LEFT adjoint; the adjoints are then the limit and colimit functors, giving colim -| Delta -| lim. Proof: for c in C and F in C^J the hom-set C^J(Delta c, F) is the set of cones over F with summit c, so an object lim F with a natural isomorphism C^J(Delta c, F) =~ C(c, lim F) exists exactly when the limit does; the parametrized-representability proposition (cited as 4.4.4) then extends the chosen objects to a functor. Note: the axiom of choice is used to define the action of the limit functor on objects.",
+   "book_section": "4.6",
+   "book_page": "165",
+   "pdf_pages": [
+    185
+   ],
+   "cross_refs": [
+    "riehl:4.6:thm2",
+    "riehl:4.6:exii",
+    "riehl:4.6:exv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:thm2",
+   "kind": "theorem",
+   "number": "4.6.2",
+   "name": "right adjoints preserve limits (RAPL)",
+   "statement_summary": "TWO dual claims: right adjoints preserve limits, and left adjoints preserve colimits. There are NO size restrictions on the indexing category in either statement or proof. Proof: given K: J -> D with limit cone lambda: Delta lim K => K and a right adjoint G: D -> C, apply G to get a cone G lambda over GK; for any competing cone mu: Delta c => GK, transposing its legs across F -| G gives a cone mu^# : Delta Fc => K (by naturality of the transposition), which factors uniquely through lambda by a map tau: Fc -> lim K whose transpose tau^b: c -> G lim K is the required unique factorization. Concisely: C^J(Delta c, GK) =~ D^J(F Delta c, K) =~ D^J(Delta Fc, K) =~ D(Fc, lim_J K) =~ C(c, G lim_J K).",
+   "book_section": "4.6",
+   "book_page": "165",
+   "pdf_pages": [
+    185,
+    186,
+    187
+   ],
+   "cross_refs": [
+    "riehl:4.6:cor3",
+    "riehl:4.6:cor4",
+    "riehl:4.6:cor5",
+    "riehl:4.6:cor6",
+    "riehl:4.6:exiii",
+    "riehl:4.6:exiv",
+    "riehl:4.6:exvi"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.6:cor3",
+   "kind": "corollary",
+   "number": "4.6.3",
+   "name": "inverse image preserves unions and intersections",
+   "statement_summary": "THREE claims. For any function f: A -> B, the inverse image function f^{-1}: PB -> PA between power sets preserves BOTH unions and intersections, while the direct image f_*: PA -> PB preserves ONLY unions. Proof: Example 4.1.8 exhibits the adjunction f_* -| f^{-1} between the poset categories PA and PB; unions are colimits and intersections are limits in a poset category, so f^{-1} (a right adjoint) preserves limits and (being also a left adjoint) colimits, while f_* preserves only colimits.",
+   "book_section": "4.6",
+   "book_page": "167",
+   "pdf_pages": [
+    187
+   ],
+   "cross_refs": [
+    "riehl:4.6:thm2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:cor4",
+   "kind": "corollary",
+   "number": "4.6.4",
+   "name": "tensor distributes over direct sums of vector spaces",
+   "statement_summary": "For any vector spaces U, V, W there is an isomorphism U (x) (V (+) W) =~ (U (x) V) (+) (U (x) W). Proof: the two-variable adjunction of Example 4.4.15 exists for modules over any commutative ring, in particular for vector spaces over a field, so U (x) - : Vect_k -> Vect_k is left adjoint to Hom(U, -) and therefore preserves the coproduct V (+) W; the same argument proves the tensor product distributes over ARBITRARY direct sums.",
+   "book_section": "4.6",
+   "book_page": "167",
+   "pdf_pages": [
+    187
+   ],
+   "cross_refs": [
+    "riehl:4.6:thm2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:cor5",
+   "kind": "corollary",
+   "number": "4.6.5",
+   "name": "distributive laws for sets and cardinal arithmetic",
+   "statement_summary": "SIX claims (three set-level, three cardinal-level). For any sets A, B, C there are natural isomorphisms A x (B + C) =~ (A x B) + (A x C), (B x C)^A =~ B^A x C^A, and A^{B+C} =~ A^B x A^C. Consequently, for any cardinals alpha, beta, gamma: alpha x (beta + gamma) = (alpha x beta) + (alpha x gamma), (beta x gamma)^alpha = beta^alpha x gamma^alpha, and alpha^{beta+gamma} = alpha^beta x alpha^gamma. Proof: A x - is a left adjoint so preserves the coproduct B + C; (-)^A is a right adjoint so preserves the product B x C; A^{(-)}: Set^op -> Set is mutually right adjoint to itself so carries coproducts in Set to products in Set; the cardinal laws follow by applying the cardinality functor |-|: Set_iso -> Card, which converts natural isomorphisms into identities in the discrete category of cardinals.",
+   "book_section": "4.6",
+   "book_page": "167",
+   "pdf_pages": [
+    187
+   ],
+   "cross_refs": [
+    "riehl:4.6:thm2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:cor6",
+   "kind": "corollary",
+   "number": "4.6.6",
+   "name": "free group on a disjoint union is a free product",
+   "statement_summary": "The free group on the set X (disjoint union) Y is isomorphic to the free product of the free groups on X and on Y. (Instance of 'left adjoints preserve colimits' for the free-group functor Set -> Group, the free product being the coproduct in Group.) The proof is omitted (statement given with an immediate QED box).",
+   "book_section": "4.6",
+   "book_page": "168",
+   "pdf_pages": [
+    188
+   ],
+   "cross_refs": [
+    "riehl:4.6:thm2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:def7",
+   "kind": "definition",
+   "number": "4.6.7",
+   "name": "right exact and left exact functor",
+   "statement_summary": "A functor is RIGHT EXACT if it preserves finite colimits and LEFT EXACT if it preserves finite limits. Stated for arbitrary functors, not only functors between abelian categories.",
+   "book_section": "4.6",
+   "book_page": "168",
+   "pdf_pages": [
+    188
+   ],
+   "cross_refs": [
+    "riehl:4.6:prop8",
+    "riehl:4.6:cor9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:prop8",
+   "kind": "proposition",
+   "number": "4.6.8",
+   "name": "left exactness in abelian categories",
+   "statement_summary": "TWO clauses. A functor F: A -> B between abelian categories is left exact (preserves finite limits) IF AND ONLY IF it preserves finite direct sums and kernels; and for such functors, if 0 -> A -> A' -> A'' is an exact sequence in A then 0 -> FA -> FA' -> FA'' is exact in B. Proof: finite direct sums and kernels are finite limits; conversely all finite limits are built from finite products and equalizers, and in an abelian category the equalizer of f, g: A => A' is the kernel of f - g, which is expressible as a composite of matrix maps A -> A (+) A -> B (+) B -> B, so a functor preserving finite direct sums preserves differences of maps. Exactness of 0 -> A -> A' -> A'' says i is the kernel of j (equivalently j is monic) and j is the kernel of k; a left exact functor preserves these kernels and the zero object.",
+   "book_section": "4.6",
+   "book_page": "168",
+   "pdf_pages": [
+    188
+   ],
+   "cross_refs": [
+    "riehl:4.6:def7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:cor9",
+   "kind": "corollary",
+   "number": "4.6.9",
+   "name": "exactness and additivity of adjoints between abelian categories",
+   "statement_summary": "THREE claims. For any adjoint pair of functors between abelian categories, the left adjoint is right exact and the right adjoint is left exact; moreover BOTH functors are ADDITIVE, meaning they preserve finite direct sums. Immediate from Definition 4.6.7 and Theorem 4.6.2 (finite direct sums are simultaneously finite limits and finite colimits).",
+   "book_section": "4.6",
+   "book_page": "169",
+   "pdf_pages": [
+    189
+   ],
+   "cross_refs": [
+    "riehl:4.6:def7",
+    "riehl:4.6:thm2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:cor10",
+   "kind": "corollary",
+   "number": "4.6.10",
+   "name": "tensoring with a bimodule is right exact",
+   "statement_summary": "For any R-S bimodule M, the functor M (x)_S -: S-Mod -> R-Mod is right exact. Proof: M (x)_S - is left adjoint to Hom_R(M, -), so it is a left adjoint between abelian categories and Corollary 4.6.9 applies.",
+   "book_section": "4.6",
+   "book_page": "169",
+   "pdf_pages": [
+    189
+   ],
+   "cross_refs": [
+    "riehl:4.6:cor9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:lem11",
+   "kind": "lemma",
+   "number": "4.6.11",
+   "name": "fullness/faithfulness of an adjoint via its unit and counit",
+   "statement_summary": "SIX clauses (three plus three dual). For an adjunction F -| G: C <-> D with counit epsilon: FG => id_D: (i) G is faithful if and only if every component of epsilon is an EPIMORPHISM; (ii) G is full if and only if every component of epsilon is a SPLIT MONOMORPHISM; (iii) G is full and faithful if and only if epsilon is an ISOMORPHISM. Dually, writing eta: id_C => GF for the unit: (i) F is faithful if and only if every component of eta is a MONOMORPHISM; (ii) F is full if and only if every component of eta is a SPLIT EPIMORPHISM; (iii) F is full and faithful if and only if eta is an ISOMORPHISM. Proof deferred to Exercise 4.6.ix.",
+   "book_section": "4.6",
+   "book_page": "169",
+   "pdf_pages": [
+    189
+   ],
+   "cross_refs": [
+    "riehl:4.6:def12",
+    "riehl:4.6:exix",
+    "riehl:4.7:lem1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:def12",
+   "kind": "definition",
+   "number": "4.6.12",
+   "name": "reflective subcategory, reflector, localization",
+   "statement_summary": "A REFLECTIVE SUBCATEGORY of a category C is a full subcategory D such that the inclusion D -> C admits a LEFT adjoint L, called the REFLECTOR or LOCALIZATION. Riehl identifies D with its image in C and suppresses the inclusion functor, so the unit components have the form eta_c: c -> Lc; by Lemma 4.6.11(iii) the counit components epsilon_d: Ld -> d are isomorphisms, i.e. any object of a reflective subcategory is naturally isomorphic to its reflection. The dual notion, COREFLECTIVE SUBCATEGORY (inclusion admits a right adjoint), is named in the surrounding prose but not separately displayed.",
+   "book_section": "4.6",
+   "book_page": "169",
+   "pdf_pages": [
+    189
+   ],
+   "cross_refs": [
+    "riehl:4.6:lem11",
+    "riehl:4.6:example13",
+    "riehl:4.6:prop14",
+    "riehl:4.6:exx"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:example13",
+   "kind": "example",
+   "number": "4.6.13",
+   "name": "six reflective subcategories",
+   "statement_summary": "SIX clauses. (i) cHaus -> Top: the reflector is the Stone-Cech compactification beta, whose unit X -> betaX is universal among continuous maps from X to a compact Hausdorff space. (ii) Ab -> Group: the reflector is abelianization G |-> G/[G,G] by the commutator subgroup, with unit the quotient map; A is abelian exactly when [A,A] is trivial; a similar construction gives a left adjoint to CRing -> Ring. (iii) Ab_tf -> Ab of torsion-free abelian groups: the reflector is A |-> A/TA by the torsion subgroup. (iv) For a ring homomorphism phi: R -> T, extension of scalars T (x)_R - is left adjoint to restriction of scalars phi^*: T-Mod -> R-Mod; restriction is always faithful and is full exactly when phi is an EPIMORPHISM in Ring, in which case T-Mod is reflective in R-Mod; ring epimorphisms include all surjections and also the localizations R -> R[S^{-1}] at a multiplicatively closed subset S (an initial object among ring maps carrying S to units; a field of fractions for an integral domain). (v) Shv_X -> Set^{O(X)^op}: sheaves (presheaves on the poset of opens preserving certain limits) form a reflective subcategory with reflector SHEAFIFICATION. (vi) Cat -> Set^{Delta^op}: the nerve N (the restricted Yoneda embedding along Delta -> Cat, with NC_n = Cat([n], C)) is full and faithful with left adjoint the HOMOTOPY CATEGORY functor ho, computed as a quotient of the free category on the underlying reflexive quiver X_0 <= X_1 modulo relations from X_2; the counit ho NC =~ C is an isomorphism.",
+   "book_section": "4.6",
+   "book_page": "169",
+   "pdf_pages": [
+    189,
+    190,
+    191
+   ],
+   "cross_refs": [
+    "riehl:4.6:def12",
+    "riehl:4.7:example12"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.6:prop14",
+   "kind": "proposition",
+   "number": "4.6.14",
+   "name": "limits and colimits in a reflective subcategory",
+   "statement_summary": "TWO clauses. If D -> C is a reflective subcategory then: (i) the inclusion D -> C CREATES all limits; (ii) D has all colimits that C admits, formed by applying the reflector L to the colimit computed in C. Clause (i) is deduced later as a corollary of the monadicity-style Theorem 5.6.5; clause (ii) is proved here: for F: J -> D with colimit cone lambda: iF => c in C, the left adjoint L sends it to a colimit cone L lambda: LiF => Lc in D, and composing with the natural isomorphism Li =~ id_D gives a colimit cone F =~ LiF => Lc for the original diagram. The real content is that these (co)limits necessarily EXIST in D.",
+   "book_section": "4.6",
+   "book_page": "171",
+   "pdf_pages": [
+    191
+   ],
+   "cross_refs": [
+    "riehl:4.6:def12",
+    "riehl:4.6:thm2",
+    "riehl:4.6:cor15",
+    "riehl:4.6:exxi",
+    "riehl:4.7:exii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:cor15",
+   "kind": "corollary",
+   "number": "4.6.15",
+   "name": "Cat is complete and cocomplete",
+   "statement_summary": "The category Cat of small categories is complete and cocomplete. Proof: Set^{Delta^op} is complete and cocomplete with (co)limits computed pointwise, and Cat is a reflective subcategory of it (Example 4.6.13(vi)), so by Proposition 4.6.14 Cat inherits limits (computed pointwise in Set) and colimits (obtained by applying ho to the colimit of simplicial sets).",
+   "book_section": "4.6",
+   "book_page": "171",
+   "pdf_pages": [
+    191
+   ],
+   "cross_refs": [
+    "riehl:4.6:prop14",
+    "riehl:4.6:example13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exi",
+   "kind": "exercise",
+   "number": "4.6.i",
+   "name": "adjoints to the functor to the terminal category",
+   "statement_summary": "TWO questions. When does the unique functor !: C -> 1 to the terminal category have a left adjoint? When does it have a right adjoint? (i.e. characterize existence of initial and terminal objects as adjunctions.)",
+   "book_section": "4.6",
+   "book_page": "172",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exii",
+   "kind": "exercise",
+   "number": "4.6.ii",
+   "name": "units and counits of the limit/colimit adjunctions",
+   "statement_summary": "Suppose the diagonal functor Delta: C -> C^J admits both left and right adjoints. Describe the units and counits of these two adjunctions.",
+   "book_section": "4.6",
+   "book_page": "172",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "riehl:4.6:prop1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exiii",
+   "kind": "exercise",
+   "number": "4.6.iii",
+   "name": "the explicit comparison map for a preserved limit",
+   "statement_summary": "In a setting where certain limits or colimits exist in both categories connected by an adjunction (for instance those of Corollaries 4.6.4, 4.6.5 or 4.6.6), use the canonical comparison lemma cited as 3.4.3 to describe explicitly the comparison map that Theorem 4.6.2 shows is an isomorphism.",
+   "book_section": "4.6",
+   "book_page": "172",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "riehl:4.6:thm2",
+    "riehl:4.6:cor4",
+    "riehl:4.6:cor5",
+    "riehl:4.6:cor6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exiv",
+   "kind": "exercise",
+   "number": "4.6.iv",
+   "name": "RAPL via a diagram of adjoint functors",
+   "statement_summary": "If G: D -> C has a left adjoint F and both D and C admit all J-indexed limits, use Propositions 4.6.1, 4.3.4 and 4.3.6 to argue that right adjoints preserve limits, by contemplating the displayed square of adjunctions (F -| G upstairs, F_* -| G_* on functor categories, Delta -| lim on each side). The characterization of limit preservation from Exercise 3.4.i may help.",
+   "book_section": "4.6",
+   "book_page": "172",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "riehl:4.6:prop1",
+    "riehl:4.6:thm2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exv",
+   "kind": "exercise",
+   "number": "4.6.v",
+   "name": "limits commute with limits",
+   "statement_summary": "Use Proposition 4.6.1 to prove that in any complete category limits commute with limits, in the sense of the natural isomorphism of limit functors displayed as (3.8.2).",
+   "book_section": "4.6",
+   "book_page": "172",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "riehl:4.6:prop1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exvi",
+   "kind": "exercise",
+   "number": "4.6.vi",
+   "name": "adjoints preserve monomorphisms and epimorphisms",
+   "statement_summary": "Show that a morphism f: x -> y in C is a monomorphism if and only if the square with both parallel legs the identity on x and both other legs f is a pullback. Conclude that right adjoints preserve monomorphisms and left adjoints preserve epimorphisms.",
+   "book_section": "4.6",
+   "book_page": "172",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "riehl:4.6:thm2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exvii",
+   "kind": "exercise",
+   "number": "4.6.vii",
+   "name": "Cat is not locally cartesian closed",
+   "statement_summary": "Show that the category Cat of small categories is NOT locally cartesian closed, by demonstrating that pullback along the functor d^1: 2 -> 3 picking out the diagonal (composite) arrow in the free composable pair does not preserve colimits: specifically, show that Delta_{d^1}: Cat/3 -> Cat/2 does not preserve the displayed pushout of 1 >-> 2 along 1 >-> 2 (with legs 0 and 1 into 2 and 3 respectively).",
+   "book_section": "4.6",
+   "book_page": "172",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "riehl:4.5:def2",
+    "riehl:4.5:prop6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exviii",
+   "kind": "exercise",
+   "number": "4.6.viii",
+   "name": "two-variable adjoints preserve colimits in each variable",
+   "statement_summary": "THREE tasks. Prove that the left adjoint F: A x B -> C of a two-variable adjunction preserves colimits in each variable separately, i.e. F(A, -): B -> C and F(-, B): A -> C preserve colimits for each A in A and B in B. Find an example showing F need NOT preserve colimits in the product category A x B. Formulate the corresponding preservation results for the two right adjoints G: A^op x C -> B and H: B^op x C -> A.",
+   "book_section": "4.6",
+   "book_page": "172",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "riehl:4.6:thm2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exix",
+   "kind": "exercise",
+   "number": "4.6.ix",
+   "name": "prove the unit/counit fullness-faithfulness lemma",
+   "statement_summary": "Prove Lemma 4.6.11 (all six clauses: G faithful/full/fully faithful iff the counit components are epimorphisms/split monomorphisms/isomorphisms, and dually for F and the unit).",
+   "book_section": "4.6",
+   "book_page": "172",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "riehl:4.6:lem11"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exx",
+   "kind": "exercise",
+   "number": "4.6.x",
+   "name": "essential image and locality for a reflective subcategory",
+   "statement_summary": "THREE clauses. For a reflective subcategory inclusion D -> C with reflector L: C -> D, show (i) eta L = L eta and that these natural transformations are isomorphisms; (ii) an object c of C lies in the ESSENTIAL IMAGE of the inclusion (i.e. is isomorphic to an object of D) if and only if eta_c is an isomorphism; (iii) the essential image consists exactly of the objects c that are LOCAL for the class of morphisms inverted by L, i.e. such that precomposition C(b, c) -> C(a, c) is an isomorphism for every f: a -> b with Lf invertible in D \u2014 which explains the name 'localization' for the reflector.",
+   "book_section": "4.6",
+   "book_page": "173",
+   "pdf_pages": [
+    193
+   ],
+   "cross_refs": [
+    "riehl:4.6:def12"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.6:exxi",
+   "kind": "exercise",
+   "number": "4.6.xi",
+   "name": "reflective inclusions need not create colimits",
+   "statement_summary": "Find an example demonstrating that the inclusion of a reflective subcategory does not create all colimits (contrast with Proposition 4.6.14(i) for limits and 4.6.14(ii), which only forms colimits by reflecting).",
+   "book_section": "4.6",
+   "book_page": "173",
+   "pdf_pages": [
+    193
+   ],
+   "cross_refs": [
+    "riehl:4.6:prop14"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:def-continuous",
+   "kind": "definition",
+   "number": null,
+   "name": "continuous and cocontinuous functor",
+   "statement_summary": "Unnumbered definition in bold running prose: a limit-preserving functor is called CONTINUOUS; a colimit-preserving functor is called COCONTINUOUS. These names are used as hypotheses throughout \u00a74.7 (Theorems 4.7.3, 4.7.10, 4.7.15, 4.7.17).",
+   "book_section": "4.7",
+   "book_page": "174",
+   "pdf_pages": [
+    194
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm3",
+    "riehl:4.7:thm10",
+    "riehl:4.7:thm17"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:4.7:lem1",
+   "kind": "lemma",
+   "number": "4.7.1",
+   "name": "left adjoints exist iff comma categories have initial objects",
+   "statement_summary": "A functor U: A -> S admits a left adjoint IF AND ONLY IF for every object s of S the comma category s|U has an initial object. (Objects of s|U are pairs (a, f: s -> Ua); morphisms (a,f) -> (a',f') are h: a -> a' with Uh . f = f'.) Proof: s|U is isomorphic to the category of elements of S(s, U-): A -> Set; if a left adjoint F exists then eta_s: s -> UFs is initial there; conversely an initial object eta_s in each s|U is a universal element, hence a representation of S(s, U-), defining Fs on objects, and the parametrized representability proposition (4.4.4) extends F uniquely to a functor with the eta_s as the unit components, giving A(F-, -) =~ S(-, U-). The functorial action Ff: Fs -> Fs' is the unique map making the naturality square commute, which exists by initiality.",
+   "book_section": "4.7",
+   "book_page": "174",
+   "pdf_pages": [
+    194
+   ],
+   "cross_refs": [
+    "riehl:4.7:lem2",
+    "riehl:4.7:thm3",
+    "riehl:4.7:thm10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:lem2",
+   "kind": "lemma",
+   "number": "4.7.2",
+   "name": "the comma-category forgetful functor creates limits",
+   "statement_summary": "For any functor U: A -> S and any object s of S, the forgetful functor Pi: s|U -> A (carrying (a, f: s -> Ua) to a) STRICTLY CREATES the limit of any diagram whose limit exists in A and is PRESERVED by U. In particular, if A is complete and U is continuous, then s|U is complete. Proof: a special case of Exercise 3.4.ii, or directly by extending the argument of Proposition 3.4.8.",
+   "book_section": "4.7",
+   "book_page": "174",
+   "pdf_pages": [
+    194,
+    195
+   ],
+   "cross_refs": [
+    "riehl:4.7:lem1",
+    "riehl:4.7:thm3",
+    "riehl:4.7:exi"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.7:thm3",
+   "kind": "theorem",
+   "number": "4.7.3",
+   "name": "General Adjoint Functor Theorem (GAFT)",
+   "statement_summary": "Let U: A -> S be a CONTINUOUS functor whose domain A is LOCALLY SMALL and COMPLETE. Suppose U satisfies the SOLUTION SET CONDITION: for every object s of S there exists a SET of morphisms Phi_s = {f_i: s -> Ua_i} such that any f: s -> Ua factors as f = Uk . f_i for some f_i in Phi_s and some morphism k: a_i -> a in A. Then U admits a left adjoint. (The condition says exactly that {f_i} is a jointly weakly initial SET of objects in s|U.) Proof, assembled on printed 176: by Lemma 4.7.1 it suffices that each s|U have an initial object; s|U is locally small because A is, complete by Lemma 4.7.2, and has a jointly weakly initial set by the solution set condition, so Lemma 4.7.5 produces the initial object.",
+   "book_section": "4.7",
+   "book_page": "175",
+   "pdf_pages": [
+    195,
+    196
+   ],
+   "cross_refs": [
+    "riehl:4.7:lem1",
+    "riehl:4.7:lem2",
+    "riehl:4.7:def4",
+    "riehl:4.7:lem5",
+    "riehl:4.7:example6",
+    "riehl:4.7:thm15",
+    "riehl:4.7:thm17",
+    "riehl:4.7:exii"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.7:def4",
+   "kind": "definition",
+   "number": "4.7.4",
+   "name": "weakly initial object; jointly weakly initial collection",
+   "statement_summary": "TWO clauses. (i) An object c of a category C is WEAKLY INITIAL if for every x in C there exists at least one morphism c -> x (uniqueness is not required). (ii) A collection of objects Phi of C is JOINTLY WEAKLY INITIAL if for every x in C there is some c_i in Phi admitting a morphism c_i -> x.",
+   "book_section": "4.7",
+   "book_page": "175",
+   "pdf_pages": [
+    195
+   ],
+   "cross_refs": [
+    "riehl:4.7:lem5",
+    "riehl:4.7:thm3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:lem5",
+   "kind": "lemma",
+   "number": "4.7.5",
+   "name": "initial object from a jointly weakly initial set",
+   "statement_summary": "If C is COMPLETE, LOCALLY SMALL, and has a jointly weakly initial SET of objects Phi, then C has an initial object. Proof: let l be the limit of the inclusion into C of the full subcategory spanned by Phi (a small diagram, so the limit exists), with limit cone (kappa_k: l -> k)_{k in Phi}; for each c in C choose h_c: k -> c with k in Phi (taking h_k = id_k for k in Phi) and set lambda_c := h_c . kappa_k. The lambda_c make l weakly initial; a pullback argument using joint weak initiality shows they form a cone lambda: l => id_C over the identity functor with summit l, and the cone condition forces lambda_l = id_l, so by the initial-object-as-limit-of-the-identity lemma (3.7.1) l is initial.",
+   "book_section": "4.7",
+   "book_page": "175",
+   "pdf_pages": [
+    195,
+    196
+   ],
+   "cross_refs": [
+    "riehl:4.7:def4",
+    "riehl:4.7:thm3",
+    "riehl:4.7:thm15"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.7:example6",
+   "kind": "example",
+   "number": "4.7.6",
+   "name": "a solution set for the free group functor",
+   "statement_summary": "For U: Group -> Set and a set S, a solution set is constructed: let Phi' be a set of representatives for the isomorphism classes of groups generated by at most |S| elements, and let Phi be the set of functions S -> UG with G in Phi' whose image generates G. Phi is jointly weakly initial in S|U, hence a solution set for U. Lemma 4.7.1 then constructs the free group as follows: form the product over Phi of the codomain groups, take the induced map eta-hat: S -> U(product over (S -> UG) in Phi of G), and let Gamma be the subgroup of the product generated by the image of eta-hat; the codomain restriction eta: S -> U Gamma is shown to be initial in S|U (any psi: S -> UH factors through its codomain restriction phi: S -> UG onto the subgroup generated by the image of S, with G in Phi; phi equals the composite of eta with the projection at phi, and the factorization is unique because Gamma is generated by the image of S).",
+   "book_section": "4.7",
+   "book_page": "176",
+   "pdf_pages": [
+    196,
+    197
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm3",
+    "riehl:4.7:lem1"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.7:def7",
+   "kind": "definition",
+   "number": "4.7.7",
+   "name": "separating set (separator) and coseparating set",
+   "statement_summary": "A SEPARATING SET (or SEPARATOR) for a category C is a set Phi of objects that can distinguish distinct parallel morphisms: given f, g: x => y with f != g, there exists some h: c -> x with c in Phi such that f . h != g . h. A COSEPARATING SET in C is a separating set in C^op.",
+   "book_section": "4.7",
+   "book_page": "177",
+   "pdf_pages": [
+    197
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm10",
+    "riehl:4.7:lem11"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:def8",
+   "kind": "definition",
+   "number": "4.7.8",
+   "name": "subobject",
+   "statement_summary": "A SUBOBJECT of an object c of C is a monomorphism c' >-> c with codomain c. Isomorphic subobjects \u2014 that is, subobjects c' >-> c <-< c'' related by a commuting isomorphism c' =~ c'' \u2014 are typically identified.",
+   "book_section": "4.7",
+   "book_page": "177",
+   "pdf_pages": [
+    197
+   ],
+   "cross_refs": [
+    "riehl:4.7:def9",
+    "riehl:4.7:thm10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:def9",
+   "kind": "definition",
+   "number": "4.7.9",
+   "name": "intersection of a family of subobjects",
+   "statement_summary": "The INTERSECTION of a family of subobjects of c is the limit of the diagram of those monomorphisms with codomain c. The accompanying prose records that the induced map from the intersection to c is again a monomorphism, that the legs of the limit cone are monomorphisms (by the cited Lemma 1.2.11(ii)), and that the intersection is the maximal subobject contained in every member of the family.",
+   "book_section": "4.7",
+   "book_page": "177",
+   "pdf_pages": [
+    197
+   ],
+   "cross_refs": [
+    "riehl:4.7:def8",
+    "riehl:4.7:thm10",
+    "riehl:4.7:lem11"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:thm10",
+   "kind": "theorem",
+   "number": "4.7.10",
+   "name": "Special Adjoint Functor Theorem (SAFT)",
+   "statement_summary": "Let U: A -> S be a CONTINUOUS functor whose domain A is COMPLETE and whose domain and codomain are both LOCALLY SMALL. If moreover A has a SMALL COSEPARATING SET and every collection of subobjects of a fixed object of A admits an INTERSECTION, then U admits a left adjoint. Proof (printed 178): each comma category s|U is locally small and complete, monomorphisms in s|U are preserved and reflected by Pi: s|U -> A so intersections of subobjects are created there; if Phi coseparates A then {s -> Ua : a in Phi} is a coseparating SET for s|U (a set because S is locally small); Lemma 4.7.11 then gives an initial object in each s|U, and Lemma 4.7.1 concludes.",
+   "book_section": "4.7",
+   "book_page": "177",
+   "pdf_pages": [
+    197,
+    198
+   ],
+   "cross_refs": [
+    "riehl:4.7:def7",
+    "riehl:4.7:def8",
+    "riehl:4.7:def9",
+    "riehl:4.7:lem11",
+    "riehl:4.7:lem1",
+    "riehl:4.7:example12",
+    "riehl:4.7:cor13",
+    "riehl:4.7:cor14"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.7:lem11",
+   "kind": "lemma",
+   "number": "4.7.11",
+   "name": "initial object from a coseparating set and intersections",
+   "statement_summary": "Suppose C is LOCALLY SMALL, COMPLETE, has a SMALL COSEPARATING SET Phi, and every collection of subobjects has an intersection. Then C has an initial object. Proof: let p be the product over k in Phi of the objects of the coseparating set, and let i >-> p be the intersection of ALL subobjects of p; i is initial. Coseparation says the canonical map c >-> product over k in Phi of k^{C(c,k)} (whose component at f in C(c,k) is f) is a monomorphism; pulling this back along the diagonal map p -> product of k^{C(c,k)} yields a subobject p_c of p and hence a map i -> p_c -> c. There is at most one arrow i -> c, since the equalizer of two distinct ones would define a strictly smaller subobject of p, contradicting minimality of the intersection.",
+   "book_section": "4.7",
+   "book_page": "177",
+   "pdf_pages": [
+    197,
+    198
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm10",
+    "riehl:4.7:def7",
+    "riehl:4.7:def9"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:4.7:example12",
+   "kind": "example",
+   "number": "4.7.12",
+   "name": "Stone-Cech compactification via the Special Adjoint Functor Theorem",
+   "statement_summary": "SAFT abstracts the construction of the Stone-Cech compactification beta: Top -> cHaus, the left adjoint to the inclusion cHaus -> Top. The unit interval I = [0,1] is a COSEPARATING object in cHaus: if f != g: X => Y in cHaus there is x with f(x) != g(x), and Urysohn's lemma supplies h: Y -> I with h f != h g. For a space X, Theorem 4.7.10 builds an initial object of X|cHaus: the coseparating family gives the canonical map eta-hat: X -> product over Hom(X, I) of I; a subobject of that product is a compact Hausdorff subspace K containing the image of eta-hat, and since the product is compact Hausdorff a subspace is compact Hausdorff exactly when closed; hence the intersection of all subobjects through which eta-hat factors is the codomain restriction eta: X -> beta(X), where beta(X) is the CLOSURE of the image of eta-hat.",
+   "book_section": "4.7",
+   "book_page": "178",
+   "pdf_pages": [
+    198
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm10",
+    "riehl:4.6:example13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:cor13",
+   "kind": "corollary",
+   "number": "4.7.13",
+   "name": "SAFT hypotheses imply cocompleteness",
+   "statement_summary": "Suppose C is locally small, complete, has a small coseparating set, and has the property that every collection of subobjects of a fixed object has an intersection. Then C is also COCOMPLETE. Proof: for any small J the functor category C^J is again locally small, and the constant diagram functor Delta: C -> C^J preserves limits (cited Proposition 3.4.9); applying Theorem 4.7.10 to Delta gives it a left adjoint, which by Proposition 4.6.1 means C has all J-shaped colimits.",
+   "book_section": "4.7",
+   "book_page": "178",
+   "pdf_pages": [
+    198
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm10",
+    "riehl:4.6:prop1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:cor14",
+   "kind": "corollary",
+   "number": "4.7.14",
+   "name": "SAFT hypotheses imply representability of continuous Set-valued functors",
+   "statement_summary": "Suppose C is locally small, complete, has a small coseparating set, and has the property that every collection of subobjects of a fixed object has an intersection. Then ANY continuous functor F: C -> Set is representable. Proof: by Theorem 4.7.10, F has a left adjoint L: Set -> C, whence C(L(*), c) =~ Set(*, Fc) =~ Fc naturally, so L(*) represents F, where * is the singleton set.",
+   "book_section": "4.7",
+   "book_page": "178",
+   "pdf_pages": [
+    198
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm10",
+    "riehl:4.7:thm15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:thm15",
+   "kind": "theorem",
+   "number": "4.7.15",
+   "name": "Freyd's Representability Theorem",
+   "statement_summary": "Let F: C -> Set be a CONTINUOUS functor with C COMPLETE and LOCALLY SMALL. If F satisfies the SOLUTION SET CONDITION \u2014 there exists a SET Phi of objects of C such that for any c in C and any element x in Fc there exist s in Phi, an element y in Fs, and a morphism f: s -> c with (Ff)(y) = x \u2014 then F is REPRESENTABLE. Proof: the solution set defines a jointly weakly initial set of objects in the comma category *|F, which is isomorphic to the category of elements int F (with * the singleton set); by Lemma 4.7.2 that category is complete, so by Lemma 4.7.5 it has an initial object, which by the universal-element proposition (2.4.8) is a representation of F.",
+   "book_section": "4.7",
+   "book_page": "179",
+   "pdf_pages": [
+    199
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm3",
+    "riehl:4.7:lem2",
+    "riehl:4.7:lem5",
+    "riehl:4.7:cor14"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:def16",
+   "kind": "definition",
+   "number": "4.7.16",
+   "name": "locally kappa-presentable category; accessible functor",
+   "statement_summary": "TWO conditions plus a derived notion. For a regular cardinal kappa (footnote 14: an infinite cardinal such that any union of fewer than kappa sets each of cardinality less than kappa has cardinality less than kappa), a locally small category C is LOCALLY kappa-PRESENTABLE if it is COCOMPLETE and has a SET of objects S such that (i) every object of C is a colimit of a diagram valued in the full subcategory spanned by S, and (ii) for each s in S the functor C(s, -): C -> Set preserves kappa-FILTERED COLIMITS. A functor between locally kappa-presentable categories is ACCESSIBLE if it preserves kappa-filtered colimits. Surrounding prose: locally omega-presentable is called locally FINITELY PRESENTABLE; locally kappa-presentable implies locally lambda-presentable for lambda > kappa; LOCALLY PRESENTABLE means locally kappa-presentable for some kappa.",
+   "book_section": "4.7",
+   "book_page": "179",
+   "pdf_pages": [
+    199
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm17"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:thm17",
+   "kind": "theorem",
+   "number": "4.7.17",
+   "name": "adjoint functor theorem for locally presentable categories",
+   "statement_summary": "TWO clauses. A functor F: C -> D between LOCALLY PRESENTABLE categories (i) admits a RIGHT adjoint if and only if it is COCONTINUOUS; (ii) admits a LEFT adjoint if and only if it is CONTINUOUS and ACCESSIBLE. Only a PROOF SKETCH is given, deferring details to [AR94]: (ii) follows from Theorem 4.7.3 because any accessible functor satisfies the solution set condition ([AR94] 1.66); (i) follows from the dual of Theorem 4.7.10, since the colimit-generating set of objects S is a separator for C and a hard theorem shows any object of a locally presentable category admits at most a set's worth of epimorphic quotients up to isomorphism ([AR94] 1.58), cocompleteness then giving cointersections of quotient objects.",
+   "book_section": "4.7",
+   "book_page": "179",
+   "pdf_pages": [
+    199
+   ],
+   "cross_refs": [
+    "riehl:4.7:def16",
+    "riehl:4.7:thm3",
+    "riehl:4.7:thm10",
+    "riehl:4.7:construction-unitalization"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:construction-unitalization",
+   "kind": "construction",
+   "number": null,
+   "name": "left adjoint to Ring -> Rng (unitalization of a non-unital ring)",
+   "statement_summary": "Unnumbered construction closing \u00a74.7. Ring and Rng are locally presentable and the inclusion Ring -> Rng is accessible, so Theorem 4.7.17 gives a left adjoint (-)^*; a direct construction is then sketched. The inclusion commutes with the underlying-abelian-group functors U: Ring -> Ab and U: Rng -> Ab, so by Proposition 4.3.4 its left adjoint commutes with the corresponding free functors F up to natural isomorphism. Since the free unital ring on an abelian group A is the graded ring (direct sum over n >= 0 of A^{(x)n}) and the free non-unital ring is the sum over n > 0, commutativity of left adjoints gives (sum over n > 0 of A^{(x)n})^* =~ sum over n >= 0 of A^{(x)n}: the unitalization adjoins a copy of A^{(x)0} := Z. For a general non-unital ring R (a coequalizer of free non-unital rings by Proposition 5.4.2), R^* is the coequalizer of the images, giving R^* =~ Z (+) R with componentwise addition and the graded multiplication (n, r) . (n', r') := (n n', n' r + n r' + r r').",
+   "book_section": "4.7",
+   "book_page": "180",
+   "pdf_pages": [
+    200
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm17",
+    "riehl:4.6:thm2"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "riehl:4.7:exi",
+   "kind": "exercise",
+   "number": "4.7.i",
+   "name": "direct proof that the comma forgetful functor creates limits",
+   "statement_summary": "Give a direct proof of Lemma 4.7.2 (that Pi: s|U -> A strictly creates limits of diagrams whose limits exist in A and are preserved by U) along the lines of the argument used to prove Proposition 3.4.8.",
+   "book_section": "4.7",
+   "book_page": "180",
+   "pdf_pages": [
+    200
+   ],
+   "cross_refs": [
+    "riehl:4.7:lem2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:exii",
+   "kind": "exercise",
+   "number": "4.7.ii",
+   "name": "largest Hausdorff quotient via GAFT",
+   "statement_summary": "TWO tasks. Use Theorem 4.7.3 (GAFT) to prove that the inclusion Haus -> Top of the full subcategory of Hausdorff spaces into all topological spaces has a left adjoint, carrying a space to its 'largest Hausdorff quotient'. Then conclude, by applying Proposition 4.6.14, that Haus \u2014 a reflective subcategory of the complete and cocomplete Top \u2014 is itself cocomplete as well as complete.",
+   "book_section": "4.7",
+   "book_page": "180",
+   "pdf_pages": [
+    200
+   ],
+   "cross_refs": [
+    "riehl:4.7:thm3",
+    "riehl:4.6:prop14",
+    "riehl:4.6:def12"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:4.7:exiii",
+   "kind": "exercise",
+   "number": "4.7.iii",
+   "name": "representability versus existence of a left adjoint",
+   "statement_summary": "Suppose C is a locally small category with coproducts. Show that a functor F: C -> Set is representable if and only if it admits a left adjoint.",
+   "book_section": "4.7",
+   "book_page": "180",
+   "pdf_pages": [
+    200
+   ],
+   "cross_refs": [
+    "riehl:4.7:cor14",
+    "riehl:4.7:thm15"
+   ],
+   "flags": []
+  }
+ ]
+}

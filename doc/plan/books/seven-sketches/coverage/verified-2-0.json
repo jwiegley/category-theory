@@ -1,0 +1,473 @@
+[
+ {
+  "id": "7sketches:2.2.1:def2",
+  "classification": "PARTIAL",
+  "aliases": [
+   "symmetric monoidal preorder",
+   "thin / posetal strict symmetric monoidal category (monoidal poset)",
+   "SymmetricMonoidal + StrictMonoidal instantiated over Proset",
+   "ordered commutative monoid (monotone tensor)",
+   "(0,1)-category delooping; quantale-like base for enrichment"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal.v",
+    "line": 125,
+    "symbol": "Monoidal",
+    "intree_statement": "Class Monoidal := { I : C; tensor : C \u220f C \u27f6 C where \u00abx \u2a02 y\u00bb := (tensor (x, y)); unit_left {x} : I \u2a02 x \u2245 x; unit_right {x} : x \u2a02 I \u2245 x; tensor_assoc {x y z} : (x \u2a02 y) \u2a02 z \u2245 x \u2a02 (y \u2a02 z); ... triangle_identity {x y} : bimap unit_right id << (x \u2a02 I) \u2a02 y ~~> x \u2a02 y >> bimap id unit_left \u2218 tensor_assoc; pentagon_identity {x y z w} : ... }  (clause 2.2(a) is functoriality of the bifunctor: bimap f g : x1 \u2a02 x2 ~> y1 \u2a02 y2, Functor/Bifunctor.v:38)"
+   },
+   {
+    "file": "Structure/Monoidal/Strict.v",
+    "line": 52,
+    "symbol": "StrictMonoidal",
+    "intree_statement": "Class StrictMonoidal : Type := { strict_is_monoidal : @Monoidal C; strict_assoc_obj : forall (X Y Z : C), ((X \u2a02 Y) \u2a02 Z)%object = (X \u2a02 (Y \u2a02 Z))%object; strict_unit_left_obj : forall (X : C), (I \u2a02 X)%object = X; strict_unit_right_obj : forall (X : C), (X \u2a02 I)%object = X; strict_assoc_to : ... to (@tensor_assoc C strict_is_monoidal X Y Z) \u2248 match strict_assoc_obj X Y Z in _ = T return ... with eq_refl => id end; ... }"
+   },
+   {
+    "file": "Structure/Monoidal/Symmetric.v",
+    "line": 103,
+    "symbol": "SymmetricMonoidal",
+    "intree_statement": "Class SymmetricMonoidal := { symmetric_is_braided : @BraidedMonoidal C; braid_invol {x y} : braid \u2218 braid \u2248 id[x \u2a02 y]; }  (with braid {x y} : x \u2a02 y ~> y \u2a02 x, braid_natural and both hexagons in Braided.v)"
+   },
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => reflexivity x; compose := fun x y z f g => transitivity g f |}  (a preorder as a thin category: hom x y is inhabited exactly when x \u2264 y, and all parallel arrows are identified)"
+   }
+  ],
+  "statement_record": {
+   "book": "A symmetric monoidal structure on a preorder (X,\u2264) is a unit I \u2208 X and a product \u2297 : X\u00d7X \u2192 X with (a) monotonicity: x1\u2264y1 and x2\u2264y2 imply x1\u2297x2 \u2264 y1\u2297y2; (b) I\u2297x = x = x\u2297I; (c) (x\u2297y)\u2297z = x\u2297(y\u2297z); (d) x\u2297y = y\u2297x, where (b),(c),(d) are STRICT equalities of elements, so no coherence data is carried; the package (X,\u2264,I,\u2297) is a symmetric monoidal preorder, and dropping (d) leaves a monoidal preorder.",
+   "intree": "Class Monoidal (I, the bifunctor tensor : C \u220f C \u27f6 C, unit_left/unit_right/tensor_assoc as isomorphisms, plus triangle and pentagon), Class StrictMonoidal (strict_assoc_obj / strict_unit_left_obj / strict_unit_right_obj as OBJECT equalities with the structural isos the transported identities), Class SymmetricMonoidal (braid with braid_invol and both hexagons), over a base category which may be Proset P (hom x y := R x y, all parallel arrows identified).",
+   "strength_comparison": "different presentation, and NOT uniformly stronger. in-tree-stronger on (a),(b),(c): clause (a) is exactly functoriality of the tensor bifunctor (bimap), and (b),(c) come in both flavours \u2014 up to isomorphism (Monoidal) and as element/object equalities (StrictMonoidal), the latter matching the book's strict reading. in-tree-WEAKER on (d): symmetry in-tree is a braiding isomorphism with braid \u2218 braid \u2248 id, and NO in-tree class asks for the object equality x \u2a02 y = y \u2a02 x that Definition 2.2(d) demands (StrictMonoidal has strictness fields only for the associator and unitors); the book's strict-commutative preorder is therefore not expressible by an existing class without a new field."
+  },
+  "gap": "Nothing in-tree assembles the pieces into 'monoidal preorder': there is no MonoidalPreorder/SymmetricMonoidalPreorder definition, no Monoidal/SymmetricMonoidal/StrictMonoidal instance over Proset P, and StrictMonoidal has no object-level commutativity field for clause (d). The only thin categories in-tree that actually carry a monoidal structure are _2 (Definition Two_Monoidal : @Monoidal _2 := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal, Instance/Two/Monoidal.v:105 \u2014 used by Theorem Enriched_Two_preorder, Construction/Enriched/Two.v:165) and, only implicitly, the preorder Props of propositions under implication (Props_Cartesian / Props_Terminal, Instance/Props.v:69,53). Both are CARTESIAN (tensor = meet, unit = top = terminal), so no non-cartesian monoidal preorder \u2014 the book's leading case, e.g. ([0,\u221e],\u2265,0,+), named only in prose at Construction/Enriched.v:75 and Instance/Poset.v:75 \u2014 exists in-tree, and neither instance is declared SymmetricMonoidal (CC_SymmetricMonoidal, Structure/Monoidal/Internal/Product.v:314, would supply it but is never applied to a thin category).",
+  "negative_search_log": [
+   "grep -ril 'MonoidalPreorder' --include='*.v' . \u2014 0 hits",
+   "grep -ril 'monoidal preorder' --include='*.v' . \u2014 0 hits",
+   "grep -ril 'monoidal poset' --include='*.v' . \u2014 0 hits",
+   "grep -ril 'OrderedMonoid' / 'ordered monoid' / 'semilattice' / 'PosetalMonoidal' --include='*.v' . \u2014 0 hits each",
+   "grep -rn 'Proset' --include='*.v' . \u2014 only Instance/Proset.v, Instance/Poset.v, Test/Poset.v, Instance/Props.v (comment); no Monoidal structure over any of them",
+   "grep -rn 'Monoidal' --include='*.v' Instance/ | grep -i 'omega|proset|poset|two' \u2014 only Instance/Two/Monoidal.v",
+   "grep -ril 'quantale' --include='*.v' . \u2014 0 hits ([0,\u221e] base mentioned only in prose headers)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass (before opening coverage) reached PARTIAL independently, on the same four pillars: Structure/Monoidal.v Class Monoidal (l.125, unit_left/unit_right/tensor_assoc as isos at ll.129-132), Structure/Monoidal/Strict.v Class StrictMonoidal (l.52, object equalities at ll.56,61,66), Structure/Monoidal/Symmetric.v Class SymmetricMonoidal (l.103), Instance/Proset.v Proset (l.33). All four line numbers and quotes verified verbatim; all four files in _CoqProject. The record's load-bearing honest admission -- that NO in-tree class demands the object equality x (tensor) y = y (tensor) x of clause (d) -- I re-verified by reading all of Structure/Monoidal/Strict.v: strictness fields exist only for assoc (strict_assoc_obj) and the two unitors; there is no strict-braiding field. I independently enumerated every monoidal base in the tree (rg '@Monoidal [A-Za-z_0-9]+' | sort | uniq -c: C/D/K/P/J/E/V/X abstract, plus StrictCat, Coq, Sets, Par, Kleisli, Drinfeld, PresentedCat, CPresentedCat, DC, _2) and confirm _2 is the ONLY thin/posetal one, exactly as the gap states. Also confirmed CC_SymmetricMonoidal (Structure/Monoidal/Internal/Product.v:314) is applied only at Theory/Lawvere/PROP.v:120 to law_cat T, which is not thin -- so the gap's 'never applied to a thin category' is accurate. My own alias searches (monoidal preorder, monoidal poset, quantale, ordered monoid, MonoidalPreorder, posetal monoidal, Ord, Pos) reproduce the record's zero hits. strength_comparison's split verdict (in-tree-stronger on (a),(b),(c), weaker on (d)) is honest and precise."
+  }
+ },
+ {
+  "id": "7sketches:2.2.1:remark3",
+  "classification": "PARTIAL",
+  "aliases": [
+   "weak monoidal structure (axioms up to the induced equivalence)",
+   "monoidal up to isomorphism vs strict monoidal",
+   "Monoidal (isos) vs StrictMonoidal (object equalities)",
+   "strictification / Mac Lane coherence theorem",
+   "iso in a thin category = x \u2264 y and y \u2264 x"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal.v",
+    "line": 129,
+    "symbol": "Monoidal (unit_left / unit_right / tensor_assoc)",
+    "intree_statement": "unit_left {x} : I \u2a02 x \u2245 x; unit_right {x} : x \u2a02 I \u2245 x; tensor_assoc {x y z} : (x \u2a02 y) \u2a02 z \u2245 x \u2a02 (y \u2a02 z)  \u2014 the library's PRIMARY monoidal class states (b) and (c) as isomorphisms, which over a thin base (Proset) is precisely the book's induced equivalence x \u2264 y \u2264 x; the naturality and triangle/pentagon fields are the coherence data such a weakening forces"
+   },
+   {
+    "file": "Structure/Monoidal/Strict.v",
+    "line": 73,
+    "symbol": "StrictMonoidal (strict_assoc_to / strict_unit_left_to / strict_unit_right_to)",
+    "intree_statement": "strict_assoc_to : forall (X Y Z : C), to (@tensor_assoc C strict_is_monoidal X Y Z) \u2248 match strict_assoc_obj X Y Z in _ = T return ((X \u2a02 Y) \u2a02 Z)%object ~> T with eq_refl => id end;  strict_unit_left_to : forall (X : C), to (@unit_left C strict_is_monoidal X) \u2248 match strict_unit_left_obj X in _ = T return (I \u2a02 X)%object ~> T with eq_refl => id end  \u2014 the in-tree comparison of the two notions: strictness says the weak structure's isomorphisms ARE the identity transported along object equalities"
+   }
+  ],
+  "statement_record": {
+   "book": "Replacing the strict equalities of Definition 2.2(b),(c),(d) by the preorder's induced equivalence (x \u2245 y iff x \u2264 y and y \u2264 x) gives an equally good notion, called a WEAK monoidal structure; strict equality was chosen only for typographic simplicity.",
+   "intree": "The library's default is the weak notion: Class Monoidal states unitality and associativity as isomorphisms (\u2245) with naturality plus triangle/pentagon, and Class StrictMonoidal is a separate, stronger class adding the object equalities together with strict_assoc_to / strict_unit_*_to, which identify the weak structure's isomorphisms with transported identities.",
+   "strength_comparison": "same content, opposite default \u2014 the book takes strict equality as primary and remarks that the weak variant is equally good; the library takes the weak (isomorphism) variant as primary and offers strictness as an add-on class, with the transported-identity fields as the explicit bridge. in-tree-weaker on the remark's actual claim of EQUIVALENCE: no theorem says the two notions are interchangeable."
+  },
+  "gap": "The remark's substantive claim \u2014 that the weak variant is 'equally good' \u2014 is not proved: there is no strictification / coherence theorem in-tree (Mac Lane coherence is only cited in prose, Structure/Monoidal.v:43, Structure/Monoidal/Proofs.v:16, Structure/Monoidal/Symmetric.v:47), and no comparison functor or equivalence between Monoidal and StrictMonoidal structures on a fixed base. Also missing is the specialization the remark relies on: no lemma states that in a thin category (Proset / Props / _2) an isomorphism x \u2245 y is exactly the pair of inequalities x \u2264 y and y \u2264 x, so 'iso = induced equivalence' is nowhere available as an in-tree fact (Instance/Proset.v:25 states it only in a comment).",
+  "negative_search_log": [
+   "grep -rni 'strictif' --include='*.v' . \u2014 4 hits, all prose (Theory/DoubleCategory.v:119, Theory/Equivalence.v:93, Instance/Cat.v:54, Instance/StrictCat/ToCat.v:27); no monoidal strictification theorem",
+   "grep -rni 'coherence theorem' --include='*.v' . \u2014 Mac Lane coherence cited only in comments; Fong\u2013Spivak supply coherence is unrelated",
+   "grep -rn 'Lemma|Theorem' Instance/Poset.v Instance/Proset.v \u2014 only eq_equiv and the Poset/Proset constructors; no iso-vs-mutual-\u2264 lemma"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL, hesitating toward PRESENT because the library's PRIMARY Monoidal class IS the weak (up-to-isomorphism) notion the remark endorses; the record's gap is what settles it against PRESENT and it holds up: nothing in-tree PROVES the remark's actual claim that weak and strict are 'equally good'. Verified Structure/Monoidal.v:129-132 (isos) and Structure/Monoidal/Strict.v:73,81,87 (the strict_*_to transported-identity bridge) verbatim. Independently confirmed the two negative claims: (i) no strictification or monoidal coherence theorem (rg -i strictif -> 4 prose hits only); (ii) no lemma anywhere says that in a thin category an iso x =~ y is exactly x <= y and y <= x -- rg for Isomorphism/iso across Instance/{Proset,Poset,Two,Props}.v returns only prose (Instance/Proset.v:23, Instance/Poset.v:19). ADDITION to the record's gap evidence, found blind: Structure/Monoidal.v:70-74 states Mac Lane strictification in prose in the strongest form the remark would need ('every monoidal category is monoidally equivalent to a strict one, in which alpha, lambda, rho are identities'), with the (Set,x) non-skeletal caveat -- so the in-tree PROSE claim is even closer to the remark than Monoidal.v:43 alone suggests, while remaining unproved. Phase E should cite Structure/Monoidal.v:70-74 alongside :43."
+  }
+ },
+ {
+  "id": "7sketches:2.2.1:example4",
+  "classification": "ABSENT",
+  "aliases": [
+   "(R, \u2264, 0, +) as a symmetric monoidal preorder",
+   "reals under addition; ordered abelian group",
+   "ordered commutative monoid / additive monoidal poset",
+   "Lawvere cost base ([0,\u221e], \u2265, 0, +)",
+   "nat under \u2264 with + as tensor"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rln 'Reals\\|Rle\\|Rplus\\|QArith\\|Qle' --include='*.v' . \u2014 0 hits: the library imports no real or rational numbers at all",
+   "grep -ril 'Rmult' --include='*.v' . \u2014 0 hits",
+   "grep -ril 'ordered monoid' / 'OrderedMonoid' / 'monoidal preorder' / 'quantale' --include='*.v' . \u2014 0 hits each: no 'an ordered commutative monoid is a symmetric monoidal preorder' construction",
+   "grep -rn 'PeanoNat\\|Nat.le\\|le_preorder' --include='*.v' . \u2014 the arithmetic preorders that DO exist (Instance/Proset.v:48 LessThanEqualTo_Category := Proset nat le; Instance/Poset.v:121; Instance/Omega.v:72 Omega over le_t) carry NO monoidal structure; grep -rn 'Monoidal' Instance/Omega.v Instance/Proset.v Instance/Poset.v \u2014 0 hits",
+   "grep -rn 'Monoidal' --include='*.v' Instance/ | grep -i 'omega|proset|poset|two' \u2014 the only monoidal preorder in-tree is _2 (Two_Monoidal), whose tensor is the MEET and whose unit is the TOP/terminal object; the book's additive, non-cartesian example (unit not terminal, tensor not a meet) has no in-tree counterpart",
+   "note: ([0,\u221e],\u2265,+) is named as motivation only in prose (Construction/Enriched.v:75, Instance/Poset.v:75, Instance/Two.v:71, Theory/Profunctor.v:100) and is never constructed"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT before reading the record. My independent searches: rg -i 'real number|Rle|Reals|Rmult|Rplus|QArith' over *.v -> no arithmetic-of-reals hits at all (only Instance/ZX.v:178 prose about 'a real number modulo 2pi'); rg 'Monoidal' over Instance/{Omega,Proset,Poset}.v -> 0 hits, so the three arithmetic preorders that DO exist (Proset nat le at Instance/Proset.v:47-48, Poset at Instance/Poset.v:116, Omega at Instance/Omega.v:72) carry no tensor. I also enumerated every @Monoidal base in the tree (see def2 notes): no numeric carrier appears, and the only thin one (_2) is cartesian with unit = terminal, so the record's key discriminator -- that no NON-cartesian monoidal preorder (unit not terminal, tensor not a meet) exists in-tree -- is correct. Its prose-only citations for ([0,inf],>=,+) at Construction/Enriched.v:75 and Instance/Poset.v:75 both check out. Not OUT_OF_SCOPE: (R,<=,0,+) is perfectly formalizable here (stdlib Reals + Instance/Proset.v), it is simply absent."
+  }
+ },
+ {
+  "id": "7sketches:2.2.1:ex5",
+  "classification": "ABSENT",
+  "aliases": [
+   "multiplication on R is not a monoidal product for \u2264",
+   "monotonicity failure of x*y under \u2264 (negative factors reverse order)",
+   "proposed tensor that is not a bifunctor",
+   "(R, \u2264, 1, \u00b7) is not a symmetric monoidal preorder",
+   "order-reversing / antitone binary operation"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rln 'Reals\\|Rle\\|Rplus\\|QArith\\|Qle' --include='*.v' . and grep -ril 'Rmult' \u2014 0 hits: the carrier R of the exercise does not exist in-tree",
+   "grep -rni 'monotonicity' --include='*.v' . \u2014 1 hit, Construction/PROP/Tietze.v:394 ('axiom-inclusion monotonicity'), unrelated",
+   "grep -rni 'not monotone' / 'order-reversing' --include='*.v' . \u2014 0 hits; grep -rni 'antitone' \u2014 2 hits (Theory/Adjunction.v, Instance/Poset.v), both prose about Galois connections",
+   "grep -rni 'counterexample\\|countermodel\\|non-example' --include='*.v' . \u2014 5 hits (Construction/Indexed.v:59, Construction/Funny/Bifunctor.v:26, Structure/Terminal.v:79, Structure/Monoidal.v:74, Adjunction/GAFT.v:121); none is a proposed monoidal product refuted by failure of functoriality/monotonicity, and all are stated in prose rather than as in-tree refutations",
+   "no in-tree idiom exists for refuting a candidate structure: there is no 'not a Monoidal' / 'no such instance' statement anywhere in Structure/Monoidal/"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT. Confirmed independently: no reals (see example4 notes), and rg -i 'multiplication is not|negative number|not monotone|order-reversing' -> 0 hits. The record's sharpest and most useful observation -- that the library has NO idiom for refuting a candidate structure (no '~ Monoidal', no no-instance lemma anywhere in Structure/Monoidal/) -- I spot-checked by scanning the 5 counterexample/countermodel hits it lists; each is prose (Construction/Indexed.v:59, Construction/Funny/Bifunctor.v:26, Structure/Terminal.v:79, Structure/Monoidal.v:74, Adjunction/GAFT.v:121) and none refutes a proposed tensor. Note for Phase E: the closest in-tree PRECEDENT for a formal refutation is Test/Poset.v:163 asym_preorder_forces_empty (PreOrder + Asymmetric + an object -> False), i.e. the tree does know how to state 'this combination of order axioms is impossible' -- just never for a monoidal product."
+  }
+ },
+ {
+  "id": "7sketches:2.2.1:example6",
+  "classification": "PARTIAL",
+  "aliases": [
+   "monoid (M, *, e); commutative monoid",
+   "discrete preorder Disc_S (m \u2264 n iff m = n)",
+   "commutative monoid as a strict symmetric monoidal discrete category",
+   "delooping a commutative monoid into a monoidal preorder",
+   "DiscreteCat + Monoidal instance"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/CMon.v",
+    "line": 32,
+    "symbol": "CMonObject",
+    "intree_statement": "Record CMonObject := { cmon_setoid :> SetoidObject; cmon_zero : carrier cmon_setoid; cmon_plus : carrier cmon_setoid \u2192 carrier cmon_setoid \u2192 carrier cmon_setoid; cmon_plus_respects : Proper (equiv ==> equiv ==> equiv) cmon_plus; cmon_plus_assoc : \u2200 a b c, cmon_plus (cmon_plus a b) c \u2248 cmon_plus a (cmon_plus b c); cmon_plus_comm : \u2200 a b, cmon_plus a b \u2248 cmon_plus b a; cmon_plus_zero_l : \u2200 a, cmon_plus cmon_zero a \u2248 a }  (with Corollary cmon_plus_zero_r for the right unit) \u2014 exactly the book's (M,*,e) with associativity, both units and commutativity"
+   },
+   {
+    "file": "Instance/Discrete.v",
+    "line": 37,
+    "symbol": "DiscreteCat",
+    "intree_statement": "Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := {| obj := A; hom := fun x y => x = y; homset := fun x y => Morphism_equality x y; id := fun _ => eq_refl; compose := fun _ _ _ g f => eq_trans f g |}  \u2014 the discrete preorder on a set: m \u2264 n iff m = n, with Lemma DiscreteCat_Discrete (Instance/Discrete.v:65) certifying discreteness"
+   }
+  ],
+  "statement_record": {
+   "book": "Recalls the definition of a monoid (M,*,e) with m*e = m, e*m = m, (m*n)*p = m*(n*p), commutative when m*n = n*m; then claims that for a COMMUTATIVE monoid the discrete preorder Disc_M (m \u2264 n iff m = n) with unit e and product * is a symmetric monoidal preorder \u2014 monotonicity is automatic on a discrete preorder and (b),(c),(d) are exactly the monoid axioms plus commutativity.",
+   "intree": "Both halves exist separately: Record CMonObject is a set(oid)-level commutative monoid with unit, associativity, commutativity and both unit laws; Program Definition DiscreteCat A is the discrete preorder on A (hom x y := x = y). Structure/Monoid.v:124 Class MonoidObject additionally gives the internal (cartesian-monoidal) monoid.",
+   "strength_comparison": "in-tree-weaker: the two ingredients are present with the book's exact data, but the claim JOINING them \u2014 that (Disc_M, =, e, *) satisfies Definition 2.2 \u2014 is not stated anywhere; there is no Monoidal instance on any discrete category. Also a presentational mismatch: CMonObject's laws hold up to the carrier setoid's \u2248, whereas DiscreteCat's homs are Leibniz equalities, so the identification of 'the discrete preorder on M' needs a choice (setoid equality vs =) that no in-tree file makes."
+  },
+  "gap": "No Monoidal (let alone StrictMonoidal/SymmetricMonoidal) structure is built on DiscreteCat A from a monoid: grep shows DiscreteCat is used only for discrete diagrams (Structure/Limit/Product.v, Theory/WeaklyInitial.v) and never as a monoidal base. Two concrete missing ingredients: (i) the tensor bifunctor needs a comparison DiscreteCat (A * A) \u2245 DiscreteCat A \u220f DiscreteCat A (or a direct bifunctor construction), which does not exist in-tree \u2014 DiscreteCat_Functor only handles a single discrete source; (ii) clause 2.2(d) would be the object equality m * n = n * m, for which StrictMonoidal has no field.",
+  "negative_search_log": [
+   "grep -rn 'DiscreteCat' --include='*.v' . \u2014 6 files, all diagram/limit uses; no monoidal structure",
+   "grep -rn 'Monoidal' Instance/Discrete.v Instance/CMon.v Instance/CMon/Biproduct.v \u2014 0 hits",
+   "grep -rni 'deloop\\|one-object' --include='*.v' . \u2014 Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY into a bicategory (the opposite direction); nothing turns a monoid into a monoidal structure on a discrete category"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL on exactly the two pillars the record cites: Instance/CMon.v:32 CMonObject (verified verbatim: cmon_plus_assoc, cmon_plus_comm, cmon_plus_zero_l, plus Corollary cmon_plus_zero_r at l.49) and Instance/Discrete.v:37 DiscreteCat with hom x y := x = y (verified; DiscreteCat_Discrete at l.65 confirmed). Structure/Monoid.v:124 Class MonoidObject verified. Confirmed the gap's two claims: rg 'DiscreteCat' shows only diagram/limit uses (Structure/Limit/Product.v, Theory/WeaklyInitial.v, Functor/Diagonal.v) and rg 'Monoidal' over Instance/{Discrete,CMon}.v -> 0 hits. The record's presentational catch (CMonObject's laws are setoid-\u2248 while DiscreteCat's homs are Leibniz =) is real and well spotted. EVIDENCE PHASE C MISSED (does not change PARTIAL, but sharpens it for Phase E): the one place in-tree where a commutative monoid IS the object-level tensor/unit of a strict symmetric monoidal category is the PROP class -- Construction/PROP.v:119-127 prop_of_nat / prop_unit_zero (I = prop_of_nat 0) / prop_tensor_plus (prop_of_nat m (tensor) prop_of_nat n = prop_of_nat (m + n)), with the analogous cprop_unit_nil / cprop_tensor_app at Construction/ColouredPROP.v:128,132. That is Example 2.6's clauses (b),(c) as STRICT OBJECT EQUALITIES for the monoid (nat,+,0); what is still missing is thinness/discreteness of the base and any field for clause (d). So the honest picture is 'strict monoidal structure whose object monoid is a commutative monoid EXISTS in-tree, just never over a discrete or thin base', which is a strictly smaller gap than the record describes."
+  }
+ },
+ {
+  "id": "7sketches:2.2.1:ex8",
+  "classification": "PARTIAL",
+  "aliases": [
+   "verify Definition 2.2(a)-(d) for (Disc_M, =, *, e)",
+   "monotonicity automatic on a discrete preorder",
+   "every function out of a discrete category is a functor",
+   "commutative monoid axioms as monoidal coherence",
+   "strict symmetric monoidal structure on a discrete category"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Discrete.v",
+    "line": 52,
+    "symbol": "DiscreteCat_Functor",
+    "intree_statement": "Program Definition DiscreteCat_Functor {A : Type} {C : Category} (f : A \u2192 C) : DiscreteCat A \u27f6 C := {| fobj := f; fmap := fun x y (e : x = y) => match e with eq_refl => id end |}  \u2014 the in-tree form of the exercise's clause (a): on a discrete source EVERY object assignment is automatically functorial (monotone), the functor laws being discharged because each hom is an equality proof"
+   },
+   {
+    "file": "Instance/CMon.v",
+    "line": 32,
+    "symbol": "CMonObject",
+    "intree_statement": "Record CMonObject := { ...; cmon_plus_assoc : \u2200 a b c, cmon_plus (cmon_plus a b) c \u2248 cmon_plus a (cmon_plus b c); cmon_plus_comm : \u2200 a b, cmon_plus a b \u2248 cmon_plus b a; cmon_plus_zero_l : \u2200 a, cmon_plus cmon_zero a \u2248 a }  plus Corollary cmon_plus_zero_r (Instance/CMon.v:49) \u2014 the checks the exercise asks for in clauses (b), (c), (d), available as proved laws"
+   }
+  ],
+  "statement_record": {
+   "book": "Verify the claim of Example 2.6: for a commutative monoid (M,*,e) the discrete preorder with unit e and product * satisfies Definition 2.2(a)-(d).",
+   "intree": "The two verification ingredients are in-tree as proved statements \u2014 DiscreteCat_Functor discharges functoriality/monotonicity out of a discrete category for an arbitrary object map, and CMonObject's fields (cmon_plus_assoc, cmon_plus_comm, cmon_plus_zero_l, cmon_plus_zero_r) are exactly clauses (b),(c),(d) \u2014 but they are never combined into a Monoidal/SymmetricMonoidal/StrictMonoidal instance on DiscreteCat M.",
+   "strength_comparison": "in-tree-weaker: the verification is not performed. Clause (a) is available only in the one-variable form (DiscreteCat_Functor takes f : A \u2192 C, not a two-variable operation into a product of discrete categories), and clauses (b),(c) would have to be re-stated as OBJECT equalities for StrictMonoidal, while (d) has no in-tree field to satisfy at all."
+  },
+  "gap": "The exercise's actual obligation \u2014 an instance witnessing that DiscreteCat M with e and * is a (strict, symmetric) monoidal preorder \u2014 is absent, and two pieces needed to discharge it are missing: a bifunctor DiscreteCat M \u220f DiscreteCat M \u27f6 DiscreteCat M (no DiscreteCat (A*B) \u2245 DiscreteCat A \u220f DiscreteCat B comparison exists in-tree), and an object-level commutativity field in StrictMonoidal for clause (d). Additionally CMonObject's laws are \u2248-laws over a setoid carrier while DiscreteCat's homs are Leibniz equalities, so the carrier must first be transported.",
+  "negative_search_log": [
+   "grep -rn 'DiscreteCat' --include='*.v' . \u2014 no monoidal use; grep -rn 'Monoidal' Instance/Discrete.v \u2014 0 hits",
+   "grep -rn 'DiscreteCat.*\u220f\\|Discrete.*Product' --include='*.v' . \u2014 no product-of-discrete-categories comparison",
+   "grep -rn 'strict_' Structure/Monoidal/Strict.v \u2014 strictness fields exist only for the associator and the two unitors; no strict braiding/commutativity field"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL/ABSENT and settles on PARTIAL: the record's two cited items are real and verified (Instance/Discrete.v:52 DiscreteCat_Functor -- every object map out of a discrete category is automatically functorial, the in-tree form of clause (a); Instance/CMon.v:32,49 supplying (b),(c),(d) as proved laws). Confirmed the gap's missing pieces: rg found no DiscreteCat (A*B) =~ DiscreteCat A (prod) DiscreteCat B comparison and no strict braiding/commutativity field in Structure/Monoidal/Strict.v (I read the whole class). Same PROP addendum as example6 applies (Construction/PROP.v:119-127): the object-level strictness equalities the verification would need already exist in one in-tree class, so filing work can copy that shape rather than inventing it. One caveat on the record's clause-(a) credit: DiscreteCat_Functor gives functoriality of a ONE-variable map, so it discharges 'monotone' only after the bifunctor is built -- the record says this explicitly, which I confirm is the honest framing rather than an overclaim."
+  }
+ },
+ {
+  "id": "7sketches:2.2.1:example9",
+  "classification": "ABSENT",
+  "aliases": [
+   "poker hands preorder (h \u2264 h' iff h' beats or ties h)",
+   "non-example of a symmetric monoidal preorder",
+   "monotonicity (Definition 2.2(a)) fails for a proposed product",
+   "best-five-from-ten operation is not monotone",
+   "proposed tensor that is not a bifunctor / must be checked"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -ril 'poker' --include='*.v' . \u2014 0 hits; grep -ril 'card' \u2014 45 files but every hit is 'cardinal(ity)'/'discard'/'wildcard', never playing cards",
+   "grep -rni 'counterexample\\|countermodel\\|non-example\\|nonexample' --include='*.v' . \u2014 5 hits: Construction/Indexed.v:59 (twist countermodel for indexed categories), Construction/Funny/Bifunctor.v:26 (I \u25a1 I \u2243 \u2124, in prose), Structure/Terminal.v:79, Structure/Monoidal.v:74, Adjunction/GAFT.v:121; none refutes a proposed monoidal product, and none is formalized as an in-tree negative statement",
+   "grep -rni 'monotonicity' --include='*.v' . \u2014 1 unrelated hit (Construction/PROP/Tietze.v:394)",
+   "no in-tree vocabulary exists for a NON-example of a structure class (no '~ Monoidal', no refutation lemmas in Structure/Monoidal/); the general lesson (monotonicity of \u2297 is a real condition, i.e. functoriality must be proved) is carried only by the obligation structure of Monoidal instances, not by any statement about a failing candidate"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. My searches: rg -i poker / lemon / meringue / egg / cook / recipe -> 0 relevant hits (every 'card' hit is cardinal/discard/wildcard, every 'pie' hit is 'copies'). I explicitly considered OUT_OF_SCOPE and agree with the classifier's rejection of it: a decidable poker-hand preorder with a best-five-of-ten operation is entirely formalizable in this setting (Instance/Proset.v over a decidable relation), so under the frozen definition this is ABSENT, not OUT_OF_SCOPE. The record's broader point -- that the tree has no vocabulary for a NON-example of a structure class -- matches my ex5 finding; the only in-tree precedent for a negative structural statement is Test/Poset.v:163 asym_preorder_forces_empty."
+  }
+ },
+ {
+  "id": "7sketches:2.2.2:def-valid-wiring-diagram",
+  "classification": "PARTIAL",
+  "aliases": [
+   "wiring diagram / string diagram over a monoidal category",
+   "valid diagram: \u2297 of left labels \u2264 \u2297 of right labels",
+   "labelled wires = list of objects; parallel wires = tensor; no wire = unit",
+   "free (coloured) PROP terms; CTerm; icons (box, wire, crossing)",
+   "tensor_list / tfold: fold of a list of labels"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/ColouredPROP/Signature.v",
+    "line": 139,
+    "symbol": "CTerm",
+    "intree_statement": "Inductive CTerm : list Colour -> list Colour -> Type := | CT_id (cs : list Colour) : CTerm cs cs | CT_braid (cs ds : list Colour) : CTerm (cs ++ ds) (ds ++ cs) | CT_comp {cs ds es} : CTerm ds es -> CTerm cs ds -> CTerm cs es | CT_tens {cs1 ds1 cs2 ds2} : CTerm cs1 ds1 -> CTerm cs2 ds2 -> CTerm (cs1 ++ cs2) (ds1 ++ ds2) | CT_gen {cs ds} : S cs ds -> CTerm cs ds  \u2014 a formal wiring diagram: left/right boundaries are LISTS OF LABELLED WIRES, generators are the boxes, CT_tens stacks wires in parallel (concatenation), CT_braid is the crossing icon, CT_id the bare wire, and CT_nothing := CT_id [] (line 181) the absence of wires"
+   },
+   {
+    "file": "Construction/ColouredPROP.v",
+    "line": 109,
+    "symbol": "ColouredPROP",
+    "intree_statement": "Class ColouredPROP : Type := { cprop_cat : Category; cprop_strict : @StrictMonoidal cprop_cat; cprop_symmetric : @SymmetricMonoidal cprop_cat; ...; cprop_of_list : list Colour -> @obj cprop_cat; cprop_unit_nil : @I cprop_cat (strict_is_monoidal cprop_strict) = cprop_of_list nil; cprop_tensor_app : forall (cs ds : list Colour), ((cprop_of_list cs) \u2a02 (cprop_of_list ds))%object = cprop_of_list (cs ++ ds) }  \u2014 exactly the book's two conventions, as STRICT object equalities: a stack of labelled wires denotes the monoidal product of its labels, and no wires denotes the unit"
+   },
+   {
+    "file": "Construction/ColouredPROP/Interp.v",
+    "line": 857,
+    "symbol": "cinterp",
+    "intree_statement": "Fixpoint cinterp {cs ds : list Colour} (t : CTerm S cs ds) : \u27e6cs\u27e7 ~{P}~> \u27e6ds\u27e7 := match t with | CT_id _ => id | CT_braid cs ds => cbraid_hom cs ds | CT_comp g f => cinterp g \u2218 cinterp f | CT_tens f g => cinterp f \u229ec cinterp g | CT_gen g => v _ _ g end  \u2014 the semantic content of validity: a diagram with input wires cs and output wires ds denotes a morphism from the tensor of the input labels to the tensor of the output labels (over a thin base, exactly the inequality \u2297cs \u2264 \u2297ds)"
+   }
+  ],
+  "statement_record": {
+   "book": "Over a monoidal preorder (X,\u2264,I,\u2297): a wiring diagram has parallel wires on the left and on the right, each labelled by an element of X, with a box between them; parallel wires labelled x and y denote x \u2297 y (in either bracketing), a wire labelled I and the total absence of wires both denote I, and the diagram is VALID iff the monoidal product of the left labels is \u2264 the monoidal product of the right labels (so the box x \u2192 y is valid iff x \u2264 y). Boxes, wires and crossings are the icons of the notation.",
+   "intree": "Inductive CTerm S : list Colour -> list Colour -> Type (boxes = CT_gen, wire = CT_id, crossing = CT_braid, parallel = CT_tens by list concatenation, series = CT_comp), with the label-fold conventions as the ColouredPROP fields cprop_unit_nil : I = cprop_of_list nil and cprop_tensor_app : cprop_of_list cs \u2a02 cprop_of_list ds = cprop_of_list (cs ++ ds), and cinterp t : \u27e6cs\u27e7 ~> \u27e6ds\u27e7 giving the assertion a diagram makes. The non-strict variant of the fold is Definition tensor_list xs := fold_right (\u2a02) I xs with tfold_app : tfold (\u0393 ++ \u0394) \u2245 tfold \u0393 \u2a02 tfold \u0394 (Theory/Multicategory/Representable.v:55,67,113).",
+   "strength_comparison": "in-tree-stronger in that diagrams are formal, machine-checked syntax with a semantics (not a notational convention), and the two label conventions hold as strict object equalities; in-tree-WEAKER on the item's defining clause: 'valid' is never defined, and the book's biconditional (diagram valid IFF one inequality holds) is not stated \u2014 in-tree a diagram is a proof-relevant term that PRODUCES a morphism, with no thin/preorder base where morphism-existence collapses to the inequality."
+  },
+  "gap": "Three precise gaps. (1) No validity predicate and no biconditional: nothing states 'the diagram with inputs cs and outputs ds is valid iff \u2297cs \u2264 \u2297ds'; over a general (non-thin) base that biconditional is false, and no thin instantiation of CTerm/ColouredPROP exists (the only thin monoidal category in-tree, _2, is never used as a PROP). (2) The in-tree language is inherently SYMMETRIC \u2014 CT_braid is a constructor and cprop_symmetric a field \u2014 whereas the book defines wiring diagrams over a not-necessarily-symmetric monoidal preorder and counts the crossing as an extra icon licensed only by axiom (d); there is no planar/crossing-free fragment. (3) Wires labelled I are not identified with absent wires at the level of diagrams: cprop_unit_nil identifies the empty LIST with I, but a colour whose object is I is not proved interchangeable with the empty list.",
+  "negative_search_log": [
+   "grep -rni 'wiring' --include='*.v' . \u2014 hits are all 'shared-record wiring' (build plumbing) plus Theory/DoubleCategory.v:155 prose; no wiring-diagram datatype under that name",
+   "grep -rni 'valid diagram' / 'validity' --include='*.v' . \u2014 0 hits",
+   "grep -rni 'graphical' --include='*.v' . \u2014 Instance/ZX.v:18, Structure/Monoidal/{Traced,CompactClosed}.v, ColouredPROP/TermEq.v:185 (Joyal\u2013Street/Selinger citations), all prose",
+   "grep -rn 'Monoidal' Instance/Two/Monoidal.v + grep -rn '_2' Construction/*PROP* \u2014 the thin category _2 is never instantiated as a (Coloured)PROP, so the preorder reading of validity is not realized anywhere"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL and found the same primary evidence (the CTerm diagram syntax and the list-fold conventions), plus Theory/Multicategory/Representable.v:55 tensor_list := fold_right (tensor) I and :113 tfold_app, which the record also cites in statement_record. All three evidence quotes verified verbatim: Construction/ColouredPROP/Signature.v:139-145 CTerm (CT_id / CT_braid / CT_comp / CT_tens / CT_gen exactly as quoted) with CT_nothing := CT_id [] at l.181; Construction/ColouredPROP.v:109-136 ColouredPROP with cprop_unit_nil (I = cprop_of_list nil) at l.128 and cprop_tensor_app at l.132; Construction/ColouredPROP/Interp.v:857-865 cinterp. All files in _CoqProject. The three gaps are each independently checkable and each held: (1) rg -i 'valid diagram|validity' -> 0 hits, and no thin base is ever fed to CTerm/ColouredPROP (I re-ran rg 'Two_Monoidal|Proset|Instance.Two' over every Construction/PROP*.v and Construction/ColouredPROP*.v file: 0 hits); (2) CT_braid is a CONSTRUCTOR and cprop_symmetric a FIELD, so the book's non-symmetric monoidal-preorder diagram language genuinely has no in-tree fragment -- this is the subtlest and best of the three gaps; (3) the I-labelled-wire vs no-wire identification is indeed only at the empty-list level. strength_comparison's 'stronger as machine-checked syntax, weaker on the defining biconditional' is honest."
+  }
+ },
+ {
+  "id": "7sketches:2.2.2:example14",
+  "classification": "ABSENT",
+  "aliases": [
+   "wiring diagrams over (R, \u2264, 0, +)",
+   "parallel wires add their labels (3.14 and -1 in parallel = 2.14)",
+   "a wire labelled 0 is equivalent to no wire",
+   "valid box 4 \u2264 7; box with inputs 2,5 and outputs -1,5,3",
+   "diagrams in an additive/arithmetic monoidal preorder"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rln 'Reals\\|Rle\\|Rplus\\|QArith\\|Qle' --include='*.v' . and grep -ril 'Rmult' \u2014 0 hits: the ambient monoidal preorder (R,\u2264,0,+) of this example does not exist in-tree (see 7sketches:2.2.1:example4)",
+   "grep -rn 'Monoidal' Instance/Omega.v Instance/Proset.v Instance/Poset.v \u2014 0 hits: no arithmetic preorder carries a monoidal structure, so no diagram can be drawn over one",
+   "grep -rn '_2\\|Two_Monoidal' Construction/PROP/*.v Construction/ColouredPROP/*.v \u2014 0 hits: the diagram language (CTerm / ColouredPROP) is never instantiated over ANY preorder, so even the qualitative content 'parallel wires combine by the tensor, a unit-labelled wire is no wire' is unavailable in a preorder instance",
+   "note: the generic conventions themselves DO exist and are credited to 7sketches:2.2.2:def-valid-wiring-diagram (cprop_unit_nil / cprop_tensor_app, Construction/ColouredPROP.v:109; tensor_list / tfold_app, Theory/Multicategory/Representable.v:55,113); what is absent is this example's distinctive content \u2014 an arithmetic monoidal preorder and the two valid boxes over it"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT. Confirmed the two hard absences independently: no reals of any kind, and no monoidal structure on any arithmetic preorder (rg 'Monoidal' over Instance/{Omega,Proset,Poset}.v -> 0 hits; the full @Monoidal base enumeration contains no numeric carrier). The record's own note correctly redirects the GENERIC conventions ('parallel wires combine by the tensor, a unit-labelled wire is no wire') to def-valid-wiring-diagram rather than double-crediting them here, and its citations there (cprop_unit_nil/cprop_tensor_app, tensor_list/tfold_app) are accurate. PARITY NOTE for the batch owner, not a defect in this record: this no-double-crediting policy is applied to example4/ex5/example9/example14 but relaxed for example19, which is graded PARTIAL on the generic mechanism belonging to construction-graphical-proof. A stricter reading would make example19 ABSENT; a looser one would make this record PARTIAL on the generic-conventions evidence. I let both stand because each record states its gap precisely and neither misdescribes the tree, but the two should be framed consistently if Phase E merges them into one issue."
+  }
+ },
+ {
+  "id": "7sketches:2.2.2:construction-graphical-proof",
+  "classification": "PARTIAL",
+  "aliases": [
+   "wiring diagrams as graphical proofs; soundness of the graphical calculus",
+   "interior boxes imply exterior box (diagram denotes an implication)",
+   "vertical slices chained by transitivity; monotonicity per slice",
+   "interpretation of free-PROP terms under a valuation (cinterp / InterpF)",
+   "reflexivity = identity wire, transitivity = series composition"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/ColouredPROP/Universal.v",
+    "line": 170,
+    "symbol": "CInterpF",
+    "intree_statement": "Definition CInterpF : CFreeCat S \u27f6 P  (with Definition CInterpF_Strict (line 436) : StrictMonoidalFunctor ... and Definition CInterpF_Symmetric (line 568) : @SymmetricMonoidalFunctor (CFreeCat S) P (CFreeCat_Symmetric S Cdec) (cprop_symmetric P) CInterpF)  \u2014 soundness of the graphical calculus: a valuation of the interior boxes extends along every diagram to a strict symmetric monoidal functor, so the assertion the exterior box makes follows from the assertions the interior boxes make"
+   },
+   {
+    "file": "Construction/ColouredPROP/Interp.v",
+    "line": 857,
+    "symbol": "cinterp",
+    "intree_statement": "Fixpoint cinterp {cs ds : list Colour} (t : CTerm S cs ds) : \u27e6cs\u27e7 ~{P}~> \u27e6ds\u27e7 := match t with | CT_id _ => id | CT_braid cs ds => cbraid_hom cs ds | CT_comp g f => cinterp g \u2218 cinterp f | CT_tens f g => cinterp f \u229ec cinterp g | CT_gen g => v _ _ g end  (with Definition CValuation : Type := \u2200 cs ds, S cs ds \u2192 (\u27e6cs\u27e7 ~{P}~> \u27e6ds\u27e7), line 845)  \u2014 the book's slice-by-slice construction, one clause per rule: CT_tens is the monotonicity step, CT_comp the transitivity step, CT_id reflexivity, CT_braid the symmetry step, CT_gen the interior-box hypothesis"
+   },
+   {
+    "file": "Construction/ColouredPROP/Universal.v",
+    "line": 648,
+    "symbol": "cinterp_unique",
+    "intree_statement": "Theorem cinterp_unique : \u2200 cs ds (t : CTerm S cs ds), fmap[G] t \u2248 hom_cast (eq_sym (Hobj cs)) (eq_sym (Hobj ds)) (cinterp P S v t)  \u2014 the graphical reading is the ONLY one: any strict symmetric monoidal G agreeing with the valuation on generators agrees with the diagram interpretation on every diagram"
+   },
+   {
+    "file": "Theory/Category.v",
+    "line": 282,
+    "symbol": "hom_preorder",
+    "intree_statement": "Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := { PreOrder_Reflexive := fun _ => id; PreOrder_Transitive := fun _ _ _ f g => g \u2218 f }  \u2014 the exact correspondence the construction rests on: reflexivity is the bare wire (id) and transitivity is wiring boxes in series (composition)"
+   }
+  ],
+  "statement_record": {
+   "book": "Over a monoidal preorder X, a wiring diagram is read as a proof: each box with left side x and right side y asserts x \u2264 y, and a diagram of interior boxes wired inside an exterior box asserts the implication 'if all interior assertions hold then the exterior assertion holds'. The encoded proof is obtained by taking successive vertical slices \u2014 each slice one inequality justified by monotonicity applied to the boxes and identity wires it cuts \u2014 and chaining the slices by transitivity; reflexivity licenses a bare wire, and a crossing-free diagram needs no appeal to symmetry.",
+   "intree": "cinterp turns any diagram (CTerm) into a morphism \u27e6cs\u27e7 ~> \u27e6ds\u27e7 from a CValuation of the generators, by exactly the book's clauses (tensor = monotonicity, composition = transitivity, identity = reflexivity, braid = symmetry); CInterpF packages it as a strict symmetric monoidal functor CFreeCat S \u27f6 P (soundness) and cinterp_unique pins it uniquely; hom_preorder records that a category's hom relation is a preorder with id for reflexivity and \u2218 for transitivity.",
+   "strength_comparison": "in-tree-stronger in generality and rigour (the construction is a machine-checked functor into an ARBITRARY strict symmetric monoidal target, with a uniqueness theorem, rather than an informal reading), but in-tree-weaker on the item's specific reading: the target is required to be a coloured PROP (strict symmetric monoidal with a list-of-labels object correspondence) and is never a preorder, so 'a diagram proves an inequality from inequalities' is never stated; the slice/transitivity structure appears only as the recursion of cinterp, not as a soundness statement about chains of \u2264."
+  },
+  "gap": "(1) No thin/preorder instantiation: the graphical-proof reading over a monoidal preorder (where a morphism IS the inequality, so the diagram literally proves an implication between inequalities) is never stated \u2014 the machinery is exercised only over genuine (proof-relevant) PROPs. (2) The symmetry-free case the item highlights is inexpressible: CT_braid is a CTerm constructor and cprop_symmetric a ColouredPROP field, so there is no non-symmetric monoidal diagram language in which one could observe that a crossing-free diagram needs no appeal to axiom (d). (3) The worked instance (t \u2264 v \u2297 w, w \u2297 u \u2264 x \u2297 z, v \u2297 x \u2264 y implies t \u2297 u \u2264 y \u2297 z) is not derived anywhere; cf. 7sketches:2.2.2:ex20.",
+  "negative_search_log": [
+   "grep -rni 'graphical proof' / 'vertical slice' / 'validity' --include='*.v' . \u2014 0 hits",
+   "grep -rn '_2\\|Two_Monoidal\\|Proset' Construction/ColouredPROP/*.v Construction/PROP/*.v \u2014 0 hits: no thin target is ever used"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL on the same insight the record builds on -- that the book's three derivation rules already have exact in-tree carriers: reflexivity = id and transitivity = composition (Theory/Category.v:282 hom_preorder, verified verbatim, including the comment at ll.276-284 that a category's objects carry an underlying preorder), and monotonicity = the tensor bifunctor's action (Functor/Bifunctor.v:38 bimap, with bimap_comp at l.68 the middle-four interchange that licenses vertical slicing). The record goes further than my blind pass by citing the soundness/uniqueness package, which I verified: Construction/ColouredPROP/Universal.v:170 CInterpF (built via Build_Functor with cinterp_sound at l.174), :436 CInterpF_Strict, :568 CInterpF_Symmetric, :648 Theorem cinterp_unique (quote exact, including the hom_cast conjugation), and Construction/ColouredPROP/Interp.v:845 CValuation. All in _CoqProject. Gap (2) is the strongest content of the record and I confirm it: since CT_braid is a constructor and cprop_symmetric a field, the item's punchline -- a crossing-free diagram needs no appeal to axiom (d) -- is literally inexpressible in the in-tree language, not merely unproved."
+  }
+ },
+ {
+  "id": "7sketches:2.2.2:example19",
+  "classification": "ABSENT",
+  "aliases": [
+   "lemon meringue pie diagram read as a proof",
+   "resource theory / material-transformation monoidal preorder",
+   "five interior boxes imply one exterior box",
+   "valuation of generators extended along a diagram (cinterp / CValuation)",
+   "recipe as a composite of generating steps"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/ColouredPROP/Interp.v",
+    "line": 857,
+    "symbol": "cinterp",
+    "intree_statement": "Fixpoint cinterp {cs ds : list Colour} (t : CTerm S cs ds) : \u27e6cs\u27e7 ~{P}~> \u27e6ds\u27e7 := ... | CT_comp g f => cinterp g \u2218 cinterp f | CT_tens f g => cinterp f \u229ec cinterp g | CT_gen g => v _ _ g  (with Definition CValuation : Type := \u2200 cs ds, S cs ds \u2192 (\u27e6cs\u27e7 ~{P}~> \u27e6ds\u27e7), line 845)  \u2014 the exact implication this example draws: GIVEN an assertion for each interior box (the valuation of the five generators), a diagram built from them yields the exterior assertion, here \u27e6crust, lemon, butter, sugar, egg\u27e7 ~> \u27e6unbaked pie\u27e7"
+   },
+   {
+    "file": "Construction/ColouredPROP/Universal.v",
+    "line": 170,
+    "symbol": "CInterpF",
+    "intree_statement": "Definition CInterpF : CFreeCat S \u27f6 P  (with CInterpF_Symmetric, line 568, a SymmetricMonoidalFunctor) \u2014 the implication holds functorially and independently of how the recipe diagram is decomposed into steps"
+   }
+  ],
+  "statement_record": {
+   "book": "The recipe wiring diagram of display (2.1) is a graphical proof: five interior boxes (separate egg, make lemon filling, make meringue, fill crust, add meringue), each asserting that the resources on its left can be transformed into those on its right, and one exterior box (prepare lemon meringue pie); the diagram proves that if every interior transformation is available then the exterior one is, i.e. from crust, lemon, butter, sugar and egg one obtains an unbaked pie.",
+   "intree": "cinterp with a CValuation is precisely this implication in general form: a valuation supplies one morphism per generator (interior box) and cinterp extends it along the diagram to a morphism between the tensor-folds of the outer boundaries (exterior box); CInterpF makes the extension a strict symmetric monoidal functor out of the free diagram category.",
+   "strength_comparison": "in-tree-stronger as a general mechanism (arbitrary signature, arbitrary strict symmetric monoidal target, machine-checked), in-tree-weaker as an example: no resource-transformation preorder is defined, so the concrete five-generator recipe signature, its diagram, and the resulting availability implication are nowhere exhibited, and in a non-thin target the conclusion is a chosen morphism rather than the bare assertion 'the transformation is available'."
+  },
+  "gap": "No concrete monoidal preorder of resources (ingredients ordered by availability/transformability) exists in-tree, hence no instance of this example: the in-tree worked diagram-as-derivation instances (Construction/PROP/Tietze.v Example ext_definition_holds:716; Instance/ZX.v) live in proof-relevant PROPs where a diagram denotes a MORPHISM, not an implication between availability assertions. Filing work would need: a small resource signature (5 generators), the composite diagram, and either a thin target or the explicit statement that the composite morphism exists.",
+  "negative_search_log": [
+   "grep -rni 'resource theory\\|resource-theor\\|recipe' --include='*.v' . \u2014 only unrelated prose uses of 'recipe' (a construction pattern), no resource preorder",
+   "grep -rni 'pie\\|ingredient\\|egg' --include='*.v' . \u2014 0 relevant hits",
+   "grep -rn '_2\\|Two_Monoidal\\|Proset' Construction/ColouredPROP/*.v \u2014 0 hits: no thin target instance"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT; on review I let PARTIAL stand, because under the frozen definition ('some of the item exists') the item's mathematical content -- given an assertion per interior box, a diagram built from them yields the exterior assertion -- IS in-tree in general form, and both cited items are real and verified (Construction/ColouredPROP/Interp.v:845,857 CValuation/cinterp; Construction/ColouredPROP/Universal.v:170,568 CInterpF/CInterpF_Symmetric). The gap is honest and its 'filing work would need' list is concrete. RESERVATION, recorded rather than acted on: this PARTIAL is earned entirely by the general mechanism that is the content of the PRECEDING item (construction-graphical-proof), so it is a double credit, and the batch applies the opposite (stricter) policy to example4/ex5/example9/example14, all graded ABSENT with the generic machinery redirected to their parent item. Everything distinctive to Example 2.19 -- a resource/availability monoidal preorder, the five-generator recipe signature, the pie diagram -- is absent, which I confirmed independently (rg -i 'resource theor|recipe|ingredient|egg|lemon|meringue|pie' -> 0 relevant hits; resource theories appear only as prose citation at Structure/Monoidal/Symmetric.v:84-87). If Phase E grades examples uniformly, this record and example14 must move together; I did not overturn because both gap texts are accurate and the downstream issue framing ('instantiate existing machinery' vs 'no counterpart') is the same either way. The record's cited in-tree worked-diagram precedent Construction/PROP/Tietze.v:716 Example ext_definition_holds was verified and is a genuine precedent. [RECLASSIFIED PARTIAL->ABSENT on fess-7s2 adjudication. The verifier itself flagged this as a DOUBLE CREDIT \u2014 example19's PARTIAL was earned entirely by the general graphical-proof mechanism that is the content of the PRECEDING item, not by anything distinctive to example19 \u2014 and said example14 must move with it. The auditor read printed p.47 and confirmed the two have identical shape, and that the stricter no-double-crediting policy (used for example4/ex5/example9/example14) is the right one: PARTIAL must mean part of THIS item's distinctive content exists. Crediting an item for its parent's mechanism counts one in-tree asset twice and inflates coverage. Chapter PARTIAL/ABSENT moves 40/40 -> 39/41; the downstream issue framing is unchanged, so no filed issue needed editing.]"
+  }
+ },
+ {
+  "id": "7sketches:2.2.2:ex20",
+  "classification": "PARTIAL",
+  "aliases": [
+   "formal derivation t \u2297 u \u2264 y \u2297 z from t \u2264 v \u2297 w, w \u2297 u \u2264 x \u2297 z, v \u2297 x \u2264 y",
+   "there is no element v+w+u, only (v+w)+u and v+(w+u) (bracketing / associator)",
+   "where reflexivity and transitivity of the preorder are used",
+   "monotonicity + interchange (bimap_comp) as the slice rule",
+   "symmetry axiom (d) unnecessary for a crossing-free diagram"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Category.v",
+    "line": 282,
+    "symbol": "hom_preorder",
+    "intree_statement": "Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := { PreOrder_Reflexive := fun _ => id; PreOrder_Transitive := fun _ _ _ f g => g \u2218 f }  \u2014 part (2) of the exercise, in-tree: reflexivity IS the identity (the bare wire) and transitivity IS composition (boxes in series)"
+   },
+   {
+    "file": "Functor/Bifunctor.v",
+    "line": 68,
+    "symbol": "bimap_comp",
+    "intree_statement": "Lemma bimap_comp {F : C \u220f D \u27f6 E} {x y z w u v} (f : y ~> z) (h : x ~> y) (g : v ~> w) (i : u ~> v) : bimap (f \u2218 h) (g \u2218 i) \u2248 bimap f g \u2218 bimap h i  \u2014 the middle-four interchange: the rule that lets a wiring diagram be cut into vertical slices, each slice a monotonicity step (bimap) and the slices chained by transitivity (\u2218)"
+   },
+   {
+    "file": "Structure/Monoidal.v",
+    "line": 132,
+    "symbol": "Monoidal (tensor_assoc)",
+    "intree_statement": "tensor_assoc {x y z} : (x \u2a02 y) \u2a02 z \u2245 x \u2a02 (y \u2a02 z)  (with to_tensor_assoc_natural and pentagon_identity)  \u2014 the exercise's opening observation: there is no unbracketed threefold product, only the two bracketings related by the associator, which in the strict case is the object equality strict_assoc_obj (Structure/Monoidal/Strict.v:56)"
+   }
+  ],
+  "statement_record": {
+   "book": "Note that the chain t + u \u2264 v + w + u \u2264 v + x + z \u2264 y + z is not literally a proof, since there is no element v + w + u, only (v+w)+u and v+(w+u). (1) Prove formally from Definition 2.2 alone that t \u2264 v \u2297 w, w \u2297 u \u2264 x \u2297 z and v \u2297 x \u2264 y entail t \u2297 u \u2264 y \u2297 z; (2) make explicit where reflexivity and where transitivity are used; (3) explain how the diagram of (2.12) shows that the symmetry axiom 2.2(d) need not be invoked.",
+   "intree": "All the rules the derivation needs are in-tree as proved statements: hom_preorder (reflexivity = id, transitivity = \u2218), bimap / bimap_comp (monotonicity of the tensor and the interchange that composes slices), tensor_assoc with pentagon (rebracketing) and StrictMonoidal's strict_assoc_obj (the strict case), and the class stratification separates Monoidal from SymmetricMonoidal so a derivation using only Monoidal provably avoids axiom (d).",
+   "strength_comparison": "in-tree-stronger on the rule kit (the bracketing subtlety the exercise raises is built into the library from the start: the associator is explicit data, and strictness is a separate opt-in class), in-tree-weaker on the exercise itself: the specific entailment is not derived anywhere, and no in-tree statement audits WHICH axioms a given derivation consumes."
+  },
+  "gap": "(1) The concrete entailment (t \u2264 v \u2297 w, w \u2297 u \u2264 x \u2297 z, v \u2297 x \u2264 y implies t \u2297 u \u2264 y \u2297 z) is not proved in-tree, in either the monoidal-category form (a composite of bimaps and associators) or the preorder form. (2) Part (3) is inexpressible: the library's diagram language is symmetric-only (CT_braid is a CTerm constructor, cprop_symmetric a ColouredPROP field), so there is no crossing-free fragment in which 'this diagram needs no crossing, hence no appeal to (d)' can be observed; the only in-tree trace of the point is that Class Monoidal is independent of Class SymmetricMonoidal. (3) Mac Lane coherence, which would justify suppressing brackets in such chains, is cited (Structure/Monoidal.v:43) but not proved.",
+  "negative_search_log": [
+   "grep -rn 'Lemma\\|Theorem\\|Proposition' Structure/Monoidal/Proofs.v \u2014 13 results, all coherence lemmas (triangle_identity_left/right, inverse_pentagon_identity, bimap_id_unit_left, unit_identity); none is a multi-hypothesis chaining derivation of the exercise's shape",
+   "grep -rni 'vertical slice' / 'graphical proof' --include='*.v' . \u2014 0 hits",
+   "grep -rni 'strictif' --include='*.v' . \u2014 no monoidal coherence/strictification theorem, so bracket suppression is never licensed in-tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL/ABSENT and settles on PARTIAL: the rule kit really is all present and proved, and the three citations are verified verbatim -- Theory/Category.v:282 hom_preorder (parts of task (2): reflexivity = id, transitivity = compose), Functor/Bifunctor.v:68 bimap_comp (the slicing rule, quote exact including the {x y z w u v} binders), Structure/Monoidal.v:132 tensor_assoc with Structure/Monoidal/Strict.v:56 strict_assoc_obj for the strict case -- which is exactly the exercise's opening observation that there is no unbracketed threefold product. I independently verified the negative log's most checkable claim: Structure/Monoidal/Proofs.v has exactly 13 Lemma/Theorem/Proposition/Corollary declarations (tensor_id_left_inj, tensor_id_right_inj, id_unit_left, id_unit_right, bimap_id_unit_left, triangle_identity_left/right, inverse_triangle_identity, inverse_pentagon_identity, bimap_unit_right_id, bimap_triangle_left/right, unit_identity) and none is a multi-hypothesis chaining derivation of the exercise's shape. Gap item (2) -- that task (3) is inexpressible because the diagram language is symmetric-only -- is the same true observation as in construction-graphical-proof and def-valid-wiring-diagram; the three records agree, which is the correct outcome, not redundancy."
+  }
+ }
+]

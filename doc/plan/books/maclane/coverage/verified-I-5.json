@@ -1,0 +1,539 @@
+[
+  {
+    "id": "maclane:I.5:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "invertible arrow",
+      "isomorphism",
+      "Isomorphism / IsIsomorphism",
+      "two_sided_inverse",
+      "inverse unique / comp_inverse_unique",
+      "iso_compose (anti-homomorphism of inverses)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 113,
+        "symbol": "Isomorphism",
+        "intree_statement": "Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }."
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 133,
+        "symbol": "IsIsomorphism",
+        "intree_statement": "Class IsIsomorphism {x y : C} (f : x ~> y) := { two_sided_inverse : y ~> x; is_right_inverse : f ∘ two_sided_inverse ≈ id; is_left_inverse : two_sided_inverse ∘ f ≈ id }."
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 301,
+        "symbol": "comp_inverse_unique",
+        "intree_statement": "Lemma comp_inverse_unique {C : Category} {x y : C} (f : x ~> y) (g g' : y ~> x) : f ∘ g ≈ id[y] -> g' ∘ f ≈ id[x] -> g ≈ g'."
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 166,
+        "symbol": "iso_compose",
+        "intree_statement": "Program Definition iso_compose {x y z : C} `(f : y ≅ z) `(g : x ≅ y) : x ≅ z := {| to := to f ∘ to g; from := from g ∘ from f |}."
+      }
+    ],
+    "statement_record": {
+      "book": "e : a -> b is invertible when there is e' : b -> a with e' e = 1_a and e e' = 1_b; e' is unique when it exists (written e^{-1}); and (e1 e2)^{-1} = e2^{-1} e1^{-1} when the composite is defined and both factors invertible.",
+      "intree": "Class Isomorphism packages to/from with iso_to_from and iso_from_to (both laws under ≈); IsIsomorphism is the single-morphism predicate form; comp_inverse_unique proves a right inverse and a left inverse of the same f agree (whence uniqueness of two-sided inverses, also to_equiv_implies_iso_equiv at line 317); iso_compose realizes the composite iso with inverse from g ∘ from f, the reversed-order law as definitional content.",
+      "strength_comparison": "same — setoid rephrasing with ≈; the reversed-inverse law is carried as the definition of iso_compose (its from-component) plus uniqueness of inverses rather than as a standalone equation, which is the same content up to presentation."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found identical evidence: Theory/Isomorphism.v Isomorphism:113, IsIsomorphism:133, iso_compose:166 (from-component = from g ∘ from f, the reversed-inverse law), comp_inverse_unique:301, to_equiv_implies_iso_equiv:317. All quotes re-read and accurate; file registered in _CoqProject:444. strength_comparison honest: the anti-homomorphism law is definitional content of iso_compose plus inverse uniqueness, same substance."
+    }
+  },
+  {
+    "id": "maclane:I.5:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "isomorphic objects",
+      "iso relation on objects",
+      "≅ equivalence relation",
+      "iso_equivalence",
+      "ob_setoid / objects up to iso"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 187,
+        "symbol": "iso_equivalence",
+        "intree_statement": "#[export] Program Instance iso_equivalence : Equivalence Isomorphism := { Equivalence_Reflexive := @iso_id; Equivalence_Symmetric := @iso_sym; Equivalence_Transitive := fun _ _ _ g f => iso_compose f g }."
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 195,
+        "symbol": "ob_setoid",
+        "intree_statement": "#[export] Instance ob_setoid : Setoid C := {| equiv := Isomorphism ; setoid_equiv := iso_equivalence |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Objects a, b are isomorphic (a ≅ b) when an invertible arrow a -> b exists; the isomorphism relation is reflexive, symmetric, and transitive.",
+      "intree": "The relation is the type x ≅ y (Isomorphism x y) itself; iso_equivalence proves it an Equivalence via iso_id / iso_sym / iso_compose, and ob_setoid records the objects of C as a setoid under ≅.",
+      "strength_comparison": "intree-stronger: the relation is proof-relevant (a specific iso, per the file's Mazur discussion) and additionally packaged as a Setoid on objects; the book's existence form follows by truncation."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same: iso_equivalence at Theory/Isomorphism.v:187 (Reflexive=iso_id, Symmetric=iso_sym, Transitive=iso_compose), ob_equiv:193/ob_setoid:195. Quotes accurate. The proof-relevant-relation reading in strength_comparison is fair (matches the file's own Mazur discussion)."
+    }
+  },
+  {
+    "id": "maclane:I.5:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "monic arrow",
+      "monomorphism / Monic",
+      "left cancellable",
+      "injective in Set (injectivity_is_monic)",
+      "mono"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 116,
+        "symbol": "Monic",
+        "intree_statement": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 369,
+        "symbol": "injectivity_is_monic",
+        "intree_statement": "Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f."
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 334,
+        "symbol": "finset_monic_iff_injective (FinSet analogue)",
+        "intree_statement": "Lemma finset_monic_iff_injective {m n : nat} (f : m ~{FinSet}~> n) : (∀ a b : Fin.t m, f a = f b → a = b) ↔ Monic f."
+      }
+    ],
+    "statement_record": {
+      "book": "m : a -> b is monic when m f1 = m f2 implies f1 = f2 for parallel f1, f2 : d -> a (left cancellable); noted: in Set and in Grp the monics are exactly the injections.",
+      "intree": "Class Monic states left cancellation under ≈; injectivity_is_monic proves the Set characterization in BOTH directions for the library's Sets (setoids), with a FinSet counterpart in Instance/FinSet/Classifier.v.",
+      "strength_comparison": "same for the definition and the Set aside; the Grp half of the aside has no in-tree counterpart because no category of groups exists in the library (checked: no Grp instance under Instance/), so that noted example is unstatable rather than weakened."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Monic (Theory/Morphisms.v:116) and injectivity_is_monic (Instance/Sets.v:369, both directions, probe = unit_setoid_object) independently. CORRECTED the third evidence entry: the FinSet lemma is named finset_monic_iff_injective at Instance/FinSet/Classifier.v:334, not 'fin_monic_iff_injective' at 336 (statement quote was accurate). Verified no Grp/group-category instance exists (ls Instance/ - only CMon; Structure/Group.v is group OBJECTS in a cartesian category), so the Grp aside is indeed unstatable. Classification stands."
+    }
+  },
+  {
+    "id": "maclane:I.5:def4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "epi arrow",
+      "epimorphism / Epic",
+      "right cancellable",
+      "surjective in Set (surjectivity_is_epic)",
+      "epi"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 104,
+        "symbol": "Epic",
+        "intree_statement": "Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 429,
+        "symbol": "surjectivity_is_epic (Aborted)",
+        "intree_statement": "Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}} (h : A ~{Sets}~> B) : (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h.  (* ends in Abort. at line 476 — does not enter the environment *)"
+      }
+    ],
+    "statement_record": {
+      "book": "h : a -> b is epi when g1 h = g2 h implies g1 = g2 for g1, g2 : b -> c (right cancellable); noted: in Set the epis are exactly the surjections.",
+      "intree": "Class Epic states right cancellation under ≈, exactly the book's definition. The noted Set characterization is stated as surjectivity_is_epic in Instance/Sets.v but the proof is abandoned with Abort (the file's own comment: the reverse direction hits a size obstruction — the truth-value setoid lives one universe up — and 'nothing downstream relies on it'); cross-universe classifier substitutes live in Instance/Sets/Classifier.v.",
+      "strength_comparison": "intree-weaker: the definition proper is identical, but the item's noted 'in Set epi = surjective' has no in-environment counterpart in either direction (the lemma is Aborted, so even the easy surjective→epic half is absent)."
+    },
+    "gap": "The epi ⟺ surjective characterization for the library's Sets: surjectivity_is_epic (Instance/Sets.v:429) is stated then Aborted; neither direction is in the environment. The surjective→epic direction has no size obstruction and could be salvaged as a standalone lemma; the epic→surjective direction needs the cross-universe classifier route documented at Instance/Sets.v:412–428 and Instance/Sets/Classifier.v. No FinSet epi characterization exists either (FinSet has only the monic one).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same and independently verified the load-bearing honesty claim: surjectivity_is_epic (Instance/Sets.v:429) terminates in 'Abort.' at line 476, so NEITHER direction enters the environment; the file's own comment (lines 412-428) documents the size obstruction and points to Instance/Sets/Classifier.v. Also confirmed rg -i 'epic|surject' over Instance/FinSet/*.v: 0 hits, so the gap's 'no FinSet epi characterization' claim holds. PARTIAL (definition exact, the book's noted Set characterization absent as a theorem) is the right call and the gap is precise."
+    }
+  },
+  {
+    "id": "maclane:I.5:def5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "section / right inverse",
+      "retraction / left inverse",
+      "split epi / split mono (SplitEpi, SplitMono, Retraction, Section)",
+      "right inverse implies epi (retractions_are_epic)",
+      "left inverse implies monic (sections_are_monic)",
+      "h g idempotent"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 56,
+        "symbol": "Section",
+        "intree_statement": "Class Section `(f : x ~> y) := { section : y ~> x; section_comp : section ∘ f ≈ id }."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 70,
+        "symbol": "Retraction",
+        "intree_statement": "Class Retraction `(f : x ~> y) := { retract : y ~> x; retract_comp : f ∘ retract ≈ id }."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 126,
+        "symbol": "SplitEpi / SplitMono",
+        "intree_statement": "Definition SplitEpi `(f : x ~> y) := Retraction f.  Definition SplitMono `(f : x ~> y) := Section f."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 162,
+        "symbol": "retractions_are_epic",
+        "intree_statement": "Lemma retractions_are_epic : Retraction f → Epic f."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 179,
+        "symbol": "sections_are_monic",
+        "intree_statement": "Lemma sections_are_monic : Section f → Monic f."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 230,
+        "symbol": "flip_Section / flip_Retraction",
+        "intree_statement": "Definition flip_Section {C : Category} `(f : x ~> y) (s : @Section C x y f) : @Retraction C y x section.  (and dually flip_Retraction at line 241)"
+      }
+    ],
+    "statement_record": {
+      "book": "A right inverse (section) of h : a -> b is r : b -> a with h r = 1_b; a left inverse is a retraction. An arrow with a right inverse is epi (converse holds in Set, fails in Grp); one with a left inverse is monic. When g h = 1_a, g is a split epi, h a split monic, and the composite f = h g is an idempotent.",
+      "intree": "Section/Retraction classes carry exactly the one-sided inverse data under ≈; SplitEpi/SplitMono name them; retractions_are_epic and sections_are_monic prove both implication claims; flip_Section/flip_Retraction record the duality between the two roles of a split pair.",
+      "strength_comparison": "intree-weaker: all four notions and both implications are present verbatim, but two closing claims of the item are unformalized — (i) no lemma that the composite h ∘ g of a split pair (g ∘ h ≈ id) is idempotent (the SplitIdempotent class at Theory/Morphisms.v:85 packages exactly this shape and its header asserts the idempotency in prose, but 'Idempotent (split_idem_s ∘ split_idem_r)' is nowhere derived; checked via grep 'Idempotent (' — only id_idem and the unrelated Extend_idem); (ii) the aside that the converse of 'split epi ⇒ epi' holds in Set (choice) but fails in Grp has no counterpart (no 'every epi in Sets splits' result — grep 'axiom of choice|every epi.*split' finds only prose — and no Grp category exists in-tree)."
+    },
+    "gap": "Missing: a general lemma 'g ∘ h ≈ id → Idempotent (h ∘ g)' (a two-line consequence of the definitions, currently only prose in the SplitIdempotent header); and the converse-in-Set note (every Sets-epi is split) which is unprovable constructively without choice and is not stated in any form. The definitional and implicational core of the item is fully present.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found all six evidence symbols at the cited lines (Section:56, Retraction:70, SplitEpi/SplitMono:126-127, retractions_are_epic:162, sections_are_monic:179, flip_Section:230/flip_Retraction:241). Independently re-ran the record's decisive grep: 'Idempotent (' hits only id_idem (Morphisms.v:129), Extend_idem (Karoubi/Universal.v:163), and a SplitIdempotent instance header in Karoubi.v:228 - no 'g ∘ h ≈ id → Idempotent (h ∘ g)' lemma anywhere, and the SplitIdempotent header asserts idempotency only in prose. No every-Sets-epi-splits result, no Grp. PARTIAL with this precise gap is correct."
+    }
+  },
+  {
+    "id": "maclane:I.5:def6",
+    "classification": "PRESENT",
+    "aliases": [
+      "idempotent (Idempotent class)",
+      "split idempotent (SplitIdempotent)",
+      "idempotents split / IdempotentsSplit",
+      "Karoubi envelope splitting",
+      "f = h g, g h = 1"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 22,
+        "symbol": "Idempotent",
+        "intree_statement": "Class Idempotent `(f : x ~> x) := { idem : f ∘ f ≈ f }."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 85,
+        "symbol": "SplitIdempotent",
+        "intree_statement": "Class SplitIdempotent {x y : C} := { split_idem : x ~> x; split_idem_r : x ~> y; split_idem_s : y ~> x; split_idem_sr : split_idem_s ∘ split_idem_r ≈ split_idem; split_idem_rs : split_idem_r ∘ split_idem_s ≈ id }."
+      },
+      {
+        "file": "Construction/Karoubi/Universal.v",
+        "line": 53,
+        "symbol": "IdempotentsSplit",
+        "intree_statement": "Class IdempotentsSplit (C : Category) := { split_of {x : C} (e : x ~> x) (H : Idempotent e) : ∃ (y : C) (S : @SplitIdempotent C x y), @split_idem C x y S ≈ e }."
+      }
+    ],
+    "statement_record": {
+      "book": "f : b -> b is idempotent when f f = f; an idempotent splits when there are g, h with f = h g and g h = 1.",
+      "intree": "Idempotent states f ∘ f ≈ f; SplitIdempotent packages the factorization f ≈ s ∘ r with r ∘ s ≈ id (book's g, h are r, s up to naming); IdempotentsSplit quantifies the splitting property over a category, feeding the Karoubi-envelope theory (Construction/Karoubi.v, karoubi_idem_splits) and the Cauchy-completeness synonym.",
+      "strength_comparison": "intree-stronger: beyond the two definitions the library develops the splitting theory in full (Karoubi envelope, uniqueness of splitting objects at Construction/Karoubi/Universal.v:77, Sets is Cauchy complete in Instance/Sets/Karoubi.v)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Idempotent:22 and SplitIdempotent:85 in Theory/Morphisms.v and the Karoubi development independently. Verified IdempotentsSplit at Construction/Karoubi/Universal.v:53 (quote accurate), karoubi_idem_splits at Construction/Karoubi.v:226, and the uniqueness-of-splitting-objects witness split_idem_unique at Construction/Karoubi/Universal.v:76 (record's prose said 77; off by one, immaterial). intree-stronger claim is justified."
+    }
+  },
+  {
+    "id": "maclane:I.5:def7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "terminal object (Terminal, one, one_unique)",
+      "initial object (Initial, zero, zero_unique)",
+      "final object",
+      "unique up to unique isomorphism",
+      "empty set initial / singleton terminal (Sets_Initial, Sets_Terminal, Coq_Initial, Coq_Terminal)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Terminal.v",
+        "line": 107,
+        "symbol": "Terminal",
+        "intree_statement": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f ≈ g }."
+      },
+      {
+        "file": "Structure/Initial.v",
+        "line": 96,
+        "symbol": "Initial",
+        "intree_statement": "Notation \"'Initial' C\" := (@Terminal (C^op)) — with projections zero {x} : initial_obj ~{C}~> x (line 109) and zero_unique {x} (f g : initial_obj ~{C}~> x) : f ≈ g (line 112)."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 248,
+        "symbol": "Sets_Terminal / Sets_Initial",
+        "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets (singleton, line 248); Program Instance Sets_Initial : @Initial Sets (empty, line 265); likewise Coq_Terminal (Instance/Coq.v:132) and Coq_Initial with False (Instance/Coq.v:187)."
+      },
+      {
+        "file": "Structure/Limit/Terminal.v",
+        "line": 33,
+        "symbol": "Terminal_Limit",
+        "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C."
+      }
+    ],
+    "statement_record": {
+      "book": "t is terminal when every object has exactly one arrow a -> t; then the only arrow t -> t is 1_t and any two terminal objects are isomorphic. Dually s is initial. Examples: in Set, ∅ initial and any one-point set terminal; in Grp the one-element group is both.",
+      "intree": "Terminal packages the object, the arrow one, and one_unique (whose instance at x := terminal_obj gives 'the only endo-arrow of 1 is id'); Initial is definitionally Terminal (C^op) with zero/zero_unique projections, realizing the duality; Sets/Coq witnesses give the Set examples in both roles.",
+      "strength_comparison": "intree-weaker: the definitions, duality, and Set examples are exact, but 'any two terminal objects are isomorphic' is never stated as a Terminal-level (or Initial-level) lemma — the generic machinery exists (univ_property_unique_up_to_unique_iso, Structure/UniversalProperty.v:175; Terminal_Limit; LimitIsUniversalProperty, Structure/UniversalProperty/Limit.v:141) but the composition is never performed, and ZeroObject.v:20–22 asserts the fact only as header prose. The Grp example is unstatable (no Grp category in-tree)."
+    },
+    "gap": "No named in-tree lemma 'any two Terminal C (resp. Initial C) structures have isomorphic objects' (nor the unique-iso refinement at Terminal level). It is morally derivable by composing Terminal_Limit with LimitIsUniversalProperty and univ_property_unique_up_to_unique_iso, but the glue (bundled Limit vs the IsALimit predicate over C^op) is unwritten; Structure/ZeroObject.v depends on the fact rhetorically ('no loss of generality') without a formal witness.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same core evidence (Terminal:107 with one/one_unique; Initial := Terminal (C^op) notation at Structure/Initial.v:96-98 with zero:109/zero_unique:112; Sets_Terminal:248/Sets_Initial:265; Coq_Terminal:132/Coq_Initial:187; Terminal_Limit:33). Independently hunted for a hidden two-terminals-are-isomorphic lemma: rg 'terminal_unique|initial_unique|Limit_unique' 0 hits; 'terminal_obj' co-occurring with ≅ only in Theory/Lambek.v:79 and ZeroObject.v:42 (neither is it); 'unique_up_to' only in Structure/UniversalProperty.v:175 (generic, never composed with Terminal_Limit + LimitIsUniversalProperty). Structure/Limit.v:69-71 makes the same promise as prose only. The PARTIAL gap is real and precisely stated."
+    }
+  },
+  {
+    "id": "maclane:I.5:def8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "null object / zero object (ZeroObject)",
+      "zero arrow / zero morphism (zero_mor)",
+      "pointed category",
+      "zero absorbs composition (zero_mor_left/right)",
+      "biproduct spine zero"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 35,
+        "symbol": "ZeroObject",
+        "intree_statement": "Class ZeroObject (C : Category) := { zero_terminal : @Terminal C; zero_initial : @Initial C; zero_coincide : @initial_obj C zero_initial ≅ @terminal_obj C zero_terminal }."
+      },
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 53,
+        "symbol": "zero_mor",
+        "intree_statement": "Definition zero_mor {C : Category} `{Z : @ZeroObject C} {x y : C} : x ~> y := zero ∘ from zero_coincide ∘ one."
+      },
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 61,
+        "symbol": "zero_mor_left / zero_mor_right / zero_mor_unique",
+        "intree_statement": "Lemma zero_mor_left : f ∘ zero_mor ≈ zero_mor (line 61); Lemma zero_mor_right : zero_mor ∘ f ≈ zero_mor (line 73); Lemma zero_mor_unique : (h ∘ from zero_coincide) ∘ g ≈ zero_mor for any g : x ~> 1, h : 0 ~> y (line 85)."
+      },
+      {
+        "file": "Instance/CMon/Biproduct.v",
+        "line": 160,
+        "symbol": "CMon_Zero",
+        "intree_statement": "#[export] Instance CMon_Zero : ZeroObject CMon := @Build_ZeroObject CMon CMon_Terminal CMon_Initial iso_id."
+      }
+    ],
+    "statement_record": {
+      "book": "A null (zero) object z is both initial and terminal; it is unique up to isomorphism; for any a, b the unique composite a -> z -> b is the zero arrow, and any composite with a zero arrow is a zero arrow. Examples: Ab, R-Mod, Set*.",
+      "intree": "ZeroObject packages a Terminal, an Initial, and the coincidence iso zero_coincide (setoid-honest surrogate for 'one object playing both roles'); zero_mor tunnels x ~> 1 ~> 0 ~> y; zero_mor_left/zero_mor_right prove both absorption laws and zero_mor_unique proves any factorization through the zero object is THE zero arrow; CMon_Zero is a concrete additive-flavoured witness (commutative monoids, the library's stand-in for the book's Ab/R-Mod examples).",
+      "strength_comparison": "intree-weaker only in one clause: uniqueness of the null object up to isomorphism is not stated (same missing uniqueness family as def7 — asserted as prose in the ZeroObject.v header, lines 20–22). All zero-arrow content is proven; the coincidence-iso packaging is disclosed and equivalent to the book's literal 'both initial and terminal' up to the very uniqueness fact in question."
+    },
+    "gap": "No lemma that any two ZeroObject structures on C have isomorphic zero objects (inherits the unstated terminal/initial uniqueness-up-to-iso of def7). Ab/R-Mod/Set* themselves are not in-tree; CMon is the closest concrete witness.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found identical evidence: ZeroObject:35 (Terminal + Initial + zero_coincide iso), zero_mor:53 (the x ~> 1 ~> 0 ~> y tunnel), zero_mor_left:61/zero_mor_right:73 (both absorption laws), zero_mor_unique:85; CMon_Zero verified at Instance/CMon/Biproduct.v:160. Confirmed no lemma relates two ZeroObject structures by iso (inherits def7's missing uniqueness; ZeroObject.v header lines 20-22 assert it as prose). PARTIAL with that single-clause gap is honest - all zero-arrow content of the book item is proven."
+    }
+  },
+  {
+    "id": "maclane:I.5:def9",
+    "classification": "PARTIAL",
+    "aliases": [
+      "groupoid (abstract notion: category with all arrows invertible)",
+      "IsGroupoid predicate",
+      "core groupoid (Construction/Groupoid.v)",
+      "Brandt groupoid",
+      "maximal subgroupoid"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Groupoid.v",
+        "line": 103,
+        "symbol": "Groupoid",
+        "intree_statement": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}."
+      }
+    ],
+    "statement_record": {
+      "book": "A groupoid is a category in which every arrow is invertible.",
+      "intree": "The library has no class or predicate expressing 'every arrow of C is invertible'. Construction/Groupoid.v instead builds the CORE of a given category — the category whose homs are the isomorphisms of C — which is a particular groupoid-shaped category (inverses available via iso_sym), used by Structure/UniversalProperty.v for iso rewriting. Its header states explicitly that 'no standalone category of groupoids exists in-tree'.",
+      "strength_comparison": "intree-weaker: the book defines the NOTION of groupoid; the tree only constructs a canonical example family (the core of each C) and never states, even for the core, the defining property 'every morphism is invertible' as a theorem (there is no property to instantiate). Searched: grep 'IsGroupoid|is_groupoid|all_iso|every.*invertible' over *.v — only prose hits in Construction/Groupoid.v and Construction/Localization.v."
+    },
+    "gap": "Missing the abstract definition: a class (e.g. 'Groupoid-ness' of a Category: ∀ x y (f : x ~> y), IsIsomorphism f) with the core construction shown to satisfy it, and the one-object case connecting to groups. Only the core construction Groupoid C exists.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same conclusion independently: Construction/Groupoid.v (109 lines, registered in _CoqProject:53) defines only the CORE construction Groupoid C := (obj C, hom := Isomorphism, compose := iso_compose) at line 103; rg 'Class Groupoid|IsGroupoid|is_groupoid' finds no predicate, and the quoted header disclosure is accurate verbatim at lines 93-94 ('no standalone category of groupoids exists in-tree'). The book defines the notion; the tree only builds a canonical example family. PARTIAL with the stated gap is exactly right."
+    }
+  },
+  {
+    "id": "maclane:I.5:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "fundamental groupoid π(X) / pi1",
+      "path category / homotopy classes of paths",
+      "Top (category of topological spaces)",
+      "path concatenation rel endpoints",
+      "loop space / fundamental group"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'fundamental group|topological space|homotopy' — hits are only prose citations in background essays (Construction/Groupoid.v:58 mentions π₁(X, A) historically; Theory/Kan/Extension.v, Theory/Adjunction.v, Instance/Cat.v etc. mention homotopy only in essays); no formal object",
+      "grep -rn --include='*.v' -i '\\bTop\\b.*categ|continuous' — only prose (Construction/Enriched.v 'K = Top', Structure/Complete.v 'Set, Top, Grp' as motivation); no Top instance",
+      "ls Instance/ — no Top, no topology-related instance directory",
+      "grep -rn --include='*.v' -iE 'paths? categ|path groupoid|loop' — only Test/Issue138.v's loop QUIVER (free category on a graph, unrelated to paths in a space)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs: no topology, no Top instance, no paths/homotopy formalization anywhere in-tree; 'fundamental group'/π₁ appear only in the background essay of Construction/Groupoid.v (lines 58-64) and similar prose. Spot-checked the negative log's specifics: Instance/ contains no Top; Test/Issue138.v's loop is a one-node one-loop QUIVER for the free-category construction, unrelated. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.5:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "connected groupoid / transitive groupoid / Brandt groupoid",
+      "vertex group / isotropy group hom(x,x)",
+      "conjugation isomorphism hom(x,x) ≅ hom(x',x') by g ↦ f g f⁻¹",
+      "connected groupoid determined by one group",
+      "fundamental group of a path-connected space"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'connected' — no groupoid-related hit; matches are FinSet pushout connected components, DoubleCategory companions prose, and the Brandt historical prose at Construction/Groupoid.v:43",
+      "grep -rn --include='*.v' -i 'conjugat' — only functor/equivalence conjugation coherence (Theory/Equivalence.v, Functor/Construction/Product.v); nothing about conjugation isos of endomorphism groups in a groupoid",
+      "grep -rn --include='*.v' -i 'vertex group|hom(x, x)|automorphism group|isotropy' — 0 relevant hits",
+      "Construction/Groupoid.v read in full — the core construction only; no structure theory of connected groupoids (its header cites Brandt's connected case as history, not formalization)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs: rg -i 'connected' yields no groupoid-related formal content (Brandt's connected case appears as history at Construction/Groupoid.v:43); rg -i 'conjugat' only functor/equivalence coherence; no vertex/isotropy group, no hom(x,x)-as-group construction (Structure/Group.v is group objects, unrelated). With no groupoid predicate in-tree (def9) the remark has nothing to attach to. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.5:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "bimorphism that is not an isomorphism (Bimorphic counterexample)",
+      "epi + monic but not invertible",
+      "non-balanced category example",
+      "dense subspace inclusion",
+      "Z -> Q in Rng / N -> Z in Mon as bimorphic non-isos"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Bimorphic' — defined once (Theory/Morphisms.v:125, Definition Bimorphic := Epic f * Monic f) plus its two Hint Unfold lines; never instantiated anywhere, so no witness of a bimorphic arrow at all, let alone a non-invertible one",
+      "grep -rn --include='*.v' -i 'balanced|not.*invertible|non-invertible|not an iso' — only BalancedMonoidal (unrelated braided-monoidal notion), prose in Isomorphism.v/Groupoid.v, and Construction/Comma/Limit.v's apex-only-limit remark",
+      "grep -rn --include='*.v' -i 'dense' — only 'codense' prose in Theory/Kan/Extension.v:85",
+      "The related POSITIVE results exist instead and confirm awareness of the phenomenon: Monic_Retraction_Iso (Theory/Isomorphism.v:392), Epic_Section_Iso (Theory/Isomorphism.v:412), strong_epi_mono_is_iso (Structure/Factorization/StrongEpi.v:154), with Isomorphism.v:261 noting 'the converse fails in general' — but no category exhibiting the failure is constructed (the interval category _2 of Instance/Two.v would witness it; no such lemma is stated)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs: Bimorphic (Theory/Morphisms.v:125) is defined and never instantiated; no non-invertible bimorphism example exists. Verified the record's cited positive complements at their exact lines: Monic_Retraction_Iso (Theory/Isomorphism.v:392), Epic_Section_Iso (:412), the 'converse fails in general' prose (:261), strong_epi_mono_is_iso (Structure/Factorization/StrongEpi.v:154). ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.5:ex2",
+    "classification": "PRESENT",
+    "aliases": [
+      "composite of monics is monic (monic_compose)",
+      "composite of epis is epi (epi_compose)",
+      "closure of mono/epi classes under composition",
+      "MonoClass/EpiClass composition"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 212,
+        "symbol": "monic_compose",
+        "intree_statement": "Definition monic_compose {x y z : C} {f : y ~> z} {g : x ~> y} : Monic f → Monic g → Monic (f ∘ g)."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 201,
+        "symbol": "epi_compose",
+        "intree_statement": "Definition epi_compose {x y z : C} {f : y ~> z} {g : x ~> y} : Epic f → Epic g → Epic (f ∘ g)."
+      }
+    ],
+    "statement_record": {
+      "book": "The composite of two monic arrows is monic; likewise the composite of two epi arrows is epi.",
+      "intree": "monic_compose and epi_compose prove exactly these closure properties for the setoid-valued Monic/Epic classes.",
+      "strength_comparison": "same."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same two witnesses first: monic_compose (Theory/Morphisms.v:212-213) and epi_compose (:201-202), exactly the book's closure statements under ≈. PRESENT, strength 'same', confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.5:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "g ∘ f monic implies f monic (first-factor cancellation)",
+      "monic_cancel / cancel_monic / monic_of_comp",
+      "left factor of a mono is a mono",
+      "dual: g ∘ f epi implies g epi",
+      "faithful-style reflection of cancellation"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnE --include='*.v' 'Monic \\(.*∘.*\\)' — only monic_compose (Theory/Morphisms.v:213), which is the closure direction, not the cancellation converse; same for 'Epic \\(.*∘.*\\)' (epi_compose plus two unrelated concrete Epic goals in Construction/Cospan/Corelation.v and Structure/Regular/Factorization.v)",
+      "grep -rn --include='*.v' -E '(Lemma|Corollary|Proposition|Theorem|Definition|Instance).*Monic' — full enumeration: id_monic, sections_are_monic, Monic_Retraction_Iso, injectivity_is_monic-style instance lemmas, truth_monic, abelian/regular image monicity, pullback_fst monicity (Theory/Morphisms/Stability.v:227) — no 'composite monic ⇒ first factor monic'",
+      "grep -rn --include='*.v' -iE 'monic_cancel|cancel_monic|monic_of|of_monic|monic_fst|fst_monic|monic_right|right_monic|epic_left|left_epic|epic_of|epic_cancel' — 0 hits",
+      "grep -rn --include='*.v' -iE 'g ∘ f.*monic|monic.*g ∘ f' — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs after exhaustive enumeration of every 'Monic (...∘...)' and '→ Monic' statement in-tree: only the closure direction monic_compose exists; no 'Monic (g ∘ f) → Monic f' (nor the plain epi dual). Nearest relative, worth recording for Phase E: strong_epi_cancel at Structure/Factorization/StrongEpi.v:62 proves the STRONG-epi analogue of the dual statement (StrongEpi (f ∘ g) → StrongEpi f), so the library knows the cancellation pattern but never states it for plain Monic/Epic, where it is a two-line proof. ABSENT confirmed."
+    }
+  }
+]

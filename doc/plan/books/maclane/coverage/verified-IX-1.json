@@ -1,0 +1,298 @@
+[
+  {
+    "id": "maclane:IX.2:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "iterated colimits commute",
+      "interchange of colimits",
+      "colimit of colimits (Colim_p Colim_j F ≅ Colim_j Colim_p F)",
+      "Fubini for colimits",
+      "parametrized colimit is functorial in the parameter (V.3.1)",
+      "limits need not commute with colimits"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "For F : P × J → X with X cocomplete, Colim_j F(p,j) is functorial in p and the two iterated colimits interchange via a canonical iso Colim_p Colim_j F(p,j) ≅ Colim_j Colim_p F(p,j) (proof deferred to section 8); dually iterated limits commute; limits need NOT commute with colimits.",
+      "intree": null,
+      "strength_comparison": "absent: the colimit-colimit interchange is not stated. There is no `Colim`/`Lim` functor on a diagram category (only the per-diagram `Colimit F := Limit (F^op)` class in Structure/Limit.v:158), so an iterated colimit Colim_p Colim_j cannot even be formed. The nearest in-tree result is `coend_fubini` in Theory/Coend/Fubini.v (∫^{(c,d)} H ≅ ∫^c ∫^d H) — but that is (a) Sets-only, (b) about coends of a functor (C∐D)^op∐(C∐D)→Sets, and (c) never specialized to plain colimit-colimit interchange (the dual of IX.5 Prop 3 identifying a colimit with a coend is not in-tree). It is the IX.8-Fubini mechanism, not this IX.2 colimit statement."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'iterated colimit' --include=*.v . -> 0 hits",
+      "grep -rniE 'iterated limit' --include=*.v . -> 0 hits",
+      "grep -rniE 'colimit of colimit' --include=*.v . -> 0 hits",
+      "grep -rniE 'limit of colimit' --include=*.v . -> 0 hits",
+      "grep -rniE 'colimits commute' --include=*.v . -> 0 hits",
+      "grep -rniE 'limits commute' --include=*.v . -> 0 hits (only prose in Adjunction/Continuity.v about a single adjoint being (co)continuous, not iterated interchange)",
+      "grep -rniE 'interchange|iterated|Fubini' --include=*.v . -> only Fubini for coends (Theory/Coend/Fubini.v, Sets-only) and bifunctor middle-four interchange (Functor/Bifunctor.v); neither is colimit-colimit interchange",
+      "grep -rniE 'Notation.*Colim|Definition Colim |Colim :' --include=*.v . -> 0 hits: no Colim as a functor, so an iterated colimit is unformable",
+      "Read Structure/Limit.v: only `Class Limit`, `Class IsALimit`, `Definition Colimit F := Limit (F^op)`; no parametrized/iterated (co)limit machinery"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached ABSENT. Confirmed rg 'filtered' -> only Comonad/CoKleisli.v prose 'filtered stream'; rg 'iterated|colim.*colim' -> no interchange theorem. Verified the two 'colim ⊣ Δ ⊣ lim' hits (Instance/Fun.v:70, Functor/Diagonal.v:30) are background-essay prose only — Functor/Diagonal.v constructs Δ and Diagonal_Product_Two but NO colimit adjunction, so even the 'functorial in p' sub-claim is unformalized. Confirmed Theory/Coend/Fubini.v is the coend interchange ∫^{(c,d)}≅∫^c∫^d in Sets (IX.8 mechanism), not this IX.2 colim-lim statement. Strength_comparison accurate and honest."
+    }
+  },
+  {
+    "id": "maclane:IX.2:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "canonical map colim-lim -> lim-colim",
+      "kappa comparison map",
+      "mixed limit-colimit interchange arrow",
+      "Colim_j Lim_p F -> Lim_p Colim_j F",
+      "canonical distributive map of a limit over a colimit"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "For F : P × J → X, whenever all four iterated (co)limits exist there is a canonical arrow κ : Colim_j Lim_p F(p,j) → Lim_p Colim_j F(p,j), built from the limiting cones ν and colimiting cones μ by their universal properties (diagram 4); it need not be an isomorphism.",
+      "intree": null,
+      "strength_comparison": "absent: no mixed limit-then-colimit / colimit-then-limit comparison map exists. There is no `Lim`/`Colim` functor to form Colim_j Lim_p F, and no construction combining a limiting cone with a colimiting cocone into a comparison arrow. `PreservesLimit`/`PreservesColimit` (Structure/Limit/Preservation.v) compare F(lim G) with lim(F○G) for a target functor F : C→D — a different (postcomposition) comparison, not this κ."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bkappa\\b' --include=*.v . -> 1 hit: Structure/Premonoidal/Freyd.v (Freyd κ-categories, unrelated)",
+      "grep -rniE 'canonical.*kappa' --include=*.v . -> 0 hits",
+      "grep -rniE 'colim.*lim|lim.*colim' filtered to declaration lines -> only `Colimit F := Limit (F^op)`, Pushout_Limit, and preservation lemmas; no mixed comparison map",
+      "grep -rniE 'canonical.*(map|arrow|comparison)' --include=*.v . -> hits are for terminal/cartesian/exponential/biproduct/double-dual comparisons; none is a limit-colimit interchange arrow",
+      "grep -niE 'PreservesColimit|PreservesLimit' Structure/Limit/Preservation.v -> PreservesLimit (G:J⟶C)(F:C⟶D): postcomposition by a target functor, not the κ of diagram (4)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached ABSENT. Verified the only κ/kappa occurrences are: Structure/Premonoidal{,/Freyd}.v (bibliographic 'Freyd- and κ-categories') and Structure/Limit/Weighted.v (κ is a bound VARIABLE name for an ACone, not Mac Lane's interchange map). No mixed limit-colimit comparison arrow anywhere. Confirmed Structure/Limit/Preservation.v:206 preserves_colimit is postcomposition F◯G (F:C⟶D applied after diagram G), definitionally distinct from κ. Minor: the log says 'kappa -> 1 hit' but ASCII grep also misses the κ-glyph cone-variable uses in Weighted.v; immaterial to the (correct) ABSENT verdict."
+    }
+  },
+  {
+    "id": "maclane:IX.2:thm1",
+    "classification": "ABSENT",
+    "aliases": [
+      "finite limits commute with filtered colimits",
+      "filtered colimits are exact in Set",
+      "filtered colimit exactness",
+      "Lim_P Colim_J ≅ Colim_J Lim_P for P finite, J filtered, in Set",
+      "flat / ind-object exactness"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "If P is finite and J is small and filtered, then for every bifunctor F : P × J → Set the canonical arrow κ : Colim_j Lim_p F(p,j) → Lim_p Colim_j F(p,j) is an isomorphism; i.e. finite limits commute with filtered colimits in Set.",
+      "intree": null,
+      "strength_comparison": "absent: depends on two absent ingredients — the notion of a filtered category (no in-tree definition) and the canonical map κ (construction1, also absent). No exactness-of-filtered-colimits result of any kind is in-tree."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'filtered' --include=*.v . -> 1 hit: Comonad/CoKleisli.v (a prose comment 'the filtered stream', unrelated to filtered categories)",
+      "grep -rniE 'filtered colimit' --include=*.v . -> 0 hits",
+      "grep -rniE 'flat functor' --include=*.v . -> 0 hits; 'ind-object' -> 0; 'ind-completion' -> 0; 'sifted' -> 0; 'directed colimit' -> 0; 'directed system' -> 0",
+      "grep -rniE 'commute with filtered' --include=*.v . -> 0 hits",
+      "no `Colim` functor and no κ comparison map (see construction1 log) — the statement is not even formable in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached ABSENT. Confirmed 'filtered' has exactly one tree-wide hit — Comonad/CoKleisli.v:81, prose 'the filtered stream' — not a filtered category. No filtered/directed category class exists (rg 'directed' hits are Structure/Limit.v background-essay prose 'directed poset/index sets' plus Lib list utilities). Rests on two independently-confirmed-absent ingredients (filtered categories; κ of construction1). Honest."
+    }
+  },
+  {
+    "id": "maclane:IX.2:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "naturality of the canonical map kappa",
+      "kappa natural in F",
+      "interchange comparison is a natural transformation in X^{P×J}",
+      "naturality of colim-lim -> lim-colim comparison"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "Exercise: show that the canonical map κ of (3) is natural for arrows σ : F ⇒ F' in the functor category X^{P×J}.",
+      "intree": null,
+      "strength_comparison": "absent: the exercise's content is naturality of the κ comparison map, but κ itself (IX.2:construction1) does not exist in-tree, so its naturality is not stated either."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "predicated on κ (IX.2:construction1), which is ABSENT (see that item's log): grep for 'kappa' -> only Freyd κ-categories; no mixed limit-colimit comparison arrow",
+      "grep -rniE 'colimit.*comparison|comparison.*colimit|functorial.*colimit|colimit.*functorial' --include=*.v . -> 0 hits: no naturality result about any colimit comparison map"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached ABSENT. The exercise is the naturality of κ, and κ (IX.2:construction1) is independently confirmed absent, so its naturality cannot be stated. No colimit-comparison naturality lemma of any kind found. Honest."
+    }
+  },
+  {
+    "id": "maclane:IX.2:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "pseudo-filtered category",
+      "pseudofiltered",
+      "Verdier pseudo-filtered condition",
+      "filtered iff connected and pseudo-filtered",
+      "pseudo-filtered iff each connected component is filtered"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "Exercise (Verdier) defining 'pseudo-filtered': J satisfies filtered condition (b) plus (a'): any two arrows i→j, i→j' with common domain embed in a commutative diamond. Prove J is filtered iff it is connected and pseudo-filtered, and J is pseudo-filtered iff each connected component is filtered.",
+      "intree": null,
+      "strength_comparison": "absent: neither 'filtered category' nor 'pseudo-filtered category' is defined in-tree, and there is no connected-category / connected-component predicate on categories."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'pseudo-filtered' --include=*.v . -> 0 hits; 'pseudofiltered' -> 0; 'pseudo.filtered' -> 0",
+      "grep -rniE 'filtered' --include=*.v . -> only 1 unrelated prose hit (Comonad/CoKleisli.v)",
+      "grep -rniE 'Verdier' --include=*.v . -> 6 hits, all derived-category / Verdier-quotient / SGA4-topos history (Construction/Localization.v, Slice.v, Structure/Topos.v, Abelian.v); none about pseudo-filtered categories",
+      "grep -rniE 'connected' in Theory/ Structure/ Construction/ Instance/ (minus 'components'/'pushout') -> only connected groupoids/spans/cospans/isomorphism-connected; no 'connected category' predicate usable here"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached ABSENT. Confirmed rg 'pseudo.?filtered' -> 0 hits tree-wide; 'filtered' -> only the one CoKleisli prose hit. Independently confirmed there is NO category-level connectedness predicate: rg 'Class Connected|Connected.*Category|IsConnected|ConnectedCategory' -> 0 hits (only Construction/Groupoid.v van-Kampen prose 'disconnected intersection'). Both the filtered and connected building blocks are genuinely absent. Honest."
+    }
+  },
+  {
+    "id": "maclane:IX.2:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "coproducts commute with pullback in Set",
+      "extensive category",
+      "disjoint / universal coproducts",
+      "pullback preserves coproducts in Set",
+      "van Kampen colimit (lextensivity)"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "Exercise: in Set, show that coproducts commute with pullback (pulling back a coproduct along any map is the coproduct of the pullbacks — the extensivity/universality-of-coproducts property).",
+      "intree": null,
+      "strength_comparison": "absent: no extensivity, no universality-of-coproducts, and no coproduct/pullback interaction lemma in Set or FinSet. The nearest in-tree notion is `Structure/Distributive.v`'s `Distributive` class (x×(y+z) ≅ x×y + x×z, i.e. the PRODUCT functor preserves finite coproducts) — a genuinely different and weaker condition than pullbacks preserving coproducts (extensivity), and it is not instantiated for Sets/FinSet."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'extensive' --include=*.v . -> 2 hits: Structure/Initial.v ('used extensively', prose) and Structure/Cocartesian.v (a bare bibliographic citation of Carboni-Lack-Walters 'extensive and distributive categories'); no development",
+      "grep -rniE 'van Kampen' --include=*.v . -> 1 hit: Construction/Groupoid.v (van Kampen theorem for fundamental groupoids, unrelated to extensive categories)",
+      "grep -rniE 'coproduct.*pullback|pullback.*coproduct|coproduct.*stable|stable.*coproduct|pullback.*preserv.*coprod' --include=*.v . -> 0 hits",
+      "grep -rniE 'universal.*coproduct' --include=*.v . -> 2 hits, both the generic coproduct UMP (Functor/Coproduct.v, Instance/CMon/Biproduct.v), not universality-under-pullback",
+      "Read Structure/Distributive.v in full: distributivity of × over + only; no pullback-coproduct statement",
+      "grep -rniE 'HasPullbacks Sets|Sets_Pullback' --include=*.v . -> 0 hits (Sets is not even given a general HasPullbacks instance; only FinSet_Pullbacks exists)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached ABSENT. Confirmed rg 'extensive|lextensive|coproduct.*pullback|pullback.*coproduct' -> only bibliographic citations (Structure/Cocartesian.v:103 Lack-Walters, Structure/Initial.v:29 'used extensively' prose); no formalized extensivity and no coproduct/pullback commutation. Independently confirmed Structure/Distributive.v is products-distribute-over-coproducts (x×- preserves coproducts) — a distinct, non-equivalent property, and not instantiated for Sets/FinSet. Confirmed no Sets_Pullback instance; HasPullbacks is a class (Structure/Pullback.v:215) with only FinSet_Pullbacks in-tree. Honest."
+    }
+  },
+  {
+    "id": "maclane:IX.2:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "pseudo-filtered colimits commute with pullbacks in Set",
+      "pseudo-filtered colimits are stable under pullback",
+      "universality of pseudo-filtered colimits in Set",
+      "filtered colimits commute with finite limits (special case, pullbacks)"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "Exercise (using Exercises 2 and 3): show that pseudo-filtered colimits commute with pullbacks in Set.",
+      "intree": null,
+      "strength_comparison": "absent: depends on both absent ingredients — pseudo-filtered categories (IX.2:ex2) and coproducts-commute-with-pullback / extensivity (IX.2:ex3). No colimit/pullback commutation of any flavour is in-tree."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "predicated on IX.2:ex2 (pseudo-filtered, ABSENT) and IX.2:ex3 (coproduct-pullback, ABSENT); both negative logs apply",
+      "grep -rniE 'colimits commute|commute.*colimit' --include=*.v . -> 0 hits about colimit/limit commutation in Set",
+      "no filtered/pseudo-filtered notion and no colimit-preserves-pullback lemma anywhere in the tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached ABSENT. Rests on two independently-confirmed-absent ingredients (pseudo-filtered categories IX.2:ex2; coproduct-pullback commutation IX.2:ex3). No colimit/pullback commutation of any flavour found tree-wide. Honest."
+    }
+  },
+  {
+    "id": "maclane:IX.3:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "final functor",
+      "cofinal functor (classical term)",
+      "cofinal",
+      "comma category (k ↓ L) nonempty and connected",
+      "colimit-cofinal functor"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "A functor L : J' → J is final (classically 'cofinal') if for every object k of J the comma category (k ↓ L) is nonempty and connected: there is j' and an arrow k → Lj', and any two such are joined by a finite zig-zag of commuting triangles under k.",
+      "intree": null,
+      "strength_comparison": "absent: no 'final'/'cofinal' functor property is defined. The comma category is available (Construction/Comma.v), but it carries no nonemptiness or connectedness predicate, and there is no connected-category predicate in-tree to phrase the definition."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'cofinal' --include=*.v . -> 0 hits; 'confinal' -> 0; 'coinitial' -> 0",
+      "grep -rniE 'final functor' --include=*.v . -> 0 hits; 'finality' -> 0; 'final subcat' -> 0",
+      "grep -rniE 'final' --include=*.v . -> 36 hits, all 'final coalgebra' / 'final object'(terminal) / Lambek 'final' / streams / lambda evaluation 'final state'; none a cofinal functor",
+      "grep -rniE 'initial functor' --include=*.v . -> 1 hit: Functor/Structure/Terminal.v:53 'An initial functor preserves the initial object' (a functor preserving the initial object; NOT a coinitial/initial functor in the diagram-cofinality sense)",
+      "grep -niE 'nonempty|connect' Construction/Comma.v -> 0 hits: the comma category has no connectedness/nonemptiness API",
+      "no connected-category predicate exists (see IX.2:ex2 connectedness log)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached ABSENT. Confirmed rg 'cofinal|final functor|final subcategory' -> 0 hits; every 'final' hit is 'final coalgebra' / 'final object' (terminal) / Lambek / streams / lambda 'final state'. Read Functor/Structure/Terminal.v:53-66 and confirmed 'InitialFunctor F := TerminalFunctor (F^op)' PRESERVES the initial object (field fobj_one_iso : 1 ≅ F 1) — NOT a coinitial/cofinal functor in the diagram sense; log's characterization is honest. Independently confirmed no category-level Connected predicate and no nonempty/connect API on Construction/Comma.v. Honest."
+    }
+  },
+  {
+    "id": "maclane:IX.3:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "final subcategory",
+      "cofinal subcategory",
+      "cofinal inclusion functor",
+      "final sub-poset (every k has j' in J' with k ≤ j')"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "A subcategory is final when its inclusion functor is final; e.g. for J a linear order, J' ⊆ J is final iff every k ∈ J has some j' ∈ J' with k ≤ j'.",
+      "intree": null,
+      "strength_comparison": "absent: a special case of the final-functor notion (IX.3:def1), which is itself absent. No 'final subcategory' predicate and no subcategory-cofinality result exist. (Subcategories exist via Construction/Subcategory.v, but with no finality/cofinality attribute.)"
+    },
+    "gap": null,
+    "negative_search_log": [
+      "predicated on IX.3:def1 (final functor), which is ABSENT (see that log): no 'final'/'cofinal' functor property in-tree",
+      "grep -rniE 'final.subcat|cofinal.*subcat|final subcategory' --include=*.v . -> 0 hits",
+      "Construction/Subcategory.v exists but defines subcategories/inclusions with no cofinality notion"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached ABSENT. Special case of the independently-confirmed-absent final-functor notion (IX.3:def1). Confirmed Construction/Subcategory.v exists (registered in _CoqProject) but carries no finality/cofinality attribute; no 'final subcategory' predicate found. Honest."
+    }
+  },
+  {
+    "id": "maclane:IX.3:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "canonical comparison colim FL -> colim F",
+      "comparison map for a colimit computed along a functor",
+      "induced map on colimits by precomposing the diagram with L",
+      "colimit restriction map h : Colim FL -> Colim F",
+      "reindexing map on colimits"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "For L : J' → J and F : J → X there is a canonical map h : Colim FL → Colim F, defined (when both colimits exist) as the unique arrow with h ∘ μ'_{j'} = μ_{Lj'} for all j' ∈ J', where μ, μ' are the colimiting cocones.",
+      "intree": null,
+      "strength_comparison": "absent: the specific comparison map h induced by precomposing the diagram with a functor L : J'→J between INDEX categories is not built. The reusable ingredients exist — the restriction functor `Induced := (−○F) : [B,C]⟶[A,C]` (Theory/Kan/Extension.v:127), whiskering of cocones (`fmap_cone`, Theory/Equivalence/Limit.v), and mediating maps `colimit_med` (Structure/Limit/Preservation.v) — but they are never assembled into h, and colimits (the `Colimit` class) are not connected to the Kan/`Induced` machinery. `PreservesColimit` is the different (postcomposition, F : C→D) comparison."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'colim FL' --include=*.v . -> 0 hits",
+      "grep -rniE 'reindex.*colim|Colim.*precompos|comparison.*colimit|colimit.*comparison|functorial.*colimit|colimit.*functorial' --include=*.v . -> 0 hits",
+      "grep -rniE 'cocone.*whisk|whisk.*cocone|cocone.*precompos|restrict.*cocone|cocone.*restrict' --include=*.v . -> 0 hits (fmap_cone in Equivalence/Limit.v is postcomposition by a functor on the target, not precomposition of the index by L)",
+      "Read Theory/Kan/Extension.v: `Induced := (−○F)` is the restriction functor whose adjoints are Kan extensions; no map between global colimits Colim(F○L) and Colim F is derived",
+      "no `Colim` functor on diagram categories (Structure/Limit.v: only `Colimit F := Limit (F^op)`), so no 'colimit is functorial along L' statement exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached ABSENT. Verified all three cited 'reusable ingredients' exist and are honestly characterized as un-assembled: Theory/Kan/Extension.v `Induced := (−◯F)` (restriction functor on [B,C], adjoints are Kan extensions — not linked to the Colimit class); Theory/Equivalence/Limit.v:271 `fmap_cone_leg` builds a cone on F◯G from a cone on G, i.e. postcomposition by a TARGET functor F, NOT precomposition of the index by L; Structure/Limit/Preservation.v:152 `colimit_med` (mediating map). None assembles the h : Colim(F◯L) → Colim F for an index functor L. Confirmed Structure/Limit/Preservation.v:206 preserves_colimit is the distinct postcomposition comparison. Honest."
+    }
+  }
+]

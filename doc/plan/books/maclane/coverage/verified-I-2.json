@@ -1,0 +1,497 @@
+[
+  {
+    "id": "maclane:I.3:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "functor",
+      "Functor",
+      "fobj/fmap",
+      "morphism of categories",
+      "arrows-only functor",
+      "⟶"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 96,
+        "symbol": "Functor",
+        "intree_statement": "Class Functor {C : Category} {D : Category} := { fobj : C → D; fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y; fmap_respects : ∀ x y, Proper (respectful equiv equiv) (@fmap x y); fmap_id {x : C} : fmap (@id C x) ≈ id; fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) : fmap (f ∘ g) ≈ fmap f ∘ fmap g }"
+      }
+    ],
+    "statement_record": {
+      "book": "A functor T : C -> B is a morphism of categories: an object function c |-> Tc and an arrow function f : c -> c' |-> Tf : Tc -> Tc' with T(1_c) = 1_{Tc} and T(g.f) = Tg . Tf; equivalently an arrows-only description (a function on arrows preserving identities and composites).",
+      "intree": "Class Functor := { fobj : C → D; fmap {x y} (f : x ~> y) : fobj x ~> fobj y; fmap_respects; fmap_id : fmap id ≈ id; fmap_comp : fmap (f ∘ g) ≈ fmap f ∘ fmap g } (Theory/Functor.v:96-108).",
+      "strength_comparison": "same — faithful setoid rephrasing (laws in ≈ on hom-setoids, plus the extra obligation fmap_respects that is invisible under strict equality). The book's secondary arrows-only reformulation is not separately formalized, but the book itself presents it as merely an equivalent phrasing."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found identical evidence (rg 'Class Functor' -> Theory/Functor.v:96). Quote verified against file (fobj/fmap/fmap_respects/fmap_id/fmap_comp, lines 96-108); file registered in _CoqProject. strength_comparison honest about the unformalized arrows-only reformulation."
+    }
+  },
+  {
+    "id": "maclane:I.3:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "power-set functor",
+      "powerset",
+      "P : Set -> Set",
+      "Pow",
+      "direct image functor",
+      "subsets functor",
+      "Ensemble"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'powerset|power_set|power set' --include=*.v . — 0 relevant hits (only prose: 'power-set polarities' in Instance/Poset.v:61, 'categorical power set' describing the internal power object in Structure/Topos.v:75)",
+      "grep -rn '\\bPow\\b' --include=*.v . — hits are Structure/Topos.v:129 'Definition Pow ... (a : C) : C := Ω ^ a' (the INTERNAL power object of an elementary topos, an object mapping only, no functorial action in-tree; Instance/FinSet/Topos.v computes instances) — not the covariant Set-endofunctor with direct-image action",
+      "grep -rn 'Sets ⟶ Sets' --include=*.v . — endofunctors on Sets in-tree are StreamF (Instance/Sets/Streams.v:146), TracedF, StoreF (Instance/Coq/Comonad/*), none a powerset functor",
+      "grep -rni 'direct image|Ensemble' --include=*.v . — Instance/Ens.v is a CATEGORY of ensembles (subsets as objects), not the powerset functor; Instance/Sets/Image.v is epi–mono image factorization of a single morphism, not a functor X |-> PX",
+      "near-miss checked and rejected: Theory/Subobject/Functor.v 'Sub : C^op ⟶ Sets' is the CONTRAVARIANT subobject functor by pullback reindexing — the contravariant analogue, not this covariant construction with S |-> fS"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs: rg -i 'powerset|power set|Pow ' hits only the INTERNAL power object Pow := Ω^a (Structure/Topos.v:129, an object map with no functorial action) and prose. Verified the log's spot claims: Instance/Poset.v power-set polarities is prose (~line 59-61), StreamF is Instance/Sets/Streams.v:146, Instance/Ens.v is a category of ensembles not a functor, Instance/Rel.v has no powerset monad (grep powerset|monad|Kleisli: 0 hits), no functor in-tree has Prop-valued fobj. Near-miss rejection of the contravariant Sub : C^op ⟶ Sets (Theory/Subobject/Functor.v) is correct — the item is the covariant direct-image functor."
+    }
+  },
+  {
+    "id": "maclane:I.3:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "GL_n",
+      "general linear group functor",
+      "matrix group",
+      "Matr",
+      "CRng -> Grp",
+      "non-singular matrices"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn '\\bGL\\b|GL_n|general linear' --include=*.v . — 0 hits",
+      "grep -rn 'Matr' --include=*.v . — 0 hits (no matrix category in-tree)",
+      "grep -rni 'matrix|matrices' --include=*.v . — prose-only hits (background essays in Functor/Hom/Yoneda.v, Theory/Profunctor.v, Instance/ZX.v)",
+      "grep -rni '\\bring\\b|CRng|Rng\\b' --include=*.v . — prose-only hits; no category of (commutative) rings exists in-tree",
+      "grep -rn 'Definition Grp|Instance Grp' --include=*.v . — no category of groups in-tree; only internal group objects (Structure/Group.v:109 'Class GroupObject (grp : C)'), so neither the domain CRng nor the codomain Grp of GL_n exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs: rg -i 'GL_n|general linear|matrix|matrices|CRng|commutative ring|Rng' finds prose only (Yoneda/Profunctor/ZX essays); no matrix category, no category of rings or groups (Structure/Group.v:109 is Class GroupObject, an internal group object — verified)."
+    }
+  },
+  {
+    "id": "maclane:I.3:construction3",
+    "classification": "ABSENT",
+    "aliases": [
+      "commutator subgroup functor",
+      "factor-commutator functor",
+      "abelianization",
+      "[G,G]",
+      "Grp -> Ab",
+      "derived subgroup"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'commutator' --include=*.v . — 0 hits",
+      "grep -rni 'factor.commutator' --include=*.v . — 0 hits",
+      "grep -rni 'abelianization' --include=*.v . — 1 hit, Construction/Localization.v:106, prose only (background essay listing 'abelianizations, completions' as classical examples of reflective localization; no construction)",
+      "grep -rn 'Definition Grp|Instance Grp' --include=*.v . — no category of groups in-tree (only Structure/Group.v internal GroupObject); no category Ab either (Structure/Abelian.v is abelian CATEGORIES, Instance/CMon.v is commutative monoid objects) — neither endpoint of the functor exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs: rg -i 'commutator|abelianization' -> single prose hit Construction/Localization.v:106 (verified, background essay). No Grp or Ab category in-tree (Instance/CMon.v is commutative monoids; Structure/Abelian.v is abelian categories)."
+    }
+  },
+  {
+    "id": "maclane:I.3:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "center of a group",
+      "Z(G)",
+      "centre functor",
+      "non-functoriality of the center",
+      "center Grp -> Grp"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'center|centre' --include=*.v . — all hits are the premonoidal centre Z(C) of a category (Structure/Binoidal/Central.v, Structure/Premonoidal/Centre.v) and the Drinfeld monoidal centre (Structure/Monoidal/Drinfeld.v) — categorical centres, an entirely different concept from the group-theoretic center Z(G)",
+      "grep -rni 'Z(G)|center of|centre of' --include=*.v . — same categorical-centre hits only",
+      "grep -rni 'symmetric group' --include=*.v . — hits concern S_n in PROPs/multicategory braid actions (Construction/PROP.v, Theory/Multicategory.v), not the S2 -> S3 -> S2 counterexample",
+      "no category of groups exists in-tree (grep 'Definition Grp|Instance Grp' — only Structure/Group.v:109 GroupObject), so the remark's ambient setting is absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs: rg -i 'center|centre' hits only the premonoidal centre (Binoidal/Central.v, Premonoidal/Centre.v) and Drinfeld monoidal centre (Monoidal/Drinfeld.v) — categorical centres, different concept. No group category exists to host the remark."
+    }
+  },
+  {
+    "id": "maclane:I.3:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "forgetful functor",
+      "underlying functor",
+      "Forget",
+      "U functor",
+      "underlying-set functor"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/CMon.v",
+        "line": 169,
+        "symbol": "CMon_Forget",
+        "intree_statement": "Program Definition CMon_Forget : CMon ⟶ Sets := {| fobj := fun M => cmon_setoid M; fmap := fun _ _ f => cmon_map f |}  (* 'The forgetful functor to [Sets], dropping the monoid structure. It is faithful by construction' *)"
+      },
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 93,
+        "symbol": "Mon_Forget",
+        "intree_statement": "Program Definition Mon_Forget : Mon ⟶ C := {| fobj := fun X => `1 X; fmap := fun _ _ f => `1 f |}; #[export] Instance Mon_Forget_Faithful : Faithful Mon_Forget (line 101)"
+      },
+      {
+        "file": "Theory/Lawvere/Sets.v",
+        "line": 83,
+        "symbol": "ev1",
+        "intree_statement": "Program Definition ev1 : Models T Sets ⟶ Sets := ... with Theorem ev1_Faithful : Faithful ev1 (line 105) — the underlying-set functor of Lawvere-theory models"
+      }
+    ],
+    "statement_record": {
+      "book": "A functor that forgets some or all of the structure of an algebraic object is a forgetful (underlying) functor; examples U : Grp -> Set (underlying set of a group) and U : Rng -> Ab (underlying additive group of a ring).",
+      "intree": "Many named forgetful/underlying functors with the standard behavior (project the carrier, keep the map): CMon_Forget : CMon ⟶ Sets, Mon_Forget : Mon(C) ⟶ C (Faithful), Comon_Forget, ev1 : Models T Sets ⟶ Sets (Faithful), EM_Forget, FAlg_Forget, Forgetful : StrictCat ⟶ Quiv, etc.",
+      "strength_comparison": "same — the item is a term of art (there is no formal content beyond exemplars), and the library realizes it broadly, proving faithfulness where the book merely asserts it. The book's two specific examples U : Grp -> Set and U : Rng -> Ab have no exact counterpart because no category of groups or rings exists in-tree; the closest analogues are the underlying-setoid functors CMon ⟶ Sets and Mon(C) ⟶ C."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found CMon_Forget (Instance/CMon.v:169, quote verified incl. the faithful-by-construction comment), Mon_Forget/Mon_Forget_Faithful (Theory/Algebra/Monoid/Hom.v:93/101), Comon_Forget_Faithful, EM_Forget, Kleisli_Forget, FAlg_Forget, ev1 (Theory/Lawvere/Sets.v:83). One nuance the record omits: ev1_Faithful (line 105) is proven under an explicit reachability Context hypothesis (reach : ∀ x, {n & law_of_nat n = x}) — disclosed in the file and CLAUDE.md; non-load-bearing here since CMon_Forget and Mon_Forget_Faithful carry the exemplar role unconditionally. Missing Grp->Set / Rng->Ab endpoints honestly disclosed. All files in _CoqProject."
+    }
+  },
+  {
+    "id": "maclane:I.3:construction4",
+    "classification": "PRESENT",
+    "aliases": [
+      "composite functor",
+      "Compose",
+      "identity functor",
+      "Id",
+      "functor composition associativity",
+      "◯"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 258,
+        "symbol": "Compose",
+        "intree_statement": "Program Definition Compose {C D E : Category} (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {| fobj := fun x => fobj (fobj x); fmap := fun _ _ f => fmap (fmap f) |}"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 247,
+        "symbol": "Id",
+        "intree_statement": "Program Definition Id {C : Category} : C ⟶ C := {| fobj := fun x => x; fmap := fun _ _ f => f |}"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 595,
+        "symbol": "fun_strict_equiv_comp_assoc",
+        "intree_statement": "Lemma fun_strict_equiv_comp_assoc {A B C D} (F : C ⟶ D) (G : B ⟶ C) (H : A ⟶ B) : F ◯ (G ◯ H) ≈ (F ◯ G) ◯ H  (over Functor_StrictEq_Setoid, i.e. on-the-nose object equality); with fun_strict_equiv_id_right (585) and fun_strict_equiv_id_left (590)"
+      },
+      {
+        "file": "Instance/StrictCat.v",
+        "line": 56,
+        "symbol": "StrictCat",
+        "intree_statement": "Instance StrictCat : Category := { obj := Category; hom := @Functor; homset := @Functor_StrictEq_Setoid; id := @Id; compose := @Compose; id_left := @fun_strict_equiv_id_left; id_right := @fun_strict_equiv_id_right; comp_assoc := @fun_strict_equiv_comp_assoc; ... }"
+      }
+    ],
+    "statement_record": {
+      "book": "Given T : C -> B and S : B -> A, composing object and arrow functions yields the composite functor S . T : C -> A; this composition is associative, and each identity functor I_B acts as identity for it.",
+      "intree": "Compose (Theory/Functor.v:258) and Id (:247), with associativity and unit laws proven both strictly — fun_strict_equiv_comp_assoc / fun_strict_equiv_id_left / fun_strict_equiv_id_right over Functor_StrictEq_Setoid — and up to natural isomorphism (fun_equiv_comp_assoc:314, fun_equiv_id_left:309, fun_equiv_id_right:304), assembled into the category instances StrictCat and Cat.",
+      "strength_comparison": "same — the strict (Functor_StrictEq_Setoid) versions match the book's on-the-nose associativity/unit claims up to setoid presentation; the library additionally provides the up-to-natural-isomorphism versions."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All line numbers independently verified: Compose:258, Id:247, fun_strict_equiv_id_right:585, fun_strict_equiv_id_left:590, fun_strict_equiv_comp_assoc:595 (on-the-nose laws over Functor_StrictEq_Setoid, matching the book), weak versions fun_equiv_id_right:304/id_left:309/comp_assoc:314, StrictCat instance at Instance/StrictCat.v:56. CONFIRMED PRESENT."
+    }
+  },
+  {
+    "id": "maclane:I.3:construction5",
+    "classification": "PRESENT",
+    "aliases": [
+      "Cat",
+      "category of small categories",
+      "metacategory of all categories",
+      "StrictCat",
+      "category of categories"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat.v",
+        "line": 142,
+        "symbol": "Cat",
+        "intree_statement": "Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; id := @Id; compose := @Compose; ... }  — header (lines 22-27): 'Size: Cat is a large category, and so cannot be an object of itself (there is no category of *all* categories). Here that constraint is enforced by universe polymorphism'"
+      },
+      {
+        "file": "Instance/StrictCat.v",
+        "line": 56,
+        "symbol": "StrictCat",
+        "intree_statement": "Instance StrictCat : Category := { obj := Category; hom := @Functor; homset := @Functor_StrictEq_Setoid; ... } — 'the strict 1-category in which an isomorphism is a genuine (on-the-nose) isomorphism of categories — matching the textbook bare-name Cat'"
+      }
+    ],
+    "statement_record": {
+      "book": "Functor composition and identity functors give the metacategory of all categories (objects all categories, arrows all functors), and similarly the category Cat of all small categories — but not a category of all categories.",
+      "intree": "Cat (Instance/Cat.v:142) and StrictCat (Instance/StrictCat.v:56) with obj := Category, hom := Functor, compose := Compose; the size restriction ('no category of all categories') is enforced by universe polymorphism: Category@{o h p} lives strictly above its objects, so Cat cannot contain itself.",
+      "strength_comparison": "same in substance — the small/large distinction is carried by universe polymorphism rather than a set-theoretic universe U (the metacategory/category split becomes a universe-level split). Presentation caveat: the library's bare-name [Cat] compares functors up to natural isomorphism (its isos are equivalences; it is Ho(Cat)); the textbook strict 1-category is [StrictCat]. Both exist in-tree, with the comparison functor StrictCat_to_Cat (Instance/StrictCat/ToCat.v)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Cat at Instance/Cat.v:142 and the size header (lines 22-26: no category of all categories, enforced by universe polymorphism — the library's rendering of the metacategory/small-Cat split); StrictCat at Instance/StrictCat.v:56 is the textbook strict Cat; comparison functor StrictCat_to_Cat exists (Instance/StrictCat/ToCat.v, in _CoqProject). The Ho(Cat) caveat is properly disclosed; classification faithful to the frozen rule that universe-polymorphic size handling counts as PRESENT."
+    }
+  },
+  {
+    "id": "maclane:I.3:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "isomorphism of categories",
+      "iso in StrictCat",
+      "≅[StrictCat]",
+      "inverse functor",
+      "CatIso",
+      "bijective on objects and arrows"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 113,
+        "symbol": "Isomorphism",
+        "intree_statement": "Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id } — instantiated at StrictCat this is exactly a pair of mutually inverse functors with both composites strictly equal to the identity functor"
+      },
+      {
+        "file": "Instance/StrictCat.v",
+        "line": 38,
+        "symbol": "StrictCat (header)",
+        "intree_statement": "'StrictCat ... is the strict 1-category in which an isomorphism is a genuine (on-the-nose) isomorphism of categories — matching the textbook bare-name Cat'"
+      },
+      {
+        "file": "Construction/Funny/Swap.v",
+        "line": 143,
+        "symbol": "Funny_swap",
+        "intree_statement": "Definition Funny_swap {C D : Category} : (C □ D) ≅[StrictCat] (D □ C) := @Build_Isomorphism StrictCat ... — an in-tree instance of a genuine isomorphism of categories (likewise Funny_assoc, Funny_unit_left/right, and the exponential law of Construction/Funny/Closed.v)"
+      }
+    ],
+    "statement_record": {
+      "book": "An isomorphism T : C -> B of categories is a functor bijective on objects and on arrows; equivalently, T is an isomorphism iff there is a functor S : B -> C with both composites S.T and T.S identity functors (S = T^{-1}).",
+      "intree": "The generic Isomorphism class (to/from with both inverse laws in ≈) applied in StrictCat, whose hom-setoid Functor_StrictEq_Setoid (Theory/Functor.v:508) demands on-the-nose object equality (∀ x, F x = G x) plus transported agreement of the morphism actions; used substantively, e.g. Funny_swap : (C □ D) ≅[StrictCat] (D □ C).",
+      "strength_comparison": "same via the book's 'equivalently' clause (two-sided inverse functor), the standard formal rendering; the primary bijective-on-objects-and-arrows phrasing and the proof that the two characterizations coincide are not separately formalized. Trap flagged: an isomorphism in the sibling [Cat] (hom-setoid = natural isomorphism) is an EQUIVALENCE of categories, not an isomorphism — the faithful counterpart of this item lives in StrictCat only."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified: Class Isomorphism at Theory/Isomorphism.v:113 (to/from + both inverse laws); Functor_StrictEq_Setoid at Theory/Functor.v:508 demands ∀ x, F x = G x plus transported fmap agreement, so an iso in StrictCat is a genuine two-sided-inverse isomorphism of categories (header quote verified, and a strict iso is bijective on objects via S(Tx)=x / T(Sy)=y); concrete witness Funny_swap : (C □ D) ≅[StrictCat] (D □ C) verified at Construction/Funny/Swap.v:143. The record honestly notes the primary bijective-on-objects-and-arrows phrasing and the coincidence proof are not separately formalized, and correctly flags that iso in the weak Cat is an equivalence, not this item."
+    }
+  },
+  {
+    "id": "maclane:I.3:def4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "full functor",
+      "Full",
+      "prefmap",
+      "surjective on hom-sets",
+      "fmap_sur"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 331,
+        "symbol": "Full",
+        "intree_statement": "Class Full `(F : C ⟶ D) := { prefmap {x y} (g : F x ~> F y) : x ~> y; fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g } — 'F is full when each hom-map fmap[F] : (x ~> y) → (F x ~> F y) is surjective. Constructively this is witnessed by a section [prefmap]'"
+      }
+    ],
+    "statement_record": {
+      "book": "T : C -> B is full when for every pair c, c' and every g : Tc -> Tc' in B there is f : c -> c' in C with g = Tf. The composite of two full functors is full.",
+      "intree": "Class Full with a chosen preimage operation prefmap and the section law fmap_sur : fmap[F] (prefmap g) ≈ g (Theory/Functor.v:331-335).",
+      "strength_comparison": "intree-stronger (constructively): fullness carries a chosen section of fmap (split surjectivity) rather than mere existence of a preimage; classically equivalent, and the file documents this as the intended reading of fullness (issue #118). The composition-closure claim is not present."
+    },
+    "gap": "The closure statement 'the composite of two full functors is full' has no in-tree lemma: no Full instance for a composite F ◯ G exists anywhere (searched all Full instances/lemmas; hits are Karoubi_Embed_Full, Sheaves_Full, Equivalence_Full, Models_Full — none about composites). A trivial lemma (prefmap := prefmap ∘ prefmap) but absent.",
+    "negative_search_log": [
+      "grep -rn 'Full_Compose|Compose_Full' --include=*.v . — 0 hits",
+      "grep -rn 'Full (' --include=*.v . | grep -i 'compose|◯' — 0 hits",
+      "grep -rn 'Full\\b' Theory/ Construction/ Instance/ Functor/ — enumerated all Full occurrences; none states closure under composition"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: Class Full verified at Theory/Functor.v:331-335 (split-surjectivity form, documented as intended per issue #118 — intree-stronger is the honest comparison). Independent enumeration of every Full declaration (adjoint_lifting_full, Models_Full, Cat_Iso_to/from_Full, Yoneda_Full, Sheaves_Full, Equivalence_Full, Karoubi_Embed_Full, FunnyToProduct_Full, RT_Full, RoundTrip_Full, MLocal_Full, idem_G_Full) confirms no composite-closure lemma exists. PARTIAL with precise gap is correct."
+    }
+  },
+  {
+    "id": "maclane:I.3:def5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "faithful functor",
+      "Faithful",
+      "embedding",
+      "fmap_inj",
+      "injective on hom-sets"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 342,
+        "symbol": "Faithful",
+        "intree_statement": "Class Faithful `(F : C ⟶ D) := { fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g } — 'F is faithful when each hom-map fmap[F] : (x ~> y) → (F x ~> F y) is injective'"
+      },
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 101,
+        "symbol": "Mon_Forget_Faithful",
+        "intree_statement": "#[export] Instance Mon_Forget_Faithful : Faithful Mon_Forget — an in-tree witness of the book's accompanying example pattern (a faithful forgetful functor of an algebraic structure)"
+      }
+    ],
+    "statement_record": {
+      "book": "T : C -> B is faithful (an embedding) when for parallel f1, f2 : c -> c', Tf1 = Tf2 implies f1 = f2. Composites of faithful functors are faithful. The forgetful functor Grp -> Set is faithful but not full and not a bijection on objects.",
+      "intree": "Class Faithful with fmap_inj : fmap[F] f ≈ fmap[F] g → f ≈ g (Theory/Functor.v:342-344); faithful forgetful functors proven for concrete algebraic structures (Mon_Forget_Faithful, ev1_Faithful, CMon_Forget faithful by construction).",
+      "strength_comparison": "same for the definition itself (faithful setoid rephrasing with ≈). The composition-closure claim and the specific Grp -> Set example (including its negative parts: not full, not bijective on objects) are not present."
+    },
+    "gap": "(1) 'Composites of faithful functors are faithful' has no in-tree lemma (no Faithful instance for F ◯ G; enumerated all Faithful instances — Yoneda_Faithful, Sheaves_Faithful, Mon_Forget_Faithful, Karoubi_Embed_Faithful, etc., none about composites; a one-liner from fmap_inj twice). (2) The book's example U : Grp -> Set cannot be stated (no category of groups in-tree); analogous faithful forgetful functors exist but their non-fullness is not formalized.",
+    "negative_search_log": [
+      "grep -rn 'Faithful_Compose|Compose_Faithful' --include=*.v . — 0 hits",
+      "grep -rn 'Faithful (' --include=*.v . | grep -i 'compose|◯' — 0 hits",
+      "grep -rn 'Instance.*Faithful|Lemma.*Faithful|Theorem.*Faithful|Definition.*Faithful' --include=*.v . — full enumeration; no composite-closure lemma among the hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: Class Faithful verified at Theory/Functor.v:342-344; Mon_Forget_Faithful at Theory/Algebra/Monoid/Hom.v:101. Independent enumeration of every Faithful declaration (Yoneda_Faithful, Equivalence_Faithful, Comon_Forget_Faithful, Sheaves_Faithful, Mon_Forget_Faithful, Karoubi_Embed_Faithful, Cat_Iso_to/from_Faithful, ev1_Faithful, idem_G_Faithful, RT_Faithful, adjoint_lifting_faithful) confirms no composite-closure lemma. Both gap clauses (closure; Grp->Set example incl. non-fullness) verified absent. PARTIAL correct."
+    }
+  },
+  {
+    "id": "maclane:I.3:remark2",
+    "classification": "PRESENT",
+    "aliases": [
+      "hom-set characterization of full/faithful",
+      "T_{c,c'} surjective/injective",
+      "fully faithful",
+      "hom-bijection",
+      "FullyFaithful"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 331,
+        "symbol": "Full",
+        "intree_statement": "Comment (line 323) + class: 'F is full when each hom-map fmap[F] : (x ~> y) → (F x ~> F y) is surjective', witnessed by prefmap/fmap_sur — the surjectivity characterization IS the in-tree definition"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 342,
+        "symbol": "Faithful",
+        "intree_statement": "Comment (line 340) + class: 'F is faithful when each hom-map fmap[F] : (x ~> y) → (F x ~> F y) is injective', field fmap_inj — the injectivity characterization IS the in-tree definition; the induced hom-setoid map itself is fmap with fmap_respects (line 101)"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 355,
+        "symbol": "FullyFaithful",
+        "intree_statement": "Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y — the hom-bijection consequences of full+faithful in action"
+      },
+      {
+        "file": "Theory/Equivalence/FullFaithful.v",
+        "line": 68,
+        "symbol": "FF_ESO_Equivalence (context)",
+        "intree_statement": "The development requires `{@Full C D F} `{@Faithful C D F} `{@EssentiallySurjective C D F} to obtain an equivalence of categories — embodying the remark's point that fully faithful alone does not make T an isomorphism/equivalence (objects of B may lie outside the image)"
+      }
+    ],
+    "statement_record": {
+      "book": "T induces functions T_{c,c'} : hom(c,c') -> hom(Tc,Tc'); T is full iff every T_{c,c'} is surjective and faithful iff every T_{c,c'} is injective; for fully faithful T each T_{c,c'} is a bijection, yet T need not be an isomorphism of categories since objects of B may be outside the image.",
+      "intree": "The hom-map is fmap (Proper via fmap_respects); Full and Faithful are DEFINED as surjectivity (split, via prefmap/fmap_sur) and injectivity (fmap_inj) of that hom-map, so both 'iff's hold definitionally; fully faithful functors reflect isomorphisms (FullyFaithful, Theory/Functor.v:355) and yield an equivalence only with essential surjectivity added (Theory/Equivalence/FullFaithful.v).",
+      "strength_comparison": "same — the characterizations are definitional in-tree (with fullness constructively split, classically equivalent). The closing negative observation ('need not be an isomorphism of categories') is not and cannot naturally be a single formal theorem, but its mathematical content is exactly what Theory/Equivalence/FullFaithful.v encodes by requiring EssentiallySurjective on top of Full+Faithful."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified: the surjectivity/injectivity characterizations ARE the in-tree definitions (Theory/Functor.v:323/331, 340/342, with the hom-map being fmap + fmap_respects:101); FullyFaithful iso-reflection at :355 (Defined, verified); the FF+ESO ⟺ equivalence development at Theory/Equivalence/FullFaithful.v (FF_ESO_Equivalence at :68 context verified) carries the content of the closing negative observation. PRESENT with honest framing."
+    }
+  },
+  {
+    "id": "maclane:I.3:def6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "subcategory",
+      "inclusion functor",
+      "full subcategory",
+      "Incl",
+      "Sub",
+      "wide/replete subcategory"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Subcategory.v",
+        "line": 31,
+        "symbol": "Subcategory",
+        "intree_statement": "Record Subcategory := { sobj : C → Type; shom {x y : C} : sobj x → sobj y → (x ~> y) → Type; scomp ... : shom oy oz f → shom ox oy g → shom ox oz (f ∘ g); sid {x} (ox : sobj x) : shom ox ox (@id C x) } — dom/cod closure holds by construction since shom is indexed by selected objects"
+      },
+      {
+        "file": "Construction/Subcategory.v",
+        "line": 50,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : Category := {| obj := { x : C & sobj S x }; hom := fun x y => { f : `1 x ~> `1 y & shom S `2 x `2 y f }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; ... |} — the subcategory is a category in its own right"
+      },
+      {
+        "file": "Construction/Subcategory.v",
+        "line": 59,
+        "symbol": "Incl",
+        "intree_statement": "Program Instance Incl : Sub ⟶ C := { fobj := fun x => `1 x; fmap := fun x y f => `1 f } — the inclusion functor"
+      },
+      {
+        "file": "Construction/Subcategory.v",
+        "line": 69,
+        "symbol": "Full",
+        "intree_statement": "Definition Full : Type := ∀ (x y : C) (ox : sobj S x) (oy : sobj S y) (f : x ~> y), shom S ox oy f; with Lemma Full_Implies_Full_Functor : Full → Functor.Full Incl (line 74)"
+      },
+      {
+        "file": "Theory/Sheaf/Category.v",
+        "line": 84,
+        "symbol": "Sheaves_Incl",
+        "intree_statement": "Definition Sheaves_Incl : Sheaves ⟶ @Presheaves C Sets, with Sheaves_Full (line 94) and Sheaves_Faithful (line 103) — a worked concrete full subcategory whose inclusion is proven full and faithful"
+      }
+    ],
+    "statement_record": {
+      "book": "A subcategory S of C: some objects and arrows of C closed under dom/cod, identities, and composition; these conditions make S a category and the inclusion S -> C a functor, automatically faithful. S is full when the inclusion is full; a full subcategory is determined by its objects alone. Example: Set_f full in Set.",
+      "intree": "Record Subcategory (sobj/shom closed under sid/scomp), the category Sub, the inclusion functor Incl, the fullness predicate Full with Full_Implies_Full_Functor, plus Wide and Replete; the header states faithfulness of Incl is definitional ('the inclusion is always faithful, since on each hom-set it is the first projection out of a sigma type' — the hom-setoid of Sub IS equivalence of underlying C-arrows).",
+      "strength_comparison": "same in substance up to sigma-type presentation, with extras (Wide, Replete) beyond the book; but the book's 'automatically faithful' clause is asserted only in a comment, not as a formal instance."
+    },
+    "gap": "No general `Faithful (Incl S)` instance is stated (it is a triviality — fmap_inj is the identity because equiv in Sub is `1 f ≈ `1 g — and is proven only for concrete inclusions such as Sheaves_Faithful; searched 'Faithful.*Incl' — only Theory/Sheaf/Category.v:103). Also only one direction of 'full subcategory iff full inclusion' is formalized (Full_Implies_Full_Functor; no converse), and 'determined by its objects alone' is embodied by the Full predicate rather than stated as a lemma. The Set_f ⊂ Set example is absent (other concrete full subcategories abound: Sheaves, Lawvere Models, reflective subcategories).",
+    "negative_search_log": [
+      "grep -rn 'Faithful.*Incl|Incl.*Faithful' --include=*.v . — only Theory/Sheaf/Category.v:103 (concrete case); Construction/Subcategory.v is 95 lines with no Faithful instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Full-file read of Construction/Subcategory.v (95 lines) confirms every citation: Subcategory:31, Sub:50, Incl:59, Full:69, Full_Implies_Full_Functor:74, plus Wide:93/Replete:87; Sheaves_Incl/Full/Faithful at Theory/Sheaf/Category.v:84/94/103 verified. Gap independently confirmed: no general Faithful (Incl S) instance anywhere (faithfulness asserted only in the lines 25-27 comment; trivially provable since Sub's hom equivalence is `1 f ≈ `1 g), only one direction of full-subcategory-iff-full-inclusion, no Set_f ⊂ Set example (FinSet is a standalone skeletal category, not a subcategory of Sets). PARTIAL correct."
+    }
+  }
+]

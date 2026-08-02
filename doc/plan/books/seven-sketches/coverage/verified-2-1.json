@@ -1,0 +1,565 @@
+[
+  {
+    "id": "7sketches:2.2.3:construction-mat",
+    "classification": "PARTIAL",
+    "aliases": [
+      "chemistry monoidal preorder Mat",
+      "reaction network as a symmetric monoidal preorder / resource theory (Coecke-Fritz-Spekkens)",
+      "free commutative monoid on atoms/molecules (material collections, multisets)",
+      "free symmetric monoidal category on a (coloured) signature; FreeColouredPROP / CFreeCat",
+      "presented symmetric monoidal theory (generators = reactions, tensor = +, unit = 0)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/ColouredPROP/Free.v",
+        "line": 148,
+        "symbol": "CFreeCat_Tensor",
+        "intree_statement": "Program Definition CFreeCat_Tensor : CFreeCat S ∏ CFreeCat S ⟶ CFreeCat S := {| fobj := fun p => (fst p ++ snd p)%list; fmap := fun p q m => @CT_tens Colour S (fst p) (fst q) (snd p) (snd q) (fst m) (snd m) |}  (objects of CFreeCat S are [list Colour], i.e. formal collections of wire types; the tensor of objects is concatenation and the tensor of morphisms is CT_tens, so bifunctoriality is exactly Def 2.2(a) monotonicity of reactions under forming collections)"
+      },
+      {
+        "file": "Construction/ColouredPROP/Monoidal.v",
+        "line": 512,
+        "symbol": "CFreeCat_Monoidal",
+        "intree_statement": "Program Definition CFreeCat_Monoidal : @Monoidal (CFreeCat S) := {| I := ([] : list Colour); tensor := CFreeCat_Tensor S; unit_left := ...; unit_right := ...; tensor_assoc := ...; triangle_identity := ...; pentagon_identity := ... |}  (the empty collection is the unit 0, concatenation the product +)"
+      },
+      {
+        "file": "Construction/ColouredPROP/Braided.v",
+        "line": 390,
+        "symbol": "CFreeCat_Symmetric",
+        "intree_statement": "Definition CFreeCat_Symmetric : @SymmetricMonoidal (CFreeCat S) := @Build_SymmetricMonoidal (CFreeCat S) CFreeCat_Braided (fun x y => cfree_braid_invol x y)  (the commutativity of + on collections, here as a braiding rather than an equality of multisets)"
+      },
+      {
+        "file": "Construction/ColouredPROP/Signature.v",
+        "line": 52,
+        "symbol": "CSignature",
+        "intree_statement": "Definition CSignature : Type := list Colour -> list Colour -> Type  (a family of generators indexed by input/output collections — the slot into which the reaction equations 2H2O + 2Na -> 2NaOH + H2 go, one generator per reaction)"
+      }
+    ],
+    "statement_record": {
+      "book": "Mat, the set of material collections (formal non-negative-integer combinations of atoms and molecules), with reaction arrows -> as the preorder relation, the empty collection 0 as monoidal unit and + as monoidal product, is a single symmetric monoidal preorder; the general point is that ≤, ⊗, I may be written with whatever notation the application prefers.",
+      "intree": "CFreeCat S: objects := list Colour (collections of typed wires), hom := CTerm S (terms modulo the strict-SMC equational theory), tensor := ++ with unit [], symmetric via CT_braid; generators supplied by an arbitrary CSignature indexed by pairs of collections.",
+      "strength_comparison": "intree-weaker: the in-tree construction is the free SYMMETRIC MONOIDAL CATEGORY on a signature of generators (proof-relevant homs: a term records HOW the reaction was derived), not a symmetric monoidal PREORDER (where x -> y is a mere proposition); and the object monoid is the free monoid on colours (commutativity only up to braiding) rather than the free COMMUTATIVE monoid of material collections. No chemistry instantiation exists."
+    },
+    "gap": "Three specific things are missing. (1) No `MonoidalPreorder` notion at all: the library expresses a monoidal preorder only as a `Monoidal` structure on a thin category, and does that exactly once, at `_2` (Instance/Two/Monoidal.v:105 `Two_Monoidal`). (2) No posetal/thin collapse of the free (coloured) PROP — Construction/Quotient.v provides generic hom-congruence quotients but no `Monoidal`-preserving quotient by the total relation, so reaction derivability is never a preorder relation in-tree. (3) No chemistry instance: `grep -rn -i 'chemistr|reaction|molecul|material collection'` finds only one background comment (Construction/DecoratedCospan.v:90), never an assertion, and objects are colour words rather than N-combinations.",
+    "negative_search_log": [
+      "grep -rn -iE --include='*.v' 'chemistr|reaction|catalys|reagent|molecul' . -- 1 hit, a comment (Construction/DecoratedCospan.v:90)",
+      "grep -rn -i --include='*.v' 'multiset|material collection|free commutative monoid' . -- 1 hit, a comment (Structure/Monoidal/Symmetric.v:51)",
+      "grep -rn -i --include='*.v' 'quantale|monoidal preorder|posetal|thin categor' . -- only header prose plus Instance/Proset.v, Instance/Two.v, Instance/Two/Monoidal.v"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-2-1.json) leaned ABSENT: my searches `rg -in 'catalys|chemis|reaction|resource theor|molecul'` (2 comment hits: Construction/DecoratedCospan.v:90, Structure/Monoidal/Symmetric.v:84), `rg -in 'monoidal preorder|monoidal poset|quantale'` (1 comment hit, Construction/Enriched.v:78), `rg -in 'multiset|free commutative|free monoid'` (comments only) found no Mat and no monoidal-preorder notion. On reading the record I accept PARTIAL: the free-coloured-PROP spine IS the same construction shape (objects = collections, tensor = concatenation with unit [], generators supplied by a signature indexed by input/output collections), and the record's strength_comparison states the three real divergences (proof-relevant homs vs a preorder, free monoid vs free COMMUTATIVE monoid, no chemistry instance) without overclaiming. All four citations verified verbatim at the exact lines: Construction/ColouredPROP/Free.v:148 `Program Definition CFreeCat_Tensor : CFreeCat S ∏ CFreeCat S ⟶ CFreeCat S` with `fobj := fun p => (fst p ++ snd p)%list` and obligations closed by CTE_tens_cong / CTE_tens_id / CTE_interchange; ColouredPROP/Monoidal.v:512 `CFreeCat_Monoidal` with `I := ([] : list Colour)`; ColouredPROP/Braided.v:390 `CFreeCat_Symmetric`; ColouredPROP/Signature.v:52 `Definition CSignature : Type := list Colour -> list Colour -> Type`. Gap claim (1) independently re-verified: `rg -o 'Two_[A-Za-z_0-9]*' | sort -u` and a sweep of Monoidal instances shows _2 is the ONLY thin category in-tree carrying a `@Monoidal` instance (Props has Cartesian+Terminal but no Monoidal is assembled; Omega/Proset/Poset/Three/Roof carry none), so 'exactly once, at _2' is accurate. All files registered in _CoqProject."
+    }
+  },
+  {
+    "id": "7sketches:2.2.3:def-catalysis",
+    "classification": "ABSENT",
+    "aliases": [
+      "catalyst / catalyzes",
+      "catalysis in a monoidal preorder (x ⊗ y ⊗ k ≤ z ⊗ k without x ⊗ y ≤ z)",
+      "tensoring both sides creates relations; non-cancellative tensor",
+      "catalytic resource conversion (resource theory)",
+      "auxiliary/ancilla object enabling a conversion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -iE --include='*.v' 'catalys' . -- 0 hits",
+      "grep -rn -iE --include='*.v' 'catalyst' . -- 0 hits",
+      "grep -rn -iE --include='*.v' 'cancellat|cancellative' . -- 0 hits (no statement that tensoring can create or fail to reflect morphisms)",
+      "grep -rn -i --include='*.v' 'resource' . -- only header prose (Structure/Monoidal/Symmetric.v:84 cites Coecke-Fritz-Spekkens resource theories in a comment; Structure/Monoidal.v:91 Girard); no assertion",
+      "grep -rn -iE --include='*.v' 'chemistr|reaction|reagent|molecul' . -- 1 comment hit only (Construction/DecoratedCospan.v:90)",
+      "grep -rn -i --include='*.v' 'ancilla|auxiliary object' . -- 0 hits",
+      "note: the derivation the book displays (monotonicity + transitivity chained: x+y+k -> x+y'+k' -> z'+k' -> z+k) is available generically as bifunctoriality of the tensor plus composition, but no in-tree statement isolates the catalysis phenomenon (an inequality that holds only after tensoring with k)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed ABSENT independently. Re-ran the decisive greps: `rg -in 'catalys'` 0 hits; `rg -in 'cancellat'` 0 hits; `rg -in 'chemis|reaction|molecul'` only Construction/DecoratedCospan.v:90 ('chemical reaction networks', prose) and Structure/Monoidal/Symmetric.v:84 (Coecke-Fritz-Spekkens resource theories, prose). Negative log is accurate, including its closing observation that the book's derivation chain is generically available (bifunctoriality + composition) while nothing isolates the catalysis phenomenon (x⊗y⊗k ≤ z⊗k with x⊗y ≤ z failing). No missed counterpart."
+    }
+  },
+  {
+    "id": "7sketches:2.2.3:ex21",
+    "classification": "PARTIAL",
+    "aliases": [
+      "chemistry preorder satisfies the monoidal axioms",
+      "reactions are monotone under +; 0 is a unit; + is associative and commutative",
+      "bifunctoriality of the tensor on collections (monotonicity)",
+      "strict symmetric monoidal laws on the free monoid of colours/words",
+      "verification of Definition 2.2 (a)-(d) for (Mat, ->, 0, +)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/ColouredPROP/Free.v",
+        "line": 148,
+        "symbol": "CFreeCat_Tensor",
+        "intree_statement": "Program Definition CFreeCat_Tensor : CFreeCat S ∏ CFreeCat S ⟶ CFreeCat S := {| fobj := fun p => (fst p ++ snd p)%list; fmap := ... CT_tens ... |} with obligations discharged by CTE_tens_cong, CTE_tens_id and CTE_interchange — clause (a): forming collections is monotone in both arguments"
+      },
+      {
+        "file": "Construction/ColouredPROP/Monoidal.v",
+        "line": 512,
+        "symbol": "CFreeCat_Monoidal",
+        "intree_statement": "Program Definition CFreeCat_Monoidal : @Monoidal (CFreeCat S) := {| I := ([] : list Colour); tensor := CFreeCat_Tensor S; unit_left := ...; unit_right := ...; tensor_assoc := ...; triangle_identity := ...; pentagon_identity := ... |} — clauses (b) adding nothing changes nothing and (c) associativity"
+      },
+      {
+        "file": "Construction/ColouredPROP/Instance.v",
+        "line": 166,
+        "symbol": "CFreeCat_Strict",
+        "intree_statement": "Definition CFreeCat_Strict : @StrictMonoidal (CFreeCat S) := {| ... |} — the unit and associativity laws hold as OBJECT equalities on collections (++ on lists), the strict form the book's (b)/(c) take for material collections"
+      },
+      {
+        "file": "Construction/ColouredPROP/Braided.v",
+        "line": 390,
+        "symbol": "CFreeCat_Symmetric",
+        "intree_statement": "Definition CFreeCat_Symmetric : @SymmetricMonoidal (CFreeCat S) := @Build_SymmetricMonoidal (CFreeCat S) CFreeCat_Braided (fun x y => cfree_braid_invol x y) — clause (d): commutativity of the collection product"
+      }
+    ],
+    "statement_record": {
+      "book": "Check that conditions (a) monotonicity, (b) unit, (c) associativity and (d) commutativity of Definition 2.2 hold for the chemistry structure (Mat, ->, 0, +).",
+      "intree": "The four clauses are proved, but for the free coloured PROP: CFreeCat_Tensor (monotonicity as bifunctoriality of ++), CFreeCat_Monoidal + CFreeCat_Strict (unit [] and associativity, strictly on objects), CFreeCat_Symmetric (commutativity as an involutive braiding).",
+      "strength_comparison": "intree-weaker: the axioms are verified for a proof-relevant free symmetric monoidal category on colour words, not for the thin (preorder) chemistry structure the exercise names; commutativity holds up to braiding rather than on the nose as it does for material collections."
+    },
+    "gap": "The verification exists only for the free-coloured-PROP analogue. Missing: the chemistry structure Mat itself (see 7sketches:2.2.3:construction-mat), a preorder-level statement of the four clauses (the thin case in which the coherence data degenerates to properties), and any monoidal-preorder instance other than `Two_Monoidal` (Instance/Two/Monoidal.v:105).",
+    "negative_search_log": [
+      "grep -rn -iE --include='*.v' 'chemistr|reaction|molecul' . -- 1 comment hit only",
+      "grep -rn -i --include='*.v' 'monoidal preorder' . -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass leaned ABSENT (no chemistry structure to verify axioms for); PARTIAL accepted for the same reason as construction-mat, and the clause-by-clause mapping is honest. Citations verified at exact lines: Free.v:148 CFreeCat_Tensor (bifunctoriality = clause (a), obligations CTE_tens_cong/CTE_tens_id/CTE_interchange read off the file), Monoidal.v:512 CFreeCat_Monoidal (I := [], clauses (b)/(c)), ColouredPROP/Instance.v:166 `Definition CFreeCat_Strict : @StrictMonoidal (CFreeCat S)` (object-level equalities), Braided.v:390 CFreeCat_Symmetric (clause (d) as an involutive braiding). strength_comparison correctly flags that commutativity holds up to braiding rather than on the nose, which is exactly why this is not the thin chemistry structure."
+    }
+  },
+  {
+    "id": "7sketches:2.2.3:def-discard-axiom",
+    "classification": "PRESENT",
+    "aliases": [
+      "discard axiom x ≤ I",
+      "semicartesian / affine monoidal category (unit is terminal)",
+      "discard / delete / counit / eliminate map x ~> I",
+      "I is a top element of the preorder; x -> 0 in chemistry notation",
+      "weakening rule of affine logic"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Semicartesian.v",
+        "line": 37,
+        "symbol": "SemicartesianMonoidal",
+        "intree_statement": "Class SemicartesianMonoidal `{@Monoidal C} := { eliminate {x} : x ~> I; unit_terminal {x} (f g : x ~> I) : f ≈ g; proj_left {x y} : x ⨂ y ~> x := unit_right ∘ id ⨂ eliminate; proj_right {x y} : x ⨂ y ~> y := unit_left ∘ eliminate ⨂ id }"
+      },
+      {
+        "file": "Structure/Monoidal/Semicartesian.v",
+        "line": 70,
+        "symbol": "SemicartesianMonoidal_Terminal",
+        "intree_statement": "Program Definition SemicartesianMonoidal_Terminal `{@Monoidal C} `{@SemicartesianMonoidal C _} : @Terminal C := {| terminal_obj := I; one := @eliminate _ _ _; one_unique := @unit_terminal _ _ _ |}  (the book's 'equivalently I is a top element'; the converse is Terminal_SemicartesianMonoidal at line 84, given 1 = I)"
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 424,
+        "symbol": "CC_SemicartesianMonoidal",
+        "intree_statement": "Program Definition CC_SemicartesianMonoidal : @SemicartesianMonoidal C CC_Monoidal := {| eliminate := fun o => one[o] |}  (every cartesian category with a terminal object satisfies the discard axiom — instantiable at _2 via Two_Cartesian/Two_Terminal, so the one in-tree monoidal preorder does satisfy (e))"
+      },
+      {
+        "file": "Structure/Monoidal/CopyDiscard.v",
+        "line": 110,
+        "symbol": "discard",
+        "intree_statement": "Definition discard `{CopyDiscard} (X : C) : X ~> I := ccomon_epsilon (cd_comonoid X)  (the same axiom as the comonoid counit half of the copy-discard supply, with the wiring-diagram reading the book gives)"
+      }
+    ],
+    "statement_record": {
+      "book": "Added to Definition 2.2(a)-(d), axiom (e): x ≤ I for every x in X — every element can be converted into the monoidal unit, equivalently I is a top element (x -> 0 in chemistry notation); appropriate to manufacturing, not to chemistry; diagrammatically a discard icon terminating a wire.",
+      "intree": "`eliminate {x} : x ~> I` together with `unit_terminal {x} (f g : x ~> I) : f ≈ g`, i.e. semicartesian monoidal; `SemicartesianMonoidal_Terminal` proves this is exactly 'I is terminal (a top element)', and `CC_SemicartesianMonoidal` proves every cartesian+terminal category satisfies it.",
+      "strength_comparison": "intree-stronger: the class adds `unit_terminal` (uniqueness of x ~> I), which is vacuous in a thin category, so on a monoidal preorder the in-tree class is exactly the book's axiom (e); in a general monoidal category it is strictly stronger than bare existence of x ~> I. The book's negative side (chemistry does not satisfy (e)) is not modelled — no non-semicartesian monoidal preorder instance exists to contrast with."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently via the same route (Semicartesian `eliminate : x ~> I` and CopyDiscard `discard`). Every citation verified at the exact cited line: Structure/Monoidal/Semicartesian.v:37 `Class SemicartesianMonoidal` with the quoted four fields (eliminate / unit_terminal / proj_left / proj_right) matching verbatim; :70 SemicartesianMonoidal_Terminal and :84 Terminal_SemicartesianMonoidal (both directions, the converse gated on `Heq : 1 = I` exactly as the record says); Structure/Monoidal/Internal/Product.v:424 `CC_SemicartesianMonoidal : @SemicartesianMonoidal C CC_Monoidal := {| eliminate := fun o => one[o] |}` verbatim; Structure/Monoidal/CopyDiscard.v:110 `Definition discard ... : X ~> I`. strength_comparison is honest in labelling the class intree-STRONGER (the extra unit_terminal) while noting it is vacuous in a thin category — and Instance/Two/Monoidal.v's `two_thin` is the in-tree proof of that vacuity for the one monoidal preorder present, so the reduction to the book's bare (e) is genuinely available. Instantiation at _2 is one term (`@CC_SemicartesianMonoidal _2 Two_Cartesian Two_Terminal`) and is not written in-tree, but the record does not claim otherwise. No same-name-weaker-statement, no unregistered file (both files are in _CoqProject)."
+    }
+  },
+  {
+    "id": "7sketches:2.2.3:def-copy-axiom",
+    "classification": "PRESENT",
+    "aliases": [
+      "copy axiom x ≤ x ⊗ x",
+      "diagonal / duplication / contraction map x ~> x ⨂ x",
+      "relevance monoidal category (diagonal without counit)",
+      "copy-discard (gs-monoidal) category; comonoid comultiplication",
+      "wire-splitting icon; classical information can be copied"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Relevance.v",
+        "line": 45,
+        "symbol": "RelevanceMonoidal",
+        "intree_statement": "Class RelevanceMonoidal := { relevance_is_symmetric : @SymmetricMonoidal C; diagonal {x} : x ~> x ⨂ x; diagonal_natural : natural (@diagonal); diagonal_unit : @diagonal I ≈ unit_left⁻¹; diagonal_tensor_assoc {x} : id ⨂ diagonal ∘ diagonal ≈ tensor_assoc ∘ diagonal ⨂ id ∘ @diagonal x; braid_diagonal {x} : braid ∘ diagonal ≈ @diagonal x; ... }  (copy WITHOUT discard — the book's (f) kept without (e))"
+      },
+      {
+        "file": "Structure/Monoidal/CopyDiscard.v",
+        "line": 82,
+        "symbol": "CopyDiscard",
+        "intree_statement": "Class CopyDiscard : Type := { cd_comonoid (X : C) : CommutativeComonoid X; cd_tensor_delta ...; cd_tensor_epsilon ...; cd_unit_delta ...; cd_unit_epsilon ... } with Definition copy `{CopyDiscard} (X : C) : X ~> (X ⨂ X)%object := ccomon_delta (cd_comonoid X) (line 107)  (the book's (f) together with (e))"
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 319,
+        "symbol": "CC_RelevanceMonoidal",
+        "intree_statement": "Program Definition CC_RelevanceMonoidal : @RelevanceMonoidal C := {| relevance_is_symmetric := CC_SymmetricMonoidal; diagonal := fun _ => Cartesian.fork id id |}  (every cartesian monoidal category satisfies the copy axiom; instantiable at _2 via Two_Cartesian/Two_Terminal, so the one in-tree monoidal preorder satisfies (f))"
+      }
+    ],
+    "statement_record": {
+      "book": "Added to Definition 2.2(a)-(d), optionally keeping (e), axiom (f): x ≤ x ⊗ x for every x — any element can be duplicated; this is what makes sense of the wire-splitting icon. Physical resources do not satisfy it; classical information does.",
+      "intree": "`diagonal {x} : x ~> x ⨂ x` (RelevanceMonoidal, copy with no counit) and `copy (X : C) : X ~> X ⨂ X` (CopyDiscard, copy alongside discard), with `CC_RelevanceMonoidal` showing every cartesian monoidal category has it.",
+      "strength_comparison": "intree-stronger: RelevanceMonoidal additionally requires naturality of the diagonal plus unit/coassociativity/cocommutativity coherence, and CopyDiscard requires a commutative comonoid with tensor and unit coherence — all of which are automatic in a thin category, so on a monoidal preorder these classes coincide with the book's bare axiom (f). The book's remark that adding both copying and discarding naturally collapses to cartesian is in-tree as Fox's theorem (Structure/Monoidal/Markov/Fox.v), stronger than anything Chapter 2 claims."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently (CopyDiscard `copy`, RelevanceMonoidal `diagonal`). Citations verified verbatim: Structure/Monoidal/Relevance.v:45 `Class RelevanceMonoidal` carrying diagonal / diagonal_natural / diagonal_unit / diagonal_tensor_assoc / braid_diagonal / braid2 / diagonal_braid2 (the quoted field list is accurate); Structure/Monoidal/CopyDiscard.v:82 `Class CopyDiscard` with :107 `Definition copy ... : X ~> (X ⨂ X)%object`; Internal/Product.v:319 `CC_RelevanceMonoidal ... diagonal := fun _ => Cartesian.fork id id`. strength_comparison honestly labels the classes intree-stronger (naturality + comonoid coherence) and vacuous in the thin case. ONE prose over-reach, not classification-affecting: the last sentence attributes to the book 'the remark that adding both copying and discarding naturally collapses to cartesian', which the inventory's statement_summary for this item does NOT record (it only says (f) may optionally keep (e)); the Fox pointer itself is right — Structure/Monoidal/Markov/Fox.v:156 `all_deterministic_cartesian : @CartesianMonoidal C`, and Structure/Monoidal/CopyDiscard.v:36-44 states the same collapse condition."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:example27",
+    "classification": "PRESENT",
+    "aliases": [
+      "Bool = (B, ≤, true, AND)",
+      "the two-element preorder false ≤ true with conjunction as tensor",
+      "the walking arrow / interval category _2 with meet and top",
+      "the Boolean base of enrichment (Lawvere: 2-enriched categories are preorders)",
+      "posetal category 2, cartesian monoidal structure"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 105,
+        "symbol": "Two_Monoidal",
+        "intree_statement": "Definition Two_Monoidal : @Monoidal _2 := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal  (tensor := two_meet, unit := TwoY; _2 is the thin category {TwoX < TwoY})"
+      },
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 80,
+        "symbol": "Two_Cartesian",
+        "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |} with Definition two_meet (x y : TwoObj) : TwoObj := match x with TwoX => TwoX | TwoY => y end (line 37) — literally the AND table on {false, true}, proved to be the product"
+      },
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 98,
+        "symbol": "Two_Terminal",
+        "intree_statement": "Program Instance Two_Terminal : @Terminal _2 := {| terminal_obj := TwoY; one := two_one |} — TwoY (= true) is the top element, hence the monoidal unit"
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 165,
+        "symbol": "Enriched_Two_preorder",
+        "intree_statement": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder  (the book's stated later use: Bool as the base of enrichment recovers preorders; EnrichedFunctor_Two_monotone at line 183 adds that enriched functors are exactly monotone maps)"
+      }
+    ],
+    "statement_record": {
+      "book": "Bool := (B, ≤, true, AND) with B = {true, false}, false ≤ true, unit true and product conjunction, is a monoidal preorder (all conditions of Definition 2.2 hold); under false = 0, true = 1 the AND table is multiplication on {0,1}. It is the base of enrichment used later to recover preorders.",
+      "intree": "Two_Monoidal : @Monoidal _2, the cartesian monoidal structure on the thin two-object category _2 = {TwoX < TwoY} with tensor the meet two_meet (the AND table) and unit the top TwoY; Enriched_Two_preorder then proves categories enriched over (_2, Two_Monoidal) are exactly preorders.",
+      "strength_comparison": "same (setoid/thin rephrasing: hom-setoids under Morphism_equality, two_thin discharging every coherence law). One presentational gap: symmetry is not named as a `Two_Symmetric` instance, but the generic CC_SymmetricMonoidal (Structure/Monoidal/Internal/Product.v:314) applies verbatim to Two_Cartesian/Two_Terminal, so the SYMMETRIC monoidal preorder of Definition 2.2 is one instantiation away rather than absent."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently and by the same evidence. All four citations exact: Instance/Two/Monoidal.v:105 `Definition Two_Monoidal : @Monoidal _2 := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal` verbatim; :80 Two_Cartesian with :37 `two_meet x y := match x with TwoX => TwoX | TwoY => y end` — literally the AND table with TwoX = false; :98 Two_Terminal (terminal_obj := TwoY = true = top); Construction/Enriched/Two.v:165 `Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder` and :183 EnrichedFunctor_Two_monotone. The 'false ≤ true and no arrow back' shape is enforced in Instance/Two.v (TwoHom has no TwoY→TwoX constructor; TwoHom_Y_X_absurd). The presentational caveat in strength_comparison is exactly right and I verified both halves: `Two_Monoidal` is typed only `@Monoidal _2` (no Two_Symmetric exists), while `CC_SymmetricMonoidal` (Internal/Product.v:314) is generic over `Context {C} `{@Cartesian C} `{@Terminal C}` and is re-exported by Structure/Monoidal/Cartesian.v, so the symmetric form of Definition 2.2 is one instantiation away. Both files registered in _CoqProject; Instance/Two/Monoidal.vo present. See problems[] for a header overstatement I found in Instance/Two.v while confirming this record (the 2-enrichment correspondence is with DECIDABLE preorders)."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:ex29",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the OR monoidal structure on the Booleans, unit false",
+      "join / disjunction as monoidal product; max on {0,1}",
+      "bottom element as monoidal unit (cocartesian monoidal structure)",
+      "second symmetric monoidal structure on the two-element preorder",
+      "Two_Cocartesian / Two_Initial (dual of Two_Cartesian / Two_Terminal)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := or_introl; exr := or_intror }  (on the thin category Props of truth values ordered by implication, disjunction is the coproduct = join)"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 61,
+        "symbol": "Props_Initial",
+        "intree_statement": "Program Instance Props_Initial : @Initial Props := { terminal_obj := False; one := fun _ _ => False_rect _ _ }  (False — the exercise's answer 'the unit must be false' — is the bottom element, i.e. the unit for join)"
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 54,
+        "symbol": "CC_Monoidal",
+        "intree_statement": "Program Definition CC_Monoidal : @Monoidal C := {| tensor := InternalProductFunctor C; I := 1 |}  (products + terminal ⇒ monoidal; since `Cocartesian C` is a notation for `@Cartesian (C^op)` and `Initial C` for `@Terminal (C^op)`, this bridge dualizes to joins + bottom, but is never instantiated in that direction)"
+      }
+    ],
+    "statement_record": {
+      "book": "On (B, ≤) with false ≤ true, take OR (whose table is max on {0,1}) as monoidal product; determine the unit (false) and check the remaining conditions of Definition 2.2 — establishing that the Boolean preorder carries two distinct symmetric monoidal structures.",
+      "intree": "Props_Cocartesian (product_obj := or) and Props_Initial (terminal_obj := False) assert that on a thin truth-value category disjunction is the join and False the bottom; no monoidal structure is assembled from them, and neither is stated for the two-element preorder _2.",
+      "strength_comparison": "intree-weaker: the join-with-bottom half is asserted only for `Props` (the preorder of ALL propositions under implication, which constructively does not collapse to two elements), and only as Cocartesian/Initial data, never as a second `@Monoidal` structure."
+    },
+    "gap": "Two precise omissions. (1) `_2` carries no join/bottom structure: `grep -rn 'Two_[A-Za-z]*'` finds only Two_Cartesian, Two_Terminal, Two_Monoidal, Two_Discrete — there is no `Two_Cocartesian` or `Two_Initial`, so 'the second monoidal structure on Bool' is not asserted anywhere. (2) There is no Cocartesian+Initial ⇒ Monoidal bridge in-tree (only CC_Monoidal for the cartesian side); obtaining one requires CC_Monoidal at C^op followed by Monoidal_op, which nothing does, so even on Props the OR/false structure is not packaged as `@Monoidal`.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Two_[A-Za-z]*' . -- only Two_Cartesian/Two_Terminal/Two_Monoidal/Two_Discrete plus metacategory Two_* helpers; no Two_Cocartesian, no Two_Initial",
+      "grep -rn --include='*.v' '@Cocartesian|Cocartesian :=' . -- 14 instances (FinSet, Rel, Props, Coq, Cat, Sets, Par, Algs, AST); none on _2 and none feeding a Monoidal",
+      "grep -rn --include='*.v' 'Cocartesian_Monoidal|Cocartesian.*Monoidal' Structure/Monoidal* -- 0 hits (no dual of Cartesian_Monoidal)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass landed between ABSENT and PARTIAL and reached the same two omissions the record names. Citations verified: Instance/Props.v:80 Props_Cocartesian (product_obj := or) and :61 Props_Initial (terminal_obj := False); Internal/Product.v:54 CC_Monoidal. The record's structural claim is correct and I checked it in the source: Structure/Cocartesian.v:115-117 defines `Cocartesian C` as a NOTATION for `@Cartesian (C^op)` and Structure/Initial.v:96-98 `Initial C` for `@Terminal (C^op)`, which is why Props_Cocartesian is written with product_obj/fork/exl/exr — so the dualization route (CC_Monoidal at C^op then Monoidal_op) is real but genuinely untaken. Negative log re-verified independently: `rg -o 'Two_[A-Za-z_0-9]*' | sort -u` yields exactly Two_2_morphism, Two_2_object, Two_Cartesian, Two_Discrete, Two_from_Two, Two_iso_2, Two_Monoidal, Two_monotone, Two_morphism, Two_object, Two_preorder, Two_rect, Two_sep, Two_Terminal, Two_to_Two — no Two_Cocartesian, no Two_Initial; and there is no Cocartesian→Monoidal bridge anywhere under Structure/Monoidal/ (Semicocartesian.v is the unrelated 'I is initial in a monoidal category' notion). Caveat recorded for Phase E: the evidence is ANALOGICAL — Props is the implication preorder of all propositions, not the two-element B, and only Cocartesian/Initial data, never a second `@Monoidal`; a strict reading of the item (Bool with OR) would be ABSENT. PARTIAL stands because the record says precisely this in its own strength_comparison and gap, so no downstream reader is misled."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:example30",
+    "classification": "PARTIAL",
+    "aliases": [
+      "(N, ≤, 0, +) as a monoidal preorder",
+      "natural numbers with addition; additive monoid on nat",
+      "the ordinal ω as a thin category (Omega); LessThanEqualTo_Category",
+      "monotonicity of + with respect to ≤ (Nat.add_le_mono) as a bifunctor",
+      "commutative ordered monoid / ordered monoid (N, +, ≤)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Omega.v",
+        "line": 72,
+        "symbol": "Omega",
+        "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; homset := Morphism_equality; id := fun _ => le_t_n@{h}; compose := fun _ _ _ f g => le_t_trans@{h} g f |}  (the underlying preorder (N, ≤) as a thin category, with the category laws discharged from le_t_trans_id_l/id_r/assoc)"
+      },
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity; compose := fun x y z f g => transitivity g f |}, instantiated at (nat, ≤) as Definition LessThanEqualTo_Category : Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder (line 47; the poset version is Instance/Poset.v:120)"
+      }
+    ],
+    "statement_record": {
+      "book": "(N, ≤, 0, +): the natural numbers with their usual order, unit 0 and product +, form a monoidal preorder; monotonicity holds because x1 ≤ y1 and x2 ≤ y2 imply x1 + x2 ≤ y1 + y2, and the rest of Definition 2.2 is the unit, associativity and commutativity of addition.",
+      "intree": "The preorder half only: Omega (objects nat, homs le_t) and LessThanEqualTo_Category (= @Proset nat Nat.le Nat.le_preorder) present (N, ≤) as a thin category. No tensor.",
+      "strength_comparison": "intree-weaker: only the underlying preorder is formalized; the monoidal structure with unit 0 and product + is not."
+    },
+    "gap": "No monoidal structure on (N, ≤): there is no bifunctor `Omega ∏ Omega ⟶ Omega` (or on LessThanEqualTo_Category) with fobj := Nat.add, no unit 0, and no `@Monoidal Omega` instance — `grep -rn 'Omega'` outside Instance/Omega.v hits only Adamek/Chain/FAlg (the ω-chain shape). Monotonicity of + w.r.t. ≤ is never proved or invoked (`grep -rn 'add_le_mono|mul_le_mono|le_mono'` returns 0 hits). Note the near-miss trap: (nat, +, 0) DOES appear as a symmetric monoidal structure on nat-objects in-tree (Instance/FinSet.v:250 FinSet_Cocartesian with product_obj := m + n and FinSet_Initial at :223; Instance/Shapes.v:429 Vectors_Cartesian with product_obj := plus and Vectors_Terminal 0) — but those categories' morphisms are functions/vectors, not the order ≤, so they are not this example.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'add_le_mono|mul_le_mono|le_mono' . -- 0 hits",
+      "grep -rn --include='*.v' 'Monoidal' Instance/ -- only Sets_Product_Monoidal, Coq_Monoidal, Two_Monoidal, Funny_Monoidal/Braided/Symmetric, ZX prose; nothing on Omega/Proset/Poset",
+      "grep -rn --include='*.v' 'Omega' . -- outside Instance/Omega.v only Theory/Adamek*.v, Construction/Chain.v, Construction/FAlg.v (ω as a diagram shape)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the same gap (preorder yes, tensor no). Citations exact: Instance/Omega.v:72 `Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; ... |}`; Instance/Proset.v:33 Proset with :47 `LessThanEqualTo_Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder`; the poset twin is indeed Instance/Poset.v:120. Negative claims independently re-verified: `rg 'add_le_mono|mul_le_mono|le_mono'` 0 hits; no `@Monoidal Omega` / bifunctor with fobj := Nat.add anywhere; Omega is used outside its own file only as the ω-chain shape (Theory/Adamek*.v, Construction/Chain.v, Construction/FAlg.v). The near-miss trap is real and well flagged (Instance/FinSet.v:250 FinSet_Cocartesian, :223 FinSet_Initial; Instance/Shapes.v:429-430 Vectors_Cartesian with product_obj := plus, :416 Vectors_Terminal) — those categories' morphisms are functions/vectors, not ≤. Two off-by-one line refs inside the gap prose (not in evidence[]): the size clause `Times x y => size x * size y` is Instance/Shapes.v:144 (record says 143) and `product_obj := Plus` is :363 (record says 362). Cosmetic only."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:ex31",
+    "classification": "PARTIAL",
+    "aliases": [
+      "(N, ≤, 1, *) as a monoidal preorder",
+      "natural numbers with multiplication; multiplicative monoid on nat",
+      "second monoidal structure on the same preorder (N, ≤)",
+      "monotonicity of * with respect to ≤ (Nat.mul_le_mono)",
+      "unit 1 for the multiplicative tensor"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Omega.v",
+        "line": 72,
+        "symbol": "Omega",
+        "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; homset := Morphism_equality; id := fun _ => le_t_n@{h}; compose := fun _ _ _ f g => le_t_trans@{h} g f |}  (the underlying preorder (N, ≤) as a thin category)"
+      },
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; ... |}, instantiated at (nat, ≤) as LessThanEqualTo_Category (line 47) — the carrier preorder the exercise re-tensors"
+      }
+    ],
+    "statement_record": {
+      "book": "The usual order (N, ≤) also carries a monoidal structure whose product is multiplication (6 * 4 = 24) with unit 1; together with Example 2.30 this gives two different monoidal structures on the same preorder.",
+      "intree": "Only the shared carrier preorder (N, ≤) is in-tree (Omega, LessThanEqualTo_Category); neither the additive nor the multiplicative tensor is constructed, so the 'two structures on one preorder' point is not made anywhere.",
+      "strength_comparison": "intree-weaker: preorder only, no tensor."
+    },
+    "gap": "No multiplicative monoidal structure on (N, ≤): no `@Monoidal Omega`, no bifunctor with fobj := Nat.mul, and monotonicity of * w.r.t. ≤ (Nat.mul_le_mono) is never stated (0 hits). Multiplication on nat appears in-tree only inside `size` for shapes (Instance/Shapes.v:143, `Times x y => size x * size y`) — and even there the Tries product is `Plus`, not `Times` (Instance/Shapes.v:362) — so no category anywhere uses multiplication as its tensor. The companion point of the exercise (two distinct monoidal structures on ONE preorder) has no in-tree analogue either: `_2` carries exactly one (Two_Monoidal).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'mul_le_mono|Nat.mul' . -- no monotonicity lemma; Nat.mul only in Instance/Shapes.v size and Theory/Multicategory arity arithmetic",
+      "grep -rn --include='*.v' 'product_obj := .*\\*|tensor.*mul' . -- 0 hits (no multiplicative tensor)",
+      "grep -rn --include='*.v' 'Monoidal' Instance/ -- nothing on Omega/Proset/Poset"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL, same shared-carrier reasoning. Citations exact (Instance/Omega.v:72, Instance/Proset.v:33/:47). Negative claims re-verified: no `mul_le_mono` anywhere (0 hits); no tensor whose fobj is Nat.mul; multiplication on nat appears only in Instance/Shapes.v's `size` (line 144, the record's '143' is off by one) and in arity arithmetic. The companion point (two distinct monoidal structures on ONE preorder) is correctly reported as having no in-tree analogue: _2 carries exactly one (`Two_Monoidal`), confirmed by the Two_* symbol sweep. Note for Phase E: ex31 and example30 share one gap (no tensor on (N,≤)) and are natural co-tenants of a single issue."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:example32",
+    "classification": "ABSENT",
+    "aliases": [
+      "divisibility preorder (N, |) with unit 1 and product *",
+      "m divides n; Nat.divide; the divisibility lattice",
+      "monotonicity of multiplication for divisibility (x1|y1, x2|y2 ⇒ x1x2|y1y2)",
+      "the multiplicative monoidal preorder of naturals ordered by divisibility",
+      "gcd/lcm lattice on N"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -iE --include='*.v' 'divis' . -- 1 hit, unrelated prose (Instance/Coq.v:72 'division of labour')",
+      "grep -rn -iE --include='*.v' 'divide' . -- 1 hit, unrelated prose (Structure/Cartesian.v:70 'collects that dividend')",
+      "grep -rn --include='*.v' 'Nat.divide' . -- 0 hits",
+      "grep -rn -iE --include='*.v' 'gcd' . -- 0 hits; 'lcm\\b' -- 0 hits; 'prime' -- only bibliographic ('los 30 primeros años', 'a primer on')",
+      "grep -rn -i --include='*.v' 'semilattice|Lattice' . -- only comment prose (Instance/Poset.v, Theory/Lawvere.v, Construction/Opposite.v); no lattice/meet-semilattice abstraction exists",
+      "grep -rn --include='*.v' 'PeanoNat.Nat.le|Nat.le_preorder' . -- the only preorder instantiated over nat is ≤ (Instance/Proset.v:47, Instance/Poset.v:120); the generic Proset (Instance/Proset.v:34) would accept a divisibility PreOrder but no such instance exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Negative log re-verified essentially verbatim: `rg -in 'divis|divide'` returns exactly two unrelated prose hits (Instance/Coq.v:72 'division of labour', Structure/Cartesian.v:70 'that dividend'); `rg 'Nat.divide'` 0 hits; no gcd/lcm; no lattice/meet-semilattice abstraction; the only preorder instantiated over nat is ≤ (Instance/Proset.v:47, Instance/Poset.v:120). The log correctly notes that generic `Proset` (Instance/Proset.v:33) would accept a divisibility PreOrder but no such instance exists, so the carrier preorder itself is absent, not merely the tensor. No counterpart missed."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:ex33",
+    "classification": "ABSENT",
+    "aliases": [
+      "divisibility with addition is not monoidal",
+      "(N, |, 0, +) fails Definition 2.2 (monotonicity of + for divisibility)",
+      "counterexample to monotonicity of a proposed tensor",
+      "non-example of a monoidal preorder",
+      "Nat.divide not compatible with Nat.add"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -iE --include='*.v' 'divis|divide' . -- 2 hits, both unrelated prose; no divisibility relation exists to state the non-example over",
+      "grep -rn --include='*.v' 'Nat.divide' . -- 0 hits",
+      "grep -rn -iE --include='*.v' 'counterexample|countermodel|non-example' . -- the idiom exists in-tree (e.g. the 2-cocycle countermodel in Theory/Displayed.v) but never for a failed monoidal/monotonicity axiom",
+      "grep -rn -iE --include='*.v' 'not monoidal|fails monotonic|not a bifunctor' . -- 0 hits",
+      "grep -rn --include='*.v' 'add_le_mono|Nat.add.*mono' . -- 0 hits (no compatibility-of-+-with-an-order results at all, positive or negative)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. The classification follows from example32: with no divisibility relation in-tree there is nothing over which to state the non-example. Re-verified `rg 'Nat.divide'` 0 hits and `rg 'add_le_mono|Nat.add.*mono'` 0 hits, so the library has no compatibility-of-+-with-an-order results in either direction. The log's observation that the countermodel IDIOM exists in-tree (Theory/Displayed.v's 2-cocycle countermodel) but never for a failed monoidal/monotonicity axiom is accurate and useful for Phase E."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:ex34",
+    "classification": "PARTIAL",
+    "aliases": [
+      "NMY = ({no, maybe, yes}, ≤, yes, min)",
+      "three-element linear preorder / the ordinal 3 as a thin category",
+      "min as monoidal product, top element as unit (meet-semilattice with top)",
+      "three-valued analogue of Bool; Lukasiewicz three-valued truth values",
+      "Cartesian + Terminal structure on a three-object chain"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 413,
+        "symbol": "Three",
+        "intree_statement": "Definition Three : Category := FromArrows ThreeArrows, where Program Definition ThreeArrows : Metacategory := {| pairs := [map (0,0)+=>0; (1,1)+=>1; (2,2)+=>2; (0,3)+=>3; (3,1)+=>3; (1,4)+=>4; (4,2)+=>4; (3,4)+=>5; (0,5)+=>5; (5,2)+=>5] |} (line 395) — three objects with arrows 0→1, 1→2 and their composite 0→2: exactly the chain no → maybe → yes as a category"
+      },
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 80,
+        "symbol": "Two_Cartesian",
+        "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |} with Two_Terminal (terminal_obj := TwoY) at line 98 and Two_Monoidal at line 105 — the two-element instance of exactly the pattern the exercise asks for (min = meet as tensor, top as unit), fully built"
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 314,
+        "symbol": "CC_SymmetricMonoidal",
+        "intree_statement": "Definition CC_SymmetricMonoidal : @SymmetricMonoidal C := {| symmetric_is_braided := CC_BraidedMonoidal; braid_invol := @swap_invol _ _ |}  (with CC_Monoidal at line 54: any category with binary products and a terminal object is symmetric monoidal — the general reason 'min with unit = top' satisfies Definition 2.2, applicable to any finite chain)"
+      },
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity; compose := fun x y z f g => transitivity g f |}  (the three-element chain becomes a thin category by one instantiation; Test/Poset.v does exactly this for a bespoke two-element order at line ~118)"
+      }
+    ],
+    "statement_record": {
+      "book": "For the preorder no → maybe → yes: make 'min' precise by its 3x3 table and check the axioms of Definition 2.2 for NMY := (P, ≤, yes, min), the three-valued analogue of Bool.",
+      "intree": "The carrier chain exists as a category (`Three := FromArrows ThreeArrows`, three objects with 0→1, 1→2, 0→2), and the pattern of the answer — min as the categorical meet with the top as unit, yielding a symmetric monoidal structure — is fully built at the two-element case (Two_Cartesian/Two_Terminal/Two_Monoidal) and available generically (CC_Monoidal / CC_SymmetricMonoidal).",
+      "strength_comparison": "intree-weaker: no meet or unit is constructed on the three-element chain, so NMY itself is not exhibited as a monoidal preorder."
+    },
+    "gap": "Missing for the 3-element chain: a min bifunctor, a `@Cartesian Three` / `@Terminal Three`, hence no `@Monoidal Three`; also nothing states that `Three` is thin or identifies it with the ordinal-3 chain — the only such identification in-tree is at n = 2 (`Two_iso_2 : Category_from_Metacategory Two ≅ _2`, Theory/Metacategory/ArrowsOnly.v:523). `Three` is moreover packaged through the metacategory/arrows-only encoding rather than as a `Proset`, so even the carrier is not presented as a preorder.",
+    "negative_search_log": [
+      "grep -rn -iE --include='*.v' 'three-element|three element|linear order|chain preorder' . -- 0 relevant hits",
+      "grep -rn --include='*.v' 'Nat.min|Definition meet|Definition join' . -- 0 hits (two_meet in Instance/Two/Monoidal.v:37 is the only meet in the tree)",
+      "grep -rn --include='*.v' '@Cartesian Three|@Terminal Three|Monoidal Three' . -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL and found the same carrier: Theory/Metacategory.v:413 `Definition Three : Category := FromArrows ThreeArrows`. I decoded the arrow table myself and confirm it is the 3-chain: identities 0,1,2; arrow 3 : 0→1 (from (0,3)⇒3 and (3,1)⇒3), 4 : 1→2, and 5 : 0→2 as the composite ((3,4)⇒5, (0,5)⇒5, (5,2)⇒5). Supporting citations exact: Instance/Two/Monoidal.v:80/:98/:105 (the n=2 instance of the very pattern asked for), Internal/Product.v:314 CC_SymmetricMonoidal, Instance/Proset.v:33 Proset. The gap is accurate and I re-verified its three negative claims: `rg '@Cartesian Three|@Terminal Three|Monoidal Three'` 0 hits; `rg 'Nat.min|Definition meet'` 0 hits (two_meet at Instance/Two/Monoidal.v:37 is the tree's only meet — note `Definition join` DOES hit, but only the monad join in Theory/Coq/Monad.v:48 and the Reflective/Idempotent join_iso family, nothing lattice-theoretic); `Two_iso_2` exists exactly where cited, Theory/Metacategory/ArrowsOnly.v:523. Health check on the evidence: Theory/Metacategory.v is in _CoqProject, its .vo is present, its three `Abort.`s (lines 430/436/442) abandon auxiliary lemmas only, and `ThreeArrows_card_3` really is closed (Qed at line 525) — so `Three` is sound evidence. One off-by-one in the evidence prose: ThreeArrows is defined at line 396, not 395 (the primary cited line, 413, is correct)."
+    }
+  },
+  {
+    "id": "7sketches:2.2.4:ex35",
+    "classification": "PARTIAL",
+    "aliases": [
+      "powerset P(S) ordered by inclusion with unit S and product ∩",
+      "meet-semilattice with top as a symmetric monoidal preorder",
+      "subsets of a set / Ensemble T ordered by Included",
+      "subobject preorder (categorical powerset) with intersection as pullback",
+      "Props: propositions ordered by implication with ∧ and True (the S = 1 case)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }  (on the thin category Props — objects Prop, hom := Basics.impl, hom-setoid trivial — conjunction is the product, i.e. intersection is the meet)"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 53,
+        "symbol": "Props_Terminal",
+        "intree_statement": "Program Instance Props_Terminal : @Terminal Props := { terminal_obj := True; one := fun _ _ => I }  (the top element is the unit — the exercise's proposed unit S, in the propositional presentation)"
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 314,
+        "symbol": "CC_SymmetricMonoidal",
+        "intree_statement": "Definition CC_SymmetricMonoidal : @SymmetricMonoidal C := {| symmetric_is_braided := CC_BraidedMonoidal; braid_invol := @swap_invol _ _ |}  (together with CC_Monoidal at line 54, `tensor := InternalProductFunctor C; I := 1`: products + terminal ⇒ symmetric monoidal, which is precisely why (P(S), ⊆, S, ∩) satisfies Definition 2.2 — the answer to the exercise, stated generically)"
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 67,
+        "symbol": "sub_le_trans",
+        "intree_statement": "Lemma sub_le_trans (u v w : SubObj x) : sub_le u v → sub_le v w → sub_le u w, with sub_le_refl (line 62) and Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u } (line 59) — the categorical powerset of x ordered by inclusion (factorization) IS proved to be a preorder"
+      }
+    ],
+    "statement_record": {
+      "book": "For a set S let P(S) be its power set ordered by A ≤ B iff A ⊆ B, with monoidal unit S and monoidal product A ∩ B; decide whether the conditions of Definition 2.2 hold (they do).",
+      "intree": "The general reason holds in-tree — CC_Monoidal / CC_SymmetricMonoidal turn binary products plus a terminal object into a symmetric monoidal structure — and the meet-with-top instance is realized on the thin category Props (product := and, terminal := True). The inclusion preorder of subobjects is proved to be a preorder (sub_le_refl / sub_le_trans) but carries no meets.",
+      "strength_comparison": "intree-weaker: no powerset-of-a-set preorder exists, so the exercise's instance is only present in the analogous forms ∧/True on Props and (in the two-element case) meet/top on _2."
+    },
+    "gap": "There is no (P(S), ⊆) preorder in-tree. `Instance/Ens.v:56 EnsT T` does have Ensembles of T as objects, but its homs are carrier functions f : T → T with ∀ x, x ∈ A ↔ f x ∈ B (A = f⁻¹(B)) — NOT inclusions — and it has no Terminal/Cartesian instance, so intersection is never shown to be a product and S is never shown terminal (`grep -rn 'EnsT|Ens_'` finds no structures at all on it). `Theory/Subobject.v` supplies the inclusion preorder on subobjects but constructs no meet (intersection-as-pullback appears only as a comment, Structure/Pullback.v:94) and no top (the identity mono), hence no `@Cartesian (SubObj x)` and no monoidal structure. `grep -rn -i 'powerset|power set'` returns 0 hits.",
+    "negative_search_log": [
+      "grep -rn -i --include='*.v' 'powerset|power set' . -- 0 hits",
+      "grep -rn -i --include='*.v' 'Included|Ensembles.Intersection|subset order|inclusion order' . -- 0 hits (Ensembles used only in Instance/Ens.v and Instance/Rel.v, never ordered by inclusion)",
+      "grep -rn --include='*.v' 'EnsT|Ens_' . -- only the definition itself; no Terminal/Cartesian/Monoidal structure on it",
+      "grep -rn -i --include='*.v' 'semilattice|Lattice|greatest lower bound' . -- only comment prose; no lattice abstraction"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass leaned ABSENT; PARTIAL accepted after checking the record's Props leg, which is stronger than I first credited: Props (Instance/Props.v:39-50) is the THIN category of propositions under implication with a trivial hom-setoid, so Props_Cartesian (:69, product_obj := and) + Props_Terminal (:53, terminal_obj := True) is genuinely the meet-with-top monoidal-preorder pattern the exercise asks about, at the truth-value/P(1) level. All citations exact, including Theory/Subobject.v:59 `sub_le`, :62 sub_le_refl, :67 sub_le_trans and Internal/Product.v:314 CC_SymmetricMonoidal. Gap re-verified independently: `rg 'Included'` 0 hits; Instance/Ens.v:56 `EnsT T` has Ensembles as objects but homs `∃ f : T → T, ∀ x, x ∈ A ↔ f x ∈ B` (NOT inclusions) and carries no Terminal/Cartesian/Monoidal structure (`rg 'EnsT|Ens_'` finds only the definition); intersection-as-pullback is indeed only prose (Structure/Pullback.v:93-94, 'the pullback of two monomorphisms is the intersection of subobjects'); no `@Cartesian (SubObj x)` exists. ONE inaccurate negative claim, not classification-affecting: the log and gap both assert `grep -i 'powerset|power set'` returns 0 hits, but there is 1 hit — Structure/Topos.v:75, 'the categorical power set', describing `Pow a := Ω ^ a` with `relations_iso`. Pow/Ω is the topos-internal power object, not a subset-inclusion preorder with intersection, so it does not change PARTIAL; a Phase-E issue should nonetheless mention Structure/Topos.v's Pow and Theory/Subobject.v together as the natural in-tree landing site for a meet on subobjects."
+    }
+  }
+]

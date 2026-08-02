@@ -1,0 +1,310 @@
+[
+  {
+    "id": "maclane:VIII.4:thm3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "member of an object (x ∈_m a)",
+      "generalized element / element-chasing rules",
+      "diagram-chasing calculus",
+      "monic iff injective-on-members; epic iff surjective-on-members",
+      "vanishing test (fx ≡ 0 ⟹ x ≡ 0)",
+      "subtraction rule for members"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Abelian.v",
+        "line": 170,
+        "symbol": "monic_iff_kernel_pzero",
+        "intree_statement": "Lemma monic_iff_kernel_pzero {x y : C} (f : x ~> y) : Monic f ↔ (∀ (z : C) (u : z ~> x), f ∘ u ≈ zero_mor → u ≈ zero_mor)."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 116,
+        "symbol": "Monic",
+        "intree_statement": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }."
+      },
+      {
+        "file": "Structure/Abelian.v",
+        "line": 200,
+        "symbol": "epic_iff_cokernel_pzero",
+        "intree_statement": "Lemma epic_iff_cokernel_pzero {x y : C} (f : x ~> y) : Epic f ↔ (∀ (z : C) (u : y ~> z), u ∘ f ≈ zero_mor → u ≈ zero_mor)."
+      }
+    ],
+    "statement_record": {
+      "book": "Theorem 3 lists six elementary rules for chasing diagrams with MEMBERS of objects in any abelian category: (i) f monic iff ∀ x ∈_m a, fx ≡ 0 ⟹ x ≡ 0; (ii) f monic iff ∀ x,x' ∈_m a, fx ≡ fx' ⟹ x ≡ x'; (iii) g epi iff every z ∈_m c has y ∈_m b with gy ≡ z; (iv) h = 0 iff hx ≡ 0 ∀ x; (v) a→b→c exact at b iff gf = 0 and every y with gy ≡ 0 has x with fx ≡ y; (vi) subtraction rule. These presuppose the member apparatus (def-member): members = arrows into a, the equivalence x ≡ y iff ∃ epis u,v with xu = yv, a zero member, and negatives.",
+      "intree": "Monic f is DEFINED as left cancellation ∀ g1 g2, f∘g1 ≈ f∘g2 → g1 ≈ g2 (Theory/Morphisms.v, = rule (ii) read with strict ≈ in place of ≡). Structure/Abelian.v proves the abelian-category vanishing tests monic_iff_kernel_pzero (Monic f ↔ ∀u, f∘u ≈ 0 → u ≈ 0, = rule (i) read with ≈ for ≡, since in an abelian category x ≡ 0 ⟺ x ≈ 0) and epic_iff_cokernel_pzero (a co-vanishing test u∘f ≈ 0 → u ≈ 0).",
+      "strength_comparison": "intree-weaker: the MEMBER calculus that IS the substance of Theorem 3 is entirely absent — no notion of member (x ∈_m a), no equivalence ≡, no member-classes, zero member, or negatives, and no `member' file/definition anywhere in the tree. Only the categorical shadows of rules (i) [monic_iff_kernel_pzero] and (ii) [the definition of Monic] are present, stated over ALL morphisms with strict ≈ rather than over member-classes with ≡. Rule (iii) (epi = surjective-on-members) has NO in-tree counterpart — epic_iff_cokernel_pzero is a co-vanishing test, a DIFFERENT statement, not the surjectivity characterization. Rules (iv), (v) (member-exactness, which also needs the absent `exact at' predicate), and (vi) (subtraction) are absent."
+    },
+    "gap": "The member apparatus (def-member: members as arrows into an object, the ≡ equivalence via epis, zero member, negatives) is not formalized; hence Theorem 3 cannot be stated in-tree in its member form. Only rule (i) (as the categorical lemma monic_iff_kernel_pzero) and rule (ii) (as the definition of Monic) have faithful categorical analogues. Rules (iii) member-surjectivity for epi, (iv) member zero-test, (v) member-exactness (also needs an unformalized `exact at' predicate im f = ker g), and (vi) subtraction are absent.",
+    "negative_search_log": [
+      "grep -rniE 'member|diagram.?chas|element.?chas' --include='*.v' . → only unrelated hits (universe `member level' in Test/ProbeFunnyPoly.v; finite-map `member' in Theory/Coq/Map.v); no member-of-an-object apparatus",
+      "grep -rniE 'generalized.?element|generalised.?element|global.?element' --include='*.v' . → only `global element' (points 1 ~> x) in Tools/Represented.v and Functor/Structure/Constant.v — a different notion (points, not members)",
+      "grep -rnE '(Definition|Class|Record|Notation|Inductive) [A-Za-z_]*[Ee]xact' --include='*.v' . → only Lib/IList.v `ith_exact' (list indexing); no member/exactness predicate"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently located all three cited symbols, quotes verbatim-accurate: monic_iff_kernel_pzero (Structure/Abelian.v:170), epic_iff_cokernel_pzero (Abelian.v:200), Monic (Theory/Morphisms.v:116); both distinct evidence files registered in _CoqProject (Structure/Abelian.v@287, Theory/Morphisms.v@462). Confirmed the MEMBER apparatus is entirely absent: 0 hits for member-of-an-object / pseudo-element / ∈_m / ≡ across the tree; rule (v) needs a homological 'exact at' predicate which does not exist (the ONLY definitional 'exact' token tree-wide is Lib/IList.v:131 ith_exact, list indexing). Verified the record's supporting claim x≡0 ⟺ x≈0: member 0 gives xu=0 with u epi, cancel u ⟹ x=0; converse via identity epi. strength_comparison is honest and correctly flags rule (iii) [epi=surjective-on-members] as a DIFFERENT statement from the co-vanishing epic_iff_cokernel_pzero. Minor: epic_iff_cokernel_pzero is cited as evidence but matches none of the six rules (it is the dual vanishing test, supporting context); the record itself flags this, so no correction needed. PARTIAL with precisely-stated gap is the honest call."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:lem4",
+    "classification": "ABSENT",
+    "aliases": [
+      "five lemma",
+      "5 lemma / short five lemma",
+      "five-term ladder with exact rows",
+      "isomorphism from four outer isos",
+      "long five lemma"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'five.?lemma|5.?lemma' --include='*.v' . → 0 hits",
+      "grep -rniE 'five lemma|short five' --include='*.v' . → 0 hits",
+      "grep -rniE 'short.exact|exact.sequence|\\bSes\\b' --include='*.v' . → 0 formalization (only Coend.v paper-title `exact sequences' and the Abelian.v background essay); the five lemma requires exact rows, which are not formalized",
+      "grep -rnE '(Definition|Class|Record|Notation|Inductive) [A-Za-z_]*[Ee]xact' --include='*.v' . → no `exact'/`exact at' predicate; no exact-sequence type exists to state the lemma over",
+      "find . -name '*.v' | grep -iE 'homolog|exact|diagram|chase|lemma|abelian|complex|snake|member' → only Structure/Abelian.v (no diagram-lemma file)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: 0 hits for 'five lemma'/'5 lemma' tree-wide; no exact-sequence type exists (only definitional 'exact' token is Lib/IList.v:131 ith_exact). No exact rows to state the lemma over. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:construction-ker-coker-rows",
+    "classification": "ABSENT",
+    "aliases": [
+      "induced kernel and cokernel rows of a morphism of short exact sequences",
+      "kernel row / cokernel row",
+      "diagram (5) with exact columns",
+      "induced arrows m0,e0,m1,e1",
+      "partial exactness of ker/coker rows"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'ker.?coker|kernel.?cokernel|kernel row|cokernel row' --include='*.v' . → 0 hits for the induced-row construction",
+      "grep -rniE 'short.?exact|\\bSes\\b|morphism of short exact' --include='*.v' . → 0 hits; the construction takes a morphism of short exact sequences as input, which has no in-tree type",
+      "grep -rnE '(Definition|Class|Record|Notation|Inductive) [A-Za-z_]*[Ee]xact' --include='*.v' . → no exactness predicate; the rows' exactness (at Kef,Keg,Cog,Coh) cannot be stated",
+      "Structure/Kernel.v provides only the kernel/cokernel API (IsKernel, IsCokernel, kernel_desc, cokernel_desc, normal_mono/epi) — the induced-row arrows and their exactness are not constructed anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: no morphism-of-SES type, no kernel/cokernel row construction, no exactness predicate. Structure/Kernel.v supplies only the IsKernel/IsCokernel/kernel_desc/cokernel_desc/normal_mono API (verified by reading the file). ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:lem5",
+    "classification": "ABSENT",
+    "aliases": [
+      "snake lemma",
+      "ker-coker sequence",
+      "connecting morphism δ / boundary map",
+      "six-term exact sequence 0→Kef→Keg→Keh→Cof→Cog→Coh→0",
+      "zig-zag lemma"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'snake|ker.?coker|connecting.(hom|arrow|morph)' --include='*.v' . → the only `snake' hits are the compact-closed/traced zigzag (`snake_left'/`snake_right' in Structure/Monoidal/CompactClosed.v, Traced.v, Frobenius.v) — a completely different notion; no snake lemma",
+      "grep -rniE 'connect|delta.*connect|boundary' --include='*.v' . → no connecting/boundary morphism δ",
+      "grep -rniE 'six.?term|ker-coker sequence|kernel.?cokernel sequence' --include='*.v' . → 0 hits",
+      "grep -rnE '(Definition|Class|Record|Notation|Inductive) [A-Za-z_]*[Ee]xact' --include='*.v' . → no exact-sequence type; δ, the six-term sequence, and its exactness are unformalized (pullbacks/pushouts exist in Structure/Pullback.v, Pushout.v but δ is not built from them)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: every 'snake' hit tree-wide is the compact-closed/traced/Frobenius zigzag ('yanking') identity (CompactClosed.v snake_left/right, Traced.v, Frobenius.v, Collapse.v) — a different notion; no connecting/boundary morphism δ, no six-term ker-coker sequence, no exactness. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "minimal hypotheses for f_3 monic in the five lemma",
+      "sharp/monic five lemma",
+      "f1 epi, f2 and f4 monic ⟹ f3 monic",
+      "four lemma (monic half)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'five.?lemma|4.?lemma|four.?lemma' --include='*.v' . → 0 hits; this exercise refines the (absent) five lemma",
+      "grep -rniE 'short.?exact|exact.sequence' --include='*.v' . → 0 formalization; the exercise is stated over exact rows that are not formalized",
+      "find . -name '*.v' | grep -iE 'homolog|exact|diagram|chase|lemma|abelian|complex|snake|member' → only Structure/Abelian.v — no diagram-lemma development to house this refinement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: refines the absent five lemma; 0 hits for five/four lemma; no exact-row hypotheses formalizable. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "five lemma f_3 epi via members",
+      "epi half of the five lemma",
+      "member-based diagram chase for surjectivity",
+      "Rule (vi) subtraction application"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'five.?lemma' --include='*.v' . → 0 hits; the underlying five lemma is absent",
+      "grep -rniE 'member|diagram.?chas|element.?chas' --include='*.v' . → no member calculus (required — the exercise asks explicitly for a member proof using Rule (vi))",
+      "grep -rnE '(Definition|Class|Record|Notation|Inductive) [A-Za-z_]*[Ee]xact' --include='*.v' . → no exactness predicate to state the exact-row hypotheses"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: depends on the absent five lemma AND the absent member calculus (exercise explicitly asks for a member proof using Rule (vi)); neither exists. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "complete exactness of the ker-coker (snake) sequence",
+      "exactness at Keg / Keh / Cof / Cog of the six-term sequence",
+      "snake lemma exactness proof completion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'snake|ker.?coker|six.?term' --include='*.v' . → no snake/ker-coker sequence (the `snake' hits are compact-closed zigzags)",
+      "grep -rnE '(Definition|Class|Record|Notation|Inductive) [A-Za-z_]*[Ee]xact' --include='*.v' . → no exactness predicate; nothing to complete",
+      "grep -rniE 'connecting|delta' --include='*.v' . → no connecting morphism; the sequence whose exactness is to be completed does not exist in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: no ker-coker/snake sequence and no 'exact at' predicate exist to complete; the target six-term sequence is not defined in-tree. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "connecting morphism δ is natural",
+      "naturality of the boundary map",
+      "δ as a natural transformation on the category of morphisms of short exact sequences",
+      "functoriality of the snake connecting map"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'connecting|delta.*natural|boundary' --include='*.v' . → no connecting morphism δ at all",
+      "grep -rniE 'snake|ker.?coker' --include='*.v' . → no snake lemma to whose δ this could refer",
+      "grep -rniE 'short.?exact|\\bSes\\b' --include='*.v' . → no category of (morphisms of) short exact sequences over which naturality would be stated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: no connecting morphism δ and no category of (morphisms of) short exact sequences over which to state naturality. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "3x3 lemma / nine lemma",
+      "middle 3x3 lemma",
+      "3-by-3 lemma bordered by zeros",
+      "nine lemma via the ker-coker sequence"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '3.?x.?3|nine.?lemma|3.?by.?3|3x3 lemma' --include='*.v' . → 0 hits",
+      "grep -rniE 'short.?exact|exact.sequence' --include='*.v' . → 0 formalization; the 3x3 lemma is about a grid of short exact rows/columns, none formalized",
+      "grep -rnE '(Definition|Class|Record|Notation|Inductive) [A-Za-z_]*[Ee]xact' --include='*.v' . → no exactness predicate"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: 0 hits for 3x3/nine lemma/3-by-3; no short-exact-sequence grid and no exactness predicate. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:ex6",
+    "classification": "ABSENT",
+    "aliases": [
+      "six-term exact sequence for a composite gf",
+      "kernel-cokernel sequence of a composite 0→Kef→Ke(gf)→Keg→Cof→Co(gf)→Cog→0",
+      "exact sequence of the composite",
+      "Ker/Coker long exact sequence"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'six.?term|ker.?coker|kernel.?cokernel sequence' --include='*.v' . → 0 hits",
+      "grep -rnE '(Definition|Class|Record|Notation|Inductive) [A-Za-z_]*[Ee]xact' --include='*.v' . → no exact-sequence type; kernels/cokernels of f, g, gf exist as an API (Structure/Kernel.v) but the six-term sequence and its exactness are not constructed",
+      "grep -rniE 'exact.sequence|short.?exact' --include='*.v' . → 0 formalization"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: no six-term/ker-coker sequence type; kernels/cokernels of f,g,gf exist only as the Kernel.v API, but the composite's exact sequence is not constructed and no exactness predicate exists. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:ex7",
+    "classification": "ABSENT",
+    "aliases": [
+      "Ses(A) not abelian in general",
+      "category of short exact sequences",
+      "Ses A additive but not abelian",
+      "counterexample to abelianness of the arrow/SES category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bSes\\b|short.?exact|shortexact' --include='*.v' . → 0 hits; the category Ses A (construction-ses) is not formalized, so its non-abelianness cannot be stated",
+      "grep -rniE 'abelian' --include='*.v' . → only Structure/Abelian.v (the Abelian class + facts); no Ses A instance and no non-example",
+      "find Instance -name '*.v' | grep -iE 'ses|abelian|exact' → 0 hits (no Ses/abelian instance)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: no category Ses(A) exists (word-boundary Ses/SES/ShortExact = 0 hits; Construction/Arrow.v carries no Ses/abelian content); the only abelian development is Structure/Abelian.v (the class + facts), with no Ses instance and no non-abelianness counterexample. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:remark-embedding",
+    "classification": "ABSENT",
+    "aliases": [
+      "Lubkin-Haron-Freyd-Mitchell embedding theorem",
+      "Freyd-Mitchell embedding theorem",
+      "full faithful exact functor A → R-Mod",
+      "faithful exact functor A → Ab",
+      "embedding of a small abelian category into modules"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'mitchell|lubkin|haron|embedding.theorem|faithful.exact' --include='*.v' . → Structure/Abelian.v:109 mentions `The Freyd-Mitchell embedding (Freyd, Abelian Categories, Thm 7.34, 1964)' but only inside the background-essay COMMENT block (as the classical warrant for diagram chasing), not as a formalized theorem; Structure/Closed.v and Structure/Topos.v hits are unrelated (closed-category embedding; Mitchell-Bénabou language)",
+      "grep -rniE 'exact.?functor|preserves.?(kernel|cokernel|finite.?limit).*colimit' --include='*.v' . → 0 hits; `exact functor' (a prerequisite for even stating the embedding) is not defined",
+      "find Instance -name '*.v' | grep -iE '\\bab\\b|module|rmod|vect' → 0 hits; no Ab or R-Mod target category exists in-tree, and no small-abelian-category embedding is constructed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: Freyd-Mitchell / Lubkin appear ONLY in the Structure/Abelian.v background-essay COMMENT block (lines 40, 51, 109-111, 345) as motivation for the diagram-chasing style, never as a formalized theorem; no 'exact functor' definition exists and no Ab / R-Mod target category exists in-tree. Meaningfully formalizable (small abelian ⟶ R-Mod, and the library has universe polymorphism), so ABSENT is correct, not OUT_OF_SCOPE. Confirmed."
+    }
+  }
+]

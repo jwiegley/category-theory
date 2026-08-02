@@ -1,0 +1,521 @@
+[
+ {
+  "id": "riehl:4.2:lem2",
+  "classification": "PRESENT",
+  "aliases": [
+   "unit of an adjunction",
+   "eta : Id => G F",
+   "unit : Id ⟹ U ◯ F (this library's F : D ⟶ C left / U : C ⟶ D right convention)",
+   "transpose of the identity, ⌊id⌋ / to adj id",
+   "return / ret (monadic name for the same component)",
+   "hom_unit (Adjunction/Hom.v naming)"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Hom.v",
+    "line": 78,
+    "symbol": "hom_unit",
+    "intree_statement": "Program Definition hom_unit : Id ⟹ U ◯ F := {| transform := fun x => @morphism _ _ _ _ (to hom_adj (x, F x)) id |}."
+   },
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 84,
+    "symbol": "Adjunction_to_Transform",
+    "intree_statement": "Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U := {| Transformation.unit := {| transform := fun _ => unit |}; Transformation.counit := {| transform := fun _ => counit |} |}.   (* F ∹ U carries unit : Id ⟹ U ◯ F *)"
+   },
+   {
+    "file": "Theory/Equivalence/Adjoint.v",
+    "line": 85,
+    "symbol": "adj_unit_naturality",
+    "intree_statement": "Lemma adj_unit_naturality {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) {x y : D} (f : x ~{D}~> y) : fmap[U] (fmap[F] f) ∘ @unit C D F U A x ≈ @unit C D F U A y ∘ f."
+   }
+  ],
+  "statement_record": {
+   "book": "Given an adjunction F ⊣ G there is a natural transformation η : id_C ⇒ GF, the unit, whose component η_c : c → GFc is the transpose of id_{Fc}; naturality follows from Lemma 4.1.3.",
+   "intree": "hom_unit : Id ⟹ U ◯ F with transform x := to hom_adj (x, F x) id; equivalently Theory/Adjunction.v's `Definition unit {x : D} : x ~> U (F x) := ⌊id⌋` assembled into a natural transformation by Adjunction_to_Transform, with the naturality square adj_unit_naturality : fmap[U] (fmap[F] f) ∘ η x ≈ η y ∘ f.",
+   "strength_comparison": "same — the component is literally the transpose of the identity in both packagings (hom-bifunctor form and hom-setoid form), and naturality is proved at an arbitrary f (adj_unit_naturality generalises Theory/Adjunction.v's unit_comp, which pins the codomain to a U-image). Left/right adjoint letters are swapped relative to Riehl (in-tree F is the LEFT adjoint D ⟶ C and U the right adjoint C ⟶ D), a pure renaming."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Cited evidence verified at the cited lines: Adjunction/Hom.v:78 `Program Definition hom_unit : Id ⟹ U ◯ F := {| transform := fun x => @morphism _ _ _ _ (to hom_adj (x, F x)) id |}` (quote exact); Adjunction/Natural/Transformation/Universal.v:84-95 Adjunction_to_Transform, whose first two obligations discharge naturality of η from to_adj_nat_l/to_adj_nat_r; Theory/Equivalence/Adjoint.v:85-87 adj_unit_naturality, quote exact. My own additional hit, not cited but confirming: Theory/Adjunction.v:214 `Definition unit {x : D} : x ~> U (F x) := ⌊id⌋` — the component IS the transpose of the identity, exactly Riehl's definition — with Theory/Adjunction.v:238 unit_comp as the U-image-restricted naturality square. All four files are registered in _CoqProject. strength_comparison honest: adj_unit_naturality is genuinely the arbitrary-f square, so the 'same' verdict is not resting on the weaker unit_comp."
+  }
+ },
+ {
+  "id": "riehl:4.2:lem3",
+  "classification": "PRESENT",
+  "aliases": [
+   "counit of an adjunction",
+   "epsilon : FG => id_D",
+   "counit : F ◯ U ⟹ Id",
+   "transpose of the identity, ⌈id⌉ / from adj id",
+   "extract (comonadic name)",
+   "hom_counit"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Hom.v",
+    "line": 97,
+    "symbol": "hom_counit",
+    "intree_statement": "Program Definition hom_counit : F ◯ U ⟹ Id := {| transform := fun x => @morphism _ _ _ _ (from hom_adj (U x, x)) id |}."
+   },
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 84,
+    "symbol": "Adjunction_to_Transform",
+    "intree_statement": "Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U := {| ...; Transformation.counit := {| transform := fun _ => counit |} |}.   (* F ∹ U carries counit : F ◯ U ⟹ Id *)"
+   },
+   {
+    "file": "Theory/Equivalence/Adjoint.v",
+    "line": 95,
+    "symbol": "adj_counit_naturality",
+    "intree_statement": "Lemma adj_counit_naturality {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) {x y : C} (f : x ~{C}~> y) : @counit C D F U A y ∘ fmap[F] (fmap[U] f) ≈ f ∘ @counit C D F U A x."
+   }
+  ],
+  "statement_record": {
+   "book": "Dual to Lemma 4.2.2: an adjunction F ⊣ G has a natural transformation ε : FG ⇒ id_D, the counit, whose component ε_d : FGd → d is the transpose of id_{Gd}.",
+   "intree": "hom_counit : F ◯ U ⟹ Id with transform x := from hom_adj (U x, x) id; Theory/Adjunction.v's `Definition counit {x : C} : F (U x) ~> x := ⌈id⌉` assembled by Adjunction_to_Transform, with naturality adj_counit_naturality : ε y ∘ fmap[F] (fmap[U] f) ≈ f ∘ ε x.",
+   "strength_comparison": "same — component is the transpose of the identity, naturality proved at an arbitrary f. The in-tree file is genuinely dual to the unit development (Adjunction/Natural/Transformation/Opposite.v turns one into the other), matching the book's 'obtained by dualizing'."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Adjunction/Hom.v:97 hom_counit quote exact; Theory/Equivalence/Adjoint.v:95-97 adj_counit_naturality quote exact; Theory/Adjunction.v:215 `Definition counit {x : C} : F (U x) ~> x := ⌈id⌉` (transpose of the identity) with :228 counit_comp. The dual-development claim in strength_comparison is verified: Adjunction/Natural/Transformation/Opposite.v:33-56 builds the opposite adjunction's unit field by `apply counit` and its counit field by `apply unit`, so the two lemmas really are each other's duals in-tree. Registered in _CoqProject."
+  }
+ },
+ {
+  "id": "riehl:4.2:example4",
+  "classification": "ABSENT",
+  "aliases": [
+   "free group on a set / F ⊣ U : Group ⇄ Set",
+   "reduced words, formal inverses",
+   "unit = singleton-word insertion η_S : S → UF(S)",
+   "counit = evaluation homomorphism ε_G : FU(G) → G",
+   "category of groups Grp / Group",
+   "universal element (Definition 2.3.3) of Group(F(S),−) ≅ Set(S,U(−))"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'free group' . → 3 hits, ALL prose in header essays (Theory/Universal/Arrow.v lines 39/45 on Samuel's universal mappings, Structure/Terminal.v line 34); no definition, no functor, no adjunction.",
+   "grep -rn --include='*.v' -i 'FreeGroup' . → 0 hits.",
+   "grep -rn --include='*.v' -i 'Group ⟶' . → 0 hits (no functor out of a category of groups).",
+   "grep -rn --include='*.v' -iE '\\bGroup\\b' . | grep -v groupoid → all hits are (a) header prose citing Eilenberg–Mac Lane / group extensions, (b) the symmetric-GROUP action of Theory/Multicategory*.v, (c) Structure/Group.v's `Class GroupObject` (a group OBJECT internal to a cartesian category — no category of groups, no forgetful functor, no free construction), (d) Instance/Comp.v's `Definition Group := Algebra GroupOp GroupEq` (line 382), an equational-algebra TYPE with no category instance and no free construction.",
+   "grep -rn --include='*.v' -i 'reduced word' . → 0 hits; -i 'group completion' → 0; -i 'Grothendieck group' → 0.",
+   "grep -rn --include='*.v' -E '(Definition|Instance|Program).*⊣' . → the complete list of in-tree adjunctions contains no algebraic free⊣forgetful pair: Kleisli_Adjunction, EM_Adjunction, CoKleisli/CoEM_Adjunction, Adjunction_Compose/Id, Diagonal_Product_Adjunction, idem_reflective_adj, adjoint_triangle (Monad/Lifting.v), Construction/Free/Quiver.v's FreeForgetfulAdjunction (free CATEGORY on a quiver — Riehl 4.1.13, not 4.1.10), Instance/Shapes.v's Cardinality ⊣ Canonicity, Instance/Coq.v's (− × x) ⊣ (x → −).",
+   "Nearest in-tree ANALOGUES of the example's content, none about groups: Monad/Eilenberg/Moore/Adjunction.v:190 EM_unit_agrees (`unit ≈ ret[T]`) and :197 EM_counit_agrees (`t_alg_hom[counit y] ≈ t_alg[`2 y]`, i.e. the counit at a free-algebra adjunction IS the evaluation/structure map), and Construction/Free/Quiver.v:508 UnitQuiverCatAdjunction (the unit sends an edge to the singleton path). Neither instantiates a group, a word, or a free group."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-ran the decisive searches: `rg -i 'free group'` → 3 hits, all header prose (Theory/Universal/Arrow.v Samuel essay ×2, Structure/Terminal.v); `rg -i FreeGroup` → 0; no Grp/Group category instance exists (ls Instance/ shows no Grp; Structure/Group.v:109 is `Class GroupObject`, a group object internal to a cartesian category). ONE REFINEMENT to the classifier's negative log, which strengthens rather than weakens ABSENT: Instance/Comp.v does carry a genuine CATEGORY of algebras — Instance/Comp.v:151 `Program Definition Algs : Category` over OpAlgebra S — plus a free algebra Instance/Comp.v:92 `Definition Free : OpAlgebra S` with its universal property (:108 induced_hom, :116 from_free_unique). The classifier's phrase 'an equational-algebra TYPE with no category instance' is accurate for `Definition Group := Algebra GroupOp GroupEq` (Instance/Comp.v:382; the equational layer has no category), but a reader should know the signature layer does have one. Even so: no forgetful functor out of Algs, no free functor, no adjunction, and nothing about groups, words, or formal inverses — so the free-group unit/counit example has no in-tree counterpart."
+  }
+ },
+ {
+  "id": "riehl:4.2:def5",
+  "classification": "PRESENT",
+  "aliases": [
+   "unit/counit definition of adjunction",
+   "counit-unit adjunction, zig-zag identities",
+   "triangle identities εF ∘ Fη = 1_F, Gε ∘ ηG = 1_G",
+   "Adjunction_Transform / F ∹ U",
+   "whiskering Fη, εF, ηG, Gε"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Natural/Transformation.v",
+    "line": 35,
+    "symbol": "Adjunction_Transform",
+    "intree_statement": "Class Adjunction_Transform := { unit : Id ⟹ U ◯ F; counit : F ◯ U ⟹ Id; counit_fmap_unit {X} : transform[counit] (F X) ∘ fmap[F] (transform[unit] X) ≈ id; fmap_counit_unit {X} : fmap[U] (transform[counit] X) ∘ transform[unit] (U X) ≈ id }."
+   },
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 42,
+    "symbol": "Adjunction_from_Transform",
+    "intree_statement": "Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U := {| adj := fun a b => {| to := {| morphism := fun f => fmap f ∘ transform[unit[A]] a |}; from := {| morphism := fun f => transform[counit[A]] b ∘ fmap f |} |} |}."
+   }
+  ],
+  "statement_record": {
+   "book": "An adjunction is a pair F : C ⇄ D : G with η : id_C ⇒ GF and ε : FG ⇒ id_D satisfying the two triangle identities εF ∘ Fη = 1_F (in D^C) and Gε ∘ ηG = 1_G (in C^D), the whiskerings being defined componentwise.",
+   "intree": "Class Adjunction_Transform := { unit : Id ⟹ U ◯ F; counit : F ◯ U ⟹ Id; counit_fmap_unit {X} : counit (F X) ∘ fmap[F] (unit X) ≈ id; fmap_counit_unit {X} : fmap[U] (counit X) ∘ unit (U X) ≈ id }, notation F ∹ U.",
+   "strength_comparison": "same — the triangle identities are stated COMPONENTWISE (`≈ id` at each object) rather than as equalities of whiskered natural transformations in the functor categories; since equality of natural transformations in [C,D] is componentwise equivalence, this is the faithful setoid rendering, and it is exactly the componentwise unfolding the book itself gives for the whiskerings ((Gε)_d = G(ε_d), (εF)_c = ε_{Fc}). Definition 4.2.5 is moreover certified to define the SAME notion as Definition 4.1.1 by the round trip Adjunction_from_Transform / Adjunction_to_Transform."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Adjunction/Natural/Transformation.v:35-43 verified verbatim: the class carries unit : Id ⟹ U ◯ F, counit : F ◯ U ⟹ Id, and BOTH triangle identities as fields (counit_fmap_unit, fmap_counit_unit). Adjunction/Natural/Transformation/Universal.v:42 Adjunction_from_Transform verified, and its converse at :84 — so the classifier's claim that Definition 4.2.5 is certified to define the same notion as Definition 4.1.1 is backed by a proved round trip, not asserted. The componentwise-vs-whiskered point in strength_comparison is the correct setoid reading. Registered in _CoqProject."
+  }
+ },
+ {
+  "id": "riehl:4.2:remark6",
+  "classification": "PRESENT",
+  "aliases": [
+   "counit is a one-sided inverse of the translated unit",
+   "ε_{Fc} is a left inverse (retraction) of F η_c",
+   "η_{Gd} is a right inverse (section) of G ε_d",
+   "zig-zag / triangle identity read as a split mono-epi",
+   "counit_fmap_unit, fmap_counit_unit"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 280,
+    "symbol": "counit_fmap_unit",
+    "intree_statement": "Corollary counit_fmap_unit {x} : ε ∘ fmap[F] η ≈ id[F x].   (* ε at F x is a left inverse of fmap[F] η : F x ~> F (U (F x)) *)"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 288,
+    "symbol": "fmap_counit_unit",
+    "intree_statement": "Corollary fmap_counit_unit {x} : fmap[U] ε ∘ η ≈ id[U x].   (* η at U x is a right inverse of fmap[U] ε : U (F (U x)) ~> U x *)"
+   }
+  ],
+  "statement_record": {
+   "book": "η_c and ε_d live in different categories and are not composable, but F η_c : Fc → FGFc has left inverse ε_{Fc}, and G ε_d : GFGd → Gd has right inverse η_{Gd}; this is what 'the counit is a left inverse of the unit modulo translation' means.",
+   "intree": "counit_fmap_unit {x} : ε ∘ fmap[F] η ≈ id[F x] and fmap_counit_unit {x} : fmap[U] ε ∘ η ≈ id[U x] — both derived in Theory/Adjunction.v from the hom-setoid iso, and stated as fields of Adjunction_Transform.",
+   "strength_comparison": "same — the two equations ARE the remark's content, at exactly the whiskered components the remark names. The remark's incidental split-mono/split-epi vocabulary is available in-tree (Theory/Morphisms.v `Section`/`Retraction`, with SplitMono/SplitEpi abbreviations) but is not instantiated at these two arrows; that packaging carries no additional mathematical claim."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Theory/Adjunction.v:280-286 `Corollary counit_fmap_unit {x} : ε ∘ fmap[F] η ≈ id[F x]` and :288-294 `Corollary fmap_counit_unit {x} : fmap[U] ε ∘ η ≈ id[U x]` — quotes exact, and these are literally the remark's two one-sided-inverse assertions at the whiskered components the remark names. The strength_comparison is honest in flagging that the Section/Retraction vocabulary of Theory/Morphisms.v is not instantiated at these arrows; that packaging adds no claim. No same-name-weaker-statement risk: the identically named FIELDS of Adjunction_Transform (Adjunction/Natural/Transformation.v:39-42) state the same equations at transform[counit] (F X) / transform[unit] (U X)."
+  }
+ },
+ {
+  "id": "riehl:4.2:thm7",
+  "classification": "PARTIAL",
+  "aliases": [
+   "six equivalent definitions of an adjunction",
+   "hom-set form ⟺ unit/counit form ⟺ universal arrow form",
+   "Adjunction ⟺ Adjunction_Hom ⟺ Adjunction_Transform",
+   "unit as universal arrow / initial object of c ↓ G",
+   "counit as terminal object of F ↓ d",
+   "Mac Lane IV.1 Theorem 2 (left adjoint from universal arrows)"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 42,
+    "symbol": "Adjunction_from_Transform",
+    "intree_statement": "Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U := {| adj := fun a b => {| to := {| morphism := fun f => fmap f ∘ transform[unit[A]] a |}; from := {| morphism := fun f => transform[counit[A]] b ∘ fmap f |} |} |}.   (* clause (ii) ⇒ clause (i) *)"
+   },
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 84,
+    "symbol": "Adjunction_to_Transform",
+    "intree_statement": "Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U := {| Transformation.unit := {| transform := fun _ => unit |}; Transformation.counit := {| transform := fun _ => counit |} |}.   (* clause (i) ⇒ clause (ii), triangle identities discharged from naturality of adj *)"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 248,
+    "symbol": "adj_univ_impl",
+    "intree_statement": "Corollary adj_univ_impl {x y} (f : F x ~> y) (g : x ~> U y) : f ≈ ε ∘ fmap[F] g ↔ ⌊f⌋ ≈ g.   (* the universal property of ε_y: every f : F x ~> y factors as ε ∘ fmap[F] g through the unique g = ⌊f⌋ — clause (vi) in ∃!-form *)"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 264,
+    "symbol": "to_adj_unit",
+    "intree_statement": "Corollary to_adj_unit {x y} (f : F x ~> y) : ⌊f⌋ ≈ fmap[U] f ∘ η.   (* display (4.2.8): the transposition map of clause (iii) IS the hom-setoid isomorphism adj; the dual display (4.2.9) is from_adj_counit : ⌈f⌉ ≈ ε ∘ fmap[F] f, Theory/Adjunction.v:272 *)"
+   },
+   {
+    "file": "Theory/Universal/Arrow.v",
+    "line": 214,
+    "symbol": "AdjunctionFromUniversalArrows",
+    "intree_statement": "Definition AdjunctionFromUniversalArrows (H : forall c : C, UniversalArrow c U) : @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U.   (* with Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); ... } — clause (v) ⇒ an adjunction *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For F : C ⇄ D : G, an adjunction F ⊣ G is equivalently encoded by any of six data: (i) a natural family of isos D(Fc,d) ≅ C(c,Gd); (ii) η and ε satisfying the triangle identities; (iii) η alone such that f♯ ↦ Gf♯ ∘ η_c is an iso D(Fc,d) ≅ C(c,Gd); (iv) ε alone such that g♭ ↦ ε_d ∘ Fg♭ is an iso; (v) η whose component at each c is an INITIAL object of c ↓ G; (vi) ε whose component at each d is a TERMINAL object of F ↓ d.",
+   "intree": "(i) is `Class Adjunction` (Theory/Adjunction.v:130, hom-setoid form) and `Class Adjunction_Hom` (Adjunction/Hom.v:72, natural iso of hom-bifunctors in [D^op ∏ C, Sets]); (ii) is `Class Adjunction_Transform`; (i)⟺(ii) is proved in both directions and in both packagings (Adjunction_from_Transform / Adjunction_to_Transform, and Adjunction_Hom_to_Transform / Adjunction_Transform_to_Hom, Adjunction_Hom_to_Universal / Adjunction_Universal_to_Hom). Displays (4.2.8)/(4.2.9) are to_adj_unit / from_adj_counit; the ∃!-form of (v)/(vi) is adj_univ + to_adj_unit and adj_univ_impl. `UniversalArrow c U := Initial (=(c) ↓ U)` with AdjunctionFromUniversalArrows gives (v) ⇒ adjunction.",
+   "strength_comparison": "intree-weaker: only the (i)⟺(ii) leg of the six-way equivalence is closed in both directions. The remaining clauses appear as one-directional fragments (see gap)."
+  },
+  "gap": "Three of the six legs are one-directional, and the theorem is nowhere stated as a single equivalence. (a) Clauses (iii)/(iv) exist only in the forward direction: given F ⊣ U, to_adj_unit / from_adj_counit identify the transposition maps and `adj` supplies invertibility; there is NO in-tree lemma taking a bare natural η : Id ⟹ U ◯ F (with F and U BOTH GIVEN) whose composite fmap[U](−) ∘ η is bijective and producing F ⊣ U — the only route, Build_Adjunction' via universal arrows, CONSTRUCTS its own left adjoint (LeftAdjointFunctorFromUniversalArrows) instead of accepting the given F. (b) Clause (v) holds only in the direction (v) ⇒ adjunction (AdjunctionFromUniversalArrows); no in-tree lemma converts a given F ⊣ U into `UniversalArrow c U` witnesses, i.e. no proof that η_c is an INITIAL object of the comma category =(c) ↓ U — the universal property survives only in the ∃!-form (adj_univ / to_adj_unit), unpackaged from the comma category. (c) Clause (vi) has no comma-category form at all in either direction: `adj_univ_impl` gives the ∃!-property of ε_d, but there is no dual of UniversalArrow/AdjunctionFromUniversalArrows (grep for RightAdjointFunctor|CoUniversal|TerminalArrow → 0 hits), so 'ε_d is terminal in F ↓ d' is never stated and no adjunction is ever built from a counit alone.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -E 'RightAdjointFunctor|CoUniversal|couniversal|TerminalArrow' . → 0 hits (no dual of the universal-arrow assembly).",
+   "grep -rn --include='*.v' -E '(Adjunction|adj).*(Initial|UniversalArrow)|(Initial|UniversalArrow).*(Adjunction)' . → only AdjunctionFromUniversalArrows and its four call sites (Construction/Free/Quiver.v, Monad/Lifting.v, Adjunction/GAFT.v, Adjunction/GAFT/Examples.v); nothing in the adjunction ⇒ universal-arrow direction.",
+   "grep -rn --include='*.v' 'Build_Adjunction'\\''' . → 5 uses (Theory/Universal/Arrow.v, Theory/Equivalence/Adjoint.v, Monad/{Eilenberg/Moore,Kleisli}/Adjunction.v); every one supplies a full hom-setoid iso, none reconstructs an adjunction from a unit alone."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, with the same shape of gap. All five evidence items verified at their lines (Universal.v:42/:84, Theory/Adjunction.v:248/:264, Theory/Universal/Arrow.v:214). Negative claims re-run and confirmed: `rg 'RightAdjointFunctor|CoUniversal|couniversal|TerminalArrow'` → 0 hits, so clause (vi) truly has no comma-category form; no lemma anywhere turns a given F ⊣ U into UniversalArrow witnesses, so clause (v) is one-directional. ONE ADDITION to gap (a) that does not change the verdict: Theory/Universal/Arrow.v:158 `universal_arrow_from_UMP (c : C) (F : D ⟶ C) (d : D) (η : c ~> fobj[F] d) (u : ∀ d' f, ∃! g, f ≈ fmap[F] g ∘ η) : UniversalArrow c F` accepts exactly the unique-factorization content of clause (iii) — and notably does NOT require η to be natural — but the adjunction it feeds (AdjunctionFromUniversalArrows) still manufactures LeftAdjointFunctorFromUniversalArrows rather than the given F, so the classifier's statement that no in-tree lemma produces `F ⊣ U` for the GIVEN F from a unit alone stands. Build_Adjunction' use sites re-counted: 4 call sites + the definition (Theory/Adjunction.v:156), all supplying a full hom-setoid iso; classifier's '5 uses' is off by the definition site only. See problems[] for a documentation defect that bears directly on this item: three headers call Theory/Adjunction.v 'the universal-morphism form', which would send a reader hunting clauses (v)/(vi) to the wrong file."
+  }
+ },
+ {
+  "id": "riehl:4.2:cor10",
+  "classification": "ABSENT",
+  "aliases": [
+   "Galois connection fixed-point formulae FGF = F, GFG = G",
+   "monotone Galois connection between posets, lower/upper adjoint",
+   "adjunction between preorders / thin categories (Proset, Poset)",
+   "closure operator GF, interior operator FG, idempotency",
+   "f(X) = f(f^{-1}(f(X))) and f^{-1}(f(f^{-1}(Y))) = f^{-1}(Y) for direct/inverse image"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'galois' . → 16 hits, ALL header prose (Theory/Adjunction.v:78-79, Instance/Poset.v:37-100, Instance/Adjoints.v:280, Structure/Limit.v:53, Structure/Factorization.v:69, Adjunction/GAFT.v:136). No definition, class, lemma or instance of a Galois connection anywhere in the tree.",
+   "grep -rn --include='*.v' -i 'lower adjoint' . → 0 hits; -i 'upper adjoint' → 0 hits.",
+   "grep -rn --include='*.v' 'FGF' . → 0 hits; 'GFG' → 0 hits; 'F ◯ U ◯ F' → 0 hits (no statement about the composite triple functor).",
+   "grep -rn --include='*.v' -i 'Proset|Poset' | grep -E 'Definition|Theorem|Lemma|Instance|Program' → only Instance/Proset.v:33 `Program Definition Proset (P : PreOrder R) : Category`, Instance/Proset.v:47 and Instance/Poset.v:120 `LessThanEqualTo_Category`, Instance/Poset.v:116 `Definition Poset ... : Category := Proset P`, and the Test/Poset.v sanity file (poset_nat_skeletal : antisymmetry of ≤ on nat). No functor between two prosets is ever constructed, let alone an adjoint pair.",
+   "grep -rn --include='*.v' -i 'closure operator' . → 4 hits, all prose. The direct-image/inverse-image adjunction f_* ⊣ f^{-1} of the illustrating paragraph is likewise absent: grep -rn --include='*.v' -iE 'direct image|inverse image|powerset' finds only Instance/Sets/Image.v (concrete images for the regular factorization) with no poset-of-subsets adjunction.",
+   "Note: the general categorical ingredients exist (counit_fmap_unit / fmap_counit_unit, Theory/Adjunction.v:280,288), but Corollary 4.2.10's conclusion is an EQUALITY of functors that needs thinness + antisymmetry of the ambient posets; neither the Galois-connection setting nor the equality conclusion is stated in-tree, so this is no partial coverage of the claim."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-ran: `rg -i galois` → hits only in header prose (Theory/Adjunction.v:78-79, Instance/Poset.v:37-100, Instance/Adjoints.v:280, Structure/Limit.v:53, Structure/Factorization.v:69, Adjunction/GAFT.v:136); no Galois class/definition/lemma. Instance/Proset.v and Instance/Poset.v build the thin CATEGORY but no functor between two prosets is ever constructed, so no poset adjunction exists to specialise. The final note in the negative log is the right call: the triangle identities alone do not give FGF = F (which needs thinness), so this is not partial coverage — the general-categorical statement FGF ≅ F is simply false without thinness, and no equality-of-functors conclusion is anywhere in-tree. Also confirmed absent: the f_* ⊣ f^{-1} powerset illustration (Instance/Sets/Image.v carries images for the regular factorization, not a subset-poset adjunction)."
+  }
+ },
+ {
+  "id": "riehl:4.2:lem11",
+  "classification": "PARTIAL",
+  "aliases": [
+   "an adjunction restricts to an equivalence on the fixed subcategories",
+   "fixed points of an adjunction / idempotent core",
+   "full subcategory spanned by objects where η_c is invertible",
+   "full subcategory spanned by objects where ε_d is invertible",
+   "M-local objects / reflective subcategory of an idempotent monad",
+   "adjoint equivalence (the degenerate case where every object is fixed)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence/Adjoint.v",
+    "line": 398,
+    "symbol": "AdjointEquivalence_to_Equivalence",
+    "intree_statement": "Definition AdjointEquivalence_to_Equivalence `(A : @AdjointEquivalence C D F U) : EquivalenceOfCategories F := @Build_EquivalenceOfCategories C D F U (AdjointEquivalence_to_counit A) (AdjointEquivalence_to_unit A).   (* where Class AdjointEquivalence := { adj_equivalence : F ⊣ U; adj_equiv_unit_iso (x : C) : IsIsomorphism (unit x); adj_equiv_counit_iso (y : D) : IsIsomorphism (counit y) } *)"
+   },
+   {
+    "file": "Construction/Reflective/Idempotent.v",
+    "line": 224,
+    "symbol": "MLocal_Subcategory",
+    "intree_statement": "Definition MLocal_Subcategory : Subcategory C := {| sobj := fun x => IsIsomorphism (@ret C M MM x); shom := fun _ _ _ _ _ => True; ... |}.   (* the FULL subcategory of C spanned by the objects at which the unit is invertible, for the monad M *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Any adjoint pair F : C ⇄ D : G restricts to an equivalence between the full subcategory of C spanned by the c with η_c invertible and the full subcategory of D spanned by the d with ε_d invertible.",
+   "intree": "AdjointEquivalence_to_Equivalence : an adjunction all of whose unit AND counit components are invertible is an equivalence of categories; MLocal_Subcategory : the full subcategory spanned by the objects at which the unit of a (idempotent) monad is invertible, shown reflective (Idempotent_Reflective, line 345) and equivalent to the Eilenberg–Moore category (Idempotent_EM_Equivalence, line 464).",
+   "strength_comparison": "intree-weaker: only the DEGENERATE case is proved — the equivalence is obtained when the fixed subcategories are the whole of C and D (every η_c and ε_d invertible). The restriction of a general adjunction to its two fixed full subcategories is not constructed."
+  },
+  "gap": "Nothing in the tree forms the two fixed full subcategories OF A GENERAL ADJUNCTION and restricts the adjunction to them. Specifically missing: (a) the full subcategory of D (the right-adjoint side) spanned by the d with ε_d invertible — only the unit-side subcategory exists, and only for a monad (MLocal_Subcategory), not for an arbitrary adjunction; (b) the closure facts that make the restriction well defined (F carries η-fixed objects to ε-fixed objects and U carries ε-fixed objects to η-fixed objects); (c) the restricted adjunction and the proof that it is an equivalence. The in-tree AdjointEquivalence_to_Equivalence only covers the case where the two subcategories are already everything, and Idempotent_EM_Equivalence proves a DIFFERENT equivalence (M-local objects ≃ Eilenberg–Moore algebras).",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'fixed.point|restrict.*equivalen|equivalen.*restrict|idempotent adjunction' . → no hit stating this lemma; 'idempotent adjunction' 0 hits; the fixed-point hits are Lambek/Adamek least-fixed-point prose and Instance/Sets/Karoubi.v (idempotent splitting).",
+   "grep -rn --include='*.v' -E 'IsIsomorphism \\(.*unit|IsIsomorphism \\(@ret' . → Theory/Equivalence/Adjoint.v:72,74,295,324 (adjoint equivalence, all components invertible) and Construction/Reflective/Idempotent.v:105,119,133,225,235,354,374 (monad-unit-invertible objects). Nothing indexing a general adjunction by its invertible-unit objects.",
+   "grep -n on Construction/Subcategory.v → Record Subcategory / Sub / Incl / Full / Replete / Wide exist (so the ambient machinery for 'full subcategory spanned by a predicate' IS available), but no instance of it is formed from an adjunction's unit or counit."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "MY BLIND PASS SAID ABSENT; I do not overturn, and here is why the classifier's PARTIAL survives adversarial reading. Both evidence items are real and verified: Theory/Equivalence/Adjoint.v:69-75 `Class AdjointEquivalence := { adj_equivalence : F ⊣ U; adj_equiv_unit_iso (x) : IsIsomorphism (unit x); adj_equiv_counit_iso (y) : IsIsomorphism (counit y) }` with :398 AdjointEquivalence_to_Equivalence, and Construction/Reflective/Idempotent.v:224 MLocal_Subcategory (sobj := fun x => IsIsomorphism (ret x)), shown reflective at :345 Idempotent_Reflective. These are respectively (1) the lemma under the extra hypothesis that BOTH fixed subcategories are already everything, and (2) an actual construction of the η-fixed full subcategory — for a monad's unit, which for the reflective case IS the adjunction unit. Under the frozen definition ('PARTIAL = some of the item exists, the gap must be stated precisely') this qualifies, and the gap field is precise and explicitly labels the coverage DEGENERATE, so strength_comparison is honest rather than inflated. Caveat for downstream issue-drafting: the usable content is close to nil — an issue filed from this record should treat it as effectively a from-scratch construction (both subcategories, the two closure lemmas, the restricted adjunction, the equivalence)."
+  }
+ },
+ {
+  "id": "riehl:4.2:exi",
+  "classification": "PRESENT",
+  "aliases": [
+   "dualize the unit lemma into the counit lemma",
+   "opposite adjunction U^op ⊣ F^op",
+   "duality: unit of A^op = counit of A",
+   "Opposite_Adjunction / Opposite_Adjunction_Transform",
+   "principle of duality for adjunctions"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Natural/Transformation/Opposite.v",
+    "line": 33,
+    "symbol": "Opposite_Adjunction_Transform",
+    "intree_statement": "Program Definition Opposite_Adjunction_Transform `(F : D ⟶ C) `(U : C ⟶ D) (A : F ∹ U) : U^op ∹ F^op := {| unit := _; counit := _ |}.   (* obligations: the new `unit` field is discharged by `apply counit` (with naturality/naturality_sym exchanged) and the new `counit` field by `apply unit`; the two triangle identities by fmap_counit_unit and counit_fmap_unit *)"
+   },
+   {
+    "file": "Adjunction/Opposite.v",
+    "line": 34,
+    "symbol": "Opposite_Adjunction",
+    "intree_statement": "Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) : U^op ⊣ F^op := {| adj := fun x y => {| to := from (@adj _ _ _ _ A y x); from := to (@adj _ _ _ _ A y x); ... |}; to_adj_nat_l := fun _ _ _ f g => @from_adj_nat_r _ _ _ _ A _ _ _ g f; ... |}."
+   }
+  ],
+  "statement_record": {
+   "book": "Explain each step converting the statement of Lemma 4.2.2 (the unit exists) into the dual statement of Lemma 4.2.3 (the counit exists).",
+   "intree": "Opposite_Adjunction_Transform turns F ∹ U into U^op ∹ F^op, literally supplying the opposite adjunction's UNIT from the original COUNIT and its COUNIT from the original UNIT (with naturality/naturality_sym exchanged and the two triangle identities swapped); Opposite_Adjunction does the same at the hom-setoid level, swapping to/from and reindexing the four naturality fields (to_adj_nat_l := from_adj_nat_r, etc.). Opposite_Adjunction_Transform_invol (line 63) and Opposite_Adjunction_invol (Adjunction/Opposite.v:60) show the operation is involutive on the nose (proved by `reflexivity`).",
+   "strength_comparison": "same, and machine-checked rather than explained: the exercise asks for the dictionary translating the unit statement into the counit statement, and the in-tree construction IS that dictionary, applied field by field. It is stronger in that involutivity holds definitionally (`(A^op)^op = A` by reflexivity), which is the library's stated duality design."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently, on the same file. Adjunction/Natural/Transformation/Opposite.v:33-56 verified: the obligations really do discharge the opposite adjunction's `unit` by `apply counit` (with naturality/naturality_sym exchanged) and its `counit` by `apply unit`, and the two triangle obligations by fmap_counit_unit / counit_fmap_unit — i.e. the file IS the step-by-step dualization dictionary the exercise asks a reader to narrate. Adjunction/Opposite.v:34-49 verified verbatim including the four reindexed naturality fields (to_adj_nat_l := from_adj_nat_r, etc.), and Opposite_Adjunction_invol at :60-62 is proved by `reflexivity`. The classifier's line number for Opposite_Adjunction (34) is the `Program Definition` line; exact. Both files registered in _CoqProject."
+  }
+ },
+ {
+  "id": "riehl:4.2:exii",
+  "classification": "PARTIAL",
+  "aliases": [
+   "verify a free ⊣ forgetful adjunction by unit, counit and triangle identities",
+   "free monoid / free abelian group / free R-module ⊣ underlying set",
+   "left adjoint to a forgetful functor, monadic adjunction",
+   "Adjunction_from_Transform (build ⊣ from η, ε and the zig-zags)",
+   "FreeForgetfulAdjunction, EM_Adjunction, Kleisli_Adjunction"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 550,
+    "symbol": "FreeForgetfulAdjunction",
+    "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .   (* Forgetful : StrictCat ⟶ QuiverCategory is proved a right adjoint; its unit at G is UnitQuiverCatAdjunction (line 508), the quiver morphism sending an edge to the singleton path *)"
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 197,
+    "symbol": "EM_counit_agrees",
+    "intree_statement": "Lemma EM_counit_agrees {y : EilenbergMoore T} : t_alg_hom[@counit _ _ _ _ EM_Adjunction y] ≈ t_alg[`2 y].   (* free-algebra ⊣ forgetful: the counit at an algebra IS its structure map, i.e. 'evaluation'; EM_unit_agrees (line 190) : unit ≈ ret[T] *)"
+   },
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 42,
+    "symbol": "Adjunction_from_Transform",
+    "intree_statement": "Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U := ...   (* the exercise's route — supply η, ε and the two triangle identities, obtain the adjunction — is available and is used in-tree, e.g. Construction/Reflective/Idempotent.v:335 idem_reflective_adj from idem_triangle_counit/idem_triangle_unit *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Pick one of the fourteen forgetful functors of Example 4.1.10 and prove it is a right adjoint by defining its left adjoint, the unit and the counit, and checking the triangle identities.",
+   "intree": "A free ⊣ forgetful adjunction IS established in-tree — FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful for the free category on a quiver, and EM_Adjunction : EM_Free ⊣ EM_Forget / Kleisli_Adjunction : Kleisli_Free ⊣ Kleisli_Forget for algebras of a monad, with the unit and counit explicitly identified (EM_unit_agrees, EM_counit_agrees, Kleisli_unit_agrees) — and the exercise's METHOD (η + ε + two triangles ⇒ adjunction) is available as Adjunction_from_Transform and exercised on concrete adjunctions.",
+   "strength_comparison": "intree-weaker on the instance, same on the method: no instance is drawn from the book's list, and no free⊣forgetful instance is discharged by the exercise's route."
+  },
+  "gap": "None of Riehl's fourteen concrete algebraic categories (Set_*, Monoid, Ring, Ab, R-Mod, CRing, Group, CMonoid, Set^BG) exists in-tree with a left adjoint to its forgetful functor. The one algebraic category in the tree, Instance/CMon.v (commutative monoids), has a forgetful functor CMon_Forget : CMon ⟶ Sets (line 169) with NO left adjoint constructed. Instance/Comp.v builds the free algebra `Free : OpAlgebra S` on a set of generators with its universal property (induced_hom line 108, from_free_unique line 116) but never assembles it into a functor or an adjunction with the forgetful functor out of `Algs` (only Algs_Initial, line 209, is derived). Separately, no in-tree free⊣forgetful adjunction is established the way the exercise asks: FreeForgetfulAdjunction goes through universal arrows and EM_Adjunction/Kleisli_Adjunction through an explicit hom-setoid isomorphism (Build_Adjunction'), so no instance combines 'free/forgetful' with 'checked by the two triangle identities'.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'free (group|monoid|abelian|module|ring)' . → all hits are header prose (Theory/Coq/List.v, Theory/Coq/Foldable.v, Construction/PROP.v, Construction/Day.v, Construction/Cayley.v …); the free monoid appears as the TYPE `list A` (Instance/Coq/Lists.v, initial ListF-algebra), never as a left adjoint to a forgetful functor out of a category of monoids.",
+   "grep -rn --include='*.v' -E '(Definition|Instance|Program).*⊣' . → complete adjunction inventory checked; the only free⊣forgetful pairs are Construction/Free/Quiver.v (Cat/Quiver), Monad/{Kleisli,Eilenberg/Moore}/Adjunction.v and their comonadic duals (Comonad/Duality.v).",
+   "grep -rn --include='*.v' -i 'forgetful' . → Construction/Free/Quiver.v:412 Forgetful : StrictCat ⟶ QuiverCategory and Instance/CMon.v:169 CMon_Forget : CMon ⟶ Sets are the only forgetful FUNCTORS in the tree; only the first has an adjoint."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, with the same reasoning (a free ⊣ forgetful adjunction exists but none of Riehl's fourteen, and none discharged by the η/ε/triangles route). Verified: Construction/Free/Quiver.v:412 Forgetful, :508 UnitQuiverCatAdjunction (edge ↦ tlist_singleton, i.e. the 'singleton' unit the book describes), :518 UniversalArrowQuiverCat built through universal_arrow_from_UMP, :550 FreeForgetfulAdjunction := AdjunctionFromUniversalArrows — confirming the classifier's point that the route is universal arrows, not triangle identities. Monad/Eilenberg/Moore/Adjunction.v:190 EM_unit_agrees and :197 EM_counit_agrees quoted accurately (counit at an algebra = its structure map). Gap claims re-checked: Instance/CMon.v:169 CMon_Forget : CMon ⟶ Sets exists with no left adjoint; Instance/Comp.v:92 Free / :108 induced_hom / :116 from_free_unique exist but are never made into a functor or an adjunction. One nuance the record could have stated: Riehl's list does not include the free category on a graph, so FreeForgetfulAdjunction is an analogue rather than an instance — the record says exactly this ('Riehl 4.1.13, not 4.1.10' in the example4 log, 'no instance is drawn from the book's list' here)."
+  }
+ },
+ {
+  "id": "riehl:4.2:exiii",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Galois connection: two equivalent formulations",
+   "Fa ≤ b ⟺ a ≤ Gb versus a ≤ GFa and FGb ≤ b",
+   "adjunction between preorders (Proset / Poset as thin categories)",
+   "hom-set form ⟺ unit/counit form specialised to a thin category",
+   "monotone map = functor between prosets"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 42,
+    "symbol": "Adjunction_from_Transform",
+    "intree_statement": "Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U := {| adj := fun a b => {| to := {| morphism := fun f => fmap f ∘ transform[unit[A]] a |}; from := {| morphism := fun f => transform[counit[A]] b ∘ fmap f |} |} |}.   (* clause (ii) ⇒ clause (i), in general categories *)"
+   },
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 84,
+    "symbol": "Adjunction_to_Transform",
+    "intree_statement": "Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U := {| Transformation.unit := {| transform := fun _ => unit |}; Transformation.counit := {| transform := fun _ => counit |} |}.   (* clause (i) ⇒ clause (ii) *)"
+   },
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity; compose := fun x y z f g => transitivity g f |}.   (* the preorder as a thin category: parallel morphisms are identified by construction *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For order-preserving F : (A,≤) → (B,≤) and G : (B,≤) → (A,≤) between preorders, prove (directly or by quoting a more general theorem) that (i) ∀ a b, Fa ≤ b ⟺ a ≤ Gb is equivalent to (ii) ∀ a, a ≤ G(Fa) and ∀ b, F(Gb) ≤ b.",
+   "intree": "The general theorem the exercise invites one to quote is present in both directions — Adjunction_from_Transform : (F ∹ U) → F ⊣ U and Adjunction_to_Transform : (F ⊣ U) → F ∹ U — and the preorder-as-category side is present as Instance/Proset.v's `Proset`, whose hom-setoid equates all parallel morphisms by construction.",
+   "strength_comparison": "intree-stronger in generality (arbitrary categories, not just preorders) but NOT a superset of the exercise's clause (ii): the in-tree unit/counit form CARRIES THE TRIANGLE IDENTITIES AS HYPOTHESES, which the exercise's (ii) omits because they are automatic in a thin category. The (ii) ⇒ (i) direction of the exercise therefore does not follow from the in-tree theorem without the unstated thinness step."
+  },
+  "gap": "Two links are missing between the general theorem and the exercise's statement. (a) The exercise's clause (ii) is bare — a ≤ GFa and FGb ≤ b, no triangle identities — whereas `Adjunction_Transform` demands counit_fmap_unit and fmap_counit_unit as fields; no in-tree lemma records that in a thin category (Proset, whose hom-setoid equiv is `fun _ _ => True`) those two obligations are vacuous, so the extra hypothesis is never discharged. (b) The preorder dictionary is not in place: no in-tree statement identifies order-preserving maps between prosets with functors between the corresponding `Proset` categories (the analogous result exists only for the Two-ENRICHED presentation, Construction/Enriched/Two.v:183 EnrichedFunctor_Two_monotone), no adjunction is ever formed between two Prosets, and the notions 'Galois connection', 'lower adjoint', 'upper adjoint' appear nowhere in code.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'galois' . → 16 hits, all header prose; no Galois-connection definition or lemma.",
+   "grep -rn --include='*.v' -i 'lower adjoint' / 'upper adjoint' → 0 hits each.",
+   "grep -rn --include='*.v' -iE 'Proset|Poset' | grep -E 'Definition|Theorem|Lemma|Instance|Program' → only the two category constructors (Instance/Proset.v:33, Instance/Poset.v:116), their `LessThanEqualTo_Category` instances and the Test/Poset.v sanity file; no functor between two prosets anywhere.",
+   "grep -rn --include='*.v' -iE 'thin categor' . → 9 hits, all prose (Instance/Proset.v header, Instance/Two.v, Instance/Props.v); no lemma that a thin category's hom-setoid is a subsingleton."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently. The subtle point in strength_comparison is CORRECT and is the reason this is not PRESENT: the exercise's clause (ii) is the bare pair of inequalities a ≤ GFa, FGb ≤ b, whereas Adjunction_Transform (Adjunction/Natural/Transformation.v:35-43) demands the two triangle identities as FIELDS. In Instance/Proset.v:33-43 the hom-setoid is `{| Setoid.equiv := fun _ _ => True |}` (verified verbatim), so those obligations are indeed vacuous there — but no in-tree lemma says so, and none forms an adjunction between two Prosets. Gap (b) re-verified: the monotone-map/functor dictionary exists only in the enriched presentation, Construction/Enriched/Two.v:183 `Theorem EnrichedFunctor_Two_monotone` (line confirmed), not for Proset; 'Galois connection', 'lower adjoint', 'upper adjoint' appear nowhere in code."
+  }
+ },
+ {
+  "id": "riehl:4.2:exiv",
+  "classification": "PARTIAL",
+  "aliases": [
+   "prove that an adjunction restricts to an equivalence on its fixed subcategories",
+   "fixed points of the unit / counit",
+   "idempotent core of an adjunction",
+   "full subcategory of η-invertible objects ≃ full subcategory of ε-invertible objects",
+   "M-local objects (monadic special case)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence/Adjoint.v",
+    "line": 398,
+    "symbol": "AdjointEquivalence_to_Equivalence",
+    "intree_statement": "Definition AdjointEquivalence_to_Equivalence `(A : @AdjointEquivalence C D F U) : EquivalenceOfCategories F := @Build_EquivalenceOfCategories C D F U (AdjointEquivalence_to_counit A) (AdjointEquivalence_to_unit A).   (* an adjunction with every unit and counit component invertible IS an equivalence — the case where both fixed subcategories are the whole category *)"
+   },
+   {
+    "file": "Construction/Reflective/Idempotent.v",
+    "line": 224,
+    "symbol": "MLocal_Subcategory",
+    "intree_statement": "Definition MLocal_Subcategory : Subcategory C := {| sobj := fun x => IsIsomorphism (@ret C M MM x); shom := fun _ _ _ _ _ => True; ... |}.   (* the full subcategory of unit-invertible objects, formed for a monad; Idempotent_Reflective (line 345) shows it is reflective *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Prove Lemma 4.2.11: any adjunction restricts to an equivalence between the full subcategories spanned by the objects at which the unit, respectively the counit, is an isomorphism.",
+   "intree": "Only the degenerate instance is proved: AdjointEquivalence_to_Equivalence turns an adjunction whose unit and counit are componentwise invertible into an equivalence of categories. The unit-side fixed subcategory is constructed only in the monadic setting (MLocal_Subcategory).",
+   "strength_comparison": "intree-weaker: proved only when the fixed subcategories exhaust C and D; the restriction of a general adjunction to its fixed full subcategories is not constructed."
+  },
+  "gap": "Identical to riehl:4.2:lem11 (this exercise IS that lemma). Missing: the counit-side fixed full subcategory of D for a general adjunction; the closure lemmas making the restriction well defined (F sends η-fixed objects to ε-fixed objects and U conversely); the restricted adjunction; and the proof that it is an equivalence. In-tree there is only the all-objects-fixed case (AdjointEquivalence_to_Equivalence) and, for an idempotent monad rather than an arbitrary adjunction, the unit-side subcategory MLocal_Subcategory with a DIFFERENT equivalence (Idempotent_EM_Equivalence : M-local objects ≃ Eilenberg–Moore algebras, line 464).",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'fixed.point|restrict.*equivalen|equivalen.*restrict|idempotent adjunction' . → nothing stating the lemma.",
+   "grep -rn --include='*.v' -E 'IsIsomorphism \\(.*unit|IsIsomorphism \\(@ret' . → only Theory/Equivalence/Adjoint.v (all components invertible) and Construction/Reflective/Idempotent.v (monad unit); no subcategory carved out of an arbitrary adjunction.",
+   "Construction/Subcategory.v inspected: Record Subcategory / Sub / Incl / Full / Replete / Wide exist, so the packaging is available; it is never instantiated at an adjunction's unit or counit."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "MY BLIND PASS SAID ABSENT; not overturned, for the same reason as riehl:4.2:lem11 (this exercise IS that lemma, and the record correctly says so and mirrors its gap verbatim). Evidence re-verified: Theory/Equivalence/Adjoint.v:398 and Construction/Reflective/Idempotent.v:224; also confirmed Idempotent_EM_Equivalence at Construction/Reflective/Idempotent.v:464 (`EquivalenceOfCategories idem_G := FF_ESO_Equivalence idem_G`), which the record correctly identifies as a DIFFERENT equivalence (M-local objects ≃ Eilenberg–Moore algebras) rather than the fixed-subcategory one. Consistency check passed: lem11 and exiv carry the same classification, so no Phase-E double-filing hazard beyond the intended duplicate-target handling."
+  }
+ },
+ {
+  "id": "riehl:4.2:exv",
+  "classification": "ABSENT",
+  "aliases": [
+   "strict morphism of adjunctions",
+   "map of adjunctions, square of adjunctions (H, K) with KF = F'H and HG = G'K",
+   "H η = η' H ⟺ K ε = ε' K ⟺ transposition commutes with H and K",
+   "conjugate / mate pair of natural transformations",
+   "morphism in the 2-category Adj"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'morphism of adjunction' . → 0 hits; 'map of adjunctions' → 0; 'adjunction morphism' → 0; 'strict morphism' → 0; 'square of adjunctions' → 0; 'adjoint square' → 0; 'commutes with transposition' → 0.",
+   "grep -rn --include='*.v' -i 'conjugate' . → 20 hits; every one is either a general 'conjugate by an isomorphism' idiom (Theory/Equivalence*.v, Theory/Bicategory/Lax.v, Functor/Construction/Product.v) or the CAVEAT comment in Instance/Adj.v; none defines a conjugate pair of natural transformations between two adjunctions.",
+   "Instance/Adj.v:43 `Program Definition Adj (C D : Category) : Category` is the nearest structure — but only for a FIXED pair of categories, and its own header (lines 29-41) states explicitly that its hom is 'the bare product setoid ([D,C] × [C,D]) of natural transformations' and 'imposes no such [conjugate/mate] condition', so it does not assert any of the exercise's three conditions.",
+   "Theory/Bicategory/Mates.v (mate, mate_inv, mate_roundtrip_left/right, mate_iso) and Instance/Cat/Bicategory/Adjunction.v:266 Cat_mate_unfold give the general (non-strict) mates correspondence — Riehl's Proposition 4.3.7, a different item. They neither define a strict morphism of adjunctions nor state the equivalence H η = η' H ⟺ K ε = ε' K ⟺ 'transposition commutes with H and K'; specialising them to the strict case is unformalised work.",
+   "Also note strict functor EQUALITY (KF = F'H on the nose) has no in-tree idiom: Instance/Cat's ≈ on functors is natural isomorphism, so even the exercise's setup would need a chosen encoding."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. The decisive corroboration is in-tree and self-disclosed: Instance/Adj.v:29-41 states its CAVEAT that its hom 'imposes no such [conjugate/mate] condition' and is 'the bare product setoid ([D,C] × [C,D])', with Adj defined at :43 — verified verbatim — so the nearest structure explicitly does not assert any of the exercise's three conditions. Theory/Bicategory/Mates.v:476 mate / :480 mate_inv / :489-505 the two round trips, and Instance/Cat/Bicategory/Adjunction.v:260 Cat_mate_unfold (classifier cited 266, which is inside the proof; the Theorem line is 260 — an immaterial off-by-six, and the sibling Cat_mate_unfold_raw is at :244) give the general non-strict mates correspondence, a different item as the record says. The record's last log line is a genuinely useful observation: in-tree ≈ on functors is natural isomorphism, so the exercise's ON-THE-NOSE KF = F'H has no idiom at all outside StrictCat — an issue drafted from this record must choose an encoding."
+  }
+ }
+]

@@ -1,0 +1,228 @@
+[
+  {
+    "id": "maclane:App.1:def1",
+    "classification": "PRESENT",
+    "aliases": ["category (arrows-first axiomatization)", "metacategory made concrete", "Category class", "objects and arrows with associative composition and two-sided identities", "E-category / setoid-enriched category"],
+    "evidence": [
+      {"file": "Theory/Category.v", "line": 111, "symbol": "Category",
+       "intree_statement": "Class Category := { obj : Type; hom : obj -> obj -> uhom where \"a ~> b\" := (hom a b); homset : forall X Y, Setoid (X ~> Y); id {x} : x ~> x; compose {x y z} (f:y~>z)(g:x~>y) : x ~> z where \"f ∘ g\" := (compose f g); compose_respects ...; dom {x y}(f:x~>y):=x; cod {x y}(f:x~>y):=y; id_left (f:x~>y): id ∘ f ≈ f; id_right (f:x~>y): f ∘ id ≈ f; comp_assoc (f g h): f∘(g∘h) ≈ (f∘g)∘h; comp_assoc_sym ... }"}
+    ],
+    "statement_record": {
+      "book": "A category axiomatized directly (axioms 1-5, arrows-first, proposed as a foundation replacing ZF): objects a,b,c and arrows f,g,h; each arrow f has an object domain a and codomain b (f:a->b); a composition sending f:a->b, g:b->c to g∘f:a->c; associativity h∘(g∘f)=(h∘g)∘f; and for each object b a two-sided identity 1_b with 1_b∘f=f (f:a->b) and g∘1_b=g (g:b->c).",
+      "intree": "Class Category with obj, hom (per-hom Setoid), id, compose, id_left/id_right (two-sided unit), comp_assoc (associativity), and derived dom/cod projections.",
+      "strength_comparison": "same. Faithful setoid rephrasing: each hom is a hom-setoid with a chosen equivalence ≈ replacing = (the frozen faithfulness rule). Mac Lane's 'possible foundation replacing the Zermelo-Fraenkel axioms' framing is philosophical, not additional mathematical content; the axioms (objects, arrows, dom/cod, composition, associativity, identities) match exactly. The library additionally carries a redundant comp_assoc_sym field so C^op^op = C holds by reflexivity."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently landed on Theory/Category.v:111 Class Category. Read the definition in full: fields obj, hom, homset (per-hom Setoid@{h p}), id, compose, compose_respects, dom/cod (definitional let-bindings via :=, correctly described as 'derived'), id_left, id_right, comp_assoc, comp_assoc_sym. Quote faithful; setoid rephrasing is the frozen-faithful rendering. File registered in _CoqProject."}
+  },
+  {
+    "id": "maclane:App.1:def2",
+    "classification": "PRESENT",
+    "aliases": ["elementary topos", "Lawvere-Tierney topos", "ElementaryTopos", "category with finite limits, cartesian closed, with a subobject classifier", "topos (axioms 6-9)"],
+    "evidence": [
+      {"file": "Structure/Topos.v", "line": 112, "symbol": "ElementaryTopos",
+       "intree_statement": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }."},
+      {"file": "Structure/Topos.v", "line": 129, "symbol": "Pow",
+       "intree_statement": "Definition Pow {C}{H:ElementaryTopos C}(a:C):C := Ω ^ a.  (power objects DERIVED, not an axiom)"}
+    ],
+    "statement_record": {
+      "book": "An elementary topos: a category equipped with (6) a terminal object 1, (7) a pullback for every cospan (whence binary products a×c as pullbacks over 1), (8) a subobject classifier, and (9) power objects Pb.",
+      "intree": "ElementaryTopos = { terminal; cartesian (binary products); pullbacks; closed (cartesian closed); subobject classifier }.",
+      "strength_comparison": "same concept via an equivalent axiom bundle. The library bundles binary products and cartesian closure as explicit fields and DERIVES power objects (Pow a := Ω^a, Topos.v:129); Mac Lane bundles pullbacks and power objects (axiom 9) and derives products and CCC (his remark2). Power-objects ⟺ cartesian-closure over a classifier makes the two axiom sets define the same class of models; the library takes CCC primitive and does not prove that equivalence in-tree. Finite limits are carried explicitly as terminal + products + pullbacks (header notes the pullback ⟺ products+equalizers reduction is deliberately not formalized). Witnessed concretely by FinSet_Topos (Instance/FinSet/Topos.v:38)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Structure/Topos.v:112 (read in full): ElementaryTopos = terminal+cartesian+pullbacks+closed+classifier; Pow:=Ω^a at :129. Note the library's axiom 9 is CCC-plus-derived-Pow rather than a primitive power-object field, the standard alternative axiomatization of the SAME class (elementary topos); coverage's strength_comparison discloses this honestly. PRESENT is correct. File registered."}
+  },
+  {
+    "id": "maclane:App.1:def3",
+    "classification": "PRESENT",
+    "aliases": ["subobject classifier", "truth / true : 1 -> Omega", "object of truth values Ω", "characteristic (classifying) map", "generic subobject / classifying pullback"],
+    "evidence": [
+      {"file": "Structure/SubobjectClassifier.v", "line": 44, "symbol": "SubobjectClassifier",
+       "intree_statement": "Class SubobjectClassifier := { Ω : C; truth : 1 ~> Ω; char {u x}(m:u~>x)(M:Monic m) : x ~> Ω; char_pullback (m)(M) : IsPullback (char m M) truth u m one; char_unique (m)(M)(h:x~>Ω) : IsPullback h truth u m one -> h ≈ char m M }."},
+      {"file": "Structure/SubobjectClassifier.v", "line": 187, "symbol": "classifier_classifies",
+       "intree_statement": "Theorem classifier_classifies (x:C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}."}
+    ],
+    "statement_record": {
+      "book": "There is an object Ω and a monomorphism truth:1->Ω such that for every mono m:a->b there is a unique ψ:b->Ω making the square (m, a->1, truth, ψ) a pullback (diagram (2)); so subobjects of b correspond to maps b->Ω.",
+      "intree": "SubobjectClassifier class: Ω, truth:1~>Ω, an operation char m taking a mono to its classifying map, char_pullback (the classifying square is a pullback of truth along char m), char_unique (uniqueness); plus classifier_classifies : SubObj x ≅ (x~>Ω) in Sets.",
+      "strength_comparison": "same. char is packaged as an operation m ↦ char m together with char_unique, which is exactly Mac Lane's 'there is a unique ψ'; truth_monic is proved (line 64); the classification bijection SubObj x ≅ (x~>Ω) (line 187) is precisely Mac Lane's 'subobjects of b = arrows b->Ω'. Setoid rephrasing throughout (mono equivalence via Theory/Subobject.v)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Structure/SubobjectClassifier.v:44 (read in full): Ω, truth:1~>Ω, char, char_pullback (IsPullback (char m M) truth u m one), char_unique. classifier_classifies confirmed at :187. Exactly Mac Lane axiom 8; truth_monic derived at :64, char_respects derived as a lemma (:143) rather than a redundant field. Quotes accurate. File registered."}
+  },
+  {
+    "id": "maclane:App.1:def4",
+    "classification": "PRESENT",
+    "aliases": ["power object Pb", "membership / evaluation map epsilon_b : b × Pb -> Omega", "Pb = Omega^b exponential", "relations classifier a -> Pow b", "categorical power set"],
+    "evidence": [
+      {"file": "Structure/Topos.v", "line": 129, "symbol": "Pow",
+       "intree_statement": "Definition Pow {C}{H:ElementaryTopos C}(a:C):C := Ω ^ a."},
+      {"file": "Structure/Cartesian/Closed.v", "line": 75, "symbol": "eval",
+       "intree_statement": "Definition eval {x y} : y^x × x ~> y := uncurry id.  (membership map ε: with y:=Ω, x:=b it is Ω^b × b ~> Ω)"},
+      {"file": "Structure/Cartesian/Closed.v", "line": 78, "symbol": "ump_exponents",
+       "intree_statement": "Definition ump_exponents (f : x × y ~> z) : eval ∘ first (curry f) ≈ f  (unique transpose curry f, since exp_iso {x y z} : x×y~>z ≊ x~>z^y is an isomorphism)"},
+      {"file": "Structure/Topos.v", "line": 146, "symbol": "relations_iso",
+       "intree_statement": "Definition relations_iso (a b) : @Isomorphism Sets {| carrier := SubObj (a × b) |} {| carrier := a ~> Pow b |}."}
+    ],
+    "statement_record": {
+      "book": "To each b an object Pb and ε_b:b×Pb->Ω such that for every f:b×a->Ω there is a unique g:a->Pb with f = ε_b ∘ (1_b × g) (diagram (3)); Pb classifies relations from b.",
+      "intree": "Pow b := Ω^b, with membership map eval : Ω^b × b ~> Ω, the transpose curry f : a ~> Ω^b (unique because exp_iso is an isomorphism), and the defining equation ump_exponents : eval ∘ first (curry f) ≈ f; relations_iso : SubObj(a×b) ≅ (a ~> Pow b).",
+      "strength_comparison": "same universal property, realized as the exponential Ω^b rather than a primitive axiom. The membership map ε_b is eval (product factors ordered Pb×b vs Mac Lane's b×Pb — a symmetric swap, immaterial); existence and uniqueness of g are exp_iso being an isomorphism (curry/uncurry mutually inverse) with the beta-equation ump_exponents. The relations form is relations_iso. FinSet_Topos even computes eval as the membership map (Instance/FinSet/Topos.v:89). The library derives power objects from cartesian closure + classifier; Mac Lane takes them primitive — a presentation difference, not a strength gap."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified every citation: Pow:=Ω^a (Topos.v:129), eval:=uncurry id : y^x×x~>y (Closed.v:75) serving as the membership ε_b, ump_exponents (Closed.v:78) as the beta/UMP, exp_iso (Closed.v:51) as the transpose iso bundling existence+uniqueness, relations_iso (Topos.v:146). Confirmed FinSet_Topos:89 computes eval as membership by eq_refl. Faithful rendering of axiom-9 power object as the exponential Ω^b; coverage is honest about derived-not-primitive and the immaterial Pb×b vs b×Pb product-order swap. PRESENT correct."}
+  },
+  {
+    "id": "maclane:App.1:remark1",
+    "classification": "PARTIAL",
+    "aliases": ["the category of sets is a topos", "Set satisfies the topos axioms", "FinSet_Topos witness", "Ω = 2 = {0,1} in Set", "power set as power object, pullback = cartesian product"],
+    "evidence": [
+      {"file": "Instance/FinSet/Topos.v", "line": 38, "symbol": "FinSet_Topos",
+       "intree_statement": "Definition FinSet_Topos : ElementaryTopos FinSet := {| topos_terminal := FinSet_Terminal; topos_cartesian := FinSet_Cartesian; topos_pullbacks := FinSet_Pullbacks; topos_closed := FinSet_Closed; topos_classifier := FinSet_Classifier |}. (Examples: Pow 2 = 4 by eq_refl; eval membership; char) "},
+      {"file": "Instance/FinSet/Classifier.v", "line": 353, "symbol": "FinSet_Classifier",
+       "intree_statement": "Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; truth := fun _ => fin_true; char := fun u x m _ b => fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |}. (char b = true iff b in image of m)"},
+      {"file": "Instance/Sets/Classifier.v", "line": 12, "symbol": "(cross-universe classifier of Sets)",
+       "intree_statement": "\"This file proves the classifier theorems for the setoid category Sets — as honest CROSS-UNIVERSE theorems, not as a [SubobjectClassifier Sets] instance at a single level\" (char_setoid, sets_char_pullback; Ω lives one universe up)."}
+    ],
+    "statement_record": {
+      "book": "The usual category of all sets satisfies the topos axioms, with explicit witnesses: 1 = any one-element set; pullback of a->1<-b = ordinary cartesian product; Ω = 2 = {0,1}, truth = inclusion of 1, char ψ:b->2 with ψ(y)=1 iff y in a; Pb = power set with ε_b(x,s)=1 iff x in s.",
+      "intree": "FinSet_Topos : ElementaryTopos FinSet realizes every witness (terminal 1-element, pullback = product, Ω = 2%nat, truth = fin_true, char via fin_existsb = image membership, Pow = Ω^b power object with eval membership), all computable. For the category of all setoids only the classifier is done, and only cross-universe (Instance/Sets/Classifier.v).",
+      "strength_comparison": "intree-weaker: the complete, computable topos witness is FinSet (FINITE sets), not the category of ALL sets. Every Mac Lane witness is realized on FinSet. For the unrestricted category of setoids (Sets) only the subobject classifier survives, and only as cross-universe theorems (char_setoid, sets_char_pullback), never a SubobjectClassifier Sets or ElementaryTopos Sets instance, because the truth-value object would land one universe up (documented predicative size obstruction, Sets/Classifier.v:29-43)."
+    },
+    "gap": "There is no ElementaryTopos instance for the category of ALL sets (setoids): the classifier there is blocked to cross-universe theorems by the universe/size obstruction, so the only complete in-tree topos-of-sets witness is FinSet (finite sets). Mac Lane's remark is about the full category of sets.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently found FinSet_Topos (Instance/FinSet/Topos.v:38) as the full computable witness and Instance/Sets/Classifier.v as classifier-only/cross-universe. Verified FinSet_Classifier:353 (Ω=2%nat, truth=fin_true, char via fin_existsb = image membership) and the documented predicative size obstruction (Sets/Classifier.v:20-43). PARTIAL is the honest call: every Mac Lane witness is realized, but on FINITE sets, and the category of all setoids is blocked to cross-universe theorems, never assembled as an ElementaryTopos instance. Gap precisely stated."}
+  },
+  {
+    "id": "maclane:App.1:remark2",
+    "classification": "PARTIAL",
+    "aliases": ["topos is cartesian closed", "finite limits and colimits in a topos", "initial object / finite coproducts in a topos", "exponentials c^b with hom(a×b,c) ≅ hom(a,c^b)", "right adjoint to a × (-)"],
+    "evidence": [
+      {"file": "Structure/Topos.v", "line": 116, "symbol": "topos_closed / topos_cartesian / topos_pullbacks",
+       "intree_statement": "topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian  (finite products, pullbacks, and cartesian closure are topos FIELDS)"},
+      {"file": "Structure/Cartesian/Closed.v", "line": 51, "symbol": "exp_iso",
+       "intree_statement": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y  (the natural hom-iso Hom(x×y,z) ≅ Hom(x,z^y), i.e. hom(a×b,c) ≅ hom(a,c^b))"}
+    ],
+    "statement_record": {
+      "book": "Consequences of the topos axioms: all finite products and pullbacks; all finite coproducts including an initial object (the empty set); and a right adjoint to a×(-) for each a, giving exponentials c^b together with hom(a×b,c) ≅ hom(a,c^b) — the topos is cartesian closed.",
+      "intree": "In ElementaryTopos, finite products (topos_cartesian), pullbacks (topos_pullbacks) and cartesian closure (topos_closed, with exp_iso : x×y~>z ≊ x~>z^y) are present. No finite-coproduct / initial-object structure is present or derived for a topos.",
+      "strength_comparison": "intree-weaker/reframed on the limits+CCC half, absent on the colimits half. Finite limits and cartesian closure (the hom-iso hom(a×b,c) ≅ hom(a,c^b)) are present but as topos AXIOMS/fields, not as consequences derived from Mac Lane's axiom set (the library takes CCC primitive rather than deriving it from power objects). The finite-COLIMIT consequence — finite coproducts and the initial object — is neither a topos field nor derived anywhere in-tree; a whole-tree search found no 'every topos has an initial object / is finitely cocomplete' theorem (only a background-essay mention of Giraud, Topos.v:91)."
+    },
+    "gap": "The finite-cocompleteness half of the remark (initial object and finite coproducts as consequences of the topos axioms) is not derived — and not asserted — anywhere in-tree. The cartesian-closure and finite-limit half holds only because those are library-topos axioms, not because they are derived from power objects as Mac Lane derives them.",
+    "negative_search_log": [
+      "grep -rniE 'topos.*(initial|coproduct|colimit|cocomplet|coequal)' -- only Structure/Topos.v:91 (Giraud background prose), no derivation",
+      "grep -rniE '(cocartesian|Initial|Cocomplete).*topos|topos.*Closed' -- no 'topos has initial/coproducts' theorem"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified topos fields (Topos.v:112-118) and exp_iso (Closed.v:51: x × y ~> z ≊ x ~> z^y). Independently reproduced the negative search: no 'topos has an initial object / is finitely cocomplete' theorem exists in-tree (only Giraud background prose at Topos.v:90-93). Coverage's two-sided gap is accurate — the CCC/finite-limit half is present only as topos AXIOMS (not derived from power objects as Mac Lane derives them), and the finite-colimit/initial-object half is entirely absent. PARTIAL correct."}
+  },
+  {
+    "id": "maclane:App.1:def5",
+    "classification": "PARTIAL",
+    "aliases": ["category of sets", "ETCS", "Lawvere's elementary theory of the category of sets", "well-pointed topos with choice and a natural-numbers object", "model of (bounded-Zermelo) set theory"],
+    "evidence": [
+      {"file": "Structure/Topos.v", "line": 112, "symbol": "ElementaryTopos",
+       "intree_statement": "Class ElementaryTopos (C : Category) := { topos_terminal; topos_cartesian; topos_pullbacks; topos_closed; topos_classifier }  (the elementary-topos GENUS of def5, present and witnessed by FinSet_Topos)"},
+      {"file": "Theory/Recursion.v", "line": 57, "symbol": "cata (partial NNO differentia)",
+       "intree_statement": "Definition cata (β : FAlgebra F a) : μ ~> a := falg_hom[zero (a;β)]  with cata_commutes / cata_unique — the recursion UP, but only the general initial-F-algebra form, no nat/NNO instance"}
+    ],
+    "statement_record": {
+      "book": "A 'category of sets' is an elementary topos that additionally (a) is well-pointed, (b) satisfies the axiom of choice, and (c) has a natural-numbers object (Lawvere's ETCS); such a well-pointed topos with choice and an NNO models set theory.",
+      "intree": "Only the elementary-topos genus is formalized (ElementaryTopos, witnessed by FinSet_Topos). No structure bundles the three ETCS differentiae onto it; the ETCS reference at Theory/Metacategory.v:79-80 is background prose.",
+      "strength_comparison": "intree-weaker: the genus (elementary topos) is present and even witnessed, but none of the three defining differentiae are assembled. Well-pointedness is absent (no generator/separator for 1); the axiom of choice appears only as the per-morphism split-epi/section predicate, not as an axiom (see def-ac); the natural-numbers object is only partial (general cata recursion + list initial algebra; nat≅μNatF disclaimed — see def-nno). There is no 'category of sets' / ETCS / well-pointed-topos structure bundling them."
+    },
+    "gap": "No in-tree 'category of sets' / ETCS structure. Of the three additional axioms def5 adds to an elementary topos, well-pointedness is entirely absent, the axiom of choice is only the split-epi/section vocabulary (no axiom or property), and the natural-numbers object is partial; the three are never bundled onto the (present) ElementaryTopos base.",
+    "negative_search_log": [
+      "grep -rniE 'ETCS|elementary theory of the category of sets|well.pointed topos' -- only Metacategory.v background prose, no structure"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Borderline PARTIAL/ABSENT, accepted as PARTIAL. The elementary-topos genus is genuinely present and witnessed (a substantial conjunct of def5's compound statement), so 'some of the item exists'. But the distinctive ETCS content is absent: well-pointedness (def-well-pointed ABSENT), AC (only the split-epi atom), NNO (partial), and NO structure bundles the three onto the topos base — my structural sweep (Class|Instance|Record|Definition matching ETCS/CategoryOfSets/well-pointed-topos) returned 0 hits, and Metacategory.v:78-80 is pure Lawvere-1964 background prose. Caveat: the genus is already counted under def2, so PARTIAL rests only on the shared base; the gap is stated precisely and I confirm it."}
+  },
+  {
+    "id": "maclane:App.1:def-well-pointed",
+    "classification": "ABSENT",
+    "aliases": ["well-pointed topos", "terminal object is a generator", "1 is a separator", "global points 1->a separate parallel arrows", "points are jointly epic / jointly monic on hom-sets"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'well.pointed' -- only Instance/Fun.v:234-237 (a well-pointed pointed ENDOFUNCTOR / monad, unrelated to a well-pointed topos)",
+      "grep -rniE 'separator|separating|is a (generator|separator)|1 (is|as).*(generator|separator)|terminal.*(generator|separator)|points separate|global.*separat' -- 0 relevant hits (Theory/Lawvere/Sets.v prod_separates / 'products separate points' is about products, not the terminal object; Theory/Sheaf.v 'separatedness' is the sheaf axiom)",
+      "grep -rniE 'Class Generator|is_generator|Record.*Generator' -- no generator/separator class exists",
+      "NOTE: the DUAL notion exists — Adjunction/SAFT.v:99 Record Cogenerator with cog_separates : forall x y (f g:x~>y), (forall j (k:y~>cog_obj j), k∘f ≈ k∘g) -> f ≈ g — but that separates via maps INTO a family (cogenerator), is not specialized to the terminal object, and is the dual of well-pointedness, so it is not the well-pointed / generator notion Mac Lane defines"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agrees ABSENT. The only WellPointed in-tree is Instance/Fun.v:240, a well-pointed pointed ENDOFUNCTOR (Pointed + whiskering coincidence of point) — a false friend, unrelated to a well-pointed topos. Structure/Terminal.v:66-68 mentions 'well-pointed = 1 is a generator' only in the background essay, not as structure. No Separator/Generator class exists; the SAFT Cogenerator (cog_separates) is the DUAL notion over a family, not the terminal-object separator, and coverage correctly excludes it. Negative log accurate and admirably thorough."}
+  },
+  {
+    "id": "maclane:App.1:def-ac",
+    "classification": "PARTIAL",
+    "aliases": ["axiom of choice in a topos", "every epimorphism / surjection splits", "split epimorphism", "section / right inverse of an epi", "internal choice / AC-holding category"],
+    "evidence": [
+      {"file": "Theory/Morphisms.v", "line": 70, "symbol": "Retraction",
+       "intree_statement": "Class Retraction `(f : x ~> y) := { retract : y ~> x; retract_comp : f ∘ retract ≈ id }.  (f has a right inverse / section)"},
+      {"file": "Theory/Morphisms.v", "line": 126, "symbol": "SplitEpi",
+       "intree_statement": "Definition SplitEpi `(f : x ~> y) := Retraction f.  (Lemma retractions_are_epic : Retraction f -> Epic f, line 162)"}
+    ],
+    "statement_record": {
+      "book": "The categorical axiom of choice: every epimorphism / surjection f:a->b has a right inverse (section) τ:b->a with f∘τ = id_b — every surjection splits.",
+      "intree": "Class Retraction f = { retract : y ~> x; retract_comp : f ∘ retract ≈ id }; SplitEpi f := Retraction f. This is exactly 'f has a section' for a single morphism f.",
+      "strength_comparison": "intree-weaker: the library has the per-morphism section / split-epi predicate (Retraction f = 'f∘τ ≈ id', the exact conclusion AC asserts for one epi) but NOT the AC axiom itself. There is no statement, class, or category property 'every epimorphism splits' (∀ x y (f:x~>y), Epic f -> Retraction f) and no choice-satisfying-category / internal-choice structure."
+    },
+    "gap": "The universal axiom of choice (every epimorphism admits a section) is neither stated nor packaged as a category-level property/class; only the atom Retraction / SplitEpi (a single given epi carrying a section) exists. The quantified 'Epic f -> Retraction f' and any AC-topos structure are missing.",
+    "negative_search_log": [
+      "grep -rniE 'Class .*Choice|Record .*Choice|AxiomOfChoice|internal.choice|every (epi|surjection).*(split|section|right inverse)|Epic.*(section|split)' -- no AC axiom/class; only per-morphism Retraction/SplitEpi and the lemma retractions_are_epic"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Borderline PARTIAL/ABSENT, accepted as PARTIAL. Verified Retraction (Theory/Morphisms.v:70, retract_comp: f∘retract≈id) and SplitEpi:=Retraction (:126), retractions_are_epic (:162) — the per-morphism section predicate is exactly the conclusion AC asserts for one epi, which is what edges this over ABSENT. Independently confirmed the quantified axiom is absent: my search 'forall.*Epic.*Retraction' / 'Epic.*->.*Section' returned 0 hits, and no AC-satisfying-category class exists. Caveat for provenance: the Retraction atom exists in-tree for unrelated purposes (Beck split coequalizers, split-idempotent/abelian theory), not as choice; only the axiom's conclusion-vocabulary is present, none of its universal content. Gap stated precisely; PARTIAL is defensible, not wrong."}
+  },
+  {
+    "id": "maclane:App.1:def-nno",
+    "classification": "PARTIAL",
+    "aliases": ["natural-numbers object", "NNO", "initial (1+X)-algebra / NatF initial algebra", "zero O:1->N and successor s:N->N universal for primitive recursion", "Lawvere recursion universal property"],
+    "evidence": [
+      {"file": "Theory/Recursion.v", "line": 57, "symbol": "cata / cata_commutes / cata_unique",
+       "intree_statement": "Definition cata (β:FAlgebra F a) : μ ~> a := falg_hom[zero (a;β)]; cata_commutes : cata β ∘ inα ≈ β ∘ fmap (cata β); cata_unique : h ∘ inα ≈ β ∘ fmap h -> h ≈ cata β. (the recursion UP for the initial F-algebra μ)"},
+      {"file": "Theory/Adamek/Corollaries.v", "line": 87, "symbol": "NatF",
+       "intree_statement": "Program Definition NatF : Coq ⟶ Coq := {| fobj := fun X => option X; ... |} — the 1+X endofunctor whose initial algebra is nat; header (line 78) states 'the initial-algebra theorem [nat ≅ μ NatF] is not stated in the tree'"},
+      {"file": "Instance/Coq/Lists.v", "line": 39, "symbol": "ListF (worked initial algebra, nat's A-parametrized cousin)",
+       "intree_statement": "ListF A X := 1 + A × X, with list A its initial algebra and 'initiality is exactly the recursion principle of lists' — nat is the A:=unit reading (Adamek/Corollaries.v:73-77), left un-instantiated"}
+    ],
+    "statement_record": {
+      "book": "A natural-numbers object: an object N with O:1->N (zero) and s:N->N (successor) universal for primitive recursion — for every b with h:1->b and k:b->b there is a unique f:N->b with f∘O = h and f∘s = k∘f.",
+      "intree": "The recursion universal property is present abstractly as cata / cata_commutes / cata_unique for any initial F-algebra, and concretely for list A (initial ListF-algebra). The functor NatF = 1+X is defined, but nat is not exhibited as its initial algebra.",
+      "strength_comparison": "intree-weaker: the recursion universal-property SHAPE is present (cata, the initial-F-algebra recursor, which for F = 1+X is exactly the NNO recursion), and the A-parametrized generalization list A is a fully worked initial algebra — but the natural-numbers object itself is not. There is no NNO structure/class in a general category (N + O:1~>N + s:N~>N + the recursion UP), and nat ≅ μ NatF is explicitly DISCLAIMED (Adamek/Corollaries.v:78, 'not stated in the tree'), so nat is never exhibited as an initial (1+X)-algebra or NNO."
+    },
+    "gap": "No natural-numbers object exists in-tree: neither an abstract NNO (object N with zero, successor and the recursion universal property in an arbitrary topos/category) nor a concrete one (nat as the initial NatF-algebra is disclaimed, not proven). Only the general cata recursion principle and the list-over-Coq initial algebra are present.",
+    "negative_search_log": [
+      "grep -rniE 'natural.number|NNO|NatF|successor|nno|Class .*(NNO|NaturalNumber)|Record .*(NNO|NaturalNumber)|zero *:.*1 *~>|parametrized nno' -- only NatF (the functor) and general recursion/list machinery; no NNO class/object and no nat ≅ μ NatF theorem"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Solid PARTIAL (a clearer PARTIAL than def-ac). Verified cata/cata_commutes/cata_unique (Theory/Recursion.v:57-78) — the recursion UNIVERSAL PROPERTY for any initial F-algebra, which at F=1+X IS the NNO recursion, so the mathematical heart (not just a vocabulary atom) is present in general form. NatF:=option (Adamek/Corollaries.v:87) is defined with nat≅μNatF explicitly DISCLAIMED at :78; list_initial the worked A-parametrized cousin (Instance/Coq/Lists.v:111). Independently confirmed no NNO object/class exists (structural sweep 0 hits; only PeanoNat stdlib usage as object indices). Gap precise."}
+  },
+  {
+    "id": "maclane:App.1:remark-boolean",
+    "classification": "ABSENT",
+    "aliases": ["two-valued subobject classifier is a Boolean algebra", "Ω ≅ 1 + 1 ⇒ Boolean", "Boolean topos / classical topos", "Boolean-algebra structure on the classifier Ω", "excluded middle from two-valuedness"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'boolean.*(topos|classif|omega|Ω)|Ω.*boolean|two.valued' -- only prose: Instance/Sets/Par.v:18 '(a Boolean topos)' in passing, Instance/Two.v:85-87 Boolean algebra as an enriching-base concept, Instance/FinSet/Classifier.v 'boolean predicate/search' (the decidable char, not Ω-as-Boolean-algebra) — none formalize the classifier Ω as a Boolean algebra",
+      "grep -rniE 'Class .*(Boolean|Lattice|Heyting)|Record .*(Boolean|Lattice|Heyting)|complemented lattice|(meet|join).*complement' -- 0 hits: no Boolean/lattice/Heyting-algebra STRUCTURE on any object anywhere",
+      "grep -rniE 'excluded middle|two.valued' -- no 'two-valued Ω ⇒ Boolean' theorem; Ω exists as SubobjectClassifier.Ω but carries no internal algebraic (lattice/Heyting/Boolean) structure in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agrees ABSENT. Only prose traces: Instance/Sets/Par.v:18 '(a Boolean topos)' in passing, and Structure/Topos.v:81 'subobjects form a Heyting algebra rather than a Boolean one'. No Boolean/Heyting/lattice STRUCTURE on Ω (or any object), and no 'two-valued Ω ⟹ Boolean algebra' theorem — my structural sweep for Boolean/Lattice/Heyting classes returned 0 hits. Ω is only a bare SubobjectClassifier object carrying no internal algebraic structure. Negative log accurate."}
+  }
+]

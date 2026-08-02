@@ -1,0 +1,237 @@
+[
+  {
+    "id": "awodey:2.8:def-homset",
+    "classification": "PRESENT",
+    "aliases": ["hom-set", "hom-setoid Hom(A,B)", "induced post-composition map g_* = Hom(A,g)", "covariant action of an arrow on homs", "f ↦ g ∘ f"],
+    "evidence": [
+      {"file": "Theory/Category.v", "line": 115, "symbol": "hom / homset",
+       "intree_statement": "hom : obj → obj → uhom where \"a ~> b\" := (hom a b);  homset : ∀ X Y, Setoid (X ~> Y)  (* hom is a setoid; equality is ≈ *)"},
+      {"file": "Functor/Hom.v", "line": 64, "symbol": "Curried_Hom (inner fmap)",
+       "intree_statement": "fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |}  (* the induced post-composition map g_* : Hom(x,y) → Hom(x,z) *)"}
+    ],
+    "statement_record": {
+      "book": "In a locally small category, Hom(A,B) is the set of arrows A→B; each g:B→B' induces the post-composition function g_* = Hom(A,g): Hom(A,B)→Hom(A,B') sending f to g∘f.",
+      "intree": "hom[C] A B is the hom carrier with is_setoid := homset C A B (a Setoid, not a bare set); the induced map is the fmap of the covariant hom-functor Hom(A,-), sending g:x~>y to f ↦ g∘f (Functor/Hom.v Curried_Hom).",
+      "strength_comparison": "same (faithful setoid rephrasing): the hom-\"set\" is a hom-setoid with ≈ for equality, and g_* is realized as a setoid morphism (respecting ≈) rather than a bare function — exactly the sanctioned setoid presentation."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached PRESENT. Verified Functor/Hom.v:64 quote is exact — the inner fmap of Curried_Hom sends g ↦ f∘g, i.e. post-composition f_* = Hom(x,f), Awodey's g_*. Verified Theory/Category.v:115-116: line 115 is `hom : obj → obj → uhom`, line 116 `homset : ∀ X Y, Setoid (X ~> Y)` — hom-setoid confirmed; the coverage bundled both under 'line 115', quote accurate. File registered _CoqProject:139. Setoid-vs-set rephrasing is faithful."}
+  },
+  {
+    "id": "awodey:2.8:construction-representable",
+    "classification": "PRESENT",
+    "aliases": ["covariant hom-functor Hom(A,-)", "covariant representable functor", "[Hom A,─]", "Curried_Hom", "covariant Yoneda embedding factor", "Hom(A,-) : C ⟶ Sets"],
+    "evidence": [
+      {"file": "Functor/Hom.v", "line": 60, "symbol": "Curried_Hom",
+       "intree_statement": "Program Definition Curried_Hom (C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~> z) => {| morphism := fun (g : x ~> y) => (f ∘ g) |} |}; ... |}"},
+      {"file": "Functor/Hom.v", "line": 80, "symbol": "[Hom A,─] notation",
+       "intree_statement": "Notation \"[Hom A , ─]\" := (@Curried_Hom _ A) : functor_scope.  (* the covariant hom functor Hom(A,-) : C ⟶ Sets *)"},
+      {"file": "Functor/Representable.v", "line": 46, "symbol": "Representable",
+       "intree_statement": "Class Representable (F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }  (* uses [Hom A,─] as THE covariant representable *)"}
+    ],
+    "statement_record": {
+      "book": "Hom(A,-):C→Sets is a functor: B ↦ Hom(A,B), g ↦ g_* = g∘-; functoriality Hom(A,1_X)=1 and Hom(A,g∘f)=Hom(A,g)∘Hom(A,f).",
+      "intree": "fobj[Curried_Hom C] A = [Hom A,─] is a bona fide Functor C ⟶ Sets (a Functor record with its fmap_id/fmap_comp obligations discharged in the compiled file), sending y to hom A y and f to (g ↦ f∘g).",
+      "strength_comparison": "same: the covariant representable is packaged as a first-class Functor into Sets (the codomain being setoids), with functoriality proven as the Functor-instance obligations; it is the object used to define Representable and the Yoneda embedding."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached PRESENT. Verified Functor/Hom.v:60 Curried_Hom : C^op ⟶ [C, Sets] with inner functor [Hom A,─] : C ⟶ Sets (fobj y = hom A y, fmap f = g↦f∘g); notation at :80 exact; Representable class at Functor/Representable.v:46 exact. Functoriality is discharged by the Program obligations of the (inner) Functor record. Files registered _CoqProject:139,145."}
+  },
+  {
+    "id": "awodey:2.8:prop20",
+    "classification": "PRESENT",
+    "aliases": ["Hom-set characterization of products", "θ_X : Hom(X,P)→Hom(X,A)×Hom(X,B) is a bijection", "product as representing object", "product ⟺ natural iso Hom(-,P)≅Hom(-,A)×Hom(-,B)", "universal property of the product"],
+    "evidence": [
+      {"file": "Structure/UniversalProperty/Cartesian.v", "line": 60, "symbol": "CartesianProductIsUniversalProperty",
+       "intree_statement": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) (fun z => CartesianProductStructuresEquiv x y z).  (* represented by [Hom ─,x] × [Hom ─,y] = Hom(-,x)×Hom(-,y) *)"},
+      {"file": "Structure/UniversalProperty.v", "line": 41, "symbol": "IsUniversalProperty",
+       "intree_statement": "Class IsUniversalProperty (C)(P)(eqP) := { repr_functor : C ⟶ Sets; repr_equivalence : forall c, @Isomorphism Sets (P c) (Isomorphism [Hom c,─] repr_functor) }  (* per-object iso between proofs of P and representations *)"}
+    ],
+    "statement_record": {
+      "book": "A ←p1– P –p2→ B is a product iff for every X the comparison θ_X = (p1∘-, p2∘-): Hom(X,P)→Hom(X,A)×Hom(X,B) is a bijection (natural in X).",
+      "intree": "CartesianProductIsUniversalProperty states, for each z, a Sets-isomorphism between the setoid of product-witnesses IsCartesianProduct x y z and the natural isomorphisms Hom_C(-,z) ≅ Hom_C(-,x) × Hom_C(-,y) (presheaf product from Instance/Fun/Cartesian.v); the iso's components are precisely (exl'∘-, exr'∘-) = θ and its inverse fork'.",
+      "strength_comparison": "intree-stronger: instead of a bare biconditional 'is-a-product ⟺ θ_X bijective', it exhibits a full isomorphism of witness-setoids z ↦ {product structures} ≅ {natural isos Hom(-,z)≅Hom(-,x)×Hom(-,y)}, packaged in the generic representability framework (which also yields uniqueness up to unique iso). The presheaf variance Hom(-,z) matches Awodey's 'natural in X' reading of Hom(X,P)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached PRESENT via the same file. Verified Structure/UniversalProperty.v:41-49 IsUniversalProperty: repr_functor : C⟶Sets and repr_equivalence : ∀c, Isomorphism Sets (P c) (natural-isos [Hom c,─] ≅ repr_functor) — coverage quote faithful (Build_SetoidObject wrappers elided). Instantiated in C^op with P z = IsCartesianProduct x y z and repr_functor = [Hom ─,x]×[Hom ─,y] = Hom_C(-,x)×Hom_C(-,y), so [Hom z,─] in C^op unfolds to the presheaf Hom_C(-,z); the per-z iso IS the biconditional 'z is a product ⟺ θ natural iso'. Variance (Hom(-,z), natural in the domain) matches Awodey's 'natural in X'. 'intree-stronger' framing honest. Files registered _CoqProject:379."}
+  },
+  {
+    "id": "awodey:2.8:def21",
+    "classification": "PRESENT",
+    "aliases": ["functor preserving binary products", "product-preserving functor", "CartesianFunctor", "canonical comparison ⟨Fp1,Fp2⟩: F(A×B)→FA×FB is an iso", "cartesian functor"],
+    "evidence": [
+      {"file": "Functor/Structure/Cartesian.v", "line": 49, "symbol": "CartesianFunctor",
+       "intree_statement": "Class CartesianFunctor := { fobj_prod_iso {x y} : F (x × y) ≅ F x × F y; prod_out := fun x y => to fobj_prod_iso; fmap_exl : fmap (exl) ≈ exl ∘ prod_out; fmap_exr : fmap (exr) ≈ exr ∘ prod_out; fmap_fork {..} f g : fmap (f △ g) ≈ prod_in ∘ fmap f △ fmap g }"}
+    ],
+    "statement_record": {
+      "book": "F:C→D (both with binary products) preserves binary products if it sends product diagrams to product diagrams; equivalently iff the canonical comparison ⟨Fp1,Fp2⟩: F(A×B)→FA×FB is an iso.",
+      "intree": "CartesianFunctor requires the comparison fobj_prod_iso : F(x×y) ≅ Fx×Fy to be an isomorphism, with prod_out = to fobj_prod_iso pinned by fmap_exl/fmap_exr to equal ⟨fmap exl, fmap exr⟩; fmap_fork records that F carries pairing to pairing up to the comparison.",
+      "strength_comparison": "same: the library takes exactly Awodey's 'equivalently' formulation (canonical comparison is invertible), and fmap_exl/fmap_exr force prod_out ≈ ⟨Fexl,Fexr⟩, i.e. the very comparison arrow Awodey names. Binary only, as in Awodey Def 2.21 (nullary/terminal preservation is the separate TerminalFunctor)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached PRESENT via the same file. Verified Functor/Structure/Cartesian.v:49-62 CartesianFunctor: fobj_prod_iso : F(x×y)≅Fx×Fy with fmap_exl (fmap exl ≈ exl∘prod_out) and fmap_exr pinning prod_out = to fobj_prod_iso to the canonical ⟨fmap exl, fmap exr⟩, plus fmap_fork. This is exactly Awodey's 'equivalently: canonical comparison is an iso'. Binary-only disclosure (terminal preservation = separate TerminalFunctor) is honest and matches Def 2.21. File registered _CoqProject:148."}
+  },
+  {
+    "id": "awodey:2.8:cor22",
+    "classification": "PRESENT",
+    "aliases": ["covariant representable preserves products", "Hom(X,-) preserves products", "Hom(X,A×B) ≅ Hom(X,A)×Hom(X,B)", "diagonal–product adjunction hom-set bijection", "θ_X bijective at the genuine product"],
+    "evidence": [
+      {"file": "Adjunction/Diagonal/Product.v", "line": 36, "symbol": "Diagonal_Product_Adjunction",
+       "intree_statement": "Program Instance Diagonal_Product_Adjunction (C)(@Cartesian C) : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |}; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }  (* iso (x~>a)×(x~>b) ≅ (x~>a×b) natural in x, with from = θ_X = (p1∘-, p2∘-) *)"},
+      {"file": "Structure/UniversalProperty/Cartesian.v", "line": 60, "symbol": "CartesianProductIsUniversalProperty",
+       "intree_statement": "the forward reading of Prop 2.20 applied to the genuine product gives Hom(-,A×B) ≅ Hom(-,A)×Hom(-,B)."}
+    ],
+    "statement_record": {
+      "book": "For any X in a category with products, the covariant representable Hom_C(X,-):C→Sets preserves products: Hom(X,A×B) ≅ Hom(X,A)×Hom(X,B) canonically.",
+      "intree": "The diagonal–product adjunction Δ ⊣ ×(C) gives, in Sets, the natural bijection Hom(X,fst p)×Hom(X,snd p) = (Δ X ~> p) ≅ (X ~> ×(C) p) = Hom(X, fst p × snd p), whose inverse `from` is exactly θ_X = h ↦ (exl∘h, exr∘h); naturality in X is the adjunction naturality.",
+      "strength_comparison": "same content: the canonical comparison θ_X (the inverse transpose) is proven to be an isomorphism natural in X — precisely 'Hom(X,-) preserves the binary product'. The only framing difference is that there is no standalone `CartesianFunctor (Curried_Hom C X)` instance; the preservation is delivered as the adjunction hom-iso (and, at the presheaf level, by Prop 2.20's representability witness)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My blind pass LEANED PARTIAL (I found no CartesianFunctor-of-representable instance and no fixed-X Hom-product lemma), but on checking the coverage's load-bearing citation I OVERTURNED my own preliminary verdict in favor of PRESENT. Verified Adjunction/Diagonal/Product.v:36 Diagonal_Product_Adjunction : Diagonal_Product C ⊣ ×(C) (Program Instance, obligations discharged by unfork/fork_comp, registered _CoqProject:2). Its Sets hom-iso adj x p : (Δx ~> p) ≅ (x ~> ×(C) p) unfolds to Hom(x,fst p)×Hom(x,snd p) ≅ Hom(x, fst p × snd p) — exactly Cor 2.22's Hom(X,A×B)≅Hom(X,A)×Hom(X,B) — with from = θ_X = h↦(exl∘h, exr∘h), natural in BOTH x and the pair p=(A,B) (adjunction naturality), so the covariant-representable-preserves-products content is genuinely present. ×(C) exists under @Cartesian C (Functor.Product.Internal). The 'no standalone CartesianFunctor(Curried_Hom)' caveat is honestly disclosed. PRESENT under the frozen 'substance/up-to-presentation' definition. This is why the adversarial re-check of cited files matters — the coverage's witness is stronger than what my blind grep surfaced."}
+  },
+  {
+    "id": "awodey:2:ex1",
+    "classification": "PARTIAL",
+    "aliases": ["surjection = epimorphism in Sets", "epis in Set are surjective", "surjectivity_is_epic", "Epic h ↔ (∀b,∃a, h a ≈ b)", "epimorphisms are surjective"],
+    "evidence": [
+      {"file": "Instance/Sets.v", "line": 429, "symbol": "surjectivity_is_epic (Aborted)",
+       "intree_statement": "Lemma surjectivity_is_epic {A B : SetoidObject} (h : A ~{Sets}~> B) : (∀ b, ∃ a, h a ≈ b) ↔ Epic h.  Proof. split. - (* surjective → epic, PROVEN *) ... - (* epic → surjective *) ... Abort.  (* whole lemma Aborted; does NOT enter the environment *)"},
+      {"file": "Instance/Sets/Classifier.v", "line": 42, "symbol": "classifier machinery",
+       "intree_statement": "header: '... on the reverse direction of epis-are-surjections; this file upgrades ...' — the subobject-classifier size obstruction (PropSetoid/char_setoid/sets_char_pullback/sets_char_unique) that blocks the same-universe reverse direction is developed cross-universe here."}
+    ],
+    "statement_record": {
+      "book": "A function between sets is surjective iff it is an epimorphism in Sets.",
+      "intree": "The biconditional `(∀b,∃a, h a ≈ b) ↔ Epic h` is stated as surjectivity_is_epic, but the lemma ends in `Abort`, so no usable lemma enters the environment. The forward direction (surjective → epic) is proven within the aborted proof (first bullet completes); the reverse (epic → surjective) is left incomplete.",
+      "strength_comparison": "intree-weaker: only the forward half is (internally) proven and it is not exported; the substantive reverse direction is abandoned at the same-universe level owing to a documented subobject-classifier size obstruction (the truth-value object lives one universe up)."
+    },
+    "gap": "The biconditional is written but `Abort`ed, so nothing is in the environment. The easy direction (surjective ⟹ epic) is proven inside the aborted proof but not available as a standalone lemma; the hard/interesting direction the exercise really tests (epic ⟹ surjective) is not proven at the level of Sets — only the cross-universe classifier machinery of Instance/Sets/Classifier.v addresses the size obstruction. A same-category epi=surjection theorem is missing.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached PARTIAL. Verified Instance/Sets.v:429-476: surjectivity_is_epic states the ↔ but ends in `Abort` — the forward branch (surj→epic) is a complete correct script, the reverse branch is only partial (with commented-out attempt) before Abort, so NO lemma enters the environment. In-file comment (lines 412-417) accurately says exactly this, so this is a documented incomplete lemma, NOT a comment-vs-code defect. Instance/Sets/Classifier.v header (lines ~38-46) corroborates the subobject-classifier size obstruction on the reverse direction. Borderline ABSENT (nothing usable is exported), but PARTIAL is defensible because the statement + a complete forward proof-script are present in-file and the gap is stated with full precision; not overturning a scrupulously-honest self-disclosed record."}
+  },
+  {
+    "id": "awodey:2:ex2",
+    "classification": "PARTIAL",
+    "aliases": ["mono/epi/iso propagation across a commutative triangle", "2-out-of-3 for mono/epi/iso", "monic_compose / epi_compose / iso_compose", "if g∘f monic then f monic (right factor)", "if g∘f epic then g epic (left factor)"],
+    "evidence": [
+      {"file": "Theory/Morphisms.v", "line": 213, "symbol": "monic_compose",
+       "intree_statement": "Definition monic_compose {x y z} {f : y ~> z} {g : x ~> y} : Monic f → Monic g → Monic (f ∘ g)."},
+      {"file": "Theory/Morphisms.v", "line": 201, "symbol": "epi_compose",
+       "intree_statement": "Definition epi_compose {x y z} {f : y ~> z} {g : x ~> y} : Epic f → Epic g → Epic (f ∘ g)."},
+      {"file": "Theory/Isomorphism.v", "line": 166, "symbol": "iso_compose",
+       "intree_statement": "Program Definition iso_compose {x y z} (f : y ≅ z) (g : x ≅ y) : x ≅ z := {| to := to f ∘ to g; from := from g ∘ from f |}."}
+    ],
+    "statement_record": {
+      "book": "For h = g∘f: (a) f,g both isos/monos/epis ⟹ h is; (b) h monic ⟹ f monic; (c) h epic ⟹ g epic; (d) example: h monic but g need not be.",
+      "intree": "Part (a) is fully present: composites of monos (monic_compose), of epis (epi_compose) and of isos (iso_compose) are again mono/epi/iso. No lemma in-tree derives monic/epic of a single factor from monic/epic of the composite, and no counterexample object is built.",
+      "strength_comparison": "intree-weaker: only the closure-under-composition part (a) is covered; the cancellation parts (b),(c) and the counterexample (d) have no in-tree counterpart."
+    },
+    "gap": "Missing: (b) 'if g∘f is monic then f (the right factor) is monic' and (c) 'if g∘f is epic then g (the left factor) is epic' — the standard cancellation lemmas are not in Theory/Morphisms.v (only monic_compose/epi_compose and the respects-≈ lemmas Structure/Abelian.v:387/399 exist); and (d) the counterexample showing h monic ⇏ g monic is not formalized.",
+    "negative_search_log": [
+      "grep -rn 'Monic (f ∘ g)|Epic (f ∘ g)|→ Monic g|→ Epic f|cancel|first_factor|second_factor' --include=*.v .  → only monic_compose/epi_compose (both-factors form) and respects-≈ lemmas; no single-factor cancellation",
+      "grep in Theory/Morphisms.v for cancellation → only retractions_are_epic, sections_are_monic, epi_compose, monic_compose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached PARTIAL, same three witnesses. Verified monic_compose (Theory/Morphisms.v:212-220), epi_compose (:201-209), iso_compose (Theory/Isomorphism.v:166) — part (a) present. Independent whole-tree grep for single-factor cancellation (g∘f monic ⟹ f monic; g∘f epic ⟹ g epic) found none; the Abelian.v:387/399 and Regular/Factorization.v:100 hits are all `f ≈ g → Monic/Epic f → Monic/Epic g` (≈-transport, not composition cancellation), and Adjunction.v:312 is faithful-functor mono-reflection — none is (b)/(c). No counterexample (d). Gap precise and honest."}
+  },
+  {
+    "id": "awodey:2:ex3",
+    "classification": "ABSENT",
+    "aliases": ["projective object", "lifting property against epimorphisms", "every set is projective (AC)", "retract of a projective is projective", "epis in Pos are surjections on objects", "1 is projective in Pos"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "find . -iname '*project*' → no files",
+      "grep -rn '[Pp]rojective' --include=*.v . → only prose: Structure/Abelian.v ('enough projectives', 'projective-resolution'), Structure/Limit.v ('projective limit'), Structure/Closed.v ('projective tensor product'), Construction/Opposite.v ('projective geometry/plane'). No Class/Definition/Record for a projective object.",
+      "grep -rn '[Pp]rojective\\b' filtered to remove geometry/limit/resolution/tensor/module → 0 hits (no lifting-property definition)",
+      "grep for 'lifts across', diagonal-lift lifting property of an object vs epi → none for objects",
+      "No category Pos with an epi-characterization; no 'retract of projective is projective' lemma."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached ABSENT. Confirmed no `Class/Definition/Record Projective` and no is_projective anywhere; every 'projective' hit is prose (projective geometry / projective limit / projective tensor / enough-projectives). Independent grep for object-vs-epi lifting: the only 'lift' hits (Abelian.v:430, Regular/Factorization.v, StrongEpi.v) are strong/regular-epi lifting AGAINST monos — the orthogonal-morphism lifting, not a projective-object definition. Core notion of the exercise (projective object) is genuinely absent."}
+  },
+  {
+    "id": "awodey:2:ex4",
+    "classification": "ABSENT",
+    "aliases": ["A-monoid", "category A-Mon", "free monoid on A = initial A-monoid", "free/forgetful adjunction Set ⟷ Mon", "M(A) universal property", "free monoid comparison of UMPs"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'A-[Mm]onoid|A-Mon|free_monoid|FreeMonoid|Free ⊣|free monoid on' --include=*.v . → only prose/near-misses: Theory/Coq/List.v (list is 'the underlying set of the free monoid on A'; the list monad is the monad of the 'free-monoid/forgetful adjunction Set<->Mon' — described in prose, adjunction NOT constructed), Construction/ColouredPROP.v & Construction/Cayley.v (free monoid on a type, prose), Construction/Free/Quiver.v (Free ⊣ Forget for the free CATEGORY on a quiver, not monoids)",
+      "grep for a Category of monoids (objects = monoids): Theory/Algebra/Monoid/Hom.v has MonoidHom (homs of monoid OBJECTS in a monoidal category) but no assembled category Mon; Instance/CMon.v is commutative monoids, not the general Mon of the exercise; Structure/Monoid.v is monoid OBJECTS, not a category of monoids",
+      "grep 'free|universal|initial|∃!|UMP|adjunc' Theory/Coq/List.v → no free-monoid universal property (∀ N monoid, ∀ f:A→N, ∃! hom) is proven; list is only given monad structure",
+      "No A-Mon category is defined and no theorem equating its initial object with a free monoid."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached ABSENT. Confirmed no general category Mon of monoids (only Instance/CMon.v = commutative monoids, Theory/Algebra/Comonoid/Hom.v Comon = comonoids, Structure/Monoid.v = monoid objects); no A-Mon category; no free-monoid UMP or free⊣forgetful adjunction constructed (list=free monoid appears only in Theory/Coq/List.v prose + as a monad). No theorem equating an A-Mon initial object with a free monoid. Negative log thorough and honest."}
+  },
+  {
+    "id": "awodey:2:ex5",
+    "classification": "ABSENT",
+    "aliases": ["ultrafilter", "boolean homomorphism B→2", "filter in a boolean algebra", "boolean algebra / category Bool", "Hom_Bool(B,2) ≅ ultrafilters", "maximal filter"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'ultrafilter|boolean algebra|Class Filter|Definition Filter|Record Filter|category Bool' --include=*.v . → only prose: Theory/Monad.v & Theory/Kan/Extension.v ('ultrafilter monad' background essays), Theory/Lawvere.v & Theory/Equivalence.v & Instance/Two.v & Structure/Cocartesian.v (Boolean algebras mentioned as motivation/examples). No Boolean-algebra structure, no filter/ultrafilter definition.",
+      "Instance/Comp.v:395 'BoolOp' is a boolean-valued operation algebra for a group operad — unrelated to Boolean algebras",
+      "No object 2 as a two-element Boolean algebra, no Bool category of Boolean homomorphisms, no filter/ultrafilter, hence no B→2 ≅ ultrafilters correspondence"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached ABSENT. Confirmed no Boolean-algebra structure/class, no filter/ultrafilter definition, no Bool category. All 'ultrafilter' hits are Haskell-filter or ultrafilter-monad prose; all 'Boolean/Heyting' hits are motivational essay text (Lawvere.v, Two.v, Topos.v, Sheaf.v). No Boolean homs-to-2 = ultrafilters correspondence. Genuinely absent."}
+  },
+  {
+    "id": "awodey:2:ex6",
+    "classification": "PRESENT",
+    "aliases": ["associativity of binary products up to iso", "A×(B×C) ≅ (A×B)×C", "prod_assoc", "product associator", "(x×y)×z ≅ x×(y×z)"],
+    "evidence": [
+      {"file": "Structure/Cartesian.v", "line": 485, "symbol": "prod_assoc",
+       "intree_statement": "Program Instance prod_assoc {x y z : C} : (x × y) × z ≅ x × (y × z) := { to := (exl ∘ exl) △ ((exr ∘ exl) △ exr); from := (exl △ (exl ∘ exr)) △ (exr ∘ exr) }."}
+    ],
+    "statement_record": {
+      "book": "In any category with binary products, A×(B×C) ≅ (A×B)×C.",
+      "intree": "prod_assoc gives the isomorphism (x×y)×z ≅ x×(y×z) with explicit to/from built from projections and forks, in any @Cartesian C.",
+      "strength_comparison": "same: the associator isomorphism is proven for every category with binary products (the exercise's conclusion), with the canonical mediating maps."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached PRESENT via the same witness. Verified Structure/Cartesian.v:485-491 prod_assoc : (x×y)×z ≅ x×(y×z) for any @Cartesian C, explicit to/from, two iso-law obligations discharged (rewrite fork_comp; cat). Quote exact; direction/orientation immaterial to Awodey's up-to-iso claim. File registered _CoqProject:299."}
+  },
+  {
+    "id": "awodey:2:ex7",
+    "classification": "PARTIAL",
+    "aliases": ["I-indexed product", "arbitrary/small product UMP", "∏_{i∈I} X_i", "IsIndexedProduct / iprod", "X^I as a product in Sets", "function set as constant-family product"],
+    "evidence": [
+      {"file": "Structure/Limit/Product.v", "line": 51, "symbol": "IsIndexedProduct",
+       "intree_statement": "Record IsIndexedProduct {C}{A : Type} (f : A → C) (p : C) (proj : ∀ a, p ~> f a) := { iprod_desc {c} (pi : ∀ a, c ~> f a) : ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a }."},
+      {"file": "Structure/Limit/Product.v", "line": 93, "symbol": "iprod / iprod_ump",
+       "intree_statement": "iprod f (L : Limit (DiscreteCat_Functor f)) := vertex_obj[L]; iprod_ump : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a  (* reads a discrete-diagram limit as the I-indexed product *)"}
+    ],
+    "statement_record": {
+      "book": "(a) For any index set I define ∏_{i∈I} X_i by a UMP generalizing the binary case (the case I=2). (b) In Sets, X^I = {f : I→X} satisfies this UMP for the constant family X_i=X, so X^I ≅ ∏_{i∈I} X.",
+      "intree": "Part (a): IsIndexedProduct f p proj states exactly the generalized UMP (∀ competing family pi:∀a,c~>f a, ∃! u with proj a ∘ u ≈ pi a) for a Type-indexed family f:A→C, with iprod/iprod_proj/iprod_ump reading it off a limit of the discrete diagram. Part (b): no in-tree realization — Sets is given only binary products (Sets_Cartesian) and binary exponentials; there is no Sets small/indexed product, no HasIndexedProducts Sets, and no X^I identification.",
+      "strength_comparison": "intree-weaker overall: (a) is present at full strength (the I-ary UMP, even more generally over an arbitrary index Type and connected to discrete limits); (b) is absent."
+    },
+    "gap": "Part (b) is missing: X^I (the function set) is not shown to be the I-indexed product of the constant family in Sets. Sets carries only binary products (Instance/Sets/Cartesian.v) — there is no instance making Sets have small/indexed products (no Limit of DiscreteCat_Functor over an arbitrary index, no HasIndexedProducts Sets), and no X^I ≅ ∏_{i∈I} X construction anywhere in Instance/Sets*.",
+    "negative_search_log": [
+      "grep -rn 'HasIndexedProducts|IndexedProduct|iprod' Instance/Sets*.v Instance/Sets/*.v → 0 hits",
+      "grep -rn 'Complete|HasLimits|small product|X^I|∏' Instance/Sets*.v Instance/Sets/*.v → only End/Coend and the binary Sets_Product_Monoidal; no small products, no X^I",
+      "grep -rn 'Limit.*Discrete|Discrete.*Sets' --include=*.v . → discrete-diagram limits used only abstractly (WeaklyInitial.v, Structure/Limit/Product.v), never instantiated for Sets"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently reached PARTIAL, same split. Verified Structure/Limit/Product.v:51-57 IsIndexedProduct (I-ary UMP over an arbitrary index Type A, ∃! u factoring every family) plus iprod/iprod_proj/iprod_ump reading it off a Limit(DiscreteCat_Functor f) — part (a) present at full (indeed more general Type-indexed) strength. Part (b): independently confirmed no Sets completeness/small-product/indexed-product instance and no X^I ≅ ∏X identification (only abstract weighted-limit machinery in Structure/Limit/Weighted.v, never a concrete Sets small product). File registered _CoqProject:328. Gap precise."}
+  }
+]

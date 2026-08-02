@@ -1,0 +1,536 @@
+[
+ {
+  "item_id": "riehl:4.0:construction-free-vector-space",
+  "issue": 305,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.0, printed p. 131 (PDF pp. 151–152), item `riehl:4.0:construction-free-vector-space` — the chapter-opening construction of the free vector space `k[S]` on a set (finitely supported\n`k`-valued functions on `S`, `S` a basis), its functoriality on maps of generating sets, and the\nstatement of its universal property as a LEFT ADJOINT to the underlying-set functor `Vect_k ⟶ Set`\n\nIn-tree today, verified: nothing. There is no category of vector spaces, modules, rings or abelian groups anywhere in the\ntree — the only algebraic instance category is `Instance/CMon.v` (commutative monoids over setoids,\nwith `CMon_Forget` at `:169` and no left adjoint). Every occurrence of “vector space”/“Vect” in `*.v`\nis background-essay prose. This issue's Work section already scopes both halves (“prove `⟨V_X, j⟩` is a\nuniversal arrow … and package the resulting free ⊣ forgetful adjunction”), so Riehl's framing adds no\nnew obligation — only a second citation and the request that the ADJUNCTION, not merely the universal\narrow, be the headline artifact."
+ },
+ {
+  "item_id": "riehl:4.1:example6",
+  "issue": 456,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 134 (PDF p. 154), item `riehl:4.1:example6` — the adjoint triple `D ⊣ U ⊣ I` for the underlying-set functor of spaces: the discrete-topology\nfunctor is left adjoint and the indiscrete-topology functor right adjoint to `U : Top ⟶ Set`, each\ncharacterized by the transposition bijection on continuous maps\n\nIn-tree today, verified: nothing. There is no category of topological spaces: every hit for “topolog”, “discrete space” or\n“indiscrete” in `*.v` is essay prose or bibliography, and `Instance/Discrete.v:37`'s `DiscreteCat` is\nthe discrete CATEGORY on a type (a limit shape), not a space. `Structure/Discrete.v:23-24` asserts the\n`Cat` analogue of this triple in a comment only. The three adjunctions of this issue's Work section\nare exactly Riehl's example."
+ },
+ {
+  "item_id": "riehl:4.1:def-adjoint-triple",
+  "issue": 743,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 134 (PDF p. 154), item `riehl:4.1:def-adjoint-triple` — the running-prose definition of an ADJOINT TRIPLE: three functors with `F ⊣ G` and `G ⊣ H`,\ntaken as a single piece of data. Riehl introduces the notion here and then uses it throughout §§4.1,\n4.5 and 4.6 (quantifiers, base change, limits/colimits)\n\nIn-tree today, verified: the SHAPE occurs once but is never named or packaged. `Theory/Kan/Extension.v:127` defines the\nshared middle functor `Induced := (− ◯ F)`, `:222` `Class LeftKan := { Lan; lan_adjoint : Lan ⊣ Induced }`\nand `:140` `Class RightKan := { Ran; ran_adjoint : Induced ⊣ Ran }` — two independent classes that no\nfile ever assumes together, neither with a concrete in-tree instance. Every other candidate triple is a\ncomment: `cod ⊣ ids ⊣ dom` (`Construction/Arrow.v:62`), `colim ⊣ Δ ⊣ lim` (`Functor/Diagonal.v:28`),\n`Σ_f ⊣ f* ⊣ Π_f` (`Construction/Slice/Pullback.v:37`, whose `Base_Functor_Adjunction` is commented out\nat `:121`), `∃ ⊣ substitution ⊣ ∀` (`Theory/Adjunction.v:76`, `Instance/Poset.v:70`). This issue's\nfirst Definition-of-Done item (`AdjointTriple` packaged, with named projections) is precisely the\nmissing datum."
+ },
+ {
+  "item_id": "riehl:4.1:def-galois-connection",
+  "issue": 380,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 134 (PDF p. 154), item `riehl:4.1:def-galois-connection` — the running-prose definition identifying an adjunction between preorders with a (monotone)\nGALOIS CONNECTION, together with the lower-adjoint / upper-adjoint vocabulary and the unpacked form\n`F a ≤ b ⟺ a ≤ G b`\n\nIn-tree today, verified: the two halves exist but are never joined. `Instance/Proset.v:33` builds the thin category of a\npreorder (`hom := R`, hom-setoid `fun _ _ => True`), and `Theory/Adjunction.v:130` is the general\n`Adjunction` class; instantiating the latter at two `Proset`s unfolds DEFINITIONALLY to the pair of\nimplications with vacuous naturality — but no definition, lemma or instance in the tree performs the\nidentification, and `rg -i galois` returns only background-essay lines\n(`Theory/Adjunction.v:78-79`, `Instance/Poset.v:37-100`, `Instance/Adjoints.v:280`,\n`Adjunction/GAFT.v:136`). No adjunction between two order categories exists anywhere. That is exactly\nthis issue's bridge, in both directions."
+ },
+ {
+  "item_id": "riehl:4.1:example7",
+  "issue": 760,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 134 (PDF p. 154), item `riehl:4.1:example7` — the adjoint triple `⌈−⌉ ⊣ i ⊣ ⌊−⌋` for the inclusion of the integers into the reals: `n ≤ r ⟺ n ≤ ⌊r⌋`\nmakes the floor right adjoint to the inclusion, and `r ≤ n ⟺ ⌈r⌉ ≤ n` makes the ceiling left adjoint to it\n\nIn-tree today, verified: nothing: `rg -i 'floor|ceiling|ceil\\b'` returns 0 hits tree-wide and no `Coq.Reals` import\nexists, so the poset ℝ is not present in any form. This is the multiplier-1 case of this issue's\nadjoint string `⌈−/3⌉ ⊣ 3 × − ⊣ ⌊−/3⌋`, which the Definition of Done already requires over the same ℤ/ℝ\n`Proset` carriers; once those carriers and the two rounding maps exist, Riehl's statement is the same\nfile with the multiplier taken to be the identity, so no separate obligation arises."
+ },
+ {
+  "item_id": "riehl:4.1:example8",
+  "issue": 384,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 134 (PDF pp. 154–155), item `riehl:4.1:example8` — the adjoint triple `f_* ⊣ f^{-1} ⊣ f_!` on powerset preorders for a function of sets: direct image\nis left adjoint to inverse image, and inverse image has a further right adjoint (the dual image,\ncarrying a subset to the set of points whose whole fibre lies inside it)\n\nIn-tree today, verified: nothing of the triple. `rg -i 'powerset|power set|direct image|inverse image'` finds only\nfunctor-fullness vocabulary (`Theory/Functor.v:332` `prefmap`) and chosen preimages inside\nequivalence/image machinery; `Structure/Topos.v:129`'s `Pow a := Ω ^ a` is the internal power OBJECT,\nnot the powerset poset, and `Theory/Subobject/Functor.v:180`'s `Sub : C^op ⟶ Sets` (reindexing by\npullback) is the middle leg in categorical clothing but carries no adjoint. This issue's Work already\nconstructs both quantifier operators over powersets of setoids and proves both transposition\nbiconditionals — which is exactly Riehl's triple, since `∃_f` IS the direct image and `∀_f` IS the\ndual image. The left half alone is #382."
+ },
+ {
+  "item_id": "riehl:4.1:example9",
+  "issue": 384,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 135 (PDF p. 155), item `riehl:4.1:example9` — the quantifier triple `∃_X ⊣ Δ_X ⊣ ∀_X` for predicates on a set: `Ω^X` ordered pointwise over the\ntwo-element truth-value poset, with `Δ_X` the constant-predicate functor and the two quantifiers its\nadjoints\n\nIn-tree today, verified: nothing. `Instance/Two.v:134`'s `_2` IS the book's `Ω` (its header calls it the smallest object of\ntruth values) and `Instance/Props.v:39`'s `Props` carries Terminal/Initial/Cartesian/Cocartesian/Closed\ninstances, but no functor category `Ω^X` is ever formed and no adjunction in the tree involves\nquantifiers or predicates; the `∃ ⊣ substitution ⊣ ∀` triple appears only in header essays\n(`Theory/Adjunction.v:75-77`, `Instance/Poset.v:70-71`, `Structure/Pullback.v:122-128`,\n`Construction/Slice.v:92-94`, `Structure/Topos.v:85`). Riehl's example is the fibre of this issue's\ntriple over the unique map `X → 1` (equivalently, its statement with `Ω^X` in place of `P X`), so it is\nthe same obligation in truth-value presentation."
+ },
+ {
+  "item_id": "riehl:4.1:example10",
+  "issue": 312,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 135 (PDF pp. 155–156), item `riehl:4.1:example10` — the roster of fourteen free ⊣ forgetful adjunctions: free pointed set, free monoid, free ring on\nan abelian group, free abelian group, free `R`-module, free ring on a set (by composing left adjoints),\nfree commutative ring/polynomials, the group ring as left adjoint to the units functor, free group,\ngroup completion of a commutative monoid (Grothendieck group) and of a monoid, extension of scalars\nalong a ring map, the `ℤ → R` special case, and induction along a group homomorphism\n\nIn-tree today, verified: nothing of the roster: the tree has no category of monoids-as-sets, groups, rings, commutative\nrings, abelian groups or modules (`ls Instance/` shows `CMon` as the only algebraic instance, and its\n`CMon_Forget` at `:169` has no left adjoint). The one genuine free ⊣ forgetful adjunction in the tree,\n`Construction/Free/Quiver.v:550` `FreeForgetfulAdjunction`, is for categories over quivers and is not\non Riehl's list. Most entries of the roster already have owners — #296 (free monoid), #298 (free\ngroup), #305 (free vector space), #309 (free modules, polynomials), #310 (group rings, tensor and\nexterior algebras), #362 (adjoining an identity to a ring), #529 (pointed sets), #269 (restriction of\nscalars) — and the four this issue itself scopes (abelianization, free ring on an abelian group,\ndiscrete space, basepoint) are Riehl's (ii)/(iii)/(i). Two entries have no owner anywhere in the\ncatalog:\n\n- [ ] (from Riehl §4.1) The group completion / Grothendieck group as a left adjoint, in both of Riehl's forms: `CMonoid → Ab` and `Monoid → Group` (the in-tree `Instance/CMon.v` is the natural domain for the first).\n- [ ] (from Riehl §4.1) Extension of scalars `S ⊗_R −` as left adjoint to restriction of scalars along a ring homomorphism `φ : R → S` (#269 owns the restriction functor but not its adjoint)."
+ },
+ {
+  "item_id": "riehl:4.1:exii",
+  "issue": 384,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 138 (PDF p. 158), item `riehl:4.1:exii` — the exercise asking why the quantifier triple on predicates (Example 4.1.9) is a special case of\nthe image/preimage triple on powersets (Example 4.1.8)\n\nIn-tree today, verified: nothing: neither triple exists in-tree (see the two appends above), and no in-tree statement\nrelates predicates on a set to subsets of it. The exercise's content is exactly the identification this\nissue's construction makes available, so it belongs here rather than in a separate issue — but the\nidentification itself is a statement to be proved, not a by-product:\n\n- [ ] (from Riehl §4.1) The comparison `Ω^X ≅ P X` proved as an isomorphism of thin categories, carrying the quantifier triple along `X → 1` to the image/preimage triple of the same map — so that Example 4.1.9 is *derived* from the powerset triple rather than re-proved."
+ },
+ {
+  "item_id": "riehl:4.1:exiii",
+  "issue": 357,
+  "part": "clause (i): adjoints to ob : Cat ⟶ Set",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 138 (PDF p. 158), item `riehl:4.1:exiii` — clause (i) of the exercise: exhibit a left and a right adjoint to the objects functor\n`ob : Cat ⟶ Set`\n\nIn-tree today, verified: only the object half of the left adjoint. `Instance/Discrete.v:37` defines `DiscreteCat A` (homs\nare propositional equalities) and `:52` `DiscreteCat_Functor` extends a map `A → C` to a functor — one\ndirection of the transposition, at the level of a single functor, with the inverse never recorded. No\nfunctor `Cat ⟶ Sets` exists (`rg '⟶ Sets'` finds none out of `Cat`/`StrictCat`), no indiscrete/chaotic\ncategory is constructed, and no adjunction is stated; `Instance/Discrete.v:31` and\n`Structure/Discrete.v:23-24` assert the adjunctions in prose only. All three legs of this issue's\nadjoint string are what the clause asks for. Clause (ii) of the same exercise (the vertex functors of\n`Quiver` and `Graph`) is a different substrate and is filed separately."
+ },
+ {
+  "item_id": "riehl:4.1:exiv",
+  "issue": 743,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 138 (PDF p. 158), item `riehl:4.1:exiv` — the exercise deriving, from an adjoint triple `L ⊣ U ⊣ R` between `C` and `D`, the induced\nadjunctions `LU ⊣ RU` between endofunctors of `C` and `UL ⊣ UR` between endofunctors of `D`\n\nIn-tree today, verified: the general composition law but not the instantiations. `Adjunction/Compose.v:173`\n`Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U')` (with its clone `adj_comp` at `Instance/Adjoints.v:55`)\nmakes each conclusion a one-line instantiation — feed `U ⊣ R` then `L ⊣ U` for the first, the other\norder for the second — but no file performs either, and there is no adjoint-triple datum to state them\nover. Once this issue's `AdjointTriple` exists, these are its first two consequences, and they are what\nmake the packaging worth having:\n\n- [ ] (from Riehl §4.1) The two induced endofunctor adjunctions of a triple: `L ◯ U ⊣ R ◯ U` on `C` and `U ◯ L ⊣ U ◯ R` on `D`, derived from `Adjunction_Compose` as named corollaries of `AdjointTriple`."
+ },
+ {
+  "item_id": "riehl:4.1:exv",
+  "issue": 309,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.1, printed p. 138 (PDF p. 158), item `riehl:4.1:exv` — the exercise asking for a proof that the free `R`-module construction is functorial — explicitly,\nby describing the homomorphism of formal finite sums induced by a function of generating sets, or\nabstractly via the pointwise representability criterion\n\nIn-tree today, verified: nothing: `rg -nw 'Ring'` returns 0 hits, so there is no base ring, no module category, and no free\nmodule. Packaging the free module as a `UniversalArrow` and feeding\n`Theory/Universal/Arrow.v:214` `AdjunctionFromUniversalArrows` — which is this issue's stated route —\ndelivers the functoriality the exercise asks for as the `fmap` of the constructed left adjoint, so the\nexercise adds a citation rather than an obligation. Riehl's abstract alternative is the criterion of\n§4.4 (filed against #348)."
+ },
+ {
+  "item_id": "riehl:4.2:example4",
+  "issue": 298,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.2, printed p. 139 (PDF p. 159), item `riehl:4.2:example4` — the free-group adjunction presented through its unit and counit: `F S` is the group of reduced\nwords in the elements of `S` and their formal inverses, the unit sends an element to the corresponding\none-letter word, and the counit at a group evaluates a word of elements of that group to their\nproduct\n\nIn-tree today, verified: nothing: `rg -i 'free group'` returns three hits, all historical prose\n(`Theory/Universal/Arrow.v:39,45`, `Structure/Terminal.v:34`), `rg -i FreeGroup` returns 0, and there\nis no category of groups (`Structure/Group.v:109`'s `GroupObject` is a group INTERNAL to a cartesian\ncategory, not a category of groups). This issue's free-group corollary is the construction Riehl uses,\nso the increment is only the adjunction packaging:\n\n- [ ] (from Riehl §4.2) The free-group construction packaged as an adjunction to the underlying-set functor, with the unit (one-letter word) and counit (evaluate a word in the group) named and the triangle identities proved — not only the universal property."
+ },
+ {
+  "item_id": "riehl:4.2:cor10",
+  "issue": 386,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.2, printed p. 142 (PDF p. 162), item `riehl:4.2:cor10` — the fixed-point formulae for a Galois connection: `F G F = F` and `G F G = G`, proved from the two\ntriangle inequalities and antisymmetry, illustrated on the direct-image/inverse-image connection\n(`f(X) = f(f^{-1}(f(X)))` and `f^{-1}(f(f^{-1}(Y))) = f^{-1}(Y)` even though neither unit nor counit is\nan equality)\n\nIn-tree today, verified: nothing: `rg -i galois` returns only header prose, `rg 'FGF'`/`'GFG'`/`'F ◯ U ◯ F'` return 0 hits,\nand no functor between two `Proset`s is ever constructed, so the composite has no in-tree subject. The\nstatement is the thin-category shadow of this issue's fixed-point equivalence and belongs with it, but\nit is a separate identity that the equivalence does not literally contain:\n\n- [ ] (from Riehl §4.2) The Galois fixed-point formulae `F G F = F` and `G F G = G` (in the thin case, equalities; in general, the canonical natural isomorphisms `F η ≈ (ε F)^{-1}` reading), derived from the triangle identities and instantiated on the powerset connection."
+ },
+ {
+  "item_id": "riehl:4.2:lem11",
+  "issue": 386,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.2, printed p. 142 (PDF p. 162), item `riehl:4.2:lem11` — the lemma that any adjunction restricts to an equivalence between the full subcategory of objects\nat which the unit is invertible and the full subcategory of objects at which the counit is invertible\n\nIn-tree today, verified: only the degenerate case. `Theory/Equivalence/Adjoint.v:69-75` `AdjointEquivalence` requires EVERY\nunit and counit component invertible, and `:398` converts it to an `EquivalenceOfCategories`; the\nunit-side fixed subcategory exists only for an idempotent MONAD (`Construction/Reflective/Idempotent.v:224`\n`MLocal_Subcategory`, with a different equivalence at `:464`), never for an arbitrary adjunction, and\nthe counit-side subcategory does not exist at all. Also missing are the closure facts that make the\nrestriction well defined (`F` carries unit-fixed objects to counit-fixed ones and `U` conversely). This\nissue's second Work item states exactly this two-sided restriction."
+ },
+ {
+  "item_id": "riehl:4.2:exii",
+  "issue": 312,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.2, printed p. 143 (PDF p. 163), item `riehl:4.2:exii` — the exercise asking that one forgetful functor from the Example 4.1.10 roster be proved a right\nadjoint by exhibiting its left adjoint, unit and counit and checking the triangle identities\n\nIn-tree today, verified: the route exists, the instances do not. `Adjunction/Natural/Transformation/Universal.v:42`\n`Adjunction_from_Transform` turns `η`, `ε` plus the triangle identities into a full `Adjunction`, and\n`Construction/Free/Quiver.v:550` is an in-tree free ⊣ forgetful adjunction — but it is built through\nuniversal arrows, and none of Riehl's fourteen algebraic categories exists (`Instance/CMon.v:169`\n`CMon_Forget` has no left adjoint; `Instance/Comp.v` builds a free algebra with its universal property\nat `:108`/`:116` but never assembles a functor or an adjunction). Since this issue packages its roster\nvia `AdjunctionFromUniversalArrows`, the exercise's route is not otherwise exercised:\n\n- [ ] (from Riehl §4.2) At least one roster adjunction ALSO discharged through the unit/counit route — `Adjunction_from_Transform` with the two triangle identities proved by hand — so both presentations of the same adjunction are available and visibly agree."
+ },
+ {
+  "item_id": "riehl:4.2:exiii",
+  "issue": 380,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.2, printed p. 143 (PDF p. 163), item `riehl:4.2:exiii` — the exercise proving the two formulations of a Galois connection equivalent: the transposition\nbiconditional `F a ≤ b ⟺ a ≤ G b`, and the bare pair of inequalities `a ≤ G F a`, `F G b ≤ b`\n\nIn-tree today, verified: the general machinery, but not in the exercise's bare form. `Adjunction/Natural/Transformation.v:35-43`\n`Adjunction_Transform` carries the two TRIANGLE IDENTITIES as fields, and\n`Adjunction/Natural/Transformation/Universal.v:42/:84` converts back and forth with the hom-set form —\nwhereas the exercise's clause (ii) supplies only the two inequalities, because in a thin category the\ntriangle obligations are automatic (`Instance/Proset.v:33` gives every hom-setoid the equivalence\n`fun _ _ => True`). No in-tree lemma records that vacuity, so the extra hypothesis is never discharged:\n\n- [ ] (from Riehl §4.2) The thin-category discharge: over `Proset`/`Poset` the triangle-identity fields of `Adjunction_Transform` are provably vacuous, so the bare pair `a ≤ G F a`, `F G b ≤ b` suffices to produce a full `Adjunction` — stated as a reusable lemma, not inlined in a proof."
+ },
+ {
+  "item_id": "riehl:4.2:exiv",
+  "issue": 386,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.2, printed p. 143 (PDF p. 163), item `riehl:4.2:exiv` — the exercise asking for the proof of Lemma 4.2.11 (the restriction of an adjunction to its two\nfixed full subcategories is an equivalence)\n\nIn-tree today, verified: identical to the append for `riehl:4.2:lem11` above: only the all-objects-fixed case\n(`Theory/Equivalence/Adjoint.v:398`) and the monad-side special case\n(`Construction/Reflective/Idempotent.v:224`) exist. The exercise IS the lemma, and this issue's second\nWork item is its statement; recording it here keeps the exercise from being read as separate work."
+ },
+ {
+  "item_id": "riehl:4.2:exv",
+  "issue": 393,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.2, printed p. 143 (PDF p. 163), item `riehl:4.2:exv` — the exercise defining a STRICT morphism of adjunctions — functors `H`, `K` whose squares with the\ntwo left adjoints and with the two right adjoints commute on the nose — and proving three formulations\nof the remaining condition equivalent: compatibility with the units, with the counits, and with\ntransposition\n\nIn-tree today, verified: nothing. `rg -i 'morphism of adjunction|map of adjunctions|adjunction morphism'` returns 0 hits.\n`Instance/Adj.v:43` `Adj (C D : Category)` is the nearest structure and its own header at `:29-41`\nrecords that its homs are “the bare product setoid `([D,C] × [C,D])`” imposing no conjugacy condition;\n`Theory/Bicategory/Mates.v` and `Instance/Cat/Bicategory/Adjunction.v:266` `Cat_mate_unfold` give the\ngeneral (non-strict) mates correspondence but never the strict square condition. Proposition 1 of this\nissue — hom-set compatibility ⟺ the unit condition ⟺ the counit condition, both directions — is exactly\nRiehl's three-way equivalence, and its strictness decision is the one Riehl makes."
+ },
+ {
+  "item_id": "riehl:4.3:prop6",
+  "issue": 431,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.3, printed p. 146 (PDF pp. 166–167), item `riehl:4.3:prop6` — the proposition that an adjunction `F ⊣ G` induces (a) `F_* ⊣ G_*` between functor categories\n`C^J` and `D^J` by POSTcomposition and (b) `G^* ⊣ F^*` between `E^C` and `E^D` by PREcomposition\n\nIn-tree today, verified: the hom-set bijections, never the adjunctions. `Theory/Kan/Extension.v:328` `left_adjoint_impl`\ngives `[[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H)` for FIXED functors `G`, `H`, and\n`Theory/Bicategory/Mates.v:245/:306/:390/:450` give both round trips of the pre- and post-composition\nbijections for fixed bounding cells; naturality in the functor variables — the ingredient that turns a\nfamily of bijections into an adjunction — is nowhere asserted, and no `Adjunction` term between two\nfunctor categories is constructed (`Theory/Kan/Extension.v:146/:170` are class FIELDS, i.e.\nhypotheses). This issue's Work item 2 builds clause (a). Clause (b) has no owner:\n\n- [ ] (from Riehl §4.3) The precomposition half: `F ⊣ G` induces `G^* ⊣ F^*` between `[D, E]` and `[C, E]` (whiskering on the other side), with the unit and counit whiskered from the originals — the same file, the dual construction."
+ },
+ {
+  "item_id": "riehl:4.3:def-2-functor",
+  "issue": 626,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.3, printed p. 147 (PDF p. 167), item `riehl:4.3:def-2-functor` — the running-prose definition of a 2-FUNCTOR (a map of 2-categories preserving composition and\nidentities at every level), used immediately in the form “a 2-functor preserves adjunctions”, the\n2-dimensional analogue of the diagram-preservation lemma of §1.6\n\nIn-tree today, verified: only the WEAK notion, and only between bicategories: `Theory/Bicategory/Pseudofunctor.v:147`\n`Class Pseudofunctor` (preservation up to coherent invertible 2-cell), with identity and composite at\n`:227`/`:463`. There is no strict 2-category and no strict 2-functor (`rg 'Strict2Functor|TwoFunctor|TwoCategory'`\nfinds only prose), and `Construction/Enriched.v:145` `EnrichedFunctor` is never instantiated at `Cat`.\nThis issue defines the strict notion; the use Riehl makes of it is an additional statement:\n\n- [ ] (from Riehl §4.3) A 2-functor (and, where it holds, a pseudofunctor) carries an internal adjunction to an internal adjunction — the 2-dimensional diagram-preservation lemma, over `Theory/Bicategory/Adjunction.v`'s `BicatAdjunction`."
+ },
+ {
+  "item_id": "riehl:4.3:def-conjugate",
+  "issue": 394,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.3, printed p. 148 (PDF p. 168), item `riehl:4.3:def-conjugate` — the running-prose definition of CONJUGATE natural transformations: the identity-bounding-cell case\nof the mates correspondence, a bijection between transformations `F ⇒ F'` of left adjoints and\ntransformations `G' ⇒ G` of their right adjoints, pointing the other way\n\nIn-tree today, verified: the general mates bijection at full strength — `Theory/Bicategory/Mates.v:515` `mate_iso` for\narbitrary bounding 1-cells, plus `Theory/Bicategory/Adjunction.v:330` `matecell` — but no specialization\nto identity bounding cells, hence no in-tree statement of the conjugate bijection in ordinary-category\nvocabulary, and no in-tree use of the word in this sense. `Instance/Adj.v:43` deliberately takes\nmorphisms to be arbitrary pairs `(σ, τ)` with NO conjugacy condition, and says so in its header. This\nissue's Work items 1–4 (the definition, the four characterizations, the bijection, and the ordinary-category\nspecialization lemma) are exactly the missing material."
+ },
+ {
+  "item_id": "riehl:4.3:exii",
+  "issue": 431,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.3, printed p. 148 (PDF p. 168), item `riehl:4.3:exii` — the exercise proving Proposition 4.3.6 from the unit and the counit rather than from the hom-set\nbijection\n\nIn-tree today, verified: the method, not the conclusion. `Theory/Bicategory/Mates.v:199` `precomp_zig_id` is the whiskered\ntriangle identity that drives the argument, and `:245`/`:306`, `:390`/`:450` are the two round trips it\nyields — so the exercise's construction is carried out at the level of 2-cell setoids, for fixed\nbounding cells. What is missing is the assembly into an `Adjunction` between functor categories, which\nis this issue's Work item 2 (“the induced unit and counit are the original unit/counit whiskered by the\ndiagram, and the triangle identities follow componentwise”) — the exercise's route exactly."
+ },
+ {
+  "item_id": "riehl:4.3:exiii",
+  "issue": 431,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.3, printed p. 148 (PDF p. 168), item `riehl:4.3:exiii` — the exercise proving the postcomposition half of Proposition 4.3.6 from the natural bijection of\nhom-sets instead\n\nIn-tree today, verified: `Theory/Kan/Extension.v:328` `left_adjoint_impl` supplies the bijection\n`[[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H)` at each fixed pair of functors and nothing more: its\nnaturality in `G` and `H` is not stated, and no `Adjunction` term is produced. The gap is therefore\nnaturality in the functor variables, which any proof of this issue must establish however it proceeds;\nthe hom-set route is the alternative to the unit/counit route of Work item 2 and produces the same\nartifact, so no separate obligation arises."
+ },
+ {
+  "item_id": "riehl:4.3:exiv",
+  "issue": 394,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.3, printed p. 148 (PDF p. 168), item `riehl:4.3:exiv` — the exercise showing that a transformation between left adjoints is invertible exactly when its\nCONJUGATE is, and asking for an example where the general MATE of a natural isomorphism (non-identity\nbounding functors) fails to be invertible\n\nIn-tree today, verified: neither direction, and no counterexample material. `Theory/Bicategory/Mates.v:515` `mate_iso` is a\nbijection of 2-cell SETOIDS and says nothing about invertibility of an individual 2-cell; the only\ninvertibility statement is `Theory/Bicategory/Adjunction.v:708` `adjoint_unique`, which is the `α = id`\ncase (its `matecell` is invertible because the two left adjoints coincide). Nothing states\n`IsIsomorphism α → IsIsomorphism (mate α)` or its converse:\n\n- [ ] (from Riehl §4.3) The conjugate biconditional: `α : F ⇒ F'` is invertible ⟺ its conjugate `G' ⇒ G` is, both directions.\n- [ ] (from Riehl §4.3) A counterexample in the general mates setting (bounding functors not identities) where the mate of a natural ISOMORPHISM is not invertible — the boundary that keeps the previous item from over-generalizing."
+ },
+ {
+  "item_id": "riehl:4.3:exv",
+  "issue": 398,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.3, printed p. 148 (PDF p. 168), item `riehl:4.3:exv` — the exercise establishing that the mates correspondence is FUNCTORIAL: it commutes with horizontal\ncomposition of functors and horizontal pasting of squares, and with vertical composition of adjunctions\nand vertical pasting of squares\n\nIn-tree today, verified: nothing: `rg 'mate_compose|mate_functorial|mate_hcomp|mate_vcomp'` returns 0 hits, and CLAUDE.md\nrecords functoriality of `Theory/Bicategory/Mates.v` under pasting as an open ledger item (ledger 10).\nThe bijection itself (`mate`, `mate_iso`, both round trips) is in place, so the increment is precisely\nthe two compatibility laws, which this issue's mates development is the right home for:\n\n- [ ] (from Riehl §4.3) Functoriality of the mates correspondence under horizontal pasting (composition of the bounding functors and of the squares) — closing part of CLAUDE.md ledger item 10.\n- [ ] (from Riehl §4.3) Functoriality under vertical pasting (composition of the two adjunctions and of the squares), so that `mate` is a functor on the double category of adjunction squares rather than a bare operator."
+ },
+ {
+  "item_id": "riehl:4.4:def1",
+  "issue": 358,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 149 (PDF p. 169), item `riehl:4.4:def1` — Definition 4.4.1: a pair of contravariant functors `F : C^op ⟶ D`, `G : D^op ⟶ C` is MUTUALLY\nRIGHT ADJOINT when `D(d, F c) ≅ C(c, G d)` naturally, and MUTUALLY LEFT ADJOINT when\n`D(F c, d) ≅ C(G d, c)` naturally — the two dualizations of the definition of an adjunction that\nreplace only ONE of the two categories by its opposite\n\nIn-tree today, verified: only the third dualization, the one Riehl says yields nothing new: `Adjunction/Opposite.v:34`\n`Opposite_Adjunction : U^op ⊣ F^op` with the involution `(A^op)^op = A` by `reflexivity` at `:60`.\n`rg -in 'mutually (left|right) adjoint|contravariant adjunction|dual adjunction'` returns 0 hits, and\nneither notion's unit/counit pair exists. This issue's `AdjointOnTheRight` is Riehl's mutually-right-adjoint\nnotion (Mac Lane's “adjoint on the right”), together with its equivalence to `S^op ⊣ T` and the symmetry\nof the relation. The other half of Riehl's definition has no owner:\n\n- [ ] (from Riehl §4.4) The mutually-LEFT-adjoint notion `D(F c, d) ≅ C(G d, c)` defined alongside, with its own equivalence to an ordinary adjunction between opposites, so both one-sided dualizations are available (Riehl notes only the two-sided one collapses)."
+ },
+ {
+  "item_id": "riehl:4.4:def-antitone-galois",
+  "issue": 380,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 149 (PDF p. 169), item `riehl:4.4:def-antitone-galois` — the running-prose definition of an ANTITONE Galois connection: a pair of mutually right adjoint\ncontravariant functors between preorders, contrasted with the monotone connections of §4.1\n\nIn-tree today, verified: nothing: `rg -i antitone` returns two prose hits (`Theory/Adjunction.v:79`, `Instance/Poset.v:59`,\nboth historical remarks), `rg -i 'order-reversing'` returns 0. This issue's Work item 1 already\nrequires the definition “in the monotone form Mac Lane uses (one map into the opposite)” together with\nthe derivation of “the antitone reading”, which is exactly Riehl's contrast; the increment is a\ncitation and the naming, not a new obligation. The two concrete antitone connections Riehl gives in the\nsame section (zero sets versus ideals, axioms versus models) are filed separately for this chapter."
+ },
+ {
+  "item_id": "riehl:4.4:prop4",
+  "issue": 348,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 150 (PDF pp. 170–171), item `riehl:4.4:prop4` — Proposition 4.4.4: if for each object `b` there is an object `G b` and an isomorphism\n`B(F a, b) ≅ A(a, G b)` NATURAL IN `a` ALONE, then the object assignment extends to a functor in\nexactly ONE way making the family natural in `b` as well — so pointwise representability of each\n`B(F −, b)` assembles into a right adjoint `F ⊣ G`; the dual criterion characterizes functors admitting\na left adjoint\n\nIn-tree today, verified: only the dual orientation, and without the uniqueness clause.\n`Theory/Universal/Arrow.v:185/:214` build a LEFT adjoint from a family of universal arrows\n(`LeftAdjointFunctorFromUniversalArrows`, `AdjunctionFromUniversalArrows`), where the GIVEN functor is\nthe right adjoint — the mirror image of Riehl's primary statement. There is no `couniversal`/terminal-arrow\nform anywhere (`rg 'couniversal|RightAdjointFunctor|TerminalArrow'` → 0 hits), and no statement that the\nextension of the object assignment to a functor is unique. This issue's biconditional\n`(∀ x, Representable ([Hom x,─] ◯ U)) ↔ { F & F ⊣ U }` is the same theorem in the in-tree orientation:\n\n- [ ] (from Riehl §4.4) The dual orientation stated too: from representations of `B(F −, b)` natural in the first variable only, construct the RIGHT adjoint `G` — either directly or by transporting through `Adjunction/Opposite.v`, with the transport recorded as a lemma rather than left to the reader.\n- [ ] (from Riehl §4.4) The UNIQUENESS clause: the extension of the object assignment `b ↦ G b` to a functor making the family natural in `b` is unique — the part of the proposition that makes “the” adjoint well defined."
+ },
+ {
+  "item_id": "riehl:4.4:prop6",
+  "issue": 396,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 151 (PDF p. 171), item `riehl:4.4:prop6` — Proposition 4.4.6: for a bifunctor `F : A × B ⟶ C`, pointwise right adjoints `G_a` to each\n`F(a, −)` assemble into a UNIQUE bifunctor `G : A^op × C ⟶ B` with the isomorphism\n`C(F(a,b), c) ≅ B(b, G(a,c))` natural in all THREE variables; symmetrically for the other variable;\nand when both families exist, `G(−, c)` and `H(−, c)` are mutually right adjoint\n\nIn-tree today, verified: only one instance of the conclusion: `Functor/Hom/Internal.v:40` `InternalHomFunctor : C^op ∏ C ⟶ C`\nis hand-built for the cartesian product bifunctor over an ambient `@Closed C` (whose `exp_iso` is\nalready indexed by all three variables), so nothing is ASSEMBLED from pointwise data; there is no\nhypothesis form “for each `a`, `F(a,−)` has a right adjoint”, no uniqueness clause, and no statement of\nthree-variable naturality as such. This issue's Theorem-3 packaging (including its explicit uniqueness\nitem) is Riehl's clauses (i) and (ii). Clause (iii) is extra:\n\n- [ ] (from Riehl §4.4) Clause (iii): when both pointwise families exist, the two assembled bifunctors are MUTUALLY RIGHT ADJOINT in each remaining variable — `B(b, G(a,c)) ≅ A(a, H(b,c))` — the statement that makes the parametrized adjunction a two-variable adjunction."
+ },
+ {
+  "item_id": "riehl:4.4:example8",
+  "issue": 401,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 152 (PDF p. 172), item `riehl:4.4:example8` — Example 4.4.8: for rings `R`, `S`, `T` the tensor product over `S` is a BICLOSED bifunctor\n`(R,S)-Mod × (S,T)-Mod ⟶ (R,T)-Mod`, with left and right closures the two hom bifunctors `Hom_R` and\n`Hom_T`, each carrying the residual bimodule structure\n\nIn-tree today, verified: nothing: “bimodule” occurs only as the Bénabou synonym for a profunctor in header prose\n(`Theory/Profunctor.v:21,58,61`, `Theory/Bicategory.v:57`, `Theory/DoubleCategory.v:96`), there is no\nring, module or abelian-group category, and `rg -i biclosed` finds comments only. This issue's part (a)\n(tensoring with a bimodule is left adjoint to the hom out of it) is one of the two closures Riehl\nrequires:\n\n- [ ] (from Riehl §4.4) The BICLOSED form: both closures `Hom_R` and `Hom_T` of `⊗_S`, with the three-variable natural isomorphisms in both directions — i.e. the bifunctor packaged as a two-variable adjunction, not only as an adjunction in one variable with a parameter."
+ },
+ {
+  "item_id": "riehl:4.4:lem11",
+  "issue": 718,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 152 (PDF pp. 172–173), item `riehl:4.4:lem11` — Lemma 4.4.11: for a small category `C` the functor category `Set^C` is cartesian closed, with\n`G^F(c)` the set of natural transformations `C(c,−) × F ⇒ G`, functorial in `c` by precomposition, and\nwith the transposition bijection `{H × F ⇒ G} ≅ {H ⇒ G^F}` derived from the Yoneda lemma\n\nIn-tree today, verified: the cartesian half only. `Instance/Fun/Cartesian.v:111` `Functor_Category_Cartesian` gives\npointwise binary products in `[C, D]`, and `Instance/Sets/Cartesian/Closed.v:38` `Sets_Closed` gives\nexponentials in `Sets` (Riehl's lemma at `C = 1`); there is no `@Closed (@Fun _ _)` instance anywhere\n(`exponent_obj :=` occurs at 11 sites, none on a functor category), no terminal object in `[C, D]`, and\nneither the hom-formula nor the transposition bijection is stated. This issue is the same lemma in\ncontravariant presentation (its display (8.5) is Riehl's (4.4.13)) and its Definition of Done already\ndemands naturality in the remaining variable and the functoriality in `c` at which the naive objectwise\nformula fails."
+ },
+ {
+  "item_id": "riehl:4.4:example14",
+  "issue": 522,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 153 (PDF pp. 173–174), item `riehl:4.4:example14` — Example 4.4.14: `Top` is not cartesian closed, and Steenrod's convenient category of compactly\ngenerated Hausdorff spaces is — complete, cocomplete, cartesian closed, containing the CW complexes —\nwith the inclusion into Hausdorff spaces admitting a right adjoint (k-ification)\n\nIn-tree today, verified: nothing: `rg -i 'compactly generated|cgHaus|k-ification'` returns 0 hits and there is no category\nof spaces at all. This issue owns the definition of a compactly generated space, the category, the\nKelleyfication functor and the coreflection — Riehl's distinctive clause. Its sibling clauses are\nalready owned elsewhere in the catalog and need no new obligation here: completeness and cocompleteness\nby #523, cartesian closure by #524, and the exponential law behind the failure for `Top` by #521."
+ },
+ {
+  "item_id": "riehl:4.4:example15",
+  "issue": 388,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 154 (PDF pp. 174–175), item `riehl:4.4:example15` — Example 4.4.15: the tensor–hom adjunction `− ⊗_ℤ B ⊣ Hom(B,−)` on abelian groups, which IS the\nuniversal property of the tensor product (maps out of `A ⊗ B` correspond to bilinear maps `A × B → C`),\nplus Kan's observation that the criterion of Proposition 4.4.4 lets one DERIVE the tensor product as the\npointwise left adjoint of the hom bifunctor rather than construct it first\n\nIn-tree today, verified: nothing: there is no `Ab`, `Grp`, `Mod` or `Vect` category (`rg 'AbGroup'` → 0; every “abelian\ngroup” hit is essay prose, e.g. `Theory/Adjunction.v:37`, which names this very adjunction as\nmotivation). This issue constructs the module category, the tensor product by its universal property\nand the closed structure, and its Definition of Done already demands three-variable naturality. Kan's\nreversal is a distinct route the issue does not currently scope:\n\n- [ ] (from Riehl §4.4) Kan's route recorded: the tensor product OBTAINED as the pointwise left adjoint of `Hom(B,−)` via the representability criterion (#348), and proved to agree with the universal-property construction — so the criterion is exercised on the example that motivated it."
+ },
+ {
+  "item_id": "riehl:4.4:example18",
+  "issue": 528,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 155 (PDF p. 175), item `riehl:4.4:example18` — Example 4.4.18: over a convenient category of spaces, the two-variable adjunction gives\n`S¹ × − ⊣ Map(S¹, −)` with `Map(S¹, X)` the FREE (unbased) loop space, and on based spaces the smash /\nbased-mapping-space two-variable adjunction, whose one-variable specialization is `Σ ⊣ Ω`\n\nIn-tree today, verified: nothing: `rg -ci suspension` → 0, “loop space” occurs twice as bibliography\n(`Theory/Multicategory.v:134,138`), and both `smash` hits in `Instance/Coq/Par.v:99-103` and\n`Instance/Coq/ParE.v:174-181` are explicit disclaimers that the smash product is NOT what those files\nformalize. This issue owns the based half (`Σ ⊣ Ω`, its counit, the path-space pullback). The unbased\nclause is not covered by it or by #527:\n\n- [ ] (from Riehl §4.4) The FREE loop space: `S¹ × − ⊣ Map(S¹, −)` on the unbased convenient category, with `Map(S¹, X)` identified as the space of (unbased) loops — the cartesian, non-smash instance of the same two-variable adjunction."
+ },
+ {
+  "item_id": "riehl:4.4:exi",
+  "issue": 358,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 155 (PDF p. 175), item `riehl:4.4:exi` — the exercise dualizing the unit/counit definition of an adjunction to the contravariant case: a\npair of mutually left (resp. right) adjoint functors equipped with the appropriate pair of natural\ntransformations and triangle identities\n\nIn-tree today, verified: nothing: `rg -i 'mutual(ly)? (left|right) adjoint|contravariant adjoint'` returns 0 hits, so\nneither notion has any presentation, let alone two. This issue defines the hom-set form and proves it\nequivalent to an ordinary adjunction between opposites; the exercise asks for the unit/counit form of\nthe same notion, which is not a consequence of that equivalence but a second presentation to be stated\nand proved interderivable:\n\n- [ ] (from Riehl §4.4) The unit/counit presentation of the contravariant notions: for mutually RIGHT adjoints a pair of transformations `id ⇒ G F`, `id ⇒ F G` (both units), for mutually LEFT adjoints a pair of counits, each with its triangle identity, proved equivalent to the hom-set form."
+ },
+ {
+  "item_id": "riehl:4.4:exii",
+  "issue": 396,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 155 (PDF p. 175), item `riehl:4.4:exii` — the exercise asking for the proof of Proposition 4.4.6 — that pointwise right adjoints to a\nbifunctor assemble uniquely into bifunctors with isomorphisms natural in all three variables, and that\nthe two assembled bifunctors are mutually right adjoint\n\nIn-tree today, verified: as for `riehl:4.4:prop6` above: only `Functor/Hom/Internal.v:40`'s hand-built internal-hom\nbifunctor for the cartesian case, with `Structure/Cartesian/Closed.v:165` `curry_comp_l` giving\nnaturality of the transpose in one variable. The exercise IS the proposition, and this issue's Work\nitem 2 (functoriality obtained from uniqueness of conjugates, invoking the conjugacy bijection rather\nthan recomputing it) is precisely the argument Riehl expects; recording it here keeps the exercise from\nbeing read as separate work."
+ },
+ {
+  "item_id": "riehl:4.4:exiii",
+  "issue": 704,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 155 (PDF p. 175), item `riehl:4.4:exiii` — the exercise showing that the contravariant powerset functor `P : Set^op ⟶ Set` is mutually right\nadjoint TO ITSELF: `Set(A, P B) ≅ Set(B, P A)` naturally, both transposes sending a map to the\n“transpose relation” it names\n\nIn-tree today, verified: the powerset functor does not exist in-tree: `rg -i 'powerset|power set'` finds two prose hits\n(`Instance/Poset.v:95`), `Instance/Ens.v:56`'s `EnsT T` is not the powerset, and\n`Theory/Subobject/Functor.v:180`'s `Sub : C^op ⟶ Sets` — the nearest relative — is never instantiated at\n`Sets` (its `HasPullbacks` hypothesis has exactly one instance in the tree,\n`Instance/FinSet/Classifier.v:264`) and carries no adjunction. This issue constructs `P` and the\ndouble-powerset unit `η : Id ⟹ PP`, which is exactly the unit of the self-adjunction — but the\nadjunction itself is one step further:\n\n- [ ] (from Riehl §4.4) `P` is mutually right adjoint to itself: the natural bijection `Sets(A, P B) ≅ Sets(B, P A)`, with `η` recognized as its unit on each side (the notion is #358's `AdjointOnTheRight`)."
+ },
+ {
+  "item_id": "riehl:4.4:exiv",
+  "issue": 529,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 155 (PDF pp. 175–176), item `riehl:4.4:exiv` — the exercise constructing the two-variable adjunction determined by the pointed-hom bifunctor on\npointed sets — pointwise left adjoints to each `Hom_*((X,x), −)` — and identifying the resulting\nbifunctor with the smash product described for the equivalent category of sets and partial functions\n\nIn-tree today, verified: the target categories exist up to equivalence (`Instance/Coq/Par.v:53` `Par`, and `Coslice 1 Sets`)\nbut the smash does not: `Instance/Coq/Par.v:99-103` states explicitly that the product it proves\ncartesian is the pointed-set product and NOT the smash, and `Instance/Coq/ParE.v:174-181` repeats the\ndisclaimer; `Par_ClosedMonoidal` was REMOVED (`Instance/Coq/Par.v:220-227`). This issue's Definition of\nDone requires `(− ∧ S) ⊣ Set_*(S, −)`; the exercise adds how the smash is obtained and what it must be\nidentified with:\n\n- [ ] (from Riehl §4.4) The smash CONSTRUCTED as the pointwise left adjoint of the pointed-hom bifunctor (two-variable-adjunction form), and proved isomorphic to the partial-map presentation of pointed sets — closing the disclaimers at `Instance/Coq/Par.v:99-103` and `Instance/Coq/ParE.v:174-181`."
+ },
+ {
+  "item_id": "riehl:4.4:exv",
+  "issue": 388,
+  "part": "clause (i): the module hom bifunctor",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 156 (PDF p. 176), item `riehl:4.4:exv` — clause (i) of the exercise: extend the tensor–hom data to a two-variable adjunction for modules\nover a commutative ring, and note that for a NON-commutative ring the hom of two left `R`-modules is no\nlonger an `R`-module but is still an abelian group, so the bifunctor lands in `Ab`\n\nIn-tree today, verified: nothing (no module category; see the append for `riehl:4.4:example15`). This issue builds the\ncommutative case as a `SymMonClosed` instance, which is Riehl's first sentence. The non-commutative\nrefinement changes the codomain of the closure and is not covered by it:\n\n- [ ] (from Riehl §4.4) The non-commutative case: `Hom : (R-Mod)^op × R-Mod ⟶ Ab` extended to a two-variable adjunction whose closure lands in abelian groups rather than in `R-Mod`, with the commutative case recovered as the specialization."
+ },
+ {
+  "item_id": "riehl:4.4:exv",
+  "issue": 557,
+  "part": "clause (ii): the chain-complex hom bifunctor",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.4, printed p. 156 (PDF p. 176), item `riehl:4.4:exv` — clause (ii) of the exercise: define the two-variable adjunction determined by the hom bifunctor of\nchain complexes over a ring\n\nIn-tree today, verified: nothing: `rg -i 'Ch_R|ChainComplex|differential graded'` returns 0 hits and “chain complex” occurs\nonly in background essays (`Structure/Abelian.v:70`, `Construction/Enriched.v`,\n`Construction/Localization.v`). This issue defines chain complexes and their homology in an abelian\ncategory, which is the substrate the clause needs; the monoidal/closed structure on that substrate is a\nfurther step:\n\n- [ ] (from Riehl §4.4) The two-variable adjunction on chain complexes: the tensor product of complexes as pointwise left adjoint of the internal hom `Ch^op × Ch ⟶ Ch`, with the three-variable naturality (the degreewise formulas are the content)."
+ },
+ {
+  "item_id": "riehl:4.5:example1",
+  "issue": 389,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 156 (PDF p. 176), item `riehl:4.5:example1` — Example 4.5.1: for a fixed set `X` the category `Ω^X` of predicates on `X`, ordered pointwise over\nthe two-element truth-value poset, is cartesian closed — terminal object the always-true predicate,\nbinary product the conjunction, exponential the pointwise implication\n\nIn-tree today, verified: only the one-point index. `Instance/Props.v:69/:94` prove `Props` cartesian and closed with `and`\nand `Basics.impl` — that is `Ω` itself (`Ω^1`), and over `Prop` rather than the skeletal two-element\nposet; `Instance/Two/Monoidal.v:80/:98` give `_2` products and a terminal object but NO exponential; and\n`Instance/Fun/Cartesian.v:111` gives pointwise products in a functor category but there is no `@Closed`\ninstance on any functor category. So `Ω^X` for a general `X` is not constructed and its cartesian\nclosure is unavailable. This issue's powerset lattice (terminal = the whole set, product = intersection,\nexponential = relative pseudo-complement) is the same category in subset presentation, and its second\nhalf — any Heyting/Boolean algebra as a cartesian closed thin category — covers the general form."
+ },
+ {
+  "item_id": "riehl:4.5:construction-quantifier-adjoint-triple",
+  "issue": 384,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 156 (PDF pp. 176–177), item `riehl:4.5:construction-quantifier-adjoint-triple` — the construction generalizing Example 4.1.9 to an ARBITRARY function `f : Y → X`: substitution\n`Δ_f p := p ∘ f` between predicate categories has both adjoints, the fibrewise existential and\nuniversal quantifiers, giving `∃_f ⊣ Δ_f ⊣ ∀_f`\n\nIn-tree today, verified: the middle term only, and in a different presentation. `Theory/Subobject/Functor.v:35` `sub_reindex`\n(pullback reindexing of subobjects) and `:180` `Sub : C^op ⟶ Sets` give `Δ_f` for an arbitrary category\nwith pullbacks — at `C = Set` exactly the preimage on predicates, functorial by `:143`/`:152` — but\n`Sub` lands in `Sets`, so it is a setoid morphism rather than a monotone functor of preorders, and NO\nadjunction anywhere in the tree mentions `sub_reindex`, `Sub` or `Construction/Slice/Pullback.v:67`\n`Star_Functor`. Neither `∃_f` nor `∀_f` is defined. This issue's Work items 1–2 (both quantifier\noperators for a function of setoids, and both transposition biconditionals) are precisely this\nconstruction; item 3's projection case is Riehl's Example 4.1.9."
+ },
+ {
+  "item_id": "riehl:4.5:def2",
+  "issue": 732,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 157 (PDF p. 177), item `riehl:4.5:def2` — Definition 4.5.2: a category is LOCALLY CARTESIAN CLOSED when every one of its slices is cartesian\nclosed — with no terminal object or products required of the category itself\n\nIn-tree today, verified: nothing: `rg -in 'locally cartesian'` returns six hits, every one inside a header essay\n(`Instance/Sets.v:97`, `Instance/Cat.v:129`, `Structure/Pullback.v:126`, `Construction/Slice.v:91,97`,\n`Construction/Slice/Pullback.v:36`), `rg -i 'LCCC'` returns 0, and no slice category carries a\n`Cartesian`, `Terminal` or `Closed` instance. This issue's `LocallyCartesianClosed` class is the\ndefinition, and its Definition of Done already requires the live `Structure/Cartesian/Closed.v` `Closed`\nrather than the `Structure/Closed.v` stub. Riehl's framing differs only in which side of Proposition\n9.20 / 4.5.6 is taken as the definition; see the appends for `riehl:4.5:prop6`, `lem3`, `lem4`."
+ },
+ {
+  "item_id": "riehl:4.5:lem3",
+  "issue": 732,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 157 (PDF p. 177), item `riehl:4.5:lem3` — Lemma 4.5.3, two clauses: (i) every slice of a locally cartesian closed category is again locally\ncartesian closed, because `(C/X)/f ≅ C/Y` for `f : Y → X`; (ii) a locally cartesian closed category with\na terminal object is itself cartesian closed, because `C ≅ C/1`\n\nIn-tree today, verified: neither clause, and neither ingredient. There is no iterated-slice isomorphism `(C/x)/f ≅ C/y` and\nno `C/1 ≅ C` anywhere: the only slice-level results in the tree are `Construction/Slice.v:140/:181`\n(`Comma_Slice`, `Comma_Coslice`) and `Construction/Slice/Pullback.v:50/:67` (`Bang_Functor`,\n`Star_Functor`). This issue's Definition of Done already records clause (ii) (“locally cartesian closed\n+ terminal ⇒ cartesian closed”) and its Work uses the slice-of-a-slice isomorphism as a tool; clause (i)\nis a statement in its own right and is not currently required:\n\n- [ ] (from Riehl §4.5) Clause (i) as a named theorem: every slice of a locally cartesian closed category is locally cartesian closed, over an explicitly stated iterated-slice isomorphism `(C/x)/f ≅ C/y` (the isomorphism is reusable well beyond this issue)."
+ },
+ {
+  "item_id": "riehl:4.5:lem4",
+  "issue": 732,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 157 (PDF pp. 177–178), item `riehl:4.5:lem4` — Lemma 4.5.4, three clauses: a locally cartesian closed category (i) has pullbacks, obtained as\nbinary products in a slice; (ii) has ALL finite limits once it has a terminal object; and (iii) has\nslices with finite limits, since `id_X` is terminal in `C/X` and finite limits follow from products and\nequalizers\n\nIn-tree today, verified: nothing, and the reduction clause (iii) leans on is itself missing: `Structure/Complete.v` defines\nonly `Complete`/`Cocomplete` (`:115`/`:119`) and states the finite-limits-from-products-and-equalizers\nreduction as a CITED fact in its header (`:50-58`) rather than proving it; no in-tree statement says\n`id_X` is terminal in a slice. Clause (i) is load-bearing for THIS issue's class design, which currently\ntakes pullbacks as a FIELD alongside the right adjoints to base change:\n\n- [ ] (from Riehl §4.5) Clause (i): pullbacks DERIVED from slicewise cartesian closure (as binary products in a slice), so the `HasPullbacks` field of the class is shown redundant — or, if it is kept for convenience, the redundancy is recorded in the header.\n- [ ] (from Riehl §4.5) Clauses (ii)/(iii): with a terminal object the category has all finite limits, and every slice has finite limits (`id_X` terminal in `C/X`), routed through the products-and-equalizers reduction (#416/#417)."
+ },
+ {
+  "item_id": "riehl:4.5:construction-slice-pullback-adjunction",
+  "issue": 730,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 158 (PDF p. 178), item `riehl:4.5:construction-slice-pullback-adjunction` — the construction of the base-change functor `Δ_f : C/X ⟶ C/Y` by pulling back along `f`, of\n`Σ_f : C/Y ⟶ C/X` by postcomposition, and of the adjunction `Σ_f ⊣ Δ_f` whose transposition is the\nuniversal property of the pullback\n\nIn-tree today, verified: both functors, and no adjunction. `Construction/Slice/Pullback.v:50` `Bang_Functor` (postcomposition)\nand `:67` `Star_Functor` (pullback, under a section-level `Hypothesis pullbacks`) are exactly the book's\ntwo functors; `Base_Functor_Adjunction` exists ONLY as a comment at `:121-127` and, as the file's own\nline-39 caveat says, the commented statement is written in the WRONG DIRECTION. No `Adjunction`\ninstance anywhere relates the two, and the transposition bijection is not stated. This issue's\nDefinition of Done already carries both the correctly-oriented `Bang_Star_Adjunction` and the removal of\nthat dead, misstated code; #387 states the same adjunction in Mac Lane's vocabulary."
+ },
+ {
+  "item_id": "riehl:4.5:prop6",
+  "issue": 732,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 158 (PDF pp. 178–179), item `riehl:4.5:prop6` — Proposition 4.5.6: a category is locally cartesian closed IF AND ONLY IF for every morphism `f`\nthe composition and pullback functors extend to an adjoint triple `Σ_f ⊣ Δ_f ⊣ Π_f` — i.e. base change\nhas a right adjoint (the dependent product / pushforward)\n\nIn-tree today, verified: neither side is statable: there is no locally-cartesian-closed predicate (see the append for\n`riehl:4.5:def2`) and no right adjoint to base change (`rg -in 'Pi_f|Π_f|dependent product|pushforward'`\nfinds only prose, plus the commented-out `Production` stub in `Construction/Slice/Pullback.v`). This\nissue's two Work items — “local cartesian closure makes every slice cartesian closed” and its converse,\n“if every slice is cartesian closed then base change along every arrow has a right adjoint” — are the\ntwo directions of exactly this biconditional, with the slice-of-a-slice transport that Riehl's proof\nalso uses."
+ },
+ {
+  "item_id": "riehl:4.5:example7",
+  "issue": 709,
+  "part": "the equivalence Set/X ≃ Set^X (slices as indexed families)",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 159 (PDF pp. 179–180), item `riehl:4.5:example7` — the first clause of Example 4.5.7: for a set `X` there are equivalences\n`Set/X ≃ ∏_X Set ≃ Set^X`, under which an object of the slice is an `X`-indexed family of sets and a\nmorphism a family of functions\n\nIn-tree today, verified: nothing: `Slice` is never instantiated at `Sets`, `Coq` or `FinSet` anywhere in the tree, and the\nidentification of a bundle with a family appears only as a cited background essay at\n`Construction/Slice.v:73-77` (“an object of `Set/I` is the same data as an `I`-indexed family of sets …\nan equivalence `Set/I ≃ Set^I`”) with no Coq statement behind it. This issue is that equivalence,\ntogether with reindexing as pullback."
+ },
+ {
+  "item_id": "riehl:4.5:example7",
+  "issue": 729,
+  "part": "fibrewise cartesian closure and the fibrewise adjoint triple",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 159 (PDF pp. 179–180), item `riehl:4.5:example7` — the remaining clauses of Example 4.5.7: each of the equivalent categories is cartesian closed with\ninternal hom the fibrewise exponential `(B_x^{A_x})`, and the triple `Σ_f ⊣ Δ_f ⊣ Π_f` for\n`f : Y → X` is computed fibrewise (indexed sums over the fibres, reindexing, indexed products over the\nfibres) — so `Set` is locally cartesian closed\n\nIn-tree today, verified: the absolute case only: `Instance/Sets/Cartesian/Closed.v:38` `Sets_Closed` is cartesian closure of\n`Sets` itself, which by Riehl's own Lemma 4.5.3(ii) is a CONSEQUENCE of local cartesian closure rather\nthan a witness of it. There are no indexed coproducts at all (`rg 'HasIndexedCoproducts|icoprod'` → 0\nhits), `Structure/Limit/Product.v:105/:128` gives indexed products abstractly but `Sets` is never shown\nto have them, and no slice of `Sets` carries any structure. This issue's Definition of Done —\n`icoprod`/`HasIndexedCoproducts`, `Sets` carrying both indexed (co)products constructed funext-free, and\nboth adjunctions with their fibrewise formulas — is exactly the fibrewise content of the example."
+ },
+ {
+  "item_id": "riehl:4.5:construction-dependent-sum-product",
+  "issue": 944,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 160 (PDF p. 180), item `riehl:4.5:construction-dependent-sum-product` — the naming construction inside Example 4.5.7: specializing `Σ_!` and `Π_!` along the unique map\n`X → 1` gives the DEPENDENT SUM `Σ_{x∈X} A_x` (elements: dependent pairs) and the DEPENDENT PRODUCT\n`Π_{x∈X} A_x` (elements: dependent functions)\n\nIn-tree today, verified: only the product half, abstractly. `Structure/Limit/Product.v:105/:128` give `iprod`/`iprod_ump`\nand `HasIndexedProducts` as limits of discrete diagrams, with no instance anywhere; there is no indexed\ncoproduct (`rg 'indexed coproduct|icoprod|HasIndexedCoproducts'` → 0 hits), so the dependent SUM is\nmissing entirely. This issue already scopes the dependent sum as the object setoid of the elements\ncategory, the sections description of the dependent product, and a concrete `HasIndexedProducts`\nwitness. The identification Riehl makes here — that these ARE the two base-change adjoints along the\nterminal map — is not in its Definition of Done, and its header currently distinguishes the two notions\nrather than connecting them:\n\n- [ ] (from Riehl §4.5) The dependent sum and product identified with `Σ_!` and `Π_!` along `X → 1` (#730's base-change adjoints), so the elements-category description and the slice description are proved to agree rather than merely kept apart."
+ },
+ {
+  "item_id": "riehl:4.5:lem9",
+  "issue": 733,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 160 (PDF pp. 180–181), item `riehl:4.5:lem9` — Lemma 4.5.9: for a small category `C` and a presheaf `X`, the slice `Set^{C^op}/X` is equivalent to\nthe presheaf category on the category of elements of `X`, the comparison being built from the\nYoneda-induced functor `∫X ⟶ Set^{C^op}/X`\n\nIn-tree today, verified: nothing: no category of elements is constructed (`rg -i 'category of elements'` finds one hit,\nheader prose at `Construction/Grothendieck.v:108`), no slice of a functor category is ever formed, and\n`rg -i 'presheaf.*slice'` returns 0. This issue is the same lemma — its Work section constructs the\nelements category directly, defines the comparison functor and its quasi-inverse, proves the\nequivalence, and adds the base-change compatibility that the locally-cartesian-closed corollary needs."
+ },
+ {
+  "item_id": "riehl:4.5:example10",
+  "issue": 734,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 161 (PDF p. 181), item `riehl:4.5:example10` — Example 4.5.10: every presheaf category is locally cartesian closed, because its slices are\npresheaf categories (Lemma 4.5.9) and presheaf categories are cartesian closed; with a terminal object\npresent, Lemma 4.5.3(ii) then gives cartesian closure of the presheaf category itself, and dually for\ncovariant functor categories\n\nIn-tree today, verified: neither clause. `Instance/Fun/Cartesian.v:111` gives pointwise products in `[C, D]` and nothing\nmore: `rg 'Terminal' Instance/Fun*` returns 0 hits, no functor category has a `@Closed` instance, and\n`rg -i 'locally cartesian'` finds header prose only. This issue assembles exactly Riehl's proof — the\nslice-is-a-presheaf-category lemma plus cartesian closure of presheaves plus the slicewise\ncharacterization — and additionally supplies the pointwise `HasPullbacks` instance the class requires."
+ },
+ {
+  "item_id": "riehl:4.5:exi",
+  "issue": 389,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.5, printed p. 164 (PDF p. 184), item `riehl:4.5:exi` — the exercise verifying Example 4.5.1 in the intended way: the cartesian closed structure on `Ω^X`\ndescribed through the quantifier triple `∃_i ⊣ Δ_i ⊣ ∀_i` along the monomorphism `i : Q ↪ X` that a\npredicate's truth set determines — conjunction as `∃_i Δ_i` and implication as `∀_i Δ_i`\n\nIn-tree today, verified: only the unindexed case, and with the connectives given directly rather than derived:\n`Instance/Props.v:69` takes the product to be Coq's `and` and `:94` the exponential to be `Basics.impl`.\n`Ω^X` for a general `X` does not exist, and no quantifier adjunction along a monomorphism exists\n(`rg -i quantifier` finds header prose only). This issue proves the same structure by the lattice route;\nthe exercise's route is a different, and more reusable, derivation:\n\n- [ ] (from Riehl §4.5) The connectives DERIVED from the quantifier triple along the mono `i : Q ↪ X` — `p ∧ q ≈ ∃_i Δ_i q` and `q ⇒ r ≈ ∀_i Δ_i r` — rather than defined by hand, exhibiting the cartesian closed structure as an instance of base change (#384)."
+ },
+ {
+  "item_id": "riehl:4.6:prop1",
+  "issue": 353,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 165 (PDF p. 185), item `riehl:4.6:prop1` — Proposition 4.6.1: for a small `J`, a category admits all `J`-shaped limits IF AND ONLY IF the\nconstant-diagram functor `Δ : C ⟶ C^J` has a right adjoint, and all `J`-shaped colimits iff `Δ` has a\nleft adjoint — giving `colim ⊣ Δ ⊣ lim`, the adjoints being the limit and colimit functors\n\nIn-tree today, verified: the ingredients, not the statement. `Structure/Cone/Const.v:53` `Cone_Natural_Transform` proves\n`Δ[J](N) ⟹ F ↔ Cone[N] F` (the hom-set identification the proposition rests on) and\n`Adjunction/Diagonal/Product.v:36` gives the discrete-two-object instance `Diagonal_Product C ⊣ ×(C)`,\npresented as `C ⟶ C ∏ C` rather than as `C ⟶ [J, C]`. There is no limit or colimit FUNCTOR\n`[J, C] ⟶ C` for a general shape, no `Δ ⊣ lim` or `colim ⊣ Δ`, and neither direction of the\nbiconditional. This issue is that statement."
+ },
+ {
+  "item_id": "riehl:4.6:exi",
+  "issue": 353,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 172 (PDF p. 192), item `riehl:4.6:exi` — the exercise asking when the unique functor to the terminal category has a left adjoint and when\nit has a right adjoint — i.e. characterizing initial and terminal objects as adjunctions\n\nIn-tree today, verified: nothing: `rg '⊣'` at declaration level finds no adjunction whose leg is `Erase` (the functor to\n`_1`, `Instance/One.v:47`), and every “initial/terminal object as an adjoint” hit is comment prose. It\nis the empty-shape case of this issue's biconditional, but the empty shape is exactly where the\n`[J, C]`-side degenerates (`[0, C] ≅ 1`), so it is worth stating rather than leaving implicit:\n\n- [ ] (from Riehl §4.6) The empty-shape case as a corollary: `! : C ⟶ 1` has a left adjoint iff `C` has an initial object, and a right adjoint iff it has a terminal object (with the adjoint's value at the unique object BEING that object)."
+ },
+ {
+  "item_id": "riehl:4.6:exii",
+  "issue": 353,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 172 (PDF p. 192), item `riehl:4.6:exii` — the exercise asking for a description of the units and counits of the two adjunctions\n`colim ⊣ Δ ⊣ lim` when both exist\n\nIn-tree today, verified: nothing, because neither adjunction exists for a general shape: the only in-tree instance is\n`Adjunction/Diagonal/Product.v:36`, whose unit/counit are the diagonal and the projection pair, and\n`rg -n 'unit|counit' Structure/Cone.v Structure/Limit.v Functor/Diagonal.v` finds no cone-level\nstatement at all. Once this issue's adjunctions exist their unit and counit are the limiting and\ncolimiting cones, which is the identification the exercise asks for and the one every later application\nuses:\n\n- [ ] (from Riehl §4.6) The units and counits described: the counit of `Δ ⊣ lim` at a diagram IS its limiting cone and the unit of `colim ⊣ Δ` IS its colimiting cone (with the other unit/counit given by the canonical comparisons), stated as named lemmas."
+ },
+ {
+  "item_id": "riehl:4.6:cor3",
+  "issue": 382,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 167 (PDF p. 187), item `riehl:4.6:cor3` — Corollary 4.6.3: for a function of sets, the inverse image preserves both unions and intersections\n(being both a left and a right adjoint), while the direct image preserves only unions\n\nIn-tree today, verified: nothing, since the powerset preorder itself is absent: `rg -i 'powerset|direct image|inverse image'`\nfinds only functor-fullness vocabulary and chosen preimages in image machinery, and `Instance/Ens.v` is\nnot the powerset poset. This issue's Work item 4 already records exactly these consequences (“inverse\nimage preserves all meets and joins, direct image preserves joins”), so the corollary is a second\ncitation for material it already scopes — with Riehl's proof (unions are colimits and intersections are\nlimits in a poset, so adjointness settles it) being the argument to prefer over a hand computation."
+ },
+ {
+  "item_id": "riehl:4.6:cor4",
+  "issue": 388,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 167 (PDF p. 187), item `riehl:4.6:cor4` — Corollary 4.6.4: `U ⊗ (V ⊕ W) ≅ (U ⊗ V) ⊕ (U ⊗ W)` for vector spaces (and modules over a\ncommutative ring), because `U ⊗ −` is a left adjoint and therefore preserves coproducts; likewise for\nthe tensor product of abelian groups\n\nIn-tree today, verified: no module or vector-space category exists, so neither side is typeable; the only distributivity\nisomorphisms in the tree are the CARTESIAN ones (`Structure/BiCCC.v` `prod_coprod_l`/`prod_coprod_r`,\n`Structure/Distributive.v`). This issue builds the tensor and its adjoint; the corollary is one step\npast its Definition of Done and is the standard sanity check on it:\n\n- [ ] (from Riehl §4.6) The distributivity corollary `U ⊗ (V ⊕ W) ≅ (U ⊗ V) ⊕ (U ⊗ W)` obtained from left-adjointness (`Adjunction/Continuity.v:223` `left_adjoint_preserves_colimits`), not by an explicit bilinear computation."
+ },
+ {
+  "item_id": "riehl:4.6:cor6",
+  "issue": 324,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 168 (PDF p. 188), item `riehl:4.6:cor6` — Corollary 4.6.6: the free group on a disjoint union is the free product of the free groups —\nthe free-group functor, being a left adjoint, preserves coproducts, and the coproduct in groups is the\nfree product\n\nIn-tree today, verified: neither ingredient: there is no category of groups and no free group (all hits are header prose),\nand `Instance/Comp.v`'s algebra machinery has NO coproducts (`Algs_Cocartesian` exists only as a\ncommented-out sketch at `:224-233`). This issue owns “free product as coproduct in `Grp`”; the\ncorollary is the LAPC consequence drawn from it and from #298:\n\n- [ ] (from Riehl §4.6) `F(X ⊔ Y) ≅ F X ∗ F Y` for the free-group functor, derived from preservation of coproducts by a left adjoint — the first consumer of the free-product coproduct, and a check that the two constructions agree."
+ },
+ {
+  "item_id": "riehl:4.6:def7",
+  "issue": 546,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 168 (PDF p. 188), item `riehl:4.6:def7` — Definition 4.6.7: a functor is RIGHT EXACT when it preserves finite colimits and LEFT EXACT when it\npreserves finite limits — stated for arbitrary functors, not only between abelian categories\n\nIn-tree today, verified: no exactness vocabulary at all: `rg -i 'left exact|right exact|LeftExact'` finds no definition, and\nfinite-limit preservation cannot even be stated because there is no notion of a FINITE index category.\nThe available quantifiers are per-diagram (`Structure/Limit/Preservation.v:48` `PreservesLimit`) or\nall-diagrams (`PreservesAllLimits`); piecewise finite preservation exists only for terminal objects\n(`Functor/Structure/Terminal.v:43`) and binary products (`Functor/Structure/Cartesian.v:49`), never\nassembled. This issue defines exactness in the abelian setting; Riehl's definition is the general one:\n\n- [ ] (from Riehl §4.6) The definition stated for an ARBITRARY functor — preservation of all FINITE limits (resp. colimits) — which requires a finite-index-category predicate the tree currently lacks; the abelian-category version should then be a specialization rather than a separate notion."
+ },
+ {
+  "item_id": "riehl:4.6:prop8",
+  "issue": 546,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 168 (PDF p. 188), item `riehl:4.6:prop8` — Proposition 4.6.8: a functor between abelian categories is left exact IF AND ONLY IF it preserves\nfinite direct sums and kernels; and such a functor carries a left-exact sequence `0 → A → A' → A''` to a\nleft-exact sequence\n\nIn-tree today, verified: nothing at the functor level: there is no additive-functor or biproduct-preservation condition\n(`rg -i 'additive functor|preserves biproduct'` → 0 hits), no exact sequences\n(`Structure/Abelian.v:70` mentions them only in its historical header), and no lemma identifying the\nequalizer of a parallel pair with the kernel of their difference, although `Structure/Additive.v`\ndefines the difference `psub`. This issue owns exact and left-exact functors; the biconditional is the\nworking criterion Riehl derives from the definition:\n\n- [ ] (from Riehl §4.6) The criterion: left exact ⟺ preserves finite biproducts and kernels (both directions), together with the equalizer-as-kernel-of-a-difference lemma it rests on (#530), and the consequence for left-exact sequences."
+ },
+ {
+  "item_id": "riehl:4.6:cor9",
+  "issue": 349,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 169 (PDF p. 189), item `riehl:4.6:cor9` — Corollary 4.6.9: for any adjoint pair between abelian categories the left adjoint is right exact,\nthe right adjoint is left exact, and BOTH are additive — the last because finite direct sums are\nsimultaneously finite limits and finite colimits, so no additivity hypothesis is needed\n\nIn-tree today, verified: the exactness half in stronger form, the additivity half not at all.\n`Adjunction/Continuity.v:202/:223` prove `right_adjoint_preserves_limits` and\n`left_adjoint_preserves_colimits` for ALL shapes and arbitrary categories, which subsumes both exactness\nclauses (modulo the vocabulary of #546). But there is no notion of an additive functor, no\nbiproduct-preservation condition, and no bridge from `Structure/Biproduct.v`'s `Biproduct` record to a\ndiscrete-shape limit/colimit, so “both adjoints preserve finite direct sums” is neither stated nor\nderivable without new glue. This issue proves additivity of adjoints of ADDITIVE functors; Riehl's\nversion needs no such hypothesis:\n\n- [ ] (from Riehl §4.6) Between ABELIAN (or merely semiadditive) categories, BOTH adjoints are additive with no additivity hypothesis — via the bridge `Biproduct b ↔ (b is a limit and a colimit of the discrete pair)`, which is the reusable missing lemma (donor `Structure/Semiadditive.v`)."
+ },
+ {
+  "item_id": "riehl:4.6:cor10",
+  "issue": 401,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 169 (PDF p. 189), item `riehl:4.6:cor10` — Corollary 4.6.10: for a bimodule `M`, the functor `M ⊗_S −` is right exact, being a left adjoint\nbetween abelian categories\n\nIn-tree today, verified: nothing: `rg -i 'right exact'` returns 0 hits and there is no module category. This issue builds\nthe bimodule tensor adjunction; the corollary is its first consequence and the reason the adjunction is\nusually quoted in homological algebra:\n\n- [ ] (from Riehl §4.6) `M ⊗_S −` recorded as RIGHT EXACT (preserves finite colimits), as an instance of `left_adjoint_preserves_colimits` in the exactness vocabulary of #546."
+ },
+ {
+  "item_id": "riehl:4.6:lem11",
+  "issue": 367,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 169 (PDF p. 189), item `riehl:4.6:lem11` — Lemma 4.6.11, six clauses: for `F ⊣ G`, the right adjoint `G` is faithful ⟺ every counit component\nis an epimorphism, full ⟺ every counit component is a split monomorphism, fully faithful ⟺ the counit\nis an isomorphism; and dually for `F` and the unit (monomorphism, split epimorphism, isomorphism)\n\nIn-tree today, verified: one direction of one clause, in a special case: `Construction/Reflective.v:92`\n`reflective_counit_iso` shows the counit is invertible for a full subcategory INCLUSION, with fullness\nsupplied as subcategory data rather than as `Full G`. Nothing relates faithfulness of an adjoint to the\ncounit being epic or fullness to its being a split mono (`rg 'Epic|SplitMono' | grep -i counit` → 0\nhits), and every converse is missing, although the morphism classes exist\n(`Theory/Morphisms.v:104/:126/:127`). This issue's Theorem-1 items are Riehl's first three clauses in\nboth directions. The dual three are not in its Definition of Done:\n\n- [ ] (from Riehl §4.6) The three DUAL clauses: `F` is faithful ⟺ every unit component is monic, full ⟺ every unit component is a split epimorphism, fully faithful ⟺ `η` is an isomorphism — obtainable from the counit clauses by `Adjunction/Opposite.v`, but stated so consumers of a left adjoint can use them directly."
+ },
+ {
+  "item_id": "riehl:4.6:exix",
+  "issue": 367,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 172 (PDF p. 192), item `riehl:4.6:exix` — the exercise asking for the proof of Lemma 4.6.11 — all six clauses, in both directions\n\nIn-tree today, verified: as for `riehl:4.6:lem11` above: only `Construction/Reflective.v:92`, one direction of one clause,\nfor a subcategory inclusion. The exercise IS the lemma; this issue's transfer lemma (a representable\ntransformation is monic iff the arrow is epi, epic iff the arrow is split monic) is the tool Riehl's\nproof uses, so no separate obligation arises. Also worth noting for whoever takes this issue: the Phase-D\nverifier observed that `Construction/Localization.v:184` `unit_at_local_iso` never uses `W`-locality —\nit needs only fullness and the triangle identities — so generalizing it to `Construction/Reflective.v`\ngives the unit-side companion of `reflective_counit_iso` almost for free."
+ },
+ {
+  "item_id": "riehl:4.6:example13",
+  "issue": 370,
+  "part": "clauses (i)–(v): the concrete reflectors",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 169 (PDF pp. 189–191), item `riehl:4.6:example13` — clauses (i)–(v) of Example 4.6.13's roster of reflective subcategories: compact Hausdorff spaces in\nspaces via Stone–Čech; abelian groups in groups via abelianization (and commutative rings in rings);\ntorsion-free abelian groups via the torsion quotient; modules over `T` in modules over `R` for a ring\nepimorphism `φ : R → T`, with extension of scalars as reflector and localizations as examples of ring\nepimorphisms; and sheaves in presheaves via sheafification\n\nIn-tree today, verified: no host categories, hence no witnesses: there is no `Top`, `Grp`, `Ring` or module category, and\n`rg -i 'torsion'` returns 0 hits. This issue owns clauses (ii) and (iii) explicitly (abelianization,\ntorsion) and the Stone–Čech clause of (i) alongside #455/#461. Two further clauses have no owner\nanywhere in the catalog:\n\n- [ ] (from Riehl §4.6) Clause (iv): for a ring epimorphism `φ : R → T`, restriction of scalars is fully faithful and `T`-Mod is reflective in `R`-Mod, with extension of scalars as reflector — including the characterization of ring epimorphisms that makes localizations examples.\n- [ ] (from Riehl §4.6) Clause (v): sheaves as a reflective subcategory of presheaves, with SHEAFIFICATION as the reflector — the in-tree `Theory/Sheaf/Category.v` builds the full subcategory and its inclusion but no reflector (CLAUDE.md ledger 1 records the deferral)."
+ },
+ {
+  "item_id": "riehl:4.6:prop14",
+  "issue": 373,
+  "part": "clause (i): the inclusion creates limits",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 171 (PDF p. 191), item `riehl:4.6:prop14` — clause (i) of Proposition 4.6.14: the inclusion of a reflective subcategory CREATES all limits\n\nIn-tree today, verified: the conclusion in weaker form and only as folklore: `rg -i 'creates limits'` returns 0 files — the\nlibrary has no creation predicate for a general functor — and the reflective development\n(`Construction/Reflective.v`, `Construction/Reflective/Idempotent.v`, `Construction/Localization.v`)\ncontains no limit or colimit statement at all (`rg -n -i 'limit'` over those files → 0 hits). This issue\nis exactly the inheritance-of-limits statement; Riehl's sharpening is that the inclusion CREATES them,\nwhich is how the corollaries in this section are applied."
+ },
+ {
+  "item_id": "riehl:4.6:prop14",
+  "issue": 434,
+  "part": "clause (ii): colimits formed by reflecting",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 171 (PDF p. 191), item `riehl:4.6:prop14` — clause (ii) of Proposition 4.6.14: a reflective subcategory has all colimits that the ambient\ncategory admits, formed by applying the reflector to the colimit computed there\n\nIn-tree today, verified: nothing: no transfer of colimits along a reflection exists (`rg -i 'reflective.*colimit'` → 0\nhits), and `Structure/Complete.v:119`'s `Cocomplete` is consumed only as a hypothesis in\n`Adjunction/GAFT.v` and friends. This issue is that statement; Riehl's formulation is per-shape (every\ncolimit the ambient category admits) rather than global cocompleteness, which is the form the §4.7\napplications need."
+ },
+ {
+  "item_id": "riehl:4.6:cor15",
+  "issue": 414,
+  "part": "Cat is complete",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 171 (PDF p. 191), item `riehl:4.6:cor15` — the completeness half of Corollary 4.6.15: `Cat` is complete, limits being computed as in the\nambient presheaf category (equivalently, pointwise in `Set`)\n\nIn-tree today, verified: only the finite fragment: `Instance/Cat/Cartesian.v:39` (binary products),\n`Instance/Cat/Cocartesian.v:40` (binary coproducts), `Instance/One.v:54` (terminal) and\n`Instance/Zero.v:44` (initial). Neither `Complete Cat` nor `Cocomplete Cat` is ever asserted — `rg\n'Complete|Cocomplete'` finds them only as hypotheses in `Adjunction/GAFT.v`, `Adjunction/SAFT.v`,\n`Construction/Comma/Limit.v` and `Theory/Adamek/Corollaries.v` — and there are no equalizers or small\nproducts in `Cat`. This issue delivers `Cat_Complete`. The cocompleteness half is filed separately for\nthis chapter, since Riehl obtains it by reflection from simplicial sets rather than by a direct\nconstruction."
+ },
+ {
+  "item_id": "riehl:4.6:exiii",
+  "issue": 419,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 172 (PDF p. 192), item `riehl:4.6:exiii` — the exercise asking for the EXPLICIT comparison map that Theorem 4.6.2 shows is an isomorphism —\nthe canonical arrow `F(lim G) ⟶ lim (F ◯ G)` induced by the limiting cone, described concretely in the\nsettings of the section's corollaries\n\nIn-tree today, verified: only the product and terminal cases, and only as assumed class fields:\n`Functor/Structure/Cartesian.v:49` `fobj_prod_iso` and `Functor/Structure/Terminal.v:43` `fobj_one_iso`\nposit invertibility of the comparison rather than deriving it, and no general comparison\n`limit_med (limit_is_alimit L') (fmap_cone L)` is assembled anywhere, though both ingredients exist.\nThis issue is that canonical comparison arrow; the exercise adds the request that the preservation\ntheorems be restated as “this named arrow is invertible” rather than as an abstract limit-preservation\nproperty."
+ },
+ {
+  "item_id": "riehl:4.6:exv",
+  "issue": 564,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 172 (PDF p. 192), item `riehl:4.6:exv` — the exercise deriving “limits commute with limits” in a complete category from Proposition 4.6.1 —\nthe natural isomorphism between the two iterated limit functors of a `J × K`-shaped diagram\n\nIn-tree today, verified: nothing: `rg -i 'limits commute'` → 0 files, `rg -i 'interchange of limits'` → 0, and there is no\nlimit FUNCTOR in the tree at all (`Limit F` is a per-diagram class, `Structure/Limit.v:113`), so the\nstatement has no subject. This issue is that interchange theorem; Riehl's route (both iterated limits\nare right adjoints to the same functor, so they agree by uniqueness of adjoints) is the cheapest proof\nonce the limit functor and `Δ ⊣ lim` of #353 exist, and is worth preferring to a hand-built comparison."
+ },
+ {
+  "item_id": "riehl:4.6:exxi",
+  "issue": 434,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.6, printed p. 173 (PDF p. 193), item `riehl:4.6:exxi` — the exercise asking for an example showing that a reflective inclusion need NOT create colimits —\nthe contrast with Proposition 4.6.14, whose clause (ii) only forms colimits by reflecting\n\nIn-tree today, verified: nothing: `rg -i 'creates|create' | grep -i colimit` finds only `equivalence_creates_colimits`\n(`Theory/Equivalence/Limit.v:582`), which is about an equivalence, and no concrete reflective inclusion\nexists in-tree to serve as a counterexample. The counterexample is the boundary that keeps this issue's\ntransfer statement from being over-read:\n\n- [ ] (from Riehl §4.6) A counterexample showing a reflective inclusion need not CREATE colimits (the colimit computed in the ambient category need not lie in the subcategory), pinning down why the transfer is by reflection rather than by inheritance."
+ },
+ {
+  "item_id": "riehl:4.7:lem1",
+  "issue": 726,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 174 (PDF p. 194), item `riehl:4.7:lem1` — Lemma 4.7.1: a functor admits a left adjoint IF AND ONLY IF for every object of the codomain the\ncomma category over it has an initial object — the “only if” direction being that the unit component is\nthat initial object\n\nIn-tree today, verified: only the “if” direction. `Adjunction/GAFT.v:180`\n`GAFT_from_initials (H : forall d, @Initial (=(d) ↓ U)) : { F & F ⊣ U }` and\n`Theory/Universal/Arrow.v:214` `AdjunctionFromUniversalArrows` build the adjoint from the initial\nobjects, and the functorial extension by initiality is genuinely carried out. Nothing asserts the\nconverse — there is no `Adjunction → UniversalArrow` or `Adjunction → Initial (=(d) ↓ U)` constructor —\nalthough both halves exist as one-liners (`Theory/Adjunction.v:264` `to_adj_unit` for existence,\n`:195` `adj_univ` for uniqueness). This issue is precisely that missing direction, and closing it makes\nthe lemma a biconditional."
+ },
+ {
+  "item_id": "riehl:4.7:lem2",
+  "issue": 438,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 174 (PDF pp. 194–195), item `riehl:4.7:lem2` — Lemma 4.7.2: for any functor and any object of its codomain, the comma-category projection\nSTRICTLY CREATES the limit of any diagram whose limit exists below and is preserved by the functor; in\nparticular the comma category is complete when the base is complete and the functor continuous\n\nIn-tree today, verified: the “in particular” clause in full, the creation statement not at all.\n`Construction/Comma/Limit.v:238` `comma_limit` constructs the limit and `:245` `Comma_Complete` gives\ncompleteness (with `:271` the right-adjoint corollary), the preservation hypothesis taken at the honest\ncone level (`PreservesImageLimit`). But the hypotheses are GLOBAL (`Complete C` plus preservation for\nevery diagram) rather than per-diagram, and no lemma asserts that the projection of the constructed\nlimit is the given one, nor its uniqueness — the creation half. This issue already carries both the\nper-shape restatement and the creation statement, together with the LIBRARY-DEFECT item for the header\nprose at `Construction/Comma.v:99-100` and `Construction/Comma/Limit.v:32-33`, which claims creation\nwhere only existence is proved."
+ },
+ {
+  "item_id": "riehl:4.7:def4",
+  "issue": 435,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 175 (PDF p. 195), item `riehl:4.7:def4` — Definition 4.7.4: an object is WEAKLY INITIAL when every object receives at least one morphism from\nit (uniqueness not required), and a collection is JOINTLY WEAKLY INITIAL when every object receives a\nmorphism from at least one of its members\n\nIn-tree today, verified: the collection form as data, the single-object form not at all.\n`Theory/WeaklyInitial.v:58` `Record WeaklyInitialFamily` with `wif_cover (c : C) : { i & wif_obj i ~> c }`\nis the jointly-weakly-initial notion (constructively stronger: it CHOOSES the index and arrow), and\n`Adjunction/GAFT.v:210` `wif_of_sols` builds one from a solution set. The one-object case appears only\ninformally, inside the proof of `initial_from_weakly_initial` and in that file's header prose:\n\n- [ ] (from Riehl §4.7) `WeaklyInitial c` named as a standalone definition (the one-index specialization of `WeaklyInitialFamily`), with the two related by an explicit lemma so the singleton case need not be re-derived at each use."
+ },
+ {
+  "item_id": "riehl:4.7:example6",
+  "issue": 442,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 176 (PDF pp. 196–197), item `riehl:4.7:example6` — Example 4.7.6: a solution set for the underlying-set functor of groups — representatives of the\nisomorphism classes of groups generated by at most `|S|` elements, together with the functions from `S`\nwhose image generates — and the free group produced from it by the initial-object construction\n\nIn-tree today, verified: nothing: there is no category of groups, no free group, and `rg 'SolutionSet'` finds only the\nrecord (`Adjunction/GAFT.v:159`), its consumers (`GAFT.v:210,243`, `SAFT.v:255`) and prose — NO concrete\nsolution set is exhibited anywhere in the tree, so the whole GAFT development is currently uninhabited\nat its distinctive premise (a point docs/INHABITATION.md tracks). This issue is exactly Riehl's example:\nthe free group obtained by the adjoint functor theorem, and with it the library's first concrete\n`SolutionSet`."
+ },
+ {
+  "item_id": "riehl:4.7:def7",
+  "issue": 447,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 177 (PDF p. 197), item `riehl:4.7:def7` — Definition 4.7.7: a SEPARATING SET (separator) is a set of objects that distinguishes distinct\nparallel morphisms by precomposition, and a COSEPARATING set is a separating set in the opposite\ncategory\n\nIn-tree today, verified: only the coseparating half. `Adjunction/SAFT.v:99` `Record Cogenerator` states the separation\nproperty positively as a cancellation law (all postcompositions agree ⇒ the arrows agree), which is the\nconstructively correct reading, and `:223` `cogenerator_canonical_monic` uses it. There is NO definition\nof a separating set / separator / generating family anywhere — the book's PRIMARY clause — even though,\nduality being definitional here, it is a one-liner (`Cogenerator (C^op)`). This issue supplies exactly\nthat vocabulary, and the dual naming should be recorded alongside so the two halves are visibly a pair."
+ },
+ {
+  "item_id": "riehl:4.7:def9",
+  "issue": 445,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 177 (PDF p. 197), item `riehl:4.7:def9` — Definition 4.7.9: the INTERSECTION of a family of subobjects as the limit of the diagram of those\nmonomorphisms over a common codomain, with the induced map into the codomain again monic, the cone legs\nmonic, and the intersection maximal among subobjects contained in all members\n\nIn-tree today, verified: nothing: `rg -i 'intersect'` returns three hits, all comments (`Structure/Pullback.v:94`,\n`Structure/Factorization.v:70`, `Theory/Subobject.v`), and there is no wide-pullback machinery at all\n(`rg -i 'wide pullback'` → 0). `Theory/Subobject.v` supplies `SubObj x`, the factorization preorder\n`sub_le` and `sub_equiv_iff_mutual`, but no meet. This issue is that construction; note that\n`Adjunction/SAFT.v` currently PACKAGES the missing intersections as the hypothesis\n`SubobjectIndex`/`SubobjectCover`, so proving them makes the special adjoint functor theorem's\nhypothesis list match the book's."
+ },
+ {
+  "item_id": "riehl:4.7:thm10",
+  "issue": 453,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 177 (PDF pp. 197–198), item `riehl:4.7:thm10` — Theorem 4.7.10, the Special Adjoint Functor Theorem: a continuous functor whose domain is complete\nand locally small, with a small coseparating set and intersections of arbitrary families of subobjects,\nadmits a left adjoint\n\nIn-tree today, verified: the theorem with an EXTRA hypothesis. `Adjunction/SAFT.v:274` `SAFT` takes, besides completeness,\ncone-level continuity, a `Cogenerator` and a `SubobjectIndex`, a further input\n`cover : SubobjectCover U comp G WP` — which states pointwise exactly what the classical\nimage-factorization step CONCLUDES (every arrow into `U c` factors through a subobject of the\ncogenerator product). So the in-tree theorem is the book's theorem minus its hardest step. This issue\nrebuilds SAFT over `Complete` + well-poweredness + a cogenerator with the monos lemma proved from\ncomma-creation, which is the route that discharges it:\n\n- [ ] (from Riehl §4.7) `Adjunction/SAFT.v`'s extra `SubobjectCover` input DISCHARGED — the image-factorization step proved rather than assumed — so the in-tree statement's hypothesis list matches the book's; the old `cover`-taking form kept only as a corollary, if at all."
+ },
+ {
+  "item_id": "riehl:4.7:lem11",
+  "issue": 452,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 177 (PDF pp. 197–198), item `riehl:4.7:lem11` — Lemma 4.7.11: a locally small complete category with a small coseparating set and all intersections\nof subobjects has an initial object — the intersection of ALL subobjects of the product of the\ncoseparating family\n\nIn-tree today, verified: only the first proof step, and the conclusion under different hypotheses.\n`Adjunction/SAFT.v:223` `cogenerator_canonical_monic` proves that coseparation makes the canonical map\ninto the power of the family monic, and `Theory/WeaklyInitial.v:89` `initial_from_weakly_initial`\nproduces an initial object — but from a WEAKLY INITIAL FAMILY plus two products and an equalizer, i.e.\nFreyd's construction rather than the special one. No in-tree statement has this item's hypotheses in its\nantecedent and `Initial C` in its consequent, and there is no intersection of subobjects to take (see\nthe append for `riehl:4.7:def9`). This issue is that special initial-object theorem."
+ },
+ {
+  "item_id": "riehl:4.7:example12",
+  "issue": 455,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 178 (PDF p. 198), item `riehl:4.7:example12` — Example 4.7.12: the Stone–Čech compactification obtained from the special adjoint functor theorem —\nthe unit interval is a coseparating object in compact Hausdorff spaces (by Urysohn), and the initial\nobject of the comma category is the closure of the image of the canonical map into a power of the\ninterval\n\nIn-tree today, verified: nothing: there is no category of spaces, compact or otherwise\n(`rg -i 'stone|cech|compact|hausdorff|Urysohn'` finds only background prose in `Theory/Monad.v:65-66`\nabout the ultrafilter monad). This issue owns the Stone–Čech compactification via the adjoint functor\ntheorems; Riehl's presentation is the SAFT route specifically, with the coseparator exhibited\nconcretely, and it names the closure-of-the-image description that the abstract construction produces."
+ },
+ {
+  "item_id": "riehl:4.7:cor13",
+  "issue": 453,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 178 (PDF p. 198), item `riehl:4.7:cor13` — Corollary 4.7.13: a category satisfying the hypotheses of the special adjoint functor theorem\n(locally small, complete, small coseparating set, intersections) is also COCOMPLETE — apply the theorem\nto the constant-diagram functor, which is continuous, to obtain its left adjoint\n\nIn-tree today, verified: nothing: `Adjunction/SAFT.v` ends at `SAFT` (`:274`) and draws no corollaries; `Cocomplete`\n(`Structure/Complete.v:119`) has no consumers other than hypotheses. The corollary needs the\n`Δ`-adjunction characterization of colimits (#353) and is the cheapest non-trivial application of the\ntheorem, so it belongs with the theorem rather than in a separate issue:\n\n- [ ] (from Riehl §4.7) The cocompleteness corollary: under the SAFT hypotheses the constant-diagram functor `Δ : C ⟶ C^J` has a left adjoint for every small `J`, hence `C` is cocomplete (through the characterization of #353)."
+ },
+ {
+  "item_id": "riehl:4.7:cor14",
+  "issue": 437,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 178 (PDF p. 198), item `riehl:4.7:cor14` — Corollary 4.7.14: under the same hypotheses, EVERY continuous `Set`-valued functor on the category\nis representable — apply the theorem to get a left adjoint `L`, then `C(L 1, c) ≅ Set(1, F c) ≅ F c`\n\nIn-tree today, verified: the conclusion is never drawn. `Adjunction/SAFT.v:274` delivers the adjoint form `{ F & F ⊣ U }`\nand `Functor/Representable.v:46` `Class Representable` is the target notion, but nothing connects them:\nthere is no in-tree lemma turning a left adjoint into a representation, and no global-points bridge\n`(1 ~{Sets}~> X) ≅ carrier X` (this issue's Work item 1 introduces exactly that reusable lemma). Its\nWork item 3 covers the “left adjoint ⇒ representable” step, so the increment here is the SAFT-hypothesis\npackaging:\n\n- [ ] (from Riehl §4.7) The special-hypotheses corollary: over a locally small complete category with a small coseparating set and intersections, every continuous `Sets`-valued functor is representable (SAFT plus the global-points bridge)."
+ },
+ {
+  "item_id": "riehl:4.7:thm15",
+  "issue": 437,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 179 (PDF p. 199), item `riehl:4.7:thm15` — Theorem 4.7.15, Freyd's Representability Theorem: a continuous `Set`-valued functor on a complete\nlocally small category is representable as soon as it satisfies the element-wise solution set condition\n\nIn-tree today, verified: every step but the last. `Adjunction/GAFT.v:241` `GAFT` proves the general theorem with the\nmatching hypotheses (`SolutionSet` at `:159` is the book's condition; `PreservesImageLimit` is the\nhonest cone-level reading of continuity), and `Construction/Comma/Limit.v:245` and\n`Theory/WeaklyInitial.v:89` are the intermediate steps. What is missing is the `Sets`-specific\nconclusion: no bridge from an initial object of the comma category (or from a left adjoint) to\n`Representable F`, and no category of elements for a `Sets`-valued functor. This issue is exactly that\ntheorem — its Work item 1 states the element-wise solution set condition and proves it equivalent to the\ngeneral one, and item 2 packages the representability biconditional."
+ },
+ {
+  "item_id": "riehl:4.7:exiii",
+  "issue": 437,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 180 (PDF p. 200), item `riehl:4.7:exiii` — the exercise: for a locally small category WITH COPRODUCTS, a `Set`-valued functor is representable\nif and only if it admits a left adjoint\n\nIn-tree today, verified: neither direction. `Functor/Representable.v:46` is the only representability site, and\n`Theory/Profunctor/Adjunction.v:71` `representable_adjunction` is a different statement (an adjunction\nas an isomorphism of representable profunctors). The copower `X · c` that builds the left adjoint of a\nrepresented functor has no in-tree definition (`rg -i 'copower'` → 0 relevant hits; #366 is the filed\nobligation). This issue's Work item 3 is exactly this biconditional, in both directions and with the\ncopower hypothesis made explicit."
+ },
+ {
+  "item_id": "riehl:4.7:construction-unitalization",
+  "issue": 362,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 180 (PDF p. 200), item `riehl:4.7:construction-unitalization` — the closing construction of §4.7: the inclusion of unital rings into non-unital rings has a left\nadjoint (unitalization), obtainable abstractly from accessibility and directly as `R ⊕ ℤ` with the\nmultiplication that makes the copy of `ℤ` act as the identity\n\nIn-tree today, verified: nothing: there is no category of rings, unital or otherwise (`rg -nw 'Ring'` at declaration level →\n0 hits), and `rg -i 'non-unital|unitaliz'` finds only `Theory/Category/Semi.v:11` (semigroupoid). This\nissue is exactly that left adjoint; Riehl adds the abstract route (both categories are locally\npresentable and the inclusion is accessible, so the accessible adjoint functor theorem applies) as an\nalternative to the explicit construction, which is filed separately for this chapter."
+ },
+ {
+  "item_id": "riehl:4.7:exi",
+  "issue": 438,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 180 (PDF p. 200), item `riehl:4.7:exi` — the exercise asking for a DIRECT proof of Lemma 4.7.2 — that the comma projection strictly creates\nlimits — along the lines of the argument for the analogous statement about slice/coslice projections\n\nIn-tree today, verified: as for `riehl:4.7:lem2` above: `Construction/Comma/Limit.v:238/:245` construct the limit and prove\ncompleteness, with the limiting apex `((ttt, vertex_obj[Ldiag]); φ)` visible in the term, but neither\nper-diagram hypotheses nor the uniqueness-of-lift half is asserted. The library's own idiom for the\nmissing clauses exists (`Monad/Monadicity/Beck.v:164` `CreatesUSplitCoequalizers`, whose fields include\nuniqueness and reflection), so the exercise's direct argument is exactly what this issue's creation item\nasks for — including the LIBRARY-DEFECT it already records, that the headers claim creation where only\nexistence is proved."
+ },
+ {
+  "item_id": "riehl:4.7:exii",
+  "issue": 461,
+  "part": "",
+  "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §4.7, printed p. 180 (PDF p. 200), item `riehl:4.7:exii` — the exercise using the general adjoint functor theorem to give the inclusion of Hausdorff spaces\ninto all spaces a left adjoint (the largest Hausdorff quotient), and then concluding from Proposition\n4.6.14 that Hausdorff spaces are cocomplete as well as complete\n\nIn-tree today, verified: nothing: there is no category of spaces, and no transfer of cocompleteness along a reflection\nexists (`rg -n -i 'complete'` over the reflective-subcategory files → 0 hits). This issue owns the\nHausdorff reflection; Riehl's version differs in HOW the reflector is obtained and in the conclusion\ndrawn from it:\n\n- [ ] (from Riehl §4.7) The reflector obtained BY the general adjoint functor theorem (a solution set for the inclusion), not only by an explicit quotient construction — and the cocompleteness of `Haus` derived by transfer along the reflection (#434)."
+ }
+]

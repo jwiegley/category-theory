@@ -1,0 +1,478 @@
+[
+  {
+    "id": "maclane:VI.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "monad",
+      "triple",
+      "standard construction",
+      "Class Monad",
+      "endofunctor with unit ret and multiplication join",
+      "T eta mu"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Monad.v",
+        "line": 92,
+        "symbol": "Monad",
+        "intree_statement": "Class Monad := { ret {x} : x ~> M x; join {x} : M (M x) ~> M x; fmap_ret {x y} (f : x ~> y) : ret ∘ f ≈ fmap f ∘ ret; join_fmap_join {x} : join ∘ fmap (@join x) ≈ join ∘ join; join_fmap_ret {x} : join ∘ fmap (@ret x) ≈ id; join_ret {x} : join ∘ @ret (M x) ≈ id; join_fmap_fmap {x y} (f : x ~> y) : join ∘ fmap (fmap f) ≈ fmap f ∘ join }.  (Context `{M : C ⟶ C}.)"
+      }
+    ],
+    "statement_record": {
+      "book": "A monad ⟨T,η,μ⟩ in X is an endofunctor T with η:Id⇒T and μ:T²⇒T satisfying μ∘Tμ = μ∘μT and μ∘ηT = 1 = μ∘Tη.",
+      "intree": "Class Monad over M : C ⟶ C with ret (η), join (μ), associativity join_fmap_join (μ∘Mμ ≈ μ∘μM), the two unit laws join_fmap_ret (μ∘Mη ≈ id) and join_ret (μ∘ηM ≈ id), plus explicit naturality fields fmap_ret and join_fmap_fmap.",
+      "strength_comparison": "same — the join/return (μ/η) presentation is identical; the library states η- and μ-naturality as separate fields (fmap_ret, join_fmap_fmap) that Mac Lane folds into the phrase 'η and μ are natural transformations', so no strength difference."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Theory/Monad.v:92 Class Monad (ret=η, join=μ) with associativity join_fmap_join, both unit laws join_fmap_ret/join_ret, and naturality fields fmap_ret/join_fmap_fmap. The two naturality fields are Mac Lane's 'η,μ are natural transformations' made explicit; faithful setoid (≈) rephrasing. Registered in _CoqProject."
+    }
+  },
+  {
+    "id": "maclane:VI.1:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "monad is a monoid in the category of endofunctors",
+      "monoid object in [C,C]",
+      "MonoidObject Compose_Monoidal",
+      "monoid in End(X)",
+      "Monoid_Monad"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monoid.v",
+        "line": 40,
+        "symbol": "Monoid_Monad",
+        "intree_statement": "Theorem Monoid_Monad : @MonoidObject (Endofunctors C) Compose_Monoidal M ↔ Monad M.  (Endofunctors C := [C, C]; the monoidal structure is Compose_Monoidal, functor composition as tensor and Id as unit.)"
+      }
+    ],
+    "statement_record": {
+      "book": "A monad in X is exactly a monoid object in the strict monoidal category (End(X), ∘, Id): η is the unit, μ the multiplication, and the monad laws are the monoid associativity/unit laws.",
+      "intree": "Theorem Monoid_Monad : MonoidObject over (Endofunctors C = [C,C], Compose_Monoidal) ↔ Monad M — a proven logical equivalence, constructing a monad from a monoid object and back.",
+      "strength_comparison": "same, in fact intree-stronger: Mac Lane states the identification as a remark, the library proves it as a two-directional equivalence (↔) with an explicit round-trip construction."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Monad/Monoid.v:40 Theorem Monoid_Monad : MonoidObject (Endofunctors C=[C,C]) Compose_Monoidal M ↔ Monad M — a genuine two-way equivalence with explicit round-trip (Defined). Correctly noted intree-stronger than the book's remark."
+    }
+  },
+  {
+    "id": "maclane:VI.1:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "monad defined by an adjunction",
+      "monad induced by an adjunction",
+      "GF monad",
+      "U∘F monad",
+      "Adjunction_Monad",
+      "T = GF, μ = GεF"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Adjunction.v",
+        "line": 48,
+        "symbol": "Adjunction_Monad",
+        "intree_statement": "Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F).  (F : D ⟶ C left adjoint, U : C ⟶ D right adjoint; ret from ⌊id⌋, join from fmap[U] ⌈id⌉.)"
+      },
+      {
+        "file": "Monad/Adjunction.v",
+        "line": 84,
+        "symbol": "Adjunction_Nat_Monad",
+        "intree_statement": "Theorem Adjunction_Nat_Monad : F ∹ U → @Monad D (U ◯ F).  (counit/unit form; ret = unit, join = fmap (counit).)"
+      }
+    ],
+    "statement_record": {
+      "book": "Every adjunction ⟨F,G,η,ε⟩:X⇀A induces a monad on X with T=GF, unit η, multiplication μ=GεF; called the monad defined by the adjunction.",
+      "intree": "Adjunction_Monad : F ⊣ U → Monad (U ◯ F), with ret the adjunction unit and join = U ε F; a second proof Adjunction_Nat_Monad works from the counit/unit presentation.",
+      "strength_comparison": "same, up to the library's naming convention (its right adjoint U = Mac Lane's G, its domain D = Mac Lane's X), so U ◯ F is Mac Lane's GF; the header explicitly identifies join with U ε F."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Monad/Adjunction.v:48 Adjunction_Monad : F⊣U→Monad(U◯F) and :84 Adjunction_Nat_Monad. Header identifies join=UεF (=Mac Lane GεF; library right adjoint U = Mac Lane G, domain D = Mac Lane X). Both presentations proven."
+    }
+  },
+  {
+    "id": "maclane:VI.1:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "comonad",
+      "cotriple",
+      "counit epsilon and comultiplication delta",
+      "Definition Comonad",
+      "@Monad (C^op)(W^op)",
+      "extract/duplicate"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Monad.v",
+        "line": 144,
+        "symbol": "Comonad",
+        "intree_statement": "Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op)."
+      },
+      {
+        "file": "Comonad/Core.v",
+        "line": 131,
+        "symbol": "extract/duplicate/duplicate_duplicate",
+        "intree_statement": "Definition extract {x} : W x ~> x := @ret (C^op)(W^op) H x;  Definition duplicate {x} : W x ~> W (W x) := @join (C^op)(W^op) H x;  Lemma extract_duplicate : extract ∘ duplicate ≈ id;  Lemma fmap_extract_duplicate : fmap[W] extract ∘ duplicate ≈ id;  Lemma duplicate_duplicate : duplicate ∘ duplicate ≈ fmap[W] duplicate ∘ duplicate."
+      }
+    ],
+    "statement_record": {
+      "book": "A comonad in A is L:A→A with ε:L⇒Id and δ:L⇒L² making Lδ∘δ = δL∘δ and εL∘δ = 1 = Lε∘δ.",
+      "intree": "Comonad W := Monad on the opposite category; the covariant API Comonad/Core.v exposes ε = extract, δ = duplicate, the counit laws extract_duplicate (εW∘δ=id) and fmap_extract_duplicate (Wε∘δ=id), and coassociativity duplicate_duplicate.",
+      "strength_comparison": "same — the comonad is the definitional op-dual of the monad (C^op^op = C by reflexivity), and every book law appears as a covariant lemma in Comonad/Core.v."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Theory/Monad.v:144 Comonad:=@Monad(C^op)(W^op) and Comonad/Core.v covariant API: extract:131, duplicate:135, counit laws extract_duplicate:160 (εW∘δ=id) and fmap_extract_duplicate:164 (Wε∘δ=id), coassociativity duplicate_duplicate:169. Every book law present as a covariant lemma."
+    }
+  },
+  {
+    "id": "maclane:VI.1:construction2",
+    "classification": "PRESENT",
+    "aliases": [
+      "comonad defined by an adjunction",
+      "comonad induced by an adjunction",
+      "FG comonad",
+      "F∘U comonad",
+      "Adjunction_Comonad",
+      "⟨FG, ε, FηG⟩"
+    ],
+    "evidence": [
+      {
+        "file": "Comonad/Duality.v",
+        "line": 170,
+        "symbol": "Adjunction_Comonad",
+        "intree_statement": "Definition Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U) := (* dual of Adjunction_Monad: counit = ε, comultiplication = F η U; assembled by Build_Monad from the monad induced by A^op : U^op ⊣ F^op *)."
+      }
+    ],
+    "statement_record": {
+      "book": "Every adjunction ⟨F,G,η,ε⟩:X⇀A defines a comonad ⟨FG, ε, FηG⟩ in A, dual to the monad GF in X.",
+      "intree": "Adjunction_Comonad (A : F ⊣ U) : Comonad (F ◯ U), the formal dual of Adjunction_Monad, with counit ε and comultiplication F η U (header lines 145-161).",
+      "strength_comparison": "same, up to naming (library U = Mac Lane G, library C = Mac Lane A), so F ◯ U is Mac Lane's FG; obtained by dualizing the monad construction with Adjunction/Opposite.v."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Comonad/Duality.v:170 Adjunction_Comonad (A:F⊣U):@Comonad C (F◯U), built by dualizing Adjunction_Monad via Opposite_Adjunction. Header 145-161 confirms counit=ε, comultiplication=FηU (=Mac Lane FηG). Honest disclosure (not a defect): the ε/FηU identifications are definitional and are deliberately NOT exposed as separate agreement lemmas — the construction itself is present and correct."
+    }
+  },
+  {
+    "id": "maclane:VI.1:remark2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monad in a preorder is a closure operation",
+      "closure operator",
+      "monotone map with x≤Tx and TTx≤Tx",
+      "idempotent monad",
+      "poset as thin category",
+      "consequence operator"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Poset.v",
+        "line": 116,
+        "symbol": "Poset",
+        "intree_statement": "Definition Poset {C} `{R : relation C} `(P : PreOrder C R) `{Antisymmetric ...} : Category := Proset P.  (* header lines 48-49: 'a monad is a closure operator, the unit giving extensivity and the multiplication idempotency (Theory/Monad.v)' *)"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 81,
+        "symbol": "IdempotentMonad",
+        "intree_statement": "Class IdempotentMonad {C} (M : C ⟶ C) `{@Monad C M} := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }.  (* with Idempotent_Reflective / Idempotent_EM_Equivalence: algebras = M-local fixed-point objects *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In a preorder P, an endofunctor is a monotone map T and it carries monad structure exactly when x≤Tx and TTx≤Tx (all diagrams commute automatically); in a poset TTx=Tx, so a monad is precisely a closure operation.",
+      "intree": "Posets are formalized as thin categories (Instance/Poset.v via Proset). A Monad instantiated on such a category consists definitionally of a monotone map with ret : x≤Tx and join : TTx≤Tx (laws vacuous by thinness) — i.e. the closure-operator data — but this identification is written only as prose (Instance/Poset.v:48-49, Theory/Monad.v header). The general categorification is proved: IdempotentMonad and the reflective-subcategory correspondence.",
+      "strength_comparison": "intree-weaker: the substrate (poset-as-category, monad, and the categorified idempotent-monad↔reflective-localization theory) is present and the identification is definitional, but the elementary statement 'a monad on a poset = a closure operation' is not stated as an in-tree lemma or instance."
+    },
+    "gap": "No ClosureOperator datatype exists and no lemma/instance exhibits a Monad on Instance/Poset.v as a closure operator (the monotone map + x≤Tx + TTx≤Tx characterization). The identification holds definitionally and is acknowledged in prose but is never formalized; the only formalized relative is the more general idempotent-monad development in Construction/Reflective/Idempotent.v, which is stated over an arbitrary category, not a preorder.",
+    "negative_search_log": [
+      "grep -rniE 'ClosureOperator|closure_operator|Class Closure|Record Closure|Definition closure' *.v — 0 hits (no closure-operator datatype)",
+      "grep -rniE 'closure' -l *.v — hits are topos/factorization/topology prose, none a poset closure-operator=monad lemma; Instance/Poset.v:48-49 and Theory/Monad.v header state it only as prose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld. Blind pass: Instance/Poset.v states 'a monad is a closure operator' only as header prose (48-49); my rg for ClosureOperator/closure_operator = 0 hits, no lemma/instance exhibits a Monad on a poset as one. Substrate genuinely present — Poset-as-thin-category (Poset.v:116) + general Monad + the categorified IdempotentMonad (Idempotent.v:81) — and on a thin category the monad data IS definitionally (monotone T, x≤Tx, TTx≤Tx), so 'some of the item exists'. PARTIAL over ABSENT justified; gap accurate."
+    }
+  },
+  {
+    "id": "maclane:VI.2:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "T-algebra",
+      "Eilenberg-Moore algebra",
+      "algebra over a monad",
+      "structure map h : Tx→x",
+      "TAlgebra",
+      "algebra homomorphism",
+      "TAlgebraHom"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Algebra.v",
+        "line": 24,
+        "symbol": "TAlgebra",
+        "intree_statement": "Class TAlgebra `(T : C ⟶ C) `{@Monad C T} (a : C) := { t_alg : T a ~> a; t_id : t_alg ∘ ret ≈ id; t_action : t_alg ∘ fmap t_alg ≈ t_alg ∘ join }."
+      },
+      {
+        "file": "Monad/Algebra.v",
+        "line": 44,
+        "symbol": "TAlgebraHom",
+        "intree_statement": "Class TAlgebraHom `(T : C ⟶ C) `{@Monad C T} (a b : C) (F : TAlgebra T a) (G : TAlgebra T b) := { t_alg_hom : a ~> b; t_alg_hom_commutes : t_alg_hom ∘ t_alg[F] ≈ t_alg[G] ∘ fmap[T] t_alg_hom }."
+      }
+    ],
+    "statement_record": {
+      "book": "A T-algebra ⟨x,h⟩ is an object x with h:Tx→x satisfying h∘Th = h∘μ_x and h∘η_x = 1_x; a morphism f:⟨x,h⟩→⟨x',h'⟩ is f:x→x' with f∘h = h'∘Tf.",
+      "intree": "Class TAlgebra with structure map t_alg (h), unit law t_id (h∘η = id) and action law t_action (h∘Th ≈ h∘μ); Class TAlgebraHom with underlying arrow t_alg_hom and commuting square t_alg_hom_commutes (f∘h_F ≈ h_G∘Tf).",
+      "strength_comparison": "same — both laws and the homomorphism square match exactly (setoid ≈ in place of =)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Monad/Algebra.v:24 TAlgebra (t_alg=h, t_id: h∘η≈id, t_action: h∘Th≈h∘μ) and :44 TAlgebraHom (t_alg_hom, t_alg_hom_commutes: f∘h_F≈h_G∘Tf). Both algebra laws and the homomorphism square match Mac Lane exactly (≈ for =)."
+    }
+  },
+  {
+    "id": "maclane:VI.2:thm1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Eilenberg-Moore category X^T",
+      "free/forgetful adjunction F^T ⊣ G^T",
+      "every monad is defined by its algebras",
+      "EM_Adjunction",
+      "EM_Monad_agrees",
+      "free algebra (Tx, μx)"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Eilenberg/Moore.v",
+        "line": 44,
+        "symbol": "EilenbergMoore",
+        "intree_statement": "Program Definition EilenbergMoore `(T : C ⟶ C) `{H : @Monad C T} : Category := {| obj := ∃ a : C, @TAlgebra C T H a; hom := fun x y => TAlgebraHom T ``x ``y (projT2 x)(projT2 y); ... |}."
+      },
+      {
+        "file": "Monad/Eilenberg/Moore/Adjunction.v",
+        "line": 183,
+        "symbol": "EM_Adjunction",
+        "intree_statement": "Program Definition EM_Adjunction : EM_Free ⊣ EM_Forget.  (EM_Free x = (T x; {| t_alg := join |}); EM_Forget (a,ν) = a.)"
+      },
+      {
+        "file": "Monad/Eilenberg/Moore/Adjunction.v",
+        "line": 219,
+        "symbol": "EM_Monad_agrees",
+        "intree_statement": "Theorem EM_Monad_agrees : EM_Forget ◯ EM_Free ≈ T.  (also EM_unit_agrees : unit ≈ ret[T]; EM_counit_agrees : t_alg_hom[counit@(b,ν)] ≈ ν)"
+      }
+    ],
+    "statement_record": {
+      "book": "The T-algebras form a category X^T with an adjunction F^T ⊣ G^T:X⇀X^T; G^T forgets the structure map, F^T sends x to the free algebra ⟨Tx,μx⟩, η^T=η, ε^T_{⟨x,h⟩}=h; the induced monad is the original ⟨T,η,μ⟩.",
+      "intree": "EilenbergMoore T is the category of T-algebras; EM_Free ⊣ EM_Forget (EM_Adjunction), with EM_Free x = (Tx, join), EM_Forget the carrier projection, EM_unit_agrees (unit = ret), EM_counit_agrees (counit at (b,ν) acts by ν), and EM_Monad_agrees (U^T∘F^T ≈ T).",
+      "strength_comparison": "same — the category, both functors, the free algebra (Tx,μx), the unit/counit identifications, and the recovery of the original monad are all present at full strength (setoid ≈)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Monad/Eilenberg/Moore.v:44 EilenbergMoore category and Moore/Adjunction.v:183 EM_Adjunction (EM_Free⊣EM_Forget): EM_Free x=(Tx,join), EM_Forget=carrier, EM_unit_agrees (unit=ret), EM_counit_agrees (counit at (b,ν) acts by ν = Mac Lane ε_{⟨x,h⟩}=h), EM_Monad_agrees:219 (U^T◯F^T≈T), plus EM_join_agrees. Category, both functors, free algebra, unit/counit, and monad recovery all present at full strength."
+    }
+  },
+  {
+    "id": "maclane:VI.2:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "algebras for a closure operation are the closed elements",
+      "closed/fixed elements",
+      "algebras of an idempotent monad",
+      "local objects",
+      "fixed points of a closure operator"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 55,
+        "symbol": "Idempotent_EM_Equivalence",
+        "intree_statement": "Idempotent_EM_Equivalence — 'the Eilenberg-Moore category of M is equivalent ... to that M-local subcategory: for an idempotent monad every algebra structure map is the inverse of its unit, so algebras and local objects coincide.'"
+      },
+      {
+        "file": "Monad/Algebra.v",
+        "line": 24,
+        "symbol": "TAlgebra",
+        "intree_statement": "Class TAlgebra ... := { t_alg : T a ~> a; t_id : t_alg ∘ ret ≈ id; t_action : ... }.  (on a thin/poset category t_alg : Tx≤x plus unit x≤Tx forces x=Tx, i.e. a closed element — but this poset specialization is not instantiated)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a closure operation T on a preorder P, a T-algebra is an element x with Tx≤x; since x≤Tx this gives x≅Tx, and in a poset x=Tx — so T-algebras are exactly the closed (fixed) elements.",
+      "intree": "The general fixed-point identification is proved for idempotent monads: Idempotent_EM_Equivalence shows the Eilenberg-Moore category is equivalent to the subcategory of M-local (fixed-point) objects, algebras coinciding with fixed points. On a poset a T-algebra is definitionally a closed element, but this specialization is not written.",
+      "strength_comparison": "intree-weaker: the fixed-point content is present at full generality (idempotent monads), but the elementary poset statement 'T-algebras of a closure operator = closed elements' is not instantiated on Instance/Poset.v."
+    },
+    "gap": "The specific identification for a closure operator on a poset (T-algebras = closed elements) is not formalized; only the general 'algebras of an idempotent monad = M-local fixed-point objects' (Idempotent_EM_Equivalence) is proved, over an arbitrary category rather than a preorder. No poset instantiation exists and there is no ClosureOperator datatype whose algebras are shown to be its fixed points.",
+    "negative_search_log": [
+      "grep -rniE 'closed element|closure.*algebra|fixed.*element' *.v — 0 hits for a poset closure-algebra=closed-element lemma",
+      "grep -rniE 'ClosureOperator|closure_operator' *.v — 0 hits (no closure-operator datatype to take algebras of)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld. Idempotent_EM_Equivalence is a REAL theorem (EquivalenceOfCategories idem_G: EM category of an idempotent monad ≃ its M-local/fixed-point subcategory) but located at Construction/Reflective/Idempotent.v:464, NOT line 55 as the evidence cites (line 55 is the header prose naming it). Symbol name and claim verified correct. The elementary poset statement (closure-operator algebras = closed elements) is not instantiated — gap accurate. Coverage-locator imprecision only, not a library defect."
+    }
+  },
+  {
+    "id": "maclane:VI.2:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "algebras for the monad G×(−) are G-actions",
+      "group action monad",
+      "writer monad on a group",
+      "G-set",
+      "action of G on a set",
+      "reader/writer monad G×X",
+      "monoid-action monad"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'G.?set|Gset|group.?action|action.*algebra|delooping|monoid.?action' *.v — no G×(−) monad and no category of G-sets; hits are the symmetric-group action of multicategories, groupoids, and delooping-of-a-monoid-as-one-object-bicategory (Theory/Bicategory/OneObject.v), none the monad G×(−) or its algebras",
+      "grep -rniE 'writer|Writer' *.v — no Writer monad; only Env/Traced comonads (Instance/Coq/Comonad) and Graded monads",
+      "grep -rE 'Monad|Instance|Program|Definition' Instance/Coq/Monad.v — the file is explicitly 'not a catalogue of concrete monads' (header); no product/writer monad instance",
+      "closest relative: Theory/Functor.v:68 notes in prose that a functor BG → Vect is a linear representation of G — a different (BG-functor) characterization of group actions, over Vect not Set, and prose-only; not the G×(−) monad-algebra statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld. Blind pass found no G×(−) monad and no category of G-sets; rg G-set/G-action/group action/writer/product monad returned only symmetric-group actions (multicategories/operads), groupoids, and monoid-delooping-as-one-object-bicategory — none the G×(−) monad or its algebras. Instance/Coq/Monad.v defines no product/writer monad. No Grp instance category exists."
+    }
+  },
+  {
+    "id": "maclane:VI.2:remark3",
+    "classification": "ABSENT",
+    "aliases": [
+      "algebras for the monad R⊗(−) on Ab are left R-modules",
+      "R-module",
+      "R-Mod category",
+      "free module monad",
+      "tensor-with-R monad",
+      "module over a ring",
+      "Ab category of abelian groups"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'R.?module|RMod|R-Mod|left R-module|module category|ring.*module|R.?⊗|tensor.*ring.*monad' *.v — no R-Mod category and no R⊗(−) monad; the 'R-Mod'/'module' hits are prose (Morita equivalence in Theory/Equivalence.v, Lawvere-theory examples in Theory/Lawvere.v) or unrelated (Coq modules, monoidal ⊗ bifunctors)",
+      "grep -rniE 'module' -l *.v — no Instance/ file defines a category of modules over a ring; Structure/Abelian.v discusses modules only in its background prose (its concrete additive witness is CMon, commutative monoids, not R-Mod)",
+      "grep for 'Ab' as the category of abelian groups — no Ab instance carrying an R⊗(−) endofunctor/monad"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld. No R-Mod category and no R⊗(−) monad; rg R-module/module/tensor-monad/Ab returned prose only (Morita in Equivalence.v, Lawvere examples, monoidal ⊗ bifunctors). No Ab instance; nearest additive witness is Instance/CMon.v (commutative monoids), not R-modules."
+    }
+  },
+  {
+    "id": "maclane:VI.2:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "power-set monad",
+      "powerset monad 𝒫",
+      "complete semilattice",
+      "sup-lattice",
+      "complete join-semilattice",
+      "Manes theorem",
+      "algebras of 𝒫 = complete lattices",
+      "union as multiplication"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'power.?set.?monad|complete semilattice|sup.?lattice|sup.?semilattice|join.?semilattice|complete.?lattice|Manes' *.v — no powerset monad and no complete-semilattice category; 'Manes' appears only in prose citations (Theory/Monad.v), 'complete lattice' only in prose (Instance/Poset.v:93 Knaster-Tarski aside, Structure/Complete.v:71 the Freyd 'complete small category is a preorder' remark)",
+      "grep -rniE '\\bPow\\b|powerset|power_set|subsets' *.v — 'pow X n' in Theory/Multicategory/Algebra.v is the finite n-th power X^n (arity), not the covariant powerset functor; Structure/Topos.v 'Pow a := Ω^a' is the power OBJECT, a different notion",
+      "Structure/Complete.v is 'complete category' (has all small limits), not 'complete lattice/semilattice' as an algebraic structure; no 𝒫-algebra = sup-preserving-map category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld. No covariant powerset monad and no complete-semilattice/sup-lattice category; rg powerset/semilattice/complete lattice/Manes = 'Manes' prose citation only (Theory/Monad.v); 'Pow a:=Ω^a' (Topos.v) is the power OBJECT, 'pow X n' (Multicategory/Algebra.v) is finite arity X^n. Structure/Complete.v is 'complete category' (all small limits), not the algebraic complete lattice."
+    }
+  },
+  {
+    "id": "maclane:VI.2:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "the algebra forgetful functor creates limits",
+      "G^T creates limits",
+      "EM_Forget creates limits",
+      "U^T creates limits",
+      "Eilenberg-Moore forgetful creates limits",
+      "monadic functor creates limits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'creates?.?limit|CreatesLimit' *.v — hits are equivalence_creates_limits (Theory/Equivalence/Limit.v) and comma-projection creates limits (Construction/Comma/Limit.v); none is about EM_Forget/G^T creating limits",
+      "grep -rniE 'EM_Forget.*(limit|creat|preserv)|(creat|preserv).*EM_Forget|algebra.*creat.*limit' *.v — the only EM_Forget creation result is em_forget_creates_split (Monad/Monadicity/BeckObjects.v:396) and monadic_creates (Monad/Monadicity/Beck.v:911): U^T CREATES U-SPLIT COEQUALIZERS — a colimit-side property used for Beck's theorem, NOT creation of limits",
+      "note: EM_Forget is the right adjoint of EM_Free ⊣ EM_Forget so it preserves limits (RAPL), but RAPL is not instantiated for EM_Forget and preservation is strictly weaker than the creation the exercise asks for; the mathematical content 'G^T creates limits' has no in-tree counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld. The only EM_Forget creation result in-tree is em_forget_creates_split/monadic_creates: U^T creates U-SPLIT COEQUALIZERS (colimit-side, for Beck), NOT creation of limits. General 'creates limits' vocabulary exists only for equivalences (Equivalence/Limit.v) and comma projections (Comma/Limit.v), never applied to EM_Forget. EM_Forget is a right adjoint (RAPL would give preservation) but RAPL is not instantiated for it and preservation ≠ creation. No counterpart to 'G^T creates limits'."
+    }
+  },
+  {
+    "id": "maclane:VI.2:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "morphism of monads",
+      "monad morphism θ:T⇒T'",
+      "category of monads",
+      "induced functor θ* : X^{T'}→X^T",
+      "base-change of algebras",
+      "MonadHom",
+      "MonadTransformer lift"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Transformer.v",
+        "line": 46,
+        "symbol": "MonadTransformer",
+        "intree_statement": "Class MonadTransformer := { lift {a} : M a ~> T M a; lift_return {a} : lift ∘ ret ≈ ret; lift_bind {a b} (f : a ~> M b) : lift ∘ join ∘ fmap f ≈ join ∘ fmap (lift ∘ f) ∘ lift }.  (header: 'lift must respect the unit and the Kleisli bind ... a monad morphism ... a pointed endofunctor on the category of monads')"
+      }
+    ],
+    "statement_record": {
+      "book": "(a) Define a monad morphism θ:T⇒T' (a natural transformation compatible with units and multiplications) and the category of all monads on X. (b) From θ construct a functor θ*:X^{T'}→X^T with G^T∘θ* = G^{T'} and a natural transformation F^{T'}⇒θ*∘F^T.",
+      "intree": "Monad/Transformer.v defines the monad-morphism laws as the lift of a MonadTransformer: lift : M ⟹ TM with lift_return (unit compatibility) and lift_bind (the bind-form multiplication compatibility). No general monad-morphism class between two arbitrary monads, no category of monads, and no induced functor θ* between Eilenberg-Moore categories.",
+      "strength_comparison": "intree-weaker: only the monad-morphism laws are present, and only in the special shape lift : M ⟹ TM (source and target sharing the lift of a transformer); the substantive deliverable θ* is absent."
+    },
+    "gap": "The monad-morphism compatibility laws exist only as MonadTransformer.lift (for M ⟹ TM), not abstracted to a MonadHom class between two arbitrary monads T, T'. There is no category of monads on X, and — the exercise's substantive content — no induced functor θ* : X^{T'} → X^T with G^T∘θ* = G^{T'}, nor the accompanying natural transformation F^{T'} ⇒ θ*∘F^T. (The 'crude_theta' in Monad/Monadicity/Crude.v is an unrelated mediator θ_c : G(Kc)→c, not this θ*.)",
+    "negative_search_log": [
+      "grep -rniE 'MonadHom|MonadMorphism|category of monads|morphism of monads|monad.?morphism' *.v — only Monad/Transformer.v (the lift as a monad morphism M⟹TM); no standalone class, no category of monads",
+      "grep -rniE 'theta|θ|induced functor|base change|between.*algebra' Monad/ — 'crude_theta' (Monad/Monadicity/Crude.v) is the mediator θ_c:G(Kc)→c of crude monadicity, and Monad/Lifting.v:80 is the Dubuc adjoint-triangle lift Q̄, neither the θ*:X^{T'}→X^T of a monad morphism"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld (borderline). Verified Monad/Transformer.v:46 MonadTransformer: lift:M⟹TM with lift_return (lift∘ret≈ret) and lift_bind — these ARE the unit/multiplication compatibility laws of a monad morphism, so deliverable (a)'s 'monad morphism' exists in the special shape M⟹TM. But no general MonadHom between arbitrary T,T', no category of monads, and no induced θ*:X^{T'}→X^T with G^T∘θ*=G^{T'} nor F^{T'}⇒θ*∘F^T (the exercise's substantive content). Blind rg MonadHom/category of monads = only Transformer.v prose. Gap accurate; PARTIAL over ABSENT defensible given the genuine compatibility-law overlap."
+    }
+  }
+]

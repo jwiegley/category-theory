@@ -1,0 +1,2233 @@
+{
+ "book": "7sketches",
+ "range": {
+  "pdf_start": 89,
+  "pdf_end": 128
+ },
+ "pages": [
+  {
+   "pdf_page": 89,
+   "book_page": "77",
+   "empty": false,
+   "items": [],
+   "notes": "Chapter 3 opening page (title form 'Databases: Categories, functors, and universal constructions'); folio printed bottom-centre. Section 3.1 opens. The chapter's very first number, 3.1, is CONSUMED BY A DISPLAY: the right-flush (3.1) labels the pair of interlocking Employee/Department tables. Not an item; no separate claim beyond the surrounding prose. Verified right-flush by `grep -nE '\\(3\\.(1|2|4|5|8|11|14|47|50|61)\\) *$' ch3-A.txt` (line 27). [merge] empty normalized to false: the page carries content (prose/displays) though no item starts on it."
+  },
+  {
+   "pdf_page": 90,
+   "book_page": "78",
+   "empty": false,
+   "items": [
+    "7sketches:3.1:ex3.3"
+   ],
+   "notes": "Number 3.2 is CONSUMED BY A DISPLAY: right-flush (3.2) labels the boxed 'easySchema' graph (Employee/Department/string with Mngr, WorksIn, Secr, FName, DName). Not an item. Bold run-in 'A database is a system of interlocking tables.' continues from p.77 and is not an item (Trap 8)."
+  },
+  {
+   "pdf_page": 91,
+   "book_page": "79",
+   "empty": false,
+   "items": [],
+   "notes": "Number 3.4 is CONSUMED BY A DISPLAY: right-flush (3.4) labels the boxed 'mySchema' graph together with its two path equations (Department.Secr.WorksIn = Department; Employee.Mngr.WorksIn = Employee.WorksIn). Not an item. Page also carries an FQL source listing and the bold run-in 'Communication between databases.' (not an item). [merge] empty normalized to false: the page carries content (prose/displays) though no item starts on it."
+  },
+  {
+   "pdf_page": 92,
+   "book_page": "80",
+   "empty": false,
+   "items": [],
+   "notes": "Number 3.5 is CONSUMED BY A DISPLAY: right-flush (3.5) labels the two boxed airline schemas A (Economy/First Class/$/string) and B (Airline Seat/$/string). Not an item; motivational prose on data migration only. [merge] empty normalized to false: the page carries content (prose/displays) though no item starts on it."
+  },
+  {
+   "pdf_page": 93,
+   "book_page": "81",
+   "empty": false,
+   "items": [
+    "7sketches:3.2:def3.6"
+   ],
+   "notes": "Section 3.2 'Categories' opens. Footnotes 1 (meaning of 'bonus'), 2 (collection vs set, Russell), 3 (hom-set notation) — independent sequence, not items."
+  },
+  {
+   "pdf_page": 94,
+   "book_page": "82",
+   "empty": false,
+   "items": [
+    "7sketches:3.2.1:def3.7",
+    "7sketches:3.2.1:construction-walking-arrow",
+    "7sketches:3.2.1:ex3.9"
+   ],
+   "notes": "Section 3.2.1 'Free categories' opens. Number 3.8 is CONSUMED BY A DISPLAY: right-flush (3.8) labels the display '2 := Free(v1 --f1--> v2)'. I did NOT mint an equation item for it; the mathematical content (the walking-arrow category 2 with its three morphisms) is recorded instead as the unnumbered prose construction 7sketches:3.2.1:construction-walking-arrow, so the chapter's equation tally is unaffected."
+  },
+  {
+   "pdf_page": 95,
+   "book_page": "83",
+   "empty": false,
+   "items": [
+    "7sketches:3.2.1:ex3.10",
+    "7sketches:3.2.1:ex3.12",
+    "7sketches:3.2.1:example3.13",
+    "7sketches:3.2.1:ex3.15"
+   ],
+   "notes": "Two numbers CONSUMED BY DISPLAYS: (3.11) labels the display '3 := Free(v1->v2->v3)' inside Exercise 3.10, and (3.14) labels the one-vertex loop graph inside Example 3.13. Both sit inside an enclosing item and add no distinct claim, so neither is recorded separately. Footnote 4."
+  },
+  {
+   "pdf_page": 96,
+   "book_page": "84",
+   "empty": false,
+   "items": [
+    "7sketches:3.2.2:def-finite-presentation",
+    "7sketches:3.2.2:construction-square-categories",
+    "7sketches:3.2.2:ex3.16",
+    "7sketches:3.2.2:ex3.17",
+    "7sketches:3.2.2:example3.18"
+   ],
+   "notes": "Section 3.2.2 'Presenting categories via path equations' opens. The Free_square / Comm_square boxed pictures are UNNUMBERED displays (no right-flush label). Example 3.18's shaded box begins at the foot of this page and continues onto PDF 97 — recorded once here with spans-page-break."
+  },
+  {
+   "pdf_page": 97,
+   "book_page": "85",
+   "empty": false,
+   "items": [
+    "7sketches:3.2.2:example3.18",
+    "7sketches:3.2.2:ex3.19",
+    "7sketches:3.2.2:remark3.20",
+    "7sketches:3.2.3:construction-preorder-as-category"
+   ],
+   "notes": "Example 3.18's shaded box continues from PDF 96 (recorded there). Section 3.2.3 opens. Bold run-in 'Preorders as categories.' is not itself an item (Trap 8) but the construction it develops in prose IS recorded. The three boxed Hasse/presentation pictures at the foot of the page are unnumbered displays."
+  },
+  {
+   "pdf_page": 98,
+   "book_page": "86",
+   "empty": false,
+   "items": [
+    "7sketches:3.2.3:ex3.21",
+    "7sketches:3.2.3:construction-preorder-reflection",
+    "7sketches:3.2.3:ex3.22",
+    "7sketches:3.2.3:prop-preorder-reflection-adjunction",
+    "7sketches:3.2.3:remark3.23"
+   ],
+   "notes": "Bold run-in 'The preorder reflection of a category.' is not an item but its prose construction is recorded. The indented, unnumbered, unboxed assertion 'Considering a preorder as a category is right adjoint to turning a category into a preorder by preorder reflection' is a genuine formalizable claim stated without proof — recorded as an unnumbered proposition. Section 3.2.4 opens at the foot of the page."
+  },
+  {
+   "pdf_page": 99,
+   "book_page": "87",
+   "empty": false,
+   "items": [
+    "7sketches:3.2.4:def3.24",
+    "7sketches:3.2.4:def-finset",
+    "7sketches:3.2.4:ex3.25",
+    "7sketches:3.2.4:remark3.26"
+   ],
+   "notes": "The bulleted list Top / Grph / Meas / Mon / Grp / Cat gives names and one-word glosses only, with no definitions developed — not recorded as items (Cat is actually constructed later, in Exercise 3.43). Closing prose announces the opposite-category construction, which lands in Example 3.27 on PDF 100."
+  },
+  {
+   "pdf_page": 100,
+   "book_page": "88",
+   "empty": false,
+   "items": [
+    "7sketches:3.2.4:example3.27",
+    "7sketches:3.2.5:def3.28",
+    "7sketches:3.2.5:example3.29",
+    "7sketches:3.2.5:def-cardinality",
+    "7sketches:3.2.5:ex3.30",
+    "7sketches:3.2.5:ex3.31",
+    "7sketches:3.2.5:ex3.32"
+   ],
+   "notes": "Example 3.27 (opposite category) sits BEFORE the 3.2.5 header and so is filed under 3.2.4. Section 3.2.5 'Isomorphisms in a category' opens mid-page. Exercise 3.32 begins here (part 1) and its part 2 falls on PDF 101 — recorded once here with spans-page-break."
+  },
+  {
+   "pdf_page": 101,
+   "book_page": "89",
+   "empty": false,
+   "items": [
+    "7sketches:3.2.5:ex3.32",
+    "7sketches:3.2.5:ex3.33",
+    "7sketches:3.2.5:example3.34"
+   ],
+   "notes": "Exercise 3.32 part 2 continues from PDF 100 (recorded there). Example 3.34 sits BEFORE the 3.3 header and so is filed under 3.2.5. Sections 3.3 and 3.3.1 open on this page; the Planet of Sol / Prime number / Flying pig one-column tables are unnumbered."
+  },
+  {
+   "pdf_page": 102,
+   "book_page": "90",
+   "empty": false,
+   "items": [],
+   "notes": "Purely expository continuation of 3.3.1: sets as one-column tables (controlled vocabularies), a function needing two tables, and the observation that the schema of a function is a labelled copy of 2. No numbered environment, no unnumbered Definition block, and no new named construction (the walking-arrow category 2 was already recorded at PDF 94). [merge] empty normalized to false: the page carries content (prose/displays) though no item starts on it."
+  },
+  {
+   "pdf_page": 103,
+   "book_page": "91",
+   "empty": false,
+   "items": [
+    "7sketches:3.3.2:def3.35",
+    "7sketches:3.3.2:example3.36",
+    "7sketches:3.3.2:ex3.37",
+    "7sketches:3.3.2:example3.38"
+   ],
+   "notes": "Section 3.3.2 'Functors' opens. Example 3.38's shaded box begins at the foot of this page and continues onto PDF 104 — recorded once here with spans-page-break."
+  },
+  {
+   "pdf_page": 104,
+   "book_page": "92",
+   "empty": false,
+   "items": [
+    "7sketches:3.3.2:example3.38",
+    "7sketches:3.3.2:ex3.39",
+    "7sketches:3.3.2:ex3.40",
+    "7sketches:3.3.2:example3.41",
+    "7sketches:3.3.2:example3.42"
+   ],
+   "notes": "Example 3.38's box continues from PDF 103 (recorded there). Example 3.42's box begins at the foot of this page and continues onto PDF 105 — recorded once here with spans-page-break."
+  },
+  {
+   "pdf_page": 105,
+   "book_page": "93",
+   "empty": false,
+   "items": [
+    "7sketches:3.3.2:example3.42",
+    "7sketches:3.3.2:ex3.43",
+    "7sketches:3.3.3:def-set-valued-functor",
+    "7sketches:3.3.3:def3.44",
+    "7sketches:3.3.3:ex3.45"
+   ],
+   "notes": "Example 3.42's box continues from PDF 104 (recorded there). Section 3.3.3 'Database instances as Set-valued functors' opens mid-page. Footnote 5 (an instance is a database state 'at an instant in time'; a row is an element of I(c)) — footnotes are an independent sequence, not items, but its content is folded into Definition 3.44's summary."
+  },
+  {
+   "pdf_page": 106,
+   "book_page": "94",
+   "empty": false,
+   "items": [
+    "7sketches:3.3.3:example3.46",
+    "7sketches:3.3.3:ex3.48"
+   ],
+   "notes": "Number 3.47 is CONSUMED BY A DISPLAY: right-flush (3.47) labels the boxed one-object category (loop s, equation s;s = s) INSIDE Example 3.46's shaded box. It carries no claim distinct from its enclosing example, so it is not recorded separately. Footnote 6 (embedded dependencies / lifting problems, cites [Spi14b])."
+  },
+  {
+   "pdf_page": 107,
+   "book_page": "95",
+   "empty": false,
+   "items": [
+    "7sketches:3.3.4:def3.49",
+    "7sketches:3.3.4:def3.51"
+   ],
+   "notes": "Section 3.3.4 'Natural transformations' opens. Number 3.50 is CONSUMED BY A DISPLAY: right-flush (3.50) labels the naturality commutative square F(c)->G(c)->G(d) / F(c)->F(d)->G(d) drawn in running prose. It restates verbatim the naturality condition already carried by Definition 3.49, so it carries no distinct claim and is not recorded as an equation item. Footnote 7 (D commutes iff it factors through the preorder reflection of J) — folded into Definition 3.51's summary."
+  },
+  {
+   "pdf_page": 108,
+   "book_page": "96",
+   "empty": false,
+   "items": [
+    "7sketches:3.3.4:example3.52",
+    "7sketches:3.3.4:example3.53",
+    "7sketches:3.3.4:def3.54",
+    "7sketches:3.3.4:ex3.55",
+    "7sketches:3.3.4:example3.56",
+    "7sketches:3.3.4:example3.57"
+   ],
+   "notes": "Example 3.57's shaded box begins at the foot of this page and continues onto PDF 109 — recorded once here with spans-page-break."
+  },
+  {
+   "pdf_page": 109,
+   "book_page": "97",
+   "empty": false,
+   "items": [
+    "7sketches:3.3.4:example3.57",
+    "7sketches:3.3.4:ex3.58",
+    "7sketches:3.3.4:remark3.59",
+    "7sketches:3.3.5:def3.60",
+    "7sketches:3.3.5:construction-gr"
+   ],
+   "notes": "Example 3.57's box continues from PDF 108 (recorded there). Remark 3.59 sits BEFORE the 3.3.5 header and so is filed under 3.3.4. Section 3.3.5 'The category of instances on a schema' opens mid-page. The bold run-in 'Extended example: the category of graphs as a functor category.' is not itself an item (Trap 8), but the schema Gr it introduces (boxed, unnumbered) and the identification Gr-Inst = graphs is a named construction developed in prose that STARTS on this page — recorded here, flagged as continuing past the range boundary onto PDF 110-111 (the graph-homomorphism half, number (3.61) and Exercise 3.62, lies in the next agent's range and is NOT recorded here)."
+  },
+  {
+   "pdf_page": 110,
+   "book_page": "98",
+   "empty": false,
+   "items": [
+    "7sketches:3.3.5:construction-gr",
+    "7sketches:3.3.5:ex3.62"
+   ],
+   "notes": "Number 3.61 is CONSUMED BY A NUMBERED DISPLAY, not a missing item: the right-flush label (3.61) tags the sample Gr-instance shown in table form (Arrow a,b,c,d,e with source/target columns; Vertex 1,2,3,4). It carries no claim distinct from the surrounding prose, so per campaign policy no 'equation' item was minted. Page continues §3.3.5; the schema Gr itself was introduced at the foot of PDF 109 (printed 97), i.e. in the preceding agent's range."
+  },
+  {
+   "pdf_page": 111,
+   "book_page": "99",
+   "empty": false,
+   "items": [
+    "7sketches:3.3.5:example3.63",
+    "7sketches:3.3.5:ex3.64"
+   ],
+   "notes": "§3.4 'Adjunctions and data migration' opens at the foot of this page with purely motivational prose (no numbered item, no construction)."
+  },
+  {
+   "pdf_page": 112,
+   "book_page": "100",
+   "empty": false,
+   "items": [
+    "7sketches:3.4.1:construction-dds-schema-functor"
+   ],
+   "notes": "§3.4.1 opens here. Number 3.65 is CONSUMED BY A NUMBERED DISPLAY: the right-flush label (3.65) tags the sample DDS-instance table (State 1..7 with a 'next' column). No distinct claim, so no 'equation' item."
+  },
+  {
+   "pdf_page": 113,
+   "book_page": "101",
+   "empty": false,
+   "items": [
+    "7sketches:3.4.1:ex3.67"
+   ],
+   "notes": "Number 3.66 is CONSUMED BY A NUMBERED DISPLAY: the right-flush label (3.66) tags the composable pair 'Gr --F--> DDS --I--> Set'. It is an intermediate step motivating Definition 3.68 (which states the same content as a definition), so no 'equation' item was minted."
+  },
+  {
+   "pdf_page": 114,
+   "book_page": "102",
+   "empty": false,
+   "items": [
+    "7sketches:3.4.1:def3.68",
+    "7sketches:3.4.2:def3.70"
+   ],
+   "notes": "§3.4.2 'Adjunctions' opens mid-page. Number 3.69 is CONSUMED BY A NUMBERED DISPLAY: the right-flush label (3.69) tags 'f(p) <= q if and only if p <= g(q)', a RECALL of the Chapter 1 Galois-connection / preorder-adjunction condition used to motivate Definition 3.70. Judgment call recorded in problems[]: it is not inside an enclosing item, but it restates already-numbered Chapter 1 material rather than making a claim of its own, so no 'equation' item was minted here."
+  },
+  {
+   "pdf_page": 115,
+   "book_page": "103",
+   "empty": false,
+   "items": [
+    "7sketches:3.4.2:def3.70",
+    "7sketches:3.4.2:example3.71",
+    "7sketches:3.4.2:example3.72",
+    "7sketches:3.4.2:ex3.73"
+   ],
+   "notes": "Definition 3.70's shaded box continues from PDF 114 onto the top of this page (notation L -| R and the two-arrow diagram). Footnote 8 (the naturality square for the hom-set bijection) sits at the foot of this page; footnotes are an independent sequence and are not items, but its content is folded into the summary of Definition 3.70."
+  },
+  {
+   "pdf_page": 116,
+   "book_page": "104",
+   "empty": false,
+   "items": [
+    "7sketches:3.4.2:ex3.73",
+    "7sketches:3.4.2:example3.74",
+    "7sketches:3.4.3:construction-sigma-delta-pi"
+   ],
+   "notes": "Exercise 3.73's parts 1-3 continue from PDF 115 onto the top of this page. §3.4.3 opens at the foot of this page."
+  },
+  {
+   "pdf_page": 117,
+   "book_page": "105",
+   "empty": false,
+   "items": [
+    "7sketches:3.4.3:construction-sigma-delta-pi"
+   ],
+   "notes": "No item starts on this page. Continuation of the unnumbered Sigma/Delta/Pi development (mnemonic table Delta/Sigma/Pi; the airline-seat schemas A and B from Eq. (3.5) and the functor F between them; the formula Sigma_F(I)(Airline Seat) = I(Economy) + I(First Class)). Footnote 9 ('join') is a footnote, not an item."
+  },
+  {
+   "pdf_page": 118,
+   "book_page": "106",
+   "empty": false,
+   "items": [
+    "7sketches:3.4.3:construction-sigma-delta-pi",
+    "7sketches:3.4.4:ex3.76",
+    "7sketches:3.4.4:construction-single-set-summaries"
+   ],
+   "notes": "§3.4.4 opens here. TWO numbers on this page are CONSUMED BY NUMBERED DISPLAYS: (3.75) tags the unique functor '! : C -> 1', and (3.77) tags the email schema G (Email =sent_by/received_by=> Address, no equations). Neither carries a claim distinct from the surrounding prose, so no 'equation' items were minted. The Pi_F airline-seat discussion continues from PDF 117 at the top."
+  },
+  {
+   "pdf_page": 119,
+   "book_page": "107",
+   "empty": false,
+   "items": [
+    "7sketches:3.4.4:construction-single-set-summaries",
+    "7sketches:3.4.4:ex3.78"
+   ],
+   "notes": "The unnumbered Sigma_!/Pi_! single-set-summary development (recorded under PDF 118) concludes here with the two one-column result tables and the general claim that Sigma-operations are built from colimits in Set and Pi-operations from limits in Set. §3.5 and §3.5.1 both open on this page; the run-in bold lead 'Terminal objects.' is not an item."
+  },
+  {
+   "pdf_page": 120,
+   "book_page": "108",
+   "empty": false,
+   "items": [
+    "7sketches:3.5.1:def3.79",
+    "7sketches:3.5.1:example3.80",
+    "7sketches:3.5.1:ex3.81",
+    "7sketches:3.5.1:ex3.82",
+    "7sketches:3.5.1:ex3.83",
+    "7sketches:3.5.1:prop3.84",
+    "7sketches:3.5.1:remark3.85",
+    "7sketches:3.5.1:def3.86"
+   ],
+   "notes": "Densest page of the range. The unnumbered 'Proof.' of Proposition 3.84 is on this page (italic run-in header, hollow-square terminator) and is not a separate item. The run-in bold lead 'Products.' is not an item. Definition 3.86's shaded box runs off the foot of the page."
+  },
+  {
+   "pdf_page": 121,
+   "book_page": "109",
+   "empty": false,
+   "items": [
+    "7sketches:3.5.1:def3.86",
+    "7sketches:3.5.1:example3.87",
+    "7sketches:3.5.1:ex3.88"
+   ],
+   "notes": "Definition 3.86's box continues from PDF 120: the commuting product diagram with the dotted mediating arrow <f,g> sits at the top of this page."
+  },
+  {
+   "pdf_page": 122,
+   "book_page": "110",
+   "empty": false,
+   "items": [
+    "7sketches:3.5.1:example3.89",
+    "7sketches:3.5.1:ex3.90",
+    "7sketches:3.5.2:construction-cone-xy",
+    "7sketches:3.5.2:ex3.91"
+   ],
+   "notes": "§3.5.2 'Limits' opens mid-page."
+  },
+  {
+   "pdf_page": 123,
+   "book_page": "111",
+   "empty": false,
+   "items": [
+    "7sketches:3.5.2:def3.92",
+    "7sketches:3.5.2:example3.93",
+    "7sketches:3.5.2:example3.94"
+   ],
+   "notes": "§3.5.3 'Finite limits in Set' opens at the foot of the page (prose only here)."
+  },
+  {
+   "pdf_page": 124,
+   "book_page": "112",
+   "empty": false,
+   "items": [
+    "7sketches:3.5.3:thm3.95",
+    "7sketches:3.5.3:example3.96",
+    "7sketches:3.5.3:ex3.97",
+    "7sketches:3.5.3:ex3.98",
+    "7sketches:3.5.3:example3.99"
+   ],
+   "notes": "The run-in bold lead 'Pullbacks.' is not an item. Exercise 3.98 is the one body exercise with no printed solution in Appendix A (a known, documented feature of this edition, not an omission here). Example 3.99's green box runs off the foot of the page."
+  },
+  {
+   "pdf_page": 125,
+   "book_page": "113",
+   "empty": false,
+   "items": [
+    "7sketches:3.5.3:example3.99",
+    "7sketches:3.5.3:remark3.100",
+    "7sketches:3.5.4:ex3.101"
+   ],
+   "notes": "Example 3.99's box continues from PDF 124 (the two pullback diagrams and the coloured 6 x 4 picture). §3.5.4 'A brief note on colimits' opens mid-page. Exercise 3.101's text runs off the foot of the page."
+  },
+  {
+   "pdf_page": 126,
+   "book_page": "114",
+   "empty": false,
+   "items": [
+    "7sketches:3.5.4:ex3.101",
+    "7sketches:3.5.4:def3.102"
+   ],
+   "notes": "Exercise 3.101 concludes on the first line of this page. §3.6 'Summary and further reading' opens mid-page: pure retrospective prose and bibliographic pointers ([Mac98], [Bor94], [Awo10], [Spi12], ...) plus the run-in bold lead 'Coherence conditions.' — no numbered items and no constructions, so nothing further inventoried. 3.102 is the chapter's last number."
+  },
+  {
+   "pdf_page": 127,
+   "book_page": "115",
+   "empty": false,
+   "items": [],
+   "notes": "Final content page of Chapter 3. Continuation of §3.6: the run-in leads 'Coherence conditions.' (concluded) and 'Universal constructions.' — purely motivational prose about why coherence conditions are 'the right ones' and about universal constructions / Kan extensions as a slogan, with no definition, claim, or construction. Nothing inventoriable. [merge] empty normalized to false: the page carries content (prose/displays) though no item starts on it."
+  },
+  {
+   "pdf_page": 128,
+   "book_page": "116",
+   "empty": true,
+   "items": [],
+   "notes": "Blank verso (the trailing \\cleardoublepage blank closing the Chapter 3 range). No folio, no running head, no text. Counted in the printed numbering as page 116; expected per the pagemap, not a dropped page."
+  }
+ ],
+ "items": [
+  {
+   "id": "7sketches:3.1:ex3.3",
+   "kind": "exercise",
+   "number": "3.3",
+   "name": "non-ID columns versus foreign-key arrows",
+   "statement_summary": "Count the non-ID columns of the two interlocking tables of the running Employee/Department database, then count the arrows (foreign keys, including attribute arrows to the external type 'string') of the corresponding schema graph; the two counts agree, and the reader is asked whether this is a coincidence. Content: each non-ID column of a table corresponds to exactly one arrow out of that table's node in the schema.",
+   "book_section": "3.1",
+   "book_page": "78",
+   "pdf_pages": [
+    90
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2:def3.6",
+   "kind": "definition",
+   "number": "3.6",
+   "name": "category",
+   "statement_summary": "A category C is specified by four pieces of data: (i) a collection Ob(C) whose elements are objects; (ii) for every ordered pair of objects c, d a SET C(c,d) whose elements are morphisms from c to d (also written Hom_C(c,d); notation f : c -> d, with c the domain and d the codomain); (iii) for every object c an identity morphism id_c in C(c,c); (iv) for every triple c, d, e and every f in C(c,d), g in C(d,e) a composite f;g in C(c,e) (composition written in DIAGRAMMATIC order). Two axioms are required: unitality, id_c ; f = f = f ; id_d for every f : c -> d; and associativity, (f;g);h = f;(g;h) for composable f, g, h, the common value written f;g;h.",
+   "book_section": "3.2",
+   "book_page": "81",
+   "pdf_pages": [
+    93
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.1:def3.7",
+   "kind": "definition",
+   "number": "3.7",
+   "name": "free category on a graph, Free(G)",
+   "statement_summary": "For a graph G = (V, A, s, t), the free category Free(G) has as objects the vertices V; as morphisms c -> d the paths (head-to-tail sequences of arrows) from c to d; as identity on c the trivial length-0 path at c; and composition given by concatenation of paths. Preceding prose fixes the path vocabulary: every path p has a start and an end vertex, written p : v -> w; the trivial path at v is written id_v or v; concatenation of p : v -> w and q : w -> x is p;q : v -> x.",
+   "book_section": "3.2.1",
+   "book_page": "82",
+   "pdf_pages": [
+    94
+   ],
+   "cross_refs": [
+    "7sketches:3.2:def3.6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.1:construction-walking-arrow",
+   "kind": "construction",
+   "number": null,
+   "name": "the category 2 (walking arrow), and the convention identifying a graph with its free category",
+   "statement_summary": "Unnumbered prose construction: 2 is defined to be the free category on the graph with two vertices v1, v2 and a single arrow f1 : v1 -> v2 (the definition is carried by the right-flush display numbered (3.8), which is therefore an equation number, not an item number). Explicitly 2 has two objects and exactly three morphisms — id_{v1} (the length-0 path at v1), f1 (the length-1 path), and id_{v2} — with concatenation giving id_{v1};f1 = f1 and id_{v2};id_{v2} = id_{v2}. The passage also fixes a standing notational convention: from here on the difference between a graph and its free category is elided when context makes the intended reading clear.",
+   "book_section": "3.2.1",
+   "book_page": "82",
+   "pdf_pages": [
+    94
+   ],
+   "cross_refs": [
+    "7sketches:3.2.1:def3.7"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "number-3.8-consumed-by-display"
+   ]
+  },
+  {
+   "id": "7sketches:3.2.1:ex3.9",
+   "kind": "exercise",
+   "number": "3.9",
+   "name": "Free(G) really is a category",
+   "statement_summary": "Verify that the data of Definition 3.7 (vertices as objects, paths as morphisms, trivial paths as identities, concatenation as composition) satisfies the unitality and associativity axioms of Definition 3.6, for an arbitrary graph G.",
+   "book_section": "3.2.1",
+   "book_page": "82",
+   "pdf_pages": [
+    94
+   ],
+   "cross_refs": [
+    "7sketches:3.2.1:def3.7",
+    "7sketches:3.2:def3.6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.1:ex3.10",
+   "kind": "exercise",
+   "number": "3.10",
+   "name": "composition table of the free category 3",
+   "statement_summary": "The free category 3 on the linear graph v1 --f1--> v2 --f2--> v3 (definition carried by the right-flush display (3.11)) has three objects and six morphisms: the three trivial paths plus f1, f2, and f1;f2. Choose names for the six morphisms, tabulate all composites in a six-by-six table (writing the composite where one exists), and identify which entries are the identities.",
+   "book_section": "3.2.1",
+   "book_page": "83",
+   "pdf_pages": [
+    95
+   ],
+   "cross_refs": [
+    "7sketches:3.2.1:def3.7",
+    "7sketches:3.2.1:construction-walking-arrow"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.1:ex3.12",
+   "kind": "exercise",
+   "number": "3.12",
+   "name": "the categories 1, 0, and n",
+   "statement_summary": "Extrapolating the pattern of 2 and 3: (1) describe the objects and morphisms of the category 1; (2) describe the category 0; (3) give a closed formula for the number of morphisms in n for arbitrary n in N. (n is the free category on the linear graph with n vertices and n-1 arrows; 1 is the terminal one-object one-identity category and 0 the empty category.)",
+   "book_section": "3.2.1",
+   "book_page": "83",
+   "pdf_pages": [
+    95
+   ],
+   "cross_refs": [
+    "7sketches:3.2.1:ex3.10",
+    "7sketches:3.2.1:construction-walking-arrow"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.1:example3.13",
+   "kind": "example",
+   "number": "3.13",
+   "name": "natural numbers as a free category; one-object categories are monoids",
+   "statement_summary": "The free category on the graph with a single vertex z and a single loop s (display (3.14)) has one object but infinitely many morphisms: exactly one path of each length n in N, so its morphism set {z, s, s;s, s;s;s, ...} is in bijection with N = {0,1,2,...}, the length-0 path z being id_z. This exhibits a category with one object, and the example then states the general correspondence: a category C with a single object * is the same thing as a monoid (M, *, e), taking M := C(*,*), e := id_*, and the binary operation to be composition; the monoid's associativity and unit laws are exactly the category's associativity and unitality axioms.",
+   "book_section": "3.2.1",
+   "book_page": "83",
+   "pdf_pages": [
+    95
+   ],
+   "cross_refs": [
+    "7sketches:3.2.1:def3.7",
+    "7sketches:3.2:def3.6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.1:ex3.15",
+   "kind": "exercise",
+   "number": "3.15",
+   "name": "concatenation of loop paths is addition",
+   "statement_summary": "Under the bijection of Example 3.13 between paths in the one-loop graph and natural numbers, determine which number corresponds to the concatenation of the paths associated with m and n — i.e. identify the monoid operation as addition, so the free monoid on one generator is (N, +, 0).",
+   "book_section": "3.2.1",
+   "book_page": "83",
+   "pdf_pages": [
+    95
+   ],
+   "cross_refs": [
+    "7sketches:3.2.1:example3.13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.2:def-finite-presentation",
+   "kind": "definition",
+   "number": null,
+   "name": "path equation, finite presentation, finitely-presented category",
+   "statement_summary": "Unnumbered definition made in running prose: starting from the free category on a graph G, one may additionally impose equations between paths, but only between PARALLEL paths — two paths may be equated only when they share both source vertex and target vertex. A finite graph together with a set of such path equations is called a finite presentation of a category, and the category it presents is called finitely presented. Its morphisms are the paths modulo the congruence generated by the imposed equations (so imposing equations can only merge morphisms, never add them).",
+   "book_section": "3.2.2",
+   "book_page": "84",
+   "pdf_pages": [
+    96
+   ],
+   "cross_refs": [
+    "7sketches:3.2.1:def3.7"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "7sketches:3.2.2:construction-square-categories",
+   "kind": "construction",
+   "number": null,
+   "name": "Free_square and Comm_square",
+   "statement_summary": "Unnumbered named constructions (given as boxed but unnumbered displays plus prose): on the square graph with vertices A, B, C, D and arrows f : A -> B, g : A -> C, h : B -> D, i : C -> D, Free_square is the presentation with NO equations, hence the free category, which has ten morphisms (four identities, the four generating arrows, and the two distinct paths f;h and g;i); Comm_square is the presentation with the single path equation f;h = g;i, the 'commutative square' category, which has nine morphisms {id_A, id_B, id_C, id_D, f, g, h, i, f;h}, g;i being present but equal to f;h.",
+   "book_section": "3.2.2",
+   "book_page": "84",
+   "pdf_pages": [
+    96
+   ],
+   "cross_refs": [
+    "7sketches:3.2.2:def-finite-presentation"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:3.2.2:ex3.16",
+   "kind": "exercise",
+   "number": "3.16",
+   "name": "paths and parallelism in the free square category",
+   "statement_summary": "(1) List the ten paths (= morphisms) of the free square category Free_square. (2) Exhibit two distinct paths that are parallel (same source and same target). (3) Exhibit two distinct paths that are NOT parallel.",
+   "book_section": "3.2.2",
+   "book_page": "84",
+   "pdf_pages": [
+    96
+   ],
+   "cross_refs": [
+    "7sketches:3.2.2:construction-square-categories",
+    "7sketches:3.2.2:def-finite-presentation"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.2:ex3.17",
+   "kind": "exercise",
+   "number": "3.17",
+   "name": "morphisms of a presented square with a diagonal",
+   "statement_summary": "Write down all the morphisms of the category presented by the square graph A -f-> B, A -g-> C, B -h-> D, C -i-> D together with a diagonal arrow j : A -> D and the equations f;h = j = g;i.",
+   "book_section": "3.2.2",
+   "book_page": "84",
+   "pdf_pages": [
+    96
+   ],
+   "cross_refs": [
+    "7sketches:3.2.2:def-finite-presentation"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.2:example3.18",
+   "kind": "example",
+   "number": "3.18",
+   "name": "imposed equations imply further equations; Z/2Z as a presented category",
+   "statement_summary": "Enforcing one equation between morphisms typically forces additional equations. Two one-object presentations on the loop graph (vertex z, loop s) are given: C with the equation s;s = z (z the trivial path, i.e. the identity) and D with the equation s;s;s;s;s = s;s. In C the imposed relation implies s;s;s = z;s = s and s;s;s;s = z;z = z, so the morphism set collapses to exactly {z, s}, with composition s;s = z;z = z and z;s = s;z = s — that is, C is the group Z/2Z regarded as a one-object category.",
+   "book_section": "3.2.2",
+   "book_page": "84",
+   "pdf_pages": [
+    96,
+    97
+   ],
+   "cross_refs": [
+    "7sketches:3.2.2:def-finite-presentation",
+    "7sketches:3.2.1:example3.13"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.2.2:ex3.19",
+   "kind": "exercise",
+   "number": "3.19",
+   "name": "morphisms of the presented monoid D",
+   "statement_summary": "Write down all the morphisms of the one-object category D of Example 3.18, i.e. compute the monoid presented by one generator s subject to s^5 = s^2 (equivalently determine the quotient of the free monoid on one generator by that relation).",
+   "book_section": "3.2.2",
+   "book_page": "85",
+   "pdf_pages": [
+    97
+   ],
+   "cross_refs": [
+    "7sketches:3.2.2:example3.18"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.2:remark3.20",
+   "kind": "remark",
+   "number": "3.20",
+   "name": "database schemas are finite presentations of categories",
+   "statement_summary": "Records the identification that drives the chapter: the database schemas exhibited in Section 3.1 — easySchema (display (3.2)) and mySchema (display (3.4), whose 'business rules' are exactly path equations between parallel paths) — are precisely finite presentations of categories in the sense just defined; the idea is resumed in Section 3.3, where instances become Set-valued functors on the presented category.",
+   "book_section": "3.2.2",
+   "book_page": "85",
+   "pdf_pages": [
+    97
+   ],
+   "cross_refs": [
+    "7sketches:3.2.2:def-finite-presentation",
+    "7sketches:3.3.3:def3.44"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.3:construction-preorder-as-category",
+   "kind": "construction",
+   "number": null,
+   "name": "the category corresponding to a preorder",
+   "statement_summary": "Unnumbered prose construction under the run-in head 'Preorders as categories.': a preorder (P, <=) specifies a category P with Ob(P) = P and, for objects p, q, exactly one morphism p -> q when p <= q and no morphism p -> q when p is not <= q. Reflexivity of <= supplies the identity morphisms and transitivity supplies composition (the category axioms then hold automatically since hom-sets are subsingletons). The section's guiding slogan is the converse reading: a preorder is exactly a category in which every two parallel morphisms are equal. Correspondingly, a Hasse diagram for a preorder may be read as a presentation of a category in which, for all vertices p, q, ALL paths p -> q are declared equal.",
+   "book_section": "3.2.3",
+   "book_page": "85",
+   "pdf_pages": [
+    97
+   ],
+   "cross_refs": [
+    "7sketches:3.2:def3.6",
+    "7sketches:3.2.2:def-finite-presentation"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:3.2.3:ex3.21",
+   "kind": "exercise",
+   "number": "3.21",
+   "name": "equations presenting the preorder generated by a graph",
+   "statement_summary": "For four given small graphs G1 (two parallel arrows f, g between two vertices), G2 (a loop f on one vertex plus an isolated vertex), G3 (a commuting-square-shaped graph with f, g, h, i), and G4 (a square-shaped graph missing one side), state the path equations that must be added to each in order to present the preorder associated with that graph — i.e. the equations forcing all parallel paths to become equal.",
+   "book_section": "3.2.3",
+   "book_page": "86",
+   "pdf_pages": [
+    98
+   ],
+   "cross_refs": [
+    "7sketches:3.2.3:construction-preorder-as-category"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.3:construction-preorder-reflection",
+   "kind": "construction",
+   "number": null,
+   "name": "preorder reflection of a category",
+   "statement_summary": "Unnumbered prose construction under the run-in head 'The preorder reflection of a category.': from any category C one obtains a preorder (C, <=) by destroying the distinction between parallel morphisms — take the underlying set C := Ob(C) and declare c1 <= c2 iff C(c1, c2) is nonempty. The reflection is blind to how many morphisms c1 -> c2 there are (one, two, fifty, or infinitely many all give the same result) but does distinguish 'some morphism' from 'no morphism'. Reflexivity comes from identities and transitivity from composition.",
+   "book_section": "3.2.3",
+   "book_page": "86",
+   "pdf_pages": [
+    98
+   ],
+   "cross_refs": [
+    "7sketches:3.2.3:construction-preorder-as-category"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:3.2.3:ex3.22",
+   "kind": "exercise",
+   "number": "3.22",
+   "name": "preorder reflection of the monoid N",
+   "statement_summary": "Compute the preorder reflection of the one-object category N of Example 3.13 (the free monoid on one generator). Since the single object has a nonempty hom-set to itself, the reflection is the one-element preorder.",
+   "book_section": "3.2.3",
+   "book_page": "86",
+   "pdf_pages": [
+    98
+   ],
+   "cross_refs": [
+    "7sketches:3.2.3:construction-preorder-reflection",
+    "7sketches:3.2.1:example3.13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.3:prop-preorder-reflection-adjunction",
+   "kind": "proposition",
+   "number": null,
+   "name": "preorder-as-category is right adjoint to preorder reflection",
+   "statement_summary": "An unnumbered, unboxed claim set off as an indented quotation and asserted WITHOUT proof (the text explicitly says the reader is not expected to understand it yet, but that it is true): the operation of regarding a preorder as a category (the inclusion of preorders into categories) is RIGHT adjoint to the operation of turning a category into a preorder by preorder reflection. Equivalently, preorder reflection is left adjoint to the inclusion, so preorders form a reflective subcategory of categories.",
+   "book_section": "3.2.3",
+   "book_page": "86",
+   "pdf_pages": [
+    98
+   ],
+   "cross_refs": [
+    "7sketches:3.2.3:construction-preorder-reflection",
+    "7sketches:3.2.3:construction-preorder-as-category"
+   ],
+   "flags": [
+    "unnumbered-claim",
+    "stated-without-proof"
+   ]
+  },
+  {
+   "id": "7sketches:3.2.3:remark3.23",
+   "kind": "remark",
+   "number": "3.23",
+   "name": "ends of a spectrum: free categories versus preorders",
+   "statement_summary": "Both preorders and free categories are specified by a graph with no path equations, yet they sit at opposite ends of a spectrum. In both cases the graph's vertices become the objects and its paths become morphisms; but for a free category NO equations are imposed, so every path is a distinct morphism, whereas for a preorder ALL parallel paths become the same morphism. Every category presentation — a graph together with some set of equations — therefore lies somewhere between the free category on that graph (no equations) and that category's preorder reflection (all possible equations).",
+   "book_section": "3.2.3",
+   "book_page": "86",
+   "pdf_pages": [
+    98
+   ],
+   "cross_refs": [
+    "7sketches:3.2.1:def3.7",
+    "7sketches:3.2.3:construction-preorder-reflection",
+    "7sketches:3.2.2:def-finite-presentation"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.4:def3.24",
+   "kind": "definition",
+   "number": "3.24",
+   "name": "the category Set",
+   "statement_summary": "Set is defined by: (i) Ob(Set) is the collection of all sets; (ii) for sets S, T, Set(S,T) = {f : S -> T | f a function}; (iii) the identity on S is id_S : S -> S with id_S(s) = s for each s in S; (iv) for f : S -> T and g : T -> U the composite f;g : S -> U is (f;g)(s) := g(f(s)). The text asserts that unitality and associativity hold, so Set is indeed a category.",
+   "book_section": "3.2.4",
+   "book_page": "87",
+   "pdf_pages": [
+    99
+   ],
+   "cross_refs": [
+    "7sketches:3.2:def3.6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.4:def-finset",
+   "kind": "definition",
+   "number": null,
+   "name": "the category FinSet",
+   "statement_summary": "Unnumbered definition made in running prose: FinSet is the category whose objects are the FINITE sets and whose morphisms are the functions between them (identities and composition as in Set), i.e. the full subcategory of Set on the finite sets.",
+   "book_section": "3.2.4",
+   "book_page": "87",
+   "pdf_pages": [
+    99
+   ],
+   "cross_refs": [
+    "7sketches:3.2.4:def3.24"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "7sketches:3.2.4:ex3.25",
+   "kind": "exercise",
+   "number": "3.25",
+   "name": "the nine functions from a 2-element to a 3-element set",
+   "statement_summary": "With 2 = {1,2} and 3 = {1,2,3} regarded as objects of Set, write down all elements of the hom-set Set(2,3); there are nine (3^2) such functions.",
+   "book_section": "3.2.4",
+   "book_page": "87",
+   "pdf_pages": [
+    99
+   ],
+   "cross_refs": [
+    "7sketches:3.2.4:def3.24"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.4:remark3.26",
+   "kind": "remark",
+   "number": "3.26",
+   "name": "categories are exactly Set-categories",
+   "statement_summary": "Relates ordinary categories to the V-categories of Definition 2.46. Despite the name 'enriched category', V-categories are NOT categories with extra structure: some kinds of V-category, e.g. Bool-categories (= preorders), can naturally be seen as categories, but others, e.g. Cost-categories (Lawvere metric spaces), cannot. The precise relationship runs the other way: on generalizing the definition of enriched category, categories in the sense of Definition 3.6 are exactly Set-categories, so ordinary categories are the V-categories for the special choice V = Set. Taken up again in Section 4.4.4.",
+   "book_section": "3.2.4",
+   "book_page": "87",
+   "pdf_pages": [
+    99
+   ],
+   "cross_refs": [
+    "7sketches:3.2:def3.6",
+    "7sketches:3.2.4:def3.24"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.4:example3.27",
+   "kind": "example",
+   "number": "3.27",
+   "name": "the opposite category C^op",
+   "statement_summary": "For any category C, the opposite category C^op is defined by Ob(C^op) := Ob(C) and, for objects c, d, C^op(c,d) := C(d,c); identities and composition are those of C (so composition in C^op is composition in C with the arguments swapped). C^op is again a category — reversing all morphisms of a category yields a category.",
+   "book_section": "3.2.4",
+   "book_page": "88",
+   "pdf_pages": [
+    100
+   ],
+   "cross_refs": [
+    "7sketches:3.2:def3.6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.5:def3.28",
+   "kind": "definition",
+   "number": "3.28",
+   "name": "isomorphism, inverse, isomorphic objects",
+   "statement_summary": "A morphism f : A -> B in a category is an isomorphism if there exists a morphism g : B -> A satisfying BOTH f;g = id_A and g;f = id_B. In that case f and g are called inverses, written g = f^{-1} (equivalently f = g^{-1}), and the objects A and B are said to be isomorphic, A ~= B. Motivating prose: isomorphism formalizes the idea that two objects are interchangeable — e.g. in a preorder, a <= b and b <= a make a and b behave identically with respect to every other object.",
+   "book_section": "3.2.5",
+   "book_page": "88",
+   "pdf_pages": [
+    100
+   ],
+   "cross_refs": [
+    "7sketches:3.2:def3.6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.5:example3.29",
+   "kind": "example",
+   "number": "3.29",
+   "name": "isomorphisms in Set are the bijections",
+   "statement_summary": "The sets A := {a,b,c} and 3 := {1,2,3} are isomorphic in Set: f : A -> 3 with f(a) = 2, f(b) = 1, f(c) = 3 is an isomorphism. More generally the example states that the isomorphisms in the category Set are exactly the bijections.",
+   "book_section": "3.2.5",
+   "book_page": "88",
+   "pdf_pages": [
+    100
+   ],
+   "cross_refs": [
+    "7sketches:3.2.5:def3.28",
+    "7sketches:3.2.4:def3.24"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.5:def-cardinality",
+   "kind": "definition",
+   "number": null,
+   "name": "cardinality as an isomorphism invariant / isomorphism class",
+   "statement_summary": "Unnumbered definition made in running prose: the cardinality of a finite set A in FinSet is the number n in N for which there exists an isomorphism A ~= n (the n-element set) in FinSet. More generally, Cantor's definition is recalled: the cardinality of an arbitrary set X is its isomorphism class, i.e. the equivalence class consisting of all sets isomorphic to X.",
+   "book_section": "3.2.5",
+   "book_page": "88",
+   "pdf_pages": [
+    100
+   ],
+   "cross_refs": [
+    "7sketches:3.2.5:def3.28",
+    "7sketches:3.2.4:def-finset"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "7sketches:3.2.5:ex3.30",
+   "kind": "exercise",
+   "number": "3.30",
+   "name": "inverse and count of isomorphisms A -> 3",
+   "statement_summary": "(1) Write down the inverse f^{-1} : 3 -> A of the isomorphism f of Example 3.29. (2) Count the distinct isomorphisms A -> 3 (there are 3! = 6, one per bijection).",
+   "book_section": "3.2.5",
+   "book_page": "88",
+   "pdf_pages": [
+    100
+   ],
+   "cross_refs": [
+    "7sketches:3.2.5:example3.29",
+    "7sketches:3.2.5:def3.28"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.5:ex3.31",
+   "kind": "exercise",
+   "number": "3.31",
+   "name": "identities are isomorphisms",
+   "statement_summary": "Show that in any category C and for any object c in C, the identity morphism id_c is an isomorphism (it is its own inverse, by unitality).",
+   "book_section": "3.2.5",
+   "book_page": "88",
+   "pdf_pages": [
+    100
+   ],
+   "cross_refs": [
+    "7sketches:3.2.5:def3.28",
+    "7sketches:3.2:def3.6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.5:ex3.32",
+   "kind": "exercise",
+   "number": "3.32",
+   "name": "groups as monoids whose morphisms are all isomorphisms",
+   "statement_summary": "Introduces the definition: a monoid (one-object category) in which every morphism is an isomorphism is known as a group. Then asks: (1) is the monoid of Example 3.13 (the free monoid N on one generator) a group? (2) is the one-object category C of Example 3.18 (generator s with s;s = id, i.e. Z/2Z) a group? Item continues across the page break: part 2 appears at the top of the next page.",
+   "book_section": "3.2.5",
+   "book_page": "88",
+   "pdf_pages": [
+    100,
+    101
+   ],
+   "cross_refs": [
+    "7sketches:3.2.5:def3.28",
+    "7sketches:3.2.1:example3.13",
+    "7sketches:3.2.2:example3.18"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.2.5:ex3.33",
+   "kind": "exercise",
+   "number": "3.33",
+   "name": "isomorphisms in a free category",
+   "statement_summary": "Somebody claims that for any graph G the only isomorphisms in Free(G) are the identity morphisms. Decide whether the claim is correct and justify the answer. (The intended reasoning turns on path length being additive under concatenation, so an invertible path must have length 0.)",
+   "book_section": "3.2.5",
+   "book_page": "89",
+   "pdf_pages": [
+    101
+   ],
+   "cross_refs": [
+    "7sketches:3.2.1:def3.7",
+    "7sketches:3.2.5:def3.28"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.2.5:example3.34",
+   "kind": "example",
+   "number": "3.34",
+   "name": "a retraction: one-sided inverses need not be isomorphisms",
+   "statement_summary": "Exhibits (by element diagrams) functions f : 2 -> 3 and g : 3 -> 2 in Set with f;g = id_2 but g;f =/= id_3. Hence f and g are not inverses and neither is an isomorphism, although they are 'almost' inverse; such a pair is said to form a retraction (f a split monomorphism, g a split epimorphism, in later terminology).",
+   "book_section": "3.2.5",
+   "book_page": "89",
+   "pdf_pages": [
+    101
+   ],
+   "cross_refs": [
+    "7sketches:3.2.5:def3.28",
+    "7sketches:3.2.4:def3.24"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.2:def3.35",
+   "kind": "definition",
+   "number": "3.35",
+   "name": "functor",
+   "statement_summary": "For categories C and D, a functor F : C -> D is specified by (i) for every object c in Ob(C) an object F(c) in Ob(D), and (ii) for every morphism f : c1 -> c2 in C a morphism F(f) : F(c1) -> F(c2) in D. These must satisfy two properties: (a) F(id_c) = id_{F(c)} for every object c; (b) F(f;g) = F(f);F(g) in D for all objects c1, c2, c3 of C and morphisms f in C(c1,c2), g in C(c2,c3). Informally: a mapping between categories sending objects to objects and morphisms to morphisms, preserving identities and composition.",
+   "book_section": "3.3.2",
+   "book_page": "91",
+   "pdf_pages": [
+    103
+   ],
+   "cross_refs": [
+    "7sketches:3.2:def3.6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.2:example3.36",
+   "kind": "example",
+   "number": "3.36",
+   "name": "three functors 2 -> 3",
+   "statement_summary": "Three functors F : 2 -> 3 are drawn, where 2 has objects m0, m1 and generating morphism f1, and 3 has objects n0, n1, n2 and generating morphisms g1, g2. Because the target is (in this special case) a linear free category, the action on objects determines the whole functor: the left diagram sends everything to the trivial path at n0 (F(m0) = F(m1) = n0, F(f1) = id_{n0}); the middle has F(m0) = n0, F(m1) = n1, F(f1) = g1; the right has F(m0) = n0, F(m1) = n2, F(f1) = g1;g2.",
+   "book_section": "3.3.2",
+   "book_page": "91",
+   "pdf_pages": [
+    103
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:def3.35",
+    "7sketches:3.2.1:ex3.10",
+    "7sketches:3.2.1:construction-walking-arrow"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.2:ex3.37",
+   "kind": "exercise",
+   "number": "3.37",
+   "name": "enumerate all functors 2 -> 3",
+   "statement_summary": "Beyond the three functors 2 -> 3 drawn in Example 3.36, find and write down all the remaining ones (there are six in total, one for each pair (i,j) with i <= j among the three objects of 3).",
+   "book_section": "3.3.2",
+   "book_page": "91",
+   "pdf_pages": [
+    103
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:example3.36"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.2:example3.38",
+   "kind": "example",
+   "number": "3.38",
+   "name": "the unique object-preserving functor Free_square -> Comm_square",
+   "statement_summary": "Recalls Free_square (relabelled with primes: objects A', B', C', D', arrows f', g', h', i', no equations) and Comm_square (objects A, B, C, D, arrows f, g, h, i, equation f;h = g;i). Writing F for the free square category and C for the commutative square category, there are many functors F -> C, but EXACTLY ONE that sends A' to A, B' to B, C' to C and D' to D: once the object assignment is fixed, each of the ten paths of F is forced to the unique morphism of C with the matching source and target (the two parallel paths f';h' and g';i' both landing on the single morphism f;h = g;i). Item continues across the page break.",
+   "book_section": "3.3.2",
+   "book_page": "91",
+   "pdf_pages": [
+    103,
+    104
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:def3.35",
+    "7sketches:3.2.2:construction-square-categories"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.3.2:ex3.39",
+   "kind": "exercise",
+   "number": "3.39",
+   "name": "action of the square functor on all ten morphisms",
+   "statement_summary": "For the functor F : Free_square -> Comm_square of Example 3.38, state the image of each of the ten morphisms of the free square category.",
+   "book_section": "3.3.2",
+   "book_page": "92",
+   "pdf_pages": [
+    104
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:example3.38"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.2:ex3.40",
+   "kind": "exercise",
+   "number": "3.40",
+   "name": "the object action does not determine a functor",
+   "statement_summary": "For the free categories C = (• -> •) (one arrow) and D = (• => •) (two parallel arrows), give two functors F, G : C -> D that agree on objects but differ on morphisms — showing that, contrary to the previous examples, a functor is not in general determined by its action on objects.",
+   "book_section": "3.3.2",
+   "book_page": "92",
+   "pdf_pages": [
+    104
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:def3.35"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.2:example3.41",
+   "kind": "example",
+   "number": "3.41",
+   "name": "no object-preserving functor Comm_square -> Free_square",
+   "statement_summary": "There are many functors from the commutative square category C to the free square category F, but NONE sending A to A', B to B', C to C', D to D'. Proof shown: such an F would give F(f;h) = F(g;i) since f;h = g;i in C, and functoriality would then force f';h' = F(f);F(h) = F(f;h) = F(g;i) = F(g);F(i) = g';i'; but f';h' =/= g';i' in the free category, where every two distinct paths are distinct morphisms. Hence the proposed assignment is not a functor.",
+   "book_section": "3.3.2",
+   "book_page": "92",
+   "pdf_pages": [
+    104
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:example3.38",
+    "7sketches:3.2.2:construction-square-categories",
+    "7sketches:3.3.2:def3.35"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.2:example3.42",
+   "kind": "example",
+   "number": "3.42",
+   "name": "functors between preorders are monotone maps",
+   "statement_summary": "Since preorders are exactly the categories with at most one morphism between any two objects, a functor between preorders is precisely a monotone map. Worked out for N, the category of the preorder (N, <=), with Ob(N) = N and a unique morphism m -> n iff m <= n: a functor F : N -> N assigns an object F(n) to each n and must send morphisms to morphisms, i.e. m <= n must imply F(m) <= F(n); conversely, as long as m <= n implies F(m) <= F(n), the assignment is a functor (functoriality laws are automatic because hom-sets are subsingletons). Conclusion stated in a highlighted line: a functor F : N -> N and a monotone map N -> N are the same thing. Item continues across the page break.",
+   "book_section": "3.3.2",
+   "book_page": "92",
+   "pdf_pages": [
+    104,
+    105
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:def3.35",
+    "7sketches:3.2.3:construction-preorder-as-category"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.3.2:ex3.43",
+   "kind": "exercise",
+   "number": "3.43",
+   "name": "the category of categories, Cat",
+   "statement_summary": "Construct the category Cat whose objects are themselves categories. (1) Show that for any category C there is a functor id_C : C -> C, the identity functor, fixing every object and every morphism. (Noting that a functor C -> D consists of a function Ob(C) -> Ob(D) together with, for each pair c1, c2, a function C(c1,c2) -> D(F(c1),F(c2)).) (2) Show that functors F : C -> D and G : D -> E compose to a functor (F;G) : C -> E by composing the underlying functions. (3) Show that there is a category Cat whose objects are categories, whose morphisms are functors, with the identities and composition just given.",
+   "book_section": "3.3.2",
+   "book_page": "93",
+   "pdf_pages": [
+    105
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:def3.35",
+    "7sketches:3.2:def3.6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.3:def-set-valued-functor",
+   "kind": "definition",
+   "number": null,
+   "name": "set-valued functor",
+   "statement_summary": "Unnumbered definition made in running prose: for a category C, a functor F : C -> Set is called a set-valued functor on C. The text notes that much of database theory can be recast in these terms.",
+   "book_section": "3.3.3",
+   "book_page": "93",
+   "pdf_pages": [
+    105
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:def3.35",
+    "7sketches:3.2.4:def3.24"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "7sketches:3.3.3:def3.44",
+   "kind": "definition",
+   "number": "3.44",
+   "name": "database instance as a Set-valued functor (C-instance)",
+   "statement_summary": "Let C be a schema, i.e. a finitely-presented category. A C-instance is a functor I : C -> Set. The surrounding text supplies the suppressed detail: for a 'white' attribute node such as the node labelled string, I is required to send that object to the fixed set of strings. A footnote adds that a C-instance is the state of the database at an instant in time (not an 'instance' in the object-oriented sense), and that what corresponds to an OO instance is a row r in I(c). Constraints/business rules of the schema are automatically enforced because functors preserve composition.",
+   "book_section": "3.3.3",
+   "book_page": "93",
+   "pdf_pages": [
+    105
+   ],
+   "cross_refs": [
+    "7sketches:3.2.2:def-finite-presentation",
+    "7sketches:3.3.3:def-set-valued-functor",
+    "7sketches:3.2.2:remark3.20"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.3:ex3.45",
+   "kind": "exercise",
+   "number": "3.45",
+   "name": "functors 1 -> Set are sets",
+   "statement_summary": "Let 1 be the category with a single object called 1, a single identity morphism id_1, and no other morphisms. Any functor F : 1 -> Set determines a set F(1); show conversely that for every set S there is a functor F_S : 1 -> Set with F_S(1) = S. Together this identifies functors 1 -> Set with sets.",
+   "book_section": "3.3.3",
+   "book_page": "93",
+   "pdf_pages": [
+    105
+   ],
+   "cross_refs": [
+    "7sketches:3.3.3:def3.44",
+    "7sketches:3.2.1:ex3.12"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.3:example3.46",
+   "kind": "example",
+   "number": "3.46",
+   "name": "instances on a non-free schema: idempotent endofunctions",
+   "statement_summary": "Takes C to be the one-object category presented by a loop s on the vertex z subject to the equation s;s = s (display (3.47)). A set-valued functor F : C -> Set is then exactly a set Z := F(z) together with a function S := F(s) : Z -> Z satisfying S;S = S, i.e. an IDEMPOTENT endofunction. Four models are given: US citizens with 'her or his president'; N with the constant-0 map; well-formed arithmetic expressions with 'evaluate to an integer'; and the integers >= 2 with 'smallest prime factor' (tabulated).",
+   "book_section": "3.3.3",
+   "book_page": "94",
+   "pdf_pages": [
+    106
+   ],
+   "cross_refs": [
+    "7sketches:3.3.3:def3.44",
+    "7sketches:3.2.2:def-finite-presentation"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.3:ex3.48",
+   "kind": "exercise",
+   "number": "3.48",
+   "name": "instances for two further schemas",
+   "statement_summary": "Give an example of the sort of data (i.e. a set-valued functor) that makes sense for each of two schemas: (1) the one-object schema with a loop s subject to s;s = z, i.e. a set equipped with an INVOLUTION; and (2) the schema a -f-> b with two parallel arrows g, h : b -> c subject to f;g = f;h, i.e. sets A, B, C with functions f : A -> B and g, h : B -> C that agree after precomposition with f.",
+   "book_section": "3.3.3",
+   "book_page": "94",
+   "pdf_pages": [
+    106
+   ],
+   "cross_refs": [
+    "7sketches:3.3.3:example3.46",
+    "7sketches:3.3.3:def3.44"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.4:def3.49",
+   "kind": "definition",
+   "number": "3.49",
+   "name": "natural transformation, natural isomorphism",
+   "statement_summary": "Let C and D be categories and F, G : C -> D functors. A natural transformation alpha : F => G is specified by: (i) for each object c in C a morphism alpha_c : F(c) -> G(c) in D, called the c-component of alpha. These components must satisfy the naturality condition: (a) for every morphism f : c -> d in C the equation F(f) ; alpha_d = alpha_c ; G(f) holds in D. A natural transformation alpha : F -> G is a natural ISOMORPHISM if each component alpha_c is an isomorphism in D.",
+   "book_section": "3.3.4",
+   "book_page": "95",
+   "pdf_pages": [
+    107
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:def3.35",
+    "7sketches:3.2.5:def3.28"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.4:def3.51",
+   "kind": "definition",
+   "number": "3.51",
+   "name": "diagram in a category; commuting diagram",
+   "statement_summary": "A diagram D in C is a functor D : J -> C from an arbitrary category J, called the indexing category of the diagram. The diagram D COMMUTES if D(f) = D(f') holds for every parallel pair of morphisms f, f' : a -> b in J. A footnote records the equivalent packaging: D commutes iff it factors through the preorder reflection of J. The text then observes that for the naturality square (display (3.50)) the only parallel pair is F(c) => G(d), so 'the diagram commutes' says exactly F(f);alpha_d = alpha_c;G(f), the naturality condition of Definition 3.49.",
+   "book_section": "3.3.4",
+   "book_page": "95",
+   "pdf_pages": [
+    107
+   ],
+   "cross_refs": [
+    "7sketches:3.3.4:def3.49",
+    "7sketches:3.2.3:construction-preorder-reflection",
+    "7sketches:3.3.2:def3.35"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.4:example3.52",
+   "kind": "example",
+   "number": "3.52",
+   "name": "a picture of a natural transformation between two functors 2 -> D",
+   "statement_summary": "A worked picture: C is the two-object category 1 -f-> 2 and D a six-object category (objects u, v, w, x, y, z with arrows a, b, c, d, e, g, h, k). Two functors F, G : C -> D are drawn (F sending 1 to v, 2 to w, f to d; G sending 1 to x, 2 to y, f to e). A natural transformation alpha : F => G is then given by choosing components alpha_1 : v -> x and alpha_2 : w -> y; in this configuration each is the unique available choice (alpha_1 = c, alpha_2 = g). The reading offered: F and G are two ways of viewing C inside D, and alpha relates the two views by morphisms of D.",
+   "book_section": "3.3.4",
+   "book_page": "96",
+   "pdf_pages": [
+    108
+   ],
+   "cross_refs": [
+    "7sketches:3.3.4:def3.49"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.4:example3.53",
+   "kind": "example",
+   "number": "3.53",
+   "name": "natural transformations between functors 1 -> Set are functions",
+   "statement_summary": "Since (Exercise 3.45) a functor 1 -> Set can be identified with a set, take sets A and B regarded as functors A, B : 1 -> Set. A natural transformation between these functors is just a function A -> B: the single component is a function, and naturality is vacuous because 1 has only its identity morphism.",
+   "book_section": "3.3.4",
+   "book_page": "96",
+   "pdf_pages": [
+    108
+   ],
+   "cross_refs": [
+    "7sketches:3.3.3:ex3.45",
+    "7sketches:3.3.4:def3.49"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.4:def3.54",
+   "kind": "definition",
+   "number": "3.54",
+   "name": "functor category D^C",
+   "statement_summary": "For categories C and D, D^C denotes the category whose objects are the functors F : C -> D and whose morphisms D^C(F,G) are the natural transformations alpha : F -> G. It is called the functor category, or the category of functors from C to D.",
+   "book_section": "3.3.4",
+   "book_page": "96",
+   "pdf_pages": [
+    108
+   ],
+   "cross_refs": [
+    "7sketches:3.3.4:def3.49",
+    "7sketches:3.3.2:def3.35"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.4:ex3.55",
+   "kind": "exercise",
+   "number": "3.55",
+   "name": "the functor category really is a category",
+   "statement_summary": "Verify the category structure on D^C: (1) work out how to compose natural transformations (hint given: compose the c-components for each object c, i.e. vertical composition, and check the composite is natural); (2) propose the identity natural transformation on any object F of D^C and check it is unital, i.e. satisfies condition (a) of Definition 3.6.",
+   "book_section": "3.3.4",
+   "book_page": "96",
+   "pdf_pages": [
+    108
+   ],
+   "cross_refs": [
+    "7sketches:3.3.4:def3.54",
+    "7sketches:3.2:def3.6",
+    "7sketches:3.3.4:def3.49"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.4:example3.56",
+   "kind": "example",
+   "number": "3.56",
+   "name": "Set^1 is equivalent to Set",
+   "statement_summary": "Restates Example 3.53 in functor-category language: the functor category Set^1 (functors from the one-object one-morphism category 1 to Set, with natural transformations between them) is equivalent to Set.",
+   "book_section": "3.3.4",
+   "book_page": "96",
+   "pdf_pages": [
+    108
+   ],
+   "cross_refs": [
+    "7sketches:3.3.4:example3.53",
+    "7sketches:3.3.4:def3.54"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.4:example3.57",
+   "kind": "example",
+   "number": "3.57",
+   "name": "N^N is the preorder of monotone maps N -> N",
+   "statement_summary": "Let N be the category of the preorder (N, <=). By Example 3.42 a functor F : N -> N is the same as a non-decreasing sequence (F_0, F_1, F_2, ...) with F_0 <= F_1 <= .... For two such functors F, G, each component alpha_n : F_n -> G_n carries no data — it merely records the fact F_n <= G_n — and the naturality condition is vacuous because every square in a preorder commutes. Hence a natural transformation F => G exists iff F_n <= G_n for all n, and any two natural transformations F => G are equal. Conclusion: the functor category N^N is itself a preorder, namely the preorder of monotone maps N -> N ordered pointwise. Item continues across the page break.",
+   "book_section": "3.3.4",
+   "book_page": "96",
+   "pdf_pages": [
+    108,
+    109
+   ],
+   "cross_refs": [
+    "7sketches:3.3.2:example3.42",
+    "7sketches:3.3.4:def3.54",
+    "7sketches:3.2.3:construction-preorder-as-category"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.3.4:ex3.58",
+   "kind": "exercise",
+   "number": "3.58",
+   "name": "uniqueness of natural transformations into and out of a preorder",
+   "statement_summary": "Let C be an arbitrary category and P a preorder regarded as a category. For each of the following, prove it or give a counterexample: (1) for any two functors F, G : C -> P there is at most one natural transformation F -> G; (2) for any two functors F, G : P -> C there is at most one natural transformation F -> G. (The first holds since hom-sets in P are subsingletons; the second fails in general.)",
+   "book_section": "3.3.4",
+   "book_page": "97",
+   "pdf_pages": [
+    109
+   ],
+   "cross_refs": [
+    "7sketches:3.3.4:example3.57",
+    "7sketches:3.3.4:def3.49",
+    "7sketches:3.2.3:construction-preorder-as-category"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.4:remark3.59",
+   "kind": "remark",
+   "number": "3.59",
+   "name": "precise meaning of 'preorders are equivalent to Bool-categories'",
+   "statement_summary": "Makes precise the earlier claim (Remark 2.71) that the category of preorders is equivalent to the category of Bool-categories. First, there is a category PrO whose objects are preorders and whose morphisms are monotone maps. Second, there is a category Bool-Cat whose objects are Bool-categories and whose morphisms are Bool-functors. These two categories are called EQUIVALENT because there exist functors F : PrO -> Bool-Cat and G : Bool-Cat -> PrO together with natural isomorphisms F;G ~= id_PrO and G;F ~= id_{Bool-Cat}, natural isomorphism in the sense of Definition 3.49. (This is the general definition of equivalence of categories, given here for the special case.)",
+   "book_section": "3.3.4",
+   "book_page": "97",
+   "pdf_pages": [
+    109
+   ],
+   "cross_refs": [
+    "7sketches:3.3.4:def3.49",
+    "7sketches:3.3.2:example3.42",
+    "7sketches:3.3.4:def3.54"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.5:def3.60",
+   "kind": "definition",
+   "number": "3.60",
+   "name": "instance homomorphism; the category C-Inst of instances on a schema",
+   "statement_summary": "Let C be a database schema and I, J : C -> Set be database instances (C-instances). An instance homomorphism between them is a natural transformation alpha : I -> J. The category of instances on C is written C-Inst := Set^C, the functor category of Definition 3.54. (Its objects are instances, its morphisms instance homomorphisms.) Following prose notes that 1-Inst is equivalent to Set, per Example 3.53.",
+   "book_section": "3.3.5",
+   "book_page": "97",
+   "pdf_pages": [
+    109
+   ],
+   "cross_refs": [
+    "7sketches:3.3.3:def3.44",
+    "7sketches:3.3.4:def3.49",
+    "7sketches:3.3.4:def3.54",
+    "7sketches:3.3.4:example3.53"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.5:construction-gr",
+   "kind": "construction",
+   "number": null,
+   "name": "the schema Gr and the category of graphs as a functor category",
+   "statement_summary": "Unnumbered named construction developed in prose under the run-in head 'Extended example: the category of graphs as a functor category.' The schema Gr is the free category presented by the graph with two vertices Arrow and Vertex and two parallel arrows source, target : Arrow -> Vertex, with no equations. A Gr-instance, i.e. a set-valued functor I : Gr -> Set, is exactly a graph: I(Vertex) is the vertex set, I(Arrow) the arrow set, and I(source), I(target) the two endpoint functions; every graph arises this way and every Gr-instance can be drawn as a graph. Consequently the objects of Gr-Inst = Set^Gr are graphs, and its morphisms — natural transformations alpha : G => H with the two components alpha_Vertex : G(Vertex) -> H(Vertex) and alpha_Arrow : G(Arrow) -> H(Arrow) — are exactly graph homomorphisms, the naturality squares at source and target expressing that the two functions respect sources and targets. Merged from both range reports (boundary spill). Development begins on printed p.97 and continues past this agent's range onto printed pp.98-99 (PDF 110-111).",
+   "book_section": "3.3.5",
+   "book_page": "97",
+   "pdf_pages": [
+    109,
+    110
+   ],
+   "cross_refs": [
+    "7sketches:3.2.1:def3.7",
+    "7sketches:3.3.3:def3.44",
+    "7sketches:3.3.4:def3.49",
+    "7sketches:3.3.5:def3.60"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.3.5:ex3.62",
+   "kind": "exercise",
+   "number": "3.62",
+   "name": "write the graph of Eq. (3.2) as a Gr-instance",
+   "statement_summary": "Given the graph displayed in Eq. (3.2) earlier in the chapter (ignoring its distinction between white and black nodes), write down the corresponding Gr-instance in table form, in the style of the table labelled (3.61): i.e. exhibit the set-valued functor Gr -> Set as an Arrow table with source and target columns together with a Vertex table.",
+   "book_section": "3.3.5",
+   "book_page": "98",
+   "pdf_pages": [
+    110
+   ],
+   "cross_refs": [
+    "7sketches:3.3.5:construction-gr-inst"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.5:example3.63",
+   "kind": "example",
+   "number": "3.63",
+   "name": "two graphs G and H presented as Gr-instances",
+   "statement_summary": "Two concrete graphs are given both pictorially and as database instances (set-valued functors) on the schema Gr. G has vertices {1,2,3} and arrows a : 1 -> 2 and b : 2 -> 3. H has vertices {4,5} and arrows c : 4 -> 5, d : 4 -> 5 and a loop e : 5 -> 5. Each is written out as an Arrow table with source and target columns plus a Vertex table, illustrating that the pictorial graph and the pair of tables carry exactly the same data. The two table-sets are laid out offset from one another to support the following exercise.",
+   "book_section": "3.3.5",
+   "book_page": "99",
+   "pdf_pages": [
+    111
+   ],
+   "cross_refs": [
+    "7sketches:3.3.5:construction-gr-inst",
+    "7sketches:3.3.5:ex3.64"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.3.5:ex3.64",
+   "kind": "exercise",
+   "number": "3.64",
+   "name": "the unique graph homomorphism G -> H sending a to d",
+   "statement_summary": "For G and H as in Example 3.63, the text asserts there is exactly one graph homomorphism (natural transformation) alpha : G -> H with alpha_Arrow(a) = d. The exercise asks the reader to (1) determine the remaining value of alpha_Arrow (on b) and all three values of alpha_Vertex; (2) draw alpha_Arrow and alpha_Vertex on a copy of the tables of Example 3.63 as matchings of the ID columns of G(Arrow) to H(Arrow) and of G(Vertex) to H(Vertex); and (3) verify naturality directly on the tables by checking that 'alpha-then-source equals source-then-alpha' and likewise for target.",
+   "book_section": "3.3.5",
+   "book_page": "99",
+   "pdf_pages": [
+    111
+   ],
+   "cross_refs": [
+    "7sketches:3.3.5:example3.63",
+    "7sketches:3.3.5:construction-gr-inst"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.4.1:construction-dds-schema-functor",
+   "kind": "construction",
+   "number": null,
+   "name": "the loop schema DDS and the schema functor F : Gr -> DDS",
+   "statement_summary": "Unnumbered construction developed in prose as the running example of §3.4.1. DDS is the schema with a single object 'State' and a single non-identity generating morphism 'next' : State -> State (a loop), with no equations, i.e. the free category on a one-vertex one-loop graph; its instances I : DDS -> Set are exactly deterministic discrete dynamical systems, a set of states I(State) together with a transition function I(next). F : Gr -> DDS is the functor that sends both objects Arrow and Vertex of Gr to the single object State (as it must, DDS being a one-object category), sends the morphism 'source' to the identity id_State, and sends the morphism 'target' to 'next'. (Being defined on generators of a free category with no equations to impose, this data determines a functor.) A concrete 7-state DDS-instance is displayed and later migrated along F.",
+   "book_section": "3.4.1",
+   "book_page": "100",
+   "pdf_pages": [
+    112
+   ],
+   "cross_refs": [
+    "7sketches:3.3.5:construction-gr-inst",
+    "7sketches:3.4.1:def3.68"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:3.4.1:ex3.67",
+   "kind": "exercise",
+   "number": "3.67",
+   "name": "migrate the DDS instance along the other functor G : Gr -> DDS",
+   "statement_summary": "Consider the alternative functor G : Gr -> DDS which sends the morphism 'source' to 'next' and sends 'target' to the identity on 'State' (the mirror image of the functor F used in the text). Migrate the same 7-state DDS-instance I displayed at (3.65) along G, i.e. compute the composite G ; I : Gr -> Set: write down the resulting Arrow table (with source and target columns) and Vertex table, and draw the corresponding graph.",
+   "book_section": "3.4.1",
+   "book_page": "101",
+   "pdf_pages": [
+    113
+   ],
+   "cross_refs": [
+    "7sketches:3.4.1:construction-dds-schema-functor",
+    "7sketches:3.4.1:def3.68"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.4.1:def3.68",
+   "kind": "definition",
+   "number": "3.68",
+   "name": "pullback of an instance along a functor; the data migration functor Delta_F",
+   "statement_summary": "Let C and D be categories and F : C -> D a functor. For any set-valued functor I : D -> Set, the composite functor F ; I : C -> Set is called the pullback of I along F. Moreover, given a natural transformation alpha : I => J between set-valued functors on D, there is a natural transformation alpha_F : F ; I => F ; J whose component at c in Ob(C) is defined by (alpha_F)_c := alpha_{Fc}. This assignment on objects and morphisms defines a functor Delta_F : D-Inst -> C-Inst (the pullback / data migration functor). The definition is depicted by whiskering: pasting alpha onto F.",
+   "book_section": "3.4.1",
+   "book_page": "102",
+   "pdf_pages": [
+    114
+   ],
+   "cross_refs": [
+    "7sketches:3.3.5:def3.60",
+    "7sketches:3.5.3:remark3.100",
+    "7sketches:3.4.3:construction-sigma-delta-pi"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.4.2:def3.70",
+   "kind": "definition",
+   "number": "3.70",
+   "name": "adjunction between categories (hom-set isomorphism form); mate",
+   "statement_summary": "Let C and D be categories and L : C -> D and R : D -> C functors. L is left adjoint to R (equivalently R is right adjoint to L) if for every c in C and d in D there is an isomorphism of hom-sets alpha_{c,d} : C(c, R d) --iso--> D(L c, d) that is natural in c and d. (Footnote 8 spells out the naturality: it is naturality of functors C^op x D -> Set, i.e. for all f : c' -> c in C and g : d -> d' in D the square with legs C(f, Rg), alpha_{c,d}, alpha_{c',d'}, D(Lf, g) commutes.) Given a morphism f : c -> R d in C, its image g := alpha_{c,d}(f) is called its mate; symmetrically the mate of g : L c -> d is f. Notation: L -| R, drawn as a two-headed arrow diagram between C and D with the double arrow pointing in the direction of the left adjoint. Motivated by the preorder case, where the hom-set iso reduces to the Galois-connection biconditional f(p) <= q iff p <= g(q).",
+   "book_section": "3.4.2",
+   "book_page": "102",
+   "pdf_pages": [
+    114,
+    115
+   ],
+   "cross_refs": [
+    "7sketches:3.4.2:example3.71",
+    "7sketches:3.4.2:example3.72",
+    "7sketches:3.4.3:construction-sigma-delta-pi"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.4.2:example3.71",
+   "kind": "example",
+   "number": "3.71",
+   "name": "Galois connections are exactly adjunctions between preorder categories",
+   "statement_summary": "Every preorder P can be regarded as a category. Under that identification, Galois connections between preorders and adjunctions (in the sense of Definition 3.70) between the corresponding categories are exactly the same thing. Stated as an example without proof; the reduction is the one motivating the definition, namely that in a preorder a hom-set has at most one element, so the natural hom-set isomorphism C(c, Rd) ~ D(Lc, d) degenerates to the biconditional L(p) <= q iff p <= R(q).",
+   "book_section": "3.4.2",
+   "book_page": "103",
+   "pdf_pages": [
+    115
+   ],
+   "cross_refs": [
+    "7sketches:3.4.2:def3.70"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.4.2:example3.72",
+   "kind": "example",
+   "number": "3.72",
+   "name": "currying: the adjunction (- x B) -| (-)^B in Set",
+   "statement_summary": "For any set B in Ob(Set) there is an adjunction 'currying B' between the functors - x B : Set -> Set (left adjoint) and (-)^B : Set -> Set (right adjoint), i.e. a natural isomorphism Set(A x B, C) ~ Set(A, C^B) for all sets A and C. Here the exponential object C^B is the set of functions B -> C; for finite sets |C^B| = |C|^{|B|} (e.g. |C| = 10, |B| = 3 gives 10^3). The content of currying: functions of two variables (A x B) -> C correspond one-to-one with functions A -> C^B, a function of the first variable returning a function awaiting the second. The example notes a formal connection between exponential objects and the hom-elements b -o c introduced for monoidal closed preorders (Definition 2.79).",
+   "book_section": "3.4.2",
+   "book_page": "103",
+   "pdf_pages": [
+    115
+   ],
+   "cross_refs": [
+    "7sketches:3.4.2:def3.70",
+    "7sketches:3.4.2:ex3.73"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.4.2:ex3.73",
+   "kind": "exercise",
+   "number": "3.73",
+   "name": "the currying adjoints on morphisms, and p(3) for curried addition",
+   "statement_summary": "Example 3.72 described the functors - x B and (-)^B only on objects (X goes to X x B and to X^B). Complete them on morphisms: (1) given f : X -> Y, what morphism should - x B return as X x B -> Y x B? (2) given f : X -> Y, what morphism should (-)^B return as X^B -> Y^B? (3) Currying the addition function + : N x N -> N, (a,b) |-> a + b, yields a function p : N -> N^N; what is p(3)?",
+   "book_section": "3.4.2",
+   "book_page": "103",
+   "pdf_pages": [
+    115,
+    116
+   ],
+   "cross_refs": [
+    "7sketches:3.4.2:example3.72"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.4.2:example3.74",
+   "kind": "example",
+   "number": "3.74",
+   "name": "standard adjunctions from algebra and topology (free/forgetful, discrete/codiscrete, abelianization)",
+   "statement_summary": "A list of five families of adjunctions, stated without proof. (1) Free constructions: from a set one gets a free group, free monoid, free ring, free vector space, etc.; each such free functor is a LEFT adjoint, its right adjoint being the forgetful functor returning the underlying set. (2) From a graph one gets a free preorder or a free category (as in §3.2.3); each is a left adjoint, with right adjoint the underlying graph of a preorder or of a category. (3) Discrete constructions: from a set one gets a discrete preorder, discrete graph, discrete metric space, discrete category, discrete topological space; each is a LEFT adjoint whose right adjoint is again the underlying-set functor. (4) Codiscrete constructions: codiscrete preorder, complete graph, codiscrete category, codiscrete topological space; each is a RIGHT adjoint whose left adjoint is the underlying-set functor. (5) Abelianization: quotienting a group by its commutator subgroup is a left adjoint, whose right adjoint is the inclusion of abelian groups into groups.",
+   "book_section": "3.4.2",
+   "book_page": "104",
+   "pdf_pages": [
+    116
+   ],
+   "cross_refs": [
+    "7sketches:3.4.2:def3.70"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.4.3:construction-sigma-delta-pi",
+   "kind": "construction",
+   "number": null,
+   "name": "the left and right pushforward data migration functors: Sigma_F -| Delta_F -| Pi_F",
+   "statement_summary": "Unnumbered claim plus construction developed in prose over §3.4.3. Claim: for any functor F : C -> D between schemas, the pullback functor Delta_F : D-Inst -> C-Inst of Definition 3.68 has BOTH a left adjoint Sigma_F and a right adjoint Pi_F, both of type C-Inst -> D-Inst; i.e. Sigma_F -| Delta_F -| Pi_F. No proof or general formula is given (the reader is referred to [Spi14a] and to the FQL software); instead the behaviour is pinned down by a worked example on the airline schemas of Eq. (3.5): F sends the two-object schema A (Economy, First Class, each with Price to $ and Position to string) to the one-object schema B (Airline Seat with Price and Position), whereupon Delta_F merely duplicates the Airline Seat table into Economy and First Class, while Sigma_F(I)(Airline Seat) = I(Economy) + I(First Class) (disjoint union / 'sum up', a colimit-flavoured union of data) and Pi_F(I)(Airline Seat) = the set of pairs (e,f) with e an Economy seat, f a First Class seat, having the same price and position (a limit-flavoured 'pair and query' operation, i.e. a database join). Mnemonic table: Delta = duplicate or destroy, Sigma = sum, Pi = product. Moral stated: essentially all useful data migrations are built from Delta_F, Sigma_F and Pi_F for functors F between schemas.",
+   "book_section": "3.4.3",
+   "book_page": "104",
+   "pdf_pages": [
+    116,
+    117,
+    118
+   ],
+   "cross_refs": [
+    "7sketches:3.4.1:def3.68",
+    "7sketches:3.4.2:def3.70",
+    "7sketches:3.4.4:construction-single-set-summaries"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-page-break",
+    "stated-without-proof"
+   ]
+  },
+  {
+   "id": "7sketches:3.4.4:ex3.76",
+   "kind": "exercise",
+   "number": "3.76",
+   "name": "describe the unique functor ! : C -> 1",
+   "statement_summary": "Describe the unique functor ! : C -> 1 from an arbitrary category C to the terminal category 1 (the functor displayed at (3.75)): where does it send each object of C, and where does it send each morphism of C? (Context: 1 has exactly one object and only its identity morphism, so there is exactly one functor C -> 1 for any C.)",
+   "book_section": "3.4.4",
+   "book_page": "106",
+   "pdf_pages": [
+    118
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:ex3.82",
+    "7sketches:3.4.4:construction-single-set-summaries"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.4.4:construction-single-set-summaries",
+   "kind": "construction",
+   "number": null,
+   "name": "single-set summaries Sigma_! and Pi_! : C-Inst -> Set",
+   "statement_summary": "Unnumbered construction developed in prose. Specialize §3.4.3 to the unique functor ! : C -> 1 into the terminal category. Since an instance on 1 is the same thing as a set (1-Inst is identified with Set), the two adjoints of Delta_! become functors Sigma_! : C-Inst -> Set and Pi_! : C-Inst -> Set, each summarizing an entire database instance I : C -> Set on any schema C by a single set (a one-column table, a 'controlled vocabulary'). Behaviour, illustrated on the schema G of (3.77) (objects Email and Address, parallel morphisms sent_by and received_by, no equations) with a 6-row instance: Sigma_!(I) is the set of connected components of I, identifying entries linked by the schema's morphisms (a quotient), returning here the two groups {Bob-Grace-Pat-Emmy} and {Sue-Doug}; Pi_!(I) selects the compatible tuples, here the emails sent from a person to herself, returning the singleton {Em_6}. Stated as the general moral, without details: Sigma-operations are built from colimits in Set, and Pi-operations from limits in Set, for functors into any target, not just 1.",
+   "book_section": "3.4.4",
+   "book_page": "106",
+   "pdf_pages": [
+    118,
+    119
+   ],
+   "cross_refs": [
+    "7sketches:3.4.3:construction-sigma-delta-pi",
+    "7sketches:3.4.2:def3.70",
+    "7sketches:3.5.2:def3.92"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-page-break",
+    "stated-without-proof"
+   ]
+  },
+  {
+   "id": "7sketches:3.4.4:ex3.78",
+   "kind": "exercise",
+   "number": "3.78",
+   "name": "draw the email instance as a graph via G iso Gr",
+   "statement_summary": "Observe that the email schema G of Eq. (3.77) (Email with two parallel morphisms sent_by, received_by to Address, no equations) is isomorphic to the graph-indexing schema Gr, and recall from §3.3.5 that instances on Gr are graphs. Draw the given 6-email instance I : G -> Set as a graph.",
+   "book_section": "3.4.4",
+   "book_page": "107",
+   "pdf_pages": [
+    119
+   ],
+   "cross_refs": [
+    "7sketches:3.3.5:construction-gr-inst",
+    "7sketches:3.4.4:construction-single-set-summaries"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:def3.79",
+   "kind": "definition",
+   "number": "3.79",
+   "name": "terminal object",
+   "statement_summary": "Let C be a category. An object Z of C is a terminal object if for each object C of C there exists a unique morphism ! : C -> Z. The text immediately remarks that, because this unique morphism exists for ALL objects of C, terminal objects are said to have a universal property.",
+   "book_section": "3.5.1",
+   "book_page": "108",
+   "pdf_pages": [
+    120
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:prop3.84",
+    "7sketches:3.5.2:def3.92",
+    "7sketches:3.5.2:example3.93"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:example3.80",
+   "kind": "example",
+   "number": "3.80",
+   "name": "one-element sets are terminal in Set",
+   "statement_summary": "In Set, any set with exactly one element is a terminal object. Verification given: for a one-element set {*} and any set C there is exactly one function ! : C -> {*}, namely the one sending every element c in C to *, since that is the only value available.",
+   "book_section": "3.5.1",
+   "book_page": "108",
+   "pdf_pages": [
+    120
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:def3.79",
+    "7sketches:3.5.3:example3.96"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:ex3.81",
+   "kind": "exercise",
+   "number": "3.81",
+   "name": "terminal object in a preorder category = top element",
+   "statement_summary": "Let (P, <=) be a preorder, let z be an element of P, and let P denote the corresponding category (as in §3.2.3). Show that z is a terminal object in that category if and only if z is a top element of P, i.e. if and only if c <= z for all c in P.",
+   "book_section": "3.5.1",
+   "book_page": "108",
+   "pdf_pages": [
+    120
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:def3.79"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:ex3.82",
+   "kind": "exercise",
+   "number": "3.82",
+   "name": "a terminal object in Cat",
+   "statement_summary": "Name a terminal object in the category Cat (of categories and functors). Hint given: recall Exercise 3.76, which described the unique functor from an arbitrary category to the one-object category 1.",
+   "book_section": "3.5.1",
+   "book_page": "108",
+   "pdf_pages": [
+    120
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:def3.79",
+    "7sketches:3.4.4:ex3.76"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:ex3.83",
+   "kind": "exercise",
+   "number": "3.83",
+   "name": "a category with no terminal object",
+   "statement_summary": "Not every category has a terminal object; find a category that does not have one.",
+   "book_section": "3.5.1",
+   "book_page": "108",
+   "pdf_pages": [
+    120
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:def3.79"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:prop3.84",
+   "kind": "proposition",
+   "number": "3.84",
+   "name": "terminal objects are isomorphic",
+   "statement_summary": "All terminal objects in a category C are isomorphic. Proof given in full: if Z and Z' are both terminal there exist unique maps a : Z -> Z' and b : Z' -> Z; the composite a ; b : Z -> Z must be the unique endomorphism of Z guaranteed by terminality, and id_Z is also such a map, so a ; b = id_Z; symmetrically b ; a = id_{Z'}. Hence a is an isomorphism with inverse b.",
+   "book_section": "3.5.1",
+   "book_page": "108",
+   "pdf_pages": [
+    120
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:def3.79",
+    "7sketches:3.5.1:remark3.85"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:remark3.85",
+   "kind": "remark",
+   "number": "3.85",
+   "name": "'the' limit vs 'a' limit: uniqueness up to unique isomorphism",
+   "statement_summary": "Strengthens Proposition 3.84: not only are all terminal objects of a category isomorphic, but between any two of them there is a UNIQUE isomorphism, so terminal objects are unique up to unique isomorphism. The remark then licenses the terminological abuse of saying 'the' terminal object rather than 'a' terminal object, and correspondingly 'the' limit / colimit / product (e.g. 'the product of two sets'), noting the same phenomenon was seen in Definition 1.81.",
+   "book_section": "3.5.1",
+   "book_page": "108",
+   "pdf_pages": [
+    120
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:prop3.84",
+    "7sketches:3.5.1:def3.79",
+    "7sketches:3.5.3:example3.96"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:def3.86",
+   "kind": "definition",
+   "number": "3.86",
+   "name": "product of two objects",
+   "statement_summary": "Let C be a category and X, Y objects of C. A product of X and Y is an object denoted X x Y together with morphisms p_X : X x Y -> X and p_Y : X x Y -> Y, such that for every object C together with morphisms f : C -> X and g : C -> Y there exists a UNIQUE morphism C -> X x Y, denoted <f,g>, making the resulting diagram commute (i.e. <f,g> ; p_X = f and <f,g> ; p_Y = g). The commuting diagram is displayed with the mediating morphism drawn dotted, the customary notation for the unique map supplied by a universal property; the accompanying prose glosses X x Y as the 'best object-equipped-with-morphisms-to-X-and-Y', to which every other such object maps uniquely.",
+   "book_section": "3.5.1",
+   "book_page": "108",
+   "pdf_pages": [
+    120,
+    121
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:example3.87",
+    "7sketches:3.5.2:construction-cone-xy",
+    "7sketches:3.5.2:example3.94"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.5.1:example3.87",
+   "kind": "example",
+   "number": "3.87",
+   "name": "products in Set are cartesian products",
+   "statement_summary": "In Set a product of two sets X and Y is their usual cartesian product X x Y := {(x,y) | x in X, y in Y}, equipped with the two projections p_X : X x Y -> X and p_Y : X x Y -> Y given by p_X(x,y) := x and p_Y(x,y) := y. Given any set C with functions f : C -> X and g : C -> Y, the unique map C -> X x Y making the required diagram commute is <f,g>(c) := (f(c), g(c)). Illustrated with a picture of the product 6 x 4 of the sets 6 and 4, showing the grid of 24 pairs with both projections and an arbitrary cone (forall f, forall g) admitting a unique (exists!) mediating map.",
+   "book_section": "3.5.1",
+   "book_page": "109",
+   "pdf_pages": [
+    121
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:def3.86"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:ex3.88",
+   "kind": "exercise",
+   "number": "3.88",
+   "name": "products in a preorder category are meets",
+   "statement_summary": "Let (P, <=) be a preorder, let x and y be elements of P, and let P denote the corresponding category. Show that the categorical product x x y in that category agrees with the meet x /\\ y of x and y in the preorder P.",
+   "book_section": "3.5.1",
+   "book_page": "109",
+   "pdf_pages": [
+    121
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:def3.86"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:example3.89",
+   "kind": "example",
+   "number": "3.89",
+   "name": "the product category C x D",
+   "statement_summary": "Construction of the product of two categories C and D. Objects of C x D are pairs (c,d) with c an object of C and d an object of D. Morphisms (c,d) -> (c',d') are pairs (f,g) with f : c -> c' in C and g : d -> d' in D. Composition is componentwise: (f,g) ; (f',g') = (f ; f', g ; g'). (Presented as an example of a product, here in the category of categories.)",
+   "book_section": "3.5.1",
+   "book_page": "110",
+   "pdf_pages": [
+    122
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:def3.86",
+    "7sketches:3.5.1:ex3.90"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.1:ex3.90",
+   "kind": "exercise",
+   "number": "3.90",
+   "name": "identities, associativity, and examples in a product category",
+   "statement_summary": "Four questions about the product category C x D of Example 3.89: (1) what are its identity morphisms? (2) why is its composition associative? (3) what is the product category 1 x 2 (the terminal category times the walking-arrow category)? (4) what is the product category P x Q when P and Q are preorders and P, Q the corresponding categories?",
+   "book_section": "3.5.1",
+   "book_page": "110",
+   "pdf_pages": [
+    122
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:example3.89"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.2:construction-cone-xy",
+   "kind": "construction",
+   "number": null,
+   "name": "Cone(X,Y), the category of cones over two objects",
+   "statement_summary": "Unnumbered construction developed in prose to explain how products are a special case of terminal objects. For objects X, Y of a category C, the category Cone(X,Y) of cones over X and Y in C has as objects the spans, i.e. pairs of morphisms X <-f- C -g-> Y; a morphism from (C, f, g) to (C', f', g') is a morphism a : C -> C' in C such that the evident triangles commute, i.e. a ; f' = f and a ; g' = g. The point asserted (and set as Exercise 3.91) is that a product X <-p_X- X x Y -p_Y-> Y is exactly a terminal object in Cone(X,Y), so products 'are' terminal objects, only in a different category.",
+   "book_section": "3.5.2",
+   "book_page": "110",
+   "pdf_pages": [
+    122
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:def3.86",
+    "7sketches:3.5.1:def3.79",
+    "7sketches:3.5.2:ex3.91",
+    "7sketches:3.5.2:def3.92"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:3.5.2:ex3.91",
+   "kind": "exercise",
+   "number": "3.91",
+   "name": "a product is a terminal cone",
+   "statement_summary": "Check that a product X <-p_X- X x Y -p_Y-> Y (in the sense of Definition 3.86) is exactly the same thing as a terminal object in the category Cone(X,Y) of cones over X and Y.",
+   "book_section": "3.5.2",
+   "book_page": "110",
+   "pdf_pages": [
+    122
+   ],
+   "cross_refs": [
+    "7sketches:3.5.2:construction-cone-xy",
+    "7sketches:3.5.1:def3.86",
+    "7sketches:3.5.1:def3.79"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.2:def3.92",
+   "kind": "definition",
+   "number": "3.92",
+   "name": "cone over a diagram, morphism of cones, the category Cone(D), and the limit",
+   "statement_summary": "Let D : J -> C be a diagram (a functor; J is called the indexing category, per Definition 3.51). A cone (C, c_*) over D consists of (i) an object C of C and (ii) for each object j of J a morphism c_j : C -> D(j), subject to the condition (a) for each morphism f : j -> k in J, c_k = c_j ; D(f). A morphism of cones (C, c_*) -> (C', c'_*) is a morphism a : C -> C' in C such that c_j = a ; c'_j for all j in J. Cones over D and their morphisms form a category Cone(D). The limit of D, written lim(D), is DEFINED to be the terminal object of Cone(D); writing lim(D) = (C, c_*), the object C is called the limit object and each c_j the j-th projection map. The definition is illustrated on a five-object, five-non-identity-morphism indexing graph.",
+   "book_section": "3.5.2",
+   "book_page": "111",
+   "pdf_pages": [
+    123
+   ],
+   "cross_refs": [
+    "7sketches:3.5.1:def3.79",
+    "7sketches:3.5.2:construction-cone-xy",
+    "7sketches:3.5.2:example3.93",
+    "7sketches:3.5.2:example3.94",
+    "7sketches:3.5.3:thm3.95",
+    "7sketches:3.5.4:def3.102"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.2:example3.93",
+   "kind": "example",
+   "number": "3.93",
+   "name": "terminal objects are limits over the empty diagram",
+   "statement_summary": "Terminal objects are exactly limits in which the indexing category is empty, J = the empty category.",
+   "book_section": "3.5.2",
+   "book_page": "111",
+   "pdf_pages": [
+    123
+   ],
+   "cross_refs": [
+    "7sketches:3.5.2:def3.92",
+    "7sketches:3.5.1:def3.79"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.2:example3.94",
+   "kind": "example",
+   "number": "3.94",
+   "name": "products are limits over a two-object discrete diagram",
+   "statement_summary": "Products are exactly limits in which the indexing category J consists of two objects v and w and no non-identity arrows (the discrete two-object category).",
+   "book_section": "3.5.2",
+   "book_page": "111",
+   "pdf_pages": [
+    123
+   ],
+   "cross_refs": [
+    "7sketches:3.5.2:def3.92",
+    "7sketches:3.5.1:def3.86",
+    "7sketches:3.5.3:ex3.97"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.3:thm3.95",
+   "kind": "theorem",
+   "number": "3.95",
+   "name": "formula for finite limits in Set",
+   "statement_summary": "Let J be a category presented by a finite graph (V, A, s, t) together with some equations, and let D : J -> Set be a set-valued functor. Write V = {v_1, ..., v_n}. Then the set lim_J D := {(d_1, ..., d_n) | d_i in D(v_i) for all 1 <= i <= n, and for all arrows a : v_i -> v_j in A we have D(a)(d_i) = d_j}, together with the projection maps p_i : (lim_J D) -> D(v_i) given by p_i(d_1, ..., d_n) := d_i, IS a limit of D. Surrounding text: this formula captures all finite limits in Set, and as far as limits are concerned the equations imposed on J do not matter (only the generating graph does). No proof is given in the text.",
+   "book_section": "3.5.3",
+   "book_page": "112",
+   "pdf_pages": [
+    124
+   ],
+   "cross_refs": [
+    "7sketches:3.5.2:def3.92",
+    "7sketches:3.5.3:example3.96",
+    "7sketches:3.5.3:ex3.97",
+    "7sketches:3.5.3:ex3.98",
+    "7sketches:3.5.3:example3.99"
+   ],
+   "flags": [
+    "stated-without-proof"
+   ]
+  },
+  {
+   "id": "7sketches:3.5.3:example3.96",
+   "kind": "example",
+   "number": "3.96",
+   "name": "the limit formula on the empty graph gives the singleton",
+   "statement_summary": "Applying the formula of Theorem 3.95 with J the empty graph gives n = 0, so there are no vertices and exactly one empty tuple ( ), which vacuously satisfies the defining conditions. Hence the limit is the singleton set {( )} consisting of just the empty tuple: the limit of the empty diagram, i.e. the terminal object in Set, is a singleton, consistent with Example 3.80 and Remark 3.85.",
+   "book_section": "3.5.3",
+   "book_page": "112",
+   "pdf_pages": [
+    124
+   ],
+   "cross_refs": [
+    "7sketches:3.5.3:thm3.95",
+    "7sketches:3.5.2:example3.93",
+    "7sketches:3.5.1:remark3.85",
+    "7sketches:3.5.1:example3.80"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.3:ex3.97",
+   "kind": "exercise",
+   "number": "3.97",
+   "name": "the limit formula reproduces products",
+   "statement_summary": "Show that the limit formula of Theorem 3.95 works for products, i.e. that instantiating it at the discrete two-object indexing category of Example 3.94 yields the cartesian product with its projections.",
+   "book_section": "3.5.3",
+   "book_page": "112",
+   "pdf_pages": [
+    124
+   ],
+   "cross_refs": [
+    "7sketches:3.5.3:thm3.95",
+    "7sketches:3.5.2:example3.94",
+    "7sketches:3.5.1:example3.87"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:3.5.3:ex3.98",
+   "kind": "exercise",
+   "number": "3.98",
+   "name": "the limit of a functor 1 -> Set",
+   "statement_summary": "If D : 1 -> Set is a functor (a diagram indexed by the terminal category, i.e. a single set), what is the limit of D? Compute it using the formula of Theorem 3.95 and check the answer against the general Definition 3.92 of limit as a terminal cone.",
+   "book_section": "3.5.3",
+   "book_page": "112",
+   "pdf_pages": [
+    124
+   ],
+   "cross_refs": [
+    "7sketches:3.5.3:thm3.95",
+    "7sketches:3.5.2:def3.92"
+   ],
+   "flags": [
+    "no-printed-solution-in-appendix-a"
+   ]
+  },
+  {
+   "id": "7sketches:3.5.3:example3.99",
+   "kind": "example",
+   "number": "3.99",
+   "name": "pullbacks as limits of a cospan",
+   "statement_summary": "If the indexing category J is presented by the cospan graph (two outer objects mapping by f and g into a middle object), the limit of a diagram of that shape is known as a PULLBACK. Given a cospan X -f-> A <-g- Y in C, a cone consists of an apex C with legs c_x : C -> X, c_y : C -> Y and c_a : C -> A; since commutativity forces c_a = c_x ; f = c_y ; g, the diagonal leg is superfluous and one conventionally draws a pullback as the commuting SQUARE with apex named X x_A Y, the diagonal dropped, and the corner marker added. Unpacked concretely in Set with X = 6, Y = 4 and A = {red, blue, black}, the functions f : 6 -> A and g : 4 -> A being encoded as colourings of the dots (e.g. g(2) = g(4) = red, f(5) = black): the pullback is the set of pairs (i,j) in 6 x 4 with f(i) = g(j), i.e. those pairs whose two entries have the same colour.",
+   "book_section": "3.5.3",
+   "book_page": "112",
+   "pdf_pages": [
+    124,
+    125
+   ],
+   "cross_refs": [
+    "7sketches:3.5.2:def3.92",
+    "7sketches:3.5.3:thm3.95",
+    "7sketches:3.5.3:remark3.100"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.5.3:remark3.100",
+   "kind": "remark",
+   "number": "3.100",
+   "name": "pullback of a functor vs pullback as a limit",
+   "statement_summary": "Warns that 'pullback' as the limit of a cospan (Example 3.99) must not be confused with the pullback Delta_F of a set-valued functor along a functor (Definition 3.68) — for the reader's present purposes two different concepts that happen to share a name. Then asserts the reconciling fact, without proof: the pullback ALONG a functor is in fact a special case of the pullback as the limit of a cospan, namely it can be understood as the pullback of a certain cospan in Cat; unpacking this requires the notions of category of elements and discrete opfibration, which the text does not develop.",
+   "book_section": "3.5.3",
+   "book_page": "113",
+   "pdf_pages": [
+    125
+   ],
+   "cross_refs": [
+    "7sketches:3.4.1:def3.68",
+    "7sketches:3.5.3:example3.99"
+   ],
+   "flags": [
+    "stated-without-proof"
+   ]
+  },
+  {
+   "id": "7sketches:3.5.4:ex3.101",
+   "kind": "exercise",
+   "number": "3.101",
+   "name": "define the opposite functor F^op",
+   "statement_summary": "Recall from Example 3.27 that every category C has an opposite category C^op. Let F : C -> D be a functor. Define its opposite F^op : C^op -> D^op: how should F^op act on objects, and how should it act on morphisms?",
+   "book_section": "3.5.4",
+   "book_page": "113",
+   "pdf_pages": [
+    125,
+    126
+   ],
+   "cross_refs": [
+    "7sketches:3.5.4:def3.102"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:3.5.4:def3.102",
+   "kind": "definition",
+   "number": "3.102",
+   "name": "cocone and colimit (by duality)",
+   "statement_summary": "Given a category C, a cocone in C is defined to be a cone in C^op. Given a diagram D : J -> C, one may take the limit of the opposite functor D^op : J^op -> C^op; this limit is a cone in C^op and therefore, by the preceding definition, a cocone in C. The colimit of D is defined to be this cocone. The text immediately notes that this compressed dual definition is 'useless for working with unless you can unpack it', and defers the unpacking to Chapter 6.",
+   "book_section": "3.5.4",
+   "book_page": "114",
+   "pdf_pages": [
+    126
+   ],
+   "cross_refs": [
+    "7sketches:3.5.2:def3.92",
+    "7sketches:3.5.4:ex3.101"
+   ],
+   "flags": []
+  }
+ ]
+}

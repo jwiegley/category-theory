@@ -1,0 +1,398 @@
+[
+  {
+    "id": "awodey:7.2:construction-representable-contravariant",
+    "classification": "PRESENT",
+    "aliases": [
+      "contravariant hom-functor Hom(-,C)",
+      "representable presheaf / presheaf represented by an object",
+      "Curried_CoHom, [Hom ─,A], Hom C^op",
+      "precomposition functor f* = (- ∘ f)",
+      "contravariant Yoneda embedding C ⟶ [C^op, Sets]"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y ; is_setoid := @homset C x y |} ; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |} ; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}.  (* instantiated at C^op by Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op, notation [Hom ─ , A], line 146-149: fobj a = hom C a A, fmap f h = h ∘ f *)"
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 133,
+        "symbol": "Yoneda_Lemma",
+        "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; from := {| morphism := fun y : F A => {| transform := fun x : C => {| morphism := fun phi : A ~{ C^op }~> x => @fmap (C^op) Sets F A x phi y |} |} |} }."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p) ; is_setoid := @homset (C) (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}."
+      }
+    ],
+    "statement_record": {
+      "book": "For an object C of a locally small category, Hom_C(-,C) : C^op ⟶ Sets sends an object A to the hom-set Hom(A,C) and an arrow f : A → B to the precomposition map f* : Hom(B,C) → Hom(A,C), f*(h) = h ∘ f.",
+      "intree": "Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] with fmap f acting by (fun g => g ∘ op f); Curried_CoHom C := Curried_Hom C^op : C ⟶ [C^op, Sets], written [Hom ─ , A], so [Hom ─,A] : C^op ⟶ Sets has fobj a = hom C a A and fmap f h = h ∘ f. The bifunctor Hom C : C^op ∏ C ⟶ Sets acts by (fun g => snd f ∘ g ∘ fst f), i.e. precomposition in the contravariant slot.",
+      "strength_comparison": "same — the setoid rephrasing (hom-sets are setoid objects of Sets, equality of maps is ≈) is faithful, and functoriality is proved rather than asserted. In-tree the construction is packaged in curried form (whole family at once, C ⟶ [C^op, Sets]) rather than one object at a time, which is at least as strong: fixing A recovers Awodey's Hom(-,A) with exactly the precomposition action, and Yoneda_Lemma is stated over it."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT by independent blind pass. My own search (rg 'Curried|Representable|Yoneda' over *.v) landed on the same file before reading coverage. Verified at source: Functor/Hom.v:49 'Program Definition Hom `(C : Category) : C^op ∐ C ⟶ Sets' with fmap = fun g => snd f ∘ g ∘ fst f; Functor/Hom.v:60 Curried_Hom; Functor/Hom.v:146-149 'Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op' with notation \"[Hom ─ , A ]\". Unfolding: Curried_Hom D at x is y ↦ hom D x y with fmap f g = f ∘[D] g; at D = C^op this gives the presheaf a ↦ hom C a A with action g ↦ g ∘[C] f, i.e. exactly Awodey's f*(h) = h ∘ f — no dual-assumed-but-absent gap, the op instantiation is definitional (C^op^op = C by reflexivity per the library's duality architecture). Quotes in evidence are verbatim. Functor/Hom.v (_CoqProject:139) and Functor/Hom/Yoneda.v (_CoqProject:141) are both registered; Yoneda_Lemma is at Functor/Hom/Yoneda.v:133 as cited. strength_comparison ('same', curried packaging at least as strong) is honest."
+    }
+  },
+  {
+    "id": "awodey:7.2:example3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "functor of points of a group object",
+      "Hom(X,G) is a group / group-valued representable",
+      "GroupObject, MonoidObject, internal group",
+      "C^op ⟶ Grp, Grp / Mon as a target category",
+      "pointwise group structure on a hom-set; Hom(X,G) ≅ ∏_{x∈X} G"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoid.v",
+        "line": 290,
+        "symbol": "Hom_Monoid",
+        "intree_statement": "#[export] Program Instance Hom_Monoid {x} `(Y : Monoid y) : @MonoidObject C CC_Monoidal (y ^ x) := { mempty := curry (@mempty _ _ _ Y ∘ exl); mappend := curry (@mappend _ _ _ Y ∘ uncurry exl △ uncurry exr) }.  (* the exponential y^x inherits the algebraic structure of y pointwise: unit = constant at mempty[Y], product = evaluate both at the same point and multiply *)"
+      },
+      {
+        "file": "Structure/Group.v",
+        "line": 109,
+        "symbol": "GroupObject",
+        "intree_statement": "Class GroupObject (grp : C) := { groupobject_is_monoid : MonoidObject grp; inverse : grp ~> grp; left_inverse : mappend ∘ inverse ⨂ id ∘ ∆ grp ≈ mempty ∘ eliminate; right_inverse : mappend ∘ id ⨂ inverse ∘ ∆ grp ≈ mempty ∘ eliminate }.  (* Context `{@CartesianMonoidal C} *)"
+      },
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 83,
+        "symbol": "Mon",
+        "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun X => (id; MonoidHom_id `2 X); compose := fun _ _ _ f g => (`1 f ∘ `1 g; MonoidHom_comp `2 f `2 g) |}."
+      }
+    ],
+    "statement_record": {
+      "book": "If G is a group object in a locally small category C, the contravariant representable Hom_C(-,G) carries a group structure on each hom-set (pointwise unit, product and inverse), so it lifts to a functor C^op ⟶ Grp over the Sets-valued representable; precomposition h* : Hom(X,G) → Hom(Y,G) is a group homomorphism.",
+      "intree": "Hom_Monoid {x} `(Y : Monoid y) : @MonoidObject C CC_Monoidal (y ^ x) — the INTERNAL hom y^x of a cartesian closed C carries the pointwise monoid structure of a monoid object y. GroupObject (Structure/Group.v) formalizes the group object itself; Mon (Theory/Algebra/Monoid/Hom.v) is the category of internal monoids and their homomorphisms.",
+      "strength_comparison": "intree-weaker: three separate weakenings. (1) The structure transferred is a MONOID structure, not a group — there is no Hom_Group / no analogue of Hom_Monoid for GroupObject anywhere in the tree (grep -rn 'Hom_Group|GroupHom' -> 0 hits). (2) The carrier is the INTERNAL exponential y^x in a cartesian closed C, an object of C, not the external hom-SET Hom(X,G) as a set/setoid, so the extra hypothesis `{@Closed C _} is required where Awodey needs only local smallness. (3) Hom_Monoid is a single object-level instance: there is no functor C^op ⟶ Mon (nor ⟶ Grp), and nothing asserts that precomposition h* is a monoid/group homomorphism, which is the functoriality half of the example."
+    },
+    "gap": "Missing: (a) the group case entirely — no lemma or instance giving Hom(X,G) (or G^X) a GroupObject/group structure from a GroupObject G; (b) the external-hom formulation (Hom_Monoid lives on the internal exponential y^x, requiring cartesian closure); (c) the functorial lift — no functor C^op ⟶ Grp or C^op ⟶ Mon and no proof that precomposition is a homomorphism; (d) no category Grp of groups exists in-tree at all (Instance/ contains no Grp; 'Grp' occurs only in prose comments), so the target of Awodey's lift is unavailable; (e) the concrete Sets computation Hom(X,G) ≅ ∏_{x∈X} G is absent.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Hom_Group|GroupHom|Group_Hom' . -> 0 hits",
+      "grep -rn --include='*.v' 'Grp' . -> 4 hits, all prose (Structure/Group.v:63,72; Structure/Complete.v:55; Construction/Groupoid.v:23) — no Grp category",
+      "find . -name '*.v' | xargs grep -ln 'GroupObject' -> Structure/Group.v, Structure/Monoid.v, Structure/Group/Proofs.v only",
+      "grep -rn --include='*.v' 'hom.*is a group|group structure on' . -> only the comment Structure/Group.v:28 ('[grp] is a group object iff each hom Hom(X, grp) is a group naturally in X'), which is an unproven remark"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. My blind pass independently reached the same three artifacts (Structure/Group.v GroupObject, Structure/Monoid.v Hom_Monoid, Theory/Algebra/Monoid/Hom.v Mon) and I had initially leaned ABSENT; on review PARTIAL is defensible and the gap statement is precise enough that the downstream issue is unaffected. Verified at source: Structure/Monoid.v:290 quote is verbatim, and 'Monoid' there is the file-local abbreviation 'Definition Monoid := @MonoidObject C CC_Monoidal' (Structure/Monoid.v:173), so the hypothesis/conclusion classes do agree — no same-name-weaker trap. The '`{@Closed C _}' context governing Hom_Monoid is real (opened at Structure/Monoid.v:267), so the 'requires cartesian closure' claim in strength_comparison is accurate. Structure/Group.v:109 GroupObject quote verbatim; Theory/Algebra/Monoid/Hom.v:83 Mon quote verbatim. All three files are in _CoqProject (332, 321, 390). Independently reproduced the negatives: rg -n 'GroupHom|Hom_Group|Group_Hom' -> 0 hits; no Grp category anywhere in Instance/. MINOR LOG INACCURACY (does not change the verdict): the negative_search_log says \"'Grp' occurs 4 hits ... Construction/Groupoid.v:23\"; a word-boundary search gives 3 hits (Structure/Complete.v:55, Structure/Group.v:63, Structure/Group.v:72) — Construction/Groupoid.v:23 reads 'Grpd ↪ Cat', a substring match, not 'Grp'. Also checked and agree it is NOT a library defect that Structure/Group.v:28 states 'grp is a group object iff each hom Hom(X, grp) is a group naturally in X': that line sits in a background essay citing Eckmann–Hilton Thm 4.3, and claims nothing about in-tree content."
+    }
+  },
+  {
+    "id": "awodey:7.2:construction-continuous-real-functions-ring",
+    "classification": "ABSENT",
+    "aliases": [
+      "C(X) ring of continuous real-valued functions",
+      "Top^op ⟶ Rings, category of topological spaces, category of rings",
+      "Hom_Top(X, R) as a representable",
+      "pullback/precomposition ring homomorphism h* : C(X) → C(Y)",
+      "real numbers R as a ring object"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Instance/ — the concrete-instance layer contains Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX. There is no Top and no Ring/CRing instance.",
+      "grep -rn --include='*.v' -i 'topolog' . -> 52 hits, every one inside a background-essay comment (free topological groups, topological quantum field theory, Stone–Cech); no Definition/Instance",
+      "grep -rn --include='*.v' -i 'continuous' . -> 14 hits, all prose (Adjunction 'continuous functor' terminology, 'Continuous Lattices' citation); no topology, no continuity predicate",
+      "grep -rn --include='*.v' -i 'rings' . -> 43 hits, all bibliographic/prose comments (bimodules over rings, 'equivalence relation on rings'); grep -rn --include='*.v' 'CRing' . -> 0 hits",
+      "grep -rn --include='*.v' 'Rdefinitions|Coq.Reals|Reals' . -> 0 hits: the reals are never imported, so R as a ring/field is unavailable"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. My blind pass found no counterpart the classifier missed. Independently reproduced: `ls Instance/` has no Top and no Ring/CRing (Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX); rg -i 'topological space|Category Top|Instance Top|continuous function|Coq.Reals' over *.v returns only background-essay prose (e.g. Structure/Group.v:46 'topological groups in Top', Structure/Complete.v:55 'Set, Top, Grp, Ab'), never a definition. The one near-miss I checked and rejected: Solver/Expr.v's constructor named [Top] is a propositional-truth constructor, unrelated. Nothing in the tree can express C(X) = Hom_Top(X, ℝ)."
+    }
+  },
+  {
+    "id": "awodey:7.2:remark-equational-structure-transfers",
+    "classification": "PARTIAL",
+    "aliases": [
+      "algebraic (equational) structure transfers to hom-objects",
+      "Hom(X,-) preserves finite products, hence carries T-models to T-models",
+      "Lawvere theory / model / product-preserving functor",
+      "field is not an algebraic theory; C(R) is not a field (counterexample)",
+      "pointwise structure on function objects, exponential of a monoid object"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoid.v",
+        "line": 290,
+        "symbol": "Hom_Monoid",
+        "intree_statement": "#[export] Program Instance Hom_Monoid {x} `(Y : Monoid y) : @MonoidObject C CC_Monoidal (y ^ x) := { mempty := curry (@mempty _ _ _ Y ∘ exl); mappend := curry (@mappend _ _ _ Y ∘ uncurry exl △ uncurry exr) }."
+      },
+      {
+        "file": "Theory/Lawvere/Model.v",
+        "line": 50,
+        "symbol": "Model",
+        "intree_statement": "Record Model := { model_fun : @law_cat T ⟶ C; model_cartesian : @CartesianFunctor (@law_cat T) C model_fun (@law_cartesian T) _; model_terminal : @TerminalFunctor (@law_cat T) C model_fun (@law_terminal T) _ }."
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 136,
+        "symbol": "ump_products",
+        "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)"
+      }
+    ],
+    "statement_record": {
+      "book": "Passing from an object to Hom(X,-) of it retains all structure defined by operations and equations, but properties given by non-strictly-equational conditions may be lost; e.g. R is a field but C(R) is not, since the pointwise inverse of f(x)=x^2 would be y ↦ 1/y^2, discontinuous at 0.",
+      "intree": "One concrete instance of the positive half: Hom_Monoid transfers the monoid-object operations (mempty, mappend) and their equations to the internal hom y^x pointwise. The equational-theory vocabulary itself is present: Model (a finite-product-preserving functor out of law_cat T) and Models T C (Theory/Lawvere/Model.v) formalize 'structure defined by operations and equations'; ump_products is the hom-level bijection Hom(x, y × z) ≅ Hom(x,y) × Hom(x,z) that makes such transfer possible.",
+      "strength_comparison": "intree-weaker: only one theory (monoids) is actually transferred, and only to the internal exponential. There is NO general theorem of the form 'Hom(X,-) preserves finite products' or 'composing a T-model with a product-preserving functor yields a T-model', so the remark's universally-quantified positive half is unproven; and the negative half (a non-equational property failing to transfer) has no in-tree counterpart at all."
+    },
+    "gap": "Missing: (1) the general statement — no lemma that a representable Hom(X,-) : C ⟶ Sets preserves limits/finite products (grep 'Hom.*Preserves|Preserves.*Hom' -> 0 hits), and no closure lemma for Theory/Lawvere/Model.v models under postcomposition with a product-preserving functor, so 'all equational structure transfers' is nowhere proved in general; (2) the counterexample half entirely — no notion of field, no reals, no topology/continuity in the tree, hence no witness that a non-equational condition fails to transfer; (3) no metatheoretic separation of equational from non-equational axioms (the LawvereTheory class carries no axiom-shape analysis).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Hom.*Preserves|Preserves.*Hom|representable.*limit' . -> 0 relevant hits (only 'Continuous Algebras'/'Continuous Lattices' citations)",
+      "grep -n 'Definition|Lemma|Theorem|Class|Program' Structure/Limit/Preservation.v -> PreservesLimit/PreservesColimit/PreservesAllLimits are declared, but no instance for a hom-functor",
+      "grep -rn --include='*.v' 'Monoid' . | grep -i 'functor|transport|image|preserv' -> no lemma carrying monoid objects along a cartesian functor",
+      "grep -rn --include='*.v' -i 'field' . -> 512 hits, all record-field prose; no algebraic Field class"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL, with a caveat on evidence quality. My blind pass classified this ABSENT; I am not overturning because the strength_comparison and gap are honest and self-limiting ('only one theory (monoids) is actually transferred, and only to the internal exponential ... the remark's universally-quantified positive half is unproven; and the negative half ... has no in-tree counterpart at all'), so Phase E gets the right picture either way. Verified at source: Structure/Monoid.v:290 Hom_Monoid verbatim (this is a genuine instance of the remark's positive half); Theory/Lawvere/Model.v:50 'Record Model := { model_fun; model_cartesian; model_terminal }' verbatim; Structure/Cartesian.v:136 ump_products verbatim. CAVEAT: the Model and ump_products citations are ambient vocabulary rather than content of the remark — ump_products is just the product UMP, and nothing connects it to hom-wise transfer of a theory — so Hom_Monoid alone carries the PARTIAL. Independently reproduced the key negative: there is NO lemma that a representable preserves limits/products (Structure/Limit/Preservation.v declares only PreservesLimit/PreservesColimit/PreservesAllLimits/PreservesAllColimits at lines 48/196/229/232, with no hom-functor instance), and no closure of Theory/Lawvere/Model.v models under postcomposition with a product-preserving functor."
+    }
+  },
+  {
+    "id": "awodey:7.2:example4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Hom(X,2) is a boolean algebra (pointwise operations)",
+      "powerset functor P : Sets^op ⟶ Sets / ⟶ BA; inverse image f^{-1}",
+      "characteristic function / subobject classifier Ω = 2; SubObj x ≅ (x ~> Ω)",
+      "Sub : C^op ⟶ Sets by pullback reindexing",
+      "category BA of boolean algebras and homomorphisms"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}.  (* to := char of the subobject; from := sub_reindex h truth_subobject, i.e. pull truth back along h *)"
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 353,
+        "symbol": "FinSet_Classifier",
+        "intree_statement": "#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; truth := fun _ => fin_true; char := fun u x (m : u ~{FinSet}~> x) (_ : Monic m) (b : Fin.t x) => fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |}."
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 180,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x ; is_setoid := @SubObj_Setoid C x |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f) ; proper_morphism := sub_reindex_respects (unop f) |} |}.  (* sub_reindex f u is the pullback of the mono u along f, i.e. the inverse image *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For the two-element boolean algebra 2, Hom_Sets(X,2) is a boolean algebra under pointwise operations and Hom(-,2) : Sets^op ⟶ BA is a contravariant functor; the bijection Hom(X,2) ≅ P(X), φ ↦ V_φ = φ^{-1}(1), transports the pointwise operations to ∩, ∪, complement, X, ∅, exhibiting the powerset as a functor P^BA : Sets^op ⟶ BA; the bijection is natural in X, precomposition f* corresponding to inverse image f^{-1}.",
+      "intree": "classifier_classifies : SubObj x ≅ (x ~> Ω) in Sets — the characteristic-map/subobject bijection, for any C with a terminal object, pullbacks and a subobject classifier; FinSet_Classifier instantiates it with Ω := 2%nat and truth := fin_true, so over FinSet the bijection is literally P(X) ≅ Hom(X,2) with χ ↦ χ^{-1}(true); Sub : C^op ⟶ Sets is the powerset (subobject) functor acting on morphisms by sub_reindex, the pullback = inverse image.",
+      "strength_comparison": "intree-weaker on the boolean-algebra content, comparable on the powerset/characteristic-function content. The set-level bijection Hom(X,2) ≅ P(X) and the contravariance-by-inverse-image of P are both proved (Sub is a functor; sub_reindex_id and sub_reindex_comp discharge the functor laws). What is strictly weaker: classifier_classifies is a POINTWISE iso of setoids, with no accompanying claim that the family is natural in x (no iso Sub ≅ [Hom ─,Ω] in [C^op, Sets] exists in-tree), whereas Awodey asserts naturality; and no boolean structure is transported."
+    },
+    "gap": "Missing: (1) boolean algebras as a structure and as a category — there is no BA/BoolAlg class, no meet/join/complement operations, no Boolean laws anywhere (grep 'BoolAlg|BooleanAlgebra' -> 0 hits); the closest in-tree objects are Instance/Props.v (a Heyting PREalgebra of Props as a thin category: Terminal ⊤, Initial ⊥, Cartesian ∧, Cocartesian ∨, Closed →, with no complement) and Instance/Two/Monoidal.v (two_meet + Two_Cartesian + Two_Terminal on the walking arrow _2 — meet and top only, no join, no negation); (2) the pointwise boolean-algebra structure on Hom(X,2) and its transport onto P(X) as ∩/∪/complement/X/∅; (3) the lift Hom(-,2) : Sets^op ⟶ BA and P^BA : Sets^op ⟶ BA (no target category); (4) NATURALITY of the bijection — classifier_classifies is stated pointwise at each x with no coherence with Sub's fmap, so the commuting square relating f* and f^{-1} is not proved; (5) the Sets case is only cross-universe theorems (Instance/Sets/Classifier.v: sets_char_pullback, sets_char_unique, sets_char_subobject) rather than a SubobjectClassifier instance, so the concrete Ω = 2 witness exists only for FinSet.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'BoolAlg|BooleanAlgebra' . -> 0 hits",
+      "grep -rn --include='*.v' -i 'boolean' . -> 26 hits, all prose comments or the Coq type bool used as a decider (Instance/FinSet/Classifier.v, Construction/ColouredPROP/Supply.v); no boolean-algebra structure",
+      "grep -rn --include='*.v' -i 'lattice|complement' . -> all bibliographic prose (Birkhoff, Knaster-Tarski, ZX complementarity); no lattice class",
+      "grep -rn --include='*.v' 'Sub ≅|classifier_classifies' . -> classifier_classifies is referenced only from Structure/Topos.v prose; no natural-isomorphism statement Sub ≅ [Hom ─,Ω]",
+      "grep -rn --include='*.v' 'HasPullbacks' . -> only FinSet_Pullbacks; Sets has no HasPullbacks instance, so Sub is instantiated concretely only over FinSet"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL; independently reached the same reading before opening the coverage file (my blind note: 'Sub : C^op ⟶ Sets is the powerset-as-contravariant-functor; classifier_classifies is Hom(X,2) ≅ P(X) at topos generality; BA structure and naturality missing'). Verified at source: Structure/SubobjectClassifier.v:187 'Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}' verbatim, with to = char and from = sub_reindex h truth_subobject; Theory/Subobject/Functor.v:180 Sub verbatim; Instance/FinSet/Classifier.v:353 FinSet_Classifier verbatim with 'Ω := 2%nat; truth := fun _ => fin_true'. Confirmed gap item (4): classifier_classifies is stated pointwise at a single x and there is no naturality lemma and no iso Sub ≅ [Hom ─,Ω] in [C^op, Sets] — I re-grepped Structure/SubobjectClassifier.v for 'natural' and found only the pointwise theorem, so the record does not over-claim. Confirmed gap item (5): rg for HasPullbacks instances yields only Instance/FinSet/Classifier.v:264 FinSet_Pullbacks (plus the C^op transport in Structure/Pushout.v:159/169), so Sub is concretely instantiated only over FinSet — Sets genuinely has none. Spot-checked the two near-misses the gap names and they are described accurately: Instance/Props.v has Terminal/Initial/Cartesian/Cocartesian/Closed (lines 53/61/69/80/94) and no complement; Instance/Two/Monoidal.v:37 two_meet with Two_Cartesian:80 and Two_Terminal:98 — meet and top only, no join, no negation. All cited files registered in _CoqProject (369, 466, 197)."
+    }
+  },
+  {
+    "id": "awodey:7.3:def-ultrafilter",
+    "classification": "ABSENT",
+    "aliases": [
+      "ultrafilter",
+      "maximal filter / prime filter in a boolean algebra",
+      "filter (up-closed, meet-closed, proper subset containing 1)",
+      "2-valued boolean homomorphism / characteristic homomorphism χ_U",
+      "Ult, Filter, UltraFilter as a Coq class or record"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -w 'ultrafilter' . -> 3 hits, all inside background-essay comments: Theory/Monad.v:65 ('the algebras of the ultrafilter monad are exactly the compact ...'), Theory/Kan/Extension.v:39 (Leinster, 'Codensity and the ultrafilter monad'), Theory/Kan/Extension.v:86. No definition.",
+      "grep -rn --include='*.v' -w 'Ultrafilter' . -> 0 hits; grep -rn --include='*.v' -w 'Ult' . -> 0 hits",
+      "grep -rn --include='*.v' -w 'filter' . -> 57 hits, all either prose ('digital filter') or Coq stdlib list/map filter in Theory/Metacategory.v and Instance/FinSet; grep -rn --include='*.v' -w 'Filter' . -> 0 hits",
+      "grep -rn --include='*.v' -w 'prime' . -> 0 hits; grep -rn --include='*.v' -w 'maximal' . -> 3 hits, all about maximal subgroupoids (Theory/Isomorphism.v, Construction/Groupoid.v)",
+      "grep -rn --include='*.v' 'BoolAlg|BooleanAlgebra' . -> 0 hits: there is no boolean algebra in which an ultrafilter could be defined"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed before reading coverage. Independently reproduced the decisive negatives: rg -nw 'Ult' over *.v -> 0 hits; rg -nw 'Filter' -> 0 hits; rg -nwi 'prime' -> 0 hits; rg -i 'ultrafilter' -> only 3 background-essay lines (Theory/Monad.v:65 Manes' compact-Hausdorff-algebras remark, Theory/Kan/Extension.v:39 Leinster citation, Theory/Kan/Extension.v:86 Kennison–Gildenhuys). rg 'BoolAlg|BooleanAlgebra' -> 0 hits, and rg -i 'lattice|Heyting' turns up only bibliography, so there is no boolean algebra in which the definition could even be stated. Not OUT_OF_SCOPE: an ultrafilter on a boolean algebra is perfectly formalizable here (the library is universe-polymorphic and carries thin/posetal categories), it simply is not present."
+    }
+  },
+  {
+    "id": "awodey:7.3:remark-ultrafilter-maximality",
+    "classification": "ABSENT",
+    "aliases": [
+      "maximality equals primeness for filters",
+      "for all x, x ∈ U or ¬x ∈ U",
+      "maximal filter is a prime filter / ultrafilter characterization",
+      "complemented / decidable membership in a filter",
+      "excluded middle for filter membership"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -w 'ultrafilter' . -> 3 prose-only hits (Theory/Monad.v:65, Theory/Kan/Extension.v:39,86)",
+      "grep -rn --include='*.v' -w 'Filter|filter' . -> no filter structure; only stdlib list/map filter and 'digital filter' prose",
+      "grep -rn --include='*.v' -w 'prime|maximal' . -> 'prime' 0 hits; 'maximal' only about maximal subgroupoids",
+      "grep -rn --include='*.v' -i 'complement' . -> 5 hits, all ZX-calculus complementarity or 'complements' as a verb; no boolean complement operation",
+      "grep -rn --include='*.v' 'BoolAlg|BooleanAlgebra' . -> 0 hits; there is no boolean algebra structure, so neither the maximality nor the primeness condition is expressible in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Same blind negatives as def-ultrafilter (rg -nw 'Ult'/'Filter'/'prime' all 0 hits; 'ultrafilter' prose-only in 3 places; no BoolAlg/BooleanAlgebra/complement operation). Both sides of the equivalence — maximality of a filter and the primeness condition (∀x, x ∈ U ∨ ¬x ∈ U) — are inexpressible without a boolean-algebra structure, and none exists. I also checked the two candidate ambient structures for a negation that could carry it: Instance/Props.v (Closed, i.e. implication, no complement) and Instance/Two/Monoidal.v (meet + top only). Neither supplies ¬."
+    }
+  },
+  {
+    "id": "awodey:7.3:construction-ult-functor",
+    "classification": "ABSENT",
+    "aliases": [
+      "Ult : BA^op ⟶ Sets, ultrafilter functor",
+      "Ult(B) ≅ Hom_BA(B, 2), spectrum / points functor",
+      "characteristic homomorphism χ_U with U = χ_U^{-1}(1)",
+      "Ult(h) = h^{-1}, inverse image of an ultrafilter along a boolean homomorphism",
+      "Stone space of a boolean algebra (underlying set)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -w 'Ult|Ultrafilter|ultrafilter' . -> only 3 prose comments; no functor",
+      "grep -rn --include='*.v' 'BoolAlg|BooleanAlgebra' . -> 0 hits: the source category BA^op does not exist",
+      "ls Instance/ -> no BA, no Top; the instance layer has no algebra-of-a-signature category other than CMon (commutative monoids) and Mon (internal monoids, Theory/Algebra/Monoid/Hom.v)",
+      "grep -rn --include='*.v' -i 'stone' . -> 14 hits, all bibliographic (Baez–Stay 'Rosetta Stone', Stone duality mentioned in Theory/Equivalence.v:120 prose, Stone–Cech in Theory/Universal/Arrow.v:40)",
+      "grep -rn --include='*.v' -i 'spectrum|points functor' . -> 0 relevant hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed. The source category BA^op does not exist (rg 'BoolAlg|BooleanAlgebra' -> 0 hits) and neither does Ult (rg -nw 'Ult' -> 0 hits), so neither the object assignment B ↦ Ult(B) ≅ Hom_BA(B,2) nor the action Ult(h) = h^{-1} has any in-tree counterpart. Verified the record's Stone claim myself: rg -i 'stone' returns only bibliography — Baez–Stay 'Rosetta Stone' (Theory/Category.v:86, Structure/Monoidal.v:58, Structure/Monoidal/Symmetric.v:91), Stone duality as motivation in Theory/Equivalence.v:120, Stone–Čech in Theory/Universal/Arrow.v:40, plus unrelated words 'stepping-stone'/'capstone'. The only algebra categories in-tree are Instance/CMon.v (commutative monoids over setoids) and Theory/Algebra/Monoid/Hom.v's Mon (internal monoids); neither is BA."
+    }
+  },
+  {
+    "id": "awodey:7.3:remark-ult-powerset-not-inverse",
+    "classification": "ABSENT",
+    "aliases": [
+      "Ult and P are not mutually inverse / not an equivalence",
+      "non-principal ultrafilter, free ultrafilter",
+      "Ult(P(X)) is larger than X",
+      "the correct relation is an adjunction P ⊣ Ult (Sets ⇄ BA^op)",
+      "Stone duality is an equivalence only on the Stone-space side"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -w 'ultrafilter|Ult' . -> only 3 prose comments; neither functor exists, so neither does the claim that they fail to be inverse",
+      "grep -rn --include='*.v' -i 'principal' . -> 6 hits, all unrelated ('principal ideal' slice comment in Construction/Slice.v:80, 'principal field/theorem' prose)",
+      "grep -rn --include='*.v' 'powerset' . -> 0 hits; the only powerset-like functor is Sub : C^op ⟶ Sets (Theory/Subobject/Functor.v:180), instantiated only over FinSet",
+      "grep -rn --include='*.v' 'BoolAlg|BooleanAlgebra' . -> 0 hits",
+      "Theory/Equivalence.v mentions Stone duality only in a background essay (line 120); no adjunction or non-equivalence statement between Sets and any algebra category is formalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed. Neither functor of the pair exists, so the non-equivalence claim and the promised adjunction have no counterpart. Checked the two things that could have made this PARTIAL and neither does: (a) Theory/Equivalence.v:119-123 mentions Stone duality only as an example of 'dualities stated as equivalences' in a background essay, attaching no theorem; (b) rg -i 'principal' returns only unrelated uses ('principal ideal' in the Construction/Slice.v:80 poset remark, 'principal theorem/field' prose), so there is no principal-vs-free ultrafilter distinction anywhere. The record's note that the nearest powerset-like functor is Sub : C^op ⟶ Sets (Theory/Subobject/Functor.v:180) matches my own finding."
+    }
+  },
+  {
+    "id": "awodey:7.3:construction-covariant-ultrafilter-functor",
+    "classification": "ABSENT",
+    "aliases": [
+      "ultrafilter monad, beta (Stone–Cech) functor on Sets",
+      "U = Ult ∘ (P^BA)^op, covariant endofunctor of Sets",
+      "U(f)(V) = {W ⊆ Y | f^{-1}(W) ∈ V}",
+      "unit eta_X(x) = principal ultrafilter {W | x ∈ W}, naturality of eta",
+      "codensity monad of FinSet ↪ Sets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -w 'ultrafilter|Ult' . -> only 3 prose comments (Theory/Monad.v:65, Theory/Kan/Extension.v:39,86)",
+      "grep -rn --include='*.v' -i 'codensity' . -> 6 hits, all in the Theory/Kan/Extension.v background essay; no codensity-monad construction (the file defines RightKan/LeftKan/LocalRightKan and preservation, not the induced monad of a functor)",
+      "grep -rn --include='*.v' -i 'principal' . -> no principal-ultrafilter unit",
+      "grep -rn --include='*.v' 'powerset|P(X)' . -> 0 hits",
+      "find . -name '*.v' -path '*Monad*' — the monad instances in-tree are Kleisli/Eilenberg–Moore machinery, graded monads, and Coq-level monads (option, list, state, …); no ultrafilter/beta monad"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed. Independently verified the strongest near-miss claim in the record — that the codensity monad (whose value at FinSet ↪ Sets is the ultrafilter monad) is NOT constructed in-tree: Theory/Kan/Extension.v declares only Induced (:127), RightKan (:140), LocalRightKan (:154), LeftKan (:222), LocalLeftKan (:234), preserves_left_Kan (:307), preserves_right_Kan (:313), left_adjoint_impl (:328), left_adjoints_preserve (:386). The codensity monad appears there only in the background essay at lines 83-86. So neither U = Ult ∘ (P^BA)^op, nor U(f)(V) = {W | f^{-1}(W) ∈ V}, nor the principal-ultrafilter unit η and its naturality exists."
+    }
+  },
+  {
+    "id": "awodey:7.3:construction-stone-representation",
+    "classification": "ABSENT",
+    "aliases": [
+      "Stone representation map phi_B : B → P(Ult(B))",
+      "phi_B(b) = {V ∈ Ult(B) | b ∈ V}, injective boolean homomorphism",
+      "boolean prime ideal theorem / ultrafilter lemma",
+      "embedding of a boolean algebra into a powerset algebra / field of sets",
+      "unit of the P ⊣ Ult adjunction on the BA side"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'stone' . -> 14 hits, all bibliographic prose; no Stone map",
+      "grep -rn --include='*.v' -w 'ultrafilter|Ult' . -> 3 prose comments only",
+      "grep -rn --include='*.v' 'BoolAlg|BooleanAlgebra' . -> 0 hits: neither B nor P(Ult(B)) is expressible",
+      "grep -rn --include='*.v' -i 'prime ideal|ultrafilter lemma|BPI' . -> 0 hits",
+      "docs/AXIOMS.md scope check: the tree records stdlib axioms used by instance layers; no choice-family principle such as the boolean prime ideal theorem is introduced anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed: no φ_B, no ultrafilter, no boolean algebra, hence neither B nor P(Ult(B)) is expressible. Verified independently that no choice-family principle of the boolean-prime-ideal kind is introduced anywhere (rg -i 'prime ideal|ultrafilter lemma' -> 0 hits; docs/AXIOMS.md scopes only the stdlib axioms used by the Instance/ and Theory/Coq/ layers). Not OUT_OF_SCOPE: the library already accepts axioms in its instance layers, so a choice-principle-dependent injectivity argument would be admissible there — the item is simply unbuilt."
+    }
+  },
+  {
+    "id": "awodey:7.3:prop5",
+    "classification": "ABSENT",
+    "aliases": [
+      "Stone representation theorem",
+      "every boolean algebra is isomorphic to an algebra of subsets / field of sets",
+      "Stone duality theorem (special case)",
+      "B ≅ image of phi_B in P(Ult(B))",
+      "representation of B by clopen subsets of its Stone space"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'stone' . -> 14 hits, all bibliographic prose; Theory/Equivalence.v:120-121 cites Stone's 'The Theory of Representations for Boolean Algebras' as motivation only, with no theorem attached",
+      "grep -rn --include='*.v' 'BoolAlg|BooleanAlgebra' . -> 0 hits; grep -rn --include='*.v' -i 'clopen' . -> 0 hits",
+      "grep -rn --include='*.v' -w 'ultrafilter|Ult' . -> 3 prose comments only, so the witness X = Ult(B) is unavailable",
+      "grep -rn --include='*.v' 'field of sets|algebra of subsets' . -> 0 hits",
+      "docs/INHABITATION.md / CLAUDE.md index scanned: the duality-flavoured flagships in-tree are Stone-free (Equivalence/FullFaithful, Grothendieck RoundTrip, Localization/Universal); no representation theorem for any algebraic structure is present"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agreed. rg -i 'stone' -> bibliography only, and the closest citation, Theory/Equivalence.v:119-121 ('Boolean algebras against Stone spaces (Stone, \"The Theory of Representations for Boolean Algebras\", Transactions of the AMS 40, 1936)'), is motivational prose inside the equivalence-of-categories essay with no theorem attached — I read the surrounding block to confirm it makes no in-tree claim (the in-tree examples it then lists are Monadic, Karoubi, RoundTrip_Equivalence, Idempotent_EM_Equivalence, all Stone-free). rg -i 'clopen' -> 0 hits; rg 'field of sets|algebra of subsets' -> 0 hits. The witness X = Ult(B) is unavailable, so the representation theorem has no in-tree counterpart, weak or otherwise."
+    }
+  }
+]

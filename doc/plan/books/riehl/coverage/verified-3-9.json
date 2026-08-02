@@ -1,0 +1,357 @@
+[
+  {
+    "id": "riehl:3.6:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "orbit set of a G-action; set of orbits X/G",
+      "colimit over BG (the delooping / one-object category of a group)",
+      "one-object category on a monoid or group; Instance/Monoid, Instance/Grp",
+      "G-set = functor BG -> Set; group action functor into Sets",
+      "coequalizer of the action / quotient set (dual: fixed points as the limit)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include=\"*.v\" -E \"orbit|G-set|GSet|group action|BG\" . -- 0 hits for 'orbit'; 'group action' hits are only prose about the SYMMETRIC-group action in Theory/Multicategory*.v and Construction/Groupoid.v; 'BG' hits are a BraidedMonoidalFunctor variable name in Construction/PROP/Universal.v:535 and ColouredPROP/Universal.v:579",
+      "grep -rn -i --include=\"*.v\" -E \"Deloop|BMonoid|Mon_Cat|one object|single object|monoid as a category|group as a category\" . -- the only 'delooping' in-tree is Theory/Bicategory/OneObject.v (a MONOIDAL CATEGORY as a one-object BICATEGORY) and Monad/Graded.v prose; no delooping of a group or monoid into a Category",
+      "grep -rn --include=\"*.v\" -E \"Class Group|Record Group|Definition Group|Grp \" . -- groups exist only as Instance/Comp.v:382 'Definition Group := Algebra GroupOp GroupEq' (an equational-signature algebra) and Structure/Group.v:109 'Class GroupObject'; neither is converted into a one-object category, and no functor out of such a category is defined",
+      "ls Instance/*.v -- no Instance/Monoid.v, no Instance/Grp.v, no Instance/GSet.v; the concrete instances are Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX",
+      "grep -rn -i --include=\"*.v\" -E \"Colimit|Cocomplete\" Instance/ -- no general colimit computation in Sets (only prose); ls Instance/Sets/ shows Cartesian, Classifier, Cocartesian, Coend, End, Image, Karoubi, Par, Pushout, Streams, i.e. binary coproducts, pushouts and the coend only",
+      "grep -rn --include=\"*.v\" -E \": @?Complete|: @?Cocomplete\" . -- Complete/Cocomplete appear ONLY as hypotheses (Comma/Limit.v, GAFT.v, SAFT.v, Adamek/Corollaries.v); no concrete category is proved (co)complete in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, before opening the coverage file. My own log: `rg -il 'orbit' -g'*.v'` -> 0 hits (the classifier's identical finding); `rg -in 'delooping|one-object|one object categor|monoid as a categor|BG\\b'` -> only prose (Theory/Bicategory/OneObject.v is a MONOIDAL category as a one-object BICATEGORY; Theory/Functor.v:68 and Instance/Fun.v:76 mention 'functor from a one-object category BG to vector spaces' purely as commentary; Construction/Karoubi.v:95, Construction/Cayley.v:69,78, Construction/Funny/Comparison.v:34,76 likewise); `ls Instance/` -> no Monoid/Grp/GSet instance. I additionally read Construction/Groupoid.v (it is the CORE groupoid of a category, not the delooping of a group) and `rg -in 'coinvariant|fixed point|group action'` -> nothing categorical. No colimit-of-a-Sets-diagram machinery exists either: I re-ran `rg -n '(Instance|Definition|Theorem|Lemma).*: *@?(Complete|Cocomplete)\\b' -g'*.v'` and every hit is a HYPOTHESIS binder (Adjunction/SAFT.v, Adjunction/GAFT.v:193), never an instance, confirming the classifier's last log line. Negative log spot-checked: Instance/Comp.v:382 is indeed 'Definition Group := Algebra GroupOp GroupEq' and Structure/Group.v:109 'Class GroupObject (grp : C) := {' -- both verified verbatim; neither is converted into a category. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.6:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "category of elements el(F) / the Grothendieck construction on a Set-valued functor",
+      "pi_0 / set of connected components of a small category",
+      "colim F in Sets as the disjoint union quotiented by the diagram relation",
+      "discrete opfibration over C; integral sign notation int F",
+      "colimit cone legs as the component-class maps F c -> pi_0(int F)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include=\"*.v\" -E \"connected component|pi_0|category of elements|Elements\" . -- the ONLY occurrence of 'category of elements' is a prose comment, Construction/Grothendieck.v:108-110 ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)'); there is no Definition specializing Grothendieck/Displayed to a Sets-valued functor. 'Elements' otherwise resolves to FMap M.elements in Theory/Metacategory.v",
+      "grep -rn -i --include=\"*.v\" -E \"connected|Conn\\b|zigzag|zig-zag\" . -- all zigzag hits are adjunction triangle identities (Theory/Adjunction.v, DoubleCategory/Companion.v, Equivalence/Monoidal.v); 'connected components' occurs only in Instance/FinSet/Pushout.v:265,405 as the union-find IMPLEMENTATION of FinSet pushouts (po_apex := fin_countP po_isrep), not as pi_0 of a category",
+      "grep -rn -i --include=\"*.v\" -E \"Colimit|Cocomplete\" Instance/ -- no colimit of a general Sets-valued diagram anywhere; the nearest construction is Instance/Sets/Coend.v (the coend as an inductive setoid quotient by the dinaturality relation), which is int^x F(x,x) for a BIFUNCTOR, not colim of a covariant F, and carries no pi_0 statement",
+      "grep -rn --include=\"*.v\" -E \": @?Complete|: @?Cocomplete\" . -- Cocomplete appears only as a hypothesis (Theory/Adamek/Corollaries.v:61); Sets is never shown cocomplete"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My own log: `rg -in 'Elements|category of elements|\\u222b'` over *.v -- every '\\u222b' is the END/COEND integral (Structure/End.v, Structure/Coend.v, Theory/Coend/{Yoneda,Fubini}.v), never el(F); `rg -in 'pi0|Pi0|connected component'` -- only Instance/FinSet/Pushout.v:30,35,265,398,405 (the union-find implementation of FinSet pushouts) and prose. I verified the classifier's single most load-bearing citation by reading the file: Construction/Grothendieck.v:108-110 reads verbatim 'recovers the category of elements el(F), whose projection is a / discrete opfibration and whose objects pair an element of the / functor with the object it lies over' -- it is prose inside the background essay, and `ls Construction/Grothendieck/` (Fiber.v, Fibration.v, RoundTrip.v, Strict.v) contains no Sets-valued specialization. I also checked the one route the classifier did not name: Instance/Discrete.v provides DiscreteCat/DiscreteCat_Functor, so a Sets-valued F could in principle be discretized into an IndexedCat and fed to Grothendieck -- but no such composite is defined in-tree, and Construction/Indexed.v's IndexedCat demands a coherence pack a bare Sets-valued functor does not supply. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.6:exiii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "category of sets and partial functions: Par, Pfn, Part, Kleisli(option)/Kleisli(Maybe)",
+      "coproduct in Par = disjoint union A + B",
+      "product in Par = A + B + (A x B) (the 'classical product' of restriction categories)",
+      "smash product A ^ B; pushout of the canonical map coproduct -> product along the map to the zero object",
+      "zero object in Par = the empty set (initial and terminal); pointed sets"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Par.v",
+        "line": 115,
+        "symbol": "Part_Cartesian",
+        "intree_statement": "Program Instance Part_Cartesian : @Cartesian Part := { product_obj := fun x y => {| carrier := x + (y + (x * y)) |} }.  -- where Part is the category of setoids and partial maps, hom x y := SetoidMorphism x (option y) (Instance/Sets/Par.v:27)"
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 235,
+        "symbol": "Par_Cocartesian",
+        "intree_statement": "Program Instance Par_Cocartesian : @Cocartesian Par := { product_obj := sum; fork := lam _ _ _ f g x, match x with inl v => f v | inr v => g v end; exl := lam _ _ p, Some (inl p); exr := lam _ _ p, Some (inr p) }.  -- in this library's Cocartesian class the field named product_obj IS the coproduct; Par is Coq Types with hom A B := A -> option B (Instance/Coq/Par.v:53)"
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 229,
+        "symbol": "Par_Initial",
+        "intree_statement": "Program Instance Par_Initial : Initial Par := { terminal_obj := False; one := lam _ _, False_rect _ _ }.  -- together with Instance/Coq/Par.v:213 'Instance Par_Terminal : @Terminal Par := @SemicartesianMonoidal_Terminal _ Par_Monoidal Par_SemicartesianMonoidal' whose unit is I := False (line 90), so the empty type is BOTH initial and terminal in Par: the zero object the exercise recalls from Exercise 1.6.iii"
+      }
+    ],
+    "statement_record": {
+      "book": "In the category of sets and partial functions (which has a zero object): (i) give a formula for the binary coproduct A v B; (ii) give a formula for the binary product A x B; (iii) the identity matrix gives a canonical map I : A v B -> A x B, and the smash product A ^ B is the pushout of I along the unique map A v B -> 0; give a formula for A ^ B.",
+      "intree": "Part_Cartesian: '@Cartesian Part := { product_obj := fun x y => {| carrier := x + (y + (x * y)) |} }'; Par_Cocartesian: '@Cocartesian Par := { product_obj := sum; ... }'; Par_Initial/Par_Terminal both at the empty type.",
+      "strength_comparison": "same for clauses (i) and (ii) (setoid rephrasing: Instance/Sets/Par.v works over setoids, Instance/Coq/Par.v over Coq Types; the partial map A -> B is encoded as a total map A -> option B, i.e. Kleisli(option), which is the standard presentation of Par); intree-weaker overall: clause (iii), the smash product, is absent. The library additionally proves MORE than the exercise asks for clause (ii) -- Par_CartesianMonoidal/Part_Cartesian come with the full UMP, and Instance/Sets/Par.v:240,269 prove 'to_from_impossible'/'from_to_impossible', i.e. that Par is not closed for this product."
+    },
+    "gap": "Clause (iii) is entirely missing: there is no 'smash' definition anywhere in the tree (grep -rn -i 'smash' returns only Instance/Coq/Par.v:101-103 and Instance/Coq/ParE.v:122,174-178, which are COMMENTS explicitly saying the monoidal structure used is the product in pointed sets and NOT the smash product), no canonical 'identity matrix' comparison map coproduct -> product, and no pushout of that map along the map to the zero object. Also, the two halves of the answer are split across two different in-tree categories: the product formula is proved for the setoid category Part (Instance/Sets/Par.v) and the CartesianMonoidal Par (Instance/Coq/Par.v:209-216), while the coproduct and the zero object are proved only for the Coq-Types Par (Instance/Coq/Par.v); Instance/Sets/Par.v carries no Cocartesian/Initial instance, and no in-tree lemma records that the empty object is a ZeroObject (Structure/ZeroObject.v is never instantiated at Par -- the only ZeroObject instance is CMon_Zero, Instance/CMon/Biproduct.v:160).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, with the same split (clauses (i)+(ii) present, clause (iii) absent). All three evidence citations verified line-exact by reading the files: Instance/Sets/Par.v:115 = 'Program Instance Part_Cartesian : @Cartesian Part := {' with product_obj carrier 'x + (y + (x * y))' on the next lines (= Riehl's A + B + A\\u00d7B); Instance/Coq/Par.v:229 = '#[export] Program Instance Par_Initial : Initial Par := {' with terminal_obj := False; Instance/Coq/Par.v:235 = '#[export] Program Instance Par_Cocartesian : @Cocartesian Par := {' with product_obj := sum (= Riehl's A \\u2228 B); Instance/Coq/Par.v:213 = '#[export] Instance Par_Terminal : @Terminal Par :=' built from Par_Monoidal whose 'I := False' is at line 90 exactly as quoted. So the empty type is genuinely both initial and terminal in Par, i.e. the zero object the exercise recalls. The strength_comparison's supporting claim also verified: Instance/Sets/Par.v:240 'to_from_impossible' and :269 'from_to_impossible' both end in Qed (their unquantified partners to_from/from_to are honestly Abort-ed with 'Stuck ...' comments, so nothing is admitted into the environment). Gap verified as stated: `rg -in 'smash' -g'*.v'` returns only Instance/Coq/Par.v:101-103 and Instance/Coq/ParE.v:122,174-182, all COMMENTS, and ParE.v:177-182 says outright 'That tensor and its closure are not formalized here; this remark only records the structure that exists.' No comparison map coproduct -> product, no pushout to the zero object. The ZeroObject claim verified too: Instance/CMon/Biproduct.v:160 = '#[export] Instance CMon_Zero : ZeroObject CMon :=' is indeed the tree's only ZeroObject instance (`rg -n 'ZeroObject' -g'*.v'` otherwise yields only Context/Require lines in Structure/{Abelian,Kernel,Semiadditive,Biproduct,Additive}.v). All cited files are registered in _CoqProject (Instance/Sets/Par.v:236, Instance/Coq/Par.v:189). PARTIAL with this gap stands."
+    }
+  },
+  {
+    "id": "riehl:3.6:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "Quiver / directed graph / multidigraph category is complete and cocomplete",
+      "reflexive quiver rQuiver (each vertex with a chosen endoarrow)",
+      "Graph (undirected / symmetric graphs) is neither complete nor cocomplete",
+      "presheaves on the walking arrow; limits and colimits computed pointwise (Prop 3.4.9)",
+      "product of the walking arrow / walking edge with itself"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include=\"*.v\" -E \"quiver|reflexive graph|Graph\\b|walking arrow|walking edge\" . -- the quiver development is Construction/Free/Quiver.v: 'Instance QuiverCategory : Category' (line 358) over 'Class QuiverHomomorphism' (line 205), plus FreeCatFunctor/Forgetful/FreeForgetfulAdjunction (lines 546-550) and the Test/Issue138.v exercises. That file asserts ONLY that quivers form a category and that Free -| Forgetful; it contains no Limit, Colimit, Complete or Cocomplete result",
+      "grep -n -E \"^(Program )?(Definition|Lemma|Theorem|Instance|Class|Record|Corollary)\" Construction/Free/Quiver.v -- full symbol list: Build_Quiver_Standard_Eq, QuiverHomomorphism, QuiverHomomorphismEquivalence, QuiverId, transport_quiver_dom/cod, QuiverComp, QuiverCategory, FreeCatFunctor, FreeForgetfulAdjunction, Mor_Setoid, morDA_tlistDA, tlistDA_morDA, FreeSyntax -- no (co)limit content",
+      "grep -rn -i --include=\"*.v\" -E \"reflexive quiver|rQuiver|reflexive graph\" . -- 0 hits; no reflexive-quiver category exists in-tree",
+      "grep -rn --include=\"*.v\" -E \": @?Complete|: @?Cocomplete|Complete [A-Z]\" . -- Complete/Cocomplete occur ONLY as hypotheses (Construction/Comma/Limit.v:124,246,273; Adjunction/GAFT.v:193,242; Adjunction/SAFT.v:145-275; Theory/Adamek/Corollaries.v:61). No category in the library carries a Complete or Cocomplete instance, so a fortiori Quiver does not",
+      "grep -rn -i --include=\"*.v\" -E \"pointwise limit|limits.*pointwise|computed pointwise\" . -- Instance/Fun/Cartesian.v:111 'Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)' gives pointwise binary PRODUCTS in a functor category only; the general 'limits in [C,D] are computed pointwise' (Riehl 3.4.9, the hint for this exercise) is prose in Instance/Fun.v:102",
+      "Note: QuiverCategory is not built as a presheaf category [walking-arrow^op, Sets] either, so the presheaf route the exercise suggests is unavailable in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass initially leaned PARTIAL, on the ground that QuiverCategory exists in-tree; on the frozen definitions I withdraw that and confirm ABSENT. The item is an exercise whose content is three CLAIMS (Quiver complete+cocomplete, rQuiver ditto plus a computed product, Graph neither). Not one of those claims -- nor any limit/colimit fact about quivers at all -- exists in-tree; the ambient category is a prerequisite of the claim, not a part of it, and the classifier records it fully in negative_search_log line 1-2 so nothing is lost for issue drafting. This also keeps the batch internally consistent with riehl:3.6:exv, which is PARTIAL precisely because the thing the exercise ASKS FOR is in-tree. Verification of the negative log: Construction/Free/Quiver.v:358 = '#[export] Instance QuiverCategory : Category.' and :205 = 'Class QuiverHomomorphism@{o1 h1 p1 o2 h2 p2}' -- both line-exact. I independently re-derived the file's full symbol list and it matches the classifier's: Quiver, tlist'_quiver_equiv, tlist'_equiv_lengths, tlist_quiver_equiv(+_is_equiv), Build_Quiver_Standard_Eq, QuiverHomomorphism(+Equivalence+_IsEquivalence), QuiverId, transport_quiver_dom/cod, QuiverComp, QuiverCategory, QuiverOfCat, QuiverHomomorphismOfFunctor, Forgetful, FreeOnQuiver, InducedFunctor, UnitQuiverCatAdjunction, UniversalArrowQuiverCat, FreeCatFunctor, FreeForgetfulAdjunction, morDA, Mor_Setoid, tlistDA, morDA_tlistDA, tlistDA_morDA, FreeSyntax -- zero Limit/Colimit/Complete content, exactly as claimed. `rg -in 'reflexive quiver|rQuiver|reflexive graph'` -> 0 hits, confirmed. Instance/Fun/Cartesian.v:111 = 'Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).' -- pointwise binary products only, confirmed; the general pointwise-limits statement really is only prose at Instance/Fun.v:102. File is registered (_CoqProject:72). See problems[] for a header defect I found in that file while checking this record."
+    }
+  },
+  {
+    "id": "riehl:3.6:exv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "double category as an internal category in Cat (Ehresmann)",
+      "internal category / category object: dom, cod : C1 => C0, id : C0 -> C1, comp : C1 x_{C0} C1 -> C1",
+      "objects, horizontal morphisms, vertical morphisms, squares (2-cells) with two compositions",
+      "strict double category vs pseudo (weak) double category; Theory/DoubleCategory.v",
+      "square pasting, interchange law, Construction/Sq.v (commuting squares)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/DoubleCategory.v",
+        "line": 162,
+        "symbol": "DoubleCategory",
+        "intree_statement": "Class DoubleCategory : Type := { dcat : Category;  dhor : dcat -> dcat -> Type;  dsq {a b c d : dcat} : dhor a b -> (a ~{dcat}~> c) -> (b ~{dcat}~> d) -> dhor c d -> Type;  dsq_setoid ...;  dsq_vid {a b} (h : dhor a b) : dsq h id id h;  dsq_vcomp ... : dsq h u v k -> dsq k u' v' l -> dsq h (u' o u) (v' o v) l;  dhid (a : dcat) : dhor a a;  dhcomp {a b c : dcat} : dhor b c -> dhor a b -> dhor a c;  dsq_hcomp ... : dsq h u v k -> dsq h' v w k' -> dsq (dhcomp h' h) u w (dhcomp k' k);  dinterchange ...;  dassoc ...; dunit_left ...; dunit_right ...; dcoherence_triangle ...; dcoherence_pentagon ... }  -- i.e. exactly the elementary unpacking the exercise asks for: objects and STRICT vertical morphisms (the objects and morphisms of dcat), horizontal 1-cells dhor, squares dsq with their four boundary edges, identities and compositions in both directions, and interchange"
+      }
+    ],
+    "statement_record": {
+      "book": "A double category is an internal category in Cat, i.e. the diagram (3.6.12) of categories and functors dom, cod : C1 => C0, id : C0 -> C1, comp : C1 x_{C0} C1 -> C1. Unpack this into elementary data: objects and 'horizontal morphisms' (objects and morphisms of C0), 'vertical morphisms' and 'squares' (objects and morphisms of C1), with domains, codomains, identities and compositions defined both internally to C0 and C1 and by the functors in the diagram.",
+      "intree": "Class DoubleCategory : Type := { dcat : Category; dhor : dcat -> dcat -> Type; dsq {a b c d} : dhor a b -> (a ~> c) -> (b ~> d) -> dhor c d -> Type; dsq_vid; dsq_vcomp; dhid; dhcomp; dsq_hcomp; dinterchange; dassoc; dunit_left; dunit_right; dcoherence_triangle; dcoherence_pentagon }",
+      "strength_comparison": "intree-weaker in the horizontal direction and different in packaging. (a) The in-tree class is a PSEUDO double category: dassoc/dunit_left/dunit_right are only INVERTIBLE GLOBULAR squares subject to triangle+pentagon, whereas an internal category in Cat is a STRICT double category with dhcomp strictly associative and unital. (b) The internal-category presentation itself (the pullback C1 x_{C0} C1 in Cat and the functors dom/cod/id/comp) is not defined in-tree at all, so the exercise's actual task -- deriving the elementary data FROM that diagram, and hence the equivalence of the two presentations -- is absent. (c) The header of Theory/DoubleCategory.v discloses a coherence-only scope: horizontal identity squares on verticals, unit-interchange, and coherence naturality are not required by the class. (d) Naming is transposed relative to Riehl: in-tree the morphisms of dcat are the VERTICAL 1-cells while dhor carries the horizontal ones."
+    },
+    "gap": "The internal-category-in-Cat definition (diagram 3.6.12) and the unpacking correspondence are missing. grep -rn -i -E 'internal categ|InternalCat|category object|pullback of categories|C_1' over *.v returns only prose: Theory/DoubleCategory.v:115-116 ('a double category is precisely a category internal to Cat') and Construction/Enriched.v:83-85 (contrasting enrichment with internal categories). There is no pullback in Cat (Instance/Cat/ holds only Bicategory.v, Cartesian.v and Cocartesian.v -- Cat_Cartesian and Cat_Cocartesian, i.e. products and coproducts of categories, plus the bicategory structure; grep 'strict double|StrictDouble' returns 0 hits), so C1 x_{C0} C1 is not constructed in-tree (the strict pullback of categories is definable, it simply does not exist in the library), and no theorem connects the elementary class to the internal-category data. What IS present is the elementary side alone (the class above) plus two models, Construction/Sq.v:47 'Sq (C : Category) : DoubleCategory' and Construction/Cospan/Double.v.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently and for the same reasons (the elementary unpacking exists; the internal-category side does not; and the in-tree class is PSEUDO where an internal category in Cat is STRICT). Evidence verified line-exact: Theory/DoubleCategory.v:162 = 'Class DoubleCategory : Type := {' with dcat/dhor/dsq at 163-172 exactly as quoted; file registered (_CoqProject). All four sub-claims of strength_comparison hold on inspection: (a) dassoc/dunit_left/dunit_right are invertible globular squares under triangle+pentagon, per the header at lines 107-111 ('The structure housing both is therefore the PSEUDO double category -- strict one way, weak the other -- the shape of the class above'); (b) `rg -in 'internal categ|InternalCat|category object'` returns only Theory/DoubleCategory.v:115-116 and Construction/Enriched.v:83-85, both prose; (d) the transposition is real -- the in-tree comment at line 163 reads 'Objects together with their STRICT vertical morphisms', whereas Riehl's C_0 carries objects and HORIZONTAL morphisms. TWO FACTUAL SLIPS IN gap, corrected in place (classification unaffected): (1) it said 'Instance/Cat/ has only Cartesian.v and Cocartesian.v' -- `ls Instance/Cat/*.v` is Bicategory.v, Cartesian.v, Cocartesian.v (plus an Instance/Cat/Bicategory/ subdirectory); the classifier's own exvi log states this correctly, so it is a typo not a search failure; (2) 'C1 x_{C0} C1 cannot even be formed in-tree' overstates -- the strict pullback of categories is perfectly definable, it simply is NOT constructed in-tree; softened to 'is not constructed in-tree'. The load-bearing point (no pullback in Cat exists, so the internal-category diagram cannot be written against existing machinery) survives both corrections. PARTIAL stands."
+    }
+  },
+  {
+    "id": "riehl:3.6:exvi",
+    "classification": "ABSENT",
+    "aliases": [
+      "cone-shape category J^triangleright / J^triangleleft; the join of J with the point",
+      "freely adjoined initial or terminal object; augmented index category",
+      "pushout in Cat of J -> 1 along i0, i1 : J => J x 2",
+      "walking cone / walking cocone shape; Instance/Cones.v",
+      "the functors s, n : 1 -> J x 2 picking out an initial resp. terminal object"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include=\"*.v\" -E \"cone shape|coneshape|adjoin.*terminal|freely adjoin|walking cone|J\\^|augment\" . -- no cone-shape category; 'J^' hits are all J^op in Theory/Equivalence/Limit.v and Structure/Limit/*.v; 'freely adjoin' is Theory/Coq/Maybe.v:117 (adjoining a unit to a semigroup); 'augment' is Structure/Monoidal/Heunen_Vicary.v (augmentations e : x -> I) and Instance/FinSet.v:86 (augmented symmetric simplicial sets, prose)",
+      "grep -rn -i --include=\"*.v\" -E \"Pushout Cat|Cat.*Pushout|pushouts in Cat|HasPushouts\" . -- HasPushouts instances exist only for FinSet (Instance/FinSet/Pushout.v:513) and Sets (Instance/Sets/Pushout.v:185); Cat carries no pushouts. ls Instance/Cat/ shows only Bicategory{,.v}, Cartesian{,.v}, Cocartesian.v -- i.e. Cat_Cartesian (product of categories) and Cat_Cocartesian (coproduct of categories), no pushout, no general colimit",
+      "Instance/Cones.v is a DIFFERENT construction: the category whose OBJECTS are the cones over a fixed diagram F (Instance/Cones.v:24,44-45, with Instance/Cones/Limit.v:34 'a colimit is the initial object of the category of cocones over F'), not the cone-SHAPE index category J^triangleright",
+      "grep -rn -i --include=\"*.v\" -E \"Instance/Shapes|Roof|Parallel|Two\\b\" Instance/ -- the in-tree shape categories are Instance/One.v (1), Instance/Two.v (the walking arrow), Instance/Parallel.v (walking parallel pair), Instance/Roof.v (the span/cospan shape), Instance/Discrete.v, Instance/Omega.v; none is a join J * 1"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My own log: `rg -in 'cone shape|shape of cones|walking cospan|cocone shape|augment'` and `rg -in 'join of|cone categ|adjoin an initial|adjoin a terminal|star of categories'` -- no join/cone-shape construction anywhere ('join' hits are Monad/Transformer.v:164's monadic join and Structure/Pullback.v:49's SQL inner join). I confirmed the classifier's distinction independently: Structure/Cone.v defines Cone/ACone directly as the transformation data (Class ACone at line 24, Class Cone at 51, Cocone at 72), never via an index-category shape; Instance/Cones.v is the category whose OBJECTS are cones over a fixed F. Pushout claim verified line-exact: Instance/Sets/Pushout.v:185 = '#[export] Program Instance Sets_HasPushouts : HasPushouts Sets := {|' and Instance/FinSet/Pushout.v:513 = '#[export] Program Instance FinSet_HasPushouts : HasPushouts FinSet := {' -- and `ls Instance/Cat/*.v` really is only Bicategory.v, Cartesian.v, Cocartesian.v, so Cat has products and coproducts of categories but no pushout and no general colimit. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.6:exvii",
+    "classification": "ABSENT",
+    "aliases": [
+      "divisibility poset (N, |) as a thin category",
+      "greatest common divisor as a product/limit; least common multiple as a coproduct/colimit",
+      "meets and joins in a poset are limits and colimits",
+      "complete lattice of naturals under divisibility",
+      "Nat.divide / gcd / lcm; Instance/Poset with the divides order"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include=\"*.v\" -E \"divisib|divide|gcd|lcm|Nat.divide\" . -- exactly ONE hit, Structure/Cartesian.v:70, and it is the English word 'dividend' in a prose comment. No divisibility order, no gcd, no lcm anywhere in the tree",
+      "grep -rn -i --include=\"*.v\" -E \"greatest lower|least upper|infimum|supremum|meet|join|lattice\" . -- all substantive hits are prose: Instance/Poset.v:50-51 ('a product is a meet, and more generally the limit over a subset is its greatest lower bound; a coproduct is a join'), Instance/Two.v:67-74 (two_meet as the monoidal tensor on the walking arrow). No lemma states that limits in a poset are meets, and no ordered structure other than <= is instantiated",
+      "grep -rn -i --include=\"*.v\" -E \"Nat|natural number\" Instance/Omega.v -- Instance/Omega.v is the ordinal omega, N ordered by a Type-valued le_t; the ORDER is <=, not divisibility, and it carries no limit/colimit computation",
+      "Instance/Poset.v and Instance/Proset.v define the thin category of a (pre)order abstractly but prove nothing about its limits or colimits (grep -n 'Definition|Lemma|Theorem|Instance' shows only the category instances)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently: my `rg -in 'divisib|divides|gcd|lcm|least common|greatest common' -g'*.v'` returned 0 hits. The classifier ran the slightly wider 'divide' and reported exactly one hit at Structure/Cartesian.v:70; I read that line and it is indeed the English word inside prose ('library collects that dividend in Structure/Cocartesian.v, where the'), not a divisibility relation. The meet/join claim also verified: Instance/Poset.v:50-51 states 'a product is a meet, and more generally the limit over a subset is its greatest lower bound; a coproduct is a join' as PROSE inside the background essay, and neither Instance/Poset.v nor Instance/Proset.v contains any Cartesian/Cocartesian/Limit instance -- so even the general 'limits in a thin category are meets' half of the exercise has no formal counterpart to hang a PARTIAL on. Instance/Omega.v is \\u2115 under a Type-valued le_t, not divisibility, as claimed. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.6:exviii",
+    "classification": "ABSENT",
+    "aliases": [
+      "ordered configuration space PConf_n(X); unordered configuration space Conf_n(X)",
+      "category of finite sets and injections (Fin_mono, FI, the injection category)",
+      "contravariant functor Fin_mono^op -> Top",
+      "Top / category of topological spaces and continuous maps",
+      "restriction of a configuration along an injection; failure of functoriality after quotienting by the symmetric group"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include=\"*.v\" -E \"configuration space|PConf|Conf_\" . -- 0 hits",
+      "grep -rn --include=\"*.v\" -E \"topolog|Top\\b|open set|continuous map\" . -- no category of topological spaces exists; every 'topology' hit is prose (Theory/Sheaf.v on Grothendieck topologies, Theory/Category.v:84) and the bare 'Top' hits are the constructor Top of Solver/Normal.v's formula syntax (lines 363, 400)",
+      "grep -rn -i --include=\"*.v\" -E \"injection|Fin_mono|wide subcategory of mono\" . -- 'injection' hits are all coproduct/colimit injections (inl/inr, colimit_inj) or the prose characterization of monos in Sets (Instance/Sets.v:366); there is no category of finite sets and injections. Instance/FinSet.v is skeletal FinSet with ALL functions Fin.t m -> Fin.t n and carries no injective-maps subcategory",
+      "grep -rn -i --include=\"*.v\" -E \"orbit|symmetric group quotient\" . -- no quotient by a symmetric-group action on a space; the symmetric action in Theory/Multicategory.v is the witness-indexed msym on multimorphisms, unrelated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and immediately: `rg -in 'configuration space|PConf|Conf_'` -> 0 hits; `rg -in 'Topological|category Top\\b|Instance Top'` -> only prose (Structure/Group.v:46 'topological groups in Top', Structure/Terminal.v:25,33 on free topological groups, Structure/Limit.v:50 on \\u010cech cohomology) -- there is no category of spaces in-tree, so the codomain of PConf_bullet does not exist. The Fin_mono half is also genuinely absent: Instance/FinSet.v is skeletal FinSet with ALL functions between Fin.t's and carries no injections-only wide subcategory (I checked `ls Instance/FinSet/` -- Classifier, Closed, Lawvere, Product, Pushout, Topos -- none of which restricts to monos). Note the library DOES have universe polymorphism, so this is a genuine content gap and correctly ABSENT rather than OUT_OF_SCOPE. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.6:exix",
+    "classification": "ABSENT",
+    "aliases": [
+      "fiber space / bundle p : E -> B; arrow category Top^2; Top/B",
+      "fiber over a point as a pullback along 1 -> B; induced map on fibers",
+      "trivial fiber space / trivial bundle B x F -> B",
+      "sections functor Gamma / Pi_B : Top/B -> Set; set of continuous sections",
+      "the non-full subcategory of pullback squares; codomain fibration"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E \"topolog|Top\\b|open set|continuous map\" . -- there is no category Top in-tree (all hits are prose, plus Solver/Normal.v's Top formula constructor), so no Top^2, no Top/B, and none of the seven parts can be stated in the book's setting",
+      "grep -rn -i --include=\"*.v\" -E \"section functor|set of sections|continuous section|Sections\" . -- 'section' in-tree means SPLIT MONO (Theory/Morphisms.v:179 'Lemma sections_are_monic : Section f -> Monic f', Theory/Morphisms/Classes.v) or a section of a comma projection (Construction/Comma/Natural/Transformation.v:41); there is no functor assigning to an object of a slice the SET of its sections",
+      "grep -rn -i --include=\"*.v\" -E \"\\bfibre\\b|\\bfiber\\b\" . (excluding fibration/fibred) -- 'fibre' always means the fibre CATEGORY of a displayed category / indexed category (Construction/Indexed.v, Construction/Grothendieck.v, Construction/Grothendieck/Fiber.v), never the fibre of a map over a point; no lemma computes the fibre of a product or of a trivial bundle",
+      "grep -rn -i --include=\"*.v\" -E \"trivial bundle|trivial fiber\" . -- 0 hits",
+      "The abstract shells that would host the exercise DO exist -- Construction/Arrow.v (the arrow category), Construction/Slice.v (slice C/c), Theory/Morphisms/Stability.v's apex-pinned IsPullback with pasting, and Construction/Displayed/Codomain.v's codomain_cleaving (cartesian lifts iff pullbacks) -- but none of the seven claims of this exercise (induced map on fibers, fibers of a product, fiber of a trivial bundle, classification of isos between trivial bundles, the two sections functors, and their compatibility) is stated or proved for any category, let alone Top"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently: no Top instance exists, so none of the seven parts can be stated in the book's setting; `rg -in 'fiber space|fibre space|continuous section'` -> 0 hits. I verified the classifier's most falsifiable claim, the 'section' same-name trap: Theory/Morphisms.v:179 = 'Lemma sections_are_monic : Section f \\u2192 Monic f.' -- so 'Section' in-tree is a split mono, not a section of a bundle, exactly as reported. I also independently confirmed the honest closing paragraph of the negative log: Construction/Arrow.v does define the arrow category as the comma (Id[C] \\u2193 Id[C]) and its header even draws the commuting square Riehl's 'map of fiber spaces' is, and Construction/Slice.v exists -- so the ABSTRACT shells are real while none of the seven claims is stated for any category. That is an accurate PARTIAL-adjacent call correctly resolved as ABSENT, since no clause of the exercise has an in-tree counterpart. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.7:lem1",
+    "classification": "ABSENT",
+    "aliases": [
+      "the limit of the identity functor is the initial object; lim id_C = initial object",
+      "weakly initial object (summit of a cone over id_C)",
+      "cone over the identity functor Delta l => id_C; leg indexed by the summit is the identity",
+      "id_C admits a limit iff C has an initial object",
+      "dual: the colimit of the identity functor is the terminal object"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include=\"*.v\" -E \"limit.*Id\\[|Limit \\(Id|Limit Id|colimit of the identity|limit of the identity\" . -- 0 hits",
+      "grep -rn -i --include=\"*.v\" \"identity functor\" . | grep -iE \"limit|colimit|initial|terminal|cone\" -- 0 hits",
+      "grep -rn -i --include=\"*.v\" -E \"weakly initial|WeaklyInitial|weakly_initial\" . -- the only development is Theory/WeaklyInitial.v, and it is a DIFFERENT statement: 'Record WeaklyInitialFamily (C : Category)' (line 58) is an indexed FAMILY of objects with a map from some member to each object, and 'Theorem initial_from_weakly_initial (W : WeaklyInitialFamily C) ...' (line 89) is the Freyd product-and-equalizer-of-all-endomorphisms construction. It never mentions the identity functor, never says the summit of a cone over id_C is weakly initial, and requires products+equalizers as extra hypotheses that Lemma 3.7.1 does not need (same-name-but-different trap)",
+      "grep -rn -i --include=\"*.v\" -E \"initial\" . | grep -i \"limit\" -- the only relations recorded are 'a colimit is an initial cocone' / 'a limit is the terminal object of the category of cones' (Structure/Initial.v:48, Structure/Limit.v:156, Instance/Cones/Limit.v:34) and 'a terminal object is the limit of the EMPTY diagram' (Structure/Terminal.v:16, Structure/Limit/Terminal.v). None is Lemma 3.7.1's identity-functor statement, and none is an iff",
+      "grep -rn -i --include=\"*.v\" -E \"large limit|large product|large diagram|large categ\" . -- the observation that this is a naturally occurring LARGE limit appears nowhere; the closest is prose in Adjunction/GAFT.v:103-104 and Instance/Cat.v:22"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. I ran `rg -in 'limit of the identity|identity functor.*limit|weakly initial|WeaklyInitial'` and `rg -n 'Diagonal.*Id|\\u0394.*Id\\['` -- nothing states Lemma 3.7.1 in either clause. I opened Theory/WeaklyInitial.v in full to test the same-name trap the classifier flags, and confirm it: line 58 'Record WeaklyInitialFamily (C : Category) := { wif_index : Type; wif_obj : wif_index -> C; wif_cover (c : C) : { i : wif_index & wif_obj i ~> c } }' is a FAMILY, and line 89 'Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C) (P : Limit ...) (Pe : Limit ...) (E : HasEqualizers C) : @Initial C' is Freyd's product-and-equalizer construction, which takes three extra hypotheses Riehl's 3.7.1 does not need and never mentions id_C. There is no single-object 'WeaklyInitial' predicate in-tree at all. Neither clause (i) (summit of a cone over id_C is weakly initial; identity leg forces limit+initial) nor clause (ii) (id_C has a limit iff C has an initial object -- an IFF, which the in-tree material never provides in either direction) has a counterpart. Functor/Diagonal.v:33/57 supplies \\u0394 but nothing about \\u0394 l \\u21d2 Id. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.7:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "cardinality of a small category := cardinality of its set of morphisms |mor C|",
+      "cardinality of a small diagram := cardinality of its indexing category",
+      "size / cardinal of a category; number of arrows",
+      "smallness measure used by Freyd's Proposition 3.7.3",
+      "universe level as the library's size discipline"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include=\"*.v\" -E \"cardinal|cardinality\" . -- three families of hits, none of them this definition. (1) Theory/Metacategory.v:415 'Definition cardinality (M : Metacategory) : nat := M.cardinal (P.filter (fun (dom, cod) v => (dom =? v) && (cod =? v)) (pairs M))' -- a SAME-NAME-BUT-DIFFERENT trap: the header at line 102 states it 'counts the identity arrows', i.e. it computes the number of OBJECTS, not |mor C|; it is moreover defined only for the finite-map Metacategory encoding, not for a general Category, and its only consumer is 'Lemma ThreeArrows_card_3 : cardinality ThreeArrows = 3' (line 447). (2) Instance/Shapes.v:449 'Cardinality (a : Type) : Tries a -> Vectors a' -- the size of a trie, a functor between shape categories, unrelated. (3) Theory/Universal/Arrow.v:83 and Structure/Complete.v:69 -- prose",
+      "grep -rn -i --include=\"*.v\" -E \"small categ|smallness|size of a categ\" . -- smallness is discussed only in prose (Structure/Complete.v:27-37 explains that the library carries the size discipline implicitly through universe polymorphism rather than through any cardinality function); there is no Definition of the size of a category",
+      "grep -rn --include=\"*.v\" -E \"mor C|morphism set|set of morphisms\" . -- no in-tree operation collects the morphisms of a category into a single set/type, which is what this definition would require; hom-sets are per-pair setoids (Theory/Category.v)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, and I hit the same same-name trap the classifier caught, so I checked it at source. Theory/Metacategory.v:415 = 'Definition cardinality (M : Metacategory) : nat :=' whose body is 'M.cardinal (P.filter (fun (dom, cod) v => (dom =? v) && (cod =? v)) (pairs M))'. That filter keeps exactly the entries (i,i) \\u21a6 i, i.e. the idempotent = IDENTITY arrows of the arrows-only presentation, so the function returns the number of OBJECTS, not |mor C|. The header at Theory/Metacategory.v:102 says so verbatim ('[cardinality] counts the identity arrows, the entries [(i, i)] mapping to [i]'), so the file is internally honest -- but the constant is therefore NOT Riehl 3.7.2 and must not be cited as such. Its only consumer, Theory/Metacategory.v:447 'Lemma ThreeArrows_card_3 : cardinality ThreeArrows = 3%nat.', does close with Qed (I read to the end of the proof); note the three helper lemmas immediately above it (elements_filter, length_elements_filter, elements_rect) are Abort-ed scaffolding, which leaves nothing in the environment and admits nothing. It is also nat-valued and defined only for the finite-map Metacategory encoding, never for a general Category. Instance/Shapes.v:449 'Cardinality (a : Type) : Tries a \\u27f6 Vectors a' is unrelated (trie size). ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.7:example4",
+    "classification": "ABSENT",
+    "aliases": [
+      "large products in Set; the product of all sets is empty",
+      "product of all non-empty sets does not exist",
+      "Cantor diagonalization / power set P(P) not surjectively hit",
+      "axiom of global choice in a cone construction",
+      "empty set is initial in Sets; a function into the empty set forces an empty domain"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include=\"*.v\" -E \"cantor|diagonaliz|power set|powerset|global choice\" . -- 'Cantor' appears twice, both in prose (Structure/Limit.v:109 on Scott domains, Structure/Complete.v:69 on Freyd's argument); 'power' resolves to Structure/Topos.v:75's 'Pow a := Omega ^ a' (the categorical power OBJECT, an exponential, not a cardinality argument); no global choice",
+      "grep -rn -i --include=\"*.v\" -E \"large limit|large product|large diagram|large categ\" . -- only prose: Instance/Cat.v:22 ('Cat is a large category, and so cannot be an object of itself'), Adjunction/GAFT.v:103-104 ('that category is large, and a large category need not have large limits; indeed a small complete category is a preorder'). No theorem, and no example exhibiting a product that exists or fails to exist for size reasons",
+      "grep -rn -i --include=\"*.v\" -E \"Colimit|Cocomplete|Complete\" Instance/Sets.v Instance/Sets/*.v -- Sets carries binary products (Instance/Sets/Cartesian.v), pushouts and the (co)end, but no indexed/large products; the only indexed product in the tree is Structure/Limit/Product.v's iprod over a DiscreteCat, which is never instantiated at Sets with a proper-class index",
+      "grep -rn -i --include=\"*.v\" -E \"empty set|initial.*Sets|Sets_Initial\" . -- Instance/Sets/Cocartesian.v and Instance/Comp.v:212 mention the initial set only in passing; there is no statement that a cone over the discrete diagram of all sets must have an empty summit"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently: `rg -in 'product of all|large product|global choice|Cantor|diagonaliz'` yields only the two prose Cantor mentions the classifier names (Structure/Limit.v:109 on Scott domains; Structure/Complete.v:69 inside the Freyd paragraph), and no in-tree statement about which large families of sets do or do not admit products. I checked the one thing that could have made this PARTIAL -- whether the in-tree indexed product could be instantiated at Sets with a large index: Structure/Limit/Product.v supplies iprod over a DiscreteCat, but `rg -n '(Instance|Definition|Theorem|Lemma).*: *@?(Complete|Cocomplete)\\b'` shows Complete/Cocomplete occur ONLY as hypothesis binders in the whole tree (Adjunction/SAFT.v:145-275, Adjunction/GAFT.v:193, Construction/Comma/Limit.v, Theory/Adamek/Corollaries.v) and no category carries an instance, so no large product over Sets is ever formed, let alone shown to exist or fail. Instance/Cat.v:22 ('Size: Cat is a large category, and so cannot be an object of itself') verified verbatim and is the closest in-tree remark -- still prose. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.7:prop3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Freyd's theorem: a category with products indexed by families as large as its own cardinality is a preorder",
+      "a small complete category is a preorder / is thin / is posetal",
+      "kappa-indexed power A^kappa; 2^kappa morphisms B -> A^kappa by Cantor",
+      "dual form with copowers of size kappa",
+      "complete lattice as the only preorder with all unrestricted limits and colimits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include=\"*.v\" \"freyd\" . -- 19 hits, ALL prose/attribution: Theory/WeaklyInitial.v:20-25 (Freyd's GAFT input), Theory/Universal/Arrow.v:84-86, Construction/Comma.v:93-94, Construction/Localization.v:86-102 (Freyd-Kelly orthogonality), Structure/Premonoidal.v:73-133 (Freyd categories), Instance/Fun.v:47-50, Theory/Metacategory.v:71. None states the preorder-collapse proposition",
+      "grep -rn -i --include=\"*.v\" -E \"is a preorder|thin categ|posetal|preorder reflect\" . -- Instance/Proset.v:29, Instance/Poset.v:19-20,43, Instance/Two.v:13,89, Instance/Props.v:21-27, Instance/Omega.v:11 all DEFINE or exhibit thin categories; none derives thinness from a hypothesis about products",
+      "The proposition is documented in-tree ONLY as commentary, which is not admissible evidence: Structure/Complete.v:64-77 ('Freyd proved that a category with products of families as large as its own morphism set is a preorder ... It follows that complete small categories are preorders'), Instance/Poset.v:83-86 ('by Freyd's observation, any complete small category is a preorder, which is exactly why the general theorem in Adjunction/GAFT.v must carry a SolutionSet hypothesis'), Adjunction/GAFT.v:103-104. grep -n 'Definition|Lemma|Theorem|Instance' on Structure/Complete.v shows the file contains exactly two constants, 'Definition Complete {C} := forall D (F : D -> C), Limit F' (line 115) and the dual Cocomplete (line 119) -- no collapse theorem",
+      "grep -rn -i --include=\"*.v\" -E \"cantor|diagonaliz|kappa|power object|A\\^\" . -- no kappa-indexed power construction and no cardinality comparison; Structure/Limit/Product.v's iprod is an indexed product over a DiscreteCat but no lemma counts morphisms into it",
+      "grep -rn -i --include=\"*.v\" -E \"cardinal|cardinality\" . -- the only cardinality function is Theory/Metacategory.v:415, which counts identity arrows of a finite metacategory (see riehl:3.7:def2); the statement of this proposition cannot even be phrased in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently -- and this was the record most at risk of a false PRESENT, because Structure/Complete.v's background essay states Freyd's collapse almost verbatim. I read that file end to end (120 lines) to settle it: lines 64-77 read 'Freyd proved that a category with products of families as large as its own morphism set is a preorder (Abelian Categories, Harper & Row, 1964, exercise D of ch. 3): were some hom-set to hold two distinct arrows, the product indexed by all morphisms would yield a hom-set of cardinality at least 2^|Mor|, exceeding |Mor| by Cantor's theorem. It follows that complete small categories are preorders' -- i.e. the whole proof sketch -- yet the file's ONLY two constants are line 115 'Definition Complete {C : Category} := \\u2200 (D : Category) (F : D \\u27f6 C), Limit F' and line 119 'Definition Cocomplete ... Colimit F'. Nothing is proved. Prose in a header is not formalization under the frozen definitions, so the classifier's explicit refusal to admit it as evidence is exactly right and I endorse it. I also verified the two other prose sites cited: Instance/Poset.v:83-86 ('by Freyd's / observation, any complete small category is a preorder, which is / exactly why the general theorem in Adjunction/GAFT.v must carry a / [SolutionSet] hypothesis') and Adjunction/GAFT.v:103-105 -- both verbatim, both commentary. And I confirmed the cross-file pointer at Structure/Complete.v:74-76 is NOT stale: Adjunction/SAFT.v:138-143 does say '[Complete] forces the diagram category's hom universe to coincide with C's hom universe'. No kappa-indexed power, no morphism-counting lemma. ABSENT stands; this is a high-value issue candidate since the library already knows the statement and leans on it rhetorically in three places without proving it."
+    }
+  }
+]

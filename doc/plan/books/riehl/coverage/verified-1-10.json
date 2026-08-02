@@ -1,0 +1,534 @@
+[
+ {
+  "id": "riehl:1.6:example8",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the ordinal 4 as a category / finite ordinal category [3]",
+   "free category on the linear quiver . -> . -> . -> .",
+   "walking composable triple; walking arrow _2 / Three",
+   "thin (posetal) category; preorder regarded as a category",
+   "diagram of shape J = functor J ⟶ C; shape/index category",
+   "Omega (omega as a thin category), Instance/Two.v _2, Theory/Metacategory.v Three"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 518,
+    "symbol": "UniversalArrowQuiverCat",
+    "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful.  (* built by universal_arrow_from_UMP with vertex FreeOnQuiver and unit UnitQuiverCatAdjunction: every quiver homomorphism F : G ⇨ QuiverOfCat C extends to a UNIQUE functor InducedFunctor F : FreeOnQuiver G ⟶ C *)"
+   },
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 431,
+    "symbol": "FreeOnQuiver",
+    "intree_statement": "Program Definition FreeOnQuiver : Category@{o h p} := {| obj := @nodes G; hom := tlist edges; homset := fun i j => {| equiv := tlist_quiver_equiv _ _ _ |}; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |}."
+   },
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => reflexivity x; compose := fun x y z f g => transitivity g f |}."
+   },
+   {
+    "file": "Instance/Omega.v",
+    "line": 72,
+    "symbol": "Omega",
+    "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; homset := Morphism_equality@{o h p}; id := fun _ => le_t_n@{h}; compose := fun _ _ _ f g => le_t_trans@{h} g f |}."
+   }
+  ],
+  "statement_record": {
+   "book": "The category 4 (the four-element ordinal) is a preorder, so all four triangular faces of its cube of arrows commute; it is free on the quiver . -> . -> . -> . ; hence a diagram of shape 4 in C is exactly a sequence of three composable morphisms f, g, h together with the composites gf, hg, hgf, associativity supplying commutativity of the remaining faces.",
+   "intree": "Proset P builds a category out of any preorder with hom-setoid `fun _ _ => True` (thin, so any two parallel paths are ≈); Omega is the ordinal ω in that style with hom := le_t; FreeOnQuiver G has hom := tlist edges (finite composable paths) and UniversalArrowQuiverCat asserts that a quiver homomorphism G ⇨ QuiverOfCat C extends to a unique functor FreeOnQuiver G ⟶ C.",
+   "strength_comparison": "intree-weaker: the general machinery is present (an ordinal/preorder IS a thin category; the free category on a quiver has paths as morphisms and functors out of it correspond exactly to quiver maps, i.e. to the generating arrows), but the SPECIFIC shape category 4 does not exist in the tree at all, and no statement identifies a diagram of shape 4 with three composable morphisms. Only `_2` (Instance/Two.v) and the metacategory-derived `Three` (Theory/Metacategory.v:413) exist among the finite ordinals; `Omega` is declared with `Morphism_equality` rather than a trivial hom-setoid, so it is not even proven thin (contrast `two_thin`, Instance/Two/Monoidal.v:26, which is proven only for _2)."
+  },
+  "gap": "The finite ordinal category 4 is not constructed in-tree (the tree has `_0`, `_1`, `_2`, and a 3-object `Three` from Theory/Metacategory.v, but nothing at 4 and no uniform finite-ordinal-as-category construction beyond the generic `Proset`). Consequently the item's two specific claims — (a) 4 is free on the linear quiver with four vertices, and (b) a diagram of shape 4 in C is exactly three composable morphisms plus their composites, with the four triangles commuting automatically — are never instantiated. Also missing: any in-tree proof that Omega (or an ordinal preorder generally, as opposed to `Proset`'s by-construction trivial hom-setoid) is thin.",
+  "negative_search_log": [
+   "rg -i 'ordinal category' -g '*.v' — 0 hits",
+   "rg -n '_3|_4|Three|Four' -g '*.v' — only Theory/Metacategory.v Three (3-object metacategory) and unrelated TList/NETList equation names; no 4-object category",
+   "rg -i 'composable triple' -g '*.v' — hits only in Theory/Metacategory/ArrowsOnly.v prose and a doc/plan probe file",
+   "rg -i 'simplex category' -g '*.v' — 1 comment hit in Instance/FinSet.v only"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass (run before opening the coverage file) independently reached PARTIAL. My own searches: `ls Instance/` + `rg -i 'Three|Four|ordinal|walking'` -> only _0 (Instance/Zero.v), _1 (Instance/One.v), _2 (Instance/Two.v), Parallel, Roof, Discrete; `rg -n 'FourArrows|Four|_3 |_4 '` -> 0 category hits. Confirmed the classifier's claim that Theory/Metacategory.v HAS a 3-object ordinal: I decoded ThreeArrows (Theory/Metacategory.v:396) from its composition table -- identities 0,1,2, arrows 3:1->0, 4:2->1, (3,4)+=>5 so 5 = 3 o 4 : 2->0 -- so `Three` (line 413) is genuinely the linear order 3, and there is nothing at 4. Cited evidence re-opened and verified: Construction/Free/Quiver.v:431 FreeOnQuiver (exact), :518 UniversalArrowQuiverCat (exact), Instance/Proset.v:33 Proset (exact), Instance/Omega.v:72 Omega (exact). The strength_comparison side claims also check out: Omega's homset IS Morphism_equality and no thinness lemma is proved for it (only le_t_trans_id_l/_r/_assoc), while two_thin is at Instance/Two/Monoidal.v:26 as claimed. All four cited files are registered in _CoqProject."
+  }
+ },
+ {
+  "id": "riehl:1.6:example9",
+  "classification": "PARTIAL",
+  "aliases": [
+   "pasting/composing commutative squares horizontally",
+   "commutative rectangle; two squares paste to a rectangle",
+   "horizontal composition of squares in a double category (dsq_hcomp)",
+   "arrow category / comma category composition is square pasting",
+   "product category 2 x 3 as an index category"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Sq.v",
+    "line": 47,
+    "symbol": "Sq",
+    "intree_statement": "Program Definition Sq (C : Category) : DoubleCategory := {| dcat := C; dhor := fun a b => a ~{C}~> b; dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h; dsq_setoid := ...; dhid := fun a => id[a]; dhcomp := fun a b c g f => g ∘ f |}.  (* Next Obligation for dsq_hcomp: (k' ∘ k) ∘ u ≈ w ∘ (h' ∘ h), proved `rewrite <- comp_assoc, X, comp_assoc, X0, <- comp_assoc` *)"
+   },
+   {
+    "file": "Theory/DoubleCategory.v",
+    "line": 243,
+    "symbol": "dsq_hcomp",
+    "intree_statement": "dsq_hcomp {a b c a' b' c'} {h : dhor a b} {h' : dhor b c} {u : a ~{dcat}~> a'} {v : b ~{dcat}~> b'} {w : c ~{dcat}~> c'} {k : dhor a' b'} {k' : dhor b' c'} : dsq h u v k → dsq h' v w k' → dsq (dhcomp h' h) u w (dhcomp k' k);"
+   },
+   {
+    "file": "Construction/Comma.v",
+    "line": 127,
+    "symbol": "Comma",
+    "intree_statement": "Program Definition Comma : Category := {| obj := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p); hom := fun x y => ∃ f : (fst (`1 x) ~{A}~> fst (`1 y)) * (snd (`1 x) ~{B}~> snd (`1 y)), `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x; ...; compose := fun _ _ _ f g => ((fst `1 f ∘ fst `1 g, snd `1 f ∘ snd `1 g); _) |}.  (* the composition obligation IS the pasting of the two commuting squares; Construction/Arrow.v:110 specialises this to Arrow := (Id[C] ↓ Id[C]), whose morphisms are the commuting squares of C *)"
+   }
+  ],
+  "statement_record": {
+   "book": "The category 2 x 3 has six objects; a diagram indexed by it, drawn without diagonals, is a COMMUTATIVE RECTANGLE. In particular a configuration a -> b -> c over a' -> b' -> c' with vertical maps g, h, l defines a 2 x 3-shaped diagram provided hf ≈ kg and lj ≈ mh — i.e. two commutative squares paste to a commutative rectangle.",
+   "intree": "In Sq C the squares are `dsq h u v k := k ∘ u ≈ v ∘ h` and the class field `dsq_hcomp : dsq h u v k → dsq h' v w k' → dsq (dhcomp h' h) u w (dhcomp k' k)` instantiates to exactly `k ∘ u ≈ v ∘ h → k' ∘ v ≈ w ∘ h' → (k' ∘ k) ∘ u ≈ w ∘ (h' ∘ h)`.",
+   "strength_comparison": "same for the pasting clause (the in-tree statement is the identical two-squares-paste-to-a-rectangle implication, for an arbitrary category C, and the same content reappears as the composition law of Comma / Arrow); intree-weaker for the shape clause -- the constituent shapes `_2` (Instance/Two.v) and `Three` (Theory/Metacategory.v:413) and the product `∏` (Construction/Product.v:142) all exist, but nothing in the tree forms `_2 ∏ Three`, presents it as an index category, or identifies its diagrams with commutative rectangles."
+  },
+  "gap": "The pasting implication itself is fully in-tree. What is missing is the shape-theoretic half of the example: nothing in the tree presents 2 x 3 as an index category, identifies a functor out of it with a commutative rectangle, or records that the long diagonal / short diagonals / inner parallelogram of the shape all commute. [Phase-D correction: the Phase-C gap claimed 'there is no 3-object linear category `_3` and hence no product category 2 x 3'. That is wrong. `Three : Category := FromArrows ThreeArrows` (Theory/Metacategory.v:413) IS the linear order 3 -- its composition table at :396 gives identities 0,1,2 and arrows 3:1->0, 4:2->1, 5 = 3 o 4 : 2->0 -- and `C ∏ D` exists (Construction/Product.v:142), so `_2 ∏ Three` is perfectly expressible. The same Phase-C pass cited `Three` correctly in its riehl:1.6:example8 record, so this was an internal inconsistency, not a search miss.] Additionally the pasting appears only as a proof obligation inside `Sq` (Construction/Sq.v, the dsq_hcomp obligation at lines 68-72) and inside `Comma`'s composition, never as a standalone named lemma about commutative squares in an arbitrary category.",
+  "negative_search_log": [
+   "rg -n 'FourArrows|Four|_3 |_4 ' -g '*.v' -- no 4-object or `_3`-named category (Phase D)",
+   "rg -n 'Program Definition Product|Notation.*∏' Construction/Product.v -- `C ∏ D` at :142, so the product of shapes is available (Phase D)",
+   "rg -n 'Three' Theory/Metacategory.v -- Three : Category := FromArrows ThreeArrows at :413 (Phase D; overturns the Phase-C gap text)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Classification PARTIAL confirmed, but I CORRECTED the `gap` field: the record asserted 'there is no 3-object linear category `_3` and hence no product category 2 x 3'. That is factually wrong and internally inconsistent with this same classifier's own example8 record, which correctly cites `Three` (Theory/Metacategory.v:413). `Three` IS a 3-object linear category (composition table decoded above), and `C ∏ D` exists (Construction/Product.v:142), so `_2 ∏ Three` is expressible in-tree; what is genuinely missing is only the shape-theoretic identification. The pasting evidence is exact: I opened Construction/Sq.v and the dsq_hcomp obligation at line 68-72 reads verbatim `(* dsq_hcomp : (k' o k) o u ≈ w o (h' o h) *) rewrite <- comp_assoc, X, comp_assoc, X0, <- comp_assoc.`; Theory/DoubleCategory.v:243 dsq_hcomp and Construction/Comma.v:127 Comma both check out. All cited files registered in _CoqProject. My blind pass found the same Sq/pasting evidence."
+  }
+ },
+ {
+  "id": "riehl:1.6:lem11",
+  "classification": "PRESENT",
+  "aliases": [
+   "composition respects equivalence; congruence of composition",
+   "compose_respects / Proper (equiv ==> equiv ==> equiv) compose",
+   "substituting equals for equals inside a composite; rewriting under ≈",
+   "checking a diagram commutes by checking each minimal subdiagram",
+   "associativity lets a contiguous sub-composite be bracketed out"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Category.v",
+    "line": 122,
+    "symbol": "compose_respects",
+    "intree_statement": "compose_respects {x y z} : Proper@{h p} (respectful@{h p h p h p} equiv (respectful@{h p h p h p} equiv equiv)) (@compose x y z);"
+   },
+   {
+    "file": "Theory/Category.v",
+    "line": 133,
+    "symbol": "comp_assoc",
+    "intree_statement": "comp_assoc {x y z w} (f : z ~> w) (g : y ~> z) (h : x ~> y) : f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h;   comp_assoc_sym {x y z w} (f : z ~> w) (g : y ~> z) (h : x ~> y) : (f ∘ g) ∘ h ≈ f ∘ (g ∘ h)"
+   }
+  ],
+  "statement_record": {
+   "book": "Let f_1,...,f_n be a composable path. If some contiguous sub-composite f_k...f_i equals g_m...g_1 for another composable sequence, then f_n...f_1 = f_n...f_{k+1} g_m...g_1 f_{i-1}...f_1. Proof: composition is well defined, so pre- and postcomposing equal arrows with the same sequences yields equal arrows. This is the principle underlying most diagram chases.",
+   "intree": "`compose_respects` is a mandatory field of `Class Category`: composition is Proper for ≈ in both arguments, so `f ≈ f' → g ≈ g' → f ∘ g ≈ f' ∘ g'`; together with `comp_assoc`/`comp_assoc_sym` any contiguous sub-composite can be bracketed out and replaced by an ≈-equal one.",
+   "strength_comparison": "same. Riehl's n-ary path statement is exactly the iterated binary congruence: pre- and post-composing both sides of the hypothesis is two applications of `compose_respects`, and isolating the contiguous block f_k...f_i inside the whole path is `comp_assoc`. The library is if anything more general, since ≈ (not equality) is the relation and the congruence is a stated law rather than a consequence of well-definedness."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT via exactly the same evidence. Theory/Category.v:122 `compose_respects` and :133/:135 `comp_assoc`/`comp_assoc_sym` verified verbatim as fields of `Class Category` (line 111). The strength_comparison is honest: Riehl's n-ary path statement is the iterated binary congruence, and the in-tree form is if anything stronger since it is over ≈ rather than =. No same-name-weaker-statement risk (compose_respects is a mandatory class field, so every category in the tree carries it). File registered."
+  }
+ },
+ {
+  "id": "riehl:1.6:lem12",
+  "classification": "PARTIAL",
+  "aliases": [
+   "cancelling an isomorphism from a commutative triangle",
+   "h ≈ g ∘ f  iff  h ∘ f⁻¹ ≈ g; moving an iso across an equation",
+   "iso_cancel_spine_tf / iso_cancel_spine_ft",
+   "isomorphisms are epic and monic (iso_to_epic, iso_to_monic)",
+   "postcomposition/precomposition with an iso is a bijection of hom-setoids (Riehl 1.2.3)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence/Monoidal.v",
+    "line": 115,
+    "symbol": "iso_cancel_spine_tf",
+    "intree_statement": "Lemma iso_cancel_spine_tf {t x y : A} (X : x ~> t) (i : y ≅ x) : (X ∘ to i) ∘ from i ≈ X."
+   },
+   {
+    "file": "Theory/Equivalence/Monoidal.v",
+    "line": 123,
+    "symbol": "iso_cancel_spine_ft",
+    "intree_statement": "Lemma iso_cancel_spine_ft {t x y : A} (X : x ~> t) (i : x ≅ y) : (X ∘ from i) ∘ to i ≈ X."
+   },
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 286,
+    "symbol": "iso_to_epic",
+    "intree_statement": "Program Instance iso_to_epic {C : Category} {x y} (iso : @Isomorphism C x y) : Epic iso.  (* i.e. g1 ∘ iso ≈ g2 ∘ iso → g1 ≈ g2; companion iso_to_monic at line 264 gives the left-cancellation form *)"
+   },
+   {
+    "file": "Structure/Premonoidal.v",
+    "line": 171,
+    "symbol": "premon_square_from",
+    "intree_statement": "Lemma premon_square_from {a b c d : C} (i : a ≅ b) (j : c ≅ d) (f : a ~> c) (g : b ~> d) : g ∘ to i ≈ to j ∘ f → f ∘ from i ≈ from j ∘ g.  (* added in Phase D: instantiating j := iso_id yields exactly Riehl's forward direction h ≈ g ∘ f → h ∘ f⁻¹ ≈ g *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For a triple of morphisms with the displayed domains and codomains in which f is an isomorphism, the left-hand triangle commutes if and only if the right-hand triangle (with f replaced by f⁻¹, reversing that edge) commutes; explicitly h = gf if and only if h f⁻¹ = g. Dually, for a triple in which k is an isomorphism the analogous two triangles are equivalent.",
+   "intree": "`iso_cancel_spine_tf : (X ∘ to i) ∘ from i ≈ X` and `iso_cancel_spine_ft : (X ∘ from i) ∘ to i ≈ X` — the two one-sided cancellation identities; plus `iso_to_epic` / `iso_to_monic`, which say an isomorphism can be cancelled from either side of an equation of composites.",
+   "strength_comparison": "intree-weaker: the biconditional is never stated. The in-tree lemmas are the cancellation EQUATIONS from which each direction follows in a single rewrite (h ≈ g ∘ to i ⟹ h ∘ from i ≈ (g ∘ to i) ∘ from i ≈ g by iso_cancel_spine_tf, and conversely by iso_cancel_spine_ft), but the reader is left to perform that step. Both in-tree lemmas are also stated only in the 'spine' (right-composition) orientation used by the monoidal-coherence toolkit, so the dual triangle (Riehl's second half, where the codomain-side leg k is the isomorphism) has no direct counterpart — it would have to be re-derived from iso_to_from / iso_from_to and comp_assoc."
+  },
+  "gap": "The iff — `h ≈ g ∘ f ↔ h ∘ f⁻¹ ≈ g` for an isomorphism f, and its dual for an isomorphism on the other leg — is nowhere stated as a lemma. Only the ingredients exist: the two spine-cancellation identities `iso_cancel_spine_tf`/`iso_cancel_spine_ft` (Theory/Equivalence/Monoidal.v, in a section written for monoidal-coherence proofs rather than as a general diagram-chase tool), and `iso_to_epic`/`iso_to_monic`. Nothing packages this as 'the triangle commutes iff the triangle with the reversed edge commutes'. [Phase-D addendum: a third ingredient exists that Phase C missed -- `premon_square_from` (Structure/Premonoidal.v:171), which is statement-for-statement the same lemma as `iso_from_natural` (Theory/Equivalence/Monoidal.v:98) and whose j := iso_id instance is Riehl's forward direction verbatim. It is still only one direction, still square-shaped rather than triangle-shaped, and it lives in a premonoidal-coherence file, so the classification is unchanged.]",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed; the gap statement ('the iff is nowhere stated') survives my own blind search: `rg -n '↔' -g '*.v' | grep -i 'iso|inv'` -> 3 hits, none of them this; `rg -n 'Terminal|iso' ... | grep Lemma` found no triangle-cancellation biconditional. Evidence verified with a one-line offset: `Lemma iso_cancel_spine_tf` is at Theory/Equivalence/Monoidal.v:114 (cited 115) and `iso_cancel_spine_ft` at :123 (cited 123, exact); both statements are quoted verbatim correctly. iso_to_epic at Theory/Isomorphism.v:286 verified. ADDITIONAL in-tree relative the record misses, found in my blind pass: `premon_square_from` (Structure/Premonoidal.v:171), whose statement is `g ∘ to i ≈ to j ∘ f -> f ∘ from i ≈ from j ∘ g` -- instantiating j := iso_id gives Riehl's forward direction on the nose. It does not change PARTIAL (still no biconditional, still no dual triangle) but it means the ingredient exists in TWO places. File registered in _CoqProject."
+  }
+ },
+ {
+  "id": "riehl:1.6:lem13",
+  "classification": "PARTIAL",
+  "aliases": [
+   "inverting a commutative square of isomorphisms",
+   "the inverse square commutes; f⁻¹ h⁻¹ ≈ g⁻¹ k⁻¹",
+   "naturality of inverses / iso_from_natural",
+   "(g ∘ f)⁻¹ ≈ f⁻¹ ∘ g⁻¹ (iso_compose)",
+   "uniqueness of two-sided inverses (comp_inverse_unique, to_equiv_implies_iso_equiv)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence/Monoidal.v",
+    "line": 99,
+    "symbol": "iso_from_natural",
+    "intree_statement": "Lemma iso_from_natural {x y x' y' : A} (i : x ≅ y) (j : x' ≅ y') (f : x ~> x') (g : y ~> y') (H : g ∘ to i ≈ to j ∘ f) : f ∘ from i ≈ from j ∘ g."
+   },
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 166,
+    "symbol": "iso_compose",
+    "intree_statement": "Program Definition iso_compose {x y z : C} `(f : y ≅ z) `(g : x ≅ y) : x ≅ z := {| to := to f ∘ to g; from := from g ∘ from f |}.  (* asserts (f ∘ g)⁻¹ ≈ g⁻¹ ∘ f⁻¹ *)"
+   },
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 317,
+    "symbol": "to_equiv_implies_iso_equiv",
+    "intree_statement": "Proposition to_equiv_implies_iso_equiv {C : Category} {x y} (f g : x ≅ y) : to f ≈ to g -> f ≈ g."
+   },
+   {
+    "file": "Structure/Premonoidal.v",
+    "line": 171,
+    "symbol": "premon_square_from",
+    "intree_statement": "Lemma premon_square_from {a b c d : C} (i : a ≅ b) (j : c ≅ d) (f : a ~> c) (g : b ~> d) : g ∘ to i ≈ to j ∘ f → f ∘ from i ≈ from j ∘ g.  (* added in Phase D: an independent second copy of iso_from_natural, proved in a different file with no cross-reference in either direction *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For a commutative square hf = kg in which all four morphisms are isomorphisms, the inverses define a commutative square f⁻¹ h⁻¹ = g⁻¹ k⁻¹. (Proof: apply Lemma 1.6.12 four times, or Lemma 1.5.10 twice.)",
+   "intree": "`iso_from_natural (i : x ≅ y) (j : x' ≅ y') (f : x ~> x') (g : y ~> y') (H : g ∘ to i ≈ to j ∘ f) : f ∘ from i ≈ from j ∘ g` — from a square commuting against the `to` legs of two isomorphisms, the corresponding square against their `from` legs commutes. Separately, `iso_compose` records `from := from g ∘ from f` and `to_equiv_implies_iso_equiv` says an isomorphism is determined by its `to` component.",
+   "strength_comparison": "intree-weaker AND differently arranged. `iso_from_natural` needs only TWO of the four legs to be isomorphisms (weaker hypotheses than Riehl), but its conclusion `f ∘ from i ≈ from j ∘ g` inverts only those two legs and leaves f and g uninverted; Riehl's conclusion inverts all four. Under Riehl's four-isomorphism hypothesis the two are inter-derivable (pre- and post-compose by the remaining inverses), but the all-four-inverted equation is never written down. The pair (iso_compose, to_equiv_implies_iso_equiv) does yield Riehl's exact equation in two steps — h ∘ f ≈ k ∘ g means `to (h ⊙ f) ≈ to (k ⊙ g)`, hence the isos agree, hence their `from` components f⁻¹ ∘ h⁻¹ and g⁻¹ ∘ k⁻¹ agree — but again that derivation is not performed in-tree."
+  },
+  "gap": "No lemma states 'a commutative square of isomorphisms has a commutative inverse square' in Riehl's form f⁻¹ ∘ h⁻¹ ≈ g⁻¹ ∘ k⁻¹. The nearest in-tree assertion, `iso_from_natural`, inverts only the two isomorphisms it is handed and keeps the other two legs in their original direction; the all-four-inverted equation is a further (one-line, but unperformed) consequence. There is likewise no packaging of `iso_compose` + `to_equiv_implies_iso_equiv` into the square-level statement. [Phase-D addendum: the nearest in-tree assertion exists TWICE -- `iso_from_natural` (Theory/Equivalence/Monoidal.v:98) and `premon_square_from` (Structure/Premonoidal.v:171) are the identical statement, proved independently, neither citing the other. Neither is the all-four-inverted equation, so the gap is unchanged; the duplication is noted so a future issue consolidates rather than adds a third copy.]",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed. Evidence verified: `Lemma iso_from_natural` is at Theory/Equivalence/Monoidal.v:98 (cited 99 -- the statement spans 98-101, so the citation lands inside it); iso_compose at Theory/Isomorphism.v:166 with `from := from g ∘ from f` exact; to_equiv_implies_iso_equiv at :317 exact. The strength_comparison is accurate and unusually careful (it correctly notes iso_from_natural has WEAKER hypotheses but a DIFFERENT, non-all-inverted conclusion). I ADDED one evidence item the record missed and which my blind pass found first: `premon_square_from` (Structure/Premonoidal.v:171) is a verbatim duplicate of iso_from_natural, proved independently in a second file with neither cross-referencing the other. Files registered in _CoqProject."
+  }
+ },
+ {
+  "id": "riehl:1.6:def14",
+  "classification": "PRESENT",
+  "aliases": [
+   "initial object / terminal object / zero object",
+   "Terminal, Initial, ZeroObject classes",
+   "universal mapping property: unique morphism into 1 / out of 0",
+   "0 (initial_obj) and 1 (terminal_obj); null object, biterminal",
+   "terminal = initial in C^op (duality)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Terminal.v",
+    "line": 107,
+    "symbol": "Terminal",
+    "intree_statement": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f ≈ g }."
+   },
+   {
+    "file": "Structure/Initial.v",
+    "line": 112,
+    "symbol": "zero_unique",
+    "intree_statement": "Definition zero_unique {x} (f g : initial_obj ~{C}~> x) : f ≈ g := @one_unique _ I _ _ _.  (* with Definition zero {x} : initial_obj ~{C}~> x := @one _ I _ at line 109, over Notation \"'Initial' C\" := (@Terminal (C^op)) *)"
+   },
+   {
+    "file": "Structure/ZeroObject.v",
+    "line": 35,
+    "symbol": "ZeroObject",
+    "intree_statement": "Class ZeroObject (C : Category) := { zero_terminal : @Terminal C; zero_initial : @Initial C; zero_coincide : @initial_obj C zero_initial ≅ @terminal_obj C zero_terminal }."
+   }
+  ],
+  "statement_record": {
+   "book": "In a category C: an object i is INITIAL if for every object c there is a unique morphism i -> c; dually t is TERMINAL if for every c there is a unique morphism c -> t. An object both initial and terminal is a ZERO OBJECT.",
+   "intree": "`Class Terminal` packages the object `terminal_obj`, the morphism `one : x ~> terminal_obj` for every x, and its uniqueness `one_unique : f ≈ g`; `Initial C` is notation for `@Terminal (C^op)` with the C-side projections `initial_obj`, `zero : initial_obj ~> x` and `zero_unique : f ≈ g`; `Class ZeroObject` bundles a Terminal and an Initial together with `zero_coincide : initial_obj ≅ terminal_obj`.",
+   "strength_comparison": "same, with two faithful setoid/constructive rephrasings. (a) 'unique morphism' is split into existence (the field `one`/`zero`) and uniqueness up to the hom-setoid relation ≈ rather than equality — the standard faithful rendering in this library. (b) `ZeroObject` requires the initial and terminal objects to COINCIDE UP TO ISOMORPHISM (`zero_coincide`) rather than to be literally the same object, which is setoid-honest and equivalent in content to Riehl's 'both initial and terminal'."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed; blind pass reached the same via the same three files. Verified line-exact: `Class Terminal` Structure/Terminal.v:107 with fields terminal_obj/one/one_unique; `Definition zero_unique` Structure/Initial.v:112 over `Notation \"'Initial' C\" := (@Terminal (C^op))`; `Class ZeroObject` Structure/ZeroObject.v:35 with zero_terminal/zero_initial/zero_coincide. The strength_comparison's honesty about ZeroObject being an iso-coincidence rather than a literal single object is exactly right and matches the file's own header (lines 17-22). Header pointers spot-checked for staleness and all resolve: [Limit_Cones] in Instance/Cones/Limit.v, [eliminate] in Structure/Monoidal/Semicartesian/Terminal.v (`one := @eliminate _ _ _` at line 38), [coprod_zero_l/r] in Structure/Cocartesian.v, [arrow_initial] in Theory/Universal/Arrow.v, [initial_from_weakly_initial] in Theory/WeaklyInitial.v, [GAFT_from_initials] in Adjunction/GAFT.v, [adamek], [cata], [Build_Terminal] at Theory/WeaklyInitial.v:136. All files registered."
+  }
+ },
+ {
+  "id": "riehl:1.6:example15",
+  "classification": "PARTIAL",
+  "aliases": [
+   "initial and terminal objects in Set, Top, Set_*, R-Mod, Group, Ring, Field, Graph, Cat, preorders",
+   "empty set is initial and singleton terminal in Set",
+   "empty category initial and 1 terminal in Cat",
+   "zero object of an algebraic category (trivial group / zero module)",
+   "global minimum / global maximum of a poset"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets.v",
+    "line": 248,
+    "symbol": "Sets_Terminal",
+    "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := { terminal_obj := {| carrier := poly_unit |}; one := fun _ => {| morphism := fun _ => ttt |}; one_unique := fun x f g => _ }."
+   },
+   {
+    "file": "Instance/Sets.v",
+    "line": 265,
+    "symbol": "Sets_Initial",
+    "intree_statement": "Program Instance Sets_Initial : @Initial Sets := { terminal_obj := {| carrier := False |}; one := _ }."
+   },
+   {
+    "file": "Instance/One.v",
+    "line": 54,
+    "symbol": "Cat_Terminal",
+    "intree_statement": "Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; one := Erase }."
+   },
+   {
+    "file": "Instance/Zero.v",
+    "line": 44,
+    "symbol": "Cat_Initial",
+    "intree_statement": "Program Instance Cat_Initial : @Initial Cat := { terminal_obj := _0; one := From_0 }."
+   },
+   {
+    "file": "Instance/CMon/Biproduct.v",
+    "line": 160,
+    "symbol": "CMon_Zero",
+    "intree_statement": "#[export] Instance CMon_Zero : ZeroObject CMon := @Build_ZeroObject CMon CMon_Terminal CMon_Initial iso_id.  (* CMon_Terminal at :120 and CMon_Initial at :155, both on the trivial commutative monoid *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Nine cases: (i) Set — empty set initial, every singleton terminal; (ii) Top; (iii) Set_* has a zero object; (iv) R-Mod and Group have zero objects; (v) Ring — Z initial, zero ring terminal, and Ring is a non-full subcategory of Rng where the zero ring is initial; (vi) Field has neither; (vii) Graph has an initial but no terminal object; (viii) Cat — the empty category is initial, the terminal category 1 is terminal; (ix) in a preorder an initial object is a global minimum and a terminal object a global maximum.",
+   "intree": "Set is realised as Sets (setoids): `Sets_Terminal` on the singleton and `Sets_Initial` on the empty setoid. Cat: `Cat_Terminal` with terminal_obj := _1 and `Cat_Initial` with terminal_obj := _0. Algebraic: `CMon_Zero : ZeroObject CMon` on the trivial commutative monoid. (Also `Coq_Terminal`/`Coq_Initial` in Instance/Coq.v, `FinSet_Terminal`/`FinSet_Initial` in Instance/FinSet.v, and `Rel_Initial` in Instance/Rel.v.)",
+   "strength_comparison": "same for the clauses that are covered — (i) Set, (viii) Cat, and (iv) in the CMon form (a commutative-monoid rather than R-module/group zero object, i.e. the same phenomenon in the nearest in-tree algebraic category). intree-weaker overall: the majority of Riehl's clauses concern categories that do not exist in this tree at all."
+  },
+  "gap": "Six of the nine clauses have no in-tree counterpart because the categories themselves are absent: (ii) Top, (iii) Set_*, (v) Ring/Rng (and with it the non-fullness observation and the initiality of Z), (vi) Field having neither an initial nor a terminal object, (vii) Graph having an initial but no terminal object. Clause (ix) is also absent: although `Proset`/`Poset` build the category of a preorder, nothing identifies its initial/terminal objects with global minima/maxima. Clause (iv) is covered only in the CMon surrogate — there is no Group or R-Mod category in-tree (`Structure/Group.v` defines an internal `GroupObject`, not the category Group).",
+  "negative_search_log": [
+   "rg -n 'Top\\b|Topological|Ring\\b|Field\\b|Graph\\b' -g '*.v' filtered to Definition/Program/Instance lines — no category of spaces, rings, fields or graphs is constructed (only Instance/Parallel.v:166 Presheaf_Graph, an unrelated presheaf)",
+   "rg -n 'Terminal|Initial|Zero' Instance/Poset.v Instance/Proset.v — 0 hits; no global-minimum/maximum statement for a preorder category"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed; my blind pass produced the same instance list plus Coq_Terminal/Coq_Initial, FinSet, Two_Terminal and Rel, which the record already mentions parenthetically. Evidence verified line-exact: Instance/Sets.v:248 Sets_Terminal, :265 Sets_Initial, Instance/One.v:54 Cat_Terminal, Instance/Zero.v:44 Cat_Initial, Instance/CMon/Biproduct.v:120 CMon_Terminal / :155 CMon_Initial / :160 CMon_Zero. Negative claims independently re-run and CONFIRMED: no Top/Ring/Rng/Field/Graph category is constructed anywhere (`rg -n 'Definition Top|Category.*Ring|Definition Field|Definition Graph'` -> 0 hits); `rg -n 'ZeroObject|Terminal|Initial' Instance/Poset.v Instance/Proset.v` -> 0 hits, so clause (ix) really is absent; and Structure/Group.v:109 is `Class GroupObject (grp : C)`, an internal group object, not the category Group -- exactly as the gap says. All cited files registered."
+  }
+ },
+ {
+  "id": "riehl:1.6:lem16",
+  "classification": "PARTIAL",
+  "aliases": [
+   "terminal objects are unique up to unique isomorphism",
+   "the full subcategory of terminal objects is a contractible groupoid (chaotic / indiscrete)",
+   "any two terminal objects are canonically isomorphic; dually for initial objects",
+   "universal constructions are unique up to unique isomorphism",
+   "repleteness of terminality (an object isomorphic to a terminal object is terminal)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Terminal.v",
+    "line": 111,
+    "symbol": "one_unique",
+    "intree_statement": "one_unique {x} (f g : x ~> terminal_obj) : f ≈ g  (* field of Class Terminal: every hom-setoid into the terminal object is a singleton up to ≈ *)"
+   },
+   {
+    "file": "Structure/UniversalProperty.v",
+    "line": 175,
+    "symbol": "univ_property_unique_up_to_unique_iso",
+    "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s)."
+   }
+  ],
+  "statement_record": {
+   "book": "The full subcategory of C spanned by its terminal objects is either empty or a contractible groupoid (a non-empty category with exactly one morphism in each hom-set, equivalently equivalent to 1; also called chaotic); in particular any two terminal objects are uniquely isomorphic. That subcategory is moreover replete. Dually for initial objects.",
+   "intree": "`one_unique : ∀ (f g : x ~> terminal_obj), f ≈ g` gives the 'exactly one morphism in each hom-set' clause for every hom-setoid whose codomain is terminal (and dually `zero_unique` for initial). `univ_property_unique_up_to_unique_iso` is the general uniqueness-up-to-unique-isomorphism theorem, but it is stated for representing objects of an `IsUniversalProperty` predicate and is instantiated only at cartesian products (Structure/UniversalProperty/Cartesian.v), limits (…/Limit.v) and universal arrows (…/Universal/Arrow.v) — never at terminality.",
+   "strength_comparison": "intree-weaker. `one_unique` delivers only the hom-setoid-contractibility half; nothing in the tree asserts that two terminal objects are isomorphic, still less uniquely so. The generic theorem `univ_property_unique_up_to_unique_iso` would give the conclusion if composed with `Terminal_Limit` (Structure/Limit/Terminal.v:33, `Limit F ↔ @Terminal C` for the empty diagram) and `LimitIsUniversalProperty` (Structure/UniversalProperty/Limit.v:141), but that composition is not carried out anywhere."
+  },
+  "gap": "No in-tree statement that any two terminal (or initial) objects of a category are isomorphic, and none that the isomorphism is unique. There is also no full subcategory of terminal objects, no 'contractible groupoid'/'chaotic category' notion, and no proof that terminality is replete (the `Replete` predicate exists in Construction/Subcategory.v:87 but is never applied to terminal objects). The only in-tree ingredient is `one_unique` (and its dual `zero_unique`); the general uniqueness-up-to-unique-iso theorem exists but is never instantiated at terminality.",
+  "negative_search_log": [
+   "rg -n 'terminal_obj ≅|≅ terminal_obj|initial_obj ≅|≅ initial_obj' -g '*.v' — 0 hits",
+   "rg -n 'Terminal' -g '*.v' restricted to Lemma/Theorem/Proposition/Corollary lines — only Theory/Lambek.v:78 lambek_final, Structure/Terminal.v:119 one_comp, Structure/Limit/Terminal.v:33 Terminal_Limit; no uniqueness statement",
+   "rg -in 'contractible|chaotic|indiscrete|codiscrete' -g '*.v' — hits are header prose (Structure/Terminal.v:15,76), the Funny-tensor 'walking isomorphism' comments, and codiscrete 2-cell setoids in Theory/Bicategory/Lax.v; no contractible-groupoid-of-terminal-objects result",
+   "rg -in 'replete' -g '*.v' — Construction/Subcategory.v:87 (the definition, item riehl:1.6:def-replete), Theory/Sheaf/Category.v:119 sheaf_iso_closed, Construction/Arrow.v:79 prose; nothing about terminal objects"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed; my blind pass reached the same (I hesitated between PARTIAL and ABSENT and settled on PARTIAL for the same reason: one_unique is genuinely the hom-contractibility half). All four negative searches independently re-run and CONFIRMED: `rg -n 'terminal_obj'` across the whole tree returns only instance definitions and consumers, never a `terminal_obj ≅ terminal_obj` statement; the only Terminal-facing Lemma/Theorem/Proposition lines in the tree are Theory/Lambek.v:78, Structure/Terminal.v:119 one_comp and Structure/Limit/Terminal.v:33 Terminal_Limit. Evidence verified: one_unique at Structure/Terminal.v:111 (exact), univ_property_unique_up_to_unique_iso at Structure/UniversalProperty.v:175 (exact). The claim that the generic theorem is 'never instantiated at terminality' is CONFIRMED by `rg -n 'IsUniversalProperty'`: the only three instantiations are Cartesian.v:60, Limit.v:141 and Universal/Arrow.v:61. Repleteness claim also confirmed: `rg -n 'Replete' -g '*.v'` returns exactly two lines tree-wide, the definition at Construction/Subcategory.v:87 and an unrelated header at Theory/Sheaf/Category.v:108 -- Replete is defined and never applied to anything. Files registered."
+  }
+ },
+ {
+  "id": "riehl:1.6:def-replete",
+  "classification": "PRESENT",
+  "aliases": [
+   "replete subcategory; isomorphism-closed subcategory",
+   "isomorphism-closed / saturated / full-and-replete",
+   "Replete predicate on Subcategory",
+   "closure of a subcategory under isomorphism of objects and under the iso and its inverse",
+   "essentially full subcategory"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Subcategory.v",
+    "line": 87,
+    "symbol": "Replete",
+    "intree_statement": "Definition Replete : Type := ∀ (x : C) (ox : sobj S x) (y : C) (f : x ≅ y), { oy : sobj S y & shom S ox oy (to f) ∧ shom S oy ox (from f) }."
+   }
+  ],
+  "statement_record": {
+   "book": "(Footnote 45) A subcategory D of C is REPLETE if for every isomorphism f : c ≅ d of C with d in D, the object c, the morphism f and its inverse f⁻¹ all belong to D as well.",
+   "intree": "`Replete : Type := ∀ (x : C) (ox : sobj S x) (y : C) (f : x ≅ y), { oy : sobj S y & shom S ox oy (to f) ∧ shom S oy ox (from f) }` — over `Record Subcategory` (Construction/Subcategory.v:31), whose fields are the object subcollection `sobj`, the morphism subcollection `shom`, and closure under composition and identities.",
+   "strength_comparison": "same. Riehl assumes one endpoint of the isomorphism lies in D and concludes that the other endpoint, the isomorphism, and its inverse lie in D; the in-tree definition assumes the source endpoint lies in D and concludes the same three things (the object `oy`, the morphism `to f`, and `from f`). The two orientations agree because ≅ is symmetric in-tree (`iso_sym`, Theory/Isomorphism.v:156), so quantifying over all isomorphisms out of a selected object is the same condition as quantifying over all isomorphisms into one. The Type-valued sigma/conjunction packaging is the library's standard constructive rendering of 'belongs to D'."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed; blind pass found the identical single hit. Construction/Subcategory.v:87 verified verbatim, and the surrounding `Record Subcategory` at line 31 is as described. The strength_comparison's orientation argument (Riehl assumes the CODOMAIN endpoint is in D, the in-tree definition the DOMAIN endpoint; the two agree because iso_sym exists at Theory/Isomorphism.v:156) is legitimate and I verified iso_sym is at that line. File registered in _CoqProject. NOTE the doc/code mismatch I logged as a LIBRARY-DEFECT: the comment at lines 84-85 says only 'both y and f are also in D', omitting the inverse, while the Definition at 89 demands `shom S oy ox (from f)` as well -- the code, not the comment, matches Riehl's footnote 45."
+  }
+ },
+ {
+  "id": "riehl:1.6:lem17",
+  "classification": "PRESENT",
+  "aliases": [
+   "any two parallel morphisms into a terminal object are equal",
+   "any two parallel morphisms out of an initial object are equal",
+   "diagrams with terminal codomain / initial domain commute automatically",
+   "one_unique / zero_unique; uniqueness clause of the terminal/initial UMP",
+   "one_comp (! ∘ f ≈ !) and zero_comp (f ∘ ¡ ≈ ¡)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Terminal.v",
+    "line": 111,
+    "symbol": "one_unique",
+    "intree_statement": "one_unique {x} (f g : x ~> terminal_obj) : f ≈ g  (* field of Class Terminal *)"
+   },
+   {
+    "file": "Structure/Initial.v",
+    "line": 112,
+    "symbol": "zero_unique",
+    "intree_statement": "Definition zero_unique {x} (f g : initial_obj ~{C}~> x) : f ≈ g := @one_unique _ I _ _ _."
+   }
+  ],
+  "statement_record": {
+   "book": "Let f_1,...,f_n and g_1,...,g_m be composable sequences with dom f_1 = dom g_1 and cod f_n = cod g_m. If that common codomain is a terminal object, or that common domain is an initial object, then f_n...f_1 = g_m...g_1. Proof: the uniqueness clause of Definition 1.6.14.",
+   "intree": "`one_unique {x} (f g : x ~> terminal_obj) : f ≈ g` and `zero_unique {x} (f g : initial_obj ~{C}~> x) : f ≈ g`.",
+   "strength_comparison": "same, in fact intree-stronger in form: Riehl quantifies over composites of composable sequences, the library over ARBITRARY parallel morphisms with terminal codomain (resp. initial domain), of which those composites are instances — the chain packaging carries no extra content since a composite is just a morphism. Both of Riehl's clauses (terminal codomain, initial domain) are covered, the second by the library's duality (`Initial C` is notation for `@Terminal (C^op)`). The corollaries `one_comp : one ∘ f ≈ one` (Structure/Terminal.v:119) and `zero_comp : f ∘ zero ≈ zero` (Structure/Initial.v:124) are the two-arrow special case, and the ZeroObject file's `zero_mor_left`/`zero_mor_right` are the same principle for tunnelled zero morphisms."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed; blind pass reached the same conclusion by the same route. one_unique (Structure/Terminal.v:111) and zero_unique (Structure/Initial.v:112) verified verbatim. The 'intree-stronger in form' claim is correct and not overreach: Riehl quantifies over composites of composable sequences, the class field over arbitrary parallel morphisms with terminal codomain, and a composite is a morphism -- no residue. The cited corollaries one_comp (Structure/Terminal.v:119) and zero_comp (Structure/Initial.v:124) both exist at the stated lines, as do zero_mor_left/zero_mor_right (Structure/ZeroObject.v:61,73). Files registered."
+  }
+ },
+ {
+  "id": "riehl:1.6:def18",
+  "classification": "PARTIAL",
+  "aliases": [
+   "concrete category; category equipped with a faithful functor to Set",
+   "underlying-set functor; forgetful functor U : C ⟶ Sets",
+   "Faithful class; fmap injective on hom-setoids",
+   "being a morphism is a property of the underlying function",
+   "construct / structured set; ConcreteCategory record"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Functor.v",
+    "line": 342,
+    "symbol": "Faithful",
+    "intree_statement": "Class Faithful `(F : C ⟶ D) := { fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g }."
+   },
+   {
+    "file": "Theory/Lawvere/Sets.v",
+    "line": 105,
+    "symbol": "ev1_Faithful",
+    "intree_statement": "Theorem ev1_Faithful : Faithful ev1.  (* with Program Definition ev1 : Models T Sets ⟶ Sets := {| fobj := fun M => `1 M (law_of_nat 1%nat); fmap := fun F G τ => transform (`1 τ) (law_of_nat 1%nat) |} at line 83, under the reachability hypothesis `reach : ∀ x : @law_cat T, { n : nat & law_of_nat n = x }` *)"
+   }
+  ],
+  "statement_record": {
+   "book": "A CONCRETE CATEGORY is a category C equipped with a faithful functor U : C -> Set, thought of as taking each object to its underlying set. Faithfulness says parallel morphisms inducing the same function of underlying sets are equal, so being a morphism is a PROPERTY of the underlying function.",
+   "intree": "`Class Faithful (F : C ⟶ D) := { fmap_inj : fmap[F] f ≈ fmap[F] g → f ≈ g }` is the faithfulness half, verbatim (injectivity of the hom-map, phrased with ≈). `ev1_Faithful : Faithful ev1` is the only in-tree instance whose codomain is `Sets` — i.e. the only in-tree exhibition of a category as concrete.",
+   "strength_comparison": "intree-weaker: the ingredient (`Faithful`) matches Riehl exactly, but the DEFINITION being catalogued — the bundling of a category with a chosen faithful functor to Set — is never made. No `Concrete`/`ConcreteCategory` class or record exists, so 'C is concrete' cannot be stated as a hypothesis or concluded as a theorem anywhere in the library, and the gloss 'being a morphism is a property of the underlying function' has no formal counterpart."
+  },
+  "gap": "There is no `Concrete` / `ConcreteCategory` class or record packaging a category C with a faithful U : C ⟶ Sets. `Faithful` exists (Theory/Functor.v:342) and exactly one faithful Sets-valued functor is exhibited (`ev1_Faithful`), but concreteness is never named, never used as a hypothesis, and there is no derived API (e.g. 'a morphism of a concrete category is determined by its underlying function', or the forgetful functors of Instance/CMon.v's `CMon_Forget : CMon ⟶ Sets`, whose faithfulness is asserted only in a comment at Instance/CMon.v:166-168 and never proved).",
+  "negative_search_log": [
+   "rg -in 'Concrete' -g '*.v' — every hit is prose ('concretely', 'concrete instance', a citation to Adámek–Herrlich–Strecker in Structure/Complete.v:72); no Concrete class, record or definition",
+   "rg -in 'ConcreteCategory|Concrete_Category' -g '*.v' — 0 hits",
+   "rg -in 'underlying set functor|faithful functor to Set' -g '*.v' — 0 hits",
+   "rg -n 'Faithful' -g '*.v' restricted to Instance/Theorem/Lemma/Definition/Program lines — 17 hits, of which only Theory/Lawvere/Sets.v:105 has codomain Sets (Mon_Forget/Comon_Forget land in an arbitrary monoidal C; Yoneda_Faithful lands in presheaves)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed; blind pass reached the same. Evidence verified: `Class Faithful` at Theory/Functor.v:342 with the single field fmap_inj, verbatim; `Theorem ev1_Faithful : Faithful ev1` at Theory/Lawvere/Sets.v:105 with `ev1 : Models T Sets ⟶ Sets` at :83 and the reachability hypothesis `Context (reach : ...)` at :103 immediately above -- so the record's disclosure that it is conditional is accurate. The key negative claim (no Concrete/ConcreteCategory class anywhere) I re-ran independently: `rg -n -i 'concrete' -g '*.v'` returns ~40 hits, every one of them prose ('concretely', 'concrete instance', 'concrete witness'); `rg -n 'ConcreteCategory|Concrete_'` -> 0 hits. The 'only Sets-codomain Faithful instance' claim also holds: I enumerated all Faithful instances and the others land in an ambient C (Mon_Forget_Faithful, Comon_Forget_Faithful), in presheaves (Yoneda_Faithful, Sheaves_Faithful), or come from equivalences. Files registered."
+  }
+ },
+ {
+  "id": "riehl:1.6:example19",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the standard categories are concrete (Set, Group, Ring, R-Mod, Top, Poset, …)",
+   "multi-sorted categories: Quiver and Ch_R need a combined underlying-set functor",
+   "V + A : Quiver ⟶ Set (vertices disjoint-union arrows) is faithful",
+   "the vertex-only and arrow-only forgetful functors on Quiver are NOT faithful",
+   "underlying-set / forgetful functor faithfulness"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Lawvere/Sets.v",
+    "line": 105,
+    "symbol": "ev1_Faithful",
+    "intree_statement": "Theorem ev1_Faithful : Faithful ev1.  (* ev1 : Models T Sets ⟶ Sets, evaluation of a model at the generic object law_of_nat 1; the only in-tree proof that an algebraic category's underlying-set functor is faithful, and it is conditional on `reach : ∀ x : @law_cat T, { n : nat & law_of_nat n = x }` *)"
+   },
+   {
+    "file": "Theory/Algebra/Monoid/Hom.v",
+    "line": 101,
+    "symbol": "Mon_Forget_Faithful",
+    "intree_statement": "#[export] Instance Mon_Forget_Faithful : Faithful Mon_Forget.  (* Mon_Forget : Mon ⟶ C projects the underlying object and morphism of a monoid object; companion Comon_Forget_Faithful at Theory/Algebra/Comonoid/Hom.v:224 *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Every category listed in Example 1.1.3 is concrete, but multi-sorted cases need care: for Quiver and Ch_R the obvious forgetful functors sending a quiver to its set of vertices, or to its set of arrows, are NOT faithful. An alternative functor V + A : Quiver -> Set sending a quiver to the disjoint union of its vertex and arrow sets IS faithful, so Quiver is concrete.",
+   "intree": "`ev1_Faithful : Faithful ev1` for `ev1 : Models T Sets ⟶ Sets` establishes that the category of Sets-models of a Lawvere theory has a faithful underlying-set functor (under an explicit reachability hypothesis). `Mon_Forget_Faithful` / `Comon_Forget_Faithful` establish the analogous fact for categories of monoid/comonoid objects, but with codomain the ambient category C rather than Sets.",
+   "strength_comparison": "intree-weaker on both clauses. For the first clause the in-tree witness covers ONE family (Sets-models of a Lawvere theory, and even there only under `reach`), not Riehl's specific list — none of Set, Top, Set_*, Group, Ring, R-Mod, Ch_R, Graph, Man, Meas, Poset is shown concrete in-tree, and most of those categories do not exist in-tree at all. For the second clause there is nothing: `QuiverCategory` exists (Construction/Free/Quiver.v:358) but the library defines no functor from it to `Sets` whatsoever, so neither the failure of faithfulness for the vertex-only/arrow-only functors nor the faithfulness of V + A can even be stated."
+  },
+  "gap": "The distinctive content of the example — the multi-sorted caveat — is entirely absent: no functor `QuiverCategory ⟶ Sets` exists in-tree (neither vertices, nor arrows, nor their disjoint union), so neither the negative claim (vertex-only and arrow-only forgetful functors are not faithful) nor the positive claim (V + A is faithful, hence Quiver is concrete) has any counterpart; the same holds for Ch_R, which is not in the tree. Of the first clause only a proxy survives: `ev1_Faithful` shows a Lawvere-theory model category is concrete, and `Mon_Forget_Faithful`/`Comon_Forget_Faithful` show faithfulness of forgetful functors that land in an arbitrary ambient category rather than in Sets. `CMon_Forget : CMon ⟶ Sets` (Instance/CMon.v:169) is the one obvious in-tree candidate for a genuine underlying-set functor, but its faithfulness is claimed only in a comment and never proved.",
+  "negative_search_log": [
+   "rg -n 'Quiver ⟶|QuiverCategory ⟶|⟶ Sets' -g '*.v' — no functor out of QuiverCategory into Sets; the only Quiver-valued functor is Forgetful : StrictCat ⟶ QuiverCategory (Construction/Free/Quiver.v:412)",
+   "rg -in 'V \\+ A' -g '*.v' — 0 hits",
+   "rg -in 'arrows of a quiver|underlying set functor' -g '*.v' — 0 hits",
+   "rg -n 'Faithful' -g '*.v' restricted to Instance/Theorem/Lemma/Definition/Program lines — 17 hits; only ev1 has codomain Sets, and none concerns quivers or chain complexes"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed, though my blind pass had leaned ABSENT. I kept PARTIAL: ev1_Faithful is a genuine 'the underlying-set functor of an algebraic category is faithful' theorem and so is a real, if distant, counterpart to the example's first clause, and the record's gap field is explicit that the DISTINCTIVE content (the multi-sorted Quiver caveat) is entirely absent. The decisive negative search I ran independently and CONFIRM: there is no functor out of QuiverCategory into Sets at all -- the only Quiver-facing functors in the tree are Forgetful : StrictCat ⟶ QuiverCategory (Construction/Free/Quiver.v:412) and FreeCatFunctor : QuiverCategory ⟶ StrictCat (:546), so neither the negative claim (vertices-only / arrows-only not faithful) nor the positive one (V + A faithful) is even expressible. QuiverCategory verified at Construction/Free/Quiver.v:358, Mon_Forget_Faithful at Theory/Algebra/Monoid/Hom.v:101. The gap's remark about CMon_Forget is accurate: Instance/CMon.v:169 defines it, the comment at :166-168 asserts faithfulness 'by construction', and no Faithful instance is registered anywhere. Files registered."
+  }
+ }
+]

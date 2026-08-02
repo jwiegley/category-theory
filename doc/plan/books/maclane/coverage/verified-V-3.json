@@ -1,0 +1,492 @@
+[
+  {
+    "id": "maclane:V.4:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "a functor preserves the limits of F : J -> C",
+      "limit-preserving functor / preserved limit",
+      "PreservesLimit / PreservesAllLimits (library naming)",
+      "PreservesImageLimit (cone-level form)",
+      "H carries limiting cones to limiting cones",
+      "dual: preserves colimits / PreservesColimit / cocontinuous",
+      "special shapes: CartesianFunctor (preserves binary products), TerminalFunctor, PreservesReflexiveCoequalizers"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 48,
+        "symbol": "PreservesLimit",
+        "intree_statement": "Class PreservesLimit `(G : J ⟶ C) `(F : C ⟶ D) := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 110,
+        "symbol": "PreservesImageLimit",
+        "intree_statement": "Definition PreservesImageLimit : Type := ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ◯ G)), ∃! φ : vertex_obj[N] ~{D}~> U L, ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x.   (with image_leg L x := fmap[U] (limit_leg (limit_is_alimit L) x), line 90)"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 54,
+        "symbol": "STATUS header (in-tree disclosure that PreservesLimit is too weak)",
+        "intree_statement": "\"The bare class [PreservesLimit] of [Structure/Limit/Preservation.v] records only that the *apex object* [U L] carries *some* limit structure of [U ◯ G] ([IsALimit (U ◯ G) (U L)]); the legs of that structure are left unconstrained and need not be the image legs [fmap[U] π_•]. Two distinct cone structures on the same apex can differ by precomposition with a non-invertible endomorphism, only one of them being a limit, so apex-only preservation does not by itself make the image cone universal\""
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 183,
+        "symbol": "rapl_is_alimit / rapl_acone",
+        "intree_statement": "Definition rapl_is_alimit : IsALimit (U ◯ G) (U L) := @Build_IsALimit J D (U ◯ G) (U L) rapl_acone rapl_ump.   (rapl_acone's legs are rapl_leg x := fmap[U] (limit_leg (limit_is_alimit L) x), line 91 — the per-diagram cone-level statement, but only for a right adjoint U)"
+      },
+      {
+        "file": "Functor/Structure/Cartesian.v",
+        "line": 49,
+        "symbol": "CartesianFunctor",
+        "intree_statement": "Class CartesianFunctor := { fobj_prod_iso {x y : C} : F (x × y) ≅ F x × F y; ... fmap_exl {x y : C} : fmap (@exl C _ x y) ≈ exl ∘ prod_out _ _; fmap_exr ...; fmap_fork ... } — cone-level preservation, restricted to the binary-product shape."
+      },
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 100,
+        "symbol": "PreservesReflexiveCoequalizers",
+        "intree_statement": "Definition PreservesReflexiveCoequalizers {C D : Category} (U : C ⟶ D) : Type := ∀ (x y : C) (f g : x ~{C}~> y), ReflexivePair f g → ∀ (q : C) (e : y ~{C}~> q), IsCoequalizer f g q e → IsCoequalizer (fmap[U] f) (fmap[U] g) (U q) (fmap[U] e).   (cone-level, dual side, restricted shape)"
+      }
+    ],
+    "statement_record": {
+      "book": "H : C -> D preserves the limits of functors F : J -> C when for EVERY limiting cone v : b => F in C the image family Hv : Hb => HF is a limiting cone in D. Mac Lane stresses this demands more than sending limit objects to limit objects: the CONE must be carried to a limiting cone.",
+      "intree": "Class PreservesLimit `(G : J ⟶ C) `(F : C ⟶ D) := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }.",
+      "strength_comparison": "intree-weaker (for the named per-diagram class): [PreservesLimit] pins only the APEX [F L] and asserts it carries SOME limit structure of [F ◯ G]; the legs of that structure are unconstrained and need not be the image legs fmap[F] π_•, which is precisely the distinction Mac Lane's definition insists on. The library itself documents this as insufficient (Construction/Comma/Limit.v:54-66). The faithful cone-level statement does exist in-tree, but only bundled over ALL diagrams at once for a fixed functor ([PreservesImageLimit]), per-diagram only for right adjoints ([rapl_is_alimit]), and shape-by-shape for products ([CartesianFunctor]) and reflexive coequalizers ([PreservesReflexiveCoequalizers])."
+    },
+    "gap": "There is no per-diagram, cone-level class 'F preserves the limit of G' — i.e. no named predicate saying the IMAGE cone (apex F L, legs fmap[F] (limit_leg L x)) is universal for a single diagram G. The general named class [PreservesLimit]/[PreservesAllLimits] is apex-only and provably weaker (the library's own countermodel sketch: two cone structures on one apex differing by a non-invertible endomorphism). The cone-level notion exists only as [PreservesImageLimit] (all diagrams at once, for a section-fixed U), and there is no cone-level colimit dual of it (only [PreservesColimit], the opposite of the apex-only class, plus the shape-restricted [PreservesReflexiveCoequalizers]).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'PreservesLimit|PreservesAllLimits|PreservesColimit|PreservesAllColimits|preserves_limit|preserves_colimit' . — all hits enumerated; only Structure/Limit/Preservation.v defines the classes, all apex-pinned",
+      "grep -rn --include='*.v' 'PreservesImageLimit' . — 14 hits, all in Construction/Comma/Limit.v, Adjunction/GAFT.v, Adjunction/SAFT.v; single definition at Construction/Comma/Limit.v:110"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening the coverage file) reached the same PARTIAL independently: searched PreservesLimit / PreservesAllLimits / PreservesColimit / PreservesImageLimit / 'continuous' / 'preserv' across the whole tree. Verified all six evidence sites at the cited lines: Structure/Limit/Preservation.v:48 class body exact; Construction/Comma/Limit.v:110 definition and image_leg at :90 exact; the STATUS quote at :54-66 is verbatim-accurate; Adjunction/Continuity.v:183 rapl_is_alimit with rapl_leg at :91 = fmap[U] of the limit legs; Functor/Structure/Cartesian.v:49 CartesianFunctor fields as quoted; Monad/Monadicity/Crude.v:100 PreservesReflexiveCoequalizers as quoted. All cited files registered in _CoqProject; none contains Admitted/Axiom. The gap is exactly right: PreservesImageLimit's section discharge drops the section variable d (Adjunction/GAFT.v:242 and Adjunction/SAFT.v:275 apply it as @PreservesImageLimit C D U), so it is genuinely a fixed-functor/all-diagrams predicate and no per-diagram cone-level class exists. See problems[] for the related header inconsistency at Structure/Limit/Preservation.v:20-23."
+    }
+  },
+  {
+    "id": "maclane:V.4:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "continuous functor",
+      "preserves all small limits",
+      "PreservesAllLimits",
+      "PreservesImageLimit",
+      "cocontinuous (dual) / PreservesAllColimits",
+      "Continuous / Cocontinuous class"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 110,
+        "symbol": "PreservesImageLimit",
+        "intree_statement": "Definition PreservesImageLimit : Type := ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ◯ G)), ∃! φ : vertex_obj[N] ~{D}~> U L, ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 107,
+        "symbol": "PreservesImageLimit (comment)",
+        "intree_statement": "\"U preserves limits, cone-faithfully: for every diagram the image cone above is a limit of [U ◯ G].\""
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 229,
+        "symbol": "PreservesAllLimits / PreservesAllColimits",
+        "intree_statement": "Definition PreservesAllLimits {C D : Category} (F : C ⟶ D) : Type := ∀ (J : Category) (G : J ⟶ C), PreservesLimit G F.   Definition PreservesAllColimits {C D : Category} (F : C ⟶ D) : Type := ∀ (J : Category) (G : J ⟶ C), PreservesColimit G F."
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 222,
+        "symbol": "Continuity and cocontinuity (header)",
+        "intree_statement": "\"(** ** Continuity and cocontinuity *) (* A functor preserving the limits of all diagrams of all shapes (continuous), respectively all colimits (cocontinuous). These are plain Definitions: preservation of a class of limits is data to be supplied, never inferred. *)\""
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 264,
+        "symbol": "right_adjoint_PreservesImageLimit",
+        "intree_statement": "Definition right_adjoint_PreservesImageLimit {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : @PreservesImageLimit C D U. Proof. intros J G L N. exact (rapl_ump A G L N). Defined.   (the class is inhabited: every right adjoint is continuous)"
+      }
+    ],
+    "statement_record": {
+      "book": "A functor is called CONTINUOUS when it preserves all small limits.",
+      "intree": "Definition PreservesImageLimit : Type := ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ◯ G)), ∃! φ : vertex_obj[N] ~{D}~> U L, ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x.",
+      "strength_comparison": "same — [PreservesImageLimit U] is exactly 'U preserves the limits of all diagrams, carrying limit cones to limit cones'. Smallness of J is carried by universe polymorphism rather than an explicit hypothesis, the discipline Structure/Complete.v:29-37 records for [Complete] ('the size discipline is instead carried implicitly by the library's universe polymorphism'). Two presentational caveats, neither a weakening of THIS item: the predicate is not named 'Continuous' and lives in Construction/Comma/Limit.v rather than the preservation vocabulary file; and the other in-tree spelling of continuity, [PreservesAllLimits] (Structure/Limit/Preservation.v:229, explicitly captioned 'continuous' in the section header), is apex-only and therefore strictly weaker than the book's notion."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln --include='*.v' -i 'continuous' . — 9 files; only Adjunction/Continuity.v and Structure/Limit/Preservation.v use the word for this notion; no `Class Continuous` / `Definition Continuous` anywhere",
+      "grep -rn --include='*.v' 'PreservesImageLimit' . — Construction/Comma/Limit.v:110 is the sole definition; consumed as `@PreservesImageLimit C D U` in Adjunction/GAFT.v:242 and Adjunction/SAFT.v:275"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass also landed on PRESENT via PreservesImageLimit, which is literally 'U carries every limit cone to a limit cone'. Verified: Construction/Comma/Limit.v:107 comment and :110 definition exact; Structure/Limit/Preservation.v:222 section header and :229/:232 definitions exact; Construction/Comma/Limit.v:264 right_adjoint_PreservesImageLimit exact ('Proof. intros J G L N. exact (rapl_ump A G L N). Defined.'), so the predicate is inhabited and has working API (image_is_alimit at :116, consumed by Comma_Complete at :245, GAFT.v:242, SAFT.v:275). Section discharge confirmed to drop d, so the definition speaks of an arbitrary functor. Smallness-by-universe-polymorphism justification checked against Structure/Complete.v:29-37 as quoted. One refinement, not a downgrade: evidence item 3 also lists PreservesAllColimits, which is apex-only; the cone-level DUAL (cocontinuity) has no in-tree counterpart at all, but the item as inventoried is about continuity only."
+    }
+  },
+  {
+    "id": "maclane:V.4:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "covariant hom-functor preserves limits",
+      "C(c,-) is continuous / representable functors are continuous",
+      "Hom(c,-) preserves limits",
+      "Curried_Hom / [Hom A,─] / HomDiagram",
+      "Lim C(c, F-) = C(c, Lim F)",
+      "dual: Hom(-,c) carries colimits to limits"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 49,
+        "symbol": "HomDiagram",
+        "intree_statement": "Program Definition HomDiagram {J C : Category} (c : C) (F : J ⟶ C) : J ⟶ Sets := {| fobj := fun j => {| carrier := c ~{C}~> F j ; is_setoid := @homset C c (F j) |}; fmap := fun j j' (g : j ~{J}~> j') => {| morphism := fun h => fmap[F] g ∘ h |} |}.   (this IS the diagram C(c, F−) : J ⟶ Sets whose limit thm1 computes)"
+      },
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 308,
+        "symbol": "wl_iso (inside conical_of_limit_inst)",
+        "intree_statement": "Program Definition wl_iso (c : C) : @Isomorphism Sets ([[[J,Sets]]](Δ[J]( @terminal_obj Sets Sets_Terminal ), HomDiagram c F)) {| carrier := c ~{C}~> Lobj ; is_setoid := @homset C c Lobj |} := {| to := wl_to c ; from := wl_from c |}.   (Lobj is the apex of the given Limit F; the left side is the setoid of cones from the singleton to C(c,F−))"
+      },
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 344,
+        "symbol": "conical_of_limit / conical_weighted",
+        "intree_statement": "Lemma conical_of_limit `(F : J ⟶ C) : Limit F → WeightedLimit (Δ[J]( @terminal_obj Sets Sets_Terminal )) F.   Theorem conical_weighted `(F : J ⟶ C) : WeightedLimit (Δ[J]( @terminal_obj Sets Sets_Terminal )) F ↔ Limit F."
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).   (header line 35: 'Hom(c, z) ≅ Cone(c, F), the representability formulation of a limit')"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := ... Notation \"[Hom A , ─]\" := (@Curried_Hom _ A) : functor_scope.   (the covariant hom-functor C(c,−) : C ⟶ Sets exists; no preservation result is attached to it)"
+      }
+    ],
+    "statement_record": {
+      "book": "Theorem 1. For any category C with small hom-sets and any object c, the covariant hom-functor C(c,-) : C -> Set preserves ALL limits that exist in C (in particular all small limits): applying C(c,-) to a limiting cone v : Lim F => F yields a limiting cone in Set.",
+      "intree": "Program Definition wl_iso (c : C) : @Isomorphism Sets ([[[J,Sets]]](Δ[J]( 1 ), HomDiagram c F)) {| carrier := c ~{C}~> Lobj |} — together with the naturality square wlim_natural (Structure/Limit/Weighted.v:114) — i.e. Cone(*, C(c,F−)) ≅ C(c, Lim F), naturally in c.",
+      "strength_comparison": "intree-weaker: what is proved is the representability identity Cone(*, C(c,F−)) ≅ C(c, Lim F) (equivalently Cone(c,F) ≅ C(c, Lim F), Structure/UniversalProperty/Limit.v:141). Mac Lane's Theorem 1 is the further assertion that this object, with the postcomposition legs (v_i)_* , is a LIMIT of the diagram C(c,F−) in Set. Making the two coincide needs the identification Lim_Set G ≅ Cone(*, G) (Mac Lane V.1 Theorem 1), which is not in-tree; consequently no [PreservesLimit] / cone-level preservation witness for [Curried_Hom C c] exists anywhere."
+    },
+    "gap": "Missing: (i) any preservation witness for the hom-functor — no `PreservesLimit G (Curried_Hom C c)`, no cone-level statement that the family h ↦ (limit_leg L x ∘ h) is a limiting cone over `HomDiagram c F` in Sets; (ii) the enabling fact that limits in Sets exist and are computed as cone-sets (Sets is nowhere shown complete; Instance/Sets/End.v supplies only the end, one particular shape). What IS present is the representable half, Cone(c,F) ≅ C(c, Lim F) natural in c (`wl_iso` + `wlim_natural`, and `LimitIsUniversalProperty`), which is Mac Lane's own alternative route (remark2) minus the Sets-limit identification.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'hom.*preserves' / 'preserves.*hom' / 'Hom.*Preserves' . — 0 relevant hits (only CMon homomorphism prose)",
+      "grep -rn --include='*.v' -i 'hom_continuous' / 'hom_limit' / 'limit_hom' / 'Yoneda.*limit' / 'limit.*Yoneda' . — 0 hits",
+      "grep -rn --include='*.v' 'Complete' Instance/ . — no `Sets_Complete`, no `Complete Sets` instance anywhere in Instance/"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass found no preservation result attached to any hom-functor (searched 'hom.*preserv', 'preserv.*hom', and read Functor/Hom.v, Functor/Hom/Yoneda.v, Functor/Representable.v) and no completeness of Sets, so ABSENT was defensible. PARTIAL is the better call and is CONFIRMED: wl_iso (Structure/Limit/Weighted.v:308, verified verbatim) together with wlim_natural (:114) is precisely the singleton-apex/elements instance of Mac Lane's universal property, Cone(*, C(c,F-)) = C(c, Lim F) natural in c, i.e. the X = 1 case of 'C(c,-) carries the limiting cone to a limiting cone'. All cited sites verified: HomDiagram at :49, conical_of_limit at :344, conical_weighted at :354, LimitIsUniversalProperty at Structure/UniversalProperty/Limit.v:141, Curried_Hom at Functor/Hom.v:60. Structure/Limit/Weighted.v has no Admitted/Axiom and the naturality obligation of conical_of_limit_inst is discharged (:326-340). The gap statement is accurate and I reproduced both negatives: no PreservesLimit witness for Curried_Hom, and no Sets completeness / no 'limit in Sets = set of cones' theorem anywhere."
+    }
+  },
+  {
+    "id": "maclane:V.4:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "hom-functor into a larger universe of sets preserves limits",
+      "Ens / category of large sets / Grothendieck universe",
+      "locally small relative to a universe",
+      "C(c,-) : C -> Ens preserves limits",
+      "size-generalized Theorem 1"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'hom.*preserves' / 'preserves.*hom' — 0 relevant hits: the theorem this remark generalizes (V.4:thm1) is itself not in-tree, so its universe-generalized restatement cannot be present either",
+      "sed -n '1,60p' Instance/Ens.v — the in-tree `Ens` is NOT Mac Lane's larger universe of sets: 'This file does NOT build that classical category directly. Its objects are Coq [Ensemble]s (predicates [T -> Prop] ...)'; morphisms are membership-preserving-and-reflecting maps. It is unrelated to the remark",
+      "grep -rn --include='*.v' 'universe' -i Instance/Sets.v Structure/Complete.v Instance/Sets/Classifier.v — the library has ONE universe-polymorphic `Sets` (Instance/Sets.v) and handles size by universe constraints (Structure/Complete.v:29-37; Instance/Sets/Classifier.v does the explicit cross-universe work for the subobject classifier). The Set-vs-Ens distinction Mac Lane draws therefore has no in-tree analogue to state separately: a proof of thm1 over the polymorphic `Sets` would BE this remark. Marginal content over thm1 is nil, and the base theorem is missing",
+      "Not OUT_OF_SCOPE: the library's universe polymorphism makes the statement perfectly formalizable; it simply has no counterpart in tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass agreed (the base theorem thm1 is itself unproved, so its universe-generalization cannot be present). The Instance/Ens.v quotation is accurate: lines 19-31 state the file does NOT build the classical category of sets and that morphisms are membership-preserving-and-reflecting maps. One refinement to the negative log, verdict unchanged: the closest in-tree analogue of Mac Lane's Ens is Instance/Coq.v:120-126 (obj := Type, hom := lambda A B, A -> B, i.e. ALL functions, universe-polymorphic), not Instance/Ens.v; the library still has no hom-functor into it and no preservation result, so ABSENT stands. Agreed that OUT_OF_SCOPE would be wrong here, since universe polymorphism makes the statement formalizable."
+    }
+  },
+  {
+    "id": "maclane:V.4:remark2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Lim C(c, F-) = C(c, Lim F)",
+      "limits computed representably / representability formulation of limits",
+      "Cone(c,F) ≅ C(c, Lim F)",
+      "ConePresheaf / WeightedLimit / HomDiagram",
+      "product characterized by Prod_i C(c,a_i) ≅ C(c, Prod_i a_i)",
+      "limits in C defined via limits in Set"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 101,
+        "symbol": "WeightedLimit (wlim_iso + wlim_natural)",
+        "intree_statement": "Class WeightedLimit {J C : Category} (W : J ⟶ Sets) (F : J ⟶ C) := { wlim_obj : C; wlim_iso (c : C) : @Isomorphism Sets ([[[J,Sets]]](W, HomDiagram c F)) {| carrier := c ~{C}~> wlim_obj |}; wlim_natural (c c' : C) (h : c' ~{C}~> c) (α : W ⟹ HomDiagram c F) : to (wlim_iso c') (nat_compose (HomDiagram_precompose h F) α) ≈ to (wlim_iso c) α ∘ h }."
+      },
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 354,
+        "symbol": "conical_weighted",
+        "intree_statement": "Theorem conical_weighted `(F : J ⟶ C) : WeightedLimit (Δ[J]( @terminal_obj Sets Sets_Terminal )) F ↔ Limit F.   (both directions, header: 'Both directions are proved at full strength')"
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).   — 'being a limit of [F] is the same as *representing* the presheaf of cones [ConePresheaf F : C^op ⟶ Sets] ... Hom(c, z) ≅ Cone(c, F)' (header lines 31-37). This is exactly Mac Lane's 'some authors turn this equation into the DEFINITION of limits'."
+      },
+      {
+        "file": "Structure/Cone.v",
+        "line": 79,
+        "symbol": "ConePresheaf",
+        "intree_statement": "Instance ConePresheaf {J : Category} {C : Category} (F : @Functor J C) : @Functor C^op Sets — 'The presheaf of cones over F: each object c is sent to the setoid of cones with apex c ... Its representing object, when one exists, is the limit of F.'"
+      },
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 104,
+        "symbol": "iprod_ump",
+        "intree_statement": "Definition iprod_ump {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) (c : C) (pi : ∀ a, c ~> f a) : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a.   (the product instance ∏_i C(c,a_i) ≅ C(c, ∏_i a_i), in family/element form)"
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 136,
+        "symbol": "ump_products",
+        "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)   (the binary case of the same hom-set bijection)"
+      }
+    ],
+    "statement_record": {
+      "book": "Identifying a cone lambda : c => F with a cone from the one-point set to C(c, F-) in Set gives Cone(X, C(c,F-)) = Set(X, Cone(*,C(c,F-))) = Set(X, Cone(c,F)) = Set(X, C(c, Lim F)); hence the natural isomorphism Lim C(c, F-) = C(c, Lim F) with the correct limiting cone. Some authors turn this equation into the DEFINITION of limits in C in terms of limits in Set; e.g. a product is characterised by Prod_i C(c,a_i) = C(c, Prod_i a_i) naturally in c.",
+      "intree": "wlim_iso (c : C) : Isomorphism Sets ([[[J,Sets]]](Δ[J](1), HomDiagram c F)) (c ~{C}~> wlim_obj), with wlim_natural giving naturality in c; conical_weighted : WeightedLimit (Δ[J](1)) F ↔ Limit F. Plus LimitIsUniversalProperty: being a limit at c ⟺ representing ConePresheaf F, i.e. C(−, Lim F) ≅ Cone(−, F).",
+      "strength_comparison": "intree-weaker only in the reading of the left-hand side. [[[J,Sets]]](Δ[J](1), HomDiagram c F) is literally Mac Lane's Cone(*, C(c,F−)), and `wl_iso`+`wlim_natural` give exactly the displayed equation (1) with naturality in c; both directions of the equivalence with `Limit F` are proved (`conical_weighted`). What is NOT in tree is the further identification of Cone(*, G) with Lim G computed in Sets (Mac Lane V.1 Theorem 1), so the equation is available in cone form but never spelled as 'Lim C(c,F−)'. The 'definition by representability' reading Mac Lane mentions IS in tree (LimitIsUniversalProperty), and the product instance is in tree in family form (iprod_ump, ump_products) rather than as a stated natural isomorphism of hom-sets."
+    },
+    "gap": "The left-hand side is never read as a LIMIT IN Sets: the tree has no theorem that a limit of a Sets-valued diagram G is the set of cones Cone(*, G) (Mac Lane V.1 Thm 1) and Sets is nowhere shown complete, so 'Lim C(c, F−)' cannot be written. The product instance ∏_i C(c,a_i) ≅ C(c, ∏_i a_i) is present only as the family-level UMP (iprod_ump / ump_products), not as a natural isomorphism of Sets-objects indexed by c.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Limit|Complete' Instance/ — no completeness of Sets; Instance/Sets/End.v provides only the end (one shape)",
+      "grep -rn --include='*.v' -i 'hom.*preserves|preserves.*hom' . — 0 relevant hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL, matching my blind pass. Verified: WeightedLimit class body at Structure/Limit/Weighted.v:101-118 (wlim_iso and wlim_natural exactly as quoted); conical_weighted at :354 with both directions ('Proof. split. - apply limit_of_conical. - apply conical_of_limit. Defined.'); ConePresheaf at Structure/Cone.v:79 with the quoted header at :74-77; LimitIsUniversalProperty at Structure/UniversalProperty/Limit.v:141 with the quoted 'Hom(c, z) = Cone(c, F)' comment at :138-140; iprod_ump at Structure/Limit/Product.v:104; ump_products at Structure/Cartesian.v:136. I independently confirmed no Instance/ file establishes limits in Sets of general shape (no Sets_Complete, only Instance/Sets/End.v's end), so 'Lim C(c,F-)' genuinely cannot be written; the gap is stated honestly and the 'definition by representability' half really is in tree."
+    }
+  },
+  {
+    "id": "maclane:V.4:remark3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "contravariant hom carries colimits to limits",
+      "C(-,c) = C^op(c,-) : C^op -> Set",
+      "C(Colim F, c) = Lim C(F-, c)",
+      "C(Coprod_j a_j, c) = Prod_j C(a_j, c)",
+      "Curried_CoHom / [Hom ─,A] / presheaf Hom(-,A)",
+      "colimit universal property / cocone representability"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 147,
+        "symbol": "ump_colimit",
+        "intree_statement": "Definition ump_colimit `(H : @IsAColimit J C F c) (N : Cocone F) : ∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x.   ('every cocone N over F factors through the colimit apex by a unique mediating morphism out of c' — i.e. C(Colim F, c) ≅ Cocone(F, c))"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 146,
+        "symbol": "Curried_CoHom",
+        "intree_statement": "Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op.   Notation \"[Hom ─ , A ]\" := (@Curried_CoHom _ A) : functor_scope.   ('the presheaf Hom(-, c) : C^op ⟶ Sets, obtained as the covariant Curried_Hom on C^op')"
+      },
+      {
+        "file": "Structure/Limit.v",
+        "line": 158,
+        "symbol": "Colimit",
+        "intree_statement": "Definition Colimit `(F : J ⟶ C) := Limit (F^op).   (so LimitIsUniversalProperty read in C^op is the colimit representability statement C(Colim F, −) ≅ Cocone(F, −), by the library's built-in duality)"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 175,
+        "symbol": "inl_merge / inr_merge / merge_inv",
+        "intree_statement": "Lemma inl_merge {x z w : C} (f : z ~> x) (g : w ~> x) : f ▽ g ∘ inl ≈ f.   Lemma inr_merge ... : f ▽ g ∘ inr ≈ g.   Corollary merge_inv {x y z : C} (f h : y ~> x) (g i : z ~> x) : f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i).   (the binary instance C(a + b, c) ≅ C(a,c) × C(b,c) in element form)"
+      },
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 104,
+        "symbol": "iprod_ump (read in C^op)",
+        "intree_statement": "Definition iprod_ump ... : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a.   (in C^op this is the indexed instance C(⨿_j a_j, c) ≅ ∏_j C(a_j, c), again in family form)"
+      }
+    ],
+    "statement_record": {
+      "book": "Since C(-,c) = C^op(c,-) : C^op -> Set, Theorem 1 applied in C^op says the contravariant hom-functor carries small colimits in C (and their colimiting cones) to limits in Set (and limiting cones). Instances: C(Coprod_j a_j, c) = Prod_j C(a_j, c), and generally C(Colim F, c) = Lim C(F-, c).",
+      "intree": "Definition ump_colimit `(H : @IsAColimit J C F c) (N : Cocone F) : ∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x.   Definition Colimit `(F : J ⟶ C) := Limit (F^op).   Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op.",
+      "strength_comparison": "intree-weaker in exactly the way thm1/remark2 are: the bijection C(Colim F, c) ≅ Cocone(F, c) is in tree (and dualizes for free — `Colimit F := Limit (F^op)` makes remark3 the C^op instance of remark2's machinery, which is precisely the duality argument Mac Lane gives), and the coproduct instance is available in family form. But the right-hand side is never read as a LIMIT in Sets of the diagram C(F−, c); no witness that Curried_CoHom carries colimiting cocones to limiting cones exists."
+    },
+    "gap": "No statement anywhere that `Hom(−,c)` (or `Curried_CoHom`) is limit-valued on colimits: there is no `PreservesLimit (F^op) (Curried_CoHom C c)` witness, and 'Lim C(F−,c)' cannot be written because limits in Sets as cone-sets (Mac Lane V.1 Thm 1) and completeness of Sets are absent. The coproduct instance C(⨿ a_j, c) ≅ ∏ C(a_j, c) exists only as the family-level copairing UMP (merge_inv / inl_merge / inr_merge, iprod_ump in C^op), not as a natural isomorphism of Sets-objects.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'hom.*preserves|preserves.*hom|corepresentable' . — no preservation result attached to any hom-functor, covariant or contravariant",
+      "grep -rn --include='*.v' 'ump_coproducts' . — 0 hits; coproducts are `@Cartesian (C^op)` (Structure/Cocartesian.v:120) and their UMP surfaces only as the dualized equations"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. Verified ump_colimit at Structure/Limit/Preservation.v:147, Curried_CoHom at Functor/Hom.v:146, Colimit at Structure/Limit.v:158, inl_merge at Structure/Cocartesian.v:175 (with inr_merge at :182 and merge_inv at :196 - the record cites 175 for the group, which is accurate), iprod_ump at Structure/Limit/Product.v:104. Independently reproduced the negative: 'ump_coproducts' has 0 hits, and Structure/Cocartesian.v:25-28 says so in its own header ('the coproduct UMP is not restated as a class field here: it is inherited from Cartesian's [ump_products] read in C^op'). Same structural gap as thm1/remark2 - nothing states that Hom(-,c) carries colimiting cocones to limiting cones - and the record says so precisely."
+    }
+  },
+  {
+    "id": "maclane:V.4:thm2",
+    "classification": "ABSENT",
+    "aliases": [
+      "creation plus existence implies preservation",
+      "a functor that creates limits preserves them",
+      "creates limits (V creates limits for F)",
+      "CreatesLimits / Creates / creation of limits",
+      "V creates all small limits and X complete => A complete and V continuous",
+      "lifts limits uniquely"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'Creates|creates' . — the only creation notions in tree are (a) `equivalence_creates_limits` (Theory/Equivalence/Limit.v:486): `Definition equivalence_creates_limits {J : Category} (G : J ⟶ C) (L : Limit (F ◯ G)) : Limit G`, a single-instance transport along an equivalence, not the general predicate; and (b) `CreatesUSplitCoequalizers` (Monad/Monadicity/Beck.v:164) plus `CreatedSplitCoequalizer` (Monad/Monadicity/BeckObjects.v:385), both confined to coequalizers of U-split pairs and stated up to a comparison ISO rather than Mac Lane's 'exactly one pair (a,sigma) with Va = x and V sigma = tau'",
+      "grep -rn -i 'creates limits|CreatesLimits|creation of limits|lifts limits|LiftsLimits' (whole repo) — in .v files only PROSE hits: Construction/Comma.v:100 and Construction/Comma/Limit.v:33 assert 'the projection [comma_proj2 : =(d) ↓ U ⟶ C] creates them' in a header, but the file proves only `Comma_Complete` (Construction/Comma/Limit.v:245) — completeness of the comma category from PRESERVATION by U, never creation-implies-preservation",
+      "grep -rn --include='*.v' 'PreservesLimit|PreservesAllLimits|preserves_limit' . — every preservation witness in tree (RAPL, equivalences, right adjoints) is derived from adjointness, never from a creation hypothesis; no lemma of the form `Creates … → Preserves …`",
+      "There is thus no general definition of 'V creates limits for F' (Mac Lane V.1 def3) in tree, so Theorem 2 cannot even be stated; neither half is present — not the preservation conclusion from creation, nor the corollary 'V creates all small limits and X small-complete ⇒ A small-complete and V continuous'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass independently found no general creation-of-limits notion. Verified every negative claim: equivalence_creates_limits at Theory/Equivalence/Limit.v:486-489 is '(L : Limit (F o G)) : Limit G' built from RAPL plus limit_transport - a transported instance, not the predicate; CreatesUSplitCoequalizers at Monad/Monadicity/Beck.v:164 and CreatedSplitCoequalizer at Monad/Monadicity/BeckObjects.v:385 are coequalizer-shaped and relaxed to iso-compatible lifts (Beck.v:54-57 discloses exactly that); Construction/Comma/Limit.v:17,32-33 and Construction/Comma.v:100 assert creation only in prose while the file proves Comma_Complete at :245 (see problems[]). I also checked that every preservation witness in tree derives from adjointness or equivalence, never from a creation hypothesis, so neither half of Theorem 2 (creation+existence => preservation; creation of all small limits + complete X => complete A and continuous V) is present."
+    }
+  },
+  {
+    "id": "maclane:V.4:def3",
+    "classification": "ABSENT",
+    "aliases": [
+      "projective object",
+      "p is projective: every h : p -> c lifts along every epi",
+      "hom(p,-) preserves epis / hom(p,-) sends epis to surjections",
+      "Projective / IsProjective / ProjectiveObject",
+      "enough projectives / projective resolution",
+      "left lifting property against epimorphisms"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'Projective' . — hits are only unrelated prose: Construction/Opposite.v:27,40,43 (projective geometry / duality history), Structure/Closed.v:67 (projective tensor product of Banach spaces), Structure/Limit.v:43,51 (projective limit = inverse limit)",
+      "grep -rn --include='*.v' -i 'projective object' / 'enough projectives' . — 0 code hits; Structure/Abelian.v:97 mentions 'lack enough projectives' in a background essay only",
+      "grep -rn --include='*.v' -i 'splits every epi|lifts against|lifting property|LiftingProperty|WeakOrthogonal|has_lift' . — the only lifting notion is `Orthogonal` (Theory/Orthogonality.v:43), which is the UNIQUE-filler property ('e ⫫ m ... has a unique diagonal filler'). Projectivity needs mere (non-unique) lifting, i.e. weak orthogonality, and no weak/mere lifting predicate exists in tree",
+      "find . -name '*.v' | sort — no Structure/Projective.v or comparable file; the full file listing contains no projectivity module",
+      "The word 'projective' as used for hom-functors preserving epis also produces nothing: grep -rn --include='*.v' -i 'preserves.*epi|epi.*preserv' . — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. My blind searches (-i 'projective', 'projective object', 'enough projectives', 'lifting property', 'preserves epi', 'Class/Definition Projective') reproduce the classifier's result exactly: the only 'projective' hits are projective limits (Structure/Limit.v:43,51), projective geometry (Construction/Opposite.v:27,40,43), the projective tensor product (Structure/Closed.v:67), and the background sentence at Structure/Abelian.v:97. Verified Theory/Orthogonality.v:43-47 is the UNIQUE-filler Class Orthogonal (ortho_lift returns an exists-unique), so it cannot express the mere-lifting property projectivity needs, and no weak-orthogonality predicate exists in tree."
+    }
+  },
+  {
+    "id": "maclane:V.4:def4",
+    "classification": "ABSENT",
+    "aliases": [
+      "injective object",
+      "hom(-,q) carries monics to epis",
+      "every arrow into q extends along a monic",
+      "Injective / IsInjective / InjectiveObject",
+      "injective hull / injective envelope / enough injectives",
+      "right lifting property against monomorphisms"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'Injective' . — every hit is the SETOID-MAP predicate, a different notion: Lib/Setoid.v:117 `Class injective {A : Type} `{Setoid A} {B : Type} `{Setoid B} (f : A -> B)` ('[f] is injective when equal images force equivalent arguments'), used at Instance/Sets.v:398-401, Instance/FinSet/Classifier.v:335 (`finset_monic_iff_injective`), Instance/Lambda/Full.v:290, Monad/Lifting.v:134, Construction/Localization.v:145; plus prose in Instance/Ens.v:16 and Theory/Functor.v:341. None is an injective OBJECT",
+      "grep -rn --include='*.v' -i 'injective object|enough injectives|injective hull|injective envelope' . — 0 hits",
+      "grep -rn --include='*.v' -i 'extends along|lifting property|WeakOrthogonal' . — only `Orthogonal` (Theory/Orthogonality.v:43), the unique-filler property; injectivity requires mere extension, which has no in-tree predicate",
+      "find . -name '*.v' | sort — no Structure/Injective.v or equivalent; Structure/Abelian.v discusses injective resolutions only in its background essay (line 98)",
+      "Duality does not rescue this: since the projective notion (def3) is also absent, there is no dual to read in C^op"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Verified that every in-tree 'injective' is Lib/Setoid.v:117's setoid-map predicate ('Class injective ... f', equal images force equivalent arguments) or a use of it (Instance/Sets.v:398-401, Instance/FinSet/Classifier.v:335 finset_monic_iff_injective, Instance/Lambda/Full.v:290, Monad/Lifting.v:134, Construction/Localization.v:145), never an injective OBJECT; Structure/Abelian.v:98 mentions injective resolutions in a background essay only. No injective hull/envelope/'enough injectives'. Duality supplies nothing because def3 is absent as well."
+    }
+  },
+  {
+    "id": "maclane:V.4:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "composite of continuous functors is continuous",
+      "PreservesLimit is closed under functor composition",
+      "PreservesAllLimits (G ◯ F) from PreservesAllLimits F and G",
+      "preservation composes / limit-preserving functors compose",
+      "dual: composite of cocontinuous functors is cocontinuous"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'PreservesLimit' . | grep -i 'comp|◯' — 0 hits: no lemma composes two preservation witnesses",
+      "grep -rn --include='*.v' -i 'compose.*Preserves|Preserves.*compose|preservation.*composite|composite.*preserv' . — 0 relevant hits (only Bicategory hcompose prose and Enriched 'preserves composition' functor laws)",
+      "grep -rn --include='*.v' 'PreservesImageLimit' . — 14 hits, none a composition lemma; the definition is used only as a hypothesis in Comma/Limit.v, GAFT.v and SAFT.v",
+      "Nearest neighbours, neither of which states this exercise: `Compose_MonoidalFunctor` (Functor/Structure/Monoidal/Compose.v:59) composes strong monoidal functors — for the cartesian monoidal structure this is composition of binary-product preservation only, in a different vocabulary; and Functor/Structure/Cartesian.v has NO composition instance for `CartesianFunctor` (grep -n 'compose|Compose|◯' Functor/Structure/Cartesian.v — 0 hits)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT, with one method note on the record's own log: its third bullet cites grep -n 'compose|Compose|(circ)' Functor/Structure/Cartesian.v, which is BRE alternation and would match a literal string, hence 0 hits regardless of content. I re-ran it correctly (rg -n 'compose|Compose|o|circ' on that file and rg -n 'CartesianFunctor' over the whole tree): the conclusion holds - the file's only composition-related text is the class fields/lemmas, and no Compose_CartesianFunctor or any other composition instance for preservation exists anywhere in tree. Also checked Adjunction/Compose.v (composition of adjunctions), which combined with RAPL would give only the special case 'a composite of right adjoints preserves limits', not the exercise's statement about arbitrary continuous functors."
+    }
+  },
+  {
+    "id": "maclane:V.4:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "continuity from preservation of products and equalizers",
+      "H preserves small products and equalizers => H is continuous",
+      "preservation criterion via the product/equalizer construction of limits",
+      "limits from products and equalizers (V.2 Theorem 1) transported along H",
+      "dual: preserves coproducts and coequalizers => cocontinuous"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'products and equalizers|equalizers.*products|limit_from_products|complete_from|HasProducts.*HasEqualizers' . — the phrase appears only in background prose: Structure/Complete.v:51, Structure/Equalizer.v:80, Structure/Limit.v:71, Structure/Topos.v:23. No construction of a general limit from products + equalizers exists in tree, so the enabling theorem (Mac Lane V.2 Thm 1) is itself missing",
+      "grep -rn --include='*.v' 'PreservesLimit|PreservesAllLimits|PreservesImageLimit' . — no lemma derives limit preservation from product/equalizer preservation; the only routes to continuity in tree are adjointness (Adjunction/Continuity.v:198-203) and equivalence (Theory/Equivalence/Limit.v:421)",
+      "grep -rn --include='*.v' 'CartesianFunctor' . — product preservation exists as a class (Functor/Structure/Cartesian.v:49) but is never combined with equalizer preservation to conclude anything about general limits",
+      "grep -rn --include='*.v' 'HasIndexedProducts|HasEqualizers|IsEqualizer' . — the fork/indexed-product vocabulary exists (Structure/Limit/Product.v:126, Structure/Equalizer/Fork.v) but no assembly theorem consumes it for this purpose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass agreed. Independently verified there is no construction of a general limit from products and equalizers anywhere (searched limit_from*/complete_from*/'products and equalizers'/HasProducts+HasEqualizers), so even the enabling theorem (Mac Lane V.2.1) is missing, and no lemma derives limit preservation from preservation of the two primitives - the only in-tree routes to continuity are adjointness (Adjunction/Continuity.v:198-203) and equivalence (Theory/Equivalence/Limit.v:421). Note the related header over-claim recorded in problems[] at Structure/Equalizer.v:89."
+    }
+  },
+  {
+    "id": "maclane:V.4:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "the free abelian group functor Set -> Ab is not continuous",
+      "free abelian group / free Z-module / FreeAb",
+      "category of abelian groups Ab / Grp / R-Mod",
+      "left adjoint that fails to preserve limits (counterexample)",
+      "free functor does not preserve infinite products"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'free abelian|FreeAbelian|free group' . — 0 code hits; 'free groups' appears only in background prose at Theory/Universal/Arrow.v:39,45 and Structure/Terminal.v:34",
+      "ls Instance/ and find . -name '*.v' — the tree has NO category of abelian groups, groups, rings, modules or spaces. The concrete instances are Sets, Coq, Ens, FinSet, Rel, Poset, Proset, Props, Two, Roof, Parallel, Omega, One, Zero, ZX, Lambda, Cat, Fun, StrictCat, Comp, Adj, Adjoints, AST, Cones, Discrete, Shapes, CMon. `Instance/CMon.v` is commutative MONOIDS (no negation), not Ab",
+      "grep -rn --include='*.v' -i 'forgetful|Forget|free functor' . — the only free/forgetful adjunctions in tree are Kleisli/Eilenberg-Moore (Monad/Kleisli/Adjunction.v:47, Monad/Eilenberg/Moore/Adjunction.v) and EM_Forget; none is an algebraic free-object functor out of Sets",
+      "Structure/Group.v exists but defines GROUP OBJECTS internal to a cartesian monoidal category (`A group object in a category with finite products ... is a monoid object (mappend, mempty) ... together with an inversion morphism`), not the category Ab, so the functor whose non-continuity is asked for cannot be written",
+      "Consequently neither the functor nor its target category exists, and no in-tree counterexample to continuity of any functor is recorded (grep -rn --include='*.v' -i 'not continuous|fails to preserve' . — 0 hits)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Verified the instance inventory directly (ls Instance/*.v): Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX - no Ab, Grp, R-Mod or any other algebraic category (the record's list omits Fact and Lambda but neither is one). Instance/CMon.v is commutative monoids without negation, and Structure/Group.v defines internal group objects, not the category Ab. No free-object functor out of Sets exists (the only free/forgetful pairs are Kleisli and Eilenberg-Moore). Neither the functor nor its codomain can be written, so the counterexample cannot be stated."
+    }
+  }
+]

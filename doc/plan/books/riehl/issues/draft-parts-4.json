@@ -1,0 +1,5 @@
+{
+ "Riehl 4.1: Adjoints to the vertex functor of quivers, and the question for graphs|riehl:4.1:exiii": "clause (ii) and the Graph question: adjoints to V : Quiver -> Set, and whether V : Graph -> Set has one",
+ "Riehl 4.6: The nerve and the homotopy category — Cat as a reflective subcategory of simplicial sets, and the cocompleteness of Cat|riehl:4.6:example13": "clause (vi): Cat reflective in simplicial sets via ho -| N",
+ "Riehl 4.6: The nerve and the homotopy category — Cat as a reflective subcategory of simplicial sets, and the cocompleteness of Cat|riehl:4.6:cor15": "Cat is cocomplete (colimits via ho applied to the simplicial colimit)"
+}

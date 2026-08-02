@@ -1,0 +1,454 @@
+{
+  "book": "awodey",
+  "range": {"pdf_start": 88, "pdf_end": 101},
+  "pages": [
+    {
+      "pdf_page": 88,
+      "book_page": "79",
+      "empty": true,
+      "items": [],
+      "notes": "Chapter 4 title page + intro prose + section 4.1 header. Motivational setup only (group as automorphisms G ⊆ Hom_C(X,X); group object generalizes the Sets notion). No numbered or formalizable item begins here."
+    },
+    {
+      "pdf_page": 89,
+      "book_page": "80",
+      "empty": false,
+      "items": ["awodey:4.1:def1"],
+      "notes": "Definition 4.1 (group in C) begins; associativity and unit conditions on this page."
+    },
+    {
+      "pdf_page": 90,
+      "book_page": "81",
+      "empty": false,
+      "items": ["awodey:4.1:def1", "awodey:4.1:remark-generalized-elements", "awodey:4.1:def2"],
+      "notes": "Def 4.1 completes (inverse condition 3); generalized-elements equivalence remark; Definition 4.2 (homomorphism) begins."
+    },
+    {
+      "pdf_page": 91,
+      "book_page": "82",
+      "empty": false,
+      "items": ["awodey:4.1:def2", "awodey:4.1:construction-group-cat", "awodey:4.1:example3"],
+      "notes": "Def 4.2 completes (preserves u, preserves i); Group(C) category named; Example 4.3 (Sets/Top/Pos groups)."
+    },
+    {
+      "pdf_page": 92,
+      "book_page": "83",
+      "empty": false,
+      "items": ["awodey:4.2:def-kernel", "awodey:4.2:def-normal-subgroup", "awodey:4.2:construction-factor-group"],
+      "notes": "End of 4.1 prose (categorical semantics); section 4.2 begins; kernel-as-equalizer, normal subgroup, and factor-group coequalizer construction all introduced in running prose."
+    },
+    {
+      "pdf_page": 93,
+      "book_page": "84",
+      "empty": false,
+      "items": ["awodey:4.2:construction-factor-group", "awodey:4.2:thm4"],
+      "notes": "Factor-group coequalizer verification completes; Theorem 4.4 (Homomorphism Theorem) stated at bottom."
+    },
+    {
+      "pdf_page": 94,
+      "book_page": "85",
+      "empty": false,
+      "items": ["awodey:4.2:thm4", "awodey:4.2:cor5"],
+      "notes": "Theorem 4.4 proof completes; Corollary 4.5 (quotient-then-injection factorization) stated. Section 4.3 and Definition 4.6 begin on PDF 95."
+    },
+    {
+      "pdf_page": 95,
+      "book_page": "86",
+      "empty": false,
+      "items": [
+        "awodey:4.3:remark-functor-group-hom",
+        "awodey:4.3:def-representation",
+        "awodey:4.3:def6"
+      ],
+      "notes": "Section 4.3 'Groups as categories' begins; Definition 4.6 (congruence) starts here and continues onto PDF 96."
+    },
+    {
+      "pdf_page": 96,
+      "book_page": "87",
+      "empty": false,
+      "items": [
+        "awodey:4.3:construction-congruence-category",
+        "awodey:4.3:construction-quotient-category",
+        "awodey:4.3:def-kernel-congruence"
+      ],
+      "notes": "Congruence category C^~ and quotient category C/~ built in prose (Definition 4.6 concludes at top)."
+    },
+    {
+      "pdf_page": 97,
+      "book_page": "88",
+      "empty": false,
+      "items": [
+        "awodey:4.3:def-kernel-category",
+        "awodey:4.3:thm7",
+        "awodey:4.3:cor8"
+      ],
+      "notes": "Kernel category ker(F); Theorem 4.7 (UMP); Corollary 4.8 (full+faithful factorization)."
+    },
+    {
+      "pdf_page": 98,
+      "book_page": "89",
+      "empty": false,
+      "items": [
+        "awodey:4.4:def-finitely-presented",
+        "awodey:4.4:construction-fp-coequalizer"
+      ],
+      "notes": "Section 4.4 'Finitely presented categories'; C(G,Sigma) definition and its coequalizer description (construction continues onto PDF 99)."
+    },
+    {
+      "pdf_page": 99,
+      "book_page": "90",
+      "empty": false,
+      "items": [
+        "awodey:4.4:example9"
+      ],
+      "notes": "Coequalizer construction concludes at top; Example 4.9 (walking iso, Z/2Z, idempotent, cyclic groups Z_n)."
+    },
+    {
+      "pdf_page": 100,
+      "book_page": "91",
+      "empty": false,
+      "items": [
+        "awodey:4:ex1",
+        "awodey:4:ex2",
+        "awodey:4:ex3",
+        "awodey:4:ex4"
+      ],
+      "notes": "Section 4.5 Exercises 1-4."
+    },
+    {
+      "pdf_page": 101,
+      "book_page": "92",
+      "empty": false,
+      "items": [
+        "awodey:4:ex5"
+      ],
+      "notes": "Exercise 5 (starred)."
+    }
+  ],
+  "items": [
+    {
+      "id": "awodey:4.1:def1",
+      "kind": "definition",
+      "number": "4.1",
+      "name": "group in a category (group object)",
+      "statement_summary": "In a category C with finite products, a group object is an object G with arrows m:G×G→G (multiplication), u:1→G (unit), and i:G→G (inverse) satisfying: (1) m associative up to the canonical product-associativity iso (m∘(m×1) = m∘(1×m)∘assoc); (2) u a two-sided unit, both triangles m∘⟨u∘!,1_G⟩ = 1_G = m∘⟨1_G,u∘!⟩ commuting, where u! denotes G→!1→uG; (3) i a two-sided inverse w.r.t. m, m∘(1_G×i)∘Δ = u∘! = m∘(i×1_G)∘Δ with Δ=⟨1_G,1_G⟩.",
+      "book_section": "4.1",
+      "book_page": "80",
+      "pdf_pages": [89, 90],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:4.1:remark-generalized-elements",
+      "kind": "remark",
+      "number": null,
+      "name": "group-object axioms via generalized elements",
+      "statement_summary": "The commuting-diagram group-object axioms are equivalent to the ordinary group equations holding for all generalized elements x,y,z:Z→G: m(m(x,y),z)=m(x,m(y,z)); m(x,u)=x=m(u,x); m(x,ix)=u=m(ix,x). (Yoneda / functor-of-points reformulation of Definition 4.1.)",
+      "book_section": "4.1",
+      "book_page": "81",
+      "pdf_pages": [90],
+      "cross_refs": ["awodey:4.1:def1"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:4.1:def2",
+      "kind": "definition",
+      "number": "4.2",
+      "name": "homomorphism of group objects",
+      "statement_summary": "A homomorphism h:G→H of group objects in C is an arrow of C that preserves the group structure: (1) preserves multiplication, h∘m = m∘(h×h); (2) preserves unit, h∘u = u; (3) preserves inverse, h∘i = i∘h.",
+      "book_section": "4.1",
+      "book_page": "81",
+      "pdf_pages": [90, 91],
+      "cross_refs": ["awodey:4.1:def1"],
+      "flags": []
+    },
+    {
+      "id": "awodey:4.1:construction-group-cat",
+      "kind": "construction",
+      "number": null,
+      "name": "Group(C), the category of group objects in C",
+      "statement_summary": "Group objects in C and their homomorphisms, with the evident identity arrows and composites inherited from C, form a category denoted Group(C).",
+      "book_section": "4.1",
+      "book_page": "82",
+      "pdf_pages": [91],
+      "cross_refs": ["awodey:4.1:def1", "awodey:4.1:def2"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:4.1:example3",
+      "kind": "example",
+      "number": "4.3",
+      "name": "group objects in Sets, Top, Pos",
+      "statement_summary": "Group objects instantiate structured groups by choice of ambient category: a group in Sets is an ordinary group; a group in Top is a topological group; a group in Pos (posets) is a (partially) ordered group, where the inverse is order-reversing (i:G^op→G). Example: ℝ under addition is both a topological and an ordered group.",
+      "book_section": "4.1",
+      "book_page": "82",
+      "pdf_pages": [91],
+      "cross_refs": ["awodey:4.1:def1"],
+      "flags": ["kind-example-not-in-schema-enum"]
+    },
+    {
+      "id": "awodey:4.2:def-kernel",
+      "kind": "definition",
+      "number": null,
+      "name": "kernel of a group homomorphism (as equalizer)",
+      "statement_summary": "For a group homomorphism h:G→H in Sets, the kernel is ker(h) = {g∈G | h(g)=u}, and this specification exhibits ker(h)→G as the equalizer of h and the constant homomorphism u! : G→1→H.",
+      "book_section": "4.2",
+      "book_page": "83",
+      "pdf_pages": [92],
+      "cross_refs": [],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:4.2:def-normal-subgroup",
+      "kind": "definition",
+      "number": null,
+      "name": "normal subgroup",
+      "statement_summary": "A subgroup N⊆G is normal when it is closed under conjugation: for all g∈G and k∈N, g·k·g⁻¹∈N. In particular ker(h) is always a normal subgroup of G.",
+      "book_section": "4.2",
+      "book_page": "83",
+      "pdf_pages": [92],
+      "cross_refs": ["awodey:4.2:def-kernel"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:4.2:construction-factor-group",
+      "kind": "construction",
+      "number": null,
+      "name": "factor group G/N as coequalizer",
+      "statement_summary": "For any normal subgroup N↣G, the factor group G/N has as elements the cosets [g] (equivalence classes under g∼h iff g·h⁻¹∈N) with multiplication [g]·[g']=[g·g'], well-defined precisely because N is normal. The quotient homomorphism π:G→G/N ('killing off N') together with G/N is the coequalizer of the inclusion i:N→G and the constant map u:N→G.",
+      "book_section": "4.2",
+      "book_page": "83",
+      "pdf_pages": [92, 93],
+      "cross_refs": ["awodey:4.2:def-normal-subgroup"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:4.2:thm4",
+      "kind": "theorem",
+      "number": "4.4",
+      "name": "Homomorphism Theorem for Groups",
+      "statement_summary": "Every group homomorphism h:G→H has a kernel ker(h)=h⁻¹(u), which is a normal subgroup of G, with the universal property: for any normal subgroup N⊆G, N⊆ker(h) iff there is a (necessarily unique) homomorphism h̄:G/N→H with h̄∘π = h (π the quotient). I.e. h factors through G/N exactly when N is contained in the kernel.",
+      "book_section": "4.2",
+      "book_page": "84",
+      "pdf_pages": [93, 94],
+      "cross_refs": ["awodey:4.2:def-kernel", "awodey:4.2:construction-factor-group"],
+      "flags": []
+    },
+    {
+      "id": "awodey:4.2:cor5",
+      "kind": "corollary",
+      "number": "4.5",
+      "name": "epi-mono factorization of a group homomorphism",
+      "statement_summary": "Every group homomorphism h:G→H factors as a surjective quotient π:G→G/ker(h) followed by an injective homomorphism h̄, where h̄:G/ker(h) ≅ im(h)⊆H is an isomorphism onto the image of h. Consequently h is injective iff its kernel is trivial, ker(h)={u}.",
+      "book_section": "4.2",
+      "book_page": "85",
+      "pdf_pages": [94],
+      "cross_refs": ["awodey:4.2:thm4"],
+      "flags": []
+    },
+    {
+      "id": "awodey:4.3:remark-functor-group-hom",
+      "kind": "remark",
+      "number": null,
+      "name": "functor between groups = group homomorphism",
+      "statement_summary": "Viewing groups G, H as one-object categories in which every arrow is invertible, a functor F : G -> H is exactly the same data as a group homomorphism; more generally a functor R : G -> C into an arbitrary category is a 'representation' of G in C.",
+      "book_section": "4.3",
+      "book_page": "86",
+      "pdf_pages": [95],
+      "cross_refs": [],
+      "flags": ["prose-claim"]
+    },
+    {
+      "id": "awodey:4.3:def-representation",
+      "kind": "definition",
+      "number": null,
+      "name": "representation of a group in a category",
+      "statement_summary": "For a group G regarded as a one-object category, a functor R : G -> C into any category C is called a representation of G in C; when C is the category of vector spaces and linear maps this is a linear representation of G.",
+      "book_section": "4.3",
+      "book_page": "86",
+      "pdf_pages": [95],
+      "cross_refs": ["awodey:4.3:remark-functor-group-hom"],
+      "flags": ["unnumbered-definition", "definition-in-prose"]
+    },
+    {
+      "id": "awodey:4.3:def6",
+      "kind": "definition",
+      "number": "4.6",
+      "name": "congruence on a category",
+      "statement_summary": "A congruence on a category C is an equivalence relation f ~ g on arrows such that: (1) f ~ g implies dom(f)=dom(g) and cod(f)=cod(g); and (2) f ~ g implies b.f.a ~ b.g.a for all arrows a : A -> X and b : Y -> B with dom(f)=X=dom(g), cod(f)=Y=cod(g) (compatibility with pre- and post-composition).",
+      "book_section": "4.3",
+      "book_page": "86",
+      "pdf_pages": [95, 96],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:4.3:construction-congruence-category",
+      "kind": "construction",
+      "number": null,
+      "name": "congruence category C^~",
+      "statement_summary": "Given a congruence ~ on C, the congruence category C^~ has objects (C^~)_0 = C_0, arrows the pairs <f,g> with f ~ g, identity 1 = <1_C, 1_C>, and composition <f',g'> o <f,g> = <f'.f, g'.g>; it comes with two projection functors p1, p2 : C^~ -> C.",
+      "book_section": "4.3",
+      "book_page": "87",
+      "pdf_pages": [96],
+      "cross_refs": ["awodey:4.3:def6"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:4.3:construction-quotient-category",
+      "kind": "construction",
+      "number": null,
+      "name": "quotient category C/~ and quotient coequalizer",
+      "statement_summary": "Given a congruence ~ on C, the quotient category C/~ has objects C_0 and arrows (C_1)/~ (equivalence classes [f]), with 1_[C] = [1_C] and [g] o [f] = [g.f]; there is a quotient functor pi : C -> C/~, and the diagram C^~ =p1,p2=> C -pi-> C/~ is a coequalizer of categories.",
+      "book_section": "4.3",
+      "book_page": "87",
+      "pdf_pages": [96],
+      "cross_refs": ["awodey:4.3:construction-congruence-category"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "awodey:4.3:def-kernel-congruence",
+      "kind": "definition",
+      "number": null,
+      "name": "kernel congruence ~_F of a functor",
+      "statement_summary": "A functor F : C -> D determines a congruence ~_F on C by f ~_F g iff dom(f)=dom(g), cod(f)=cod(g), and F(f)=F(g); this is easily checked to be a congruence.",
+      "book_section": "4.3",
+      "book_page": "87",
+      "pdf_pages": [96],
+      "cross_refs": ["awodey:4.3:def6"],
+      "flags": ["unnumbered-definition", "definition-in-prose"]
+    },
+    {
+      "id": "awodey:4.3:def-kernel-category",
+      "kind": "definition",
+      "number": null,
+      "name": "kernel category ker(F)",
+      "statement_summary": "For a functor F : C -> D, the kernel category ker(F) = C^{~_F} =p1,p2=> C is the congruence category of the kernel congruence ~_F; the quotient C/~_F then has the UMP stated in Theorem 4.7.",
+      "book_section": "4.3",
+      "book_page": "88",
+      "pdf_pages": [97],
+      "cross_refs": ["awodey:4.3:def-kernel-congruence", "awodey:4.3:construction-congruence-category"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "awodey:4.3:thm7",
+      "kind": "theorem",
+      "number": "4.7",
+      "name": "UMP of the kernel category / quotient (homomorphism theorem for categories)",
+      "statement_summary": "Every functor F : C -> D has a kernel category ker(F), determined by a congruence ~_F on C, such that for any congruence ~ on C one has (f ~ g implies f ~_F g) if and only if there exists a factorization F~ : C/~ -> D with F~ o pi = F (where pi : C -> C/~ is the quotient functor).",
+      "book_section": "4.3",
+      "book_page": "88",
+      "pdf_pages": [97],
+      "cross_refs": ["awodey:4.3:def-kernel-category", "awodey:4.3:construction-quotient-category"],
+      "flags": []
+    },
+    {
+      "id": "awodey:4.3:cor8",
+      "kind": "corollary",
+      "number": "4.8",
+      "name": "full-faithful factorization of a functor",
+      "statement_summary": "Every functor F : C -> D factors as F = F~ o pi, where pi : C -> C/ker(F) is bijective on objects and surjective on hom-sets (identity-on-objects full functor) and F~ : C/ker(F) -> D is injective on hom-sets (faithful), i.e. F~_{A,B} : Hom(A,B) >-> Hom(FA,FB) is injective for all A,B.",
+      "book_section": "4.3",
+      "book_page": "88",
+      "pdf_pages": [97],
+      "cross_refs": ["awodey:4.3:thm7"],
+      "flags": []
+    },
+    {
+      "id": "awodey:4.4:def-finitely-presented",
+      "kind": "definition",
+      "number": null,
+      "name": "finitely presented category C(G,Sigma)",
+      "statement_summary": "Starting from the free category C(G) on a finite graph G and a finite set Sigma of relations (g_1 o ... o g_n) = (g'_1 o ... o g'_m) between paths with matching endpoints, let ~_Sigma be the smallest congruence on C(G) identifying the two sides of each relation (exists as an intersection of congruences); the finitely presented category is C(G,Sigma) := C(G)/~_Sigma. It has a UMP: there is a diagram i : G -> |C(G,Sigma)| of type G satisfying all i(g)=i(g') for g=g' in Sigma, and for any category D with such a diagram h : G -> |D| there is a unique functor h-bar : C(G,Sigma) -> D with |h-bar| o i = h. Analogous to (and generalizes) finite group presentations.",
+      "book_section": "4.4",
+      "book_page": "89",
+      "pdf_pages": [98],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition", "definition-in-prose"]
+    },
+    {
+      "id": "awodey:4.4:construction-fp-coequalizer",
+      "kind": "construction",
+      "number": null,
+      "name": "presented category as a coequalizer of functors",
+      "statement_summary": "For a single relation f ~ f' between arrows f, f' in C, taking the least congruence ~ with f ~ f', the canonical quotient functor q : C -> C/~ is a coequalizer of the two functors f, f' : C(2) => C out of the free 'walking arrow' category C(2) (2 = two vertices with one edge) selecting f and f'; proved via the homomorphism theorem (Theorem 4.7): any d : C -> D with d.f = d.f' has <f,f'> in ker(d) so factors uniquely through q.",
+      "book_section": "4.4",
+      "book_page": "89",
+      "pdf_pages": [98, 99],
+      "cross_refs": ["awodey:4.3:thm7", "awodey:4.3:construction-quotient-category"],
+      "flags": ["unnumbered-construction", "continued-onto-next-page"]
+    },
+    {
+      "id": "awodey:4.4:example9",
+      "kind": "example",
+      "number": "4.9",
+      "name": "finitely presented categories: walking iso, Z/2Z, idempotent, cyclic groups",
+      "statement_summary": "Examples of finitely presented (non-free) categories: (a) the category with two uniquely isomorphic objects (walking isomorphism) is finite with cycles hence not free, but is presented by the graph A =f,g=> B with relations g.f = 1_A and f.g = 1_B; (b) a single non-identity endo-arrow f : . -> . with relation f o f = 1 presents the group Z/2Z, while f o f = f presents a non-group idempotent; (c) each cyclic group Z_n = Z/Zn is presented as a one-object category with one generator f and the relation f^n = 1.",
+      "book_section": "4.4",
+      "book_page": "90",
+      "pdf_pages": [99],
+      "cross_refs": ["awodey:4.4:def-finitely-presented"],
+      "flags": ["kind-example-not-in-schema-enum"]
+    },
+    {
+      "id": "awodey:4:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "congruences on a group = normal subgroups",
+      "statement_summary": "Regarding a group G as a one-object category with every arrow an isomorphism, show that categorical congruences ~ on G correspond bijectively to normal subgroups N of G (the equivalence relation determined by N). Show further that the quotient category G/~ coincides with the factor group G/N, and conclude that the homomorphism theorem for groups is a special case of the one for categories.",
+      "book_section": "4.5",
+      "book_page": "91",
+      "pdf_pages": [100],
+      "cross_refs": ["awodey:4.3:def6", "awodey:4.3:thm7"],
+      "flags": []
+    },
+    {
+      "id": "awodey:4:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "internal groups in Sets/I are I-indexed families of groups",
+      "statement_summary": "Apply the definition of a group object in a category to Sets/I (sets sliced over a set I). Show that such a group G determines an I-indexed family of ordinary groups G_i = G^{-1}(i) for i in I, and that this assignment determines a functor Groups(Sets/I) -> Groups^I into the category of I-indexed families of groups and I-indexed families of homomorphisms.",
+      "book_section": "4.5",
+      "book_page": "91",
+      "pdf_pages": [100],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:4:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "four presentations of the category 3; is 3 free?",
+      "statement_summary": "Give four different presentations by generators and relations of the category 3 (the poset 1 -> 2 -> 3 with the composite 1 -> 3), pictured as the commuting triangle. Also determine whether 3 is free.",
+      "book_section": "4.5",
+      "book_page": "91",
+      "pdf_pages": [100],
+      "cross_refs": ["awodey:4.4:def-finitely-presented"],
+      "flags": []
+    },
+    {
+      "id": "awodey:4:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "congruence respects composition of composable pairs",
+      "statement_summary": "Given a congruence ~ on a category C and arrows f, f' : A => B and g, g' : B => C, show that f ~ f' and g ~ g' imply g o f ~ g' o f'.",
+      "book_section": "4.5",
+      "book_page": "91",
+      "pdf_pages": [100],
+      "cross_refs": ["awodey:4.3:def6"],
+      "flags": []
+    },
+    {
+      "id": "awodey:4:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "coequalizer of two functors via a congruence",
+      "statement_summary": "(Starred.) Given functors F, G : C -> D that agree on objects (FC = GC for all C), define a relation on the arrows of D by: f ~ g iff dom(f)=dom(g), cod(f)=cod(g), and for every category E and functor H : D -> E with HF = HG one has H(f)=H(g). Prove this is a congruence on D, and prove that the quotient (printed as C/~, evidently a typo for D/~) is the coequalizer of F and G.",
+      "book_section": "4.5",
+      "book_page": "92",
+      "pdf_pages": [101],
+      "cross_refs": ["awodey:4.3:def6", "awodey:4.3:construction-quotient-category"],
+      "flags": ["possible-typo-in-source"]
+    }
+  ]
+}

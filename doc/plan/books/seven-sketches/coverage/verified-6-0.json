@@ -1,0 +1,351 @@
+[
+  {
+    "id": "7sketches:6.2.1:def6.1",
+    "classification": "PRESENT",
+    "aliases": [
+      "initial object",
+      "0 / ∅ / bottom object",
+      "Initial C (notation for @Terminal (C^op)) — the library's duality idiom",
+      "terminal object in the opposite category; ¡ : 0 ~> x (zero, zero_unique)",
+      "colimit of the empty diagram / nullary coproduct / empty coproduct"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Terminal.v",
+        "line": 107,
+        "symbol": "Terminal",
+        "intree_statement": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f ≈ g }.  (Structure/Initial.v:96 makes `Initial C` NOTATION for `@Terminal (C^op)`, so this record read in C^op is exactly the initial-object UMP: an object 0, a morphism 0 ~> x for every x, and any two such morphisms equivalent.)"
+      },
+      {
+        "file": "Structure/Initial.v",
+        "line": 109,
+        "symbol": "zero, zero_unique",
+        "intree_statement": "Definition zero {x} : initial_obj ~{C}~> x := @one _ I _.   Definition zero_unique {x} (f g : initial_obj ~{C}~> x) : f ≈ g := @one_unique _ I _ _ _.  (The two halves of Definition 6.1 stated on the C side: a morphism to every object, and exactly one of them up to ≈.)"
+      },
+      {
+        "file": "Structure/Initial.v",
+        "line": 124,
+        "symbol": "zero_comp",
+        "intree_statement": "Corollary zero_comp `{T : @Initial C} {x y : C} {f : x ~> y} : f ∘ zero ≈ zero.  (The first consequence of the UMP, showing the API is live, not just the record.)"
+      }
+    ],
+    "statement_record": {
+      "book": "An initial object of a category C is an object (written with the empty-set symbol) such that for every object T of C there is exactly one morphism from it to T.",
+      "intree": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f ≈ g }, with `Initial C` := `@Terminal (C^op)`; projected to C as `zero {x} : initial_obj ~> x` and `zero_unique {x} (f g : initial_obj ~> x) : f ≈ g`.",
+      "strength_comparison": "same. Two presentation deltas, neither weakening: (i) 'exactly one' is 'one chosen morphism plus uniqueness up to ≈', the faithful setoid rephrasing — the library never uses = on morphisms; (ii) the in-tree notion is a Class (chosen structure) rather than a bare existence property, which is the usual structure-vs-property presentation and is harmless here because one_unique makes the choice unique up to ≈. The notation is `0` in object_scope rather than the book's ∅."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently and landed on the same two files. All three citations open at the quoted locations: Structure/Terminal.v:107-112 is verbatim the quoted Class Terminal (three fields, one_unique with the ≈); Structure/Initial.v:109 is `zero`, :112 is `zero_unique` (the record cites 109 for the pair — a 3-line offset on the second symbol, quotes accurate); :124 is `zero_comp`. Structure/Initial.v:96-99 does make `Initial C` a NOTATION for `@Terminal (C^op)` — not a separate Class — so the duality reading in the evidence is exact, and `Notation \"0\" := initial_obj : object_scope` sits at :117 as the statement_record claims. Both files registered in _CoqProject. No same-name-weaker trap: `one_unique` is a full field of the class, not a derived special case, and the API is exercised (13 in-tree Initial instances)."
+    }
+  },
+  {
+    "id": "7sketches:6.2.1:example6.2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "initial object of a preorder = bottom/least element",
+      "thin category / posetal category / (0,1)-category",
+      "Proset (preorder as a category), Poset, LessThanEqualTo_Category (ℕ, ≤)",
+      "⊥ / minimum; dually top element = terminal object",
+      "no initial object in (ℝ, ≤)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 61,
+        "symbol": "Props_Initial",
+        "intree_statement": "Program Instance Props_Initial : @Initial Props := { terminal_obj := False; one := fun _ _ => False_rect _ _ }.  Props is the thin (preorder) category `Program Definition Props : Category := {| obj := Prop; hom := Basics.impl; homset := fun P Q => {| equiv := fun f g => True |}; ... |}` (Instance/Props.v:39), i.e. propositions preordered by entailment; the instance asserts that its BOTTOM element False is the initial object."
+      }
+    ],
+    "statement_record": {
+      "book": "In a preorder regarded as a category, an initial object is exactly a bottom element (an element below every other). Concretely 0 is initial in (ℕ, ≤), while (ℝ, ≤) has no initial object.",
+      "intree": "Props_Initial : @Initial Props with terminal_obj := False — in the thin category of propositions ordered by implication (equiv on every hom-setoid is True, so at most one arrow up to ≈), the bottom element is the initial object.",
+      "strength_comparison": "intree-weaker: only ONE instance of the ⟸ direction, no characterization. The library has the general preorder-as-category construction (Instance/Proset.v:33, `Proset (P : PreOrder R) : Category`) but proves no theorem relating initial objects of `Proset P` to least elements of R in either direction, and registers no Initial instance for any Proset."
+    },
+    "gap": "Missing: (1) the general statement — for a preorder R, `Initial (Proset P)` iff R has a least element (neither direction is in-tree; searches for 'bottom/least/minimum element' return 0 hits); (2) the ℕ witness — Instance/Proset.v:47 defines LessThanEqualTo_Category := @Proset nat Nat.le _ but carries no Initial instance showing 0 is initial (likewise Instance/Omega.v's Omega has none); (3) the negative witness — real numbers do not appear in the tree at all, and the library never states 'C has no initial object' for any C (no `@Initial C → False` anywhere), so the (ℝ, ≤) half of the example has no in-tree idiom in use.",
+    "negative_search_log": [
+      "grep -rniE 'least element|minimum element|minimal element' --include=*.v . -> 0 hits",
+      "grep -rniE 'bottom|top element|greatest' --include=*.v . -> 30 hits, all unrelated (Solver Bottom constructor, Shapes.Bottom, prose about bottom rows of squares)",
+      "grep -rnE '(Instance|Definition|Program Instance) [A-Za-z_0-9]*_?Initial' --include=*.v . -> 13 initial-object instances (Sets, AST, FinSet, Algs, Cat, Rel, CMon, Props, Coq, Par, ParE + 2 Semicocartesian bridges); Props is the only thin/preorder category among them",
+      "grep -rn 'Proset|LessThanEqualTo' --include=*.v . -> Instance/Proset.v, Instance/Poset.v, Test/Poset.v only; no Initial/Terminal instance on any Proset",
+      "grep -rniE 'Rdefinitions|Reals|real number' --include=*.v . -> no real-number development in tree",
+      "PHASE D ADDITION: grep -n 'Initial|Terminal|bottom' Instance/Two.v Instance/Two/Monoidal.v Construction/Enriched/Two.v -> the walking arrow _2 (a two-element preorder) has Two_Terminal (Instance/Two/Monoidal.v:98) but NO Two_Initial; Construction/Enriched/Two.v:46 defines `two_bot (z : TwoObj) : TwoHom TwoX z` — literally 'TwoX is below everything' — as a local helper only, never packaged as initiality"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same reasoning and the same single witness. Verified: Instance/Props.v:61 is Props_Initial verbatim as quoted; Instance/Props.v:39-48 is the thin category (`homset := fun P Q => {| equiv := fun f g => True |}`), so the preorder claim holds; Instance/Proset.v:33 is `Proset (P : PreOrder R) : Category` and :47 LessThanEqualTo_Category over Nat.le, with no Initial instance in the file; Instance/Omega.v has no Initial. 13 Initial instances confirmed by my own grep, Props the only thin one. TWO CORRECTIONS to the record, neither changing the class: (a) the gap's original wording 'the library has no way to state \"C has no initial object\"' overreached — the library plainly CAN state `@Initial C → False`, it simply never does; rephrased to the factual claim. (b) added a Phase-D log line for the walking arrow _2, which my blind pass surfaced and Phase C did not: it is a two-element preorder with a terminal but no initial instance, and Construction/Enriched/Two.v:46's `two_bot` is the bottom-element datum left unpackaged — this strengthens, not weakens, the PARTIAL verdict."
+    }
+  },
+  {
+    "id": "7sketches:6.2.1:ex6.3",
+    "classification": "ABSENT",
+    "aliases": [
+      "preorder on a two-element set {a,b}",
+      "discrete two-object category (Two_Discrete) — the 0-initial-objects case",
+      "walking arrow / interval category _2 — the 1-initial-object case",
+      "indiscrete / codiscrete / chaotic preorder on two elements — the 2-initial-objects case",
+      "non-skeletal thin category; two distinct initial objects"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnE '(Instance|Definition|Program Instance) [A-Za-z_0-9]*_?Initial' --include=*.v . -> 13 hits; none is a two-element preorder, and none of the tree's two-object categories (_2, Two_Discrete, Parallel) carries an Initial instance",
+      "grep -n 'Program|Definition|Instance|Lemma' Instance/Two/Discrete.v -> Two_Discrete : Category, TwoDHom_X_Y_absurd, TwoDHom_Y_X_absurd, Pick_Two; no initial-object statement (the case with NO initial object is unformalized)",
+      "grep -rn 'Two_' --include=*.v . -> Two_Cartesian, Two_Terminal, Two_Monoidal (Instance/Two/Monoidal.v) only; there is no Two_Initial asserting TwoX is initial in _2 (the case with EXACTLY ONE initial object is unformalized)",
+      "grep -rniE 'indiscrete|codiscrete|chaotic' --include=*.v . -> 10 hits, all prose; Structure/Discrete.v:23 explicitly records the codiscrete/indiscrete construction as the further right adjoint that is NOT built, so the two-initial-objects case has no in-tree carrier",
+      "grep -rniE 'two initial|any two initial' --include=*.v . -> 1 hit, the essay line Structure/Initial.v:36 ('Any two initial objects are isomorphic...'), a comment, not an assertion",
+      "grep -rn 'Proset' --include=*.v . -> the general preorder-as-category construction exists (Instance/Proset.v:33) but is never instantiated at a two-element carrier"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found no counterpart. Spot-checked every log line that names a file: Structure/Discrete.v exists and its header at lines 23-24 does say 'the dual (codiscrete / indiscrete) construction is the further right adjoint' with no construction following, so the two-initial-objects carrier genuinely has no in-tree home; Instance/Two/Discrete.v exists and contains only Two_Discrete plus the two hom-emptiness lemmas; Instance/Two/Monoidal.v:98 has Two_Terminal and no Two_Initial; Structure/Initial.v:36 is indeed prose inside the background essay, not an assertion. My own 13-instance Initial grep matches Phase C's exactly. Nothing missed."
+    }
+  },
+  {
+    "id": "7sketches:6.2.1:example6.4",
+    "classification": "PRESENT",
+    "aliases": [
+      "empty set is initial in FinSet",
+      "FinSet_Initial / Sets_Initial / Coq_Initial",
+      "empty function; unique map out of ∅",
+      "False / Fin.t 0 / the 0-element object of skeletal FinSet",
+      "vacuous uniqueness (no element on which two maps could differ)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet.v",
+        "line": 223,
+        "symbol": "FinSet_Initial",
+        "intree_statement": "#[export] Instance FinSet_Initial : Initial FinSet := @Build_Terminal (FinSet^op) 0%nat (fun x (v : Fin.t 0) => Fin.case0 (fun _ => Fin.t x) v) (fun x f g i => Fin.case0 (fun j => f j = g j) i).  (Object 0 — the empty finite set Fin.t 0 — is initial; the unique arrow is the empty function and its uniqueness is Fin.case0, literally the book's 'there are no elements on which two such functions could differ'.)"
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 265,
+        "symbol": "Sets_Initial",
+        "intree_statement": "Program Instance Sets_Initial : @Initial Sets := { terminal_obj := {| carrier := False |}; one := _ }, with the obligations discharged by `contradiction` — the same fact one size up, for the category of setoids (the library's stand-in for Set)."
+      }
+    ],
+    "statement_record": {
+      "book": "The initial object of FinSet (finite sets and functions) is the empty set: for any finite set T there is a unique function ∅ → T, since ∅ has no elements on which two functions could differ.",
+      "intree": "FinSet_Initial : Initial FinSet with terminal_obj := 0%nat (i.e. Fin.t 0), one := fun x v => Fin.case0 _ v, one_unique := fun x f g i => Fin.case0 (fun j => f j = g j) i.",
+      "strength_comparison": "same, modulo one presentation choice disclosed in the file header: in-tree FinSet is the SKELETON of the category of finite sets (objects are natural numbers, n standing for Fin.t n, homs all functions Fin.t m → Fin.t n under pointwise Leibniz equality), which is equivalent to — not identical with — the book's FinSet of all finite sets. The initiality statement and its proof are the book's verbatim."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently and cited the same instance. Instance/FinSet.v:223-226 is the quoted term verbatim, including the Fin.case0 uniqueness proof; Instance/Sets.v:265-274 is Sets_Initial with `carrier := False` and obligations closed by `contradiction`. The skeletality disclosure in the strength_comparison is honest and is backed by the file's own header (Instance/FinSet.v:15 '* FinSet, the skeletal category of finite sets', lines 20-25 spelling out objects-are-naturals), so it is not an undisclosed weakening. Both files in _CoqProject. No definition-without-API concern: FinSet_Initial feeds FinSet's cocartesian/pushout/topos layers."
+    }
+  },
+  {
+    "id": "7sketches:6.2.1:example6.5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "walking parallel pair / free quiver / parallel morphisms category",
+      "two objects with two distinct parallel arrows",
+      "Instance/Parallel.v (Parallel, ParObj, ParHom, APair)",
+      "a category with no initial object; ¬ Initial C",
+      "equalizer/coequalizer shape category"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Parallel.v",
+        "line": 61,
+        "symbol": "ParHom_Y_X_absurd",
+        "intree_statement": "Lemma ParHom_Y_X_absurd : ∀ b, ParHom b ParY ParX → False.  (Since `hom x y := ∃ b : bool, ParHom b x y`, this says the hom-set ParY ~> ParX is EMPTY — exactly the book's reason why the codomain object B is not initial: there are zero morphisms B → A rather than one.)"
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 80,
+        "symbol": "Parallel",
+        "intree_statement": "Program Definition Parallel : Category := {| obj := ParObj; hom := fun x y => ∃ b : bool, ParHom b x y; homset := fun x y => {| equiv := fun f g => ``f = ``g |}; ... |} over `Inductive ParObj := ParX | ParY` and `Inductive ParHom : bool → ParObj → ParObj → Set := ParIdX | ParIdY | ParOne | ParTwo`.  (This is the book's category verbatim: two objects, two non-identity parallel arrows ParOne/ParTwo distinguished by the boolean tag, since hom equivalence compares tags.)"
+      }
+    ],
+    "statement_record": {
+      "book": "The category with two objects A, B and two distinct parallel non-identity arrows f, g : A → B has no initial object: A fails because there are two arrows A → B, B fails because there are none B → A. Hence categories need not have initial objects.",
+      "intree": "Parallel : Category (two objects, two tag-distinguished parallel arrows) together with ParHom_Y_X_absurd : ∀ b, ParHom b ParY ParX → False.",
+      "strength_comparison": "intree-weaker: the category and one of the two required emptiness/multiplicity facts are formalized, but the CONCLUSION of the example is not stated anywhere."
+    },
+    "gap": "The negative claim itself is missing. Precisely: (1) no in-tree statement of the form `@Initial Parallel → False` (nor any negated initiality/terminality for any C — grep over the whole tree finds none, so no in-tree statement anywhere says 'C has no initial object'); (2) the ParX half of the argument is not recorded either — there is no lemma that the two arrows ParX ~> ParY are inequivalent, although it is decidable definitionally because hom equivalence is `` `1 f = `1 g `` on the boolean tag; (3) consequently the example's moral (existence of initial objects is not automatic) has no in-tree witness.",
+    "negative_search_log": [
+      "grep -rniE 'has no initial|no initial object|does not have (an )?initial|not_initial|no terminal object' --include=*.v . -> 0 relevant hits",
+      "grep -rn 'Initial' --include=*.v . | grep -i Parallel -> 0 hits (Instance/Parallel.v never mentions Initial or Terminal)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently and cited Instance/Parallel.v as the carrier. Both citations verified verbatim: :61 ParHom_Y_X_absurd, :80-99 the Parallel record with `hom := fun x y => ∃ b : bool, ParHom b x y` and `equiv := fun f g => ``f = ``g``, and the header at :12-22 confirms this is the book's two-object/two-parallel-arrow category. Re-ran the second log line myself: `grep -n 'Initial\\|Terminal' Instance/Parallel.v` returns nothing, so the file genuinely never asserts anything about initiality. Gap wording fixed in the same way as example6.2 (the library can express `@Initial C → False`; it never does). Calibration note, since the neighbouring ex6.6 was classed ABSENT on a superficially similar 'carrier present, claim absent' shape: PARTIAL is right here because ParHom_Y_X_absurd is one of the book's two argument halves stated as a named lemma, whereas ex6.6 has no argument content at all."
+    }
+  },
+  {
+    "id": "7sketches:6.2.1:ex6.6",
+    "classification": "ABSENT",
+    "aliases": [
+      "free category on a graph / path category / FreeOnQuiver",
+      "quiver, directed multigraph, Quiver / QuiverHomomorphism",
+      "initial object of a free category; initial vertex / source vertex",
+      "one-object one-loop graph = free monoid ℕ as a one-object category",
+      "discrete graph on two vertices (Two_Discrete); the three-object path category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -n 'Class|Record|Definition|Program|Theorem|Lemma' Construction/Free/Quiver.v -> Quiver (54), FreeOnQuiver : Category (431), QuiverOfCat, Forgetful, FreeCatFunctor, FreeForgetfulAdjunction (550): the free-category-on-a-graph CONSTRUCTION is fully in tree, but no statement anywhere concerns initial objects of FreeOnQuiver",
+      "grep -n 'Program Definition Free' Construction/Free.v -> Free : Category (paths of C-arrows, line 118) and FreeSyntax (253); again no initial-object result",
+      "grep -rnE '(Instance|Definition|Program Instance) [A-Za-z_0-9]*_?Initial' --include=*.v . -> 13 hits, none of them a free category, a path category, _1, or Two_Discrete",
+      "grep -n 'Program|Definition|Instance' Instance/One.v -> _1 : Category and Cat_Terminal only; the free category on the single-vertex graph is never shown to have an initial object (nor is _1 given an Initial instance)",
+      "grep -n 'Program|Definition|Instance|Lemma' Instance/Two/Discrete.v -> Two_Discrete plus the two hom-emptiness lemmas; the 'two isolated vertices' case has no initial-object determination",
+      "CORRECTED IN PHASE D (the original line claimed the one-vertex-one-loop free category 'is not built as a category anywhere' — that is FALSE): Test/Issue138.v:87 defines `B138_loop : Quiver := Build_Quiver_Standard_Eq Datatypes.unit (fun _ _ => Datatypes.unit)` — the one-node one-loop graph — and :90 checks `FreeOnQuiver B138_loop : Category`, with :95 `Example B138_free_loop_nodes : obj[FreeOnQuiver B138_loop] = Datatypes.unit := eq_refl`. So ONE of the exercise's four graphs does have its free category built in tree (Test/Issue138.v is registered in _CoqProject). What is still absent is any initial-object determination for it or for the other three graphs; the exercise's content is the four verdicts, and none of them is stated.",
+      "grep -rniE 'loop|isolated vertex|path graph' --include=*.v . -> no graph-specific initiality results"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass hovered between PARTIAL and ABSENT and settled on ABSENT for the same reason Phase C gives: the item is a four-part decision problem about initial objects, and not one of the four verdicts exists in tree; FreeOnQuiver is a prerequisite, not a part of the item. But I OVERTURNED one factual claim inside the negative_search_log without changing the classification: Phase C wrote that the free category on the one-vertex-one-loop graph 'is not built as a category anywhere', and Test/Issue138.v:87-96 builds exactly it (B138_loop, FreeOnQuiver B138_loop, and an eq_refl Example on its object type). That log line has been replaced with the accurate finding. Everything else checks out: Construction/Free/Quiver.v:54 Quiver, :431 FreeOnQuiver, :550 FreeForgetfulAdjunction; Construction/Free.v:118 Free and :253 FreeSyntax; Instance/Two/Discrete.v as described; my own 13-instance Initial grep matches. Registration verified for Construction/Free/Quiver.v and Test/Issue138.v."
+    }
+  },
+  {
+    "id": "7sketches:6.2.1:ex6.7",
+    "classification": "ABSENT",
+    "aliases": [
+      "rig / semiring / commutative semiring; Rig as a category",
+      "rig homomorphism (preserves 0, +, 1, ×)",
+      "initial rig = ℕ (natural numbers)",
+      "category of algebras for an algebraic theory; variety of algebras; AlgHom/CMonHom/MonoidHom",
+      "free algebra on no generators is initial (Algs_Initial); models of a Lawvere theory"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\brig\\b|semiring|semi-ring' --include=*.v . -> exactly 2 hits, both comments in Theory/Algebra.v (lines 16, 25) about RIG CATEGORIES (categorified rigs), not about rigs or a category Rig; there is no rig structure, no rig homomorphism and no category of rigs in the tree",
+      "grep -rnE 'Rig[A-Za-z_]*' --include=*.v . -> only unrelated identifiers containing the substring (RightStrongFunctor, RightKan, ...)",
+      "grep -rnE 'Record .*Hom|Class .*Hom' --include=*.v . -> the homomorphism records that exist are AlgHom (Instance/Comp.v:64, algebras for an operation signature), CMonHom (Instance/CMon.v:58), MonoidHom (Theory/Algebra/Monoid/Hom.v:34), ComonoidHom, QuiverHomomorphism, TAlgebraHom — none is a rig homomorphism and none of the signatures is the rig signature",
+      "grep -rniE 'initial.*(nat|ℕ)|(nat|ℕ).*initial' --include=*.v . -> only initial-ALGEBRA hits (NatF/ListF in Theory/Adamek/Corollaries.v and Construction/FAlg.v, both of which explicitly say the nat initiality is NOT stated in tree); nothing identifies ℕ as an initial object of a category of algebraic structures",
+      "NEAREST IN-TREE ANALOGUE (does not discharge the item): Instance/Comp.v:209 `Program Instance Algs_Initial : Initial Algs := { terminal_obj := Free S False; one := ... }` proves that for any operation signature S the free algebra on no generators is initial in Algs. It does not apply to rigs: Algs is algebras WITHOUT equations (Instance/Comp.v:54 'no equations'), so its initial object is the term algebra; rigs are a variety with equations, and although Instance/Comp.v:268 defines varieties `Algebra S E`, no category of varieties and no initial object for one is constructed",
+      "grep -rn 'Models' Theory/Lawvere/Model.v -> the Lawvere-theory model category exists but carries no initial-model theorem"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the decisive grep myself: `rg -w -i 'rig|rigs|semiring'` over all .v files, filtered for the right/rigid/rigor false positives, returns exactly the two Theory/Algebra.v comment lines (16, 25) about RIG CATEGORIES — there is no rig, no rig homomorphism, no Rig category anywhere in tree. The nearest-analogue disclosure is accurate and correctly disclaimed: Instance/Comp.v:209 is verbatim `Program Instance Algs_Initial : Initial Algs := {` with the free algebra on False as the initial object, and the surrounding comment confirms it is the term algebra for a signature without equations, so it cannot discharge a variety-with-equations like Rig. Instance/CMon.v does carry CMon_Initial (Instance/CMon/Biproduct.v:154, the trivial monoid) — the closest concrete algebraic-category initial object in tree — and it is likewise not a rig, so it does not overturn ABSENT."
+    }
+  },
+  {
+    "id": "7sketches:6.2.1:ex6.8",
+    "classification": "PRESENT",
+    "aliases": [
+      "universal property; hallmark of universality",
+      "universal arrow / universal element / universal morphism",
+      "initiality IS the universal property (initial object of a comma category)",
+      "unique factorization through the universal map (∃!)",
+      "representable functor / representing object"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 139,
+        "symbol": "ump_universal_arrows",
+        "intree_statement": "Corollary ump_universal_arrows `(c ⟿ F) `(h : c ~> F d) : ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow.  (The 'unique map to any comparable object' hallmark, derived — via zero and zero_unique — from the initiality packaged in the class below.)"
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 127,
+        "symbol": "UniversalArrow",
+        "intree_statement": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F);  arrow_obj := snd (`1 (@initial_obj _ arrow_initial));  arrow : c ~> F arrow_obj := `2 (@initial_obj _ arrow_initial) }.  (The library DEFINES 'universal' as 'initial' — the field is literally an Initial structure — which is precisely the identification the exercise asks the reader to articulate.)"
+      },
+      {
+        "file": "Structure/Initial.v",
+        "line": 112,
+        "symbol": "zero_unique",
+        "intree_statement": "Definition zero_unique {x} (f g : initial_obj ~{C}~> x) : f ≈ g := @one_unique _ I _ _ _.  (At Definition 6.1 itself: what is universal is the object 0, and every object x plays the role of the 'comparable object', with `zero : 0 ~> x` the unique map.)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise: explain the slogan 'the hallmark of universality is the existence of a unique map to any other comparable object' in the setting of Definition 6.1 — say what is universal and which object is the comparable one.",
+      "intree": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); ... } together with Corollary ump_universal_arrows : ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow; and, at the level of Definition 6.1 itself, zero {x} : initial_obj ~> x with zero_unique {x} (f g) : f ≈ g.",
+      "strength_comparison": "intree-stronger: the book asks for a verbal identification of universality with the unique-map-out property; the library both states that property (zero/zero_unique, ∀ x) and proves the general theorem that a universal property IS an initial object — of the comma category =(c) ↓ F — deriving the ∃! factorization from zero_unique, plus the converse direction universal_arrow_from_UMP (Theory/Universal/Arrow.v:158) reconstructing initiality from the ∃! property. A second, independent in-tree reading of the same slogan is representability (Structure/UniversalProperty.v:41, Class IsUniversalProperty)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "This is the record I pressed hardest, because a prose exercise classed PRESENT with 'intree-stronger' is exactly where a classifier tends to overreach. It survives. All four cited locations are verbatim: Theory/Universal/Arrow.v:127-132 is the UniversalArrow class whose FIRST FIELD is literally `arrow_initial : @Initial (=(c) ↓ F)` with arrow_obj/arrow read off `initial_obj`; :139-153 is ump_universal_arrows with the ∃! conclusion, and its proof body genuinely goes through `@zero _ arrow_initial` and `@zero_unique _ arrow_initial` — so the derivation the record claims is the actual proof, not a plausible story; :158-160 is universal_arrow_from_UMP giving the converse; Structure/Initial.v:112 is zero_unique (Phase C's evidence line was corrected from 112-as-written, which was already right). Both files in _CoqProject. I considered OUT_OF_SCOPE (the item is a 'explain in words' exercise) and rejected it under the frozen guidance: the exercise's answer — what is universal is 0, the comparable object is an arbitrary x, and the witness is the unique zero : 0 ~> x — is stated in tree with no residue, and the general universal=initial identification is proved in both directions."
+    }
+  },
+  {
+    "id": "7sketches:6.2.1:remark6.9",
+    "classification": "PARTIAL",
+    "aliases": [
+      "unique up to unique isomorphism",
+      "essentially unique; canonical isomorphism",
+      "univ_property_unique_up_to_unique_iso / univ_property_unique",
+      "uniqueness of representing objects (Yoneda)",
+      "'the' initial object — definite article licensed by uniqueness"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 175,
+        "symbol": "univ_property_unique_up_to_unique_iso",
+        "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s).  (Under Context (H : IsUniversalProperty C P eqP): any two objects satisfying the universal property P are related by a UNIQUE isomorphism carrying one witness to the other — the exact content of the remark, with `Unique` the Type-valued ∃! record of Lib/Setoid.v.)"
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) _.  (One of the three registered instances — with CartesianProductIsUniversalProperty (Structure/UniversalProperty/Cartesian.v:60) and UniversalArrowIsUniversalProperty (Structure/UniversalProperty/Universal/Arrow.v:61) — that feed the theorem above, so 'limits are unique up to unique isomorphism' is genuinely derivable in tree.)"
+      }
+    ],
+    "statement_record": {
+      "book": "One speaks of 'the' object with a universal property — e.g. 'the' initial object — because any two such objects are unique up to unique isomorphism: the universal property itself supplies a canonical isomorphism between them.",
+      "intree": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s), for any P equipped with IsUniversalProperty C P eqP (i.e. a repr_functor and a natural iso [Hom c,─] ≅ repr_functor at each c).",
+      "strength_comparison": "intree-weaker by an unmet hypothesis: the general theorem carries the extra datum `IsUniversalProperty C P eqP` (the universal property must be presented as representability), and that datum is registered for limits, cartesian products and universal arrows — but NOT for initial or terminal objects, which is the very case the remark uses as its illustration. So the remark's general claim is proven, its stated instance is not reachable without new work."
+    },
+    "gap": "No `IsUniversalProperty` instance exists for initiality (or terminality): grep over the tree finds exactly three instances (LimitIsUniversalProperty, CartesianProductIsUniversalProperty, UniversalArrowIsUniversalProperty). Consequently there is no in-tree corollary that two initial objects are uniquely isomorphic — even though Theory/Isomorphism.v:83 advertises 'Structure/Terminal.v the simplest instance' of the theorem, no such instance is built (Structure/Terminal.v is 129 lines and imports only Category.Lib and Category.Theory.Category). The bridge that would supply it, Terminal_Limit (Structure/Limit/Terminal.v:33, `Limit F ↔ @Terminal C` for F : 0 ⟶ C), is an ↔ between bundled Limit and Terminal and is never composed with LimitIsUniversalProperty. Concrete uniqueness-up-to-iso lemmas that DO exist for other universal objects (equalizer_unique, coequalizer_unique, pullback_unique) all conclude a bare `q1 ≅ q2` without the uniqueness-of-the-iso clause, so they are strictly weaker than the remark as well.",
+    "negative_search_log": [
+      "grep -rn 'IsUniversalProperty' --include=*.v . -> the class (Structure/UniversalProperty.v:41) plus exactly three instances (Limit, Cartesian, Universal/Arrow); none for Initial/Terminal",
+      "grep -rniE '(terminal|initial).*(≅|iso)' --include=*.v . -> only Structure/ZeroObject.v:42 zero_coincide (initial ≅ terminal, a different claim), Theory/Lambek.v (initial ALGEBRA), and prose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, though it first surfaced the weaker univ_property_unique (Structure/UniversalProperty.v:112, uniqueness up to iso only) — Phase C found the stronger sibling, which is the right citation. Verified verbatim at Structure/UniversalProperty.v:175-177: `Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s)`, under `Context (H : IsUniversalProperty C P eqP)` opened at :104-106, so the unmet-hypothesis framing is exact. The three instances are confirmed by my own grep (Limit.v:141, Cartesian.v:60, Universal/Arrow.v:61) and there is no fourth. Every gap sub-claim independently checked: Theory/Isomorphism.v:82-83 really does point at Structure/Terminal.v as 'the simplest instance' and Structure/Terminal.v really contains no such instance (129 lines, Requires only Lib and Theory.Category) — logged as a library defect; Structure/Limit/Terminal.v:33-34 really is `Limit F ↔ @Terminal C`; pullback_unique (Structure/Pullback.v:182), equalizer_unique (Structure/Equalizer/Fork.v:106) and coequalizer_unique (Structure/Coequalizer.v:106) really do conclude bare `≅` with no uniqueness clause. All cited files in _CoqProject."
+    }
+  },
+  {
+    "id": "7sketches:6.2.1:ex6.10",
+    "classification": "ABSENT",
+    "aliases": [
+      "any two initial objects are isomorphic",
+      "canonical/unique isomorphism between initial objects",
+      "initial_unique / terminal_unique / zero_iso",
+      "mutually inverse unique maps c1 ~> c2, c2 ~> c1 with composites id (by zero_unique)",
+      "dual: any two terminal objects are isomorphic"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'any two (initial|terminal)|two terminal|two initial' --include=*.v . -> 1 hit, Structure/Initial.v:36, a line of the file's background essay ('Any two initial objects are isomorphic by a unique isomorphism') — prose, not a statement; the file's only assertions are zero, zero_unique and zero_comp",
+      "grep -rniE '(terminal|initial).*(≅|iso)|iso.*(terminal|initial)' --include=*.v Structure/ Theory/ Instance/ Construction/ -> Structure/ZeroObject.v:42 (zero_coincide : initial_obj ≅ terminal_obj — the DIFFERENT claim that a chosen initial and a chosen terminal object agree), Theory/Lambek.v:41/79 (initial F-algebra, final F-coalgebra), Instance/CMon/Biproduct.v:161 (iso_id for one object that is both); nothing comparing two initial objects",
+      "grep -rn 'one_unique|zero_unique' --include=*.v . -> 20 use sites (Lambek, Adamek, Recursion, Universal/Arrow, Endomorphism, Lawvere/Sets, Tools/Abstraction, ...); none of them constructs an isomorphism between two initial (or two terminal) objects",
+      "grep -rn 'unique_iso|_unique' --include=*.v . -> the uniqueness-up-to-iso lemmas that exist are equalizer_unique (Structure/Equalizer/Fork.v:106, q1 ≅ q2), coequalizer_unique (Structure/Coequalizer.v), pullback_unique (Structure/Pullback.v:183), adjoint_unique (Theory/Bicategory/Adjunction.v), extend_unique_iso (Construction/Karoubi/Universal.v) and univ_property_unique_up_to_unique_iso (Structure/UniversalProperty.v:175); none is about initial or terminal objects, and the generic one is not instantiable at initiality (see the gap recorded for remark6.9)",
+      "grep -rnE '(Instance|Definition|Program Instance) [A-Za-z_0-9]*_?Initial' --include=*.v . -> 13 instances, all constructions of a single initial object; no lemma relating two of them"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, running the same family of searches from the other end (I looked for `≅` next to terminal_obj/initial_obj, for lemmas taking two Terminal/Initial arguments, and for any IsUniversalProperty instance at initiality — all empty). Verified the two load-bearing log claims by hand: Structure/Initial.v:36-39 is prose inside the background essay ('Any two initial objects are isomorphic by a unique isomorphism, and this uniqueness up to unique isomorphism ... is what licenses speaking of THE initial object'), and the file's only Coq assertions are initial_obj, zero, zero_unique, zero_comp; Structure/ZeroObject.v:42 zero_coincide is the different initial≅terminal claim, and its header at :20-22 leans on the uniqueness fact in prose without proving it. The ABSENT/PARTIAL split against remark6.9 is defensible and I endorse it: the remark's GENERAL claim is proved (univ_property_unique_up_to_unique_iso), which is why that record is PARTIAL, whereas this exercise asks specifically for the iso between two initial objects and nothing in tree constructs it or is instantiable to it."
+    }
+  }
+]

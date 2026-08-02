@@ -1,0 +1,267 @@
+[
+  {
+    "id": "riehl:5.6:cor9",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Set is cocomplete / Sets has all small colimits",
+      "Cocomplete Sets (Structure/Complete.v vocabulary)",
+      "colimits of setoids: coproducts, coequalizers, pushouts",
+      "Sets_Cocartesian / Sets_Initial / Sets_HasPushouts",
+      "SetsCoend — quotient-of-a-sum colimit in Sets",
+      "dual: Sets^op complete; power-set functor monadic creates colimits"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Coend.v",
+        "line": 163,
+        "symbol": "SetsCoend",
+        "intree_statement": "Context {C : Category}. Context (F : C^op ∏ C ⟶ Sets). ... Definition SetsCoend : Coend F.  (* apex = coend_apex_setoid, the sum [ci x a] over ALL objects x of C quotiented by the inductive congruence coend_eq (ce_point fibre equivalence + ce_glue dinaturality), with cowedge legs coend_inj_mor and the full UMP via coend_mediator; funext-free *)"
+      },
+      {
+        "file": "Instance/Sets/Pushout.v",
+        "line": 185,
+        "symbol": "Sets_HasPushouts",
+        "intree_statement": "#[export] Program Instance Sets_HasPushouts : HasPushouts Sets := {| pushout := fun X Y Z f g => {| Pull := pushout_apex_setoid f g; pullback_fst := pushout_inl_mor f g; pullback_snd := pushout_inr_mor f g; pullback_commutes := _; ump_pullbacks := _ |} |}."
+      },
+      {
+        "file": "Instance/Sets/Cocartesian.v",
+        "line": 28,
+        "symbol": "Sets_Cocartesian",
+        "intree_statement": "#[export] Program Instance Sets_Cocartesian : @Cocartesian Sets := { product_obj := fun x y => {| carrier := (carrier x + carrier y)%type ; is_setoid := ... |} ; ... }  (* binary coproducts of setoids, with copairing as the unique mediating map *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Set is cocomplete — every small diagram of sets has a colimit; presented as a second proof of Proposition 3.6.1, obtained by applying Theorem 5.6.5(i) in Set^op to the monadic contravariant power-set functor P : Set^op -> Set.",
+      "intree": "Definition SetsCoend : Coend F (for every F : C^op ∏ C ⟶ Sets); Program Instance Sets_HasPushouts : HasPushouts Sets; Program Instance Sets_Cocartesian : @Cocartesian Sets; Program Instance Sets_Initial : @Initial Sets (Instance/Sets.v:265). Structure/Complete.v:119: Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F.",
+      "strength_comparison": "intree-weaker: the general statement is never made. `Cocomplete` is defined (Structure/Complete.v:119) but no category in the tree carries a `Cocomplete` (or `Complete`) inhabitant — `grep -rInE '@Cocomplete|@Complete' ` finds only hypothesis positions (Theory/Adamek/Corollaries.v:61, Construction/Comma/Limit.v, Adjunction/GAFT.v, Adjunction/SAFT.v). What IS proved for Sets is a shape-by-shape supply: initial object, binary coproducts, all pushouts, and all coends (the coend being the closest thing to a general colimit, since it is literally a quotient of a sum indexed by all objects of an arbitrary C, with the dinaturality congruence). The book's own proof route is unavailable in-tree: there is no power-set monad, no monadicity witness for it, and no Theorem 5.6.5."
+    },
+    "gap": "No `Cocomplete Sets` inhabitant, and no route to one: Sets has no coequalizer instance (`HasCoequalizers Sets` does not exist anywhere; grep 'HasCoequalizers' finds only the class at Structure/Coequalizer.v:68 and the reflexive-weakening instance) and no indexed/small-coproduct construction (`iprod` in Structure/Limit/Product.v is the LIMIT of a discrete diagram; there is no dual `icoprod`). Concretely proved colimit shapes in Sets: empty (Sets_Initial), binary coproduct, pushout, coend. Missing: general `Colimit F` for an arbitrary diagram F : D ⟶ Sets, hence the corollary itself; also missing is the book's proof apparatus (power-set monad, its monadicity, Theorem 5.6.5).",
+    "negative_search_log": [
+      "grep -rInE --include='*.v' 'Cocomplete' . -> 6 hits: the definition (Structure/Complete.v:119), header prose, and one hypothesis use (Theory/Adamek/Corollaries.v:61). No instance for Sets or any other category.",
+      "grep -rInE --include='*.v' ': *(@)?(Limit|Colimit) ' . -> no Sets-valued Limit/Colimit instance; every hit is a Context/hypothesis or a transport lemma.",
+      "grep -rInE --include='*.v' 'HasCoequalizers' . -> class definition (Structure/Coequalizer.v:68) and HasCoequalizers_HasReflexiveCoequalizers only; no `HasCoequalizers Sets`."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. Blind pass reached the same verdict independently. All four cited sites verified verbatim: Instance/Sets/Coend.v:163 `Definition SetsCoend : Coend F.`; Instance/Sets/Pushout.v:185 `#[export] Program Instance Sets_HasPushouts : HasPushouts Sets`; Instance/Sets/Cocartesian.v:28 `Program Instance Sets_Cocartesian : @Cocartesian Sets`; Instance/Sets.v:265 `Program Instance Sets_Initial : @Initial Sets`; Structure/Complete.v:119 `Definition Cocomplete {C} := forall (D : Category) (F : D --> C), Colimit F`. All five files are registered in _CoqProject. Re-ran the negative claims: `Cocomplete` has exactly 6 tree-wide hits (4 prose/def in Structure/Complete.v, 2 in Theory/Adamek/Corollaries.v:51,61) and every one is a definition, a comment, or a hypothesis -- no category carries an inhabitant; `icoprod` -> 0 hits; no theorem anywhere concludes `Colimit G` for a concrete category (the only `: Colimit`-typed definitions are colimit_apex / colimit_is_acolimit in Structure/Limit/Preservation.v, both consumers). Strength_comparison is honest. One observation that REINFORCES PARTIAL rather than ABSENT: SetsCoend is a fully general quotient-of-a-sum indexed by all objects of an arbitrary C, so a colimit of G : J --> Sets is derivable from it (take F : J^op x J --> Sets constant in the contravariant variable); the derivation is not stated in-tree, which is exactly what the gap field says. BLIND PASS (run before opening coverage-5-7.json): rg 'Cocomplete' -g'*.v' -> 2 files only (Structure/Complete.v, Theory/Adamek/Corollaries.v); rg 'Complete|Cocomplete' Instance/Sets.v Instance/Sets/*.v -> 0 hits; rg -i 'creates.*colimit|colimit.*creat' -> 1 hit (Theory/Equivalence/Limit.v:582, along an equivalence); rg -i 'finitary' -> 16 hits, all header prose, no class; rg -i 'free product' -> prose only; rg -i 'compact|hausdorff' -> compact-CLOSED only, no cHaus/Top; ls Instance/ -> no Grp/Ab/Mod/Ring/Vect/Top; rg 'Coequalizer' Instance/ -> 0 hits; rg '(Definition|Theorem|Instance)[^:]*: *@?Colimit' -> 0 concrete colimit constructions tree-wide. My independent preliminary verdicts were cor9=PARTIAL and the other eight ABSENT, i.e. identical to Phase C."
+    }
+  },
+  {
+    "id": "riehl:5.6:cor10",
+    "classification": "ABSENT",
+    "aliases": [
+      "forgetful functor R-Mod -> Ab creates colimits",
+      "category of modules over a ring / category of abelian groups (Ab, Mod_R)",
+      "monadic functor creates colimits preserved by T and T^2",
+      "extension-of-scalars monad R ⊗_Z − with right adjoint Hom_Z(R,−)",
+      "left adjoint preserves colimits (LAPC) applied to a monad",
+      "colimits of modules computed in abelian groups"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rInE --include='*.v' 'R-Mod|RMod|R_Mod' . -> 3 hits, all header prose (Theory/Equivalence.v:79, Structure/Abelian.v:69, Structure/Abelian.v:111). There is no category of modules in the tree.",
+      "grep -rInE --include='*.v' '\\bAb\\b|AbGroup|AbelianGroup' . -> 37 hits, every one a bicategory-adjunction variable name `Ab`/`Aa` in Theory/Bicategory/Adjunction.v. No category of abelian groups. The nearest additive object is Instance/CMon.v (commutative monoids over setoids) with Instance/CMon/Biproduct.v; it has no ring action, no forgetful functor from a module category, and no colimit results.",
+      "ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX. No Ab, Grp, Mod, Ring, Vect.",
+      "grep -rInE --include='*.v' 'creates.*colimit|colimit.*creat' . -> 1 hit: equivalence_creates_colimits (Theory/Equivalence/Limit.v:582), creation along an EQUIVALENCE, not along a monadic functor.",
+      "grep -rInE --include='*.v' 'Colimit|Cocartesian|coproduct' Monad/ -> 1 hit, a comment in Monad/Monadicity/Crude.v:44. The only creation result in Monad/ is CreatesUSplitCoequalizers (Monad/Monadicity/Beck.v:164) / monadic_creates (Beck.v:911), which creates coequalizers of U-split pairs only.",
+      "Note on ingredients that DO exist but do not add up to the corollary: Adjunction/Continuity.v:223 `left_adjoint_preserves_colimits : PreservesAllColimits F` (the book's step 'the monad is a left adjoint, hence preserves colimits'), and PreservesColimit/PreservesAllColimits (Structure/Limit/Preservation.v:196,232). Neither the general creation theorem nor either concrete category is in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. My blind search found no counterpart: `ls Instance/` has no Ab, Grp, Mod, Ring or Vect (only CMon, commutative monoids, which carries no ring action and no colimit results); rg -i 'creates.*colimit' returns only Theory/Equivalence/Limit.v:582 (creation along an equivalence). Verified the log's positive pointers: Adjunction/Continuity.v:223 `Definition left_adjoint_preserves_colimits`, Structure/Limit/Preservation.v:196 `PreservesColimit` and :232 `PreservesAllColimits`, Monad/Monadicity/Beck.v:164 `Class CreatesUSplitCoequalizers` and :911 `Theorem monadic_creates : CreatesUSplitCoequalizers (EM_Forget T)` -- all exist at the cited lines, and none of them adds up to the corollary. rg 'Complete|Cocomplete' Monad/ Comonad/ -> 0 hits."
+    }
+  },
+  {
+    "id": "riehl:5.6:construction-free-product",
+    "classification": "ABSENT",
+    "aliases": [
+      "free product of groups G * H as a coequalizer of free groups",
+      "coproduct in Grp / Group",
+      "coproduct of T-algebras relative to a monadic adjunction F ⊣ U",
+      "F(UG + UH) presentation, counit-based parallel pair",
+      "Cocartesian (EilenbergMoore T) / coproduct of algebras",
+      "free-forgetful adjunction Set ⇄ Group"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rInE --include='*.v' 'free product|FreeProduct' . -> 8 hits, all prose: Construction/Funny.v:113 ('M □ N is their coproduct in Mon — the free product') and :64,:34, Construction/Funny/Associator.v:30, Construction/Funny/Hom.v:8, Construction/Groupoid.v:62, Structure/Cocartesian.v:44,:68 (which merely lists 'free product of groups' among examples of coproducts). No assertion.",
+      "grep -rInE --include='*.v' 'free group|FreeGroup' . -> 2 hits, both header prose in Theory/Universal/Arrow.v:39,:45.",
+      "No category of groups: Structure/Group.v:109 defines `Class GroupObject (grp : C)` internally to a cartesian/monoidal category; there is no category of group objects, no free-group functor and no forgetful functor to Sets.",
+      "Instance/Comp.v (varieties of algebras for an operation signature) proves Algs_Terminal (line 160), Algs_Cartesian (169), Algs_Initial (209) and an indexed `Product` (434); its `Program Instance Algs_Cocartesian : @Cocartesian Algs` at line 224 is INSIDE a (* ... *) comment block (lines 222-232) and is therefore not in force. Its `Algs_Closed` (190) is likewise commented out. So no coproducts of algebras exist in-tree.",
+      "grep -rInE --include='*.v' 'Colimit|Cocartesian|coproduct' Monad/ -> only a comment (Crude.v:44); the Eilenberg-Moore category (Monad/Eilenberg/Moore.v:44) is given no coproducts, no coequalizers and no colimits.",
+      "grep -rInE --include='*.v' '^(Program )?(Definition|Instance|Program Instance|Theorem|Lemma|Fixpoint) [A-Za-z_]*[Ff]ree' . -> the only free/forgetful ADJUNCTION in the tree is Construction/Free/Quiver.v:550 `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful` (free category on a quiver). No coproduct is built over it."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT, with one ADDITION to the negative search log that Phase C missed (it does not change the verdict). Instance/Comp.v DOES contain a free-algebra construction with its universal property -- `Definition Free : OpAlgebra S` at line 92 inside `Section FreeAlg`, `Definition induced_hom : AlgHom Free A` at 108, `Theorem from_free_unique` at 116 -- and a group signature: `Definition Group := Algebra GroupOp GroupEq` at line 382, with GroupOp:298 / GroupEq:358. Phase C's log named only Structure/Group.v:109 `Class GroupObject`. Verdict is unaffected: the CATEGORY `Algs` (line 151) is the category of OpAlgebras for a signature with NO equations, so `Group` at 382 is a type of groups, not a category; there is no free/forgetful ADJUNCTION over it (rg 'Adjunction' Instance/Comp.v -> 0 hits); and the coproduct is unavailable -- I confirmed `Program Instance Algs_Cocartesian` at line 224 sits inside a (* ... *) block that OPENS at line 223 (Phase C said 222) and closes at 232, so it is not in force. Verified Construction/Free/Quiver.v:550 `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful` exists and builds no coproduct."
+    }
+  },
+  {
+    "id": "riehl:5.6:prop11",
+    "classification": "ABSENT",
+    "aliases": [
+      "cocompleteness of a monadic category reduces to coequalizers",
+      "A cocomplete iff A has coequalizers, for U : A -> C monadic and C cocomplete",
+      "coproducts + coequalizers => cocomplete (dual of Mac Lane V.2.1 / Riehl 3.5.11)",
+      "Linton, coequalizers in categories of algebras",
+      "HasCoequalizers => Cocomplete",
+      "coproduct of T-algebras as a coequalizer of free algebras"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rInE --include='*.v' 'Cocomplete' . -> 6 hits; `Cocomplete` is only ever a definition (Structure/Complete.v:119), header prose, or a hypothesis (Theory/Adamek/Corollaries.v:61). No theorem concludes `Cocomplete A` from any hypotheses.",
+      "grep -rInE --include='*.v' 'coequalizer.*coproduct' . -> 0 hits.",
+      "The (co)limit-from-(co)products-and-(co)equalizers reduction that clause (ii)=>(i) needs appears ONLY as prose: Structure/Complete.v:51-54, Structure/Equalizer.v:80, Structure/Limit.v:71, Structure/Topos.v:23. The only related assertion runs the other way: Adjunction/GAFT.v:193 `Complete_HasEqualizers {A} (HA : @Complete A) : ...` extracts equalizers FROM completeness.",
+      "grep -rInE --include='*.v' 'HasCoequalizers|HasReflexiveCoequalizers' . -> the classes exist (Structure/Coequalizer.v:68; Structure/Coequalizer/Reflexive.v:52) but appear only as monadicity INPUTS (Monad/Monadicity/Crude.v, Theory/Lawvere/Monad.v:87 `Context (RC : HasReflexiveCoequalizers (Models T Sets))`). Nothing derives cocompleteness, coproducts, or general colimits from them.",
+      "grep -n 'Monadic' Monad/Comparison.v -> line 273 `Definition Monadic {C D : Category} (U : C ⟶ D) : Type := ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A).` The predicate exists, but no result connects `Monadic U` to completeness or cocompleteness of the domain."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Independently reproduced every load-bearing negative: no theorem in the tree concludes `Cocomplete A` (6 total `Cocomplete` hits, all definition/prose/hypothesis); the (co)products-plus-(co)equalizers reduction appears only as header prose (Structure/Complete.v:51-54, Structure/Equalizer.v:80, Structure/Limit.v:71, Structure/Topos.v:23) and the one real assertion runs the opposite way (Adjunction/GAFT.v:193 `Complete_HasEqualizers`); rg 'Complete|Cocomplete' Monad/ -> 0 hits. Cited sites verified: Structure/Coequalizer.v:68 `Class HasCoequalizers`, Theory/Lawvere/Monad.v:87 `Context (RC : HasReflexiveCoequalizers (Models T Sets))` (a hypothesis, as claimed), Monad/Comparison.v:273 `Definition Monadic {C D} (U : C --> D) : Type`. Nit only: `Class HasReflexiveCoequalizers` is at Structure/Coequalizer/Reflexive.v:54, not :52 (line 52 is its doc comment)."
+    }
+  },
+  {
+    "id": "riehl:5.6:thm12",
+    "classification": "ABSENT",
+    "aliases": [
+      "algebras for a finitary monad are complete and cocomplete",
+      "finitary monad / filtered-colimit-preserving endofunctor",
+      "C^T complete and cocomplete (Eilenberg-Moore category)",
+      "GAFT applied to the constant-diagram functor into parallel pairs of algebras",
+      "solution-set condition for coequalizers of T-algebras",
+      "omega-indexed inductive construction of an approximating fork"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rInE --include='*.v' 'finitary' . -> 16 hits, ALL header prose (Theory/Monad.v:62-64, Theory/Lawvere.v:52,86,90,93, Theory/Lawvere/Monad.v:25,59-60, Instance/Comp.v:16, Instance/FinSet.v:61, Functor/Traversable.v:61, Theory/Coq.v:76, Theory/Coq/Traversable.v:48, Instance/Poset.v:66, Structure/Distributive.v:13). There is no `Finitary` class, predicate, or hypothesis anywhere.",
+      "grep -rInE --include='*.v' 'filtered|sifted|directed colim|accessible|locally presentable' . -> 'filtered' appears once, in a prose remark about a filtered stream (Comonad/CoKleisli.v:81); 'accessible'/'locally presentable' appear once each in the GAFT header (Adjunction/GAFT.v:124-125). No filtered-category notion exists, so 'T preserves filtered colimits' is not even statable in-tree.",
+      "grep -rInE --include='*.v' 'Complete|Cocomplete' Monad/ -> 0 hits. `EilenbergMoore T` (Monad/Eilenberg/Moore.v:44) is never shown to have limits or colimits of any shape.",
+      "grep -rInE --include='*.v' 'constant diagram|Δ ⊣|⊣ Δ|Diagonal.*adjoint' . -> 0 assertion hits; Functor/Diagonal.v:28 mentions colim ⊣ Δ ⊣ lim only in a comment, and the only diagonal adjunction proved is Adjunction/Diagonal/Product.v:36 `Diagonal_Product_Adjunction : Diagonal_Product C ⊣ ×(C)` (binary products), not the constant-diagram functor into a functor category.",
+      "The engine the book uses IS present — Adjunction/GAFT.v:242 `GAFT` with `SolutionSet` (26 hits for 'solution set|SolutionSet') — but it is never applied to produce (co)limits in a category of algebras."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search agrees: `finitary` occurs 16 times and every occurrence is header prose -- there is no Finitary class, predicate or hypothesis; 'filtered' occurs once, in an unrelated stream remark (Comonad/CoKleisli.v:81), so 'T preserves filtered colimits' is not even statable; rg 'Complete|Cocomplete' Monad/ -> 0 hits, so EilenbergMoore T is never shown to have limits or colimits of any shape. Verified the engine the book uses does exist: Adjunction/GAFT.v:241 `Theorem GAFT {C D} (U : C --> D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d, SolutionSet U d) : { F : D --> C & F -| U }` (Phase C cited :242, which is the hypothesis line of that same statement) -- and it is never applied to a category of algebras."
+    }
+  },
+  {
+    "id": "riehl:5.6:cor14",
+    "classification": "ABSENT",
+    "aliases": [
+      "categories of models for an algebraic theory are cocomplete",
+      "Models T C (Lawvere-theory models) cocomplete",
+      "variety of algebras is cocomplete",
+      "algebras for a finitary monad on Set are cocomplete",
+      "cHaus cocomplete via reflective subcategory of Top"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rInE --include='*.v' '^(Program )?(Definition|Instance|Theorem|Lemma|Corollary|Class|Record) ' Theory/Lawvere/Model.v -> Model, Models_sub, Models, Model_pack/unpack (+ round trips), Models_Full, Model_hom_of_transform. No limit or colimit result about `Models T C`.",
+      "grep -rInE --include='*.v' 'limit|colimit|complete' Theory/Lawvere/ -> the only relevant occurrence is Theory/Lawvere/Monad.v:87 `Context (RC : HasReflexiveCoequalizers (Models T Sets))`, a HYPOTHESIS fed to crude monadicity, not a proof that Models has coequalizers, let alone all colimits.",
+      "Instance/Comp.v (the in-tree varieties-of-algebras development, including `Definition Group := Algebra GroupOp GroupEq` at line 382): the only colimit proved is `Algs_Initial : Initial Algs` (line 209); `Algs_Cocartesian` (line 224) is inside a (* ... *) comment block and is not in force; there are no coequalizers and no cocompleteness statement.",
+      "grep -rInE --include='*.v' 'Cocomplete' . -> no `Cocomplete` instance for any category, so no category of models is cocomplete in-tree.",
+      "The two results the book's proof chains together are themselves not in-tree: Theorem 5.6.12 (finitary monads — no `Finitary` notion at all) and the general cocompleteness of Set (only shape-by-shape; see riehl:5.6:cor9).",
+      "The closing prose claim (cHaus is cocomplete as a reflective subcategory of Top) has no counterpart: grep -rInE 'cHaus|compact.?Hausdorff' . -> 1 prose hit (Theory/Equivalence.v:122); grep -rInE 'colimit|Colimit|Cocomplete' Construction/Reflective.v Construction/Reflective/Idempotent.v -> 0 hits, so there is no transfer of colimits along a reflector either."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Reproduced independently: rg -i 'limit|colimit|complete' Theory/Lawvere/ yields exactly one relevant hit, the HYPOTHESIS at Theory/Lawvere/Monad.v:87, and Theory/Lawvere/Model.v proves nothing about (co)limits of `Models T C`; the in-tree varieties file Instance/Comp.v proves only Algs_Terminal:160, Algs_Cartesian:169, Algs_Initial:209 and an indexed Product:434, with Algs_Cocartesian:224 commented out. The two premises the book chains (Theorem 5.6.12 finitary; Set cocomplete) are themselves absent / partial. The closing cHaus prose likewise has no counterpart: rg -i 'compact.?Hausdorff' -> 1 prose hit; rg -i 'colimit|cocomplete' Construction/Reflective.v Construction/Reflective/Idempotent.v -> 0 hits (I re-ran this), so no transfer of colimits along a reflector exists either."
+    }
+  },
+  {
+    "id": "riehl:5.6:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "cHaus is monadic over Set (ultrafilter monad, Manes' theorem)",
+      "compact Hausdorff spaces / Top",
+      "alternate monadicity criterion: left adjoint + reflects isos + has and preserves U-split coequalizers",
+      "U-split coequalizers in cHaus constructed as in Top",
+      "continuous bijection between compact Hausdorff spaces is a homeomorphism",
+      "kernel pair of a quotient map closed in Y x Y"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rInE --include='*.v' 'cHaus|compact.?Hausdorff' . -> 1 hit, prose in Theory/Equivalence.v:122 (Gelfand duality remark). No category of compact Hausdorff spaces.",
+      "grep -rInE --include='*.v' '^(Program )?(Definition|Instance|Record|Class|Program Instance) [A-Za-z_]*Top' . -> only FinSet_Topos (Instance/FinSet/Topos.v:38) and Class ElementaryTopos (Structure/Topos.v:112) — topos, not topology. There is no category of topological spaces anywhere in the tree, hence no point-set argument about quotients, compactness or closedness can be stated.",
+      "grep -rInE --include='*.v' 'ultrafilter' . -> 3 hits, all header prose (Theory/Monad.v:65, Theory/Kan/Extension.v:39,:86). No ultrafilter monad.",
+      "The monadicity criterion the exercise invokes exists only in a different (creation) form: Monad/Monadicity/Beck.v:164 `Class CreatesUSplitCoequalizers`, Beck.v:739 `beck_monadicity`, Beck.v:911 `Theorem monadic_creates : CreatesUSplitCoequalizers (EM_Forget T)`, plus Monad/Monadicity/Crude.v `crude_monadicity`. Riehl's Exercise-3.4.iii form (D HAS and U PRESERVES U-split coequalizers, U reflects isos) is not stated; and the only concrete monadicity witness in-tree is the trivial Monad/Monadicity/Examples.v:155 `Identity_Monadic : Monadic Id[C]`.",
+      "grep -rInE --include='*.v' 'U-split|USplit' . -> 13 hits, all inside the Beck development; none instantiated at a topological functor."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. No category of topological spaces, no cHaus, no ultrafilter monad -- my blind greps for 'compact|hausdorff' returned only compact-CLOSED monoidal material, and Instance/ contains no Top. The criterion the exercise invokes is only approximated in-tree: Monad/Monadicity/Beck.v:164 `Class CreatesUSplitCoequalizers` / :739 `beck_monadicity` / :911 `monadic_creates` (creation form, U-split pairs) and Monad/Monadicity/Crude.v:100 `PreservesReflexiveCoequalizers` feeding crude monadicity (a genuine 'has-and-preserves + conservative' criterion, but for REFLEXIVE pairs, not U-split pairs). Phase C's characterisation is accurate; the only concrete monadicity witness is the trivial Monad/Monadicity/Examples.v:155 `Definition Identity_Monadic {C} : Monadic Id[C]`, which I verified."
+    }
+  },
+  {
+    "id": "riehl:5.6:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "monadic functor creates colimits that T and T^2 preserve",
+      "EM_Forget creates colimits / U^T creates colimits",
+      "CreatesColimits class",
+      "algebras inherit colimits preserved by the monad and its square",
+      "Linton's criterion for colimits in categories of algebras",
+      "dual of 'monadic functors create limits'"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rInE --include='*.v' 'creates.*colimit|colimit.*creat' . -> 1 hit only: Theory/Equivalence/Limit.v:582 `equivalence_creates_colimits {J} (G : J ⟶ C) (L : Colimit (F ◯ G)) : Colimit G` — creation along an EQUIVALENCE (its dual `equivalence_creates_limits` at :486), a different theorem with different hypotheses.",
+      "grep -rInE --include='*.v' 'Creates' . -> the only creation class in the tree is Monad/Monadicity/Beck.v:164 `Class CreatesUSplitCoequalizers {C D} (U : C ⟶ D)`, with Monad/Monadicity/BeckObjects.v:396 `Theorem em_forget_creates_split : CreatedSplitCoequalizer` and Beck.v:911 `monadic_creates`. These create exactly ONE shape — coequalizers of U-SPLIT parallel pairs, whose splitting downstairs is given as data — not colimits that C merely has and T, T^2 preserve. Strictly incomparable to, and much narrower than, the exercise's clause.",
+      "grep -rInE --include='*.v' 'Colimit' Monad/ Comonad/ -> 0 assertion hits (only prose in Monad/Monadicity/Crude.v:44 and Beck.v:54-57). The Eilenberg-Moore category is given no colimits of any shape.",
+      "The hypothesis vocabulary IS available — Structure/Limit/Preservation.v:196 `PreservesColimit` and :232 `PreservesAllColimits`, plus Adjunction/Continuity.v:223 `left_adjoint_preserves_colimits` — but no statement of the form 'U monadic + C has the colimit + T,T^2 preserve it => U creates it' exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Verified both creation results the log compares against: Theory/Equivalence/Limit.v:582 `equivalence_creates_colimits` (and its dual at :486) -- creation along an EQUIVALENCE -- and Monad/Monadicity/BeckObjects.v:396 `Theorem em_forget_creates_split : CreatedSplitCoequalizer` with Beck.v:911 `monadic_creates`, which create exactly one shape (coequalizers of U-split pairs, splitting supplied as data). Neither is the exercise's clause. rg 'Colimit' Monad/ Comonad/ returns one comment (Crude.v:44) and nothing else, so the Eilenberg-Moore category has no colimits of any shape in-tree. The hypothesis vocabulary the exercise needs (PreservesColimit at Structure/Limit/Preservation.v:196, PreservesAllColimits at :232) exists but is never combined into the statement."
+    }
+  },
+  {
+    "id": "riehl:5.6:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "the coequalizer of free algebras is the coproduct of T-algebras",
+      "coproducts in the Eilenberg-Moore category C^T",
+      "Cocartesian (EilenbergMoore T)",
+      "universal property of the coproduct of algebras",
+      "coequalizer of F(sum of underlying objects) presentation",
+      "coproducts in a category of algebras / free product construction"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rInE --include='*.v' 'Colimit|Cocartesian|coproduct|Coproduct' Monad/ -> 1 hit, a comment (Monad/Monadicity/Crude.v:44). `EilenbergMoore T` (Monad/Eilenberg/Moore.v:44) carries no Cocartesian instance, no initial object, and no coequalizers, so the object whose universal property the exercise asks about cannot even be formed.",
+      "grep -rInE --include='*.v' 'Cocartesian' . -> instances exist for FinSet, AST, Rel, Props, Coq, Cat, Sets, Par/ParE only; none for a category of algebras or for EilenbergMoore.",
+      "Instance/Comp.v: `Program Instance Algs_Cocartesian : @Cocartesian Algs` at line 224 is inside a (* ... *) comment block (222-232) and is therefore NOT in force; the file proves only Algs_Terminal, Algs_Cartesian, Algs_Initial and an indexed `Product`.",
+      "grep -rInE --include='*.v' 'coequalizer.*coproduct|coproduct.*coequalizer' . -> 0 hits. The coequalizer API exists (Structure/Coequalizer.v `IsCoequalizer`, `HasCoequalizers`, `coequalizer_epic`, `coequalizer_unique`) but is never used to build a coproduct.",
+      "Cross-check with the parent items: riehl:5.6:prop11 (whose proof this exercise completes) and riehl:5.6:construction-free-product are both ABSENT for the same reason."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. The object whose universal property the exercise asks about cannot even be formed in-tree: EilenbergMoore T (Monad/Eilenberg/Moore.v) has no Cocartesian instance, no initial object and no coequalizers (rg 'Colimit|Cocartesian|coproduct' Monad/ Comonad/ -> one comment only), and rg 'Instance [A-Za-z_]*Cocartesian|: @Cocartesian' shows instances only for Coq, Par, ParE, Rel, FinSet, Sets, AST, Props, Cat -- none for a category of algebras. Independently re-confirmed that Instance/Comp.v's `Algs_Cocartesian` (line 224) is inside the comment block opening at line 223 and closing at 232, hence not in force. Consistent with the ABSENT verdicts on prop11 and construction-free-product."
+    }
+  }
+]

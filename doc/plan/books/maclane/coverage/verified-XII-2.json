@@ -1,0 +1,486 @@
+[
+  {
+    "id": "maclane:XII.5:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "single-set category",
+      "arrows-only category",
+      "one-sorted category",
+      "objects-free category",
+      "metacategory",
+      "partial composition / partial magma of arrows",
+      "source/target functions s,t"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 37,
+        "symbol": "Metacategory",
+        "intree_statement": "Record Metacategory := { arrow := N; pairs : M.t arrow; composite (f g h : arrow) := M.find (f, g) pairs = Some h; defined (f g : arrow) := ∃ h, composite f g h; composite_correct {...} : composite f g fg -> composite g h gh -> ∃ fgh, composite fg h fgh; composition_law {...} : composite f g fg -> composite g h gh -> ∀ fgh, composite fg h fgh ↔ composite f gh fgh; is_identity (u : arrow) := (∀ f, defined f u → composite f u f) ∧ (∀ g, defined u g → composite u g g); identity_law (x y f : arrow) : composite x y f -> ∃ u u', is_identity u → is_identity u' -> composite f u f ∧ composite u' f f }"
+      },
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 212,
+        "symbol": "Category_from_Metacategory",
+        "intree_statement": "Program Definition Category_from_Metacategory : Category := {| obj := object; hom := morphism; ... |}  (* objects := {i | is_identity i}; the arrows-only data yields an ordinary Category *)"
+      },
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 133,
+        "symbol": "Metacategory",
+        "intree_statement": "Record Metacategory := { arr := nat; pairs : M.t arr; composite (f g h : arr) := M.MapsTo (f, g) h pairs; identity (u : arr) := (∀ f, composite f u f) ∧ (∀ g, composite u g g); composition_law ...; triple_composition ...; identity_law ... }  (* header: \"the single-sorted (arrows-only) axiomatization of a category, due to Mac Lane (CWM, I.1)\" *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A category presented as one set C of arrows with source/target functions s,t:C->C and a partial composition x#y defined iff s x = t y, subject to s(x#y)=s y, t(x#y)=t x, unit laws x#(s x)=x, (t x)#x=x, associativity, and the s/t idempotence laws; x is an identity iff x=s x=t x.",
+      "intree": "Record Metacategory (arrow := N in ArrowsOnly.v / arr := nat in Metacategory.v): a partial composition given by a finite map [pairs], with [composite f g h], [defined f g], identities recovered as arrows [is_identity u := (∀f, defined f u -> composite f u f) ∧ (∀g, defined u g -> composite u g g)], and the matchability/associativity/identity-existence axioms; [Category_from_Metacategory]/[FromArrows] bridges to an ordinary Category with objects := the identity arrows.",
+      "strength_comparison": "intree-weaker: the single-set/arrows-only axiomatization is faithfully captured (identities-as-arrows, matchability, associativity) and bridged to Category, but (1) the arrow carrier is hardwired to N/nat inside the Record rather than an arbitrary set, so only countable single-set categories are expressible; (2) it uses the Mac Lane I.1 composable-pairs/finite-map presentation, not the XII.5 source/target-function presentation (s,t:C->C with x#y defined iff s x = t y) that drives the n-/omega-category generalization; (3) the identity-existence axiom [identity_law] is documented (jww TODO) as vacuous as written in both files, and Metacategory.v's identity guard is stronger than Mac Lane's conditional form."
+    },
+    "gap": "No source/target-function presentation and no arbitrary-carrier single-set category: the in-tree Record fixes arrow := N/nat and uses composable pairs. The XII.5 s,t axioms (s(x#y)=s y, t(x#y)=t x, s s x = s x = t s x, etc.) are not stated; identities are recovered via neutrality rather than x=s x=t x. The existence-of-identities axiom is vacuous (documented bug).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind whole-tree search independently surfaced Theory/Metacategory/ArrowsOnly.v (Metacategory record + Category_from_Metacategory) and Theory/Metacategory.v (Metacategory module + FromArrows) as the arrows-only/single-set formalization; agree PARTIAL. Cited quotes verified verbatim at L37/L212/L133. Gap honest and complete: the arrow carrier is hardwired to N/nat with composition a finite FMap (only finite/countable single-set categories expressible), it follows the CWM I.1 composable-pairs presentation rather than the XII.5 source/target-function presentation, and the identity_law field is vacuous (self-flagged jww TODO in both files) but does not affect the Category-building theorem."
+    }
+  },
+  {
+    "id": "maclane:XII.5:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "single-set functor",
+      "arrows-only functor",
+      "functor between metacategories",
+      "morphism of metacategories",
+      "map of single-set categories",
+      "function on arrows commuting with source/target"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'MetaFunctor|Meta.*Functor|Functor.*Meta|morphism.*metacat|ToArrows|to_metacat' --include='*.v' . -> only Theory/Metacategory.v:213 'Lemma identity_morphism' (an identity-arrow lemma, not a functor between single-set categories); no single-set/arrows-only functor concept.",
+      "Inspected Theory/Metacategory/ArrowsOnly.v full symbol list (Record/Definition/Program/Lemma/Theorem, lines 37-588): the only functors are Two_to_Two : Category_from_Metacategory Two ⟶ _2 (429) and Two_from_Two : _2 ⟶ Category_from_Metacategory Two (508) -- these are ORDINARY Functors between the DERIVED Category, not single-set functors (a function F on the arrow set with sF=Fs, tF=Ft, F(x#y)=Fx#Fy). No such definition exists.",
+      "grep -rniE 'single.?set|arrows.?only|one.?sorted' --include='*.v' . -> only Theory/Metacategory.v and ArrowsOnly.v headers (the object definition, not a functor notion)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search for MetaFunctor / functor-between-metacategories returned nothing. The only functors in ArrowsOnly.v (Two_to_Two, Two_from_Two) are ORDINARY functors between the DERIVED categories, not single-set arrow-functions commuting with s,t and preserving partial composition. Agree ABSENT; negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:XII.5:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "single-set = two-sorted",
+      "arrows-only equivalent to objects-and-arrows",
+      "equivalence of the one-sorted and two-sorted definitions",
+      "objects are identity arrows",
+      "FromArrows / Category_from_Metacategory"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 212,
+        "symbol": "Category_from_Metacategory",
+        "intree_statement": "Program Definition Category_from_Metacategory : Category := {| obj := object; hom := morphism; ... |}  (* the one-sorted arrows-only data yields the two-sorted Category; objects := the identity arrows {i | is_identity i} *)"
+      },
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 523,
+        "symbol": "Two_iso_2",
+        "intree_statement": "Program Instance Two_iso_2 : Category_from_Metacategory Two ≅ _2  (* a concrete round-trip isomorphism of categories for the 2-object example, with Two_to_Two and Two_from_Two the two functors *)"
+      },
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 261,
+        "symbol": "FromArrows",
+        "intree_statement": "Program Definition FromArrows (M : Metacategory) : Category := {| obj := ∃ i : arr M, identity M i; hom := fun x y => ∃ f, defined f ``x (pairs M) ∧ defined ``y f (pairs M); ... |}"
+      }
+    ],
+    "statement_record": {
+      "book": "The single-set (arrows-only) definition of a category, and of a functor, is equivalent to the standard two-sorted definition using a separate set of objects and set of arrows.",
+      "intree": "[Category_from_Metacategory]/[FromArrows] realize the forward map arrows-only ⟹ two-sorted Category (objects = identity arrows). A concrete converse-and-round-trip is witnessed only for the 2-object example: [Two_iso_2 : Category_from_Metacategory Two ≅ _2] with functors [Two_to_Two], [Two_from_Two].",
+      "strength_comparison": "intree-weaker: only one direction of the equivalence is established in general (single-set ⟹ two-sorted). There is no general map two-sorted ⟹ single-set, and no general equivalence/adjoint-equivalence between the class of single-set categories and Category; the correspondence is proven as an actual iso only for the specific finite example Two. The functor half of the equivalence (single-set functors ↔ ordinary functors) is not addressed at all (see XII.5:def2)."
+    },
+    "gap": "The general reverse construction (every ordinary/two-sorted category yields a single-set category) and the general equivalence statement are missing; only the forward direction plus a single concrete round-trip iso (Two ≅ _2) are in-tree. The functor-level equivalence is absent.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Agree PARTIAL. Verified Category_from_Metacategory (ArrowsOnly) and FromArrows (Metacategory.v) give the general forward direction (arrows-only => two-sorted Category, objects = identity arrows), and Two_iso_2 is the only round-trip iso (finite example Two). No general converse (two-sorted => single-set) and no functor-level equivalence (ties to XII.5:def2 ABSENT). Evidence accurate."
+    }
+  },
+  {
+    "id": "maclane:XII.5:def3",
+    "classification": "ABSENT",
+    "aliases": [
+      "single-set 2-category",
+      "one-set 2-category",
+      "two commuting category structures",
+      "horizontal and vertical single-set structures (#0,s0,t0)/(#1,s1,t1)",
+      "interchange law on a single 2-cell set",
+      "double category of 2-cells"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'single.?set|arrows.?only|one.?sorted' --include='*.v' . -> only Theory/Metacategory{,/ArrowsOnly}.v (ordinary arrows-only 1-category); no single-set 2-category with two commuting single-set structures.",
+      "grep -rniE 'two.?category|2-category|Class TwoCat|Definition TwoCat' --include='*.v' . -> 0 hits for any 2-category class/record.",
+      "grep -rniE 'interchange|middle.?four|godement' --include='*.v' . -> only Functor/Bifunctor.v (bifunctor middle-four exchange) and Comonad/Strong.v (bifunctor interchange law); no single-set two-structure interchange (x #a u) #b (y #a v) = (x #b y) #a (u #b v).",
+      "The in-tree 2-dimensional development is via Theory/Bicategory.v (weak, hom-category-based) and Cat-enrichment, never the single-set two-commuting-structures presentation; no 's0/t0/s1/t1' commuting-structure data exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found no single-set 2-category, no 2-category class/record, and no single-set interchange law (only bifunctor middle-four in Functor/Bifunctor.v and Comonad/Strong.v). The in-tree 2-dimensional structure is the weak, hom-category-based Theory/Bicategory.v -- a different (non-single-set) presentation, not the two-commuting-single-set-structures (#0/#1, s0/t0/s1/t1) definition. Agree ABSENT."
+    }
+  },
+  {
+    "id": "maclane:XII.5:def4",
+    "classification": "ABSENT",
+    "aliases": [
+      "single-set n-category",
+      "strict n-category (one-set)",
+      "n commuting category structures",
+      "iterated single-set 2-category",
+      "globular n-category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'omega.?categ|n.?categ|globular' --include='*.v' . -> 0 relevant hits (only substrings inside 'in category' etc.).",
+      "grep -rniE 'globular|strict.?n.?cat|n.?cat|Gray' --include='*.v' . -> 0 hits for n-categories/globular sets/Gray tensor.",
+      "No set X equipped with n pairwise-commuting single-set category structures (#i,si,ti) exists in-tree; the single-set development stops at ordinary 1-categories (Metacategory/ArrowsOnly)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "No n-category / globular / iterated single-set development in-tree. Agree ABSENT; negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:XII.5:def5",
+    "classification": "ABSENT",
+    "aliases": [
+      "omega-category",
+      "ω-category",
+      "infinity-category (strict)",
+      "infinitely many commuting category structures",
+      "ω-groupoid"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'omega.?categ|n.?categ|globular' --include='*.v' . -> 0 relevant hits.",
+      "Instance/Omega.v inspected: [Omega] is the thin category of the ordinal ω (objects = nat, morphisms = proofs of m ≤ n via a Type-valued le_t), the shape category for Adámek's initial-algebra chain -- NOT an ω-category (it has no tower of commuting category structures on a single 2-cell set).",
+      "No structure with an infinite family (#i,si,ti), i=0,1,2,... of commuting single-set category structures exists in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "No omega-category (infinite tower of commuting single-set category structures). The classifier correctly distinguishes Instance/Omega.v (the ordinal-omega SHAPE category for Adamek's chain) from an omega-category. Agree ABSENT."
+    }
+  },
+  {
+    "id": "maclane:XII.6:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "bicategory",
+      "weak 2-category",
+      "Benabou bicategory",
+      "hom-category B(a,b)",
+      "horizontal-composition bifunctor",
+      "associator/unitors with pentagon and triangle"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory.v",
+        "line": 204,
+        "symbol": "Bicategory",
+        "intree_statement": "Class Bicategory := { bi0cell : Type; bi1cell : bi0cell → bi0cell → Type; bi2cell {x y} (f g : bi1cell x y) : Type; bi1id {x} : x ~~> x; bi2homset {x y} : ∀ X Y, Setoid (bi2cell X Y); bi2id; vcompose (vertical comp) with unit/assoc laws; bicat (x y) : Category := hom-category B(x,y); hcompose {x y z} : bicat y z ∏ bicat x y ⟶ bicat x z (horizontal-composition functor); hcomp2 := fmap[hcompose] (Godement); hunit_left f : (bi1id ∘∘∘ f) ≅ f; hunit_right f : (f ∘∘∘ bi1id) ≅ f; hassoc h g f : ((h∘∘∘g)∘∘∘f) ≅ (h∘∘∘(g∘∘∘f)); hunit_left_natural; hunit_right_natural; hassoc_natural; hcoherence_triangle ...; hcoherence_pentagon ... }"
+      },
+      {
+        "file": "Theory/Bicategory.v",
+        "line": 300,
+        "symbol": "hcoherence_triangle",
+        "intree_statement": "hcoherence_triangle {x y z} (g : bicat y z) (f : bicat x y) : hcomp2 (to (hunit_right g)) (bi2id (a:=f)) ≈ hcomp2 (bi2id (a:=g)) (to (hunit_left f)) ∘∘ to (hassoc g bi1id f)"
+      },
+      {
+        "file": "Theory/Bicategory.v",
+        "line": 303,
+        "symbol": "hcoherence_pentagon",
+        "intree_statement": "hcoherence_pentagon {v w x y z} (k h g f) : hcomp2 (bi2id (a:=k)) (to (hassoc h g f)) ∘∘ to (hassoc k (h ∘∘∘ g) f) ∘∘ hcomp2 (to (hassoc k h g)) (bi2id (a:=f)) ≈ to (hassoc k h (g ∘∘∘ f)) ∘∘ to (hassoc (k ∘∘∘ h) g f)"
+      }
+    ],
+    "statement_record": {
+      "book": "A bicategory B has 0-, 1-, and 2-cells; for each pair (a,b) an ordinary category B(a,b) (2-cells under vertical composition, identities 1_f); a horizontal-composition bifunctor *:B(b,c)×B(a,b)->B(a,c); identity 1-cells 1_a; natural isomorphisms associator α, left/right unitors λ,ρ; subject to the pentagon and triangle coherence axioms. Associativity/units hold up to coherent invertible 2-cells.",
+      "intree": "Class Bicategory with hom-categories [bicat x y : Category], [hcompose : bicat y z ∏ bicat x y ⟶ bicat x z] (a bifunctor), [bi1id], 2-isomorphisms [hunit_left]/[hunit_right]/[hassoc] in the hom-categories with their naturality squares, and the two coherence laws [hcoherence_triangle], [hcoherence_pentagon].",
+      "strength_comparison": "same: every datum and axiom of Mac Lane's bicategory is present, mirroring Structure/Monoidal.v field-for-field under delooping (tensor↔hcompose, I↔bi1id, α↔hassoc, λ↔hunit_left, ρ↔hunit_right). Naturality is stated in the to-direction only, which is equivalent since the cells are isomorphisms (the from-direction follows) -- a faithful setoid-level rendering, not a weakening."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Read Theory/Bicategory.v in full: Class Bicategory carries hom-categories (bicat x y : Category), the horizontal-composition bifunctor hcompose : bicat y z INT bicat x y -> bicat x z, bi1id, the associator hassoc and unitors hunit_left/hunit_right as 2-isomorphisms with naturality, and BOTH coherence laws (hcoherence_pentagon, hcoherence_triangle). Quotes at L204/L300/L303 verified verbatim; strength 'same' honest (to-direction naturality suffices for isos). Agree PRESENT."
+    }
+  },
+  {
+    "id": "maclane:XII.6:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "opposite bicategory",
+      "dual bicategory",
+      "B^op (reverse 1-cells)",
+      "B^co (reverse 2-cells)",
+      "co-bicategory",
+      "1-cell dual vs 2-cell dual"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'op.?bicat|bicat.?op|co.?bicat|dual.*bicat|reverse.*2.?cell|reverse.*1.?cell' --include='*.v' . -> 0 hits.",
+      "grep -rniE ':[ ]*Bicategory|Bicategory :=|: @?Bicategory' --include='*.v' . -> the only Bicategory-valued constructions are Trivial_Bicategory (Lax.v:176), Monoidal_OneObject_Bicategory (OneObject.v:57), and Instance/Cat/Bicategory.v; NONE is an opposite/dual of a given bicategory.",
+      "Natural/Transformation/Opposite.v:15 is the ordinary natural-transformation opposite (reverses 2-cells of Cat), and Theory/Bicategory/Lax.v:230 'oplax dual' concerns transformations, not a Bicategory→Bicategory op construction. No construction reversing a bicategory's 1-cells (a↦b becomes b↦a) or its 2-cells exists.",
+      "Despite the library's built-in duality for 1-categories (C^op^op = C by refl, Construction/Opposite.v), that machinery is not lifted to the Bicategory class."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no Bicategory-valued opposite/dual construction (neither 1-cell reversal B^op nor 2-cell reversal B^co). The only Bicategory-valued defs are Cat_Bicategory, Monoidal_OneObject_Bicategory, Trivial_Bicategory -- none a dual. Natural/Transformation/Opposite.v is the Cat-specific nat-transf opposite; the 1-category duality machinery is not lifted to the Bicategory class. Agree ABSENT."
+    }
+  },
+  {
+    "id": "maclane:XII.7:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monoidal category as one-object bicategory",
+      "delooping of a monoidal category",
+      "one-0-cell bicategory",
+      "B(*,*) = M",
+      "monoidal = one-object bicategory"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/OneObject.v",
+        "line": 56,
+        "symbol": "Monoidal_OneObject_Bicategory",
+        "intree_statement": "Definition Monoidal_OneObject_Bicategory (C : Category) `{M : @Monoidal C} : Bicategory := Build_Bicategory unit (fun _ _ => @obj C) (fun _ _ => @hom C) (fun _ => @I C M) ... (fun _ _ _ => @tensor C M) (hcompose := tensor) (hunit_left := unit_left) (hunit_right := unit_right) (hassoc := tensor_assoc) ... (hcoherence_triangle := triangle_identity) (hcoherence_pentagon := pentagon_identity)"
+      },
+      {
+        "file": "Theory/Bicategory/OneObject.v",
+        "line": 90,
+        "symbol": "Monoidal_OneObject_unit_coincidence",
+        "intree_statement": "Corollary Monoidal_OneObject_unit_coincidence (C) `{M} : hunit_left (bi1id) ≈ hunit_right (bi1id)  (* Kelly's λ_I ≈ ρ_I transported to the one-object bicategory *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Any monoidal category M is a bicategory with a single 0-cell: its 1-cells are the objects of M (horizontal composition = tensor), its 2-cells the arrows of M, with M's associativity/unit isomorphisms as α, λ, ρ; conversely every one-0-cell bicategory is such a monoidal category, and the monoidal coherence theorem yields bicategorical coherence for α,λ,ρ.",
+      "intree": "Definition Monoidal_OneObject_Bicategory : for any Monoidal C, a Bicategory on one delooped 0-cell whose single hom-category bicat tt tt ≡ C, with hcompose := tensor, bi1id := I, and unitors/associator/coherence supplied directly by C's monoidal data (unit_left, unit_right, tensor_assoc, triangle_identity, pentagon_identity).",
+      "strength_comparison": "intree-weaker: the forward delooping (monoidal ⟹ one-object bicategory) is fully built as a Bicategory with every coherence law, and the Kelly λ_I≈ρ_I corollary is transported. NOT formalized: the converse (one-object bicategory ⟹ monoidal category) and the derived bicategorical-coherence consequence stated in the book item."
+    },
+    "gap": "Only the forward delooping is formalized (Monoidal_OneObject_Bicategory: a full one-object Bicategory from any Monoidal C, plus the transported lambda_I~rho_I corollary). Missing: (1) the converse 'every one-0-cell bicategory is a monoidal category' (no Bicategory->Monoidal construction exists in-tree), and (2) the stated consequence that monoidal coherence yields alpha/lambda/rho coherence for bicategories (Mac Lane-Pare coherence is cited only in prose; only the single unit-coincidence instance is transported).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:PARTIAL",
+      "notes": "OVERTURN PRESENT->PARTIAL. Only the FORWARD delooping is in-tree: Monoidal_OneObject_Bicategory builds a full Bicategory (every coherence law) from any Monoidal C, plus the transported Kelly unit-coincidence corollary. But the book item is a BICONDITIONAL plus a coherence payoff, and two halves are absent, confirmed by independent search: (i) the converse 'every one-0-cell bicategory is a monoidal category' is NOT constructed -- the only Bicategory-valued defs in-tree are Cat_Bicategory / Monoidal_OneObject_Bicategory / Trivial_Bicategory, none a Bicategory->Monoidal map; (ii) the stated consequence 'monoidal coherence yields alpha/lambda/rho coherence for bicategories' is NOT proven -- Mac Lane-Pare coherence appears only as an essay citation (Theory/Bicategory.v:113), and only the single lambda_I~rho_I instance is transported. The classifier's OWN strength_comparison already reads 'intree-weaker' and enumerates these gaps, which is definitionally PARTIAL, not PRESENT. This also matches the classifier's calibration for XII.7:construction3 (item is a bicategory / biconditional; only the weaker structure is in-tree => PARTIAL). The forward direction is genuinely complete, so PARTIAL (not ABSENT)."
+    },
+    "phase_c_classification": "PRESENT"
+  },
+  {
+    "id": "maclane:XII.7:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "bicategory of rings and bimodules",
+      "Bimod",
+      "Mod bicategory",
+      "rings/(S,R)-bimodules/bimodule homomorphisms",
+      "tensor of bimodules over a ring",
+      "Morita bicategory"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'bimodule|bi_module|R.?module|leftmodule|rightmodule' --include='*.v' . -> only prose references (Theory/DoubleCategory.v, Theory/Profunctor.v, Theory/Bicategory.v) citing bimodules as the motivating weak example; no construction.",
+      "grep -rniE 'Class Module|Record Module|LeftModule|RightModule|Bimodule|module over' --include='*.v' . -> 0 structural definitions.",
+      "grep -rniE 'Instance.*Grp|Grp.*Category|Definition Grp|Ring' + find -iname 'Ring*.v' -o -iname 'Module*.v' -> no category of rings, no ring/module objects, no bimodule bicategory. Structure/Group.v defines group OBJECTS in a cartesian monoidal category, unrelated to rings/bimodules."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: bimodule/ring appear only in prose (essays of Theory/Bicategory.v, Theory/DoubleCategory.v, Theory/Profunctor.v) as the motivating weak example; no category of rings, no module/bimodule objects, no Bimod bicategory. Structure/Group.v is group OBJECTS in a monoidal category, unrelated. Agree ABSENT."
+    }
+  },
+  {
+    "id": "maclane:XII.7:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "span",
+      "roof",
+      "correspondence",
+      "diagram x <- v -> y",
+      "apex with two legs",
+      "cospan (dual)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Span.v",
+        "line": 27,
+        "symbol": "Span",
+        "intree_statement": "Definition Span (C : Category) := Roof ⟶ C.  (* a span is a functor from the shape Roof = (RNeg ← RZero → RPos); the apex RZero carries the shared domain, the two legs out of RZero are the span's morphisms *)"
+      },
+      {
+        "file": "Structure/Span.v",
+        "line": 43,
+        "symbol": "ASpan",
+        "intree_statement": "Program Definition ASpan {C} {S x y : C} (f : S ~> x) (g : S ~> y) : Roof ⟶ C := {| fobj := fun z => match z with RNeg => x | RZero => S | RPos => y end; fmap := ... f ... g ... |}  (* packages an apex S with legs f, g *)"
+      },
+      {
+        "file": "Construction/Span/Category.v",
+        "line": 49,
+        "symbol": "SpanArrow",
+        "intree_statement": "Record SpanArrow (X Y : C) : Type := { apex : C; leg1 : apex ~> X; leg2 : apex ~> Y }"
+      }
+    ],
+    "statement_record": {
+      "book": "A span from a to b in a category C is a pair of arrows out of a common vertex v: namely v->a and v->b.",
+      "intree": "Two equivalent renderings: [Span C := Roof ⟶ C] (a functor from the roof shape, with [ASpan f g] packaging apex S and legs f:S~>x, g:S~>y), and [Record SpanArrow (X Y) := { apex; leg1 : apex ~> X; leg2 : apex ~> Y }].",
+      "strength_comparison": "same: both capture exactly a pair of arrows from a common vertex (apex/roof). The functor-out-of-Roof form is a faithful reformulation of the same data."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Structure/Span.v (Span C := Roof ==> C; ASpan f g packaging apex S with legs f,g) and Construction/Span/Category.v (Record SpanArrow := { apex; leg1 : apex ~> X; leg2 : apex ~> Y }). Both faithfully render Mac Lane's span = a pair of arrows out of a common apex/vertex. Agree PRESENT."
+    }
+  },
+  {
+    "id": "maclane:XII.7:construction3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "bicategory Span(C)",
+      "Span(C)",
+      "spans compose by pullback",
+      "2-cells = span morphisms",
+      "bicategory of spans"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Span/Category.v",
+        "line": 120,
+        "symbol": "span_compose",
+        "intree_statement": "Definition span_compose {X Y Z} (g : SpanArrow Y Z) (f : SpanArrow X Y) : SpanArrow X Z := let P := pullback (leg2 f) (leg1 g) in {| apex := Pull _ _ P; leg1 := leg1 f ∘ pullback_fst _ _ P; leg2 := leg2 g ∘ pullback_snd _ _ P |}"
+      },
+      {
+        "file": "Construction/Span/Category.v",
+        "line": 522,
+        "symbol": "SpanCat",
+        "intree_statement": "Program Definition SpanCat : Category := {| obj := @obj C; hom := fun X Y => SpanArrow X Y; homset := SpanArrow_Setoid; id := span_id; compose := fun X Y Z g f => span_compose HP g f; ... comp_assoc := span_compose_assoc HP ... |}  (* requires HP : HasPullbacks C *)"
+      },
+      {
+        "file": "Construction/Span/Category.v",
+        "line": 64,
+        "symbol": "span_equiv",
+        "intree_statement": "Definition span_equiv {X Y} (f g : SpanArrow X Y) : Type := { phi : apex f ≅ apex g & ((leg1 g ∘ to phi ≈ leg1 f) * (leg2 g ∘ to phi ≈ leg2 f)) }  (* the equality ≈ on spans is apex-ISOMORPHISM respecting legs *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For C with all pullbacks and a chosen canonical pullback per cospan, Span(C) is the BICATEGORY whose 0-cells are objects of C, 1-cells are spans a<-v->b, and 2-cells are arrows x:v->v' making both triangles commute; vertical composition composes middle arrows, horizontal composition is the canonical pullback of inner legs; the associator α comes from pullback uniqueness (pentagon holds) and the unitor λ from identity spans.",
+      "intree": "SpanArrow (apex + two legs), span_id (identity span), and span_compose (horizontal composition via chosen pullback) are assembled into [SpanCat : Category] -- an ordinary 1-CATEGORY -- whose hom-setoid ≈ is span_equiv (apex-ISO respecting the legs); associativity/unit laws hold strictly relative to that ≈.",
+      "strength_comparison": "intree-weaker: the book's Span(C) is a bicategory; the in-tree object is the iso-quotient 1-category SpanCat. (1) The 2-cells are collapsed to the setoid equality and restricted to apex-ISOMORPHISMS (span_equiv), whereas the book's 2-cells are arbitrary span morphisms x:v->v' (not necessarily invertible) forming hom-categories. (2) There is no hom-category B(a,b), no associator/unitor 2-isomorphisms, and no pentagon/triangle at the 2-cell level -- associativity is proved as strict equality of iso-classes instead. The file's own header states Span(C) 'is in general a bicategory, not a strict 1-category', and that it deliberately builds the 1-category by quotienting."
+    },
+    "gap": "The bicategory structure is not built: no hom-categories of spans, no non-invertible 2-cells (span morphisms), no associator/unitor 2-cells, no pentagon/triangle coherence. Only the underlying spans, pullback horizontal composition, identity spans, and the apex-iso quotient 1-category (SpanCat) are present.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Construction/Span/Category.v builds SpanCat as an ordinary 1-CATEGORY of iso-classes of spans: hom-setoid equality is span_equiv (apex-ISOMORPHISM respecting legs), horizontal composition is chosen-pullback (needs HasPullbacks), with associativity proved as strict equality of iso-classes. The file's own header (L26-33) states Span(C) 'is in general a bicategory, not a strict 1-category' and that it deliberately quotients to a 1-category. The genuine bicategory (hom-categories of spans, non-invertible span-morphism 2-cells, associator/unitor 2-cells, pentagon/triangle) is not built. Agree PARTIAL; gap accurate."
+    }
+  },
+  {
+    "id": "maclane:XII.8:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "crossed module",
+      "crossed module of groups",
+      "(H,P,d,action)",
+      "Whitehead crossed module",
+      "d:H->P with equivariance d(h^p)=p(dh)p^{-1}",
+      "Peiffer identity"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'crossed[ _]?module' --include='*.v' . -> 0 hits.",
+      "grep -rniE 'group.?object|GroupObject|category.?object' --include='*.v' . -> Structure/Group.v defines group OBJECTS in a cartesian monoidal category, but no crossed module (a pair of groups H,P with a P-action on H and equivariant d:H->P).",
+      "grep -rniE 'equivarian|Peiffer|action of P on H|h\\^p' --include='*.v' . (via group-object/action search) -> no crossed-module data (P-action on H, homomorphism d, h^1=h, (h^p)^q=h^{pq}, (hk)^p=h^p k^p, d(h^p)=p(dh)p^{-1})."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search 'crossed[ _]?module' -> 0 hits; the only 'crossed' occurrences are an unrelated 'crossed dictionary' unitor-naming note in Instance/Cat/Bicategory.v and a braiding remark. No (H,P,d,action) data with the equivariance/Peiffer laws. Agree ABSENT."
+    }
+  },
+  {
+    "id": "maclane:XII.8:lem1",
+    "classification": "ABSENT",
+    "aliases": [
+      "category object in Grp",
+      "internal category in Grp",
+      "reflexive graph C1 ⇒⇒ C0 with section i",
+      "composition forced by middle-four interchange",
+      "g∘f = f * 1_b^{-1} * g",
+      "commutator condition [ker d0, ker d1] = 1"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'internalcateg|internal_categ|CategoryObject|cat_object|catobject' --include='*.v' . -> 0 hits; no general internal-category / category-object class.",
+      "grep -rniE 'internal.?cat|category in|categories in' --include='*.v' Theory Structure Construction Instance -> only prose (Theory/DoubleCategory.v:115 notes 'a double category is a category internal to Cat' without a generic InternalCategory definition); no internal category in an arbitrary finitely-complete E, hence none in Grp.",
+      "grep -rniE 'reflexive.?graph|refl_graph|quiver|graph' --include='*.v' . -> only 'metagraph' prose (Metacategory.v) and free-category-on-a-quiver references; no reflexive graph C1 ⇒⇒ C0 with a section i satisfying d0 i = 1 = d1 i.",
+      "grep -rniE 'Instance.*Grp|Grp.*Category|Definition Grp' + find -iname 'Grp*.v' -> no category Grp of groups exists in-tree (Construction/Groupoid.v even remarks that no category of groupoids exists in-tree); with no Grp there is no category object in Grp, and the interchange-forced composition g∘f=f*1_b^{-1}*g / commutator condition [ker d0,ker d1]=1 are absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no internal-category / category-object class, no reflexive graph C1=>=>C0 with section, and no category Grp of groups. Structure/Group.v is group OBJECTS in a cartesian-monoidal category; Construction/Groupoid.v remarks no category of groupoids exists in-tree. With no Grp there is no category object in Grp, so the middle-four-forced composition and [ker d0, ker d1]=1 condition are absent. Agree ABSENT."
+    }
+  },
+  {
+    "id": "maclane:XII.8:thm1",
+    "classification": "ABSENT",
+    "aliases": [
+      "crossed modules equivalent to category objects in Grp",
+      "crossed modules ≃ internal categories in Grp",
+      "Cat(Grp) ≃ XMod",
+      "Janelidze correspondence",
+      "i-split short exact sequence 1->ker d0->C1->C0->1",
+      "H=ker d0, P=C0, ∂=d1|ker d0"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'crossed[ _]?module' --include='*.v' . -> 0 hits (the crossed-module side of the equivalence is absent; see XII.8:def1).",
+      "grep -rniE 'janelidze' --include='*.v' . -> only Construction/Opposite.v:60 (Goswami & Janelidze, 'Duality in non-abelian algebra' -- an unrelated citation), not the crossed-module/internal-category theorem.",
+      "grep -rniE 'internalcateg|CategoryObject|category.?object' + 'Instance.*Grp' --include='*.v' . -> no internal category, no category Grp, so the category-object-in-Grp side is also absent (see XII.8:lem1).",
+      "No equivalence of categories XMod ≃ Cat(Grp), no i-split short exact sequence construction (H = ker d0, P = C0, ∂ = d1|ker d0), and no converse crossed-module ⟹ split-extension construction exist in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both sides of the equivalence are absent (no crossed modules per XII.8:def1; no internal categories / category objects in Grp per XII.8:lem1). The lone 'Janelidze' hit (Construction/Opposite.v) is an unrelated Goswami-Janelidze duality citation, not this theorem. Agree ABSENT."
+    }
+  }
+]

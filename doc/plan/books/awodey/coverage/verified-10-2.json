@@ -1,0 +1,532 @@
+[
+  {
+    "id": "awodey:10.5:construction-grpstr",
+    "classification": "PARTIAL",
+    "aliases": [
+      "GrpStr / category of group structures",
+      "group structure without equations (unit, inverse, multiplication)",
+      "algebras for the endofunctor F(X) = 1 + X + X x X",
+      "magma with unit and involution / pointed magma",
+      "OpAlgebra GroupOp, AlgHom, Algs (signature-indexed algebra category)",
+      "single structure arrow [u,i,m] : 1 + G + G x G -> G"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Comp.v",
+        "line": 151,
+        "symbol": "Algs",
+        "intree_statement": "Program Definition Algs : Category := {| obj := OpAlgebra S; hom := AlgHom; homset := AlgHom_Setoid; id := Alg_id; compose := Alg_comp |}.  (Context {S : OpSignature}; at S := GroupOp the objects are exactly carriers equipped with a nullary, a unary and a binary operation and no equations.)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 64,
+        "symbol": "AlgHom",
+        "intree_statement": "Record AlgHom {S : OpSignature} (A : OpAlgebra S) (B : OpAlgebra S) := { map :> A -> B ; op_commute : forall (o : operation S) (args : arity o -> A), map (op A o args) = op B o (fun x => map (args x)) }."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 298,
+        "symbol": "GroupOp",
+        "intree_statement": "Definition GroupOp := {| operation := Group_operation ; arity := Group_arity |}.  with Group_operation ::= one | mul | inv and Group_arity one := nullary, mul := binary, inv := unary; the carrying record is Record OpAlgebra (S) := { carrier :> Type ; op : forall o : operation S, (arity o -> carrier) -> carrier (* no equations *) } (Instance/Comp.v:54)."
+      }
+    ],
+    "statement_record": {
+      "book": "A group structure on a set G is the bare data of a unit u : 1 -> G, an inverse i : G -> G and a multiplication m : G x G -> G with NO equations; packing them as one arrow gamma = [u,i,m] : 1 + G + G x G -> G exhibits it as an algebra for the Sets-endofunctor F(X) = 1 + X + X x X, and a map h : G -> H preserving unit, inverse and multiplication pointwise is exactly one satisfying h o gamma = theta o F(h). These form the category GrpStr.",
+      "intree": "Algs : Category with obj := OpAlgebra S, hom := AlgHom (map commuting with every operation: map (op A o args) = op B o (fun x => map (args x))), instantiated at S := GroupOp (one nullary, one unary, one binary operation, no equations).",
+      "strength_comparison": "intree-weaker: the category of group structures exists only in the signature-indexed encoding (each operation kept separate as op : forall o, (arity o -> carrier) -> carrier, homomorphy stated operation-by-operation under Leibniz equality on a bare Type carrier); the endofunctor compression into the single arrow gamma : 1 + G + G x G -> G and the identification GrpStr = F-Alg -- the whole point of Awodey's construction -- is not stated."
+    },
+    "gap": "The endofunctor F(X) = 1 + X + X x X is not constructed anywhere in the tree, and cannot be assembled from existing combinators: a constant-functor combinator DOES exist (Functor/Diagonal.v:33,50 -- Diagonal {C} (J) : C ⟶ [J, C], notation Δ[J](c), so Δ[C](c) : C ⟶ C is constant), but there is no pointwise COPRODUCT of functors -- Functor/Product.v:35's F :*: G is the pointwise tensor into a `@Monoidal D`, and the only Monoidal instance built from finite structure is CC_Monoidal (Structure/Monoidal/Internal/Product.v:54) whose tensor is ×; no cocartesian monoidal instance exists. Consequently neither the single structure arrow [u,i,m] nor the equivalence 'preserves unit/inverse/multiplication pointwise' <-> 'h o gamma ≈ theta o F(h)' is stated, and the in-tree GrpStr (Instance/Comp.v's UniversalAlgebra.Algs at GroupOp) is entirely disconnected from Construction/FAlg.v's FAlg -- Instance/Comp.v does not import it. Note also that all cited symbols live inside `Module UniversalAlgebra` and that AlgHom uses Leibniz `=` on a bare Type carrier.",
+    "negative_search_log": [
+      "grep -rni 'GrpStr' --include='*.v' . -> 0 hits",
+      "grep -rni 'group structure|magma' --include='*.v' . -> only prose (Theory/Metacategory.v:22 'partial magma on arrows', Theory/Coq/Semigroup.v:20)",
+      "grep -rn '1 + X + X|1 \\+ X \\+ X' --include='*.v' . -> 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently by the same route. Evidence verified verbatim: Instance/Comp.v:45 OpSignature, :54 OpAlgebra (`op : forall o, (arity o -> carrier) -> carrier`, comment `(* no equations *)`), :64 AlgHom with op_commute, :151 Algs, :298 GroupOp with Group_arity one:=nullary (empty), inv:=unary, mul:=binary -- so OpAlgebra GroupOp is exactly Awodey's (u, i, m) with no equations, and AlgHom is exactly pointwise preservation. Instance/Comp.v imports only Lib/Category/Terminal/Initial/Cartesian -- it never mentions Construction/FAlg.v -- so the claimed disconnect is real. File is in _CoqProject; Instance/Comp.vo builds; no Admitted. NOTE for Phase E: every cited symbol lives inside `Module UniversalAlgebra`, i.e. UniversalAlgebra.Algs / UniversalAlgebra.GroupOp, and AlgHom_Setoid uses Leibniz `=` on a bare Type carrier. GAP TEXT CORRECTED (classification unchanged): the original gap asserted 'no constant-functor combinator', which is FALSE -- Functor/Diagonal.v:33 `Diagonal {C} (J : Category) : C ⟶ [J, C]` with notation Δ[J](c) (line 50) gives the constant endofunctor Δ[C](c) : C ⟶ C. The surviving obstruction is only the missing pointwise COPRODUCT of functors, which I re-verified: Functor/Product.v:35 `Product` (F :*: G) is the pointwise TENSOR in a `@Monoidal D`, and the sole Monoidal-from-finite-structure instance is CC_Monoidal (Structure/Monoidal/Internal/Product.v:54, tensor := ×); there is no cocartesian Monoidal instance, so 1 + X + X × X is still not assemblable."
+    }
+  },
+  {
+    "id": "awodey:10.5:def8",
+    "classification": "PRESENT",
+    "aliases": [
+      "P-algebra / algebra for an endofunctor / F-algebra",
+      "FAlgebra, FAlgHom, FAlg (Construction/FAlg.v)",
+      "structure map alpha : P A -> A",
+      "P-Alg(S), the category of P-algebras",
+      "homomorphism square h o alpha = beta o P(h)",
+      "dual: FCoalgebra / FCoalg"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/FAlg.v",
+        "line": 114,
+        "symbol": "FAlg",
+        "intree_statement": "Program Definition FAlg `(F : C ⟶ C) : Category := {| obj := ∃ a : C, FAlgebra F a; hom := fun x y => FAlgHom F ``x ``y (`2 x) (`2 y); homset := fun _ _ => {| equiv := fun f g => falg_hom[f] ≈ falg_hom[g] |}; id := fun _ => {| falg_hom := id |}; compose := fun _ _ _ f g => {| falg_hom := falg_hom[f] ∘ falg_hom[g] |} |}."
+      },
+      {
+        "file": "Construction/FAlg.v",
+        "line": 105,
+        "symbol": "FAlgHom",
+        "intree_statement": "Class FAlgHom `(F : C ⟶ C) (a b : C) (α : FAlgebra F a) (β : FAlgebra F b) := { falg_hom : a ~> b; falg_commutes : falg_hom ∘ α ≈ β ∘ fmap[F] falg_hom }.  (with Definition FAlgebra `(F : C ⟶ C) (a : C) := F a ~> a, Theory/Functor.v:380)"
+      },
+      {
+        "file": "Monad/Algebra.v",
+        "line": 24,
+        "symbol": "TAlgebra",
+        "intree_statement": "Class TAlgebra `(T : C ⟶ C) `{@Monad C T} (a : C) := { t_alg : T a ~> a; t_id : t_alg ∘ ret ≈ id; t_action : t_alg ∘ fmap t_alg ≈ t_alg ∘ join }.  -- the separate monad-algebra notion the book warns must not be confused with the endofunctor-algebra notion; the two are distinct classes in-tree."
+      }
+    ],
+    "statement_record": {
+      "book": "For an endofunctor P : S -> S on any category S, a P-algebra is a pair (A, alpha : PA -> A) with no equations; a homomorphism h : (A,alpha) -> (B,beta) is h : A -> B with h o alpha = beta o P(h); these form the category P-Alg(S). Algebras for an endofunctor must be distinguished from algebras for a monad.",
+      "intree": "obj := ∃ a : C, FAlgebra F a (i.e. pairs (a, α : F a ~> a)); hom := FAlgHom with falg_commutes : falg_hom ∘ α ≈ β ∘ fmap[F] falg_hom; assembled as FAlg F : Category, with FAlg_Forget : FAlg F ⟶ C (Construction/FAlg.v:134).",
+      "strength_comparison": "same. Stated for an arbitrary endofunctor on an arbitrary category, exactly the book's generality; the only presentational difference is the setoid rendering (≈ for =, and the hom-setoid on FAlg compares underlying carrier maps, so the commuting-square proof is irrelevant to hom equality -- the faithful setoid reading). The book's warning is honoured by the separate class TAlgebra (Monad/Algebra.v) carrying t_id/t_action."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently PRESENT. Verified verbatim: Theory/Functor.v:380 `Definition FAlgebra `(F : C ⟶ C) (a : C) := F a ~> a`; Construction/FAlg.v:105 FAlgHom with `falg_commutes : falg_hom ∘ α ≈ β ∘ fmap[F] falg_hom`; :114 FAlg (obj := ∃ a, FAlgebra F a, hom-setoid comparing carrier maps only); :134 FAlg_Forget : FAlg F ⟶ C. Monad/Algebra.v:24 TAlgebra quoted correctly (t_id/t_action), so the book's endofunctor-vs-monad warning is honoured by two genuinely distinct classes. Generality is exactly the book's (arbitrary endofunctor on an arbitrary category). File registered in _CoqProject, Construction/FAlg.vo present, no Admitted/Axiom in the file. strength_comparison 'same' is honest: the setoid rendering is the faithful one under the frozen rubric."
+    }
+  },
+  {
+    "id": "awodey:10.5:example9",
+    "classification": "PARTIAL",
+    "aliases": [
+      "algebras for 1 + X + X x X are group structures",
+      "ring endofunctor R(X) = 2 + X + 2 x X^2",
+      "finite signature presented as a polynomial endofunctor",
+      "infinitary signature: P(X) = sum_i C_i x X^(B_i)",
+      "algebras for the covariant powerset functor",
+      "ListF / NatF as in-tree polynomial endofunctors"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 67,
+        "symbol": "alg",
+        "intree_statement": "Definition alg (A : Type) : ListF A (list A) ~{Coq}~> list A := fun o => match o with | None => @nil A | Some (a, l) => cons a l end.  -- a P-algebra for the finitary polynomial endofunctor P(X) = 1 + A x X, the in-tree instance of Awodey's clause (2)."
+      },
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 39,
+        "symbol": "ListF",
+        "intree_statement": "Program Definition ListF (A : Type) : Coq ⟶ Coq := {| fobj := fun X => option (A * X)%type; fmap := fun X Y (f : X -> Y) o => match o with None => None | Some (a, x) => Some (a, f x) end |}.  (Theory/Adamek/Corollaries.v:87 similarly builds NatF X := option X = 1 + X as an endofunctor on Coq.)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 151,
+        "symbol": "Algs",
+        "intree_statement": "Program Definition Algs : Category := {| obj := OpAlgebra S; hom := AlgHom; ... |} -- at S := GroupOp (Instance/Comp.v:298) this is the category of group structures of clause (1), but built from a signature, NOT as algebras for an endofunctor."
+      }
+    ],
+    "statement_record": {
+      "book": "Four illustrations of Definition 10.8: (1) P(X) = 1 + X + X x X on Sets has P-Alg = GrpStr; (2) any finite signature is captured analogously, e.g. a ring structure by R(X) = 2 + X + 2 x X^2, and polynomial functors present exactly the finitary algebraic structures in any category with finite products and coproducts; (3) in a complete and cocomplete category infinitary signatures are captured by P(X) = sum_{i in I} C_i x X^(B_i); (4) P need not be polynomial: algebras for the covariant powerset functor on Sets are a proper generalization.",
+      "intree": "One worked finitary polynomial endofunctor, ListF A X = option (A * X) = 1 + A x X on Coq, together with its algebra alg : ListF A (list A) ~{Coq}~> list A; plus NatF X = option X = 1 + X (Theory/Adamek/Corollaries.v:87). The category of group structures exists only in the signature encoding Algs at GroupOp.",
+      "strength_comparison": "intree-weaker: what exists are two ad-hoc concrete polynomial endofunctors with algebras, not any of the four asserted clauses. In particular the general claim 'polynomial functors present exactly the finitary algebraic structures' is nowhere stated, in Sets or in any category with finite (co)products."
+    },
+    "gap": "None of the four clauses is in-tree. (1) The endofunctor 1 + X + X x X is not constructed and the identification with GrpStr is absent (Instance/Comp.v's Algs at GroupOp is the signature-encoded category, never connected to FAlg). (2) No ring endofunctor 2 + X + 2 x X^2 and no theorem relating finite signatures to polynomial endofunctors; only the single instance ListF A. (3) No infinitary sum_{i} C_i x X^(B_i) construction, and no locally-cartesian-closed variant. (4) There is no covariant powerset endofunctor on Sets anywhere in the tree (the only 'Pow' is the object-level Ω^a inside a topos, Structure/Topos.v:129).",
+    "negative_search_log": [
+      "grep -rni 'powerset|power set' --include='*.v' . -> only Structure/Topos.v:129 Pow a := Ω ^ a and Instance/FinSet/Topos.v examples",
+      "grep -rni 'ring' --include='*.v' . -> no ring endofunctor / ring structure algebra",
+      "grep -rni 'polynomial' --include='*.v' . -> prose only (see def-polynomial-functor record)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass hovered between ABSENT and PARTIAL; PARTIAL is defensible and I confirm it, but the tension should be visible to Phase E: the gap field correctly says 'None of the four clauses is in-tree', so the PARTIAL rests entirely on INGREDIENTS of the clauses existing (ListF A = 1 + A × X at Instance/Coq/Lists.v:39 with its algebra at :67, NatF = 1 + X at Theory/Adamek/Corollaries.v:87, and the signature-encoded GrpStr of clause (1) via Instance/Comp.v Algs at GroupOp -- itself only PARTIAL), not on any clause being stated. All three evidence quotes verified verbatim and all cited line numbers are exact. Negative log spot-checked: no ring endofunctor, no infinitary sum-of-powers former, and no covariant powerset endofunctor anywhere (the only Pow is Structure/Topos.v:129 `Definition Pow ... : C := Ω ^ a`, an object in a topos). Clause (2)'s headline general claim ('polynomial functors present exactly the finitary algebraic structures, in any category with finite products and coproducts') is genuinely unstatable in-tree for want of the class."
+    }
+  },
+  {
+    "id": "awodey:10.5:def-polynomial-functor",
+    "classification": "ABSENT",
+    "aliases": [
+      "polynomial functor / polynomial endofunctor",
+      "P(X) = C_0 + C_1 x X + ... + C_n x X^n",
+      "container, extension of a container, shapes-and-positions functor",
+      "W-type / sum of representables sum_i C_i x X^(B_i)",
+      "finitary functor / finitary endofunctor",
+      "PolynomialFunctor class"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'polynomial' --include='*.v' . -> 6 hits, ALL prose comments: Theory/Adamek/Corollaries.v:69 ('the polynomial endofunctor whose initial algebra is nat'), Instance/Coq/Lists.v:18 ('The polynomial endofunctor [ListF A X := 1 + A x X]'), Instance/Shapes.v:55-56 (an nLab link 'polynomial functor / container'), Structure/Monoidal/Braided.v:101,103 (link polynomials, unrelated). No Definition/Class/Record anywhere.",
+      "grep -rni 'PolynomialFunctor' --include='*.v' . -> 0 hits",
+      "grep -rni 'container|W-type|Wtype|shapes and positions' --include='*.v' . -> prose only (Functor/Traversable.v:61, Theory/Coq/Traversable.v:48, Theory/Coq/Map.v:31-35 re Data.Map, Theory/Profunctor.v:111); no container/extension definition",
+      "grep -rni 'finitary' --include='*.v' . -> prose only (Theory/Lawvere.v:52,86,90, Theory/Monad.v:62-64, Functor/Traversable.v:61)",
+      "searched for the combinators a polynomial functor would need: a CONSTANT-functor combinator does exist (Functor/Diagonal.v:33,50, Δ[J](c)), but there is no pointwise coproduct of functors -- Functor/Coproduct.v is the codiagonal [Id,Id] : C ∐ C ⟶ C (CoproductFunctor, :60) and Functor/Product.v:35 is the pointwise TENSOR F :*: G into a `@Monoidal D`, whose only finite-structure instance is CC_Monoidal (Structure/Monoidal/Internal/Product.v:54, tensor := ×); no cocartesian monoidal instance exists. So the CLASS cannot be assembled generically. [line corrected by Phase D: the original claimed no constant-functor combinator]",
+      "Closest in-tree objects are two hand-written instances of the shape -- ListF A X = 1 + A x X (Instance/Coq/Lists.v:39) and NatF X = 1 + X (Theory/Adamek/Corollaries.v:87) -- but neither the class of polynomial functors nor the attached claim ('polynomial functors present exactly the finitary algebraic structures', and its infinitary generalization) is stated anywhere."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Re-ran the searches: `rg -i polynomial --glob '*.v'` gives exactly 6 hits, all prose (Instance/Coq/Lists.v:18, Theory/Adamek/Corollaries.v:69, Instance/Shapes.v:55-56 nLab link, Structure/Monoidal/Braided.v:101,103 about link polynomials); no Class/Record/Definition of a polynomial or finitary functor, and no container/W-type/shapes-and-positions definition. NEGATIVE-LOG LINE CORRECTED (classification unchanged): the log claimed 'no constant-functor combinator'; that is false -- Functor/Diagonal.v:33/50 supplies Δ[J](c), hence the constant endofunctor Δ[C](c) : C ⟶ C. The correct and sufficient obstruction is the absent pointwise coproduct of functors: Functor/Product.v's F :*: G needs a `@Monoidal D`, and the only such instance built from finite structure is CC_Monoidal (Structure/Monoidal/Internal/Product.v:54, tensor := ×) -- there is no cocartesian monoidal instance, so even C_0 + C_1 × X cannot be assembled generically. Classification stands."
+    }
+  },
+  {
+    "id": "awodey:10.5:construction-initial-algebra-recursion",
+    "classification": "PRESENT",
+    "aliases": [
+      "definition by recursion from an initial algebra",
+      "catamorphism / fold / banana brackets",
+      "cata, cata_commutes, cata_unique (Theory/Recursion.v)",
+      "universal property of the initial P-algebra as a recursion scheme",
+      "unique mediating homomorphism out of the initial object of P-Alg",
+      "dual: anamorphism / corecursion"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Recursion.v",
+        "line": 63,
+        "symbol": "cata_commutes",
+        "intree_statement": "Lemma cata_commutes {a : C} (β : FAlgebra F a) : cata β ∘ inα ≈ β ∘ fmap[F] (cata β).  (Section context: F : C ⟶ C, I : @Initial (FAlg F), inα := `2 (initial_obj), cata β := falg_hom[ @zero (FAlg F) I (a ; β) ].)"
+      },
+      {
+        "file": "Theory/Recursion.v",
+        "line": 72,
+        "symbol": "cata_unique",
+        "intree_statement": "Lemma cata_unique {a : C} (β : FAlgebra F a) (h : μ ~> a) (Hh : h ∘ inα ≈ β ∘ fmap[F] h) : h ≈ cata β."
+      },
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 86,
+        "symbol": "hom_is_fold",
+        "intree_statement": "Lemma hom_is_fold {A Y : Type} (beta : option (A * Y)%type -> Y) (h : list A -> Y) (Hh : forall o, h (alg A o) = beta (fmap[ListF A] h o)) (l : list A) : h l = fold beta l.  -- the element-level reading of the same principle, for the polynomial functor 1 + A x X (Awodey's construction read 'in elements')."
+      }
+    ],
+    "statement_record": {
+      "book": "For P(X) = 1 + X^2 on Sets with initial algebra [o,m] : 1 + I^2 -> I, every set X with a distinguished a in X and a binary operation * admits a UNIQUE u : I -> X with u o [o,m] = [a,*] o P(u), i.e. u(o) = a and u(m(i,j)) = u(i) * u(j); more generally the unique-mediating-arrow property of an initial P-algebra IS the recursion scheme for the corresponding structure.",
+      "intree": "cata_commutes : cata β ∘ inα ≈ β ∘ fmap[F] (cata β), together with cata_unique : (h ∘ inα ≈ β ∘ fmap[F] h) → h ≈ cata β, for an arbitrary endofunctor F on an arbitrary category C with an initial F-algebra.",
+      "strength_comparison": "intree-stronger on the general claim: existence AND uniqueness of the mediator is stated for every endofunctor on every category (plus cata_fusion at Theory/Recursion.v:83 and the dual ana/ana_commutes/ana_unique), whereas the book states the scheme for one endofunctor and then asserts the generalization. The single respect in which it is narrower: the element-level unfolding for P(X) = 1 + X^2 is never spelled out (that endofunctor is not built in-tree); the nearest element-level instance is hom_is_fold/fold for ListF A = 1 + A x X on Coq."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently PRESENT. Verified verbatim at Theory/Recursion.v:57 (`Definition cata {a} (β : FAlgebra F a) : μ ~> a := falg_hom[ @zero (FAlg F) I (a ; β) ]` -- transparent), :63 cata_commutes, :72 cata_unique, :83 cata_fusion, plus the dual ana package at :111-135; the section context is Context (F : C ⟶ C) (I : @Initial (FAlg F)) over an arbitrary C, matching the book's generality and exceeding its single worked endofunctor. Crucially -- and unlike `lambek` in this same batch -- nothing here is hidden behind an opaque proof: cata is a Definition and the recursion equation and its uniqueness are separate stated lemmas, so the mediator IS usable. Instance/Coq/Lists.v:86 hom_is_fold verified as the element-level reading. The record's own caveat (the 1 + X² endofunctor is never built) is accurate and does not bite, since the passage explicitly generalizes to arbitrary P."
+    }
+  },
+  {
+    "id": "awodey:10.5:remark-nat-initial-algebra",
+    "classification": "PARTIAL",
+    "aliases": [
+      "(N, 0, s) is the initial algebra of P(X) = 1 + X",
+      "natural numbers object / NNO",
+      "NatF / option endofunctor on Coq",
+      "primitive recursion as initiality (nat_rect)",
+      "[0,s] : 1 + N -> N as an initial object of (1+-)-Alg",
+      "Peano algebra / free monoid on one generator"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Adamek/Corollaries.v",
+        "line": 87,
+        "symbol": "NatF",
+        "intree_statement": "Program Definition NatF : Coq ⟶ Coq := {| fobj := fun X => option X; fmap := fun X Y (f : X -> Y) o => match o with None => None | Some x => Some (f x) end |}.  -- exactly the endofunctor P(X) = 1 + X of the remark, proven to be a functor; the file states at :78-80 that 'the initial-algebra theorem [nat ≅ μ NatF] is not stated in the tree'."
+      },
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 111,
+        "symbol": "list_initial",
+        "intree_statement": "Program Definition list_initial (A : Type) : @Initial (FAlg (ListF A)) := {| terminal_obj := (list A; alg A); one := fun y => list_alg_hom A y |}.  -- the structurally identical result one parameter up (ListF A X = 1 + A x X; NatF is its A := unit reading modulo unit x X ≅ X), fully proven with uniqueness."
+      }
+    ],
+    "statement_record": {
+      "book": "The usual recursion property of the natural numbers -- 0 in N, s : N -> N, i.e. [0,s] : 1 + N -> N -- says precisely that (N, 0, s) is the INITIAL algebra for P(X) = 1 + X on Sets: for every X with a in X and f : X -> X there is a unique u : N -> X with u(0) = a and u(s n) = f(u n).",
+      "intree": "NatF : Coq ⟶ Coq with fobj := option (= 1 + X) is defined and proven functorial; the analogous initiality statement is proven only for ListF A, as list_initial (A : Type) : @Initial (FAlg (ListF A)).",
+      "strength_comparison": "intree-weaker: the endofunctor half of the remark is present, the theorem half is not. No object of the tree is asserted to be an initial NatF-algebra, and the ambient category is Coq (Type + pointwise equality) rather than Sets."
+    },
+    "gap": "There is no statement `@Initial (FAlg NatF)`, no term exhibiting (nat, [O,S]) as an F-algebra at all, and no natural-numbers object anywhere in the library (grep 'NNO|natural numbers object' -> 0 hits). Theory/Adamek/Corollaries.v:78-80 says so in as many words: 'Only the functor [NatF] itself is formalized below; the initial-algebra theorem [nat ≅ μ NatF] is not stated in the tree -- it is recorded here as the informal cross-reference to [ListF A], not as a proven result.' Instantiating list_initial at A := unit would give it modulo the iso unit x X ≅ X, but that instantiation is not carried out.",
+    "negative_search_log": [
+      "grep -rni 'NNO|natural numbers object|nat_initial|Nat_Initial' --include='*.v' . -> 0 hits",
+      "grep -rn 'NatF' --include='*.v' . -> only Theory/Adamek/Corollaries.v (definition + the disclaiming comment)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently PARTIAL, with the same gap. Verified: Theory/Adamek/Corollaries.v:87 NatF (fobj := option, all three functor laws discharged), and the disclaimer at :77-80 quoted verbatim in the record ('Only the functor [NatF] itself is formalized below; the initial-algebra theorem [nat ≅ μ NatF] is not stated in the tree -- it is recorded here as the informal cross-reference to [ListF A], not as a proven result'). Independently confirmed: `rg 'Initial (FAlg'` returns only Theory/{Lambek,Recursion,Adamek}.v, Theory/Adamek/Corollaries.v and Instance/Coq/Lists.v, so there is no `@Initial (FAlg NatF)` and no term exhibiting (nat, [O,S]) as a NatF-algebra at all; `rg -i 'NNO|natural numbers object'` is empty. Instance/Coq/Lists.v:111 list_initial verified as the structurally identical proven result one parameter up."
+    }
+  },
+  {
+    "id": "awodey:10.5:lem10",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Lambek's lemma",
+      "the structure map of an initial algebra is an isomorphism",
+      "initial algebra is a fixed point of the endofunctor, P(I) ≅ I",
+      "lambek / lambek_final (Theory/Lambek.v)",
+      "least fixed point mu F",
+      "dual: final coalgebra nu ≅ F nu"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Lambek.v",
+        "line": 40,
+        "symbol": "lambek",
+        "intree_statement": "Theorem lambek `(F : C ⟶ C) (I : @Initial (FAlg F)) : F (`1 (@initial_obj (FAlg F) I)) ≅ `1 (@initial_obj (FAlg F) I).  (closed with Qed; the proof builds the iso with to := `2 iobj, i.e. the structure map, but that is not visible in the statement)"
+      },
+      {
+        "file": "Theory/Lambek.v",
+        "line": 78,
+        "symbol": "lambek_final",
+        "intree_statement": "Theorem lambek_final `(F : C ⟶ C) (T : @Terminal (FCoalg F)) : `1 (@terminal_obj (FCoalg F) T) ≅ F (`1 (@terminal_obj (FCoalg F) T)).  -- the dual (greatest fixed point), obtained as iso_sym (lambek (F^op) T)."
+      }
+    ],
+    "statement_record": {
+      "book": "Lemma 10.10 (Lambek). For any endofunctor P : S -> S on an arbitrary category S: if i : P(I) -> I is an initial P-algebra then i is an ISOMORPHISM, hence P(I) ≅ I; so an initial algebra is a fixed point of P.",
+      "intree": "Theorem lambek `(F : C ⟶ C) (I : @Initial (FAlg F)) : F (`1 (@initial_obj (FAlg F) I)) ≅ `1 (@initial_obj (FAlg F) I).",
+      "strength_comparison": "intree-weaker: the conclusion is the bare existence of SOME isomorphism F(μ) ≅ μ, not the invertibility of the initial structure map i itself. Generality (arbitrary endofunctor, arbitrary category) and the dual are exactly the book's."
+    },
+    "gap": "Awodey's actual claim is that the initial structure map i is the isomorphism. In-tree the iso IS built from the structure map (`to := `2 iobj` in the proof body), but `lambek` is closed with `Qed`, so the returned `Isomorphism` (a Class in Type, Theory/Isomorphism.v:113) is opaque: a downstream consumer cannot prove `to (lambek F I) ≈ `2 (initial_obj (FAlg F) I)`, and therefore cannot use the lemma to conclude that a given structure map is invertible -- only that carrier and image are abstractly isomorphic. Nothing in the tree consumes `lambek`, so nothing compensates. (The 'least' in 'least fixed point' is likewise only header prose; no minimality/comparison statement exists.)",
+    "negative_search_log": [
+      "grep -rn 'lambek' --include='*.v' . -> Theory/Lambek.v only (definition site); no consumer anywhere",
+      "grep -rn 'iso_to_from|to (lambek' --include='*.v' . -> no statement pinning the Lambek iso to the structure map"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "MY BLIND PASS CLASSIFIED THIS PRESENT; I revised to agree with PARTIAL after checking the two facts the record turns on, both of which hold. (1) The statement really is only the bare iso: Theory/Lambek.v:40 `Theorem lambek `(F : C ⟶ C) (I : @Initial (FAlg F)) : F (`1 (@initial_obj (FAlg F) I)) ≅ `1 (@initial_obj (FAlg F) I).` -- the structure map appears only inside the proof body (line 67, `to := `2 iobj`). (2) It is closed with `Qed` at line 69, and `Isomorphism` is a Type-valued Class (Theory/Isomorphism.v:113, fields to/from/iso_to_from/iso_from_to), so the returned data is opaque: no consumer can prove `to (lambek F I) ≈ `2 (initial_obj (FAlg F) I)`, and 'some iso F μ ≅ μ exists' does not entail that a GIVEN initial structure map is invertible. Awodey's actual claim ('i is an isomorphism') is therefore not recoverable. `rg lambek --glob '*.v'` confirms Theory/Lambek.v is the only site -- no consumer compensates. The dual `lambek_final` (line 78) has the same shape and the same limitation. Recorded separately as a library defect, since the file header asserts the stronger reading. Fix is small (close with `Defined`, or add a lemma pinning `to`), which makes this a productive PARTIAL rather than a technicality."
+    }
+  },
+  {
+    "id": "awodey:10.5:example11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "initial algebra of 1 + X^2 = finite binary trees",
+      "initial algebra of 1 + A x X = A-List (finite lists over A)",
+      "list A as mu (ListF A) / free monoid on A",
+      "cons/nil as the structure map [*, @]",
+      "length defined by the universal property of the initial algebra",
+      "fold / foldr as the unique mediator"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 111,
+        "symbol": "list_initial",
+        "intree_statement": "Program Definition list_initial (A : Type) : @Initial (FAlg (ListF A)) := {| terminal_obj := (list A; alg A); one := fun y => list_alg_hom A y |}.  -- precisely Awodey's A-List clause: for P(X) = 1 + A x X the initial algebra is the set of finite lists over A."
+      },
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 67,
+        "symbol": "alg",
+        "intree_statement": "Definition alg (A : Type) : ListF A (list A) ~{Coq}~> list A := fun o => match o with None => @nil A | Some (a, l) => cons a l end.  -- the structure map [*, @], nil for * and cons for the grafting @."
+      },
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 86,
+        "symbol": "hom_is_fold",
+        "intree_statement": "Lemma hom_is_fold {A Y : Type} (beta : option (A * Y)%type -> Y) (h : list A -> Y) (Hh : forall o, h (alg A o) = beta (fmap[ListF A] h o)) (l : list A) : h l = fold beta l.  -- the mechanism by which 'the commuting square IS the two defining equations' (e.g. for length), at the level of an arbitrary target algebra beta."
+      }
+    ],
+    "statement_record": {
+      "book": "Example 10.11: (1) for P(X) = 1 + X^2 the initial algebra unwinds to the set of finite binary trees with * the empty tree and @ the grafting; (2) for a general finitary polynomial functor the initial algebra is a set of trees whose branching types and labels are read off the coefficients, and for P(X) = 1 + A x X it is A-List, the finite lists over A with nil and cons; recursive definitions then follow from initiality -- e.g. length : A-List -> N is the unique mediator into the algebra [0, (a,n) |-> 1+n], and commutativity of that square is exactly length(*) = 0 and length(a @ l) = 1 + length(l).",
+      "intree": "list_initial (A : Type) : @Initial (FAlg (ListF A)) with terminal_obj := (list A; alg A) and alg = nil/cons; uniqueness supplied by hom_is_fold (every algebra map out of (list A, alg) is the fold determined by the target).",
+      "strength_comparison": "intree-weaker in coverage, same in strength on the clause it does cover: the A-List clause is proven in full (existence + uniqueness, axiom-free, by list induction) but over Coq (Type with pointwise equality) rather than Sets, and it is the only clause present."
+    },
+    "gap": "Two of the three clauses and the worked recursive definition are missing. (a) Binary trees: the endofunctor 1 + X^2 is not constructed and no type is exhibited as its initial algebra. (b) The general 'initial algebra of a finitary polynomial functor is a set of trees determined by the coefficients' cannot even be stated -- there is no class of polynomial functors in-tree. (c) `length : list A -> nat` is never defined as the mediator out of list_initial into the algebra [0, fun (a,n) => 1+n] (grep 'length' finds only Metacategory/Multicategory list-length uses); the two defining equations are therefore never derived from a commuting square, only obtainable generically from cata_commutes.",
+    "negative_search_log": [
+      "grep -rni 'binary tree|Inductive Tree|BTree' --include='*.v' . -> only Instance/Comp.v:88 Inductive Tree (the free SIGNATURE algebra term type), nothing about 1 + X^2",
+      "grep -rni 'length' --include='*.v' . -> Theory/Metacategory.v, Theory/Multicategory/Operad.v only (list length as a plain function, no catamorphism)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently PARTIAL with the same split. Verified: Instance/Coq/Lists.v:39 ListF, :67 alg (None ↦ nil, Some (a,l) ↦ cons a l -- Awodey's [*, @]), :75 fold, :86 hom_is_fold, :111 list_initial, all Qed'd, no axioms (plain list induction, pointwise equality on Coq homs), file in _CoqProject, .vo present. The A-List clause is genuinely complete, existence AND uniqueness. Gap independently confirmed: no 1 + X² endofunctor and no binary-tree carrier (the only `Inductive Tree` is Instance/Comp.v:88, the free SIGNATURE term algebra, unrelated); no class of polynomial functors so the general tree description is unstatable; and `length` is never built as the mediator into [0, (a,n) ↦ 1+n] -- I grepped Instance/Coq/Lists.v and Theory/Recursion.v for 'length' and got zero hits, so the two defining equations are never derived from a commuting square. 'over Coq rather than Sets' is accurate (Instance/Coq.v: types and functions, pointwise equality)."
+    }
+  },
+  {
+    "id": "awodey:10.5:remark-powerset-no-initial-algebra",
+    "classification": "ABSENT",
+    "aliases": [
+      "covariant powerset functor Pow : Sets -> Sets",
+      "P(X) = 2^X as an endofunctor",
+      "Cantor's theorem / diagonal argument",
+      "no initial algebra / no fixed point Pow(I) ≅ I",
+      "Lawvere fixed-point theorem",
+      "not every endofunctor has an initial algebra"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'powerset|power set|PowerSet' --include='*.v' . -> Structure/Topos.v:129 (Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a -- an OBJECT in a topos, not an endofunctor) and Instance/FinSet/Topos.v:52,54,83 (computed examples Pow 2 = 4). No covariant powerset endofunctor on Sets or FinSet exists.",
+      "grep -rni 'cantor' --include='*.v' . -> 2 prose hits only: Structure/Limit.v:109 (Scott's D ≅ [D -> D], 'an equation Cantor confines to singletons in Set') and Structure/Complete.v:69 (the small-complete-category cardinality argument). Cantor's theorem is nowhere stated as a lemma.",
+      "grep -rni 'no initial algebra|has no fixed point|Lawvere fixed|diagonal argument' --include='*.v' . -> only Construction/ColouredPROP/Supply.v:418 ('at diagonal arguments', unrelated braiding proof)",
+      "grep -rn 'Initial (FAlg' --include='*.v' . -> Theory/{Lambek,Recursion,Adamek}.v, Theory/Adamek/Corollaries.v, Instance/Coq/Lists.v -- all POSITIVE existence results; there is no statement of the form `@Initial (FAlg F) -> False` for any F.",
+      "Theory/Subobject/Functor.v carries Sub : C^op ⟶ Sets, the CONTRAVARIANT subobject functor -- not the covariant powerset endofunctor -- and asserts nothing about fixed points. The tool of the proof (lambek, Theory/Lambek.v:40) exists but is never applied to any non-existence result."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT, by the same searches. Re-verified each negative: `rg -i 'powerset|power set'` reaches only Structure/Topos.v:129 `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a` (an object, not an endofunctor) and the FinSet computed examples; `rg -i cantor` yields exactly two PROSE hits (Structure/Limit.v:109 on Scott's D ≅ [D → D], Structure/Complete.v:69 inside the Freyd small-complete cardinality argument) -- Cantor's theorem is nowhere a lemma; and there is no statement of the form `@Initial (FAlg F) -> False` for any F. The one ingredient that does exist, `lambek`, is never applied to a non-existence result -- and, per the lem10 record, is too weak as stated to be so applied. ABSENT stands; note for Phase E that this item is cheap to close only AFTER a covariant powerset endofunctor and a Cantor lemma exist, so it should be sequenced behind, not bundled with, the Lambek fix."
+    }
+  },
+  {
+    "id": "awodey:10.5:prop12",
+    "classification": "PRESENT",
+    "aliases": [
+      "Adamek's initial-algebra theorem",
+      "initial algebra as the colimit of the omega-chain 0 -> P0 -> P^2 0 -> ...",
+      "omega-cocontinuous endofunctor has an initial algebra",
+      "adamek / AdamekData / Chain (Theory/Adamek.v, Construction/Chain.v)",
+      "Kleene / 'Newton's method' fixed point, categorified Knaster-Tarski",
+      "adamek_cocomplete"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Adamek.v",
+        "line": 285,
+        "symbol": "adamek",
+        "intree_statement": "Definition adamek : @Initial (FAlg F) := @Build_Terminal (Opposite (FAlg F)) muF adamek_one adamek_one_unique.  -- in the section Context {C : Category@{cobj Set Set}}, `{HI : @Initial C}, (F : C ⟶ C), (L : Colimit (Chain F)), (D : AdamekData); muF := existT _ A alpha with A := colimit_apex L and alpha : F A ~> A the mediator out of the shifted cocone."
+      },
+      {
+        "file": "Theory/Adamek.v",
+        "line": 107,
+        "symbol": "AdamekData",
+        "intree_statement": "Record AdamekData : Type := { adamek_colim : IsAColimit (F ◯ Chain F) (F A) ; adamek_legs : ∀ n : nat, colimit_inj adamek_colim n ≈ fmap[F] (colimit_inj HL n) }.  -- the cone-level statement that F preserves the colimit of the omega-chain."
+      },
+      {
+        "file": "Theory/Adamek/Corollaries.v",
+        "line": 59,
+        "symbol": "adamek_cocomplete",
+        "intree_statement": "Corollary adamek_cocomplete {C : Category} `{@Initial C} (F : C ⟶ C) (CC : @Cocomplete C) (D : AdamekData F (CC _ (Chain F))) : @Initial (FAlg F).  -- cocompleteness supplies the omega-colimit, leaving only the preservation data."
+      }
+    ],
+    "statement_record": {
+      "book": "Proposition 10.12. If S has an initial object 0 and omega-colimits, and P : S -> S preserves omega-colimits, then P has an initial algebra: form 0 -> P0 -> P^2 0 -> ..., put I = colim_n P^n 0, and the induced iso P(I) ≅ I is an initial P-algebra.",
+      "intree": "adamek : @Initial (FAlg F), given `{@Initial C}, F : C ⟶ C, L : Colimit (Chain F) (with Chain F : Omega ⟶ C the diagram chain_obj 0 = initial_obj, chain_obj (S k) = F (chain_obj k), Construction/Chain.v:33-67) and D : AdamekData (F A carries a colimit of F ◯ Chain F whose injections are exactly fmap[F] (colimit_inj HL n)); the carrier is A := colimit_apex L and the structure map alpha := colimit_med.",
+      "strength_comparison": "same, with pointwise rather than global hypotheses (hence formally weaker hypotheses, same conclusion): instead of 'S has all omega-colimits' the theorem takes the single L : Colimit (Chain F), and instead of 'P preserves omega-colimits' it takes AdamekData, which IS cone-level preservation of that one colimit. Two disclosed caveats, neither weakening the statement: (i) ledger 17 -- the bridge from the library's own apex-only `PreservesColimit` predicate to AdamekData is deliberately not carried, because the apex-only predicate leaves the legs unconstrained; (ii) the section pins C's hom/prop universes to Set (Category@{cobj Set Set}), the object level staying polymorphic. Separately, no concrete AdamekData is built anywhere, so the theorem has no in-tree instance (Instance/Coq/Lists.v's list_initial is proved directly, not via Adamek) -- an inhabitation matter, recorded in the file headers (Theory/Adamek.v:41-46, Theory/Adamek/Corollaries.v:41-49) but NOT in docs/INHABITATION.md, which lists neither `adamek` nor `adamek_cocomplete` in either of its tables [corrected by Phase D]."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "MY BLIND PASS CLASSIFIED THIS PARTIAL; I revised to agree with PRESENT. My error was measuring AdamekData against the library's own `PreservesColimit` rather than against the BOOK. Checked: Structure/Limit/Preservation.v:130 `Definition IsAColimit `(F : J ⟶ C) (c : C) : Type := IsALimit (F^op) c` (apex-pinned, carrying its leg family via colimit_inj at :135), so AdamekData (Theory/Adamek.v:107) -- `IsAColimit (F ◯ Chain F) (F A)` PLUS `∀ n, colimit_inj adamek_colim n ≈ fmap[F] (colimit_inj HL n)` -- says exactly that the IMAGE of the colimiting cocone is colimiting, i.e. precisely 'F preserves this ω-colimit' in the correct cone-level sense. The library's apex-only `PreservesColimit` (:196) is the deficient predicate, and its absence as a discharge (ledger 17) is an internal-API matter, not an Awodey gap. Hypotheses are pointwise (one `Colimit (Chain F)` rather than all ω-colimits), so the theorem is if anything stronger than the book's. Verified `adamek` at Theory/Adamek.v:285 is a transparent Definition returning `@Initial (FAlg F)` with carrier colimit_apex L and alpha := colimit_med; Chain at Construction/Chain.v:33-67; adamek_cocomplete at Theory/Adamek/Corollaries.v:59. No Admitted anywhere in either file. STRENGTH_COMPARISON CORRECTED (classification unchanged): the final clause claimed the missing-witness point is 'recorded in the file header and docs/INHABITATION.md'. The file headers do record ledger 17, but docs/INHABITATION.md does NOT mention Adámek at all -- neither table lists `adamek`/`adamek_cocomplete` (`rg -i adamek docs/INHABITATION.md` -> 0 hits). Filed as a library defect."
+    }
+  },
+  {
+    "id": "awodey:10.5:cor13",
+    "classification": "PARTIAL",
+    "aliases": [
+      "every polynomial functor on Sets has an initial algebra",
+      "polynomial endofunctors preserve omega-colimits / are omega-cocontinuous",
+      "existence of inductive datatypes as least fixed points",
+      "mu (C_0 + C_1 X + ... + C_n X^n)",
+      "finitary functors preserve filtered colimits",
+      "Adamek applied to Sets"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 111,
+        "symbol": "list_initial",
+        "intree_statement": "Program Definition list_initial (A : Type) : @Initial (FAlg (ListF A)) := {| terminal_obj := (list A; alg A); one := fun y => list_alg_hom A y |}.  -- one polynomial endofunctor (ListF A X = 1 + A x X) does have an initial algebra, proven directly by list induction rather than through Adamek."
+      },
+      {
+        "file": "Theory/Adamek/Corollaries.v",
+        "line": 59,
+        "symbol": "adamek_cocomplete",
+        "intree_statement": "Corollary adamek_cocomplete {C : Category} `{@Initial C} (F : C ⟶ C) (CC : @Cocomplete C) (D : AdamekData F (CC _ (Chain F))) : @Initial (FAlg F).  -- the corollary shape Awodey's proof needs, but it still consumes the preservation data AdamekData as a hypothesis, and is never applied."
+      }
+    ],
+    "statement_record": {
+      "book": "Corollary 10.13. Every polynomial functor P : Sets -> Sets has an initial algebra, since Sets has an initial object and omega-colimits and every polynomial endofunctor on Sets preserves omega-colimits, so Proposition 10.12 applies.",
+      "intree": "No general statement. The only instances of the conclusion are hand-built: list_initial (A : Type) : @Initial (FAlg (ListF A)) for the single polynomial endofunctor 1 + A x X on Coq.",
+      "strength_comparison": "intree-weaker: a single instance in place of the universally quantified corollary, on Coq rather than Sets, and obtained by direct induction rather than by the Adamek route the corollary is about."
+    },
+    "gap": "The corollary is absent and all three of its ingredients are missing. (a) There is no class of polynomial functors (see awodey:10.5:def-polynomial-functor), so 'every polynomial functor' cannot be quantified over. (b) There is no proof or statement that any endofunctor preserves omega-colimits -- no AdamekData witness is constructed for any F in the whole tree, and the PreservesColimit -> AdamekData bridge is explicitly deferred (ledger 17, Theory/Adamek.v:41-46). (c) Neither Sets nor Coq is shown cocomplete or shown to have omega-colimits: `grep '@Cocomplete'` finds only the definition (Structure/Complete.v:119) and its single use as a hypothesis in adamek_cocomplete -- no instance exists.",
+    "negative_search_log": [
+      "grep -rn '@Cocomplete|Cocomplete ' --include='*.v' . -> Structure/Complete.v:119 (definition) and Theory/Adamek/Corollaries.v:51,61 (hypothesis); no Cocomplete instance for Sets, Coq or FinSet",
+      "grep -rni 'omega-colimit|omega colimit|preserves.*colimit' --include='*.v' . -> Structure/Limit/Preservation.v vocabulary only, never instantiated at Chain F"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass hovered ABSENT/PARTIAL; PARTIAL is the better call and I confirm it, since ListF A = 1 + A × X is literally a (finitary) polynomial functor and Instance/Coq/Lists.v:111 does exhibit its initial algebra, so the corollary's CONCLUSION holds for one instance. All three gap ingredients independently re-verified: (a) no polynomial-functor class exists (see the def-polynomial-functor record); (b) no AdamekData term is constructed anywhere in the tree -- the only occurrences are the Record itself (Theory/Adamek.v:107) and the two hypothesis positions (Theory/Adamek.v:115, Theory/Adamek/Corollaries.v:62); (c) `rg Cocomplete --glob '*.v'` gives only Structure/Complete.v:119 (the definition) and Theory/Adamek/Corollaries.v:51,61 (hypothesis + prose) -- no Cocomplete or Complete instance exists for Sets, Coq or FinSet, so 'Sets has ω-colimits' is not available either. The strength_comparison's 'on Coq rather than Sets, and obtained by direct induction rather than by the Adamek route' is accurate."
+    }
+  },
+  {
+    "id": "awodey:10.5:prop14",
+    "classification": "ABSENT",
+    "aliases": [
+      "P-Alg is the category of algebras for a monad / P-Alg is monadic over S",
+      "the forgetful functor U : P-Alg(S) -> S has a left adjoint",
+      "P_A(X) = A + P(X) has an initial algebra for every A",
+      "free monad / algebraically-free monad on an endofunctor",
+      "Eilenberg-Moore comparison P-Alg ≃ S^T commuting with the forgetful functors",
+      "Beck's precise tripleability theorem applied to an algebra category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'FAlg_Forget' --include='*.v' . -> TWO hits: the definition site Construction/FAlg.v:134 (Program Definition FAlg_Forget `(F : C ⟶ C) : FAlg F ⟶ C) and Construction/FCoalg.v:38 (Definition FCoalg_Forget `(F : C ⟶ C) : FCoalg F ⟶ C := (FAlg_Forget (F^op))^op), a dualization. No adjunction, no ⊣ statement, no monadicity claim about either. [count corrected by Phase D: the original said one hit]",
+      "grep -rn 'FAlg' --include='*.v' . -> outside Construction/FAlg.v the ONLY consumers are Theory/Lambek.v, Theory/Recursion.v, Theory/Adamek.v, Theory/Adamek/Corollaries.v, Construction/FCoalg.v, Instance/Coq/Lists.v and Instance/Sets/Streams.v -- initial/final algebra results only. Nothing relates FAlg to monads or adjunctions.",
+      "grep -rni 'free algebra|free P-algebra|free monad' --include='*.v' . -> prose or MONAD-algebra material only: Monad/Algebra.v:22, Monad/Eilenberg/Moore.v:35,40, Monad/Eilenberg/Moore/Adjunction.v:25,34,73 (free algebras for a MONAD T, not for an endofunctor), Instance/Comp.v:87 (free algebra for a SIGNATURE), Monad/Transformer.v:92 (a section comment). Nothing about free algebras for a bare endofunctor.",
+      "grep -rni 'Johnstone' --include='*.v' . -> 1 hit, a bibliographic citation in Construction/Comma.v:113; the cited result is not formalized.",
+      "grep -rni 'Monadic\\b|Monadicity' --include='*.v' . -> the generic vocabulary exists (Monad/Comparison.v:273 Definition Monadic {C D} (U : C ⟶ D) := ∃ F (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A); Monad/Monadicity/{Beck,Crude}.v) but is never instantiated at an algebra category's forgetful functor.",
+      "grep -rni 'A \\+ P|P_A|A + P\\(X\\)' --include='*.v' . -> no endofunctor former X |-> A + P(X) anywhere (and no pointwise coproduct-of-functors combinator exists to build one; see def-polynomial-functor log).",
+      "The generic (3)=>(2) machinery -- UniversalArrow / LeftAdjointFunctorFromUniversalArrows / AdjunctionFromUniversalArrows (Theory/Universal/Arrow.v:127,185,214) -- exists but is never applied to the forgetful functor of an algebra category. None of the three conditions of the proposition, and none of the four implications between them, is stated in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently ABSENT. Independently re-verified the decisive negatives: no `⊣` anywhere involving FAlg or Algs; no endofunctor former X ↦ A + P(X) (and none assemblable -- no pointwise coproduct of functors, see the def-polynomial-functor record); Monad/Comparison.v:273 `Definition Monadic {C D} (U : C ⟶ D) : Type := ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A)` exists but is never instantiated at an endofunctor-algebra forgetful functor; Theory/Universal/Arrow.v:127/185/214 line numbers all exact (UniversalArrow, LeftAdjointFunctorFromUniversalArrows, AdjunctionFromUniversalArrows) and none is applied here. NEGATIVE-LOG LINE CORRECTED (classification unchanged): the log said FAlg_Forget has 'ONE hit, the definition site ... referenced nowhere else'. It is in fact referenced once more, at Construction/FCoalg.v:38, `Definition FCoalg_Forget `(F : C ⟶ C) : FCoalg F ⟶ C := (FAlg_Forget (F^op))^op` (with a pointer at :37). That is a dualization, not an adjunction, so none of the three conditions or four implications of Proposition 10.14 gains any in-tree counterpart and ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:10.5:construction-free-p-algebra",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free P-algebra F(A) = (mu X. A + P(X), alpha_2)",
+      "left adjoint to the forgetful functor U : P-Alg -> S",
+      "initial P_A-algebra for P_A(X) = A + P(X)",
+      "free monad on an endofunctor, T A = mu X. A + P X",
+      "unit alpha_1 : A -> UFA of the free/forgetful adjunction",
+      "term algebra / free algebra on a set of generators"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Comp.v",
+        "line": 116,
+        "symbol": "from_free_unique",
+        "intree_statement": "Theorem from_free_unique (f g : AlgHom Free A) : (∀ x : X, f (generator x) = g (generator x)) → f ≈ g.  (Section FreeAlg with Hypothesis S : OpSignature, X : Type, A : OpAlgebra S, h : X → A) -- the uniqueness half of the free-algebra universal property, in the signature encoding."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 108,
+        "symbol": "induced_hom",
+        "intree_statement": "Definition induced_hom : AlgHom Free A.  -- the existence half: every map h : X → A of the generators extends to an algebra homomorphism out of Free (built from Fixpoint induced_map over the term type Inductive Tree ::= generator : X → Tree | node : ∀ o, (arity o → Tree) → Tree, i.e. the least solution of Y = X + P_S(Y))."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 92,
+        "symbol": "Free",
+        "intree_statement": "Definition Free : OpAlgebra S := {| carrier := Tree; op := node |}.  -- the carrier is exactly mu Y. X + P_S(Y) for the signature endofunctor P_S(Y) = sum_{o : operation} Y^(arity o), and the algebra structure `node` is Awodey's alpha_2 (the P-part of the initial P_X-algebra)."
+      }
+    ],
+    "statement_record": {
+      "book": "Inside the proof of Proposition 10.14: for each A let alpha = [alpha_1, alpha_2] : A + P(I_A) -> I_A be the initial P_A-algebra, I_A = mu X. A + P(X); set F(A) = (I_A, alpha_2), and on f : A -> B let F(f) be the unique P_A-homomorphism I_A -> I_B obtained from initiality of I_A against beta o (f + P(I_B)). Then F : S -> P-Alg is left adjoint to the forgetful U, with unit alpha_1 : A -> UFA.",
+      "intree": "Free : OpAlgebra S with carrier the inductive term type Tree (generators + operation nodes), together with induced_hom (every h : X → A extends) and from_free_unique (the extension is unique on generators). Nothing is assembled into a functor or an adjunction.",
+      "strength_comparison": "intree-weaker in three respects: (i) it is stated for a SIGNATURE S (equivalently, only for the sum-of-powers endofunctors P_S(Y) = sum_o Y^(arity o) on Type), not for an arbitrary endofunctor P on an arbitrary category S; (ii) the carrier is postulated as an inductive term type rather than obtained as the initial P_A-algebra, so the decomposition alpha = [alpha_1, alpha_2] and the identification of alpha_2 as the P-algebra structure are never made; (iii) the universal property is proven only object-by-object -- from_free_unique additionally leans on functional extensionality (flagged in-file at Instance/Comp.v:124-130)."
+    },
+    "gap": "The construction as a construction is missing: there is no endofunctor former X |-> A + P(X), no `mu` / least-fixed-point operator on objects, no `F` on arrows by initiality, and no adjunction. Concretely: Free is never made functorial (no F : Type ⟶ Algs), the unit alpha_1 : A -> U F A is never exhibited, and no `⊣` involving Algs or FAlg exists anywhere (grep 'FAlg_Forget' has a single hit, its own definition; Instance/Comp.v:211 only REMARKS in a comment that 'The free functor is left adjoint to the forgetful' without stating or proving it). What survives is the free algebra on generators together with its universal property, for signature-presented endofunctors on Type only.",
+    "negative_search_log": [
+      "grep -rn 'FAlg_Forget' --include='*.v' . -> definition site only (Construction/FAlg.v:134); no left adjoint",
+      "grep -rni 'mu X|least solution|least fixed point' --include='*.v' . -> prose only (Theory/Lambek.v:22, Theory/Recursion.v:48, Instance/Coq/Lists.v:26, Instance/Poset.v:93); the 'mu' hits in Construction/Cospan/SCFA.v are a Frobenius multiplication, unrelated",
+      "grep -rni 'FreeAlg|AlgFree|free F-algebra' --include='*.v' . -> Instance/Comp.v Section FreeAlg only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "MY BLIND PASS CLASSIFIED THIS ABSENT; I accept PARTIAL, because the record's reading of Instance/Comp.v is substantively right and I had been too strict. Verified: Instance/Comp.v:88 `Inductive Tree := generator : X → Tree | node : ∀ o, (arity o → Tree) → Tree` IS μY. X + P_S(Y) for the sum-of-powers signature endofunctor, :92 `Free := {| carrier := Tree; op := node |}` makes `node` Awodey's α₂ and `generator` his α₁, and :108 induced_hom / :116 from_free_unique are the two halves of the universal property. All quotes exact. The three stated weakenings all check out: signature endofunctors on Type only, never an arbitrary P on an arbitrary S; the carrier is postulated inductively rather than obtained as an initial P_A-algebra, so the splitting α = [α₁, α₂] is never made; and from_free_unique leans on `extensionality` at :130 with the in-file admission of that dependency at :124-129. The 'no functor, no unit, no adjunction' gap is confirmed: Instance/Comp.v contains no `⊣` and Free is never made functorial. The record's remark that Instance/Comp.v only COMMENTS that the free functor is left adjoint is fair (the comment spans :211-219; the sentence is at :213-214) -- but note the comment is offered as mathematical motivation for `Algs_Initial`, whose actual proof is induced_hom/from_free_unique, so I would not file it as a false claim of in-tree content."
+    }
+  }
+]

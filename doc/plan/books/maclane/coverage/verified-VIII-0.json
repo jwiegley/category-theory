@@ -1,0 +1,535 @@
+[
+  {
+    "id": "maclane:VIII.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "zero morphism",
+      "zero arrow",
+      "null morphism",
+      "zero_mor",
+      "map through the zero/null object",
+      "0 : a -> b"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 53,
+        "symbol": "zero_mor",
+        "intree_statement": "Definition zero_mor {C} `{Z : @ZeroObject C} {x y : C} : x ~> y := @zero C zero_initial y ∘ from zero_coincide ∘ @one C zero_terminal x."
+      },
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 61,
+        "symbol": "zero_mor_left",
+        "intree_statement": "Lemma zero_mor_left (f : y ~> z) : f ∘ zero_mor ≈ zero_mor."
+      },
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 73,
+        "symbol": "zero_mor_right",
+        "intree_statement": "Lemma zero_mor_right (f : x ~> y) : zero_mor ∘ f ≈ zero_mor."
+      },
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 85,
+        "symbol": "zero_mor_unique",
+        "intree_statement": "Lemma zero_mor_unique (g : x ~> terminal_obj) (h : initial_obj ~> y) : (h ∘ from zero_coincide) ∘ g ≈ zero_mor."
+      }
+    ],
+    "statement_record": {
+      "book": "In a category with a null object z (both initial and terminal), the zero arrow 0 : a -> b is the composite a -> z -> b through z; any composite having a zero arrow as factor is again zero, and the zero arrow is independent of the choice of null object.",
+      "intree": "zero_mor x y := zero ∘ from zero_coincide ∘ one, the tunnel x -> 1 -> 0 -> y through the ZeroObject; zero_mor_left/right give f ∘ 0 ≈ 0 and 0 ∘ f ≈ 0; zero_mor_unique identifies any factorization through the zero object with zero_mor.",
+      "strength_comparison": "same. The library's ZeroObject packages initial+terminal+a coincidence iso (rather than one literal null object), which is setoid-honest and no loss of generality. Absorption laws (def1's 'any composite with a zero arrow is zero') are zero_mor_left/right. Book's 'independent of the choice of null object' is captured within a chosen instance by zero_mor_unique (any tunnel through the zero object equals zero_mor); cross-instance independence of two distinct ZeroObject witnesses is not separately stated but follows."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search reproduced the evidence with exact line numbers: ZeroObject.v zero_mor (53), zero_mor_left (61), zero_mor_right (73), zero_mor_unique (85). Absorption laws match def1's 'any composite with a zero arrow is zero'; zero_mor is the a->1->0->y tunnel. Faithful PRESENT."
+    }
+  },
+  {
+    "id": "maclane:VIII.1:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "kernel",
+      "IsKernel",
+      "equalizer of (f, 0)",
+      "difference kernel",
+      "ker f",
+      "HasKernels"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Kernel.v",
+        "line": 53,
+        "symbol": "IsKernel",
+        "intree_statement": "Definition IsKernel {x y k : C} (f : x ~> y) (i : k ~> x) : Type := IsEqualizer f zero_mor k i."
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 98,
+        "symbol": "kernel_monic",
+        "intree_statement": "Lemma kernel_monic (K : IsKernel f i) : Monic i."
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 118,
+        "symbol": "kernel_desc",
+        "intree_statement": "Lemma kernel_desc (K : IsKernel f i) (h : z ~> x) (Hh : f ∘ h ≈ zero_mor) : ∃! u : z ~> k, i ∘ u ≈ h."
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 63,
+        "symbol": "HasKernels",
+        "intree_statement": "Class HasKernels := { kernel {x y} (f : x ~> y) : ∃ k (i : k ~> x), IsKernel f i }."
+      }
+    ],
+    "statement_record": {
+      "book": "A kernel of f : a -> b is an equalizer of the pair (f, 0 : a => b); equivalently a monic k : s -> a with fk = 0 such that every h with fh = 0 factors uniquely as h = k h' through k.",
+      "intree": "IsKernel f i := IsEqualizer f zero_mor k i (equalizer of f against the zero morphism); kernel_monic proves i is monic; kernel_desc gives the unique factorization of any h with f ∘ h ≈ 0 through i.",
+      "strength_comparison": "same. IsKernel is literally the equalizer of (f, zero_mor), matching the book's definition exactly; the monic property and the universal factorization (in the zero-composite phrasing f ∘ h ≈ 0) are both proven."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed IsKernel := IsEqualizer f zero_mor (Kernel.v:53), kernel_monic (98), kernel_desc (118), HasKernels (63). Exact match to 'kernel = equalizer of (f,0); monic with unique factorization'."
+    }
+  },
+  {
+    "id": "maclane:VIII.1:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "kernels are monomorphisms",
+      "kernel monic",
+      "kernels exist from equalizers",
+      "kernel unique up to iso",
+      "kernel as subobject"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Kernel.v",
+        "line": 98,
+        "symbol": "kernel_monic",
+        "intree_statement": "Lemma kernel_monic (K : IsKernel f i) : Monic i. (Proof: exact (equalizer_monic f zero_mor K).)"
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 53,
+        "symbol": "IsKernel",
+        "intree_statement": "IsKernel f i := IsEqualizer f zero_mor k i — so a HasEqualizers choice yields a kernel of every f by specializing the second leg to zero_mor."
+      },
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 106,
+        "symbol": "equalizer_unique",
+        "intree_statement": "Lemma equalizer_unique (E1 : IsEqualizer f g q1 e1) (E2 : IsEqualizer f g q2 e2) : q1 ≅ q2."
+      }
+    ],
+    "statement_record": {
+      "book": "Any category with a zero object and all equalizers (equivalently pullbacks, or finite limits) has a kernel for every arrow, unique up to isomorphism of the source; every kernel is monic (kg'=kh' => g'=h'), so a kernel is a subobject of a.",
+      "intree": "kernel_monic: every kernel is monic (via equalizer_monic). Existence-from-equalizers holds definitionally because IsKernel f i is IsEqualizer f zero_mor k i. Uniqueness up to iso of the source is equalizer_unique (q1 ≅ q2), which applies to kernels definitionally.",
+      "strength_comparison": "same in substance. The formalizable content — kernels are monic, and unique up to iso of the source — is fully present. 'Kernels exist given equalizers' is definitional (kernel = equalizer against zero_mor) rather than packaged as a HasEqualizers -> HasKernels instance, and there is no separately named kernel_unique (equalizer_unique is reused). The 'via pullbacks / via finite limits' variants are not spelled out but reduce to the equalizer case."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed kernel_monic (Kernel.v:98) and equalizer_unique (Equalizer/Fork.v:106). Existence is definitional (IsKernel is IsEqualizer against zero_mor); no HasEqualizers->HasKernels instance and no kernel-specific uniqueness lemma, but both reduce immediately from the equalizer API. Honest PRESENT."
+    }
+  },
+  {
+    "id": "maclane:VIII.1:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "cokernel",
+      "IsCokernel",
+      "coequalizer of (f, 0)",
+      "coker f",
+      "HasCokernels",
+      "conormal epi"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Kernel.v",
+        "line": 58,
+        "symbol": "IsCokernel",
+        "intree_statement": "Definition IsCokernel {x y q : C} (f : x ~> y) (e : y ~> q) : Type := IsCoequalizer f zero_mor q e."
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 106,
+        "symbol": "cokernel_epic",
+        "intree_statement": "Lemma cokernel_epic (K : IsCokernel f e) : Epic e."
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 132,
+        "symbol": "cokernel_desc",
+        "intree_statement": "Lemma cokernel_desc (K : IsCokernel f e) (h : y ~> z) (Hh : h ∘ f ≈ zero_mor) : ∃! u : q ~> z, u ∘ e ≈ h."
+      }
+    ],
+    "statement_record": {
+      "book": "The cokernel of f : a -> b is the dual of the kernel (a coequalizer of f and 0): a universal epi u : b -> q with uf = 0 through which every arrow annihilating f factors uniquely (already described dually in III.3).",
+      "intree": "IsCokernel f e := IsCoequalizer f zero_mor q e; cokernel_epic proves e is epic; cokernel_desc gives the unique descent of any h with h ∘ f ≈ 0 through e.",
+      "strength_comparison": "same. The library states the cokernel directly in C (not via the opposite category), as a coequalizer against the zero morphism, with the epi property and the universal descent — an exact dual of the kernel API."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed IsCokernel (Kernel.v:58), cokernel_epic (106), cokernel_desc (132). Stated covariantly in C, an exact dual of the kernel API. Faithful."
+    }
+  },
+  {
+    "id": "maclane:VIII.1:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "equalizer is the kernel of the difference",
+      "Eq(f,g) = Ker(f-g)",
+      "difference kernel",
+      "equalizers are kernels in an Ab-category",
+      "fh=gh iff (f-g)h=0"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'equalizer.*psub|kernel.*psub|equalizer_kernel|kernel_equalizer|IsEqualizer.*IsKernel|IsKernel.*IsEqualizer' --include=*.v : only the definitional IsKernel := IsEqualizer f zero_mor (Kernel.v:53) and the comment in Equalizer.v:60 — i.e. the CONVERSE direction (kernel as equalizer against zero), never the forward Eq(f,g)=Ker(f-g).",
+      "grep -rniE 'f - g|difference|sub.*kernel|kernel.*(sub|minus|difference)' --include=*.v Structure/ : only prose (Structure/Equalizer.v:56-58 names the 'difference kernel' and states in a COMMENT that 'the equalizer of f and g is the kernel of f - g', but no lemma) and Abelian.v:167 (psub used inside monic_iff_kernel_pzero, unrelated).",
+      "grep -rniE 'kernel|equaliz' Structure/Additive.v : no hits — the Additive layer (which supplies psub) never relates equalizers to kernels of differences.",
+      "Read Structure/Equalizer.v lines 50-62: the fh=gh <=> (f-g)h=0 bridge and Eq(f,g)=Ker(f-g) appear only as background prose; the library performs only the reverse specialization (IsKernel as IsEqualizer against zero_mor)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed ABSENT. My grep for equalizer=kernel-of-difference found only the background prose in Structure/Equalizer.v:56-58 ('the equalizer of f and g is the kernel of f - g') and the definitional converse IsKernel:=IsEqualizer(_,zero_mor); no lemma states that general equalizers are kernels via the difference in an additive/Ab-category. Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.1:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Galois connection ker/coker",
+      "ker -| coker adjunction of preorders",
+      "P_c preorder of arrows into c",
+      "Q^c preorder of arrows out of c",
+      "subobject/quotient factorization order",
+      "g is a kernel iff g = ker(coker g)",
+      "triangular identities of the (co)kernel connection"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Kernel.v",
+        "line": 177,
+        "symbol": "kernel_of_any_cokernel",
+        "intree_statement": "Lemma kernel_of_any_cokernel (K : IsKernel f i) (CK : IsCokernel i e) : IsKernel e i. (the ker(coker(ker)) = ker triangular identity in categorical form)"
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 226,
+        "symbol": "normal_mono_kernel_of_cokernel",
+        "intree_statement": "Corollary normal_mono_kernel_of_cokernel (i : k ~> x) (N : normal_mono i) : IsKernel (`1 (`2 (cokernel i))) i. (a normal mono i IS the kernel of its chosen cokernel — the 'g is a kernel => g = ker(coker g)' direction)"
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 55,
+        "symbol": "sub_le",
+        "intree_statement": "Definition sub_le (u v : SubObj x) := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u } — the factorization preorder on subobjects (P_c restricted to monics)."
+      },
+      {
+        "file": "Instance/Poset.v",
+        "line": 47,
+        "symbol": "(Galois connection = poset adjunction)",
+        "intree_statement": "background: 'an adjunction between posets is exactly a monotone Galois connection' — the general framework exists, but is not instantiated for ker/coker."
+      }
+    ],
+    "statement_record": {
+      "book": "For an object c, P_c = arrows into c preordered by factoring (monics = subobjects), Q^c = arrows out of c dually preordered; choosing kernels/cokernels gives order maps ker : Q^c -> P_c and coker : P_c -> Q^c with f <= ker u <=> uf=0 <=> coker f >= u, forming a Galois connection with triangular identities ker(coker(ker u))=ker u, coker(ker(coker f))=coker f, and g is a kernel iff g=ker(coker g).",
+      "intree": "The categorical CORE lemmas exist: kernel_of_any_cokernel / cokernel_of_any_kernel (the two triangular identities) and normal_mono_kernel_of_cokernel / normal_epi_cokernel_of_kernel ('g a kernel => g = ker(coker g)'); the subobject factorization preorder sub_le (Subobject.v) is P_c restricted to monics; and the general notion 'Galois connection = adjunction of posets' is documented (Instance/Poset.v).",
+      "strength_comparison": "intree-weaker: the order-theoretic PACKAGING is missing. The preorders P_c (all arrows into c) and Q^c (all arrows out of c) are not built (only the mono-restricted subobject preorder exists); ker and coker are not exhibited as monotone maps between them; and no Galois connection / poset-adjunction f <= ker u <=> uf=0 <=> coker f >= u is assembled. Only the underlying pointwise (co)kernel triangular identities are formalized."
+    },
+    "gap": "The Galois connection itself is not formalized: no P_c/Q^c preorders of all arrows into/out of c, no ker/coker as monotone maps, no adjunction (f <= ker u <=> uf = 0 <=> coker f >= u). Present only as the categorical triangular-identity lemmas (kernel_of_any_cokernel and dual, normal_mono_kernel_of_cokernel and dual) plus the mono-restricted subobject preorder (Subobject.v) and the general 'Galois connection = poset adjunction' framework (Poset.v/Adjunction.v), none of which are wired together for ker/coker.",
+    "negative_search_log": [
+      "grep -rniE 'galois' --include=*.v : hits only in Theory/Adjunction.v (background: adjunction between posets = Galois connection) and Instance/Poset.v (the general concept); no ker/coker Galois connection.",
+      "grep -rniE 'monotone.*adjun|adjun.*preorder|preorder.*adjun|order.reversing' --include=*.v : no ker/coker order-map adjunction.",
+      "grep -rniE 'P_c|Q\\^c|preorder.*connect|antitone' --include=*.v : no P_c / Q^c preorder-of-arrows construction."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PARTIAL. Blind search reproduced the fragment set: kernel_of_any_cokernel (Kernel.v:177) and its dual (the triangular identities), normal_mono_kernel_of_cokernel (226) ('g a kernel => g=ker(coker g)'), sub_le (Subobject.v:55) as P_c restricted to monos. The two preorders P_c/Q^c of ALL arrows and the antitone Galois connection ker -| coker are genuinely unassembled; grep 'galois' hits only Poset.v/Adjunction.v background. Q^c (quotient preorder) is not built. Gap accurately stated."
+    }
+  },
+  {
+    "id": "maclane:VIII.1:remark3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "canonical factorization f = m q",
+      "m = ker(coker f)",
+      "image factorization",
+      "abelian_image",
+      "coimage-image factorization"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Abelian.v",
+        "line": 261,
+        "symbol": "abelian_image_obj / abelian_image",
+        "intree_statement": "Definition abelian_image_obj f := abelian_kernel_obj (abelian_coker f); Definition abelian_image f := abelian_kernel (abelian_coker f) — i.e. the image is ker(coker f)."
+      },
+      {
+        "file": "Structure/Abelian.v",
+        "line": 286,
+        "symbol": "abelian_image_med_comm",
+        "intree_statement": "Lemma abelian_image_med_comm (f : x ~> y) : abelian_image f ∘ abelian_image_med f ≈ f. (f = m q with m = ker(coker f))"
+      },
+      {
+        "file": "Structure/Abelian.v",
+        "line": 272,
+        "symbol": "abelian_image_monic",
+        "intree_statement": "Lemma abelian_image_monic (f : x ~> y) : Monic (abelian_image f)."
+      }
+    ],
+    "statement_record": {
+      "book": "In any category with a null object, kernels and cokernels, every arrow f has a canonical factorization f = m q where m = ker(coker f).",
+      "intree": "abelian_image f = ker(coker f) (a monic, abelian_image_monic), and abelian_image_med_comm gives abelian_image f ∘ abelian_image_med f ≈ f, i.e. f = m q with m = ker(coker f).",
+      "strength_comparison": "intree-weaker (extra hypotheses): the factorization is established only inside a full `Abelian C` instance (additive structure + normality of all monos/epis), whereas the book states it for ANY category with a null object, kernels and cokernels. The underlying construction (abelian_image_med_ex via kernel_desc + cokernel_comp_zero) in fact uses only ZeroObject/HasKernels/HasCokernels, but it is packaged in the Abelian section and is not available at the book's stated generality."
+    },
+    "gap": "The factorization f = ker(coker f) ∘ q is proven only over `Abelian C` (Structure/Abelian.v, Section AbelianFacts), not at the book's generality of 'any category with a null object, kernels and cokernels'. No standalone lemma states the canonical factorization from just ZeroObject + HasKernels + HasCokernels, even though abelian_image_med_comm's proof does not use the normality/additive fields.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PARTIAL. abelian_image_obj = ker(coker f) and abelian_image_med_comm (Abelian.v:286) give f = m.q with m = ker(coker f), but only inside `Abelian C`. The hypothesis gap is MATERIAL: Mac Lane's remark holds in any category with null object + kernels + cokernels (e.g. Grp, which is not abelian), whereas the in-tree result requires the full additive + biproduct + normality structure. The proof (kernel_desc + cokernel_comp_zero) in fact uses only ZeroObject/HasKernels/HasCokernels, yet no lemma is exposed at that generality. PARTIAL is the correct, defensible call."
+    }
+  },
+  {
+    "id": "maclane:VIII.1:lem1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "diagonal fill-in for canonical factorization",
+      "q is epi",
+      "image mediator is epic",
+      "epi-mono factorization",
+      "orthogonality/lifting against a kernel",
+      "uniqueness of factorization"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Abelian.v",
+        "line": 353,
+        "symbol": "image_mediator_epic",
+        "intree_statement": "Lemma image_mediator_epic (f : x ~> y) : Epic (abelian_image_med f). (the mediator q onto the image is epic)"
+      },
+      {
+        "file": "Structure/Abelian.v",
+        "line": 431,
+        "symbol": "abelian_epi_mono_ortho",
+        "intree_statement": "Lemma abelian_epi_mono_ortho (e : a ~> b) (m : u ~> v) : Epic e → Monic m → e ⫫ m. (unique diagonal filler of the lifting square)"
+      },
+      {
+        "file": "Structure/Factorization.v",
+        "line": 185,
+        "symbol": "factorization_lift_unique / factorization_unique",
+        "intree_statement": "factorization_unique : any two (E,M)-factorizations of f are connected by a unique iso commuting with both legs; the diagonal filler is unique (factorization_lift_unique)."
+      }
+    ],
+    "statement_record": {
+      "book": "Given the canonical factorization f = m q (m = ker(coker f)) and any other factorization f = m' q' with m' a kernel, there is a unique diagonal t with m = m' t and q' = t q; moreover if the category has equalizers and every monic is a kernel, then q is epi.",
+      "intree": "image_mediator_epic proves the image mediator q is epic (Freyd/Borceux chase), under the abelian hypotheses (which subsume 'equalizers + every monic is a kernel'); abelian_epi_mono_ortho gives the unique diagonal filler e ⫫ m for a strong-epi/mono lifting square, and Structure/Factorization.v (factorization_lift_unique, factorization_unique) provides the diagonal filler and its uniqueness in the OFS setting.",
+      "strength_comparison": "intree-weaker (extra hypotheses + narrower shape). The 'q is epi' conclusion is present as image_mediator_epic but only over a full `Abelian C`. The diagonal fill-in exists as the (Epi,Mono) OFS orthogonality/lifting, which requires the middle map to be a (strong) EPI on BOTH factorizations; it does NOT match the book's general shape comparing the canonical factorization against an ARBITRARY kernel-factorization f = m' q' (m' a kernel, q' unconstrained, q not assumed epi) in the mere null-object+kernels+cokernels setting."
+    },
+    "gap": "Two shortfalls: (1) both parts are proven only over `Abelian C`, not the book's weaker settings (the diagonal part needs no epi hypothesis in the book, the q-epi part needs only 'equalizers + every monic is a kernel'); (2) the diagonal fill-in is instantiated only as the OFS lifting e ⫫ m (both middle maps strong-epi/mono), never as the specific 'canonical m q vs arbitrary kernel-factorization m' q'' comparison giving unique t with m = m' t and q' = t q.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verdict PARTIAL confirmed; cited evidence verified (image_mediator_epic Abelian.v:353, abelian_epi_mono_ortho 431, factorization_lift_unique Factorization.v:185, factorization_unique 216). CORRECTION to the rationale: the strength_comparison's claim that the OFS orthogonality 'requires the middle map to be a (strong) EPI on BOTH factorizations' is inaccurate. abelian_epi_mono_ortho yields q _|_ m' from q epi (image_mediator_epic) and m' mono (a kernel is monic); q' is unconstrained. Taking u:=q', v:=m in the square m'.q' = m.q gives the unique diagonal t with q'=t.q and m=m'.t -- exactly lem1(a)'s fill-in. So the fill-in shape IS reconstructible in the abelian setting; the genuine gap is only (i) everything is over `Abelian C`, not Mac Lane's weaker null+ker+coker (part a) / equalizers+every-mono-a-kernel (part b) settings, and (ii) no standalone lemma states lem1 at that generality -- it must be assembled. PARTIAL still holds."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Ab-category",
+      "category enriched in abelian groups",
+      "Ab-enriched category",
+      "preadditive category",
+      "additive category",
+      "hom-groups with bilinear composition"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Preadditive.v",
+        "line": 34,
+        "symbol": "Preadditive",
+        "intree_statement": "Class Preadditive (C : Category) := { padd; pzero; padd_respects; padd_assoc; padd_comm; padd_zero_left; compose_padd_left; compose_padd_right; compose_pzero_left; compose_pzero_right } — CMon-enrichment; 'Additive inverses are deliberately not demanded'."
+      },
+      {
+        "file": "Structure/Additive.v",
+        "line": 34,
+        "symbol": "Additive",
+        "intree_statement": "Class Additive (C : Category) := { additive_zero : @ZeroObject C; additive_preadditive : @Preadditive C; additive_biproducts : @HasBiproducts C additive_zero; pneg; pneg_respects; padd_pneg } — adds negatives BUT also a zero object and all biproducts."
+      }
+    ],
+    "statement_record": {
+      "book": "An Ab-category is a category in which each hom-set A(b,c) is a (not necessarily small) abelian group and composition is bilinear; the group's zero element is a zero arrow (even absent a null object) and any composite with a zero arrow is zero (recalled from I.8).",
+      "intree": "Preadditive is CMon-enrichment (commutative-monoid hom-setoids, bilinear composition, absorbing pzero) — the additive skeleton, WITHOUT negatives. Additive adds the abelian-group refinement (pneg, padd_pneg) but simultaneously requires a ZeroObject and all binary biproducts (HasBiproducts).",
+      "strength_comparison": "intree-weaker/stronger split — no exact match. Preadditive is strictly WEAKER than an Ab-category (only commutative monoids, no additive inverses). Additive is strictly STRONGER (it IS Ab-enriched with bilinear composition, but bundles a zero object and all biproducts that an Ab-category does not require). There is no standalone class for 'category enriched in abelian groups' between the two."
+    },
+    "gap": "No standalone Ab-enriched class. The abelian-group hom-structure (pneg + padd_pneg on top of Preadditive) is available only inside Additive, which additionally mandates a zero object and all binary biproducts — data an Ab-category does not carry. The one standalone enrichment class (Preadditive) is only CMon-enriched (explicitly omits negatives). To model a bare Ab-category one must either drop negatives or accept the extra zero/biproduct requirements.",
+    "negative_search_log": [
+      "grep -rniE 'Ab.?categor|Ab.?enrich|enriched.*(Ab|CMon)|hom.*abelian group' --include=*.v : Preadditive/Additive headers describe Ab-enrichment; Construction/Enriched.v:107 calls Preadditive 'the hand-built Ab-enriched example' — but Preadditive is CMon, not Ab.",
+      "grep -rnE 'pneg|padd_pneg' --include=*.v Structure/ : negation fields occur only in Structure/Additive.v (the Additive class and psub), never in a class that lacks the zero-object/biproduct requirements."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PARTIAL. Preadditive (Preadditive.v:34) is explicitly CMon-enrichment ('additive inverses are deliberately not demanded', Preadditive.v:22-23); Additive (Additive.v:34) adds pneg/padd_pneg (genuine Ab-enrichment) but bundles a ZeroObject and all HasBiproducts -- that is Mac Lane's def3 additive category, not the bare def1 Ab-category. No standalone Ab-enriched class exists between the two. Gap accurately stated. (See problems[]: Construction/Enriched.v:107 misdescribes Preadditive as 'Ab-enriched'.)"
+    }
+  },
+  {
+    "id": "maclane:VIII.2:prop1",
+    "classification": "ABSENT",
+    "aliases": [
+      "null object characterization",
+      "z initial iff terminal in an Ab-category",
+      "1_z = 0 iff z is a zero object",
+      "A(z,z) is the zero group",
+      "initial or terminal implies null in additive category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'initial.*iff.*terminal|terminal.*iff.*initial|iff.*(initial|terminal)|zero.*object.*(preadd|additive)|null.*charact' --include=*.v Structure/ : no equivalence relating initial/terminal to the additive condition 1_z = 0.",
+      "grep -rniE 'zero.*endo|endo.*zero|hom.*trivial|trivial.*hom|is_zero|IsZero|zero_object_iff|characteri' Structure/Additive.v Structure/Preadditive.v Structure/Semiadditive.v Structure/ZeroObject.v Structure/Biproduct.v Structure/Abelian.v : no hits.",
+      "grep -rniE 'id\\b.*≈.*(pzero|zero_mor)|(pzero|zero_mor).*≈.*id|initial_from|terminal_from|zero_from' --include=*.v Structure/ : only Semiadditive identity-decompositions and pzero_zero_mor (the coincidence of the two zeros), not the (i)-(iv) characterization of a null object.",
+      "Read Structure/ZeroObject.v: a ZeroObject packages initial + terminal + a coincidence iso as DATA; the equivalence 'z initial <=> z terminal <=> 1_z = 0 <=> A(z,z) = 0' in a preadditive/Ab-category is never derived."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed ABSENT. Broad grep across the whole tree for any 'z initial <=> z terminal <=> 1_z=0 <=> A(z,z)=0' characterization in a preadditive/additive setting returned nothing; ZeroObject packages initial+terminal+coincidence as DATA and never derives the Ab-category automatic coincidence (Prop VIII.2.1). Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "the two zero arrows coincide",
+      "pzero = zero_mor",
+      "additive identity equals the tunnelled zero morphism",
+      "enrichment zero agrees with the null-object zero"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Preadditive.v",
+        "line": 87,
+        "symbol": "pzero_zero_mor",
+        "intree_statement": "Lemma pzero_zero_mor {C} `{P : @Preadditive C} `{Z : @ZeroObject C} {x y : C} : @pzero C P x y ≈ @zero_mor C Z x y."
+      }
+    ],
+    "statement_record": {
+      "book": "In an Ab-category with a null object z, the unique maps b->z and z->c are the zero elements of their hom-groups, and their composite b->z->c equals the zero element 0 of A(b,c); i.e. the §1 zero morphism and the additive identity of the hom-group agree.",
+      "intree": "pzero_zero_mor: in a preadditive category with a zero object, the enrichment unit pzero (the additive identity of the hom monoid) is ≈ the tunnelled zero morphism zero_mor of Structure/ZeroObject.v.",
+      "strength_comparison": "intree-stronger (weaker hypotheses): the coincidence is proved already for CMon-enrichment (Preadditive) + a zero object, not requiring the full abelian-group (Ab-category) structure of the book. The core claim '§1 zero morphism = additive identity 0 of the hom' is exactly pzero_zero_mor; the ancillary observation that the unique maps into/out of z are themselves the hom-zeros is not separately stated but is subsumed (the proof exhibits pzero factoring through the zero object)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PRESENT. pzero_zero_mor (Preadditive.v:87) is exactly 'the section-1 zero morphism = the additive identity of the hom', proved for CMon-enrichment + ZeroObject -- weaker hypotheses than Mac Lane's Ab-category (intree-stronger). Faithful."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "biproduct diagram",
+      "Biproduct",
+      "direct sum diagram",
+      "p1 i1 = 1, p2 i2 = 1, i1 p1 + i2 p2 = 1",
+      "matching/mixed injection-projection laws"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Biproduct.v",
+        "line": 42,
+        "symbol": "Biproduct",
+        "intree_statement": "Record Biproduct (x y : C) := { biproduct_obj; bi_inl; bi_inr; bi_exl; bi_exr; bi_exl_inl : bi_exl ∘ bi_inl ≈ id; bi_exr_inr : bi_exr ∘ bi_inr ≈ id; bi_exl_inr : bi_exl ∘ bi_inr ≈ zero_mor; bi_exr_inl : bi_exr ∘ bi_inl ≈ zero_mor; bi_is_product; bi_is_coproduct }."
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 61,
+        "symbol": "biproduct_id_decomp",
+        "intree_statement": "Theorem biproduct_id_decomp (B : Biproduct x y) : padd (bi_inl B ∘ bi_exl B) (bi_inr B ∘ bi_exr B) ≈ id. (Mac Lane's i1 p1 + i2 p2 = 1_c)"
+      }
+    ],
+    "statement_record": {
+      "book": "A biproduct diagram for a,b in an Ab-category is a <=> c <=> b with projections p1,p2 and injections i1,i2 satisfying p1 i1 = 1_a, p2 i2 = 1_b, and i1 p1 + i2 p2 = 1_c.",
+      "intree": "The Biproduct record carries the matching composites bi_exl_inl (p1 i1 = 1) and bi_exr_inr (p2 i2 = 1), the mixed-zero composites bi_exl_inr / bi_exr_inl (p1 i2 = 0, p2 i1 = 0), and both universal properties (bi_is_product, bi_is_coproduct). Mac Lane's characterizing sum i1 p1 + i2 p2 = 1_c is recovered as the theorem biproduct_id_decomp.",
+      "strength_comparison": "same concept, different presentation. The library defines a biproduct over a bare ZeroObject via the four interaction laws PLUS the product/coproduct UMPs (which cannot use addition), whereas Mac Lane uses the single additive equation i1 p1 + i2 p2 = 1_c. In a preadditive/Ab-category the two presentations coincide: biproduct_id_decomp derives Mac Lane's equation from the library's definition. (The reverse, that the three equations force the UMPs, is Mac Lane's Theorem 2 and is not separately re-proven since the library bakes the UMPs into the definition.)"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PRESENT. Biproduct record (Biproduct.v:42): four interaction laws + both UMPs; biproduct_id_decomp (Semiadditive.v:61) recovers Mac Lane's i1 p1 + i2 p2 = 1_c (verified composition direction: bi_inl o bi_exl = i1 o p1). Equivalent presentation. Minor unstated nuance: the library's Biproduct presupposes a ZeroObject for the mixed-zero laws, whereas Mac Lane's def2 uses only the Ab-hom zero; immaterial, since an Ab-category with biproducts has a null object. PRESENT stands."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:thm2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "product iff biproduct iff coproduct",
+      "semiadditivity",
+      "products and coproducts coincide as biproducts",
+      "cartesian_biproduct",
+      "a product extends to a biproduct"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 227,
+        "symbol": "cartesian_biproduct",
+        "intree_statement": "Definition cartesian_biproduct (x y : C) : Biproduct x y := {| biproduct_obj := x × y; bi_inl := id △ zero_mor; ...; bi_is_product := cartesian_bi_is_product x y; bi_is_coproduct := cartesian_bi_is_coproduct x y |}. (in a Preadditive + Cartesian category, every binary product IS a biproduct)"
+      },
+      {
+        "file": "Structure/Biproduct.v",
+        "line": 59,
+        "symbol": "bi_is_product / bi_is_coproduct",
+        "intree_statement": "bi_is_product : ∀ z f g, ∃! h, (bi_exl ∘ h ≈ f) ∧ (bi_exr ∘ h ≈ g); bi_is_coproduct : dual — i.e. a biproduct is simultaneously a product and a coproduct (definitional fields)."
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 243,
+        "symbol": "cartesian_has_biproducts",
+        "intree_statement": "Definition cartesian_has_biproducts : HasBiproducts C := {| biproduct := cartesian_biproduct |}. (all products => all biproducts)"
+      }
+    ],
+    "statement_record": {
+      "book": "In an Ab-category, two objects a,b have a product iff they have a biproduct iff they have a coproduct: a biproduct diagram is simultaneously a product (via p1,p2) and a coproduct (via i1,i2), and conversely a product diagram extends uniquely to a biproduct.",
+      "intree": "cartesian_biproduct: in a Preadditive (CMon-enriched) category with a ZeroObject, every binary product x × y is a biproduct (product => biproduct); bi_is_product and bi_is_coproduct are definitional fields of Biproduct (biproduct => product and biproduct => coproduct). Together these give product <=> biproduct fully and biproduct => coproduct.",
+      "strength_comparison": "intree-weaker (a dual leg is un-instantiated), on weaker base hypotheses. cartesian_biproduct needs only Preadditive (CMon) + Cartesian, weaker than the book's Ab-category (no negatives needed) — so the covered legs are stronger. BUT the 'coproduct => biproduct' leg needed to close the full three-way equivalence is NOT instantiated in-tree (there is no cocartesian_biproduct); it holds by the self-duality the file relies on but is never built."
+    },
+    "gap": "The coproduct => biproduct direction is not instantiated. cartesian_biproduct establishes product => biproduct (and the Biproduct record gives biproduct => product/coproduct), so 'product <=> biproduct' is complete and 'biproduct => coproduct' holds; only the dual 'has a coproduct => has a biproduct' leg (a formal dualization of cartesian_biproduct over C^op) is missing, leaving the full 'product iff biproduct iff coproduct' cycle one implication short.",
+    "negative_search_log": [
+      "grep -rnE 'cocartesian_biproduct|cocartesian_has_biproducts' --include=*.v : none — only cartesian_biproduct/cartesian_has_biproducts (product-side) exist.",
+      "grep -rnE 'cartesian_biproduct|cartesian_has_biproducts|bicartesian_preadditive' --include=*.v (outside Semiadditive.v): only referenced from Instance/CMon/Biproduct.v and Structure/Bicartesian.v comments; no dualized coproduct=>biproduct construction."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PARTIAL. product=>biproduct = cartesian_biproduct (Semiadditive.v:227, over Preadditive+Cartesian -- weaker than Ab, hence stronger on that leg); biproduct=>product/coproduct = the definitional bi_is_product/bi_is_coproduct fields. coproduct=>biproduct (a cocartesian_biproduct) is genuinely un-instantiated -- my grep confirms only the product-side exists; derivable by C^op duality but never built. This is precisely a 'dual-assumed-but-absent' leg, correctly flagged. PARTIAL correct."
+    }
+  }
+]

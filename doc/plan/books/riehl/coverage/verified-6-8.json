@@ -1,0 +1,141 @@
+[
+  {
+    "id": "riehl:6.5:exv",
+    "classification": "ABSENT",
+    "aliases": [
+      "nerve functor N : Cat -> sSet (Set^{Delta^op}); nerve-realization paradigm",
+      "simplex category Delta (finite non-empty ordinals [n] = 0 -> ... -> n and order-preserving maps); augmented simplex category; Ord_fin",
+      "simplicial set = presheaf on Delta; sSet := [Delta^op, Sets]",
+      "homotopy category of a simplicial set: ho / tau_1 / fundamental category; left adjoint ho -| N",
+      "Lan along the Yoneda embedding of the composite Delta -> Cat (Prop 6.5.9 instance); restricted Yoneda right adjoint"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'nerve|simplicial|simplex|sSet|cosimplicial' --glob '*.v' -- 13 hits, EVERY ONE inside a background-essay comment block and none a Definition/Class/Instance: Theory/Kan/Extension.v:36 (nLab 'nerve+and+realization' URL), :47, :91 ('Geometric realization is the left Kan extension of a cosimplicial space along the Yoneda embedding, the nerve its restricted-Yoneda right adjoint'), :93; Instance/FinSet.v:87,:89 ('the simplex category Delta embedding into FinSet' -- an aspiration, nothing built); Structure/Coend.v:113; Construction/Enriched.v:72 ('K = sSet'); Comonad/Core.v:103 and Comonad/Coalgebra.v:100 (simplicial bar resolution); Construction/Grothendieck.v:118 (Thomason nerves); Structure/Group.v:47; Instance/Two.v:81 ('the 1-simplex').",
+      "rg -n '\\bDelta\\b' --glob '*.v' | grep -v 'Δ' -- 0 hits. The 482 occurrences of the glyph Δ counted by `rg -c 'Delta'` are all the CONSTANT-DIAGRAM functor notation Δ(x) (Functor/Structure/Constant.v, Structure/Cone.v, Structure/Limit/Kan/Extension.v:76 `Δ(Lim)`), not the simplex category. No SimplexCat, no Ord, no finite-ordinal category anywhere.",
+      "ls Instance/ -- the whole concrete-instance layer is Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX. There is no Instance/Delta.v, Instance/Simplex.v or Instance/sSet.v, so the codomain Set^{Delta^op} of the exercise cannot even be named.",
+      "rg -n -i 'homotopy category' --glob '*.v' -- 4 hits, all comments: Instance/StrictCat.v:36 (Ho(Cat) as a REASON StrictCat is defined the way it is), Structure/Group.v:55, Construction/Localization.v:76 and :97 ('The homotopy category of spaces is Top[W^-1] at the weak homotopy...'). Construction/Localization.v builds orthogonal-class localization of an ABSTRACT category; it never constructs ho of a simplicial set (there are no simplicial sets), so it is not a weaker form of this item.",
+      "rg -n -i 'restricted yoneda|Lan.*Yoneda|Yoneda.*Lan|\\bdense\\b' --glob '*.v' -- comment hits only. Proposition 6.5.9 itself (the adjunction Lan_y F -| E(F-,e) that this exercise is an instance of) is NOT in-tree: rg -n 'Theorem|Lemma|Definition|Program' Functor/Hom/Yoneda.v shows only Yoneda_Lemma (:133) and Covariant_Yoneda_Lemma (:182); Theory/Kan/Extension.v has RightKan/LeftKan and their local forms but no Lan-along-y adjunction.",
+      "Conclusion: none of the four ingredients (Delta, sSet, Cat-valued nerve, ho) and neither the adjunction nor the parent Proposition 6.5.9 exists. NOT OUT_OF_SCOPE: Cat is in-tree (Instance/Cat.v), presheaf categories are in-tree ([C^op, Sets], Theory/Sheaf.v:124-133), and Delta is a perfectly ordinary small category, so the exercise is formalizable -- it simply has no counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-6-8.json) reached the same ABSENT verdict independently. My commands: `rg -il 'nerve' -tcoq .` -> 2 files, both prose (Theory/Kan/Extension.v, Construction/Grothendieck.v:118); `rg -in 'nerve' -tcoq .` -> 4 hits, all inside comment blocks (Kan/Extension.v:36 nLab URL, :91 'Geometric realization is the left Kan extension of a cosimplicial space along the Yoneda embedding, the nerve its restricted-Yoneda right adjoint', :93; Grothendieck.v:118 Thomason); `rg -in 'simplicial|cosimplicial|simplex' -tcoq .` -> prose only (FinSet.v:87,:89; Coend.v:113; Enriched.v:72; Comonad/Core.v:103; Comonad/Coalgebra.v:100; Group.v:47; Two.v:81) -- I independently reproduce the record's count of 13 total hits for the combined pattern. Re-ran the record's own falsifiable checks: `rg -nw 'Delta' --glob '*.v'` = 0 hits (CONFIRMED verbatim); `ls Instance/` shows no Delta.v, Simplex.v or sSet.v (CONFIRMED). I additionally checked two routes the classifier did not name, both dry: Instance/Shapes.v (Shape/Trie/Vectors, nothing ordinal-indexed and no order-preserving maps) and Instance/Omega.v (the ordinal omega as a thin category with a Type-valued le_t) -- neither is or contains the simplex category, and Instance/FinSet.v:116 builds FinSet with ARBITRARY functions, not monotone maps, so it does not secretly contain Delta either. Parent Proposition 6.5.9 (Lan_y F -| E(F-,e)) independently confirmed absent: Functor/Hom/Yoneda.v carries only Yoneda_Lemma (:133/:134) and the covariant form (:232); Theory/Kan/Extension.v has RightKan/LeftKan + local forms and nothing else. Registration checked: Theory/Kan/Extension.v is _CoqProject:445, Construction/Grothendieck.v is :48 -- the cited files are live, they simply contain no counterpart. NOT-OUT_OF_SCOPE justification in the record is sound (Cat and presheaf categories are in-tree; Delta is an ordinary small category)."
+    }
+  },
+  {
+    "id": "riehl:6.5:exvi",
+    "classification": "ABSENT",
+    "aliases": [
+      "geometric realization |-| : sSet -> Top as a left Kan extension along Yoneda",
+      "total singular complex Sing : Top -> sSet; singular simplicial set; singular homology",
+      "Top, the category of topological spaces and continuous maps",
+      "topological n-simplex |Delta^n| = {(x_0,...,x_n) in R^{n+1} : x_i >= 0, sum x_i = 1}; cosimplicial space Delta -> Top",
+      "nerve-and-realization adjunction |-| -| Sing (Prop 6.5.9 instance)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'geometric realization' --glob '*.v' -- 2 hits, both comments: Theory/Kan/Extension.v:90 ('Geometric realization is the left Kan extension of a cosimplicial space along the Yoneda embedding, the nerve its restricted-Yoneda right adjoint') and Structure/Coend.v:113 ('geometric realization of a simplicial set as a single coend'). Both are background essay; neither file defines any of it.",
+      "rg -i -c 'singular' --glob '*.v' -- 0 hits in the entire tree. There is no Sing functor and no singular complex.",
+      "rg -n -i 'topological|continuous map|open set|open subset|metric space|Sierpinski' --glob '*.v' -- 'continuous map' 0 hits, 'open set'/'open subset' 0 hits, 'topological' 20 hits ALL in background-essay prose (Structure/Group.v:46 'topological groups in Top', Construction/Enriched.v:70 'K = Top', Theory/Universal/Arrow.v:41, Structure/Terminal.v:25,:33, Structure/Initial.v:28, ...). 'metric space' hits are Lawvere-metric ENRICHMENT essays (Construction/Enriched.v, Instance/Two.v, Theory/Profunctor.v), not point-set topology.",
+      "rg -n 'Program Definition Top|Definition Top |Instance Top|Category Top' --glob '*.v' -- 0 hits. `rg -c 'Top'` = 103, but every occurrence is either the Solver's propositional constructor `| Top` (Solver/Expr.v:74, Solver/Denote.v:108, Solver/Normal.v:363, Solver/Reify.v:471...), the word 'top-level' in comments, or the string 'Topos'. There is NO category of topological spaces in the tree.",
+      "ls Instance/ -- no Instance/Top.v and no Instance/Delta.v; both the domain (sSet = Set^{Delta^op}) and the codomain (Top) of the exercise's adjunction are missing. Same simplex-category negative log as riehl:6.5:exv applies verbatim (rg -n -i 'simplex|simplicial|sSet' -- comments only).",
+      "rg -n -i 'Lan.*Yoneda|Yoneda.*Lan|restricted yoneda' --glob '*.v' -- comment-only; the parent Proposition 6.5.9 is itself not formalized, so there is nothing to instantiate.",
+      "NOT OUT_OF_SCOPE: a category of topological spaces (or of locales/formal spaces) is constructible in Coq and the library's setoid framework, and the adjunction is an ordinary Kan-extension statement; the library has simply never built Top."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My commands: `rg -il 'geometric realiz|realization|singular complex|Sing\\b' -tcoq .` -> the 'Sing' pattern matches only the word 'single'/'Single' in prose across ~20 files; the two genuine 'geometric realization' hits are Theory/Kan/Extension.v:90 and Structure/Coend.v:113, both background essay -- matching the record. Re-ran the record's falsifiable checks: `rg -i 'singular' --glob '*.v'` = 0 hits (CONFIRMED verbatim); `rg -n 'Definition Top|Instance Top|Category Top|Program Definition Top' --glob '*.v'` = 0 hits (CONFIRMED); `ls Instance/` has no Top.v (CONFIRMED). My own `rg -in 'topolog' -tcoq .` returns 20 hits and every one is essay prose (Structure/Group.v:46 'topological groups in Top', Construction/Enriched.v:70 'K = Top', Structure/Terminal.v:25,:33, Structure/Pullback.v:103-108, Karoubi.v:49,:79, Frobenius.v:43 ...) -- there is no category of spaces, so BOTH the domain sSet and the codomain Top of the exercise's adjunction are unnameable in-tree. Same Delta-negative log as exv applies. OUT_OF_SCOPE correctly declined: Top (or a locale/formal-space surrogate) is constructible over the setoid framework and the claim is an ordinary Kan-extension statement."
+    }
+  },
+  {
+    "id": "riehl:6.5:exvii",
+    "classification": "ABSENT",
+    "aliases": [
+      "category of elements of a presheaf: el(X), integral X, int X; Grothendieck construction applied to a Sets-valued functor",
+      "canonical functor y/X : el(X) -> Set^{C^op}/X; comma category y/X",
+      "slice of a presheaf category, Set^{C^op}/X; over-category of presheaves",
+      "Lemma 4.5.9 equivalence Set^{C^op}/X ~= Set^{(el X)^op}; fundamental theorem of presheaf toposes; slices of presheaf toposes are presheaf toposes",
+      "discrete opfibration / discrete fibration over C classified by a (co)presheaf"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'category of elements' --glob '*.v' -- exactly 1 hit, and it is a COMMENT: Construction/Grothendieck.v:108, 'Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F), whose projection is a discrete opfibration'. That paragraph describes what the construction WOULD give; no such restriction is carried out anywhere. rg -i 'discrete opfibration' -- 1 hit, the same comment.",
+      "rg -n 'IndexedCat' --glob '*.v' | grep -i 'Sets|Discrete|presheaf|Constant' -- the only concrete IndexedCat in the tree is Constant_IndexedCat (Construction/Grothendieck/Strict.v:264), the CONSTANT family, whose total category is B x D (Grothendieck_Constant_iso, :356). There is no functor Sets -> Cat (checked Instance/Discrete.v: it has only DiscreteCat (:37) on a bare Type and DiscreteCat_Functor (:52), never assembled into Sets ==> Cat), hence no way in-tree to feed a presheaf X : C^op -> Sets to the Grothendieck construction.",
+      "rg -n -i 'Elements' --glob '*.v' -- remaining hits are Structure/Constant.v (GLOBAL elements I ~> x), Structure/UniversalProperty.v:67 (universal ELEMENT form of representability -- a different notion: the representing pair, not the category el(X)), Lib/FMapExt.v / Theory/Metacategory.v (FMap.elements, finite-map plumbing). None defines el(X).",
+      "rg -n 'Theorem|Lemma|Definition|Program' Construction/Slice.v -- Slice is generic only: 'Program Definition Slice `(C : Category) `(c : C) : Category' (:123), Comma_Slice (:140), Coslice (:169), Comma_Coslice (:181). Slice of a presheaf category is expressible (Slice ([C^op,Sets]) X) but is never instantiated. rg -n 'Slice.*Presheaves|Presheaves.*Slice|Slice \\(\\[' --glob '*.v' -- 0 hits.",
+      "rg -n -i 'Slice' --glob '*.v' -l plus rg -n -i 'slice' Structure/Topos.v -- the only slice THEOREM cited is the fundamental theorem of topos theory (a slice of a topos is a topos), named in a Structure/Topos.v:95-96 comment, not the presheaf-slice equivalence of Lemma 4.5.9. No file states Set^{C^op}/X ~= Set^{(el X)^op}.",
+      "Nearest in-tree relative, and why it is NOT this item: fiber_grothendieck_equiv (Construction/Grothendieck/Fiber.v:269) is the equivalence between the FIBRE of the Grothendieck total category over a base object and the indexed category at that object -- a fibrewise statement over an IndexedCat, with no presheaf, no slice of a functor category, and no Yoneda. It is a different theorem, not a weaker form of Lemma 4.5.9.",
+      "rg -n -i 'Lan.*Yoneda|Yoneda.*Lan' --glob '*.v' -- comment-only; Proposition 6.5.9, which this exercise instantiates, is itself absent (Functor/Hom/Yoneda.v carries only Yoneda_Lemma:133 and Covariant_Yoneda_Lemma:182).",
+      "NOT OUT_OF_SCOPE: the library is universe-polymorphic and already has Grothendieck/displayed machinery, generic slices, and presheaf categories, so el(X) and the slice equivalence are formalizable here; they are simply unbuilt."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My commands: `rg -in 'category of elements' -tcoq .` -> exactly 1 hit and it is a COMMENT, Construction/Grothendieck.v:108-110 ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F), whose projection is a discrete opfibration') -- I read lines 100-125 in full and confirm the restriction is narrated, never carried out; `rg -in 'discrete opfibration' -tcoq .` -> the same single comment; `find . -iname '*element*'` -> no file. Verified every cited location: Construction/Slice.v really is generic only (Slice :123, Comma_Slice :140, Coslice :169, Comma_Coslice :181 -- I listed ALL top-level statements in the file and there are exactly those six, two of them Notations), Instance/Discrete.v:37 DiscreteCat / :52 DiscreteCat_Functor confirmed, Construction/Grothendieck/Strict.v:264 Constant_IndexedCat and :355-356 Grothendieck_Constant_iso confirmed, Construction/Grothendieck/Fiber.v:269 fiber_grothendieck_equiv confirmed (and I agree it is a fibrewise statement, not Lemma 4.5.9). One citation nit, not affecting the verdict: the log cites the fundamental-theorem-of-topos-theory comment as 'Structure/Topos.v:95-96'; the sentence actually begins at Structure/Topos.v:95 and runs to :98. No statement anywhere asserts Set^{C^op}/X = Set^{(el X)^op}: my `rg -n 'Slice.*Presheaves|Presheaves.*Slice'` = 0 hits. NOT-OUT_OF_SCOPE justification sound."
+    }
+  },
+  {
+    "id": "riehl:6.5:exviii",
+    "classification": "ABSENT",
+    "aliases": [
+      "codensity monad T = Ran_G G; right Kan extension of a functor along itself",
+      "codensity triple (T, eta, mu) and the monad axioms mu . T mu = mu . mu T, mu . eta T = id = mu . T eta",
+      "monad structure induced by a Kan extension; Mac Lane Exercise X.7.3",
+      "unit/multiplication defined by the universal property of the counit epsilon : TG => G (unique factorization of id_G, and of the epsilon-epsilon pasting)",
+      "codense functor (codensity monad trivial); Ran G G ~= Id"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'codensity' --glob '*.v' -- 7 hits, ALL of them prose inside the background essay of Theory/Kan/Extension.v (lines 35 nLab URL, 39 Leinster 'Codensity and the ultrafilter monad', 83-85 'The right Kan extension of a functor G along itself is always a monad -- the codensity monad, Mac Lane's Exercise X.7.3', 103, 105, 108 Kmett's package). Not one is a Definition, Class, Record, Lemma or Theorem: the essay ANNOUNCES the concept the exercise asks for and the tree never builds it.",
+      "rg -n -i 'Ran_G|along itself|self.*Kan|Kan.*self' --glob '*.v' -- 0 hits. There is no right Kan extension of a functor along itself anywhere.",
+      "rg -n 'Ran |Lan |RightKan|LeftKan|LocalRan|LocalLan' --glob '*.v' -- the entire Kan vocabulary lives in two files. Theory/Kan/Extension.v declares 'Class RightKan := { Ran : [A,C] ⟶ [B,C]; ran_adjoint : Induced ⊣ Ran }' (:140-146), 'Class LocalRightKan (X : A ⟶ C) := { LocalRan; ran_transform : LocalRan ◯ F ⟹ X; ump_ran ... }' (:154-163) and their left duals. Structure/Limit/Kan/Extension.v is the ONLY consumer: 'Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt' (:46-47). Nothing anywhere applies Ran to the functor it is taken along, and nothing derives a monad from a Kan extension.",
+      "rg -n -i 'monad.*Kan|Kan.*monad|monad from' --glob '*.v' -- comment hits only (Theory/Kan/Extension.v essay). The Monad class itself exists (Theory/Monad.v) and its axioms are its fields, but that is the TARGET vocabulary, not the claim: no triple built from Ran_G G is ever presented to it.",
+      "rg -n -i 'codense' --glob '*.v' -- 1 hit, Theory/Kan/Extension.v:85, inside the same comment ('measuring how far G is from being codense'). No codense predicate.",
+      "rg -n -i 'ultrafilter' --glob '*.v' -- 3 hits, all comments (Theory/Monad.v:65, Theory/Kan/Extension.v:39,:86), confirming the codensity examples are likewise only narrated.",
+      "NOT OUT_OF_SCOPE: RightKan/LocalRightKan are in-tree and `Ran G G` typechecks in the existing vocabulary (Ran (F:=G) : [D,C] ⟶ [C,C] applied to G), and Theory/Monad.v supplies the axioms to be verified -- the construction and its verification simply do not exist."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My command `rg -in 'codensity' -tcoq .` returns exactly 7 hits, ALL inside the background essay of Theory/Kan/Extension.v (:35 nLab URL, :39 Leinster, :83-85 'The right Kan extension of a functor G along itself is always a monad -- the codensity monad, Mac Lane's Exercise X.7.3', :103, :105, :108) -- reproducing the record's count exactly; `rg -in 'codense'` -> 1 hit, the same essay at :85. I then READ Theory/Kan/Extension.v end to end (439 lines) rather than grepping it: the file's entire mathematical content is Induced (:127), Class RightKan (:140-146), Class LocalRightKan (:154-163), RightKan_to_LocalRightKan (:180), Class LeftKan (:222-226), Class LocalLeftKan (:234-243), LeftKan_to_LocalLeftKan (:249), preserves_left_Kan (:307), preserves_right_Kan (:313), Theorem left_adjoint_impl (:328, Qed) and the ABORTED left_adjoints_preserve (:386-438). There is no unit, no multiplication, no monad built from any Kan extension, and nothing applies Ran to the functor it is taken along. Structure/Limit/Kan/Extension.v:46-47 (Kan_Limit) is confirmed as the ONLY consumer of the Ran vocabulary in the whole tree (`rg -n 'RightKan|LeftKan|LocalRan|LocalLan' -tcoq .` outside Theory/Kan/Extension.v = that one line). Quoted class text in the record matches the source verbatim. NOT-OUT_OF_SCOPE justification sound: `Ran G G` does typecheck in the existing vocabulary and Theory/Monad.v supplies the axioms."
+    }
+  },
+  {
+    "id": "riehl:6.5:exix",
+    "classification": "ABSENT",
+    "aliases": [
+      "codensity monad of a right adjoint equals the induced monad: Ran_G G ~= G F for F -| G",
+      "existence of Ran_G G when G has a left adjoint (a right adjoint's codensity monad always exists)",
+      "monad induced by an adjunction: Adjunction_Monad / Adjunction_Induced_Monad, endofunctor U ◯ F",
+      "Kan extension computed by an adjoint: left adjoint preserves / right Kan extension along a right adjoint is precomposition with the left adjoint",
+      "Riehl Prop 6.5.2 companion: adjunctions as (absolute) Kan extensions"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'codensity' --glob '*.v' -- 7 hits, all inside the Theory/Kan/Extension.v background essay (lines 35, 39, 83, 85, 103, 105, 108); no Definition/Lemma/Theorem. rg -n -i 'Ran_G|along itself' -- 0 hits. The left-hand side of the exercise's identification does not exist in any form.",
+      "rg -n 'Ran |RightKan|LocalRan' --glob '*.v' -- the only assertions using Ran are Theory/Kan/Extension.v's class fields (RightKan :140, ran_adjoint :145, LocalRightKan/ump_ran :154-163) and Structure/Limit/Kan/Extension.v:46 'Theorem Kan_Limit ... : Lim ≅ Ran (Erase J) F ttt'. No statement instantiates the extension-along functor at the functor being extended, and no statement relates any Ran to an adjunction-induced monad.",
+      "NEAR MISS, deliberately NOT counted as evidence (it asserts the identification's target, never the identification): Monad/Adjunction.v:48 'Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F).' and Monad/Comparison.v:123 'Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) := @Build_Monad D (U ◯ F) (fun x => unit x) (fun x => fmap[U] (counit (F x))) ...'. These give the monad U ◯ F induced by an adjunction -- Riehl's right-hand side -- but nothing in the tree says that monad IS Ran_G G, nor that Ran_G G exists for a right adjoint. The whole content of the exercise is that identification, so this is ABSENT, not PARTIAL: no in-tree assertion bears on the claim.",
+      "SECOND NEAR MISS, also not evidence: Theory/Kan/Extension.v:328-331 'Theorem left_adjoint_impl `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R -> ∀ {E} (G : E ⟶ C) (H : E ⟶ D), [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H)' -- the functor-category hom-iso (Riehl's Prop 4.3.1 ingredient used to prove 6.5.2/6.5.9). It is a hom-set isomorphism, not a statement about Ran_G G. The adjacent 'Theorem left_adjoints_preserve' (:386) is ABORTED (three `admit`s, closed with `Abort`, so it is not in the environment at all).",
+      "rg -n -i 'monad.*Kan|Kan.*monad|Ran.*monad|monad.*Ran' --glob '*.v' -- comment hits only, all in the same Theory/Kan/Extension.v essay.",
+      "NOT OUT_OF_SCOPE: everything needed is in-tree vocabulary (RightKan/Ran, F ⊣ U, Monad, Adjunction_Monad); only the theorem is missing."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: I independently found the same two-sided situation -- the induced monad exists in-tree, the codensity side does not -- and I considered PARTIAL before settling, like the classifier, on ABSENT, because the exercise's entire content is the IDENTIFICATION Ran_G G = GF and no in-tree assertion bears on it (the library has no Ran_G G to identify with anything, and no theorem producing a RightKan/LocalRightKan instance from an adjunction: `rg -n 'RightKan|LocalRightKan' -tcoq .` finds no instance outside the class declarations and Kan_Limit's hypothesis). The record's decision to log both near misses as explicitly NOT evidence is the honest call and I confirm both quotes verbatim: Monad/Adjunction.v:48 'Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F).' (exact, line 48) and Monad/Comparison.v:123 'Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) := @Build_Monad D (U ◯ F) (fun x => unit x) (fun x => fmap[U] (counit (F x))) ...' (exact, ret = eta and join = U eps F at :124-125; _CoqProject:257 so the file is registered). Theory/Kan/Extension.v:328-331 left_adjoint_impl quoted exactly, and I confirm left_adjoints_preserve at :386 is genuinely Aborted -- `grep -n 'admit\\.'` gives exactly three (:433, :435, :437) and :438 is `Abort.`, so it is not in the environment, exactly as both the record and the file's own :376-384 disclosure say. Verdict CONFIRMED; a reader who prefers PARTIAL here would be reading the presence of the identification's right-hand side as partial coverage of the identification itself, which the frozen definition does not support."
+    }
+  }
+]

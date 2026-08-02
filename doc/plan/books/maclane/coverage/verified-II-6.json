@@ -1,0 +1,398 @@
+[
+  {
+    "id": "maclane:II.7:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "graph morphism",
+      "category Grph",
+      "Quiver",
+      "QuiverHomomorphism",
+      "Quiv",
+      "directed multigraph",
+      "diagram scheme",
+      "precategory"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 54,
+        "symbol": "Quiver",
+        "intree_statement": "Class Quiver@{o h p} := { nodes : Type@{o}; uedges := Type@{h} : Type@{h+1}; edges : nodes → nodes → uedges; edgeset : ∀ X Y, Setoid@{h p} (edges X Y) }"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 205,
+        "symbol": "QuiverHomomorphism",
+        "intree_statement": "Class QuiverHomomorphism (G : Quiver) (G' : Quiver) := { fnodes : @nodes G -> @nodes G'; fedgemap : ∀ x y : @nodes G, edges x y -> edges (fnodes x) (fnodes y); fedgemap_respects : ∀ x y, Proper (respectful equiv equiv) (@fedgemap x y) }"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 358,
+        "symbol": "QuiverCategory",
+        "intree_statement": "#[export] Instance QuiverCategory : Category. ... Build_Category' QuiverHomomorphism QuiverId (fun Q1 Q2 Q3 F G => @QuiverComp Q1 Q2 Q3 G F) — header: 'Quivers and their homomorphisms form the category [QuiverCategory] (the Quiv of the literature)'"
+      }
+    ],
+    "statement_record": {
+      "book": "A morphism of directed graphs G -> G' is a pair of functions on objects and on arrows commuting with domain and codomain; with the evident composition, small graphs and these morphisms form the category Grph.",
+      "intree": "QuiverHomomorphism (fnodes on nodes, fedgemap on endpoint-indexed edges, respecting the edge setoids) with QuiverId/QuiverComp assembling the category QuiverCategory; morphism equivalence is pointwise node equality plus transported edge ≈ (QuiverHomomorphismEquivalence).",
+      "strength_comparison": "same — up to presentation: edges are indexed by their endpoints, so preservation of dom/cod is automatic from typing rather than an equation (equivalent to Mac Lane's two-sorted graphs, fiberwise vs total encoding); intree-stronger in one respect: edge sets carry setoids (Mac Lane's plain-set graphs are the special case Build_Quiver_Standard_Eq, line 194); smallness is handled by universe polymorphism rather than a fixed set theory."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found identical evidence (Quiver l.54, QuiverHomomorphism l.205, QuiverCategory l.358 in Construction/Free/Quiver.v, registered in _CoqProject l.72). Quotes verbatim-accurate; endpoint-indexed/setoid-edge/universe-polymorphism disclosures honest."
+    }
+  },
+  {
+    "id": "maclane:II.7:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "forgetful functor Cat -> Grph",
+      "underlying graph",
+      "underlying quiver",
+      "Forgetful",
+      "QuiverOfCat",
+      "U : Cat -> Quiv"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 398,
+        "symbol": "QuiverOfCat",
+        "intree_statement": "Program Definition QuiverOfCat (C : Category@{o h p}) : Quiver@{o h p} := {| nodes := obj; edges := hom |}"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 404,
+        "symbol": "QuiverHomomorphismOfFunctor",
+        "intree_statement": "Program Definition QuiverHomomorphismOfFunctor (C D : Category) (F : @Functor C D) : (QuiverOfCat C) ⇨ (QuiverOfCat D) — fnodes := fobj, fedgemap := fmap"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 412,
+        "symbol": "Forgetful",
+        "intree_statement": "Definition Forgetful : @Functor StrictCat QuiverCategory"
+      },
+      {
+        "file": "Test/Issue138.v",
+        "line": 48,
+        "symbol": "A138_nodes",
+        "intree_statement": "Example A138_nodes (C : Category) : @nodes (Forgetful C) = obj[C] := eq_refl.  (and A138_edges: @edges (Forgetful C) x y = (x ~> y) := eq_refl)"
+      }
+    ],
+    "statement_record": {
+      "book": "Every category has an underlying graph (same objects and arrows, forgetting composites and identities) and every functor gives a graph morphism; this defines the forgetful functor U : Cat -> Grph on small categories.",
+      "intree": "QuiverOfCat sends a category to the quiver with nodes := obj, edges := hom; QuiverHomomorphismOfFunctor sends a functor to the graph morphism (fobj, fmap); Forgetful : StrictCat ⟶ QuiverCategory packages both as a functor, with computational behaviour pinned by eq_refl in Test/Issue138.v.",
+      "strength_comparison": "same — with one deliberate presentational choice: the domain is StrictCat (functors compared by strict equality), not the library's weak Cat (functors up to natural isomorphism), because a category's underlying quiver is not invariant under natural isomorphism (Fail-checked in Test/Issue138.v:75-76). Mac Lane's Cat, whose functors are compared on the nose, corresponds exactly to StrictCat here."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified QuiverOfCat l.398, QuiverHomomorphismOfFunctor l.404, Forgetful l.412; A138_nodes eq_refl confirmed verbatim at Test/Issue138.v:48 (file registered, _CoqProject l.481) along with the Fail Checks at l.75-76 locking the StrictCat domain. StrictCat = strict functor equality (Functor_StrictEq_Setoid, Instance/StrictCat.v:59) matches Mac Lane's on-the-nose Cat; disclosure honest."
+    }
+  },
+  {
+    "id": "maclane:II.7:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "O-graph",
+      "graph with fixed object set",
+      "identity-on-objects graph morphism",
+      "O-Grph",
+      "trivial O-graph",
+      "graph over a set of vertices"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'O-graph|OGraph|ograph' over all *.v — 0 relevant hits (only incidental words: 'monograph', 'holographically', 'Lexicographic')",
+      "rg -n -i 'identity.on.objects|identity_on_objects' over all *.v — hits only concern identity-on-objects FUNCTORS (Freyd categories, Kleisli, CoKleisli); nothing about graph morphisms with fixed node set",
+      "Read Construction/Free/Quiver.v in full: the Quiver class has a nodes field, but there is no fixed-O subcategory of QuiverCategory, no class of node-identity quiver homomorphisms, and no trivial O-graph (arrow set O with dom = cod = id); QuiverHomomorphismEquivalence permits arbitrary node maps compared pointwise",
+      "rg -l -i 'graph' over all *.v and inspected candidates (Construction/Free/Quiver.v, Construction/Free.v, Lib/NETList.v, Lib/TList.v, Theory/Metacategory.v, Theory/Metacategory/ArrowsOnly.v, the Hypergraph files — the latter are hypergraph CATEGORIES, an unrelated concept) — none define O-graphs or the category O-Grph"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently found no counterpart: rg -i 'O-graph' 0 relevant hits; 'identity on objects' hits are Kleisli/Freyd functors only; read Construction/Free/Quiver.v in full - no fixed-O subcategory, no node-identity morphism class, no trivial O-graph. Negative log reproduces."
+    }
+  },
+  {
+    "id": "maclane:II.7:def3",
+    "classification": "ABSENT",
+    "aliases": [
+      "product over O",
+      "A x_O B",
+      "composable pairs graph",
+      "pullback of graphs over the object set",
+      "span composition over O",
+      "fibered product of graphs"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'x_O|×_O|product over|prod_over|graph product' over all *.v — no hits for a product of graphs over a fixed object set",
+      "rg -n -i 'composable' over all *.v — hits are (a) Lib/TList.v and Lib/NETList.v composable PATHS (iterated type-aligned chains, i.e. the morphisms of the free category, not the binary O-graph product as a graph), and (b) Theory/Metacategory/ArrowsOnly.v composable_pairs (an FMap encoding of a partial composition for finite arrows-only metacategories per Mac Lane I.1 — a different item's content); neither builds A ×_O B as an O-graph, nor the associativity iso A ×_O (B ×_O C) ≅ (A ×_O B) ×_O C, nor the unit isos A ≅ A ×_O O ≅ O ×_O A",
+      "Structure/Span.v defines Span C := Roof ⟶ C (a span as a functor) with no pullback composition of spans; Construction/Cospan/Category.v CospanCat composes cospans by pushout in a general category with chosen pushouts — the dual shape in a different setting, not graphs over a fixed O",
+      "rg -n -i 'Span' — no bicategory/category of spans over Set with pullback composition (the standard modern home of ×_O) exists in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: 'composable pair' hits only Lib/TList.v paths and the Metacategory development. Verified composable_pairs IS a literal symbol (Theory/Metacategory/ArrowsOnly.v:340) but it enumerates the partial-composition table of an arrows-only metacategory (Mac Lane I.1 content), not the O-graph product A x_O B; Span C := Roof ⟶ C (Structure/Span.v:27) with no pullback composition, as the log states."
+    }
+  },
+  {
+    "id": "maclane:II.7:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "category as monoid in O-graphs",
+      "monoid in Span",
+      "monad in the bicategory of spans",
+      "internal category",
+      "category as monoid object"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'monoid.*(graph|quiver|span)|(graph|quiver|span).*monoid' over all *.v — no formal statement identifying categories with monoids in O-Grph (hits are hypergraph-category and gs-monoidal prose, unrelated)",
+      "rg -n -i 'internal categor' over all *.v — no internal-category definition in-tree",
+      "The monoid-in-a-monoidal-category PATTERN is fully in-tree (Theory/Algebra/Monoid.v Monoid mu/eta; Structure/Monoid.v MonoidObject; Monad = monoid in endofunctors, Monad/Monoid.v Monoid_Monad; strict premonoidal category = monoid in (StrictCat, □), Instance/StrictCat/Premonoid.v), but the specific instantiation needs the ×_O monoidal(-like) structure on O-graphs, which is absent (see maclane:II.7:def3), and the identification 'category with object set O = O-graph A with c : A ×_O A -> A, i : O -> A satisfying the monoid diagrams' is nowhere stated",
+      "Construction/Free.v:76 cites the adjacent fact 'categories are exactly the algebras for the paths monad on graphs (Leinster, Theorem 6.5.2)' in a comment only — explicitly prose, not formalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: monoid-in-monoidal-category pattern present (Theory/Algebra/Monoid.v, Structure/Monoid.v, Instance/StrictCat/Premonoid.v monoid in (StrictCat, box)), Metacategory.v/FromArrows is the nearest neighbor but is the I.1 arrows-only axiomatization, not the monoid-in-O-Grph identification; no internal-category definition in-tree ('internal categor' hits are prose in Construction/Enriched.v). ABSENT is correct under the frozen definitions since the item's distinctive content (x_O monoidal structure + category = monoid object therein) has no counterpart."
+    }
+  },
+  {
+    "id": "maclane:II.7:construction2",
+    "classification": "PRESENT",
+    "aliases": [
+      "free category on a graph",
+      "path category",
+      "FreeOnQuiver",
+      "paths / strings of composable arrows",
+      "tlist",
+      "free category generated by a quiver"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 431,
+        "symbol": "FreeOnQuiver",
+        "intree_statement": "Program Definition FreeOnQuiver : Category@{o h p} := {| obj := @nodes G; hom := tlist edges; homset := ... tlist_quiver_equiv ...; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |}"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 507,
+        "symbol": "UnitQuiverCatAdjunction",
+        "intree_statement": "Definition UnitQuiverCatAdjunction : QuiverHomomorphism G (QuiverOfCat (FreeOnQuiver)) — fnodes := id, fedgemap := fun x y f => tlist_singleton f (Mac Lane's canonical P : G -> U C sending an edge to its one-edge path)"
+      },
+      {
+        "file": "Construction/Free.v",
+        "line": 118,
+        "symbol": "Free",
+        "intree_statement": "Program Definition Free : Category := {| obj := C; hom := tlist hom; homset := fun _ _ => {| equiv := eq |}; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |} — the path category on the underlying quiver of a category C, with FreeFunctor : Free ⟶ C evaluating paths"
+      },
+      {
+        "file": "Construction/Free.v",
+        "line": 253,
+        "symbol": "FreeSyntax",
+        "intree_statement": "Program Definition FreeSyntax : Category := {| obj := C; hom := Mor; ... |} — the alternative syntactic presentation (Ident/Morph/Comp) proven an adjoint equivalence with Free (ForgetSyntax_CanonicalMap, line 301)"
+      }
+    ],
+    "statement_record": {
+      "book": "Any (O-)graph G generates the free category C(G) on the same objects: arrows b -> a are finite strings/paths of composable arrows of G, composition is concatenation (manifestly associative), length-one strings are the identities, and P : G -> UC sends each arrow to its length-two string.",
+      "intree": "FreeOnQuiver: objects the quiver's nodes, morphisms the type-aligned paths tlist edges, identity the empty path tnil, composition path concatenation g +++ f, with associativity/unit laws the tlist_app laws; the canonical graph morphism is UnitQuiverCatAdjunction via tlist_singleton.",
+      "strength_comparison": "same — Mac Lane's alternating strings ⟨a1,f1,...,an⟩ with length-one strings as identities correspond to endpoint-indexed tlist paths with tnil as identity (his length-two string ⟨a1,f,a2⟩ is the singleton path); intree-stronger in two respects: edges may carry a nontrivial setoid (paths are then compared by the transported pointwise equivalence tlist_quiver_equiv), and a second, syntactic presentation (FreeSyntax, in both files) is proven equivalent, capturing his 'factors as a composite of length-two strings' display (5) as normalization-by-evaluation."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found identical evidence: FreeOnQuiver l.431 (tlist paths, tnil id, +++ composition), UnitQuiverCatAdjunction l.507 (tlist_singleton = Mac Lane's P), Free l.118 and FreeSyntax l.253 / ForgetSyntax_CanonicalMap l.301 in Construction/Free.v. Quotes accurate; strings-vs-tlist and length-one-vs-empty-path identity presentation differences correctly disclosed."
+    }
+  },
+  {
+    "id": "maclane:II.7:thm1",
+    "classification": "PRESENT",
+    "aliases": [
+      "universal property of the free category",
+      "Free ⊣ Forgetful",
+      "free-forgetful adjunction Cat/Grph",
+      "UniversalArrowQuiverCat",
+      "FreeForgetfulAdjunction",
+      "unique functor extending a graph morphism"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful — built by universal_arrow_from_UMP from FreeOnQuiver, UnitQuiverCatAdjunction, and for every C and F : QuiverHomomorphism G (QuiverOfCat C) the factorization (InducedFunctor F) with its uniqueness proof"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 464,
+        "symbol": "InducedFunctor",
+        "intree_statement": "Definition InducedFunctor {C : Category} (F : QuiverHomomorphism G (QuiverOfCat C)) : @Functor (FreeOnQuiver) C — existence half: the unique functor D' with U D' ∘ P = D, folding a path to its composite image"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ (with FreeCatFunctor : @Functor QuiverCategory StrictCat, line 546)"
+      }
+    ],
+    "statement_record": {
+      "book": "Theorem 1: for any small graph G there is a category C and a graph morphism P : G -> UC such that any graph morphism D : G -> UB into (the underlying graph of) any category B factors as U D' ∘ P = D for a UNIQUE functor D' : C -> B; if D is an O-graph morphism then D' is the identity on objects.",
+      "intree": "UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful — for every category C and quiver homomorphism F : G ⇨ U C, InducedFunctor F factors F through the unit up to StrictCat equality, uniquely; packaged further as FreeForgetfulAdjunction : FreeCatFunctor ⊣ Forgetful.",
+      "strength_comparison": "intree-stronger: beyond the per-graph universal arrow of Theorem 1, the tree assembles the natural left-adjoint functor and the full adjunction (which Mac Lane defers to Chapter IV), over universe-polymorphic quivers with setoid edges (the small plain-set case is an instance). Uniqueness of D' is up to StrictCat's strict functor equality — pointwise node equality plus transported morphism equivalence — the faithful setoid rendering of Mac Lane's on-the-nose equality of functors. The identity-on-objects tail is definitional: InducedFunctor's object map IS D's node map, so it is the identity when D's is."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified UniversalArrowQuiverCat l.518 built by universal_arrow_from_UMP with InducedFunctor l.464 (existence) and the uniqueness obligation discharged in-line; FreeCatFunctor l.546, FreeForgetfulAdjunction l.550. Checked the two strength claims: StrictCat compares functors by Functor_StrictEq_Setoid (pointwise node equality + transported morphism equivalence), and InducedFunctor's fobj is definitionally the quiver morphism's fnodes, so the identity-on-objects tail holds definitionally. intree-stronger claim (full adjunction assembled) is accurate."
+    }
+  },
+  {
+    "id": "maclane:II.7:remark2",
+    "classification": "PRESENT",
+    "aliases": [
+      "universal arrow",
+      "initial object of the comma category (G ↓ U)",
+      "UniversalArrow",
+      "comma-initial",
+      "couniversal / universal among morphisms from G to U"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 127,
+        "symbol": "UniversalArrow",
+        "intree_statement": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); arrow_obj := ...; arrow : c ~> F arrow_obj := ... } — the universal property packaged AS initiality in the comma category"
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 139,
+        "symbol": "ump_universal_arrows",
+        "intree_statement": "Corollary ump_universal_arrows `(c ⟿ F) `(h : c ~> F d) : ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow — initiality implies the UMP"
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 158,
+        "symbol": "universal_arrow_from_UMP",
+        "intree_statement": "Definition universal_arrow_from_UMP (c : C) (F : D ⟶ C) (d : D) (η : c ~> fobj[F] d) (u : ∀ d' f, ∃! g : d ~> d', f ≈ fmap[F] g ∘ η) : UniversalArrow c F — the UMP reconstructs the comma-initial object"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful — i.e. P : G -> U(C_G) IS an initial object of the comma category (G ↓ Forgetful), exactly the remark's reformulation instantiated at the free category"
+      }
+    ],
+    "statement_record": {
+      "book": "The property of P stated in Theorem 1 says exactly that P : G -> UC is an initial object of the comma category (G ↓ U); hence P (and C) is unique up to isomorphism. This 'universal among morphisms from G to U' phrasing will recur.",
+      "intree": "UniversalArrow is DEFINED as an initial object of the comma =(c) ↓ F, with ump_universal_arrows and universal_arrow_from_UMP proving the two directions of 'UMP ⟺ comma-initial'; the free-category case is the instance UniversalArrowQuiverCat.",
+      "strength_comparison": "same — the equivalence of the Theorem-1 property with comma-initiality is formalized in both directions and instantiated for the free category. One tail is presentational: the consequence 'unique up to isomorphism' is invoked in the file header as the generic initial-object argument ('uniqueness up to unique isomorphism is the generic initial-object argument rather than a lemma re-proved per concept') but no named in-tree lemma states 'any two initial objects are uniquely isomorphic' as a standalone result."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed the strongest possible match: the in-tree UniversalArrow class (Theory/Universal/Arrow.v:127, registered _CoqProject l.475) is DEFINED as arrow_initial : @Initial (=(c) ↓ F), with ump_universal_arrows l.139 and universal_arrow_from_UMP l.158 giving both directions of the remark's equivalence, instantiated at the free category by UniversalArrowQuiverCat. Also verified the record's honesty caveat: no named standalone 'initial objects are uniquely isomorphic' lemma exists (only zero_unique in Structure/Initial.v plus header prose)."
+    }
+  },
+  {
+    "id": "maclane:II.7:remark3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "examples of free categories",
+      "free monoid on one generator as one-object category",
+      "free category on the loop graph",
+      "walking arrow as free category",
+      "commutative triangle as free category"
+    ],
+    "evidence": [
+      {
+        "file": "Test/Issue138.v",
+        "line": 87,
+        "symbol": "B138_loop",
+        "intree_statement": "Definition B138_loop : Quiver := Build_Quiver_Standard_Eq Datatypes.unit (fun _ _ => Datatypes.unit). Check (FreeOnQuiver B138_loop : Category). Example B138_free_loop_nodes : obj[FreeOnQuiver B138_loop] = Datatypes.unit := eq_refl — the free category on the one-node one-loop graph, Mac Lane's first example, constructed concretely"
+      },
+      {
+        "file": "Construction/Funny/Comparison.v",
+        "line": 81,
+        "symbol": "ListMon",
+        "intree_statement": "Program Definition ListMon : Category := {| obj := poly_unit; hom := fun _ _ => list bool; id := fun _ => nil; compose := fun _ _ _ u v => (v ++ u)%list |} — header: 'The free monoid on [bool], as a one-object category: morphisms are lists of booleans, composition is concatenation' (the free-monoid-as-one-object-category shape, on two generators, built directly)"
+      }
+    ],
+    "statement_record": {
+      "book": "Worked examples: the free category on the one-object one-arrow graph has arrows 1, f, f^2, ... (the free monoid on one generator); on a single arrow with distinct endpoints it is that arrow plus two identities (the walking arrow); on the graph . -> . -> . it is the commutative triangle (two generators, one composite, three identities).",
+      "intree": "The first example's carrier exists concretely: FreeOnQuiver B138_loop (Test/Issue138.v), whose morphisms are tlists over a unit edge type, i.e. formal powers of the loop; ListMon (Construction/Funny/Comparison.v) exhibits the free-monoid-as-one-object-category shape with explicit list morphisms.",
+      "strength_comparison": "intree-weaker: the loop example is constructed but only its OBJECT set is computed by eq_refl — no in-tree lemma identifies its endomorphism monoid with the free monoid {1, f, f^2, ...} (e.g. an iso with (ℕ,+,0) or with lists over a singleton); the second and third examples (walking arrow, commutative triangle) are never computed as free categories at all (walking-arrow-like categories such as _2/Two exist in-tree but are defined directly, not derived via FreeOnQuiver)."
+    },
+    "gap": "No identification of hom(⋆,⋆) in FreeOnQuiver B138_loop with the free monoid on one generator; no free-category computation for the single-arrow graph (walking arrow 2) or for the graph ∙→∙→∙ (commutative triangle). Only the first example's construction (not its characterization) is in-tree.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified both witnesses: B138_loop + FreeOnQuiver checks at Test/Issue138.v:87-96 (object set by eq_refl only) and ListMon at Construction/Funny/Comparison.v:81 (free monoid on bool as one-object category, built directly, not via FreeOnQuiver). Blind search found nothing further - walking arrow and commutative triangle are never derived as free categories (Instance/Two.v etc. are hand-built). Gap statement precise; PARTIAL is right."
+    }
+  },
+  {
+    "id": "maclane:II.7:cor2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free monoid on a set",
+      "universal property of the free monoid",
+      "list monoid UMP",
+      "left adjoint to the underlying-set functor from monoids",
+      "strings/words over X"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful — the general Theorem 1 (from which Mac Lane derives Corollary 2 by taking O a one-point set) is fully in-tree"
+      },
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 111,
+        "symbol": "list_initial",
+        "intree_statement": "Program Definition list_initial (A : Type) : @Initial (FAlg (ListF A)) := {| terminal_obj := (list A; alg A); one := fun y => list_alg_hom A y |} — lists with the unique fold, a sibling universal property (initial algebra of 1 + A×X), axiom-free"
+      },
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 83,
+        "symbol": "Mon",
+        "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; ... |} with Mon_Forget : Mon ⟶ C (line 93, faithful — Mon_Forget_Faithful, line 101) — the ambient vocabulary of monoids and monoid homomorphisms, internal to any monoidal C"
+      }
+    ],
+    "statement_record": {
+      "book": "Corollary 2: for any set X there is a monoid M (the finite strings over X, with the empty string as unit) and a function p : X -> UM such that any function h : X -> UL into (the underlying set of) any monoid L factors as h = U h' ∘ p for a unique monoid morphism h' : M -> L; obtained from Theorem 1 with O a one-point set.",
+      "intree": "The generating theorem is present in full (FreeForgetfulAdjunction / UniversalArrowQuiverCat); lists carry the closely related initial-ListF-algebra property (list_initial); monoid homomorphisms and the category Mon(C) with its faithful forgetful functor exist (Theory/Algebra/Monoid/Hom.v); lists-as-free-monoid is asserted in prose (Theory/Coq/List/Proofs.v:21, Theory/Coq/Foldable.v:30) and ListMon (Construction/Funny/Comparison.v:81) realizes the free monoid on bool as a one-object category.",
+      "strength_comparison": "intree-weaker: the corollary itself is never stated — the pieces exist but the free-monoid universal arrow over monoid homomorphisms is not assembled anywhere."
+    },
+    "gap": "No in-tree statement or proof of the free-monoid UMP: no underlying-set functor from (ordinary, law-carrying) monoids to Set/Coq with a free left adjoint or universal arrow p : X -> U(M); Mon(C) has only the forgetful functor, no free construction; Theory/Coq/Monoid.v is an ops-only class without laws; the one-point-O instantiation of Theorem 1 (free category on a one-node quiver = free monoid, plus the identification monoid = one-object category needed to transfer the UMP) is not performed; list_initial's initial-algebra property is a different universal property from the free-monoid adjunction and no bridge between them is proven.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same three pieces and the same hole: list_initial (Instance/Coq/Lists.v:111) is the initial-ListF-algebra UMP, a different universal property; Mon(C)/Mon_Forget with Mon_Forget_Faithful exist (Theory/Algebra/Monoid/Hom.v:83/93/101) but no free left adjoint; Theory/Coq/Monoid.v is ops-only; free-monoid reading is prose (Theory/Coq/List/Proofs.v:20-22, Foldable.v:30-35). Gap statement accurate. One trivial correction: Mon_Forget is at line 93, not 97 as the evidence parenthetical says."
+    }
+  }
+]

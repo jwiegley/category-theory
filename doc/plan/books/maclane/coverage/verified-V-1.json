@@ -1,0 +1,487 @@
+[
+  {
+    "id": "maclane:V.1:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "arrow category projection creates limits",
+      "X^2 -> X x X / Arr(C) / C^→ / [2, C] projection",
+      "(dom, cod) : Arrow C ⟶ C ∏ C  (comma_proj at S = T = Id)",
+      "creates limits / CreatesLimits / creation of limits",
+      "limits in the arrow category computed componentwise (dually: colimits)",
+      "codomain fibration / Total of the codomain displayed category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'creates? +limits' .  -> 2 files: Theory/Equivalence/Limit.v (equivalence_creates_limits, an equivalence not the arrow projection) and Construction/Comma/Limit.v header. Neither concerns X^2 ⟶ X × X.",
+      "rg -n --glob '*.v' -i 'creation of limits' .  -> 3 files (Construction/Comma.v:100, Construction/Comma/Limit.v:17, Theory/Displayed.v:91). Theory/Displayed.v mentions creation only as a definition the displayed formulation would repair; NO CreatesLimits class or predicate exists anywhere in the tree.",
+      "rg -n --glob '*.v' -i 'arrow category' .  -> Construction/Arrow.v (Definition Arrow {C} : Category := (Id[C] ↓ Id[C]); notation C ⃗), Construction/Displayed/Codomain.v, Structure/Factorization.v. Construction/Arrow.v contains NO limit, cone, or creation content; its header even records that '[2, C] ... remains documentation-level: no formal comparison with a functor category over the walking arrow [_2] ... is developed in-tree'.",
+      "rg -n --glob '*.v' 'Construction.Arrow|C ⃗|Arrow\\b' . -> the only in-tree consumer of Construction/Arrow.v is Construction/Displayed/Codomain.v (the Codomain_Total_Arrow_iso comparison); nothing limit-related.",
+      "rg -n --glob '*.v' '^(Theorem|Lemma|Definition|Program Definition|Corollary|Proposition|Program Instance|Instance|Class)' Construction/Comma.v -> comma_proj : Comma ⟶ A ∏ B (line 185), comma_proj1, comma_proj2, comma_proj_nat, comma_proj_mor_iso, comma_proj_com_iso, Cocomma. The exercise's projection EXISTS as comma_proj specialized at S = T = Id[C], but nothing is proved about limits along it.",
+      "rg -n --glob '*.v' '(Definition|Theorem|Lemma|Program Definition|Corollary|Program Instance|Instance)\\s+\\w+.*:\\s*(@)?(Limit|Colimit|IsALimit|IsAColimit)\\b' . -> the complete inventory of limit-producing constructions in the tree: rapl_limit / rapl_is_alimit (Adjunction/Continuity.v), Kan_Limit (Structure/Limit/Kan/Extension.v), Limit_Cones (Instance/Cones/Limit.v), Cartesian_Limit / Terminal_Limit (Structure/Limit/{Cartesian,Terminal}.v), comma_limit + Comma_Complete (Construction/Comma/Limit.v), limit_transport / ff_reflects_limit (Theory/Equivalence/Limit.v). None is about the arrow category.",
+      "NEAR MISS (recorded so a blind verifier does not mistake it): Construction/Comma/Limit.v proves Comma_Complete for the DIFFERENT comma category =(d) ↓ U (constant functor on the left), transferring completeness along comma_proj2 : =(d) ↓ U ⟶ C, under a cone-level PreservesImageLimit hypothesis on U. It is a completeness-transfer statement, not a creation statement, and it does not instantiate to the arrow category's projection to C ∏ C.",
+      "rg -n --glob '*.v' -i 'componentwise limit|dom.*cod.*creat|domain and codomain functor' . -> 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My own searches: rg -i 'creates? limits?|CreatesLimit' --glob '*.v' -> only Theory/Equivalence/Limit.v (equivalence_creates_limits) and a Structure/Complete.v prose line; rg -i 'arrow category' -> Construction/Arrow.v:110 'Definition Arrow {C} : Category := (Id[C] ↓ Id[C])' with notation C⃗, containing no cone/limit content; rg 'comma_proj' -> Construction/Comma.v:185 'Program Instance comma_proj : Comma ⟶ A ∏ B', which IS the exercise's (dom,cod) projection at S=T=Id, but carries no limit statement. Confirmed the classifier's NEAR MISS: Construction/Comma/Limit.v (read lines 1-130) is about the DIFFERENT comma =(d) ↓ U built from the constant functor =(d) : 1 ⟶ D, and its Comma_Complete transfers completeness along comma_proj2 under PreservesImageLimit; it does not instantiate to Arrow ⟶ C ∏ C. Verified the exhaustive limit-producing inventory myself with a multiline rg over all constructions whose conclusion is Limit/Colimit/IsALimit/Complete: rapl_is_alimit, rapl_limit, lapc_is_acolimit, Kan_Limit, Limit_Cones, Terminal_Limit, Cartesian_Limit, conical_of_limit, iprod family, comma_limit/Comma_Complete, plus SAFT/GAFT hypothesis-consumers — none about the arrow category. ONE ADDITIONAL NEAR MISS the classifier did not log (does not change the verdict): Instance/Fun/Cartesian.v:111 Functor_Category_Cartesian gives pointwise binary products in [C,D], hence in [2,C]; but the identification Arrow C ≅ [2,C] is explicitly NOT formalized (Construction/Arrow.v:105-108 'remains documentation-level'), it covers only binary products, and it says nothing about creation along the projection. Files cited exist and are registered in _CoqProject (Construction/Arrow.v, Construction/Comma.v). ABSENT stands rather than PARTIAL because only the SUBJECT (the functor) is in-tree; no fragment of the CONCLUSION (creation of any limit shape along it) exists — the distinction the classifier applied consistently against ex4/ex5, where fragments of the conclusion do exist."
+    }
+  },
+  {
+    "id": "maclane:V.1:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "finite sets are finitely complete / FinSet is finitely complete",
+      "FinSet / category of finite sets / skeletal FinSet",
+      "has finite limits / lex category / left exact",
+      "terminal + binary products + pullbacks (the finite-limit generator package)",
+      "FinSet_Topos : ElementaryTopos FinSet"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet.v",
+        "line": 116,
+        "symbol": "FinSet",
+        "intree_statement": "Program Definition FinSet : Category := {| obj := nat; hom := fun m n => Fin.t m → Fin.t n; homset := fun m n => fun_setoid (Fin.t m) (Fin.t n); id := fun _ i => i; compose := fun _ _ _ f g i => f (g i) |}."
+      },
+      {
+        "file": "Instance/FinSet.v",
+        "line": 236,
+        "symbol": "FinSet_Terminal",
+        "intree_statement": "#[export] Instance FinSet_Terminal : @Terminal FinSet := @Build_Terminal FinSet 1%nat (fun x (_ : Fin.t x) => Fin.F1) (fun x f g i => eq_trans (fin1_unique (f i)) (eq_sym (fin1_unique (g i))))."
+      },
+      {
+        "file": "Instance/FinSet/Product.v",
+        "line": 105,
+        "symbol": "FinSet_Cartesian",
+        "intree_statement": "#[export] Program Instance FinSet_Cartesian : @Cartesian FinSet := {| product_obj := fun m n => (m * n)%nat; fork := fun x y z f g i => fin_pair (f i) (g i); exl := fun y z p => fst (fin_unpair p); exr := fun y z p => snd (fin_unpair p) |}."
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 264,
+        "symbol": "FinSet_Pullbacks",
+        "intree_statement": "#[export] Program Instance FinSet_Pullbacks : HasPullbacks FinSet := { pullback := fun m n k (f : Fin.t m → Fin.t k) (g : Fin.t n → Fin.t k) => {| Pull := fin_countP (finset_pb_pred f g); pullback_fst := ...; pullback_snd := ... |} }."
+      },
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 38,
+        "symbol": "FinSet_Topos",
+        "intree_statement": "Definition FinSet_Topos : ElementaryTopos FinSet := {| topos_terminal := FinSet_Terminal; topos_cartesian := FinSet_Cartesian; topos_pullbacks := FinSet_Pullbacks; topos_closed := FinSet_Closed; topos_classifier := FinSet_Classifier |}."
+      },
+      {
+        "file": "Structure/Topos.v",
+        "line": 20,
+        "symbol": "ElementaryTopos (header disclosure)",
+        "intree_statement": "\"An elementary topos is a category with finite limits ... Finite limits are carried EXPLICITLY here as terminal object + binary products + pullbacks: the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library, so we do not pretend one component subsumes another, and we deliberately do not add equalizers to the class.\""
+      }
+    ],
+    "statement_record": {
+      "book": "The category of all small finite sets is finitely complete, i.e. every diagram indexed by a finite category has a limit in it.",
+      "intree": "FinSet (skeletal: objects nat, hom m ~> n := Fin.t m → Fin.t n) carries FinSet_Terminal : @Terminal FinSet, FinSet_Cartesian : @Cartesian FinSet, FinSet_Pullbacks : HasPullbacks FinSet, bundled as FinSet_Topos : ElementaryTopos FinSet, whose class header names exactly this package \"finite limits ... carried EXPLICITLY here as terminal object + binary products + pullbacks\".",
+      "strength_comparison": "intree-weaker: only the GENERATORS of finite limits are witnessed (terminal, binary products, pullbacks), never the quantified conclusion ∀ finite J, ∀ F : J ⟶ FinSet, Limit F. The library has no finiteness predicate on Category, so the exercise's conclusion cannot even be stated, and the classical reduction (Mac Lane V.2 Cor. 1) that would derive it is explicitly declared unformalized in Structure/Topos.v:20-26. The skeletal-vs-all-finite-sets difference is NOT a weakening (equivalent categories, and completeness is equivalence-invariant); the missing quantified statement is."
+    },
+    "gap": "Three things are missing. (1) No notion of a FINITE index category exists in the tree (rg -i 'finite category|FinCat|finite index' finds only a prose aside in Theory/Metacategory/DecideExample.v), so \"FinSet is finitely complete\" is not statable as written. (2) No @Complete-style or finite-limit-quantified witness for FinSet exists; the only limit-shaped structures are Terminal, Cartesian, Pullbacks, Initial, Cocartesian, Closed, Classifier. (3) FinSet has NO equalizers (rg 'qualizer' Instance/ -> 0 hits), and the passage terminal+products+pullbacks ⇒ all finite limits is explicitly not formalized (Structure/Topos.v:20-26; Structure/Regular.v:26-31 makes the same unproved packaging remark; Structure/Pullback.v:266-275 carries it as a 'jww (2017-06-02)' TODO comment).",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'finitely complete' . -> 1 file, Structure/Regular.v:17, defining a regular category as 'a finitely complete category ...' in prose; the class itself packages terminal + pullbacks.",
+      "rg -n --glob '*.v' -i 'finite category|FinCat|finite index' . -> no finiteness predicate on Category anywhere.",
+      "rg -n 'qualizer' --glob '*.v' Instance/ -> 0 hits (no equalizers or coequalizers in any concrete instance, FinSet included).",
+      "rg -n --glob '*.v' 'Complete\\b' . -> Complete appears only as Structure/Complete.v's definition and as a HYPOTHESIS in Adjunction/{GAFT,SAFT}.v, Construction/Comma/Limit.v, Theory/Adamek/Corollaries.v; no concrete category is ever shown Complete."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently with the same evidence set. Verified every citation by grep: Instance/FinSet.v:116 'Program Definition FinSet : Category := {|' (obj := nat, hom m n := Fin.t m → Fin.t n) — exact; Instance/FinSet.v:236 FinSet_Terminal — exact; Instance/FinSet/Product.v:105 FinSet_Cartesian — exact; Instance/FinSet/Classifier.v:264 FinSet_Pullbacks : HasPullbacks FinSet — exact; Instance/FinSet/Topos.v:38 FinSet_Topos : ElementaryTopos FinSet — exact. The Structure/Topos.v header quote is verbatim and load-bearing: lines 20-26 read 'Finite limits are carried EXPLICITLY here as terminal object + binary products + pullbacks: the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library, so we do not pretend one component subsumes another, and we deliberately do not add equalizers to the class.' I independently confirmed there is no finiteness predicate on Category (rg -i 'finite category|FinCat|finite index|is_finite|Fintype' --glob '*.v' -> one unrelated prose line, Theory/Metacategory/DecideExample.v:23) and no FinSet equalizer. strength_comparison is honest, including its correct disclaimer that skeletal-vs-all-finite-sets is not a weakening. MINOR LOG INACCURACY (does not affect the verdict): the log line \"rg -n 'qualizer' --glob '*.v' Instance/ -> 0 hits\" is wrong as stated — that command returns 3 hits (Instance/Two.v:51, Instance/Parallel.v:25,26), all prose naming the equalizer/coequalizer SHAPES; the substantive claim (no equalizer instance in any concrete category) is correct."
+    }
+  },
+  {
+    "id": "maclane:V.1:ex5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Cat is small-complete / Cat is complete",
+      "limits in Cat / limit of a diagram of categories",
+      "Cat_Cartesian (product categories) + Cat_Terminal (the terminal category 1)",
+      "equalizer / pullback of categories and functors",
+      "@Complete Cat"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat.v",
+        "line": 142,
+        "symbol": "Cat",
+        "intree_statement": "#[export] Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; ... }."
+      },
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "#[export] Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x); fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := ...; exr := ... }."
+      },
+      {
+        "file": "Instance/One.v",
+        "line": 54,
+        "symbol": "Cat_Terminal",
+        "intree_statement": "#[export] Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; one := Erase }."
+      },
+      {
+        "file": "Structure/Complete.v",
+        "line": 115,
+        "symbol": "Complete",
+        "intree_statement": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F."
+      }
+    ],
+    "statement_record": {
+      "book": "Cat, the category of small categories and functors, is small-complete: every small diagram of categories has a limit.",
+      "intree": "Cat is constructed (Instance/Cat.v:142) and carries binary products as product categories (Cat_Cartesian, Instance/Cat/Cartesian.v:39) and the terminal category 1 (Cat_Terminal, Instance/One.v:54); the completeness PREDICATE itself exists as Complete {C} := ∀ (D : Category) (F : D ⟶ C), Limit F (Structure/Complete.v:115) but is never instantiated at Cat.",
+      "strength_comparison": "intree-weaker: only the finite-product fragment of Cat's limits is built (terminal object + binary products). The exercise's conclusion — @Complete Cat, i.e. a limit for EVERY small diagram — has no in-tree witness, and the intermediate shapes (equalizers, pullbacks, small products of categories) are absent too. Note also that Cat_Cartesian's UMP is stated up to natural isomorphism (≅ in Cat, the hom-equivalence being natural isomorphism), which is the honest 1-categorical reading and not itself a weakening."
+    },
+    "gap": "No @Complete Cat (nor any general Limit F for F : D ⟶ Cat) is constructed. What exists is only the finite-product corner: Cat_Cartesian (binary products) and Cat_Terminal; there are no equalizers of functors, no pullbacks in Cat, and no small (indexed) products of categories. Instance/Cat/ contains exactly Bicategory, Cartesian, Cocartesian — no limit file. The generic route Mac Lane would use (small products + equalizers ⇒ small-complete, V.2 Cor. 2) is itself absent from the tree, so even supplying the two ingredients would not yield the conclusion in-tree.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'Cat_Complete|Cat is (small.)?complete|limits in Cat' . -> 0 hits.",
+      "rg -n --glob '*.v' -i 'equalizer of functors' . -> 0 hits; rg -n 'qualizer' --glob '*.v' Instance/ -> 0 hits.",
+      "ls Instance/Cat/ -> Bicategory.v, Bicategory/, Cartesian.v, Cartesian/, Cocartesian.v only.",
+      "rg -n --glob '*.v' 'Cat_Terminal|Cat_Initial|Cat_Cartesian|Cat_Cocartesian|Cat_Closed' . -> the complete list of Cat's structure: Cat_Terminal (Instance/One.v:54), Cat_Initial (Instance/Zero.v:44), Cat_Cartesian (Instance/Cat/Cartesian.v:39), Cat_Cocartesian (Instance/Cat/Cocartesian.v:40), Cat_Closed (Instance/Cat/Cartesian/Closed.v). No limit/completeness instance."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently. Verified: Instance/Cat.v:142 'Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; ... }' — exact; Instance/Cat/Cartesian.v:39 Cat_Cartesian — exact; Instance/One.v:54 Cat_Terminal : @Terminal Cat with terminal_obj := _1, one := Erase — exact; Structure/Complete.v:115 'Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F' — exact. I independently confirmed ls Instance/Cat/ = {Bicategory.v, Bicategory/, Cartesian.v, Cartesian/, Cocartesian.v} with no limit file, and that no Limit or Complete token occurs in Instance/Cat.v, Instance/Cat/Cartesian.v, Instance/Cat/Cocartesian.v or Instance/StrictCat.v. Also verified the strength_comparison's parenthetical: Cat's homset is @Functor_Setoid, the weak natural-isomorphism equivalence (Test/Issue138.v:8,15 documents exactly this), so the remark that Cat_Cartesian's UMP is stated up to natural iso is accurate and correctly declared not a weakening. Cat_Closed exists at Instance/Cat/Cartesian/Closed.v:47 as the log claims. Same MINOR LOG INACCURACY about \"rg 'qualizer' Instance/ -> 0 hits\" noted under ex4."
+    }
+  },
+  {
+    "id": "maclane:V.1:ex6",
+    "classification": "ABSENT",
+    "aliases": [
+      "p-adic integers / Z_p / p-adic digit expansion",
+      "base-p expansion, infinite decimals to the left, schoolbook carry arithmetic",
+      "Z/p^n Z, modular arithmetic, profinite completion",
+      "inverse limit of the rings Z/p^nZ (the omega^op chain of Instance/Omega.v + Construction/Chain.v)",
+      "Rng / category of rings / commutative ring objects"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'p-adic|padic|Z/p|profinite|solenoid' . -> 4 lines, ALL inside the historical background essay of Structure/Limit.v (lines 51-55): 'the p-adic integers arise as the inverse limit of the rings Z/pⁿZ under remainder maps, and profinite groups ... are inverse limits of finite groups'. Prose citation only; no definition, no construction, no theorem.",
+      "rg -n --glob '*.v' -i 'digit|base-p' . -> 4 files, all unrelated (no digit-expansion content).",
+      "rg -n --glob '*.v' -i '\\bRng\\b|category of rings|commutative ring' . -> 1 hit, Construction/Localization.v:67, a prose aside about Ore conditions for non-commutative rings. There is NO category of rings, no ring structure, and no integers-mod-n object in the tree.",
+      "rg -n --glob '*.v' -i '\\bAb\\b|abelian group|R-Mod|RMod' . -> no category of abelian groups or modules; the only concrete algebraic instance is Instance/CMon.v (commutative monoids over setoids).",
+      "rg -n --glob '*.v' -i 'arithmetic|carry|mod p' . -> nothing relevant. The exercise's entire content (digit strings a_i ∈ {0..p-1}, λ_n ≡ a_0 + a_1 p + ... mod p^n, and base-p addition/multiplication) has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and found nothing the classifier missed. My searches: rg -i 'p-adic|padic|profinite|inverse limit|projective limit' --glob '*.v' -> 7 lines, ALL inside the Structure/Limit.v background essay (lines 48-59, 108); rg -i '\\bRing\\b|\\bRng\\b|CRing|commutative ring' -> prose only, no category of rings; ls Theory/Algebra/ -> {CommutativeComonoid, CommutativeFrobenius, CommutativeMonoid, Comonoid, Frobenius, Monoid, SpecialCommutativeFrobenius} — monoid-level algebra only, no rings, no Z/p^n, no Ab, no modules. ABSENT is correct rather than OUT_OF_SCOPE: p-adic integers and base-p digit arithmetic are perfectly formalizable in Coq/Rocq (the library simply has no ring layer), so the frozen OUT_OF_SCOPE criterion does not apply. Record correctly carries no evidence/statement_record and a substantive negative_search_log."
+    }
+  },
+  {
+    "id": "maclane:V.1:ex7",
+    "classification": "ABSENT",
+    "aliases": [
+      "formal power series ring K[[x]] as an inverse limit",
+      "polynomial ring K[x], truncation K[x]/(x^n), principal ideal (x^n)",
+      "Rng / category of rings / commutative ring",
+      "inverse limit / projective limit over omega^op (Instance/Omega.v, Construction/Chain.v)",
+      "Lim F for F : omega^op ⟶ Rng"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'power series|formal power|K\\[x\\]|polynomial ring|truncat' . -> 0 hits for power series / K[x] / polynomial ring; 'polynomial' occurs only as 'polynomial endofunctor' (Instance/Coq/Lists.v:18, Theory/Adamek/Corollaries.v:69, Instance/Shapes.v:55) and 'truncat' only in unrelated senses (1-truncation of Cat, truncating a Type-valued sigma, zip truncation).",
+      "rg -n --glob '*.v' -i '\\bRng\\b|category of rings|commutative ring|\\bideal\\b' . -> no category of rings anywhere; 1 prose hit at Construction/Localization.v:67.",
+      "rg -n --glob '*.v' -i 'inverse limit|projective limit' . -> only the Structure/Limit.v background essay (lines 48-59) and its 'Scott's D∞ model ... is an inverse limit' remark; no inverse-limit construction is carried out over any concrete algebraic diagram.",
+      "rg -n --glob '*.v' 'Chain|Omega' Construction/Chain.v Instance/Omega.v -> the ω-chain apparatus exists (Chain F : Omega ⟶ C, Cochain by duality) but only as the Adámek initial-algebra machinery, with no ring-valued instance."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My searches: rg -i 'power series|polynomial ring|K\\[x\\]|truncat' --glob '*.v' -> 0 hits for power series / K[x] / polynomial ring; 'truncat' only in unrelated senses (1-truncation of Cat at Instance/Cat.v:32,86; truncating a Type-valued sigma at Instance/Sets/Classifier.v:39,140; zip truncation at Theory/Coq/List.v:62) — matching the classifier's log exactly. No category of rings exists, so the diagram F : ω^op ⟶ Rng cannot be written. The ω-chain apparatus the classifier cites is real (Construction/Chain.v, Instance/Omega.v) but ring-free. ABSENT correct, not OUT_OF_SCOPE (formalizable in principle; the library merely lacks rings)."
+    }
+  },
+  {
+    "id": "maclane:V.1:ex8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Set is cocomplete / Sets has all small colimits",
+      "Cocomplete Sets / @Cocomplete Sets",
+      "colimits in Sets: initial object, coproducts, coequalizers, pushouts",
+      "quotient setoid / setoid quotient by a generated congruence",
+      "SetsCoend (the coend as a quotient of a sum over obj C)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Complete.v",
+        "line": 119,
+        "symbol": "Cocomplete",
+        "intree_statement": "Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 265,
+        "symbol": "Sets_Initial",
+        "intree_statement": "#[export] Program Instance Sets_Initial : @Initial Sets := { terminal_obj := {| carrier := False |}; one := _ }."
+      },
+      {
+        "file": "Instance/Sets/Cocartesian.v",
+        "line": 28,
+        "symbol": "Sets_Cocartesian",
+        "intree_statement": "#[export] Program Instance Sets_Cocartesian : @Cocartesian Sets := { product_obj := fun x y => {| carrier := (carrier x + carrier y)%type ; is_setoid := ... |}; fork := (copairing by case split); exl := inl; exr := inr }."
+      },
+      {
+        "file": "Instance/Sets/Pushout.v",
+        "line": 185,
+        "symbol": "Sets_HasPushouts",
+        "intree_statement": "#[export] Program Instance Sets_HasPushouts : HasPushouts Sets := {| pushout := fun X Y Z f g => {| Pull := pushout_apex_setoid f g; pullback_fst := pushout_inl_mor f g; pullback_snd := pushout_inr_mor f g; ... |} |}."
+      },
+      {
+        "file": "Instance/Sets/Coend.v",
+        "line": 163,
+        "symbol": "SetsCoend",
+        "intree_statement": "Definition SetsCoend : Coend F.  (* the coend ∫^x F(x,x) realised as coend_apex_setoid, a quotient of the sum coend_sum over obj C by the congruence coend_eq generated by the fibre equivalence and the dinaturality glue; funext-free *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The category of sets is cocomplete: it has colimits of all small diagrams.",
+      "intree": "Cocomplete is defined (Structure/Complete.v:119) as ∀ (D : Category) (F : D ⟶ C), Colimit F, but Sets is never shown to satisfy it. What Sets is proved to have is: an initial object (Sets_Initial), binary coproducts as disjoint unions (Sets_Cocartesian), all pushouts (Sets_HasPushouts), and all coends realised as setoid quotients of a sum over obj C (SetsCoend).",
+      "strength_comparison": "intree-weaker: the general quantified statement (a Colimit for every small diagram) is absent; only four specific colimit shapes are constructed. Note the setoid rephrasing is faithful — Sets is the category of setoids and the quotient is carried by the setoid's own equivalence rather than a Coq quotient type, so these are honest colimits, and the smallness discipline is carried by universe polymorphism (Instance/Sets/Coend.v header records the object-level constraint explicitly). The gap is coverage of shapes, not fidelity."
+    },
+    "gap": "No @Cocomplete Sets witness exists, and no Colimit F is constructed for a general diagram F : D ⟶ Sets. Missing ingredients: Sets has NO coequalizers (rg 'qualizer' Instance/ -> 0 hits) and no small/indexed coproducts — only BINARY coproducts. The generic route (small coproducts + coequalizers ⇒ cocomplete, the dual of Mac Lane V.2 Cor. 2) is itself absent from the tree, so even supplying the ingredients would not close the exercise in-tree. NEAR MISS worth recording: Instance/Sets/Coend.v's coend_apex_setoid IS exactly the sum-over-objects-quotiented-by-a-generated-congruence recipe that proves Sets cocomplete, but it is instantiated only at the coend (twisted-arrow) shape, and Instance/Sets/Pushout.v does the same for the span shape.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'Cocomplete' . -> 9 lines in 3 files: the definition (Structure/Complete.v:119) plus prose, and one consumer as a HYPOTHESIS (Theory/Adamek/Corollaries.v:61, 'CC : @Cocomplete C'). No instance for any concrete category.",
+      "rg -n --glob '*.v' -i 'Sets_Cocomplete|colimits in Sets' . -> 0 hits.",
+      "rg -n --glob '*.v' 'Colimit|Cocone' Instance/ -> only Instance/Cones.v:46 (Definition Cocones `(F : J ⟶ C) := Cones (F^op)) and Instance/Cones/Limit.v:36. No colimit is ever constructed in Sets.",
+      "rg -n 'qualizer' --glob '*.v' Instance/ -> 0 hits: no equalizer or coequalizer instance in ANY concrete category.",
+      "rg -n --glob '*.v' '(Definition|Theorem|Program Instance|Instance)\\s+\\w+.*:\\s*(@)?(Colimit|IsAColimit)\\b' . -> 0 constructions; the only colimit-typed things in the tree are hypotheses (Theory/Adamek*.v) and accessors (Structure/Limit/Preservation.v)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently with the same shape of evidence. Verified every citation by grep: Structure/Complete.v:119 'Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F' — exact; Instance/Sets.v:265 Sets_Initial — exact; Instance/Sets/Cocartesian.v:28 Sets_Cocartesian — exact; Instance/Sets/Pushout.v:185 Sets_HasPushouts — exact; Instance/Sets/Coend.v:163 'Definition SetsCoend : Coend F.' — exact (read the proof body: Build_Coend over coend_apex_setoid with a Build_Unique mediator, so the universal property is genuinely discharged). I independently confirmed no Cocomplete instance exists for any concrete category (Cocomplete occurs only as the Structure/Complete.v definition, prose, and the hypothesis 'CC : @Cocomplete C' at Theory/Adamek/Corollaries.v:61) and that no construction in the tree has conclusion Colimit/IsAColimit other than lapc_is_acolimit's hypothesis position. The gap's NEAR MISS (Coend.v's sum-over-objects-quotiented-by-a-generated-congruence is the very recipe that proves Sets cocomplete, but instantiated only at the coend shape) is accurate and valuable. Same MINOR LOG INACCURACY about \"rg 'qualizer' Instance/ -> 0 hits\" noted under ex4."
+    }
+  },
+  {
+    "id": "maclane:V.2:thm1",
+    "classification": "ABSENT",
+    "aliases": [
+      "limits by products and equalizers / existence theorem for limits",
+      "a category with all products and equalizers has all limits",
+      "limit as the equalizer of two maps between products ∏_i F_i ⇉ ∏_{u} F_{cod u}",
+      "Complete from HasIndexedProducts + HasEqualizers",
+      "Riehl Theorem 3.4.12 / Mac Lane V.2 Theorem 1"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'products and equalizers|product.*equalizer|equalizer.*product' . -> 13 lines in 8 files, EVERY ONE inside a background-essay comment citing Mac Lane/Riehl for the theorem, never a statement: Structure/Limit.v:71 ('construction from products and equalizers — thereby specializes'), Structure/Limit.v:94 ('Together with the existence theorem — a category with products and equalizers has all limits (Riehl, Theorem 3.5.11, dual form)'), Structure/Complete.v:51-52 ('a category with all small products and equalizers of parallel pairs has all small limits, each limit arising as an equalizer between two products (Mac Lane ... Theorem V.2.1 ...)'), Structure/Equalizer.v:80-81, Structure/Initial.v:53, Structure/Topos.v:23, Adjunction/GAFT.v:147, Theory/WeaklyInitial.v:68.",
+      "rg -n --glob '*.v' -i 'existence theorem' . -> 3 lines: Structure/Limit.v:94, Structure/Limit.v:103, and Structure/Pullback.v:272 — the last inside a block explicitly prefixed 'jww (2017-06-02):' (a TODO marker) quoting Wikipedia's statement of the theorem as future work.",
+      "rg -n --glob '*.v' -i 'limit_from|Complete_from|complete_of|equalizer between products|obj\\(J\\)|arr\\(J\\)' . -> 0 hits.",
+      "rg -n --glob '*.v' '(Definition|Theorem|Lemma|Program Definition|Corollary|Program Instance|Instance)\\s+\\w+.*:\\s*(@)?(Limit|Colimit|IsALimit|IsAColimit)\\b' . -> exhaustive list of limit-producing constructions: rapl_limit, rapl_is_alimit, Kan_Limit, Limit_Cones, Cartesian_Limit, Terminal_Limit, comma_limit, Comma_Complete, limit_transport, ff_reflects_limit, isalimit_transport. NONE builds a limit from products and equalizers.",
+      "NEAR MISS in the OPPOSITE direction: Adjunction/GAFT.v:193 Definition Complete_HasEqualizers {A} (HA : @Complete A) : HasEqualizers A — completeness ⇒ equalizers, the trivial converse of half of this theorem. The ingredients also exist separately (Structure/Limit/Product.v's iprod/iprod_ump/HasIndexedProducts, Structure/Equalizer/Fork.v:68 Class HasEqualizers), but the passage from them to a general Limit is nowhere in the tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and by the same route. I re-ran the decisive searches: rg -i 'products and equalizers|product.*equalizer|equalizer.*product' --glob '*.v' -> 13 lines across 8 files, every one a background-essay citation (Structure/Limit.v:65,71,95; Structure/Complete.v:51-52; Structure/Equalizer.v:80-81,87; Structure/Initial.v:53; Structure/Topos.v:23; Structure/Pullback.v:272; Adjunction/GAFT.v:147,234; Theory/WeaklyInitial.v:68; Structure/Limit/Product.v:126) — no statement anywhere. I then ran an independent multiline rg for every construction whose conclusion type is Limit/Colimit/IsALimit/IsAColimit/Complete/Cocomplete and got exactly the inventory the classifier lists (plus conical_of_limit at Structure/Limit/Weighted.v:344, also not this theorem); none builds a limit from products and equalizers. Verified the NEAR MISS: Adjunction/GAFT.v:193-202 Complete_HasEqualizers : @Complete A → HasEqualizers A, whose body takes HA Parallel (APair f g) and reads it through equalizer_is_equalizer — the converse direction, as claimed. Ingredients confirmed present and unconnected: Structure/Limit/Product.v:128 Class HasIndexedProducts (declared, never instantiated, never consumed anywhere in the tree — the only other occurrence is a prose line at Theory/WeaklyInitial.v:44) and Structure/Equalizer/Fork.v:68 Class HasEqualizers. Record correctly carries no evidence and a strong negative log."
+    }
+  },
+  {
+    "id": "maclane:V.2:thm2",
+    "classification": "ABSENT",
+    "aliases": [
+      "explicit limit formula: Lim F = Eq(f, g : ∏_{i ∈ obj J} F_i ⇉ ∏_{u ∈ arr J} F_{cod u})",
+      "p_u f = p_{cod u},  p_u g = F_u ∘ p_{dom u}",
+      "limiting cone μ_j = p_j ∘ e",
+      "the arrow-indexed product / the codomain product of a diagram",
+      "canonical parallel pair of a diagram"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'cod u|dom u|arr J|obj J|arrow-indexed|codomain product' . -> 0 hits.",
+      "rg -n --glob '*.v' -i 'p_u|parallel pair.*product|two maps between products' . -> 0 hits for the construction; 'parallel pair' occurs only in Structure/Equalizer*.v and Instance/Parallel.v describing the walking shape.",
+      "rg -n --glob '*.v' 'iprod' . -> the indexed product exists (Structure/Limit/Product.v:93 iprod, :99 iprod_proj, :105 iprod_ump) and is consumed ONLY by Adjunction/SAFT.v (cogen_prod, cogen_power) and Adjunction/GAFT.v (the Freyd weakly-initial construction). It is never indexed by obj(J) or arr(J) of a diagram, and no parallel pair between two such products is ever formed.",
+      "rg -n --glob '*.v' -i 'products and equalizers' . -> only the eight background-essay citations enumerated for maclane:V.2:thm1; this explicit formula is a corollary-of-proof of that theorem and shares its absence.",
+      "Read Structure/Limit.v, Structure/Complete.v, Structure/Equalizer.v, Structure/Equalizer/Fork.v, Structure/Limit/Product.v in full: none contains the construction. Structure/Limit.v:103-106 even paraphrases it ('a limit is the part of the product of all F x whose components are compatible along every arrow of J') and then points at Instance/Sets/End.v's end — a Sets-specific subsetoid of compatible families — rather than to a general in-tree construction."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently; it shares thm1's absence, which the record states. I confirmed the specific formula has no in-tree trace: rg -i 'cod u|dom u|arr J|obj J|arrow-indexed|codomain product' --glob '*.v' -> 0 hits, and 'iprod' is consumed only by Adjunction/SAFT.v (cogen_prod, cogen_power) and Adjunction/GAFT.v (the Freyd weakly-initial product), never indexed by obj(J) or arr(J) of a diagram, with no parallel pair ever formed between two such products. I also verified the classifier's honest observation at Structure/Limit.v:103-106, which paraphrases the construction ('a limit is the part of the product of all F x whose components are compatible along every arrow of J') and then points at Instance/Sets/End.v's Sets-specific end rather than a general construction — I read Instance/Sets/End.v and it is indeed a subsetoid of compatible families for a single Wedge/End shape in Sets, not the general product-and-equalizer construction."
+    }
+  },
+  {
+    "id": "maclane:V.2:cor1",
+    "classification": "ABSENT",
+    "aliases": [
+      "terminal object + binary products + equalizers ⇒ all finite limits",
+      "finite completeness from finite products and equalizers",
+      "lex from terminal + pullbacks (the equivalent economical packaging)",
+      "pullback as equalizer of f ∘ p1, g ∘ p2 : X × Y → Z",
+      "Cartesian + Terminal + HasEqualizers ⇒ finite Limit"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'finite limits' . -> 3 files. Structure/Topos.v:20-26 states the OPPOSITE of a proof: 'Finite limits are carried EXPLICITLY here as terminal object + binary products + pullbacks: the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library, so we do not pretend one component subsumes another'. Structure/Regular.v:26-31 makes the same packaging remark as an unproved editorial note ('a terminal object and pullbacks generate all finite limits'). Structure/Pullback.v:272 sits inside a 'jww (2017-06-02):' TODO block quoting Wikipedia's statement.",
+      "rg -n --glob '*.v' -i 'finitely complete|lex\\b|left exact' . -> 1 substantive hit, Structure/Regular.v:17, prose only.",
+      "rg -n --glob '*.v' -i 'finite category|FinCat|finite index' . -> no finiteness predicate on Category exists, so the conclusion 'C has all finite limits' is not even statable in the tree.",
+      "rg -n --glob '*.v' '(Definition|Theorem|Lemma|Program Definition|Corollary)\\s+\\w+.*(Cartesian|Terminal|HasEqualizers).*(Limit|Complete)' . -> 0 hits.",
+      "Related but distinct in-tree results checked and rejected: Structure/Limit/Terminal.v:33 Terminal_Limit (C) (F : 0 ⟶ C) : Limit F ↔ @Terminal C and Structure/Limit/Cartesian.v:39 Cartesian_Limit (C) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C — these identify two INDIVIDUAL finite shapes with their elementary forms; they do not generate other finite limits from them."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. The decisive in-tree disclosure is verbatim and I re-read it in situ: Structure/Topos.v:20-26 states the reduction of pullbacks to products and equalizers 'is not formalized in this library'. Structure/Pullback.v:266-274 does sit inside a '(* jww (2017-06-02): *)' TODO block quoting Wikipedia's 'by the existence theorem for limits, all finite limits exist in a category with a terminal object, binary products and equalizers' — verified by reading lines 255-274. Structure/Regular.v:26-30 makes the packaging remark as unproved editorial prose — verified verbatim. I independently verified the two 'related but distinct' results the classifier checked and rejected, and both quotes are exact: Structure/Limit/Terminal.v:33 'Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C' and Structure/Limit/Cartesian.v:39 'Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C'. Neither generates further finite limits. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.2:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "finite limit / limit over a finite index category",
+      "finite diagram / finite shape J",
+      "finitely complete / lex / has finite limits",
+      "the named finite shapes: 0, Two_Discrete, Parallel, the cospan (Roof)",
+      "ElementaryTopos / Regular — the in-tree 'finite limits' packages"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit.v",
+        "line": 113,
+        "symbol": "Limit",
+        "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x }."
+      },
+      {
+        "file": "Structure/Topos.v",
+        "line": 114,
+        "symbol": "ElementaryTopos",
+        "intree_statement": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }.  (header, line 20: \"An elementary topos is a category with finite limits ... Finite limits are carried EXPLICITLY here as terminal object + binary products + pullbacks\")"
+      },
+      {
+        "file": "Structure/Limit/Terminal.v",
+        "line": 33,
+        "symbol": "Terminal_Limit",
+        "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C."
+      },
+      {
+        "file": "Structure/Limit/Cartesian.v",
+        "line": 39,
+        "symbol": "Cartesian_Limit",
+        "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C."
+      },
+      {
+        "file": "Structure/Regular.v",
+        "line": 26,
+        "symbol": "Regular (header)",
+        "intree_statement": "\"For the finite-completeness clause we package a terminal object together with all pullbacks ([regular_terminal], [regular_pullbacks]). This is the standard economical presentation: binary products are pullbacks over the terminal object, and equalizers are pullbacks of the induced pairings, so a terminal object and pullbacks generate all finite limits.\""
+      }
+    ],
+    "statement_record": {
+      "book": "A finite limit is the limit of a functor J → C whose index category J is finite.",
+      "intree": "Limit `(F : J ⟶ C) is defined for an ARBITRARY index category J (Structure/Limit.v:113) with no finiteness side-condition available; the phrase 'finite limits' occurs in-tree only as a name for the enumerated generator packages — ElementaryTopos's terminal + binary products + pullbacks (Structure/Topos.v:114) and Regular's terminal + pullbacks (Structure/Regular.v) — and the individual finite shapes are identified with their elementary forms by Terminal_Limit (J = 0) and Cartesian_Limit (J = Two_Discrete).",
+      "strength_comparison": "intree-weaker: the definiens 'J is finite' has no in-tree counterpart, so 'finite limit' is not definable as Mac Lane states it. In its place the library uses a fixed enumeration of concrete finite shapes (the empty category 0, Two_Discrete, Parallel, the cospan) plus two named surrogate packages for 'has finite limits'. The surrogates are provably weaker as stated, since the reduction that would make them equivalent to the quantified definition is itself unformalized (Structure/Topos.v:20-26)."
+    },
+    "gap": "The library has no finiteness predicate on Category (rg -i 'finite category|FinCat|finite index' -> nothing) and, more broadly, 'carries NO size / smallness machinery' (Adjunction/SAFT.v:56), so a finite index category cannot be quantified over. Consequently 'finite limit' exists only as (a) unquantified prose in the ElementaryTopos and Regular headers naming their generator packages 'finite limits', and (b) individually named finite shapes. The definition Mac Lane gives — the limit of a diagram over a finite J, uniformly in J — is not stated anywhere, and the equivalence of the surrogate packages with it is explicitly declared unformalized.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'finite limit' . -> 3 files, all prose: Structure/Topos.v:20-21 and :58, Structure/Regular.v:30 and :62, Structure/Pullback.v:272 (inside a jww TODO).",
+      "rg -n --glob '*.v' -i 'finite category|FinCat|finite index|is_finite|Fintype' . -> only Theory/Metacategory/DecideExample.v:23, an unrelated prose aside about an n-object finite metacategory example.",
+      "rg -n --glob '*.v' -i 'small\\b|smallness|locally small' . -> Adjunction/SAFT.v:56 'This library carries NO size / smallness machinery'; Structure/Complete.v:30-34 records that smallness is carried implicitly by universe polymorphism rather than by any predicate."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached the same reading; I had PARTIAL/ABSENT as a close call and endorse PARTIAL as the more honest classification, because concrete finite limits ARE in force (Limit F is literally instantiated at the finite shapes 0 and Two_Discrete by Terminal_Limit and Cartesian_Limit) while only the uniform finiteness side-condition is missing — the gap statement says exactly that. Citations verified: Structure/Limit.v:113 'Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ... }' — exact; Structure/Limit/Terminal.v:33 and Structure/Limit/Cartesian.v:39 — exact; Structure/Regular.v:26 header quote — verbatim. I independently confirmed no finiteness predicate on Category exists (rg -i 'finite category|FinCat|finite index|is_finite|Fintype' -> one unrelated prose aside) and that 'finite limit(s)' occurs only in Structure/{Topos,Regular,Pullback}.v prose. ONE CITATION CORRECTION (line only, claim intact): the record cites Structure/Topos.v:114 for Class ElementaryTopos; the class actually opens at Structure/Topos.v:112 ('Class ElementaryTopos (C : Category) := {'). The quoted fields and header text are accurate."
+    }
+  },
+  {
+    "id": "maclane:V.2:cor2",
+    "classification": "ABSENT",
+    "aliases": [
+      "equalizers + all small products ⇒ small-complete",
+      "HasIndexedProducts + HasEqualizers ⇒ Complete",
+      "small-completeness criterion / completeness from products and equalizers",
+      "reproof that Set is small-complete via products and equalizers",
+      "Riehl Theorem 3.4.12 / Mac Lane V.2 Corollary 2"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'all small products|small products and equalizers|products and equalizers' . -> only the eight background-essay citations already enumerated under maclane:V.2:thm1. The closest is Structure/Complete.v:51-54, which states the corollary VERBATIM as a citation to Mac Lane Theorem V.2.1 / Riehl 3.4.12 ('The hypothesis is checkable because limits reduce to two constructions: a category with all small products and equalizers of parallel pairs has all small limits ...') and then adds only 'The products half of the reduction lives in-tree as [iprod] in Structure/Limit/Product.v' — i.e. it discloses that only the ingredient, not the reduction, is formalized.",
+      "rg -n --glob '*.v' 'Complete\\b' . -> every occurrence of Complete is either the definition (Structure/Complete.v:115), prose, or a HYPOTHESIS consumed by Adjunction/GAFT.v, Adjunction/SAFT.v, Construction/Comma/Limit.v. No lemma ever PRODUCES a @Complete C.",
+      "rg -n --glob '*.v' 'HasIndexedProducts|HasEqualizers' . -> HasIndexedProducts is declared (Structure/Limit/Product.v:126) and never instantiated or consumed; HasEqualizers is declared (Structure/Equalizer/Fork.v:68), produced only by Complete_HasEqualizers (the converse direction), and consumed only by Theory/WeaklyInitial.v:94 initial_from_weakly_initial. No lemma takes both and returns Complete.",
+      "rg -n --glob '*.v' -i 'Complete_from|complete_of|small-complete|smallcomplete' . -> 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Corollary 2 is the small-products instance of thm1 and shares its absence. I verified the classifier's sharpest observation directly: Structure/Complete.v:50-62 states the corollary VERBATIM as a citation ('a category with all small products and equalizers of parallel pairs has all small limits, each limit arising as an equalizer between two products (Mac Lane ... Theorem V.2.1; Riehl ... Theorem 3.4.12)') and then discloses only that 'The products half of the reduction lives in-tree as [iprod] in Structure/Limit/Product.v' — i.e. the ingredient, not the reduction. I confirmed independently that no lemma anywhere PRODUCES a @Complete C: every occurrence of Complete is the definition (Structure/Complete.v:115), prose, or a hypothesis in Adjunction/GAFT.v, Adjunction/SAFT.v, Construction/Comma/Limit.v (Comma_Complete's conclusion is @Complete (=(d) ↓ U) but only from a @Complete C hypothesis, i.e. transfer not construction). And no lemma takes HasIndexedProducts + HasEqualizers and returns Complete. ONE CITATION CORRECTION (line only, claim intact): the log says HasIndexedProducts is declared at Structure/Limit/Product.v:126; the Class opens at line 128 (126 is the preceding comment)."
+    }
+  },
+  {
+    "id": "maclane:V.2:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "in a preorder a product is a meet (greatest lower bound), a coproduct is a join",
+      "meet / glb / infimum ; join / lub / supremum",
+      "thin / posetal category, Proset, Poset, Heyting prealgebra",
+      "Two_Cartesian (two_meet), Props_Cartesian (conjunction), Props_Cocartesian (disjunction)",
+      "limit over a subset = greatest lower bound (the J-indexed form)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 37,
+        "symbol": "two_meet",
+        "intree_statement": "(* The binary meet (product object): TwoX is the bottom, TwoY the top. *)  Definition two_meet (x y : TwoObj) : TwoObj := match x with | TwoX => TwoX | TwoY => y end."
+      },
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 80,
+        "symbol": "Two_Cartesian",
+        "intree_statement": "(* Binary products on 2 given by meets. *)  Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |}.  Next Obligation. split; intros; try split; apply two_thin. Qed."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "(* Product: conjunction. P ∧ Q is the meet, with proj1/proj2 the projections and conj the pairing of two implications. *)  #[export] Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "(* Coproduct: disjunction. P ∨ Q is the join, with the injections or_introl/or_intror and case analysis providing the copairing. *)  #[export] Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; ... }."
+      },
+      {
+        "file": "Instance/Poset.v",
+        "line": 47,
+        "symbol": "Poset (header dictionary)",
+        "intree_statement": "\"In a thin category all parallel morphisms are equal, so every diagram commutes and every coherence condition holds vacuously. Each categorical concept therefore collapses to its order-theoretic shadow, and [Poset] installs the resulting dictionary: ... a product is a meet, and more generally the limit over a subset is its greatest lower bound (nLab, \"meet\"); a coproduct is a join (Structure/Cocartesian.v).\""
+      }
+    ],
+    "statement_record": {
+      "book": "In a preorder P, a product of a family (a_j)_{j∈J} is an object d with d ≤ a_j for all j such that c ≤ a_j for all j implies c ≤ d — i.e. exactly a greatest lower bound (meet); dually a coproduct is exactly a least upper bound (join). Completeness is therefore chiefly useful for large categories and preorders.",
+      "intree": "The identification is realized concretely in two thin categories: on the walking arrow _2, product_obj is literally two_meet with every UMP obligation discharged by two_thin (Instance/Two/Monoidal.v:37,80); on Props (thin, homset equiv := True, so P ~> Q iff P entails Q), product_obj := and and coproduct product_obj := or, commented in-file as 'P ∧ Q is the meet' and 'P ∨ Q is the join' (Instance/Props.v:69,80). Instance/Poset.v:47-53 states the general dictionary as documentation.",
+      "strength_comparison": "intree-weaker: the general biconditional over an arbitrary preorder is documentation only. The two witnesses are (a) BINARY, not J-indexed — Mac Lane's statement is about a family (a_j)_{j∈J} — and (b) specific to two particular thin categories rather than to Proset P for an arbitrary PreOrder R. No order-theoretic vocabulary (meet, glb, join, lub) is defined anywhere in the tree, so the right-hand side of the identification has no in-tree definiens to compare against."
+    },
+    "gap": "Three specific gaps. (1) No order-theoretic vocabulary exists: rg -i 'greatest lower bound|glb|infimum|supremum|\\blub\\b' finds ONLY the Instance/Poset.v:51 header sentence and nothing definitional; there is no meet/join/complete-lattice definition to state the identification against. (2) The general theorem — for any PreOrder R, a product (or J-indexed limit) in Proset R is a greatest lower bound and conversely — is not stated or proved; there is no @Cartesian (Proset P) instance at all (Instance/Proset.v declares only Proset and LessThanEqualTo_Category). (3) The two witnesses that do exist cover only BINARY products/coproducts, not Mac Lane's J-indexed family; the 'limit over a subset is its greatest lower bound' form is documentation only (Instance/Poset.v:47-53). The remark's closing editorial sentence ('completeness is chiefly useful for large categories and preorders') is prose with no formal content, though its technical warrant — Freyd's collapse — is discussed at length in Structure/Complete.v:64-77 and Adjunction/GAFT.v:104-106, again as prose.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'greatest lower bound' . -> 1 hit, Instance/Poset.v:51 (header prose).",
+      "rg -n --glob '*.v' -i '\\bglb\\b|infimum|supremum|\\blub\\b' . -> 0 hits.",
+      "rg -n --glob '*.v' -i 'complete lattice' . -> 2 hits, both prose (Structure/Complete.v:71 citing Adámek-Herrlich-Strecker, Instance/Poset.v:93 citing Knaster-Tarski).",
+      "rg -n --glob '*.v' -i '\\bmeet\\b' . -> 20 files, but the only structural hits are Instance/Two/Monoidal.v (two_meet and the Two_Cartesian comment) and Instance/Props.v (comment); everything else is the English verb 'meet' or 'finite-meet-preserving' prose in Structure/Topos.v:87.",
+      "rg -n --glob '*.v' '^(Theorem|Lemma|Definition|Program Definition|Corollary|Proposition|Program Instance|Instance|Class)' Instance/Proset.v Instance/Poset.v -> Proset, LessThanEqualTo_Category, eq_equiv, Poset only. No Cartesian/Cocartesian/Limit instance on a general preorder."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently AND found the same two witnesses before opening the coverage file — Instance/Two/Monoidal.v (two_meet at line 37, Two_Cartesian at line 80 with 'Binary products on 2 given by meets' at line 79) and Instance/Props.v (Props_Cartesian at line 69 with 'P ∧ Q is the meet', Props_Cocartesian at line 80 with 'P ∨ Q is the join'). All four line numbers verified exact by grep. Props is genuinely a preorder category: Instance/Props.v:39-48 builds it with homset equiv := fun _ _ => True, so P ~> Q is inhabited exactly when P entails Q — the thin/posetal condition Mac Lane's remark presupposes — and the header at :20-25 says so. The Instance/Poset.v header dictionary is verbatim (the sentence 'a product is a meet, and more generally the limit over a subset is its greatest lower bound ... a coproduct is a join' spans lines 50-52; the record's line 47 anchor sits inside the same passage). I independently confirmed the three gaps: no meet/join/glb/lub/complete-lattice vocabulary is defined anywhere (only prose hits), no @Cartesian instance exists on a general Proset R (Instance/Proset.v declares only Proset and LessThanEqualTo_Category), and both witnesses are binary rather than J-indexed. strength_comparison is honest."
+    }
+  }
+]

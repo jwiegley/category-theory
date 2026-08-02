@@ -1,0 +1,1114 @@
+{
+  "book": "awodey",
+  "range": {
+    "pdf_start": 200,
+    "pdf_end": 221
+  },
+  "pages": [
+    {
+      "pdf_page": 200,
+      "book_page": "191",
+      "empty": false,
+      "items": [
+        "awodey:8.1:construction-set-valued-functor-category"
+      ],
+      "notes": "Chapter 8 opening page: title, one motivational paragraph about the Yoneda Lemma (skipped as motivation), then start of 8.1. Crisp born-digital type."
+    },
+    {
+      "pdf_page": 201,
+      "book_page": "192",
+      "empty": false,
+      "items": [
+        "awodey:8.1:construction-evaluation-functor",
+        "awodey:8.1:example-graphs"
+      ],
+      "notes": "Carries displayed equation (8.1) (a commuting triangle of components) \u2014 an EQUATION number, not an item number. Closing paragraph ('generalized category of structured sets') is motivational and skipped."
+    },
+    {
+      "pdf_page": 202,
+      "book_page": "193",
+      "empty": false,
+      "items": [
+        "awodey:8.2:construction-hom-bifunctor-transposes",
+        "awodey:8.2:def1"
+      ],
+      "notes": "Section 8.2 opens here; Definition 8.1 begins and ends on this page."
+    },
+    {
+      "pdf_page": 203,
+      "book_page": "194",
+      "empty": false,
+      "items": [
+        "awodey:8.2:def-embedding",
+        "awodey:8.2:construction-cayley",
+        "awodey:8.2:construction-poset-lower-sets"
+      ],
+      "notes": "Cayley/monoid/poset representations are recapped from section 1.5 but are restated with full mathematical content here, so they are inventoried as constructions."
+    },
+    {
+      "pdf_page": 204,
+      "book_page": "195",
+      "empty": false,
+      "items": [
+        "awodey:8.2:construction-cayley",
+        "awodey:8.3:lem2"
+      ],
+      "notes": "Top paragraph continues the Cayley comparison (the right-equivariance observation that recovers fullness) \u2014 continuation, recorded under pdf 203. Section 8.3 and Lemma 8.2 (Yoneda) start here; clarifying items 1 and 2 (with the naturality-in-F square) also on this page."
+    },
+    {
+      "pdf_page": 205,
+      "book_page": "196",
+      "empty": false,
+      "items": [
+        "awodey:8.3:lem2"
+      ],
+      "notes": "Continuation only: clarifying item 3 (naturality-in-C square) plus the first half of the proof of Lemma 8.2 (definition of eta_{C,F} and of the inverse transformation vartheta_a, and its naturality square)."
+    },
+    {
+      "pdf_page": 206,
+      "book_page": "197",
+      "empty": false,
+      "items": [
+        "awodey:8.3:lem2"
+      ],
+      "notes": "Continuation only: naturality calculation for vartheta_a and both round-trip computations showing the maps are mutually inverse."
+    },
+    {
+      "pdf_page": 207,
+      "book_page": "198",
+      "empty": false,
+      "items": [
+        "awodey:8.3:lem2"
+      ],
+      "notes": "Continuation only: the two naturality claims (in F via phi : F -> F', and in C via f : C' -> C) computed."
+    },
+    {
+      "pdf_page": 208,
+      "book_page": "199",
+      "empty": false,
+      "items": [
+        "awodey:8.3:lem2",
+        "awodey:8.3:thm3",
+        "awodey:8.3:remark4",
+        "awodey:8.3:prop-yoneda-injective-objects"
+      ],
+      "notes": "Proof of Lemma 8.2 ends here (continuation). Draft inconsistency: the text says 'We leave the naturality in F as an exercise' although naturality in F was just computed on the previous page; the part actually deferred appears to be the F-naturality bookkeeping. Two inline 'left as an exercise' remarks in this range are NOT numbered exercises (chapter 8 exercises are all in 8.9, PDF 221)."
+    },
+    {
+      "pdf_page": 209,
+      "book_page": "200",
+      "empty": false,
+      "items": [
+        "awodey:8.4:cor5",
+        "awodey:8.4:example-ccc-exponential-law",
+        "awodey:8.4:prop6"
+      ],
+      "notes": "Section 8.4 opens here. Proposition 8.6 statement on this page, proof overleaf."
+    },
+    {
+      "pdf_page": 210,
+      "book_page": "201",
+      "empty": false,
+      "items": [
+        "awodey:8.4:prop6",
+        "awodey:8.4:remark-yoneda-propositional-calculus",
+        "awodey:8.4:remark-ideal-elements",
+        "awodey:8.5:def-complete",
+        "awodey:8.5:construction-constant-functor",
+        "awodey:8.5:prop7"
+      ],
+      "notes": "Proof of Prop 8.6 completes (continuation). Section 8.5 opens here with the recalled definition of completeness; Proposition 8.7 statement starts here and its final clause plus proof (incl. displayed equation (8.2), the pointwise-limit formula) run onto PDF 211."
+    },
+    {
+      "pdf_page": 211,
+      "book_page": "202",
+      "empty": false,
+      "items": [
+        "awodey:8.5:prop7",
+        "awodey:8.6:def-cocomplete",
+        "awodey:8.6:prop8"
+      ],
+      "notes": "Top half is the tail of Proposition 8.7's proof (starts PDF 210, other agent's item): pointwise-limit formula (8.2) for limits in Sets^(C^op). Section 8.6 heading begins mid-page. [merge] prop7 continuation added to this page's item list."
+    },
+    {
+      "pdf_page": 212,
+      "book_page": "203",
+      "empty": false,
+      "items": [
+        "awodey:8.6:cor9",
+        "awodey:8.6:prop10",
+        "awodey:8.6:construction-category-of-elements"
+      ],
+      "notes": "Proposition 8.8 concludes here (proof: 'Exercise'). Proof of 8.10 introduces the category of elements and the projection functor, continuing to PDF 214."
+    },
+    {
+      "pdf_page": 213,
+      "book_page": "204",
+      "empty": false,
+      "items": [],
+      "notes": "No item STARTS here: Figure 8.1 (Category of elements) plus continuation of the proof of Proposition 8.10 (definition of the projection functor pi, and the Yoneda-based cocone y.pi -> P with its commuting triangle)."
+    },
+    {
+      "pdf_page": 214,
+      "book_page": "205",
+      "empty": false,
+      "items": [
+        "awodey:8.6:remark-elements-slice-equivalence"
+      ],
+      "notes": "Remainder of the proof of Proposition 8.10 (colimiting cocone, uniqueness left to reader). Closing paragraph is pure motivation for the next proposition and is not inventoried."
+    },
+    {
+      "pdf_page": 215,
+      "book_page": "206",
+      "empty": false,
+      "items": [
+        "awodey:8.6:prop11",
+        "awodey:8.7:lem12"
+      ],
+      "notes": "Proposition 8.11 sits before the 8.7 section heading, so it is filed under 8.6; the 8.7 heading and Lemma 8.12 follow on the same page."
+    },
+    {
+      "pdf_page": 216,
+      "book_page": "207",
+      "empty": false,
+      "items": [
+        "awodey:8.7:remark-pointwise-exponential-fails"
+      ],
+      "notes": "Proof of Lemma 8.12 occupies most of the page; the naive pointwise-exponential attempt begins at the foot of the page and is answered on PDF 217."
+    },
+    {
+      "pdf_page": 217,
+      "book_page": "208",
+      "empty": false,
+      "items": [
+        "awodey:8.7:def-presheaf-exponential",
+        "awodey:8.7:prop13"
+      ],
+      "notes": "Exponential of presheaves defined in running prose as display (8.5); Proposition 8.13's proof continues onto PDF 218."
+    },
+    {
+      "pdf_page": 218,
+      "book_page": "209",
+      "empty": false,
+      "items": [
+        "awodey:8.7:thm14",
+        "awodey:8.8:def15"
+      ],
+      "notes": "Theorem 8.14 precedes the 8.8 section heading, so it is filed under 8.7. Definition 8.15 (subobject classifier) carries the pullback square (8.6) and continues onto PDF 219."
+    },
+    {
+      "pdf_page": 219,
+      "book_page": "210",
+      "empty": false,
+      "items": [
+        "awodey:8.8:remark-sub-representable",
+        "awodey:8.8:def16",
+        "awodey:8.8:remark-topos-properties",
+        "awodey:8.8:prop17",
+        "awodey:8.8:def-sieve",
+        "awodey:8.8:construction-omega-sieves"
+      ],
+      "notes": "Densest page of the range: uniqueness/representability remark on classifiers, Definition 8.16 (topos), the unproved closure facts about topoi, and Proposition 8.17 with the sieve machinery, which continues onto PDF 220."
+    },
+    {
+      "pdf_page": 220,
+      "book_page": "211",
+      "empty": false,
+      "items": [
+        "awodey:8.8:remark18"
+      ],
+      "notes": "Conclusion of Proposition 8.17's proof (Omega presheaf, total sieve t, classifying map u_C) followed by the numbered Remark 8.18 on topos logic."
+    },
+    {
+      "pdf_page": 221,
+      "book_page": "212",
+      "empty": false,
+      "items": [
+        "awodey:8:ex1",
+        "awodey:8:ex2",
+        "awodey:8:ex3",
+        "awodey:8:ex4",
+        "awodey:8:ex5",
+        "awodey:8:ex6"
+      ],
+      "notes": "Section 8.9 Exercises, complete on one page: six exercises, the last with parts (a) and (b). Chapter 9 begins on PDF 222."
+    }
+  ],
+  "items": [
+    {
+      "id": "awodey:8.1:construction-set-valued-functor-category",
+      "kind": "construction",
+      "number": null,
+      "name": "the set-valued functor (diagram) category Sets^C",
+      "statement_summary": "For a LOCALLY SMALL category C, forms the functor category whose objects are set-valued functors P, Q : C -> Sets (called 'diagrams on C'; the contravariant variant Sets^(C^op) is the presheaf category) and whose arrows are natural transformations alpha, beta : P -> Q. Composition and identities are those of natural transformations, computed componentwise, so a commuting triangle of natural transformations evaluates at each object C to a commuting triangle of functions PC -> QC -> RC. Naturality additionally supplies, for each arrow f : D -> C, a 'cylinder' over the evaluated triangle.",
+      "book_section": "8.1",
+      "book_page": "191",
+      "pdf_pages": [
+        200
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:8.1:construction-evaluation-functor",
+      "kind": "construction",
+      "number": null,
+      "name": "evaluation functor ev_C : Sets^(C^op) -> Sets",
+      "statement_summary": "For each object C of C there is a functor ev_C from the diagram category to Sets sending a set-valued functor P to the set PC and a natural transformation alpha : P -> Q to its component alpha_C : PC -> QC. Functoriality is exactly the componentwise definition of identity and composition of natural transformations. (Stated for Sets^(C^op); the same works for Sets^C and, later, for D^C with arbitrary codomain.)",
+      "book_section": "8.1",
+      "book_page": "192",
+      "pdf_pages": [
+        201
+      ],
+      "cross_refs": [
+        "awodey:8.1:construction-set-valued-functor-category"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:8.1:example-graphs",
+      "kind": "example",
+      "number": null,
+      "name": "Sets^Gamma = Graphs",
+      "statement_summary": "Let Gamma be the two-object category with objects 1 and 0 and a parallel pair of non-identity arrows 1 => 0 (source and target). Then a set-valued functor G : Gamma -> Sets is exactly a directed multigraph \u2014 a set G1 of edges, a set G0 of vertices, and two functions G1 -> G0 \u2014 and a natural transformation alpha : G -> H is exactly a graph homomorphism (an edge map and a vertex map commuting with both source and target). Hence Sets^Gamma is (identified with) the category Graphs. The example motivates reading any Sets^C as a category of 'structured sets' and their homomorphisms.",
+      "book_section": "8.1",
+      "book_page": "192",
+      "pdf_pages": [
+        201
+      ],
+      "cross_refs": [
+        "awodey:8.1:construction-set-valued-functor-category"
+      ],
+      "flags": [
+        "unnumbered-example"
+      ]
+    },
+    {
+      "id": "awodey:8.2:construction-hom-bifunctor-transposes",
+      "kind": "construction",
+      "number": null,
+      "name": "covariant representables and the two exponential transposes k, y of the hom-bifunctor",
+      "statement_summary": "For each object C of a locally small C, the covariant representable Hom_C(C, -) : C -> Sets is an object of Sets^C. Each arrow h : C -> D induces a natural transformation Hom_C(h, -) : Hom_C(D, -) -> Hom_C(C, -) \u2014 note the REVERSED direction \u2014 whose component at X is precomposition (f : D -> X) |-> (f o h : C -> X). This makes k : C^op -> Sets^C with k(C) = Hom_C(C, -) a (contravariant, in C) functor. k is one exponential transpose of the hom-bifunctor Hom_C : C^op x C -> Sets (whose functoriality was an earlier exercise); transposing in the other argument yields the covariant functor y : C -> Sets^(C^op) into contravariant set-valued functors ('presheaves'), equivalently k for D = C^op.",
+      "book_section": "8.2",
+      "book_page": "193",
+      "pdf_pages": [
+        202
+      ],
+      "cross_refs": [
+        "awodey:8.2:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:8.2:def1",
+      "kind": "definition",
+      "number": "8.1",
+      "name": "Yoneda embedding",
+      "statement_summary": "The Yoneda embedding is the functor y : C -> Sets^(C^op) sending each object C to the contravariant representable presheaf yC = Hom_C(-, C) : C^op -> Sets, and sending each arrow f : C -> D to the natural transformation yf = Hom_C(-, f) : Hom_C(-, C) -> Hom_C(-, D), i.e. postcomposition with f componentwise. (C is assumed locally small so the hom-collections are sets.)",
+      "book_section": "8.2",
+      "book_page": "193",
+      "pdf_pages": [
+        202
+      ],
+      "cross_refs": [
+        "awodey:8.2:construction-hom-bifunctor-transposes"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.2:def-embedding",
+      "kind": "definition",
+      "number": null,
+      "name": "embedding (of categories)",
+      "statement_summary": "A functor F : C -> D is called an embedding when it is full, faithful, AND injective on objects. (Declared in running prose; the Yoneda embedding is later shown to satisfy all three \u2014 full and faithful by Theorem 8.3, injective on objects by the closing prose argument of section 8.3.)",
+      "book_section": "8.2",
+      "book_page": "194",
+      "pdf_pages": [
+        203
+      ],
+      "cross_refs": [
+        "awodey:8.3:thm3",
+        "awodey:8.3:prop-yoneda-injective-objects"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "awodey:8.2:construction-cayley",
+      "kind": "construction",
+      "number": null,
+      "name": "Cayley representation of a group / monoid, and its failure of fullness",
+      "statement_summary": "Recalls (from section 1.5) that a group G embeds by an injective group homomorphism G >-> Aut(|G|) subset of |G|^|G|, where g is sent to the left-translation permutation g~(x) = g . x, and multiplication is carried to composition of permutations: (g.h)~ = g~ o h~. The same left-action construction represents any monoid M as endomorphisms of its underlying set, M >-> End(|M|) subset of |M|^|M|. This representation is faithful but NOT full: there are automorphisms alpha : G -> G of the underlying set that are not left translations. Fullness is recovered by restricting to RIGHT-equivariant maps: if alpha(x . g) = alpha(x) . g for all g, then alpha is itself a left translation \u2014 the prototype of the extra structure the Yoneda embedding puts on objects.",
+      "book_section": "8.2",
+      "book_page": "194",
+      "pdf_pages": [
+        203,
+        204
+      ],
+      "cross_refs": [
+        "awodey:8.3:thm3"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "recap-of-earlier-section-1.5"
+      ]
+    },
+    {
+      "id": "awodey:8.2:construction-poset-lower-sets",
+      "kind": "construction",
+      "number": null,
+      "name": "representation of a poset by principal lower sets",
+      "statement_summary": "For a poset P, let Low(P) be the set of 'lower sets' (down-closed subsets) A subset of P \u2014 those with a' <= a in A implying a' in A \u2014 ordered by inclusion, a sub-poset of the powerset P(|P|). Sending each element p to its principal lower set down(p) = { q in P | q <= p } gives a monotone INJECTION down : P >-> Low(P) which moreover REFLECTS the order: p <= q if and only if down(p) subset of down(q). This is the poset special case of the Yoneda embedding (representables into the poset of 'presheaves' = lower sets).",
+      "book_section": "8.2",
+      "book_page": "194",
+      "pdf_pages": [
+        203
+      ],
+      "cross_refs": [
+        "awodey:8.2:def1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "recap-of-earlier-section-1.5"
+      ]
+    },
+    {
+      "id": "awodey:8.3:lem2",
+      "kind": "lemma",
+      "number": "8.2",
+      "name": "Yoneda lemma",
+      "statement_summary": "Let C be locally small. For every object C of C and every presheaf F in Sets^(C^op) there is an isomorphism (of sets) Hom_{Sets^(C^op)}(yC, F) ~= FC, natural in both F and C. Explicitly, eta_{C,F} sends a natural transformation vartheta : yC -> F to the element x_vartheta = vartheta_C(1_C) in FC; conversely each a in FC gives the natural transformation vartheta_a : yC -> F with component (vartheta_a)_{C'} : Hom(C', C) -> FC' defined by (vartheta_a)_{C'}(h) = F(h)(a). Naturality of vartheta_a follows from functoriality of F (F(h o f) = F(f) o F(h)); the two assignments are mutually inverse, using naturality of vartheta for one round trip and F(1_C) = 1_{FC} for the other. Naturality in F means: for any vartheta : F -> G the square with Hom(yC, vartheta) on the left, the two isomorphisms horizontally, and the component vartheta_C on the right commutes. Naturality in C means: for any h : C -> D the square with Hom(yh, F) on the left and Fh on the right commutes.",
+      "book_section": "8.3",
+      "book_page": "195",
+      "pdf_pages": [
+        204,
+        205,
+        206,
+        207,
+        208
+      ],
+      "cross_refs": [
+        "awodey:8.2:def1",
+        "awodey:8.3:thm3",
+        "awodey:8.3:remark4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.3:thm3",
+      "kind": "theorem",
+      "number": "8.3",
+      "name": "the Yoneda embedding is full and faithful",
+      "statement_summary": "The Yoneda embedding y : C -> Sets^(C^op) is full and faithful. Proof: apply the Yoneda lemma with F = yD to get Hom_C(C, D) = yD(C) ~= Hom_{Sets^(C^op)}(yC, yD) for all objects C, D; the bijection is exactly the action of y on arrows, since the transformation vartheta_h associated with h : C -> D has component (vartheta_h)_{C'}(f : C' -> C) = yD(f)(h) = Hom_C(f, D)(h) = h o f = (yh)_{C'}(f), i.e. vartheta_h = y(h). Consequently every natural transformation yC -> yD is yh for a UNIQUE arrow h : C -> D.",
+      "book_section": "8.3",
+      "book_page": "199",
+      "pdf_pages": [
+        208
+      ],
+      "cross_refs": [
+        "awodey:8.3:lem2",
+        "awodey:8.2:def1",
+        "awodey:8.2:def-embedding"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.3:remark4",
+      "kind": "remark",
+      "number": "8.4",
+      "name": "size conditions for the Yoneda lemma",
+      "statement_summary": "Size bookkeeping for Yoneda. (i) If C is SMALL then Sets^(C^op) is locally small, so Hom(yC, P) is a set for every presheaf P. (ii) If C is only LOCALLY SMALL then Sets^(C^op) need not be locally small, but the Yoneda lemma still guarantees that the particular collection Hom(yC, P) ~= PC is a set. (iii) If C is NOT locally small then y : C -> Sets^(C^op) is not even definable (the would-be representables are not set-valued), so the Yoneda lemma does not apply.",
+      "book_section": "8.3",
+      "book_page": "199",
+      "pdf_pages": [
+        208
+      ],
+      "cross_refs": [
+        "awodey:8.3:lem2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.3:prop-yoneda-injective-objects",
+      "kind": "proposition",
+      "number": null,
+      "name": "the Yoneda embedding is injective on objects (hence an embedding)",
+      "statement_summary": "Closing prose claim of section 8.3: y is also injective on objects, so with Theorem 8.3 it is an embedding in the sense defined in section 8.2. Argument as printed: given objects with yA = yB, the identity 1 lies in Hom(C, C) = yC(C) = yD(C) = Hom(C, D), which forces the two objects to be equal (an arrow whose domain and codomain hom-sets coincide has equal codomains). NOTE: the printed argument switches variable names mid-sentence (it opens with objects A, B and then argues with C, D) \u2014 a draft slip; the intended statement is yA = yB implies A = B.",
+      "book_section": "8.3",
+      "book_page": "199",
+      "pdf_pages": [
+        208
+      ],
+      "cross_refs": [
+        "awodey:8.2:def-embedding",
+        "awodey:8.3:thm3"
+      ],
+      "flags": [
+        "unnumbered-proposition",
+        "statement-in-running-prose",
+        "source-typo-variable-names"
+      ]
+    },
+    {
+      "id": "awodey:8.4:cor5",
+      "kind": "corollary",
+      "number": "8.5",
+      "name": "Yoneda reflects isomorphisms",
+      "statement_summary": "For any objects A, B of a locally small category C: yA ~= yB in Sets^(C^op) implies A ~= B in C. Reason given: any full and faithful functor F reflects isomorphisms (FA ~= FB implies A ~= B), and y is full and faithful by Theorem 8.3. This is the standard proof technique \u2014 establish an isomorphism in C by exhibiting a natural isomorphism of the representable presheaves.",
+      "book_section": "8.4",
+      "book_page": "200",
+      "pdf_pages": [
+        209
+      ],
+      "cross_refs": [
+        "awodey:8.3:thm3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.4:example-ccc-exponential-law",
+      "kind": "example",
+      "number": null,
+      "name": "(A^B)^C ~= A^(B x C) proved by Yoneda",
+      "statement_summary": "In any cartesian closed category, the iterated-exponential law (A^B)^C ~= A^(B x C) is obtained from Corollary 8.5 by proving y((A^B)^C) ~= y(A^(B x C)): for an arbitrary object X, Hom(X, (A^B)^C) ~= Hom(X x C, A^B) ~= Hom((X x C) x B, A) ~= Hom(X x (B x C), A) ~= Hom(X, A^(B x C)), using the exponential adjunction twice on each side plus associativity (and a symmetry) of binary products. Naturality of these bijections in X must be checked and is left to the reader. Contrast: the direct proof from the compound universal mapping property is much more involved.",
+      "book_section": "8.4",
+      "book_page": "200",
+      "pdf_pages": [
+        209
+      ],
+      "cross_refs": [
+        "awodey:8.4:cor5"
+      ],
+      "flags": [
+        "unnumbered-example"
+      ]
+    },
+    {
+      "id": "awodey:8.4:prop6",
+      "kind": "proposition",
+      "number": "8.6",
+      "name": "a cartesian closed category with coproducts is distributive",
+      "statement_summary": "If a cartesian closed category C has binary coproducts, then C is distributive: there is a canonical isomorphism A x (B + C) ~= (A x B) + (A x C). Proof by the Yoneda technique applied to the CO-representable functors Hom(-, X) (i.e. Yoneda in C^op): for arbitrary X, Hom(A x (B + C), X) ~= Hom(B + C, X^A) ~= Hom(B, X^A) x Hom(C, X^A) ~= Hom(A x B, X) x Hom(A x C, X) ~= Hom((A x B) + (A x C), X), using the exponential adjunction, the universal property of the coproduct (hom out of a coproduct is a product of homs), and the exponential adjunction again; all isomorphisms are natural in X, so the two objects are isomorphic.",
+      "book_section": "8.4",
+      "book_page": "200",
+      "pdf_pages": [
+        209,
+        210
+      ],
+      "cross_refs": [
+        "awodey:8.4:cor5",
+        "awodey:8.4:example-ccc-exponential-law"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.4:remark-yoneda-propositional-calculus",
+      "kind": "remark",
+      "number": null,
+      "name": "Yoneda in the propositional calculus",
+      "statement_summary": "A logical instance of the Yoneda technique already met earlier: in the propositional calculus, to show that two formulas phi and psi are interderivable (phi ||- psi) it suffices to show that for EVERY formula vartheta one has vartheta |- phi if and only if vartheta |- psi. I.e. in the preorder of formulas and entailments, objects with pointwise-equivalent representable 'down-sets' are isomorphic \u2014 the poset case of Corollary 8.5.",
+      "book_section": "8.4",
+      "book_page": "201",
+      "pdf_pages": [
+        210
+      ],
+      "cross_refs": [
+        "awodey:8.4:cor5",
+        "awodey:8.2:construction-poset-lower-sets"
+      ],
+      "flags": [
+        "unnumbered-remark"
+      ]
+    },
+    {
+      "id": "awodey:8.4:remark-ideal-elements",
+      "kind": "remark",
+      "number": null,
+      "name": "presheaves as an extension of C by ideal elements",
+      "statement_summary": "General methodological consequence of Theorem 8.3: for objects A, B of a locally small C, to construct an arrow h : A -> B it suffices to construct a natural transformation vartheta : yA -> yB in Sets^(C^op), since then there is a UNIQUE h with vartheta = yh. This is useful because the presheaf category has far more structure than C: it is complete, cocomplete, cartesian closed, and more (established in sections 8.5-8.7), so higher-order tools (limits, colimits, lambda-calculus) unavailable in C may be used to build vartheta and the result transported back. Presheaves thus extend C by 'ideal elements', analogously to passing to the complex numbers to solve real equations or adding higher types to an elementary theory.",
+      "book_section": "8.4",
+      "book_page": "201",
+      "pdf_pages": [
+        210
+      ],
+      "cross_refs": [
+        "awodey:8.3:thm3",
+        "awodey:8.5:prop7"
+      ],
+      "flags": [
+        "unnumbered-remark",
+        "forward-reference"
+      ]
+    },
+    {
+      "id": "awodey:8.5:def-complete",
+      "kind": "definition",
+      "number": null,
+      "name": "complete category (limits as universal arrows from constant functors)",
+      "statement_summary": "Recalled definition: a category E is COMPLETE if it has all small limits, i.e. for every SMALL category J and every functor F : J -> E there is a limit L = lim_{j in J} Fj in E together with a cone eta : Delta L -> F in the functor category E^J which is universal among arrows Delta E -> F from constant functors. Thus a cone on F with vertex E is precisely an arrow Delta E -> F in E^J, and the limit is the universal such arrow; this organizes cones and morphisms of cones as objects and arrows of a functor category.",
+      "book_section": "8.5",
+      "book_page": "201",
+      "pdf_pages": [
+        210
+      ],
+      "cross_refs": [
+        "awodey:8.5:construction-constant-functor"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "recalled-definition"
+      ]
+    },
+    {
+      "id": "awodey:8.5:construction-constant-functor",
+      "kind": "construction",
+      "number": null,
+      "name": "constant (diagonal) functor Delta : E -> E^J",
+      "statement_summary": "The constant functor Delta : E -> E^J is defined as the exponential transpose of the projection E x J -> E. On objects it sends E to the functor with constant value E (sending every arrow of J to 1_E), and on arrows it sends f : E -> E' to the natural transformation all of whose components are f. It provides the convenient packaging of cones over a diagram F : J -> E as arrows Delta E -> F in the functor category.",
+      "book_section": "8.5",
+      "book_page": "201",
+      "pdf_pages": [
+        210
+      ],
+      "cross_refs": [
+        "awodey:8.5:def-complete"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:8.5:prop7",
+      "kind": "proposition",
+      "number": "8.7",
+      "name": "presheaf categories are complete; limits are pointwise and evaluation preserves them",
+      "statement_summary": "For any locally small category C, the functor category Sets^(C^op) is complete, and for every object C of C the evaluation functor ev_C : Sets^(C^op) -> Sets preserves ALL limits. Proof sketch: given a small J and F : J -> Sets^(C^op), the limit \u2014 if it exists \u2014 is a presheaf (lim_{i in J} F_i) : C^op -> Sets; by the Yoneda lemma (lim F_i)(C) ~= Hom(yC, lim F_i), and since representable functors preserve limits Hom(yC, lim F_i) ~= lim Hom(yC, F_i) ~= lim F_i(C) (Yoneda again), all in Sets. Hence one DEFINES the limit POINTWISE by (lim_{i in J} F_i)(C) = lim_{i in J}(F_i C) (displayed equation (8.2)); the foregoing argument shows this is a limit in Sets^(C^op). The action on C-arrows and the universal cone are routine, and (8.2) is exactly the statement that each ev_C preserves limits. (Completeness of Sets is what is being lifted.)",
+      "book_section": "8.5",
+      "book_page": "201",
+      "pdf_pages": [
+        210,
+        211
+      ],
+      "cross_refs": [
+        "awodey:8.3:lem2",
+        "awodey:8.5:def-complete",
+        "awodey:8.1:construction-evaluation-functor"
+      ],
+      "flags": [
+        "spans-into-neighbouring-range"
+      ]
+    },
+    {
+      "id": "awodey:8.6:def-cocomplete",
+      "kind": "definition",
+      "number": null,
+      "name": "cocomplete category",
+      "statement_summary": "In running prose at the start of section 8.6: a category is called cocomplete when it possesses all small colimits, i.e. every functor from a small index category into it has a colimit; explicitly stated as the formal dual of completeness (all small limits) recalled just before Proposition 8.7.",
+      "book_section": "8.6",
+      "book_page": "202",
+      "pdf_pages": [
+        211
+      ],
+      "cross_refs": [
+        "awodey:8.5:prop7"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "definition-in-prose"
+      ]
+    },
+    {
+      "id": "awodey:8.6:prop8",
+      "kind": "proposition",
+      "number": "8.8",
+      "name": "colimits in functor categories are pointwise",
+      "statement_summary": "For any categories C and D with D cocomplete, the functor category D^C is cocomplete as well, and its colimits are computed objectwise: for each object C of C the evaluation functor ev_C : D^C -> D preserves colimits, so for every small index category J and every functor A : J -> D^C there is a canonical isomorphism colim_{j in J} (A_j C) = (colim_{j in J} A_j)(C). The book leaves the proof as an exercise.",
+      "book_section": "8.6",
+      "book_page": "202",
+      "pdf_pages": [
+        211,
+        212
+      ],
+      "cross_refs": [
+        "awodey:8.5:prop7",
+        "awodey:8.6:cor9"
+      ],
+      "flags": [
+        "proof-omitted-as-exercise"
+      ]
+    },
+    {
+      "id": "awodey:8.6:cor9",
+      "kind": "corollary",
+      "number": "8.9",
+      "name": "presheaf categories are cocomplete",
+      "statement_summary": "Specialization of the previous proposition to D = Sets: for any locally small category C the presheaf category Sets^(C^op) is cocomplete, and its colimits are computed pointwise (evaluation at each object preserves them), because Sets is cocomplete.",
+      "book_section": "8.6",
+      "book_page": "203",
+      "pdf_pages": [
+        212
+      ],
+      "cross_refs": [
+        "awodey:8.6:prop8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.6:prop10",
+      "kind": "proposition",
+      "number": "8.10",
+      "name": "every presheaf is a colimit of representables (density of Yoneda)",
+      "statement_summary": "For any small category C and any presheaf P in Sets^(C^op), P is a colimit of representable functors: colim_{j in J} y A_j = P. More precisely there is a canonical choice of index category J and functor A : J -> C, namely J the category of elements of P and A the projection functor, giving a natural isomorphism colim_J (y o A) = P. The proof takes the component of the cocone y o pi -> P at an object (x,C) to be the map x : yC -> P obtained from x in P(C) via the Yoneda correspondence, shows the required triangles commute by naturality, and verifies the universal property: any cocone with components theta_{(x,C)} : yC -> Q induces a unique natural transformation theta : P -> Q with theta_C(x) = theta_{(x,C)}.",
+      "book_section": "8.6",
+      "book_page": "203",
+      "pdf_pages": [
+        212,
+        213,
+        214
+      ],
+      "cross_refs": [
+        "awodey:8.3:lem2",
+        "awodey:8.6:construction-category-of-elements",
+        "awodey:8.6:prop11",
+        "awodey:8.7:prop13"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.6:construction-category-of-elements",
+      "kind": "construction",
+      "number": null,
+      "name": "category of elements of a presheaf, with its projection functor",
+      "statement_summary": "For a presheaf P : C^op -> Sets, the category of elements (written as an integral sign over C applied to P) has as objects the pairs (x, C) with C an object of C and x an element of P(C); an arrow h : (x',C') -> (x,C) is an arrow h : C' -> C of C satisfying P(h)(x) = x' (formally a triple recording h together with its two labelled endpoints), with identities and composition inherited from C. It is a small category whenever C is small. The projection functor pi from this category to C sends (x,C) to C and an arrow triple to its underlying arrow h. Illustrated by Figure 8.1 (fibres P(C) stacked over the objects of C).",
+      "book_section": "8.6",
+      "book_page": "203",
+      "pdf_pages": [
+        212,
+        213,
+        214
+      ],
+      "cross_refs": [
+        "awodey:8.6:prop10",
+        "awodey:8.6:remark-elements-slice-equivalence",
+        "awodey:8.6:prop11"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:8.6:remark-elements-slice-equivalence",
+      "kind": "remark",
+      "number": null,
+      "name": "elements category equivalent to the representables slice over P",
+      "statement_summary": "Asserted in the proof of Proposition 8.10: the category of elements of P is equivalent to the full subcategory of the slice category Sets^(C^op)/P spanned by those objects (arrows into P) whose domain is representable; that full subcategory is written y/P. This is what licenses identifying an element x of P(C) with an arrow yC -> P and treating the elements category as an index category of representables over P.",
+      "book_section": "8.6",
+      "book_page": "205",
+      "pdf_pages": [
+        214
+      ],
+      "cross_refs": [
+        "awodey:8.6:construction-category-of-elements",
+        "awodey:8.3:lem2"
+      ],
+      "flags": [
+        "unnumbered",
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:8.6:prop11",
+      "kind": "proposition",
+      "number": "8.11",
+      "name": "Yoneda embedding as the free cocompletion",
+      "statement_summary": "For any small category C the Yoneda embedding y : C -> Sets^(C^op) is the free cocompletion of C, in the sense that for every cocomplete category E and every functor F : C -> E there exists a colimit-preserving functor F_! : Sets^(C^op) -> E, unique up to natural isomorphism, such that F_! o y = F (naturally isomorphic to F). Only a proof sketch is given: using the canonical presentation of a presheaf P as a colimit of representables indexed by its category of elements, set F_!(P) := colim_{j in J} F(A_j), which exists since E is cocomplete; the full proof is deferred to the adjoint-functor chapter (cited there as proposition 9.16).",
+      "book_section": "8.6",
+      "book_page": "206",
+      "pdf_pages": [
+        215
+      ],
+      "cross_refs": [
+        "awodey:8.6:prop10",
+        "awodey:8.6:construction-category-of-elements",
+        "awodey:8.2:def1"
+      ],
+      "flags": [
+        "proof-sketch-only",
+        "proof-deferred-to-chapter-9"
+      ]
+    },
+    {
+      "id": "awodey:8.7:lem12",
+      "kind": "lemma",
+      "number": "8.12",
+      "name": "product with a fixed presheaf preserves colimits",
+      "statement_summary": "For any small index category J, any functor A : J -> Sets^(C^op) and any presheaf B in Sets^(C^op), there is a natural isomorphism colim_j (A_j x B) = (colim_j A_j) x B; equivalently the functor (- x B) on presheaves preserves colimits. The proof builds the comparison arrow out of the colimit from the cocone obtained by applying (- x B) to the colimiting cocone, reduces to checking each component at an object C (limits and colimits in presheaves being pointwise), and then settles the set-level case by the chain of natural bijections Hom(colim(A_j x B), X) = lim Hom(A_j x B, X) = lim Hom(A_j, X^B) = Hom(colim A_j, X^B) = Hom((colim A_j) x B, X), using that Sets is cartesian closed, concluding by Yoneda since these are natural in X.",
+      "book_section": "8.7",
+      "book_page": "206",
+      "pdf_pages": [
+        215,
+        216
+      ],
+      "cross_refs": [
+        "awodey:8.6:cor9",
+        "awodey:8.3:lem2",
+        "awodey:8.7:prop13"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.7:remark-pointwise-exponential-fails",
+      "kind": "remark",
+      "number": null,
+      "name": "the pointwise formula does not define an exponential of presheaves",
+      "statement_summary": "The text poses and answers negatively the naive attempt to define exponentials in Sets^(C^op) objectwise by Q^P(C) := Q(C)^(P(C)): this assignment does not work because it is not functorial (there is no way to make it contravariant in C from the given data), which is why the Yoneda-derived formula of display (8.5) is adopted instead.",
+      "book_section": "8.7",
+      "book_page": "207",
+      "pdf_pages": [
+        216,
+        217
+      ],
+      "cross_refs": [
+        "awodey:8.7:def-presheaf-exponential"
+      ],
+      "flags": [
+        "unnumbered",
+        "negative-result",
+        "left-to-reader"
+      ]
+    },
+    {
+      "id": "awodey:8.7:def-presheaf-exponential",
+      "kind": "definition",
+      "number": null,
+      "name": "exponential of presheaves Q^P (display 8.5)",
+      "statement_summary": "Definition made in running prose and displayed as (8.5): for presheaves P, Q on a small category C, define the presheaf Q^P by Q^P(C) := Hom(yC x P, Q), the set of natural transformations from the product of the representable yC with P into Q, with action on an arrow h : C' -> C given by Q^P(h) := Hom(y h x 1_P, Q), i.e. precomposition with the induced map. The motivation is forced by Yoneda plus the exponential adjunction: Q^P(C) must be Hom(yC, Q^P) = Hom(yC x P, Q), and the right-hand side always exists. The text observes this is manifestly a contravariant set-valued functor on C.",
+      "book_section": "8.7",
+      "book_page": "208",
+      "pdf_pages": [
+        217
+      ],
+      "cross_refs": [
+        "awodey:8.3:lem2",
+        "awodey:8.7:prop13",
+        "awodey:8.7:remark-pointwise-exponential-fails"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "definition-in-prose"
+      ]
+    },
+    {
+      "id": "awodey:8.7:prop13",
+      "kind": "proposition",
+      "number": "8.13",
+      "name": "Q^P is an exponential in the presheaf category",
+      "statement_summary": "For all objects X, P, Q of Sets^(C^op) (C small) there is an isomorphism Hom(X, Q^P) = Hom(X x P, Q), natural in X, where Q^P is the presheaf defined by (8.5). Proof: write X as a colimit of representables (by Proposition 8.10), then chain isomorphisms Hom(colim yC_j, Q^P) = lim Hom(yC_j, Q^P) = lim Q^P(C_j) (Yoneda) = lim Hom(yC_j x P, Q) (by 8.5) = Hom(colim (yC_j x P), Q) = Hom((colim yC_j) x P, Q) (by Lemma 8.12) = Hom(X x P, Q); naturality in X is clear from the construction.",
+      "book_section": "8.7",
+      "book_page": "208",
+      "pdf_pages": [
+        217,
+        218
+      ],
+      "cross_refs": [
+        "awodey:8.7:def-presheaf-exponential",
+        "awodey:8.6:prop10",
+        "awodey:8.7:lem12",
+        "awodey:8.3:lem2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.7:thm14",
+      "kind": "theorem",
+      "number": "8.14",
+      "name": "presheaf categories are cartesian closed; Yoneda preserves products and exponentials",
+      "statement_summary": "For any small category C the diagram category Sets^(C^op) is cartesian closed (it has finite products and the exponentials constructed above). Moreover the Yoneda embedding y : C -> Sets^(C^op) preserves all products and all exponentials that happen to exist in C. The cartesian-closedness follows from the preceding proposition; the preservation claim is left as an exercise (cf. chapter 8 exercise 4).",
+      "book_section": "8.7",
+      "book_page": "209",
+      "pdf_pages": [
+        218
+      ],
+      "cross_refs": [
+        "awodey:8.7:prop13",
+        "awodey:8:ex4",
+        "awodey:8.2:def1"
+      ],
+      "flags": [
+        "proof-partly-omitted-as-exercise"
+      ]
+    },
+    {
+      "id": "awodey:8.8:def15",
+      "kind": "definition",
+      "number": "8.15",
+      "name": "subobject classifier",
+      "statement_summary": "Let E be a category with all finite limits. A subobject classifier in E consists of an object Omega together with an arrow t : 1 -> Omega from the terminal object (a 'universal subobject', i.e. a mono) such that for every object E and every subobject (mono) U >-> E there is a UNIQUE arrow u : E -> Omega making the square with sides U -> 1, U >-> E, t : 1 -> Omega and u : E -> Omega a pullback (display 8.6). This u is the classifying (characteristic) arrow of U >-> E, cutting out exactly the part of E that is U as the preimage of the point t. The motivating instance in Sets is Omega = 2 = {0,1} with t naming one element, recovering ordinary characteristic functions of subsets.",
+      "book_section": "8.8",
+      "book_page": "209",
+      "pdf_pages": [
+        218,
+        219
+      ],
+      "cross_refs": [
+        "awodey:8.8:def16",
+        "awodey:8.8:remark-sub-representable",
+        "awodey:8.8:prop17"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.8:remark-sub-representable",
+      "kind": "remark",
+      "number": null,
+      "name": "uniqueness of the classifier via representability of the subobject functor",
+      "statement_summary": "Stated in prose after Definition 8.15: a subobject classifier is unique up to isomorphism, because the defining pullback condition is exactly equivalent to requiring the contravariant subobject functor Sub_E(-) : E^op -> Sets (which acts on arrows by pulling subobjects back) to be representable, with a natural isomorphism Sub_E(-) = Hom_E(-, Omega). The required natural isomorphism is precisely the classifying-arrow bijection asserted in the definition; uniqueness then follows from uniqueness of representing objects.",
+      "book_section": "8.8",
+      "book_page": "210",
+      "pdf_pages": [
+        219
+      ],
+      "cross_refs": [
+        "awodey:8.8:def15",
+        "awodey:8.3:lem2"
+      ],
+      "flags": [
+        "unnumbered",
+        "proof-sketch-only"
+      ]
+    },
+    {
+      "id": "awodey:8.8:def16",
+      "kind": "definition",
+      "number": "8.16",
+      "name": "topos",
+      "statement_summary": "A topos is a category E satisfying three conditions: (1) E has all finite limits; (2) E has a subobject classifier in the sense of Definition 8.15; (3) E has all exponentials (is cartesian closed).",
+      "book_section": "8.8",
+      "book_page": "210",
+      "pdf_pages": [
+        219
+      ],
+      "cross_refs": [
+        "awodey:8.8:def15",
+        "awodey:8.8:prop17",
+        "awodey:8.8:remark-topos-properties"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8.8:remark-topos-properties",
+      "kind": "remark",
+      "number": null,
+      "name": "topoi have finite colimits and slices of topoi are topoi",
+      "statement_summary": "Immediately after Definition 8.16 the text records, without proof, two consequences of the compact definition: every topos also has all finite colimits, and every slice category of a topos is again a topos (the fundamental theorem of topos theory), referring the reader to Mac Lane-Moerdijk, Johnstone, and McLarty for the topos-theoretic development.",
+      "book_section": "8.8",
+      "book_page": "210",
+      "pdf_pages": [
+        219
+      ],
+      "cross_refs": [
+        "awodey:8.8:def16"
+      ],
+      "flags": [
+        "unnumbered",
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:8.8:prop17",
+      "kind": "proposition",
+      "number": "8.17",
+      "name": "presheaf categories are topoi",
+      "statement_summary": "For any small category C the diagram category Sets^(C^op) is a topos. Proof: finite limits and exponentials are already available from the preceding sections, so only a subobject classifier is needed; it is produced from sieves, taking Omega(C) to be the set of sieves on C with restriction along h : D -> C given by h*(S) = {g : - -> D with h o g in S}, and t : 1 -> Omega picking at each C the total sieve of all arrows into C. Given a subpresheaf U >-> E the classifying map is defined at C by u_C(e) = {f : D -> C with f*(e) in U(D)} for e in E(C), i.e. the sieve of arrows into C that pull e back into U; the verification that this is the unique classifying morphism is left to the reader.",
+      "book_section": "8.8",
+      "book_page": "210",
+      "pdf_pages": [
+        219,
+        220
+      ],
+      "cross_refs": [
+        "awodey:8.8:def16",
+        "awodey:8.8:def-sieve",
+        "awodey:8.8:construction-omega-sieves",
+        "awodey:8.7:thm14"
+      ],
+      "flags": [
+        "verification-left-to-reader"
+      ]
+    },
+    {
+      "id": "awodey:8.8:def-sieve",
+      "kind": "definition",
+      "number": null,
+      "name": "sieve on an object",
+      "statement_summary": "Defined in running prose inside the proof of Proposition 8.17: for any category C and object C, a sieve on C is a set S of arrows of C with codomain C (arbitrary domains) that is closed under precomposition, i.e. whenever f : D -> C lies in S and g : E -> D is any arrow, the composite f o g : E -> C also lies in S. The text glosses a sieve as the generalization of a lower (downward-closed) set in a poset.",
+      "book_section": "8.8",
+      "book_page": "210",
+      "pdf_pages": [
+        219
+      ],
+      "cross_refs": [
+        "awodey:8.8:prop17",
+        "awodey:8.8:construction-omega-sieves"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "definition-in-prose"
+      ]
+    },
+    {
+      "id": "awodey:8.8:construction-omega-sieves",
+      "kind": "construction",
+      "number": null,
+      "name": "the presheaf of sieves Omega with its point t (classifier of Sets^(C^op))",
+      "statement_summary": "Construction developed in the proof of Proposition 8.17: Omega : C^op -> Sets sends an object C to the set of all sieves on C, and an arrow h : D -> C to the restriction map h* : Omega(C) -> Omega(D), h*(S) = {g with codomain D such that h o g lies in S}; functoriality is checked to make this a presheaf. Its distinguished global point t : 1 -> Omega is given at each C by the total (maximal) sieve consisting of ALL arrows into C, interpreted as 'true'. For a subpresheaf U >-> E, the classifying natural transformation u : E -> Omega is u_C(e) = {f : D -> C with f*(e) in U(D)}, the sieve of arrows pulling the element e of E(C) back into U.",
+      "book_section": "8.8",
+      "book_page": "210",
+      "pdf_pages": [
+        219,
+        220
+      ],
+      "cross_refs": [
+        "awodey:8.8:def-sieve",
+        "awodey:8.8:prop17",
+        "awodey:8.8:def15"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:8.8:remark18",
+      "kind": "remark",
+      "number": "8.18",
+      "name": "topos logic: Omega as truth-values, extensions, higher-order logic",
+      "statement_summary": "Numbered remark linking topoi to logic with formalizable content: because subobjects U >-> E correspond bijectively to arrows u : E -> Omega, the classifier Omega behaves as an object of propositions/truth-values with t as 'true', and u is a propositional function whose extension is U. The pullback condition (8.6) yields the membership criterion: a generalized element x : X -> E lies in U (factors through U >-> E) if and only if u o x equals true, so that U = {x in E : ux = true} in the generalized-element notation of section 5.1. The remark further asserts that topoi model the first-order quantifiers as adjoints to pullback (forward reference to section 9.5), and that combining cartesian closure (internal type theory via the lambda-calculus of section 6.5) with the classifier gives an interpretation of higher-order logic, the exponential Omega^E serving as the power object P(E) of subobjects of E.",
+      "book_section": "8.8",
+      "book_page": "211",
+      "pdf_pages": [
+        220
+      ],
+      "cross_refs": [
+        "awodey:8.8:def15",
+        "awodey:8.8:def16",
+        "awodey:8.8:prop17"
+      ],
+      "flags": [
+        "forward-reference"
+      ]
+    },
+    {
+      "id": "awodey:8:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "full and faithful functors reflect isomorphism of objects",
+      "statement_summary": "Show that if F : C -> D is full and faithful, then for objects C, C' of C one has C isomorphic to C' if and only if FC is isomorphic to FC' (i.e. such a functor both preserves and reflects isomorphism of objects).",
+      "book_section": "8.9",
+      "book_page": "212",
+      "pdf_pages": [
+        221
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:8:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "exponential laws in a cartesian closed category via Yoneda",
+      "statement_summary": "Let C be a locally small cartesian closed category. Using the Yoneda embedding, show that for all objects A, B, C of C there is an isomorphism (A x B)^C = A^C x B^C (compare chapter 6, problem 1); and show that if C additionally has binary coproducts then A^(B+C) = A^B x A^C.",
+      "book_section": "8.9",
+      "book_page": "212",
+      "pdf_pages": [
+        221
+      ],
+      "cross_refs": [
+        "awodey:8.2:def1",
+        "awodey:8.3:lem2"
+      ],
+      "flags": [
+        "multi-part"
+      ]
+    },
+    {
+      "id": "awodey:8:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "binary products of presheaves are pointwise",
+      "statement_summary": "Show that for any locally small category C the functor category Sets^(C^op) has binary products F x G, and that they are computed pointwise: (F x G)(C) = FC x GC for every object C of C.",
+      "book_section": "8.9",
+      "book_page": "212",
+      "pdf_pages": [
+        221
+      ],
+      "cross_refs": [
+        "awodey:8.5:prop7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "the Yoneda embedding preserves products and exponentials",
+      "statement_summary": "Let C be a locally small category with binary products; show (in a few lines of calculation, per the hint) that the Yoneda embedding y : C -> Sets^(C^op) preserves those products. Show further that if C also has exponentials then y preserves them as well. This supplies the omitted half of Theorem 8.14.",
+      "book_section": "8.9",
+      "book_page": "212",
+      "pdf_pages": [
+        221
+      ],
+      "cross_refs": [
+        "awodey:8.7:thm14",
+        "awodey:8.2:def1"
+      ],
+      "flags": [
+        "multi-part"
+      ]
+    },
+    {
+      "id": "awodey:8:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "product with a set preserves colimits in Sets",
+      "statement_summary": "Use the Yoneda Lemma to show that for any set A the functor A x - : Sets -> Sets preserves all colimits, i.e. A x colim_i B_i = colim_i (A x B_i) for any diagram i : I -> Sets. (The set-level case underlying Lemma 8.12.)",
+      "book_section": "8.9",
+      "book_page": "212",
+      "pdf_pages": [
+        221
+      ],
+      "cross_refs": [
+        "awodey:8.3:lem2",
+        "awodey:8.7:lem12"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:8:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "subobject classifiers of Sets^2 and Sets^omega; finite-set diagrams form a topos",
+      "statement_summary": "(a) Explicitly determine the subobject classifiers of the topoi Sets^2 and Sets^omega, where 2 is the two-element poset 0 < 1 and omega is the poset of natural numbers 0 < 1 < 2 < ... (b) Show that the category of 2-indexed diagrams of FINITE sets, (Sets_fin)^2, is a topos.",
+      "book_section": "8.9",
+      "book_page": "212",
+      "pdf_pages": [
+        221
+      ],
+      "cross_refs": [
+        "awodey:8.8:def15",
+        "awodey:8.8:def16",
+        "awodey:8.8:prop17"
+      ],
+      "flags": [
+        "multi-part"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1179 @@
+{
+  "book": "awodey",
+  "range": {
+    "pdf_start": 274,
+    "pdf_end": 303
+  },
+  "pages": [
+    {
+      "pdf_page": 274,
+      "book_page": "265",
+      "empty": false,
+      "items": [
+        "awodey:10.1:construction-triangle-identities"
+      ],
+      "notes": "Chapter 10 title page + motivational intro (skipped as prose) + start of 10.1: adjunction F ⊣ U with unit/counit and the transposition phi(f)=U(f)∘eta_C, phi^{-1}(g)=eps_D∘F(g)."
+    },
+    {
+      "pdf_page": 275,
+      "book_page": "266",
+      "empty": false,
+      "items": [
+        "awodey:10.1:construction-triangle-identities"
+      ],
+      "notes": "Continuation from p.274: the two triangle diagrams and displayed equations (10.1), (10.2) — equation counter, not item numbers."
+    },
+    {
+      "pdf_page": 276,
+      "book_page": "267",
+      "empty": false,
+      "items": [
+        "awodey:10.1:prop1"
+      ],
+      "notes": "Proposition 10.1 with full proof; closing paragraph on the 'algebraic' virtue of the triangle identities is motivational prose (skipped)."
+    },
+    {
+      "pdf_page": 277,
+      "book_page": "268",
+      "empty": false,
+      "items": [
+        "awodey:10.2:prop3"
+      ],
+      "notes": "Start of 10.2. The motivating 'Question' (when is T = U∘F?) is prose; the construction of eta : 1 → T and mu = U eps_F : T^2 → T and the associativity square are the proof material of Proposition 10.3, whose statement lands on PDF 279."
+    },
+    {
+      "pdf_page": 278,
+      "book_page": "269",
+      "empty": false,
+      "items": [
+        "awodey:10.2:prop3"
+      ],
+      "notes": "Displayed monad laws (10.3), (10.4) and the naturality-of-eps verification; still proof material for Proposition 10.3."
+    },
+    {
+      "pdf_page": 279,
+      "book_page": "270",
+      "empty": false,
+      "items": [
+        "awodey:10.2:prop3",
+        "awodey:10.2:def2",
+        "awodey:10.2:example4"
+      ],
+      "notes": "Definition 10.2 (monad), Proposition 10.3 (statement), Example 10.4 (poset monads = closure operations)."
+    },
+    {
+      "pdf_page": 280,
+      "book_page": "271",
+      "empty": false,
+      "items": [
+        "awodey:10.2:construction-poset-monad-adjunction",
+        "awodey:10.2:example5",
+        "awodey:10.2:remark-endofunctor-monad"
+      ],
+      "notes": "Unnumbered prose construction recovering an adjunction from a poset monad; Example 10.5 (covariant powerset monad); closing remark answering the section's Question."
+    },
+    {
+      "pdf_page": 281,
+      "book_page": "272",
+      "empty": false,
+      "items": [
+        "awodey:10.3:prop6",
+        "awodey:10.3:def-t-algebra",
+        "awodey:10.3:construction-eilenberg-moore"
+      ],
+      "notes": "Start of 10.3: Proposition 10.6 statement, then its proof begins by defining T-algebras (eq. 10.5) and their morphisms, i.e. the Eilenberg-Moore category."
+    },
+    {
+      "pdf_page": 282,
+      "book_page": "273",
+      "empty": false,
+      "items": [
+        "awodey:10.3:prop6",
+        "awodey:10.3:def-t-algebra",
+        "awodey:10.3:construction-eilenberg-moore"
+      ],
+      "notes": "Morphism square for T-algebras; C^T is a category; U(A,alpha)=A and FC=(TC,mu_C) defined and checked."
+    },
+    {
+      "pdf_page": 283,
+      "book_page": "274",
+      "empty": false,
+      "items": [
+        "awodey:10.3:prop6",
+        "awodey:10.3:construction-eilenberg-moore"
+      ],
+      "notes": "Fh = Th; unit etabar = eta; counit eps_(A,alpha) = alpha with naturality."
+    },
+    {
+      "pdf_page": 284,
+      "book_page": "275",
+      "empty": false,
+      "items": [
+        "awodey:10.3:prop6",
+        "awodey:10.3:construction-eilenberg-moore"
+      ],
+      "notes": "Verification of both triangle identities for F^T ⊣ U^T."
+    },
+    {
+      "pdf_page": 285,
+      "book_page": "276",
+      "empty": false,
+      "items": [
+        "awodey:10.3:prop6",
+        "awodey:10.3:construction-eilenberg-moore",
+        "awodey:10.3:example7"
+      ],
+      "notes": "End of the proof of Proposition 10.6 (mubar = U eps F = mu); Example 10.7 (free-monoid / list monad and its algebras)."
+    },
+    {
+      "pdf_page": 286,
+      "book_page": "277",
+      "empty": false,
+      "items": [
+        "awodey:10.3:construction-comparison-functor",
+        "awodey:10.3:def-monadic",
+        "awodey:10.3:remark-kleisli-nonuniqueness"
+      ],
+      "notes": "No numbered environments on this page; comparison functor Phi, definition of monadic functor, and the non-uniqueness/Kleisli remark are all unnumbered."
+    },
+    {
+      "pdf_page": 287,
+      "book_page": "278",
+      "empty": false,
+      "items": [
+        "awodey:10.3:example-pos-not-monadic",
+        "awodey:10.4:def-comonad",
+        "awodey:10.4:construction-comonad-from-adjunction",
+        "awodey:10.4:def-coalgebra"
+      ],
+      "notes": "Pos example closes 10.3; section 10.4 begins mid-page with the comonad definition (all unnumbered). Reason-1/reason-2 list starts here and continues on PDF 288."
+    },
+    {
+      "pdf_page": 288,
+      "book_page": "279",
+      "empty": false,
+      "items": [
+        "awodey:10.4:example-limit-comonad",
+        "awodey:10.4:construction-adjoint-triple",
+        "awodey:10.4:remark-modal-s5",
+        "awodey:10.4:example-interior-closure"
+      ],
+      "notes": "Running head reads '10.5. ALGEBRAS FOR ENDOFUNCTORS' but the top ~3/4 of the page is still 10.4 content (reasons 1 and 2); the 10.5 heading appears near the foot with only an introductory paragraph (nothing inventoriable). The first 10.5 item (the group-structure endofunctor F(X)=1+X+X*X) starts on PDF 289, outside this range."
+    },
+    {
+      "pdf_page": 289,
+      "book_page": "280",
+      "empty": false,
+      "items": [
+        "awodey:10.5:construction-grpstr"
+      ],
+      "notes": "Opening of the motivating development of section 10.5 (the section heading and its two-sentence lead-in sit on PDF 288, outside this range)."
+    },
+    {
+      "pdf_page": 290,
+      "book_page": "281",
+      "empty": false,
+      "items": [
+        "awodey:10.5:construction-grpstr",
+        "awodey:10.5:def8",
+        "awodey:10.5:example9"
+      ],
+      "notes": "First line completes the group-structure construction begun on PDF 289 (identifies the codomain structure as the group structure on H)."
+    },
+    {
+      "pdf_page": 291,
+      "book_page": "282",
+      "empty": false,
+      "items": [
+        "awodey:10.5:example9",
+        "awodey:10.5:def-polynomial-functor",
+        "awodey:10.5:construction-initial-algebra-recursion"
+      ],
+      "notes": "Example 10.9 continues from PDF 290 (its items on polynomial, infinitary polynomial, and non-polynomial endofunctors). The polynomial-functor definition is made in running prose inside item 2 of that example."
+    },
+    {
+      "pdf_page": 292,
+      "book_page": "283",
+      "empty": false,
+      "items": [
+        "awodey:10.5:construction-initial-algebra-recursion",
+        "awodey:10.5:remark-nat-initial-algebra",
+        "awodey:10.5:lem10"
+      ],
+      "notes": "The recursion-from-initiality construction begun on PDF 291 concludes here."
+    },
+    {
+      "pdf_page": 293,
+      "book_page": "284",
+      "empty": false,
+      "items": [
+        "awodey:10.5:lem10",
+        "awodey:10.5:example11"
+      ],
+      "notes": "Opens with 'we leave the proof as an easy exercise' for Lemma 10.10 and the informal least-fixed-point / recursive-datatype gloss (motivational, not inventoried separately). Draft typos on this page: 'Suc algebras', 'often used computer science'."
+    },
+    {
+      "pdf_page": 294,
+      "book_page": "285",
+      "empty": false,
+      "items": [
+        "awodey:10.5:example11"
+      ],
+      "notes": "Continuation only: Example 10.11 items 1 (binary-tree presentation of the initial 1+X^2 algebra) and 2 (general polynomial trees; P(X)=1+A*X unwinding). Draft typo 'polynomoial'."
+    },
+    {
+      "pdf_page": 295,
+      "book_page": "286",
+      "empty": false,
+      "items": [
+        "awodey:10.5:example11",
+        "awodey:10.5:remark-powerset-no-initial-algebra"
+      ],
+      "notes": "Example 10.11 concludes here (A-List and the length function defined by the UMP of the initial algebra; displayed equations (10.6) and (10.7) are equation numbers, not item numbers)."
+    },
+    {
+      "pdf_page": 296,
+      "book_page": "287",
+      "empty": false,
+      "items": [
+        "awodey:10.5:prop12",
+        "awodey:10.5:cor13",
+        "awodey:10.5:prop14"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 297,
+      "book_page": "288",
+      "empty": false,
+      "items": [
+        "awodey:10.5:prop14",
+        "awodey:10.5:construction-free-p-algebra"
+      ],
+      "notes": "Statement items (2) and (3) of Proposition 10.14 and most of its proof; the free-functor construction is announced in the last line and carried out on PDF 298."
+    },
+    {
+      "pdf_page": 298,
+      "book_page": "289",
+      "empty": false,
+      "items": [
+        "awodey:10.5:prop14",
+        "awodey:10.5:construction-free-p-algebra"
+      ],
+      "notes": "Continuation only: body of the free P-algebra functor construction and the closing (2) implies (1) step of Proposition 10.14 (deferred to Beck's precise tripleability theorem, Mac Lane VI.7)."
+    },
+    {
+      "pdf_page": 299,
+      "book_page": "290",
+      "empty": false,
+      "items": [
+        "awodey:10:ex1",
+        "awodey:10:ex2",
+        "awodey:10:ex3"
+      ],
+      "notes": "Section 10.6 Exercises begins."
+    },
+    {
+      "pdf_page": 300,
+      "book_page": "291",
+      "empty": false,
+      "items": [
+        "awodey:10:ex4",
+        "awodey:10:ex5",
+        "awodey:10:ex6"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 301,
+      "book_page": "292",
+      "empty": false,
+      "items": [
+        "awodey:10:ex7",
+        "awodey:10:ex8",
+        "awodey:10:ex9"
+      ],
+      "notes": "Exercise 7(a) prints the unit/counit directions swapped and 7(b) prints 'delta' in text form plus a garbled composite; see problems[]."
+    },
+    {
+      "pdf_page": 302,
+      "book_page": "293",
+      "empty": false,
+      "items": [
+        "awodey:10:ex9",
+        "awodey:10:ex10"
+      ],
+      "notes": "Exercise 9 (Kleisli category) continues from PDF 301 and concludes here."
+    },
+    {
+      "pdf_page": 303,
+      "book_page": "294",
+      "empty": true,
+      "items": [],
+      "notes": "Blank verso carrying only the running head 'CHAPTER 10. MONADS AND ALGEBRAS'; last page of chapter 10."
+    }
+  ],
+  "items": [
+    {
+      "id": "awodey:10.1:construction-triangle-identities",
+      "kind": "construction",
+      "number": null,
+      "name": "unit, counit and the triangle identities extracted from a hom-set adjunction",
+      "statement_summary": "From an adjunction F : C ⇄ D : U presented as a natural isomorphism phi : Hom_D(FC, D) ≅ Hom_C(C, UD) with phi(f) = U(f) ∘ eta_C and phi^{-1}(g) = eps_D ∘ F(g), instantiate at identities: phi^{-1}(1_{UD}) = eps_D forces 1_{UD} = U(eps_D) ∘ eta_{UD}, and phi(1_{FC}) = eta_C forces 1_{FC} = eps_{FC} ∘ F(eta_C). Hence the two triangles commute, giving the natural-transformation equations U eps ∘ eta_U = 1_U (eq. 10.1) and eps_F ∘ F eta = 1_F (eq. 10.2), christened the 'triangle identities'. This is the forward half of Proposition 10.1.",
+      "book_section": "10.1",
+      "book_page": "265-266",
+      "pdf_pages": [
+        274,
+        275
+      ],
+      "cross_refs": [
+        "awodey:10.1:prop1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:10.1:prop1",
+      "kind": "proposition",
+      "number": "10.1",
+      "name": "triangle identities characterize adjunctions",
+      "statement_summary": "Given categories C, D, functors F : C → D and U : D → C, and natural transformations eta : 1_C → U∘F and eps : F∘U → 1_D, one has F ⊣ U with unit eta and counit eps if and only if the two triangle identities U eps ∘ eta_U = 1_U and eps_F ∘ F eta = 1_F hold. The nontrivial direction builds the natural bijection phi : Hom_D(FC,D) ≅ Hom_C(C,UD) by phi(f) = U(f) ∘ eta_C and its candidate inverse theta(g) = eps_D ∘ F(g), and checks phi∘theta = id using naturality of eta plus (10.1), and theta∘phi = id using naturality of eps plus (10.2); naturality of phi is then routine. Gives a purely equational (quantifier-free, hom-set-free) definition of adjointness.",
+      "book_section": "10.1",
+      "book_page": "267",
+      "pdf_pages": [
+        276
+      ],
+      "cross_refs": [
+        "awodey:10.1:construction-triangle-identities"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.2:prop3",
+      "kind": "proposition",
+      "number": "10.3",
+      "name": "every adjunction induces a monad",
+      "statement_summary": "Every adjoint pair F ⊣ U with U : D → C, unit eta : 1_C → U∘F and counit eps : F∘U → 1_D gives rise to a monad (T, eta, mu) on C where T = U∘F : C → C, the unit is the adjunction's unit eta : 1 → T, and mu = U eps_F : T^2 → T. The verification occupies PDF 277-279: the associativity square mu ∘ mu_T = mu ∘ T mu (eq. 10.3) comes from naturality of eps applied at eps_{FC} and then pushed through U, while the unit laws mu ∘ eta_T = 1_T = mu ∘ T eta (eq. 10.4) are exactly the two triangle identities taken at FC and under U.",
+      "book_section": "10.2",
+      "book_page": "268-270",
+      "pdf_pages": [
+        277,
+        278,
+        279
+      ],
+      "cross_refs": [
+        "awodey:10.2:def2",
+        "awodey:10.1:prop1",
+        "awodey:10.3:prop6"
+      ],
+      "flags": [
+        "statement-typo-in-source"
+      ]
+    },
+    {
+      "id": "awodey:10.2:def2",
+      "kind": "definition",
+      "number": "10.2",
+      "name": "monad",
+      "statement_summary": "A monad on a category C consists of an endofunctor T : C → C together with natural transformations eta : 1_C → T (unit) and mu : T^2 → T (multiplication) satisfying the associativity law mu ∘ mu_T = mu ∘ T mu and the unit laws mu ∘ eta_T = 1_T = mu ∘ T eta. The data are noted to be formally analogous to a monoid; monads are also known as 'triples' or 'standard constructions'.",
+      "book_section": "10.2",
+      "book_page": "270",
+      "pdf_pages": [
+        279
+      ],
+      "cross_refs": [
+        "awodey:10.2:prop3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.2:example4",
+      "kind": "example",
+      "number": "10.4",
+      "name": "monads on a poset are closure operations",
+      "statement_summary": "For a poset P (viewed as a category), a monad on P is exactly a monotone map T : P → P that is inflationary (x ≤ Tx) and satisfies T^2 x ≤ Tx; the two inequalities force T^2 = T, so T is idempotent. An inflationary idempotent monotone endomap is a closure operation, written Tp = p-bar, as with topological closure on subsets of a space; the modal 'possibility' operator ◇ is another instance.",
+      "book_section": "10.2",
+      "book_page": "270",
+      "pdf_pages": [
+        279
+      ],
+      "cross_refs": [
+        "awodey:10.2:def2",
+        "awodey:10.2:construction-poset-monad-adjunction"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.2:construction-poset-monad-adjunction",
+      "kind": "construction",
+      "number": null,
+      "name": "recovering an adjunction from a monad on a poset (fixed points)",
+      "statement_summary": "Given a monad (closure operation) T on a poset P, let K = im(T)(P) be the poset of fixed points of T with inclusion i : K → P monic, and let t : P → K be the factorization of T through K (so T = i ∘ t). From TTp = Tp one derives t i k = k for k in K (using monicity of i). Then p ≤ i k implies t p ≤ t i k = k, and t p ≤ k implies p ≤ i t p ≤ i k; hence t ⊣ i, an adjunction on posets whose induced monad is T. Concrete instance of the general fact that every monad arises from an adjunction.",
+      "book_section": "10.2",
+      "book_page": "271",
+      "pdf_pages": [
+        280
+      ],
+      "cross_refs": [
+        "awodey:10.2:example4",
+        "awodey:10.3:prop6"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:10.2:example5",
+      "kind": "example",
+      "number": "10.5",
+      "name": "covariant powerset monad on Sets",
+      "statement_summary": "The covariant powerset functor P : Sets → Sets sends f : X → Y to the image map im(f) : P(X) → P(Y). With eta_X : X → P(X) the singleton operation eta_X(x) = {x} and mu_X : PP(X) → P(X) the union operation mu_X(alpha) = ⋃alpha, the triple (P, {-}, ⋃) is a monad on Sets; naturality of eta and mu in X and the monad laws are left to the reader as an exercise. Illustrates that monads arise without an evident underlying adjunction.",
+      "book_section": "10.2",
+      "book_page": "271",
+      "pdf_pages": [
+        280
+      ],
+      "cross_refs": [
+        "awodey:10.2:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.2:remark-endofunctor-monad",
+      "kind": "remark",
+      "number": null,
+      "name": "an endofunctor arises from an adjunction iff it carries a monad structure",
+      "statement_summary": "Answer to the section's guiding question: an endofunctor T : C → C is of the form U∘F for some adjunction F ⊣ U into some category D exactly when T is the functor part of a monad on C. Necessity is Proposition 10.3; sufficiency is Proposition 10.6. The remark also flags that the recovering adjunction is not determined by T (different D's can induce the same monad).",
+      "book_section": "10.2",
+      "book_page": "271",
+      "pdf_pages": [
+        280
+      ],
+      "cross_refs": [
+        "awodey:10.2:prop3",
+        "awodey:10.3:prop6",
+        "awodey:10.3:remark-kleisli-nonuniqueness"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "awodey:10.3:prop6",
+      "kind": "proposition",
+      "number": "10.6",
+      "name": "every monad arises from an adjunction (Eilenberg-Moore)",
+      "statement_summary": "Given a monad (T, eta, mu) on a category C, there exist a category D and an adjunction F ⊣ U with U : D → C, unit eta : 1 → UF and counit eps : FU → 1, such that T = U∘F, the adjunction unit is the monad unit eta, and mu = U eps_F. The proof takes D = C^T, the Eilenberg-Moore category of T-algebras, defines U(A,alpha) = A and FC = (TC, mu_C), checks that (TC, mu_C) is a T-algebra and that F is a functor (Fh = Th, using naturality of mu), sets the unit to eta and the counit to eps_{(A,alpha)} = alpha (natural precisely because algebra morphisms commute with structure maps), verifies both triangle identities, and computes mu-bar_C = U eps_{(TC, mu_C)} = mu_C.",
+      "book_section": "10.3",
+      "book_page": "272-276",
+      "pdf_pages": [
+        281,
+        282,
+        283,
+        284,
+        285
+      ],
+      "cross_refs": [
+        "awodey:10.3:def-t-algebra",
+        "awodey:10.3:construction-eilenberg-moore",
+        "awodey:10.2:prop3",
+        "awodey:10.1:prop1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.3:def-t-algebra",
+      "kind": "definition",
+      "number": null,
+      "name": "T-algebra (Eilenberg-Moore algebra) and morphism of T-algebras",
+      "statement_summary": "For a monad (T, eta, mu) on C, a T-algebra is a pair (A, alpha) with alpha : TA → A an arrow of C satisfying the unit law 1_A = alpha ∘ eta_A and the associativity law alpha ∘ mu_A = alpha ∘ T alpha (displayed as eq. 10.5, with the two commuting diagrams). A morphism of T-algebras h : (A, alpha) → (B, beta) is an arrow h : A → B of C with h ∘ alpha = beta ∘ T(h). Identities and composites are inherited from C (using functoriality of T), so these form a category.",
+      "book_section": "10.3",
+      "book_page": "272-273",
+      "pdf_pages": [
+        281,
+        282
+      ],
+      "cross_refs": [
+        "awodey:10.3:construction-eilenberg-moore",
+        "awodey:10.2:def2"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "awodey:10.3:construction-eilenberg-moore",
+      "kind": "construction",
+      "number": null,
+      "name": "Eilenberg-Moore category C^T with its free/forgetful adjunction",
+      "statement_summary": "The category C^T has T-algebras as objects and T-algebra morphisms as arrows. It carries a forgetful functor U^T : C^T → C, U(A, alpha) = A, U(h) = h, and a free functor F^T : C → C^T, F C = (TC, mu_C) and F h = Th; (TC, mu_C) satisfies the algebra laws by the monad unit and associativity laws, and Fh is an algebra morphism by naturality of mu. Unit of the adjunction is the monad unit eta (since UF C = TC), counit is eps_{(A,alpha)} = alpha (an algebra morphism (TA, mu_A) → (A, alpha) by the algebra associativity law, natural by the morphism condition). Both triangle identities hold, so F^T ⊣ U^T, with U^T ∘ F^T = T and U eps F = mu — the induced monad is the original one.",
+      "book_section": "10.3",
+      "book_page": "272-276",
+      "pdf_pages": [
+        281,
+        282,
+        283,
+        284,
+        285
+      ],
+      "cross_refs": [
+        "awodey:10.3:prop6",
+        "awodey:10.3:def-t-algebra",
+        "awodey:10.3:construction-comparison-functor"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:10.3:example7",
+      "kind": "example",
+      "number": "10.7",
+      "name": "free-monoid (list) monad and its algebras are monoids",
+      "statement_summary": "For the free-monoid adjunction F : Sets ⇄ Mon : U, the induced monad on Sets is T(X) = UF(X) = strings (finite lists) over X, with eta the length-one-string operation and mu : T^2 X → TX the concatenation of a string of strings, mu([[x_11..x_1n],...,[x_m1..x_mn]]) = [x_11,...,x_mn]. A T-algebra is a map alpha : TA → A with alpha[a] = a and alpha(mu(s)) = alpha(alpha of each block), i.e. compatibility with flattening. Every monoid M yields a T-algebra m : TM → M by m[m_1,...,m_n] = m_1 · ... · m_n; conversely the monoid structure is recovered from m as unit m(empty string) and product x·y = m(x,y), and every T-algebra arises this way from a unique monoid (left as an exercise). Hence Sets^T is (equivalent to) Mon.",
+      "book_section": "10.3",
+      "book_page": "276",
+      "pdf_pages": [
+        285
+      ],
+      "cross_refs": [
+        "awodey:10.3:def-t-algebra",
+        "awodey:10.3:def-monadic"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.3:construction-comparison-functor",
+      "kind": "construction",
+      "number": null,
+      "name": "comparison functor Phi : D → C^T",
+      "statement_summary": "Starting from an arbitrary adjunction F ⊣ U : D → C and forming C^T for the induced monad T = U∘F, there is a comparison functor Phi : D → C^T satisfying U^T ∘ Phi ≅ U and Phi ∘ F = F^T; moreover Phi is unique with this property. This exhibits C^T as terminal among the categories/adjunctions inducing T, but shows C^T is not the only such category (the Kleisli category is another).",
+      "book_section": "10.3",
+      "book_page": "277",
+      "pdf_pages": [
+        286
+      ],
+      "cross_refs": [
+        "awodey:10.3:construction-eilenberg-moore",
+        "awodey:10.3:def-monadic",
+        "awodey:10.3:remark-kleisli-nonuniqueness"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:10.3:def-monadic",
+      "kind": "definition",
+      "number": null,
+      "name": "monadic functor",
+      "statement_summary": "A functor U : D → C is called monadic if it has a left adjoint F ⊣ U such that the comparison functor Phi : D → C^T, for the induced monad T = UF, is an equivalence of categories. Forgetful functors from 'algebraic' categories (monoids, groups, rings) into Sets are the typical examples, and monadicity may be taken as a definition of being algebraic.",
+      "book_section": "10.3",
+      "book_page": "277",
+      "pdf_pages": [
+        286
+      ],
+      "cross_refs": [
+        "awodey:10.3:construction-comparison-functor",
+        "awodey:10.3:example-pos-not-monadic"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "awodey:10.3:remark-kleisli-nonuniqueness",
+      "kind": "remark",
+      "number": null,
+      "name": "the adjunction inducing a monad is not unique; Kleisli category",
+      "statement_summary": "Starting from a monad T on C and forming F^T ⊣ U^T : C^T → C recovers T as U^T ∘ F^T, so every monad arises from some adjunction; but the triple (C^T, U^T, F^T) is not unique with this property. In general many categories D and adjunctions F ⊣ U : D → C induce the same monad on C; besides the Eilenberg-Moore category there is the Kleisli category, generally different from C^T, also carrying an adjoint pair to C inducing the same monad (developed in the chapter's exercises).",
+      "book_section": "10.3",
+      "book_page": "277",
+      "pdf_pages": [
+        286
+      ],
+      "cross_refs": [
+        "awodey:10.3:prop6",
+        "awodey:10.3:construction-comparison-functor"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "awodey:10.3:example-pos-not-monadic",
+      "kind": "example",
+      "number": null,
+      "name": "a right adjoint that is not monadic: U : Pos → Sets",
+      "statement_summary": "The forgetful functor U : Pos → Sets is a right adjoint (its left adjoint F is the discrete-poset functor) but is not monadic: the unit at any set X is the identity X = UF(X), so the induced monad is the identity monad T = 1_Sets, whose Eilenberg-Moore category is Sets itself; the comparison functor Pos → Sets is therefore not an equivalence.",
+      "book_section": "10.3",
+      "book_page": "278",
+      "pdf_pages": [
+        287
+      ],
+      "cross_refs": [
+        "awodey:10.3:def-monadic"
+      ],
+      "flags": [
+        "unnumbered-example"
+      ]
+    },
+    {
+      "id": "awodey:10.4:def-comonad",
+      "kind": "definition",
+      "number": null,
+      "name": "comonad",
+      "statement_summary": "A comonad on a category C is by definition a monad on C^op. Explicitly it consists of an endofunctor G : C → C with natural transformations eps : G → 1 (counit) and delta : G → G^2 (comultiplication) satisfying the duals of the monad laws: delta_G ∘ delta = G delta ∘ delta (coassociativity) and eps_G ∘ delta = 1_G = G eps ∘ delta (counit laws).",
+      "book_section": "10.4",
+      "book_page": "278",
+      "pdf_pages": [
+        287
+      ],
+      "cross_refs": [
+        "awodey:10.2:def2",
+        "awodey:10.4:def-coalgebra"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "awodey:10.4:construction-comonad-from-adjunction",
+      "kind": "construction",
+      "number": null,
+      "name": "comonad induced by an adjunction (dual of Proposition 10.3)",
+      "statement_summary": "An adjoint pair F ⊣ U with U : D → C, F : C → D, unit eta : 1_C → UF and counit eps : FU → 1_D gives rise to a comonad (G, eps, delta) on D with G = F∘U : D → D, counit the adjunction counit eps : G → 1, and comultiplication delta = F eta_U : G → G^2. Stated and left to the reader as an exercise in duality.",
+      "book_section": "10.4",
+      "book_page": "278",
+      "pdf_pages": [
+        287
+      ],
+      "cross_refs": [
+        "awodey:10.4:def-comonad",
+        "awodey:10.2:prop3"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "proof-left-as-exercise"
+      ]
+    },
+    {
+      "id": "awodey:10.4:def-coalgebra",
+      "kind": "definition",
+      "number": null,
+      "name": "coalgebra for a comonad; comonadic functor",
+      "statement_summary": "Coalgebras for a comonad and comonadic functors are defined as the exact duals of T-algebras and monadic functors: a G-coalgebra is an object A with a structure map A → GA satisfying the duals of the unit and associativity laws, morphisms commute with the structure maps, and a functor is comonadic when it has a right adjoint whose induced comparison functor into the co-Eilenberg-Moore category of coalgebras is an equivalence. Awodey notes the notions are worth studying in their own right (not merely as duals) because a category may enjoy properties its opposite lacks, and because monad and comonad structures can co-occur and interact.",
+      "book_section": "10.4",
+      "book_page": "278",
+      "pdf_pages": [
+        287
+      ],
+      "cross_refs": [
+        "awodey:10.4:def-comonad",
+        "awodey:10.3:def-t-algebra",
+        "awodey:10.3:def-monadic"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "awodey:10.4:example-limit-comonad",
+      "kind": "example",
+      "number": null,
+      "name": "the comonad Delta ∘ lim on Sets^C; Sets is comonadic over Sets^C",
+      "statement_summary": "Composing the constant-diagram functor Delta : Sets → Sets^C with the limit functor lim : Sets^C → Sets (Delta ⊣ lim) yields a comonad G = Delta ∘ lim on the presheaf/diagram category Sets^C. Awodey states that the coalgebras for this comonad again form a topos, that they are exactly the constant functors Delta(S) for sets S, and hence that Sets is comonadic over Sets^C. Offered as a case where the comonad is more natural than its dual because Sets^C is a topos while its opposite is not.",
+      "book_section": "10.4",
+      "book_page": "279",
+      "pdf_pages": [
+        288
+      ],
+      "cross_refs": [
+        "awodey:10.4:def-comonad",
+        "awodey:10.4:def-coalgebra",
+        "awodey:10.4:construction-adjoint-triple"
+      ],
+      "flags": [
+        "unnumbered-example",
+        "asserted-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:10.4:construction-adjoint-triple",
+      "kind": "construction",
+      "number": null,
+      "name": "monad and comonad from an adjoint triple L ⊣ U ⊣ R, with T ⊣ G",
+      "statement_summary": "Given three composable adjoint functors L ⊣ U ⊣ R, with L, R : C → D and U : D → C, one obtains simultaneously a monad T = U∘L and a comonad G = U∘R, both endofunctors on C; moreover the monad and comonad functors are themselves adjoint, T ⊣ G. Instantiated by colim ⊣ Delta ⊣ lim (L = colim, U = Delta, R = lim), giving the comonad Delta∘lim and monad Delta∘colim on a diagram category. (The printed text has a slip, writing 'T and U are then of course also adjoint T ⊣ G'; the intended claim is about T and G.)",
+      "book_section": "10.4",
+      "book_page": "279",
+      "pdf_pages": [
+        288
+      ],
+      "cross_refs": [
+        "awodey:10.4:example-limit-comonad",
+        "awodey:10.4:remark-modal-s5",
+        "awodey:10.2:def2",
+        "awodey:10.4:def-comonad"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "statement-typo-in-source"
+      ]
+    },
+    {
+      "id": "awodey:10.4:remark-modal-s5",
+      "kind": "remark",
+      "number": null,
+      "name": "modal operators as an adjoint monad/comonad pair (S5)",
+      "statement_summary": "In propositional modal logic the possibility operator ◇ is the monad T and the necessity operator □ is the comonad G arising from an adjoint triple, and the adjointness ◇ ⊣ □ is equivalent to the modal axiom scheme known as S5.",
+      "book_section": "10.4",
+      "book_page": "279",
+      "pdf_pages": [
+        288
+      ],
+      "cross_refs": [
+        "awodey:10.4:construction-adjoint-triple",
+        "awodey:10.2:example4"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "awodey:10.4:example-interior-closure",
+      "kind": "example",
+      "number": null,
+      "name": "interior is a comonad and closure a monad on the subsets of a space",
+      "statement_summary": "On the poset of arbitrary subsets of a topological space (ordered by inclusion), the topological interior operation is a comonad (deflationary, idempotent, monotone) and the topological closure operation is a monad (inflationary, idempotent, monotone), giving a co-occurring monad/comonad pair related to the open and closed subsets; the details are left as an exercise.",
+      "book_section": "10.4",
+      "book_page": "279",
+      "pdf_pages": [
+        288
+      ],
+      "cross_refs": [
+        "awodey:10.4:construction-adjoint-triple",
+        "awodey:10.2:example4"
+      ],
+      "flags": [
+        "unnumbered-example",
+        "proof-left-as-exercise"
+      ]
+    },
+    {
+      "id": "awodey:10.5:construction-grpstr",
+      "kind": "construction",
+      "number": null,
+      "name": "group structures as algebras for F(X) = 1 + X + X x X; the category GrpStr",
+      "statement_summary": "Motivating construction opening section 10.5. A 'group structure' on a set G is the bare operational data of a multiplication m : G x G -> G, an inverse i : G -> G and a unit u : 1 -> G, with NO group equations imposed. This data is compressed into a single arrow [u,i,m] : 1 + G + G x G -> G, i.e. an arrow gamma : F(G) -> G for the Sets-endofunctor F(X) = 1 + X + X x X. A map h : G -> H that preserves unit, inverse and multiplication pointwise (h(u_G) = u_H, h(i(x)) = i(h(x)), h(m(x,y)) = m(h(x),h(y))) is shown to be exactly a function making the square h o gamma = theta o F(h) commute, where theta : F(H) -> H is the structure on H. This yields the category GrpStr of group structures and their homomorphisms and motivates Definition 10.8.",
+      "book_section": "10.5",
+      "book_page": "280",
+      "pdf_pages": [
+        289,
+        290
+      ],
+      "cross_refs": [
+        "awodey:10.5:def8",
+        "awodey:10.5:example9"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:10.5:def8",
+      "kind": "definition",
+      "number": "10.8",
+      "name": "P-algebra for an endofunctor; homomorphism; the category P-Alg(S)",
+      "statement_summary": "For an endofunctor P : S -> S on ANY category S, a P-algebra is a pair consisting of an object A of S and an arrow alpha : PA -> A (no equations required). A homomorphism h : (A,alpha) -> (B,beta) of P-algebras is an arrow h : A -> B in S satisfying h o alpha = beta o P(h) (the evident commuting square). These objects and arrows form a category denoted P-Alg(S), abbreviated P-Alg when S is understood. The text explicitly warns that when P is the underlying functor of a monad, algebras for the ENDOFUNCTOR must be distinguished from algebras for the monad (which additionally satisfy unit and associativity laws).",
+      "book_section": "10.5",
+      "book_page": "281",
+      "pdf_pages": [
+        290
+      ],
+      "cross_refs": [
+        "awodey:10.5:construction-grpstr",
+        "awodey:10.5:prop14"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.5:example9",
+      "kind": "example",
+      "number": "10.9",
+      "name": "examples of algebras for endofunctors: group structures, ring structures, polynomial and non-polynomial functors",
+      "statement_summary": "Four-part example of Definition 10.8. (1) For P(X) = 1 + X + X x X on Sets, P-Alg is literally the category GrpStr of group structures. (2) Any finite signature (finitely many finitary operations) is captured analogously; e.g. a ring structure with two nullary, one unary and two binary operations is given by the endofunctor R(X) = 2 + X + 2 x X^2. More generally the finitary polynomial functors present exactly the finitary algebraic structures, and this holds in any category S with finite products and coproducts, not just Sets. (3) In a complete and cocomplete category such as Sets the notion extends to infinitary signatures via P(X) = sum over i in I of C_i x X^(B_i), with infinite coefficient sets (many operations of a given arity), infinite exponents (operations of infinite arity), or infinitely many arities; algebras for such a functor are generalized algebraic structures, and locally cartesian closed categories permit the same without (co)completeness. (4) P need not be polynomial at all: algebras for the covariant powerset functor on Sets are a proper generalization of 'algebra' that nonetheless retains formal properties developed later in the section.",
+      "book_section": "10.5",
+      "book_page": "281",
+      "pdf_pages": [
+        290,
+        291
+      ],
+      "cross_refs": [
+        "awodey:10.5:def8",
+        "awodey:10.5:construction-grpstr",
+        "awodey:10.5:def-polynomial-functor"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.5:def-polynomial-functor",
+      "kind": "definition",
+      "number": null,
+      "name": "(finitary) polynomial functor; infinitary polynomial functor",
+      "statement_summary": "Definition made in running prose inside Example 10.9. An endofunctor of the form P(X) = C_0 + C_1 x X + C_2 x X^2 + ... + C_n x X^n, with natural-number coefficients C_k, is called a (finitary) polynomial functor. Claim attached to the definition: polynomial functors present EXACTLY the finitary algebraic structures, i.e. finitary structures in any category S with finite products and coproducts can always be represented as algebras for a suitable such endofunctor. The infinitary generalization, available in a complete and cocomplete category, is P(X) = sum over i in I of C_i x X^(B_i) for arbitrary index set I, coefficient sets C_i and exponent sets B_i.",
+      "book_section": "10.5",
+      "book_page": "282",
+      "pdf_pages": [
+        291
+      ],
+      "cross_refs": [
+        "awodey:10.5:example9",
+        "awodey:10.5:cor13"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:10.5:construction-initial-algebra-recursion",
+      "kind": "construction",
+      "number": null,
+      "name": "definition by recursion from an initial algebra (the 1 + X^2 case)",
+      "statement_summary": "Construction showing that initiality of a P-algebra IS a recursion principle. Take the polynomial functor P(X) = 1 + X^2 on Sets and let [o,m] : 1 + I^2 -> I be an initial P-algebra, i.e. an initial object of P-Alg; explicitly this is an element o in I together with a binary operation m : I x I -> I. Then for any set X carrying a distinguished element a in X and a binary operation * : X x X -> X, there is a UNIQUE function u : I -> X making the square u o [o,m] = [a,*] o P(u) commute, which in elements says exactly u(o) = a and u(m(i,j)) = u(i) * u(j) — precisely a definition by recursion of u. The passage generalizes: the unique-mediating-arrow property of an initial P-algebra is the recursion scheme for the corresponding structure.",
+      "book_section": "10.5",
+      "book_page": "282",
+      "pdf_pages": [
+        291,
+        292
+      ],
+      "cross_refs": [
+        "awodey:10.5:remark-nat-initial-algebra",
+        "awodey:10.5:example11",
+        "awodey:10:ex2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:10.5:remark-nat-initial-algebra",
+      "kind": "remark",
+      "number": null,
+      "name": "(N, 0, s) is the initial algebra for P(X) = 1 + X on Sets",
+      "statement_summary": "Claim asserted in prose and left to the reader to check: the usual recursion property of the natural numbers — with zero 0 in N and successor s : N -> N, i.e. the arrow [0,s] : 1 + N -> N — says PRECISELY that (N, 0, s) is the initial algebra for the endofunctor P(X) = 1 + X : Sets -> Sets. Formalizable as: the algebra [0,s] is an initial object of (1 + -)-Alg(Sets), equivalently for every set X with a in X and f : X -> X there is a unique u : N -> X with u(0) = a and u(s n) = f(u n).",
+      "book_section": "10.5",
+      "book_page": "283",
+      "pdf_pages": [
+        292
+      ],
+      "cross_refs": [
+        "awodey:10.5:construction-initial-algebra-recursion",
+        "awodey:10:ex1",
+        "awodey:10:ex2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:10.5:lem10",
+      "kind": "lemma",
+      "number": "10.10",
+      "name": "Lambek's lemma",
+      "statement_summary": "Lemma 10.10 (Lambek). For ANY endofunctor P : S -> S on an arbitrary category S: if i : P(I) -> I is an initial P-algebra, then i is an isomorphism, so P(I) is isomorphic to I. Consequently an initial algebra is a fixed point of the endofunctor, and this constrains which endofunctors can have initial algebras. The proof is left as an easy exercise (the hint diagram is supplied in Exercise 10.6.2); the text glosses the initial algebra as a 'least fixed point' of P, the categorical form of the fixed-point equations X = P(X) used to model recursive datatypes.",
+      "book_section": "10.5",
+      "book_page": "283",
+      "pdf_pages": [
+        292,
+        293
+      ],
+      "cross_refs": [
+        "awodey:10:ex2",
+        "awodey:10.5:remark-powerset-no-initial-algebra"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.5:example11",
+      "kind": "example",
+      "number": "10.11",
+      "name": "unwinding initial algebras: binary trees, general trees, A-List and recursive definition of length",
+      "statement_summary": "Example 10.11, computing initial algebras in Sets. (1) For P(X) = 1 + X^2, the initial algebra [*,@] : 1 + I x I ~= I is unwound: every x in I is either * or x1 @ x2 with x1, x2 in I, and iterating gives a representation of x as a finite binary tree. So I = {t : t is a finite binary tree}, with * the empty tree and @(t1,t2) = t1 @ t2 the grafting of two trees under a new root, making the isomorphism [*,@] : 1 + I x I -> I evident. (2) For a general finitary polynomial functor P(X) = C_0 + C_1 x X + ... + C_n x X^n the initial algebra P(I) ~= I is likewise a set of trees whose branching types and labels are determined by P. For the particular polynomial P(X) = 1 + A x X over a set A, unwinding x = * or a1 @ x1, x1 = * or a2 @ x2, ... gives x = a1 @ a2 @ ... @ a_n, so the initial algebra is I = A-List, the set of FINITE lists over A, with * the empty list and @(a, l) = a @ l the cons operation. Recursive definitions then follow from initiality: equip N with the P-algebra [0,m] : 1 + A x N -> N where m(a,n) = 1 + n; by the universal property of the initial algebra there is a unique length : A-List -> N making the square commute, and that commutativity is exactly the two defining equations length(*) = 0 and length(a @ l) = 1 + length(l).",
+      "book_section": "10.5",
+      "book_page": "284",
+      "pdf_pages": [
+        293,
+        294,
+        295
+      ],
+      "cross_refs": [
+        "awodey:10.5:construction-initial-algebra-recursion",
+        "awodey:10.5:lem10",
+        "awodey:10:ex10"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.5:remark-powerset-no-initial-algebra",
+      "kind": "remark",
+      "number": null,
+      "name": "the covariant powerset functor has no initial algebra (Cantor)",
+      "statement_summary": "Remark with mathematical content, drawn as a consequence of Lambek's lemma: not every endofunctor has an initial algebra. Concretely, the covariant powerset functor Pow : Sets -> Sets has none, since an initial algebra would by Lemma 10.10 yield a set I with Pow(I) isomorphic to I, which is impossible by Cantor's theorem.",
+      "book_section": "10.5",
+      "book_page": "286",
+      "pdf_pages": [
+        295
+      ],
+      "cross_refs": [
+        "awodey:10.5:lem10",
+        "awodey:10.5:example9"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:10.5:prop12",
+      "kind": "proposition",
+      "number": "10.12",
+      "name": "existence of initial algebras from omega-colimits (Adamek-style construction)",
+      "statement_summary": "Proposition 10.12. If the category S has an initial object 0 and has colimits of diagrams of type omega ('omega-colimits'), and the endofunctor P : S -> S PRESERVES omega-colimits, then P has an initial algebra. Proof given: form the omega-chain 0 -> P0 -> P^2 0 -> ... (generated by applying P repeatedly to the unique arrow 0 -> P0), put I = colim_n P^n 0; since P preserves this colimit, P(I) = P(colim_n P^n 0) is isomorphic to colim_n P(P^n 0) = colim_n P^n 0 = I, and this isomorphism is checked by an easy diagram chase to be an INITIAL P-algebra. The text notes this generalizes the poset fixed-point result stated earlier as Proposition 5.35, with essentially the same 'Newton's method' proof.",
+      "book_section": "10.5",
+      "book_page": "287",
+      "pdf_pages": [
+        296
+      ],
+      "cross_refs": [
+        "awodey:10.5:cor13",
+        "awodey:10.5:lem10",
+        "awodey:5.6:prop35"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.5:cor13",
+      "kind": "corollary",
+      "number": "10.13",
+      "name": "every polynomial functor on Sets has an initial algebra",
+      "statement_summary": "Corollary 10.13. Every polynomial functor P : Sets -> Sets (i.e. P(X) = C_0 + C_1 x X + ... + C_n x X^n with natural-number coefficients) has an initial algebra. Justification: Sets has an initial object and omega-colimits, and — as the reader is asked to verify — every polynomial endofunctor on Sets preserves omega-colimits, so Proposition 10.12 applies.",
+      "book_section": "10.5",
+      "book_page": "287",
+      "pdf_pages": [
+        296
+      ],
+      "cross_refs": [
+        "awodey:10.5:prop12",
+        "awodey:10.5:def-polynomial-functor"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.5:prop14",
+      "kind": "proposition",
+      "number": "10.14",
+      "name": "when endofunctor algebras are monad algebras (free algebras / initial A + P(-) algebras)",
+      "statement_summary": "Proposition 10.14 (attributed in the text to a research paper of Johnstone et al.). Let S be a category with finite coproducts and let P : S -> S be an endofunctor. The following are EQUIVALENT: (1) the P-algebras are the algebras for a monad — i.e. there exist a monad (T : S -> S, eta, mu) and an equivalence of categories P-Alg(S) ~= S^T with the Eilenberg-Moore category, and moreover this equivalence commutes with the respective forgetful functors down to S; (2) the forgetful functor U : P-Alg(S) -> S has a left adjoint F, F -| U; (3) for EVERY object A of S the endofunctor P_A(X) = A + P(X) : S -> S has an initial algebra. Proof given: (1) implies (2) is clear. (2) implies (3): a P_A-algebra is a map gamma : A + P(X) -> X, which corresponds bijectively to a pair consisting of a P-algebra (X, beta) and an arrow alpha : A -> U(X,beta); P_A-homomorphisms correspond to P-homomorphisms making the evident triangle with alpha and alpha' commute; an initial object of that category of arrows is exactly the unit eta : A -> UFA of the adjunction, giving the initial P_A-algebra. (3) implies (2): the existence of initial objects in those categories of arrows alpha : A -> U(X,beta), for each A, is exactly what is needed for U to have a left adjoint. (2) implies (1) is deferred to Beck's precise tripleability (monadicity) theorem, referring the reader to Mac Lane, Categories Work, section VI.7.",
+      "book_section": "10.5",
+      "book_page": "287",
+      "pdf_pages": [
+        296,
+        297,
+        298
+      ],
+      "cross_refs": [
+        "awodey:10.5:def8",
+        "awodey:10.5:construction-free-p-algebra",
+        "awodey:10.5:prop12"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10.5:construction-free-p-algebra",
+      "kind": "construction",
+      "number": null,
+      "name": "the free P-algebra functor F(A) = (mu X. A + P(X), alpha_2)",
+      "statement_summary": "Construction carried out inside the proof of Proposition 10.14, exhibiting the left adjoint explicitly from condition (3). For each object A of S let alpha : A + P(I_A) -> I_A be the initial P_A-algebra, where P_A(X) = A + P(X); in recursive-type notation I_A = mu X. A + P(X), the least solution of the fixed-point equation X = A + P(X). Since alpha is a map out of a coproduct it splits as alpha = [alpha_1, alpha_2] with alpha_1 : A -> I_A and alpha_2 : P(I_A) -> I_A, and one sets F(A) = (I_A, alpha_2), a P-algebra. On an arrow f : A -> B, let beta : B + P(I_B) -> I_B be the initial P_B-algebra; the composite beta o (f + P(I_B)) : A + P(I_B) -> I_B makes I_B a P_A-algebra, so initiality of I_A yields a UNIQUE P_A-homomorphism u : I_A -> I_B, and one sets F(f) = u. This F : S -> P-Alg is the left adjoint to the forgetful U, with unit alpha_1 : A -> UFA.",
+      "book_section": "10.5",
+      "book_page": "288",
+      "pdf_pages": [
+        297,
+        298
+      ],
+      "cross_refs": [
+        "awodey:10.5:prop14",
+        "awodey:10.5:def8"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:10:ex1",
+      "kind": "exercise",
+      "number": "10.6.1",
+      "name": "natural numbers object as initial model / initial algebra for X + 1",
+      "statement_summary": "Let T be the equational theory with one constant symbol and one unary function symbol and NO axioms; in any category with a terminal object, a natural numbers object (NNO) is by definition an initial T-model. Tasks: (a) show that (N, 0 in N, n+1 : N -> N) is an NNO in Sets; (b) show that any NNO is UNIQUELY isomorphic to it as a T-model; (c) show that (N, 0, n+1) is uniquely characterized up to isomorphism as the initial algebra for the endofunctor F(X) = X + 1.",
+      "book_section": "10.6",
+      "book_page": "290",
+      "pdf_pages": [
+        299
+      ],
+      "cross_refs": [
+        "awodey:10.5:remark-nat-initial-algebra",
+        "awodey:10:ex2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10:ex2",
+      "kind": "exercise",
+      "number": "10.6.2",
+      "name": "Lambek's lemma; N + 1 iso N; recursion from initiality",
+      "statement_summary": "('Lambek's Lemma') Show that for any endofunctor T : C -> C, if i : TI -> I is an initial T-algebra then i is an isomorphism. A hint diagram is supplied: a two-row rectangle with top row TI -> T^2 I -> TI and bottom row I -> TI -> I, whose vertical arrows are i, Ti and the third arrow, to be filled with suitable arrows (the mediating T-algebra map out of the initial algebra into (TI, Ti)). Then conclude that for any NNO N in any category there is an isomorphism N + 1 iso N; and also derive the usual recursion property of the natural numbers from initiality.",
+      "book_section": "10.6",
+      "book_page": "290",
+      "pdf_pages": [
+        299
+      ],
+      "cross_refs": [
+        "awodey:10.5:lem10",
+        "awodey:10:ex1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10:ex3",
+      "kind": "exercise",
+      "number": "10.6.3",
+      "name": "an adjunction determines a monad",
+      "statement_summary": "Given categories C and D and adjoint functors F : C -> D and U : D -> C with F -| U, unit eta : 1_C -> UF and counit epsilon : FU -> 1_D, show that the data T := UF : C -> C, eta : 1_C -> T, and mu := U epsilon F : T^2 -> T do indeed determine a MONAD on C — i.e. verify the left and right unit laws and the associativity law from the triangle identities and naturality, as asserted in the text of section 10.2.",
+      "book_section": "10.6",
+      "book_page": "290",
+      "pdf_pages": [
+        299
+      ],
+      "cross_refs": [
+        "awodey:10:ex7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10:ex4",
+      "kind": "exercise",
+      "number": "10.6.4",
+      "name": "the Eilenberg-Moore comparison functor of an adjunction",
+      "statement_summary": "Given categories C and D and an adjunction F : C -> D, U : D -> C with F -| U, unit eta : 1_C -> UF and counit epsilon : FU -> 1_D, show that every object D of D determines a T = UF algebra, namely the structure map U epsilon_D : UFUD -> UD; and show that this assignment is a 'comparison functor' Phi : D -> C^T into the Eilenberg-Moore category which moreover COMMUTES with the forgetful functors, i.e. U^T o Phi = U where U : D -> C and U^T : C^T -> C.",
+      "book_section": "10.6",
+      "book_page": "291",
+      "pdf_pages": [
+        300
+      ],
+      "cross_refs": [
+        "awodey:10:ex3",
+        "awodey:10.5:prop14"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10:ex5",
+      "kind": "exercise",
+      "number": "10.6.5",
+      "name": "the powerset monad on Sets",
+      "statement_summary": "Show that (P, s, union) is a monad on Sets, where: P : Sets -> Sets is the covariant powerset functor, taking a function f : X -> Y to the image mapping P(f) = im(f) : P(X) -> P(Y); for each set X the component s_X : X -> P(X) of the unit is the singleton map s_X(x) = {x}; and for each set X the component union_X : PP(X) -> P(X) of the multiplication is the union operation, union_X(alpha) = {x in X : x in U for some U in alpha}, for alpha a subset of P(X). (I.e. verify the naturality of s and union and the monad unit and associativity laws.)",
+      "book_section": "10.6",
+      "book_page": "291",
+      "pdf_pages": [
+        300
+      ],
+      "cross_refs": [
+        "awodey:10.5:remark-powerset-no-initial-algebra"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10:ex6",
+      "kind": "exercise",
+      "number": "10.6.6",
+      "name": "algebras for the free-monoid monad are monoids",
+      "statement_summary": "Consider the free -| forgetful adjunction F : Sets <-> Mon : U between sets and monoids, and let (T, eta^T, mu^T) be the associated monad on Sets (T = UF the free-monoid, i.e. list, monad). Show that any T-algebra alpha : TA -> A for this monad comes from a MONOID STRUCTURE on A — explicitly exhibit the multiplication and the unit element on A determined by alpha (and, implicitly, check that the monoid laws follow from the algebra unit and associativity laws).",
+      "book_section": "10.6",
+      "book_page": "291",
+      "pdf_pages": [
+        300
+      ],
+      "cross_refs": [
+        "awodey:10:ex4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10:ex7",
+      "kind": "exercise",
+      "number": "10.6.7",
+      "name": "comonad from an adjunction; coalgebras; the eventually-fixed-points comonad on End",
+      "statement_summary": "Three-part exercise on comonads. (a) Show that an adjoint pair F -| U with U : D -> C gives rise to a COMONAD (G, epsilon, delta) on D, with G = F o U : D -> D, epsilon : G -> 1 the counit of the adjunction, and delta = F eta_U : G -> G^2 (the unit whiskered on both sides), satisfying the duals of the monad equations. [As printed the preamble writes eta : UF -> 1_C and epsilon : 1_D -> FU, evidently a draft typo with the two directions interchanged; the displayed data is the standard one.] (b) Define the notion of a COALGEBRA for a comonad, and show by duality that every comonad (G, epsilon, delta) on a category D 'comes from' a (not necessarily unique) adjunction, with G the composite of the two adjoints and epsilon the counit. (c) Let End be the category of sets equipped with an endomorphism e : S -> S (arrows the equivariant maps). Consider G : End -> End defined by G(S,e) = {x in S : e^(n+1)(x) = e^(n)(x) for some n} — the eventually fixed points — equipped with the restriction of e; show that this is the functor part of a comonad on End.",
+      "book_section": "10.6",
+      "book_page": "292",
+      "pdf_pages": [
+        301
+      ],
+      "cross_refs": [
+        "awodey:10:ex3",
+        "awodey:10:ex8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10:ex8",
+      "kind": "exercise",
+      "number": "10.6.8",
+      "name": "interior comonad and closure monad on the powerset of a space",
+      "statement_summary": "Verify that, for a topological space, the open and the closed subsets give rise respectively to a COMONAD (topological interior) and a MONAD (topological closure) on the powerset of the underlying point-set, viewed as a poset category ordered by inclusion. Moreover, show that the resulting category of coalgebras (for the interior comonad) and the category of algebras (for the closure monad) are ISOMORPHIC. (This is the exercise promised at the end of section 10.4.)",
+      "book_section": "10.6",
+      "book_page": "292",
+      "pdf_pages": [
+        301
+      ],
+      "cross_refs": [
+        "awodey:10:ex7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10:ex9",
+      "kind": "exercise",
+      "number": "10.6.9",
+      "name": "the Kleisli category of a monad and its adjunction",
+      "statement_summary": "(Starred.) Given a monad (T, eta, mu) on a category C, construct — besides the Eilenberg-Moore category — the KLEISLI category C_T together with an adjunction F -| U, eta : 1 -> UF, epsilon : FU -> 1 with U : C_T -> C, such that T = U o F, the adjunction's unit is the given eta, and mu = U epsilon_F. C_T is defined by: objects are those of C, written A_T, B_T, ...; an arrow f_T : A_T -> B_T is by definition an arrow f : A -> TB of C; the identity 1_(A_T) : A_T -> A_T is the arrow eta_A : A -> TA of C; and the composite of f_T : A_T -> B_T with g_T : B_T -> C_T is g_T o f_T := mu_C o T g_T o f_T : A -> TC. Tasks: verify that this really defines a category (identity and associativity laws from the monad laws), and that there are adjoint functors F : C -> C_T and U : C_T -> C giving rise to the original monad as T = UF.",
+      "book_section": "10.6",
+      "book_page": "292",
+      "pdf_pages": [
+        301,
+        302
+      ],
+      "cross_refs": [
+        "awodey:10:ex3",
+        "awodey:10:ex4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:10:ex10",
+      "kind": "exercise",
+      "number": "10.6.10",
+      "name": "final coalgebra for P(X) = 1 + A x X",
+      "statement_summary": "The notion of a COALGEBRA for an endofunctor P : S -> S on an arbitrary category S is exactly dual to that of a P-algebra: an object A together with an arrow A -> PA, with homomorphisms the evident commuting squares. Task: determine the FINAL coalgebra for the functor P(X) = 1 + A x X on Sets, for a set A. The hint recalls that the initial ALGEBRA for this functor consists of the finite lists a_1, a_2, ... of elements of A (so the sought final coalgebra is the set of finite-or-infinite lists / streams over A, terminal among coalgebras).",
+      "book_section": "10.6",
+      "book_page": "293",
+      "pdf_pages": [
+        302
+      ],
+      "cross_refs": [
+        "awodey:10.5:example11",
+        "awodey:10.5:lem10"
+      ],
+      "flags": []
+    }
+  ]
+}

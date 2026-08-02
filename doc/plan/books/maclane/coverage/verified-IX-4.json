@@ -1,0 +1,392 @@
+[
+  {
+    "id": "maclane:IX.5:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "end of a functor",
+      "End",
+      "universal (terminal) wedge",
+      "ending wedge",
+      "∫_c S(c,c)",
+      "Wedge"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/End.v",
+        "line": 35,
+        "symbol": "End",
+        "intree_statement": "Class End `(F : C^op ∏ C ⟶ D) := { end_wedge : Wedge F ; ump_ends : ∀ W : Wedge F, ∃! u : W ~> end_wedge, ∀ x : C, wedge_map[end_wedge] ∘ u ≈ @wedge_map _ _ _ W x }"
+      },
+      {
+        "file": "Structure/Wedge.v",
+        "line": 38,
+        "symbol": "Wedge",
+        "intree_statement": "Class Wedge `(F : C^op ∏ C ⟶ D) := { wedge_obj : D ; wedge_map {x : C} : wedge_obj ~{D}~> F (x, x) ; ump_wedges {x y} (f : x ~{C}~> y) : bimap[F] id f ∘ wedge_map ≈ bimap[F] (op f) id ∘ wedge_map }"
+      },
+      {
+        "file": "Instance/Sets/End.v",
+        "line": 144,
+        "symbol": "Sets_End",
+        "intree_statement": "Program Definition Sets_End : End F := {| end_wedge := Sets_End_Wedge |}  -- concrete end of every F : C^op ∏ C ⟶ Sets, funext-free"
+      }
+    ],
+    "statement_record": {
+      "book": "An end of S : C^op x C -> X is a universal wedge <e, ω> from the constant e to S: a dinatural ω : e =.> S such that every wedge β : x =.> S factors uniquely as β_a = ω_a . h through a unique h : x -> e; the object e = ∫_c S(c,c).",
+      "intree": "Class End over F : C^op ∏ C ⟶ D bundles the universal `end_wedge : Wedge F` (apex + legs `wedge_map` satisfying the extranaturality `ump_wedges`) with `ump_ends`: for every wedge W a unique mediator u with `wedge_map[end_wedge] ∘ u ≈ wedge_map[W]`.",
+      "strength_comparison": "same — the End class is exactly Mac Lane's universal wedge: Structure/Wedge's `ump_wedges` is the ending-wedge condition F(1,f)∘ω_x ≈ F(f,1)∘ω_y, and `ump_ends` is the unique factorisation β_a = ω_a ∘ h. Setoid ≈ replaces =, faithfully. A concrete inhabitant Sets_End is provided for X = Sets."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Structure/End.v:35 `End` (universal wedge + `ump_ends` unique factorisation) over Structure/Wedge.v:38 `Wedge` (`ump_wedges` = ending-wedge condition F(1,f)∘ω_x ≈ F(f,1)∘ω_y), inhabited by Instance/Sets/End.v:144 `Sets_End`. All three cited lines/quotes verified exact; strength 'same' honest (setoid ≈ for =). PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:IX.5:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "set of natural transformations is an end",
+      "Nat(U,V) = ∫_c hom(Uc,Vc)",
+      "end of the hom-bifunctor",
+      "hom(U-,V-) end",
+      "Yoneda end form",
+      "natural family as wedge"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 186,
+        "symbol": "YoE",
+        "intree_statement": "Program Definition YoE : C^op ∏ C ⟶ Sets := {| fobj := fun p => SetoidMorphism (homc (fst p)) (F (snd p)) ; ... |}  -- the hom-bifunctor [C(c,-), F-] : an element of its end is a natural family C(c,-) ⟹ F"
+      },
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 297,
+        "symbol": "yoneda_reduction",
+        "intree_statement": "Definition yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c := yoneda_iso  -- (comment lines 58-61: an element of Sets_End YoE is exactly a family s x : C(c,x) → F x satisfying the wedge (naturality) law, i.e. a natural transformation C(c,-) ⟹ F)"
+      }
+    ],
+    "statement_record": {
+      "book": "For U, V : C -> X, hom_X(U-,V-) : C^op x C -> Set is a functor, and a wedge from a set Y to it is exactly a Y-indexed natural family; hence the set of natural transformations equals the end Nat(U,V) = ∫_c hom_X(Uc,Vc).",
+      "intree": "In Theory/Coend/Yoneda.v the integrand YoE (x,y) = [C(c,x), F y] is the hom-bifunctor, and its (Sets) end Sets_End_obj YoE is shown ≅ F c by identifying its elements with natural transformations C(c,-) ⟹ F. This is exactly the end-form identity Nat(U,V) = ∫_x hom(Ux,Vx) for U = C(c,-) (representable) and V = F, in X = Sets.",
+      "strength_comparison": "intree-weaker: only the special case U = C(c,-) a representable functor and X = Sets is formalised (as the ninja-Yoneda / Yoneda lemma). The identification `a wedge to hom(U-,V-) is a natural family, so Nat(U,V) = end` is instantiated only there; there is no standalone construction of the hom-bifunctor hom(U-,V-) for two arbitrary U, V : C ⟶ X nor a general theorem Nat(U,V) = ∫_c hom(Uc,Vc)."
+    },
+    "gap": "The general remark — hom_X(U-,V-) as a functor for arbitrary U,V : C ⟶ X and the identity Nat(U,V) = ∫_c hom_X(Uc,Vc) — is not formalised. Only the representable-domain, X = Sets instance is in-tree (Theory/Coend/Yoneda.v: end of [C(c,x),Fy] ≅ Fc, with end-elements identified as natural transformations C(c,-) ⟹ F).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PARTIAL. Cited YoE (Yoneda.v:186) and yoneda_reduction (Yoneda.v:297) verified exact; header lines 58-61 do identify end-elements of [C(c,x),Fy] with nat-transf C(c,-)⟹F. My own tree search for a general Nat(U,V)≅∫_c hom(Uc,Vc) (arbitrary U,V:C⟶X) returned nothing — only the representable/X=Sets instance exists. Gap statement accurate."
+    }
+  },
+  {
+    "id": "maclane:IX.5:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "subdivision category",
+      "section category (C-section)",
+      "category of factorizations",
+      "twisted arrow category",
+      "S-section functor",
+      "C§ / S§"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'subdivision|twisted|section categor' --include=*.v . -> hits: Instance/Fact.v:10 (Wikipedia 'Twisted_arrow_category' in a comment header only), Construction/Grothendieck.v:117 ('twisted by' unrelated), Theory/Category.v:249 / Theory/Metacategory/ArrowsOnly.v:89 ('Section Category' = Coq sections). No subdivision/section category constructed.",
+      "grep -rniE 'S-section|C-section|subdiv' --include=*.v . -> 0 hits for the construction.",
+      "Read Instance/Fact.v (the only twisted-arrow-adjacent file): it defines Fact(f), the factorization category of a SINGLE morphism f (objects = factorisations f = p2∘p1), which is not Mac Lane's subdivision category C§ (objects = the objects c§ AND the arrows f§ of the whole category C). The twisted arrow category itself (IX.6:ex3's alternative route to the same reduction) is likewise not constructed.",
+      "Aliases 'category of factorizations', 'C§', 'S-section functor' searched and unmatched."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed ABSENT. Independently read Instance/Fact.v: it is Fact(f), the factorization category of ONE morphism, not Mac Lane's subdivision category C§ (objects = all c§ and f§). Searches for subdivision/twisted/S-section/category-of-elements found no C§ construction. No end-as-cone-over-S§ machinery."
+    }
+  },
+  {
+    "id": "maclane:IX.5:prop1",
+    "classification": "ABSENT",
+    "aliases": [
+      "end equals limit of S-section",
+      "ends reduce to limits",
+      "End ≅ Limit",
+      "∫_c S(c,c) = Lim S§",
+      "end via a limit"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'end.{0,6}limit|limit.{0,6}end|End_is|_is_End|EndFromLimit|LimitFromEnd' --include=*.v . -> no End↔Limit reduction (only Comma/Limit `End CommaLimit.`, UniversalProperty `End LimitUniversalProperty.` = Coq Section-enders; EM adjunction `EM_extend_is_alg_hom` unrelated).",
+      "Verified Structure/End.v, Structure/Coend.v, Structure/Wedge.v, Theory/Dinatural.v, Instance/Sets/End.v, Instance/Sets/Coend.v, Theory/Coend/Yoneda.v, Theory/Coend/Fubini.v do NOT Require or reference Structure.Limit / Lim — there is no bridge stating ∫_c S(c,c) ≅ Lim of any diagram.",
+      "The reduction depends on IX.5:construction1 (the subdivision category), itself ABSENT.",
+      "grep 'every limit|limit is an end|Lim.*End|second projection' -> no end/limit coincidence theorem."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed ABSENT. No end-vs-limit isomorphism in tree; Structure/End.v, Coend.v, Wedge.v, the Sets instances and Theory/Coend/{Yoneda,Fubini} require no Limit machinery and state no int_c S(c,c) iso Lim S-section. Depends on the absent subdivision category (construction1)."
+    }
+  },
+  {
+    "id": "maclane:IX.5:cor2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "existence of ends",
+      "small-complete ⟹ ends exist",
+      "has all ends",
+      "ends in a complete category",
+      "End existence corollary"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/End.v",
+        "line": 144,
+        "symbol": "Sets_End",
+        "intree_statement": "Program Definition Sets_End : End F := {| end_wedge := Sets_End_Wedge |}  -- for EVERY F : C^op ∏ C ⟶ Sets (with C's levels below Sets), the end exists in Sets, constructed directly as the setoid of compatible families"
+      },
+      {
+        "file": "Instance/Sets/Coend.v",
+        "line": 163,
+        "symbol": "SetsCoend",
+        "intree_statement": "Definition SetsCoend : Coend F  -- dually, every F has a coend in Sets"
+      }
+    ],
+    "statement_record": {
+      "book": "If X is small-complete and C is small, then every functor S : C^op x C -> X has an end in X. (Corollary of Prop 1: the end is the limit of the S-section, which exists by completeness.)",
+      "intree": "Instance/Sets/End.v supplies Sets_End F : End F for every F : C^op ∏ C ⟶ Sets, unconditionally — i.e. all ends exist in the (small-complete) category Sets. This is a direct setoid construction (compatible families), not a derivation from completeness.",
+      "strength_comparison": "intree-weaker: the conclusion (ends exist) is realised only for the single target X = Sets, and by an independent direct construction rather than via completeness. The general implication 'X small-complete ∧ C small ⟹ every S has an end' is not proven, because its stated proof route (IX.5:prop1, end = limit of the S-section) is ABSENT and no `Complete X ⟹ End S` lemma exists."
+    },
+    "gap": "No general theorem `X small-complete ⟹ every S : C^op ∏ C ⟶ X has an end` (Structure/Complete.v carries completeness as a hypothesis but derives no end-existence). The corollary's conclusion is in-tree only for X = Sets (Instance/Sets/End.v, all ends built directly), and the prop1 reduction it rests on is missing.",
+    "negative_search_log": [
+      "grep -rniE 'small.?complete|Complete.*End|End.*Complete|has.?ends|HasEnds' --include=*.v Structure/ Theory/ Instance/ -> Structure/Complete.v (general Complete/Cocomplete hypothesis, no end existence), Theory/Coend/Fubini.v (mentions 'cocomplete' in prose). No `Complete ⟹ End`.",
+      "grep -rniE 'Sets_Complete|Instance.*Complete' Instance/ -> Sets is not tagged with a Complete instance, but Sets_End gives all ends directly regardless."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PARTIAL (borderline PARTIAL/ABSENT, but the gap is stated precisely so no reader is misled). Sets_End (Instance/Sets/End.v:144) and SetsCoend (Instance/Sets/Coend.v:163) verified: ends/coends exist unconditionally in Sets (a complete category) for every F — the corollary's conclusion at X=Sets, by direct construction. Verified Structure/Complete.v exists and is limit/colimit-only (no `Complete X ⟹ End S`). General completeness⟹ends theorem genuinely absent, as claimed."
+    }
+  },
+  {
+    "id": "maclane:IX.5:prop3",
+    "classification": "ABSENT",
+    "aliases": [
+      "every limit is an end",
+      "limit as an end",
+      "end over the second projection",
+      "∫_c Tc = Lim T",
+      "S = T∘Q reduction"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'every limit|limit is an end|Lim.*End|second projection' --include=*.v Theory/ Structure/ -> no theorem relating an end over a first-variable-dummy functor S = T∘Q to Lim T (hits are Cartesian `exr` second projections and unrelated).",
+      "grep -rniE 'end.{0,6}limit|limit.{0,6}end' --include=*.v . -> no End↔Limit coincidence.",
+      "Structure/End.v / Structure/Coend.v import no Limit machinery; there is no `Definition` sending T : C ⟶ X to a dummy S : C^op ∏ C ⟶ X via a projection Q and proving its end is Lim T.",
+      "Depends conceptually on the absent end=limit reduction (IX.5:prop1); classified ABSENT."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed ABSENT. No T∘Q second-projection reduction and no ∫_c Tc≅Lim T theorem; my searches for limit-as-end / second-projection reductions found only unrelated Cartesian `exr`. End/Coend files import no Limit machinery."
+    }
+  },
+  {
+    "id": "maclane:IX.5:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "preservation of an end",
+      "creation of an end",
+      "PreservesEnd",
+      "CreatesEnd",
+      "end-preserving functor",
+      "H ∫ S = ∫ H S"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'preserv.{0,15}end|creat.{0,15}end|end.{0,15}preserv|PreservesEnd|CreatesEnd' --include=*.v . -> no end-preservation/creation notion (hits: Store.v 'preserves it' about a comonad focus; BeckObjects.v 'preserved coequalizer'; Topos.v 'meet-preserving endomorphism' — all unrelated).",
+      "grep -rniE 'PreservesEnd|CreatesEnd|preserve.{0,12}coend|create.{0,12}coend' --include=*.v . -> 0 hits.",
+      "Structure/Limit/Preservation.v provides PreservesLimit / CreatesLimit for LIMITS only; there is no wedge/end analogue (H creating a wedge lift ω with H∘ω = v that is itself an end).",
+      "Aliases 'H ∫ S = ∫ H S', 'end-preserving' unmatched."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed ABSENT. No PreservesEnd/CreatesEnd/end-lift notion; Structure/Limit/Preservation.v covers only ordinary limits. My search (excluding depend/extend/append noise) found no end-preservation or -creation predicate."
+    }
+  },
+  {
+    "id": "maclane:IX.5:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "hom-functors preserve ends",
+      "hom continuity for ends",
+      "X(x, ∫_c S) = ∫_c X(x, S)",
+      "X(∫^c S, x) = ∫_c X(S, x)",
+      "covariant hom preserves end",
+      "contravariant hom sends coend to end"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'hom.{0,10}continuous|continuous.{0,10}end|preserv.{0,15}end' --include=*.v . -> no hom/end continuity result.",
+      "grep -rniE 'X\\(x, ∫|∫.{0,10}hom|hom.{0,10}∫|hom.*preserve.*end' -> 0 relevant hits; the End/Coend files (Structure/End.v, Structure/Coend.v, Theory/Coend/Yoneda.v, Fubini.v) prove no `hom(x, ∫S) ≅ ∫ hom(x, Sc)` isomorphism.",
+      "No eqn-(4)/(5) analogue: neither covariant hom preserving an end nor contravariant hom turning a coend into an end is stated (representable-continuity is present only for ordinary limits elsewhere, not for ends).",
+      "Aliases 'covariant hom preserves end', 'contravariant hom sends coend to end' unmatched."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed ABSENT. No hom/end continuity: neither X(x,∫_c S)≅∫_c X(x,S) nor X(∫^c S,x)≅∫_c X(S,x) is stated anywhere (Structure/End.v, Coend.v, Yoneda.v, Fubini.v prove no such iso). Representable-continuity exists in-tree only for ordinary limits."
+    }
+  },
+  {
+    "id": "maclane:IX.6:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "coend of a functor",
+      "Coend",
+      "universal (initial) cowedge",
+      "∫^c S(c,c)",
+      "Cowedge",
+      "co-dinatural universal object"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/End.v",
+        "line": 58,
+        "symbol": "Coend",
+        "intree_statement": "Definition Coend `(F : C^op ∏ C ⟶ D) := @End (C^op) (D^op) (F^op)  -- the coend is the end in the opposite categories, i.e. the universal (initial) cowedge"
+      },
+      {
+        "file": "Structure/Coend.v",
+        "line": 182,
+        "symbol": "coend_ump",
+        "intree_statement": "Lemma coend_ump (E : Coend F) (w : D) (i : ∀ x, F (x, x) ~> w) (cond : Cowedge_cond w i) : ∃! u : coend_obj E ~{D}~> w, ∀ x : C, u ∘ coend_inj E ≈ i x"
+      },
+      {
+        "file": "Structure/Coend.v",
+        "line": 237,
+        "symbol": "Build_Coend",
+        "intree_statement": "Definition Build_Coend (w : D) (i : ∀ x, F (x, x) ~> w) (cond : Cowedge_cond w i) (ump : ...) : Coend F  -- covariant accessors coend_obj/coend_inj/coend_cowedge/coend_med"
+      },
+      {
+        "file": "Instance/Sets/Coend.v",
+        "line": 163,
+        "symbol": "SetsCoend",
+        "intree_statement": "Definition SetsCoend : Coend F  -- concrete coend in Sets as the sum quotiented by the dinaturality glue ce_glue, funext-free"
+      }
+    ],
+    "statement_record": {
+      "book": "A coend of S : C^op x C -> X is a universal wedge <d, ζ> from S to the constant d: ζ : S =.> d couniversal among dinatural transformations to constants; the object d = ∫^c S(c,c), dual to the end.",
+      "intree": "Coend F := @End (C^op) (D^op) (F^op) (Structure/End.v), with a full covariant API in Structure/Coend.v: coend_obj, injections coend_inj_x : F(x,x) ~> coend_obj, the cowedge condition coend_cowedge, the universal property coend_ump (unique mediator u out of the coend with u ∘ coend_inj ≈ i x), mediator coend_med, and the smart constructor Build_Coend. Inhabited concretely by SetsCoend.",
+      "strength_comparison": "same — the coend is precisely the universal initial cowedge, defined by duality and equipped with the exact UMP (unique factorisation out of the coend recovering each leg). Setoid ≈ replaces =. A concrete witness (SetsCoend) exists."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PRESENT. Coend (Structure/End.v:58 `Coend F := @End (C^op)(D^op)(F^op)`) with full covariant API — coend_ump (Coend.v:182) and Build_Coend (Coend.v:237) verified exact — inhabited by SetsCoend (Instance/Sets/Coend.v:163, quotient of the sum by the dinaturality glue ce_glue). Universal initial cowedge, strength 'same' honest."
+    }
+  },
+  {
+    "id": "maclane:IX.6:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "tensor product of modules as a coend",
+      "A ⊗_R B = ∫^R A⊗B",
+      "module tensor product",
+      "R-Mod additive functors",
+      "ring as one-object Ab-category",
+      "bimodule tensor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bR-?Mod|module over|tensor.{0,6}over|A ⊗_R|left module|right module|\\bAb-categor' --include=*.v . -> only PROSE mentions: Structure/Coend.v:94-95 (the analogy `F ⊗_C G ≅ ∫^c F c ⊗ G c` with C as ring, in a background essay), Structure/Abelian.v:69/111 & Structure/Monoid.v:69 (R-Mod as motivation), Theory/DoubleCategory.v:104 (bimodule tensor mentioned), Structure/Pullback.v:114 (A ⊗_R B in a comment). No category of modules, no module tensor product, no ring-as-Ab-category is CONSTRUCTED.",
+      "grep -rniE 'RMod|ModuleCat|LeftModule|RightModule|tensor_R|otimes_R' --include=*.v . -> 0 constructive hits.",
+      "The coend machinery exists (Structure/Coend.v, Instance/Sets/Coend.v) but this specific worked example (∫^R A⊗B = A⊗_R B) is not instantiated."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed ABSENT. Independently searched R-Mod/Ab-category/tensor-over-ring: only prose (Structure/Coend.v:94-98 background essay `F⊗_C G≅∫^c Fc⊗Gc` with C as ring; Abelian/Monoid R-Mod motivation). No category of modules, no A⊗_R B, no ring-as-Ab-category CONSTRUCTED. Verified the cited prose lines."
+    }
+  },
+  {
+    "id": "maclane:IX.6:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "tensor product of functors",
+      "T □_P S = ∫^P Tp □ Sp",
+      "functor tensor product",
+      "coend tensor of functors",
+      "∫^c F c ⨂ G c",
+      "profunctor composition coend"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Profunctor/Compose.v",
+        "line": 95,
+        "symbol": "prof_integrand",
+        "intree_statement": "Program Definition prof_integrand (c : C) (e : E) : (D^op ∏ D) ⟶ Sets := {| fobj := fun p => carrier (P (c, snd p)) * carrier (Q (fst p, e)) ; ... |}  -- (comment l.30: (Q ∘ P)(c, e) := ∫^d P(c, d) × Q(d, e), coend realised via SetsCoend)"
+      },
+      {
+        "file": "Construction/Day.v",
+        "line": 315,
+        "symbol": "Day",
+        "intree_statement": "Program Definition Day (F G : C ⟶ Sets) : C ⟶ Sets := {| fobj := fun c => coend_obj (SetsCoend (DayI F G c)) |}  -- (Day F G) c := ∫^{a,b} C(a⨂b,c) × F a × G b"
+      }
+    ],
+    "statement_record": {
+      "book": "For a monoidal category (B, □) and functors T : P^op -> B and S : P -> B, their tensor product is the coend T □_P S = ∫^P (Tp) □ (Sp), an object of B (extending the module tensor product to any monoidal base).",
+      "intree": "Profunctor composition realises exactly this coend shape for B = Sets, □ = cartesian product: prof_integrand's coend is ∫^d P(c,d) × Q(d,e) = (Q(-,e)) ×_D (P(c,-)), the tensor of a P^op-functor with a P-functor with □ = × (the comment notes the setoid product is 'the carrier of the cartesian tensor of Sets'). Day convolution is a further elaboration of the same coend-of-a-tensor pattern.",
+      "strength_comparison": "intree-weaker: the coend of the shape ∫^P Tp □ Sp is instantiated only for the specific base B = Sets with □ = cartesian product, and only embedded inside profunctor composition / Day convolution — never packaged as the standalone, general 'tensor product of functors' T □_P S over an arbitrary monoidal (B, □). Functor/Product.v:30-31 explicitly flags 'the coend tensor of functors ∫^c F c ⨂ G c ... which is not this pointwise construction', i.e. the general functor tensor is deliberately not built there."
+    },
+    "gap": "No standalone/general definition `T □_P S := ∫^P (Tp) □ (Sp)` over an arbitrary monoidal base (B, □). The exact coend shape appears only specialised to B = Sets with □ = × inside Construction/Profunctor/Compose.v (∫^d P(c,d) × Q(d,e)) and, differently, in Construction/Day.v; a general-monoidal functor tensor and the module-tensor specialisation (IX.6:remark1) are absent.",
+    "negative_search_log": [
+      "grep -rniE 'tensor product of functor|functor tensor|coend.{0,20}tensor|⊗_|box_' --include=*.v . -> Functor/Product.v:30 (comment: coend tensor 'not this construction'), Structure/Coend.v:94 (prose analogy), Day/Profunctor (the special-case instances quoted as evidence). No general definition."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PARTIAL. Verified prof_integrand (Profunctor/Compose.v:95) genuinely realises ∫^d P(c,d)×Q(d,e) via SetsCoend — the B=Sets, □=× case of T□_P S — and Day (Day.v:315) the elaborated coend; both cited lines/quotes exact. Verified the Functor/Product.v:30-31 disclaimer that the general coend tensor 'is not this pointwise construction'. General T□_P S over an arbitrary monoidal base genuinely absent; gap accurate."
+    }
+  },
+  {
+    "id": "maclane:IX.6:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "geometric realization as a coend",
+      "|S| = ∫^n Sn · Δn",
+      "geometric realization of a simplicial set",
+      "simplex category Δ",
+      "coend realization",
+      "copower Sn · Δm"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'simplicial|geometric realiz|simplex categor|augmented simplex|\\bDelta\\b' --include=*.v . -> only PROSE: Theory/Kan/Extension.v:90-91 ('Geometric realization is the left Kan extension of a cosimplicial space along the Yoneda embedding' — background essay, not built), Comonad/Coalgebra.v:100 & Comonad/Core.v:103 ('simplicial bar resolution' mentioned). All other Delta hits are `delta` = comultiplication (Comonoid/Frobenius) or `cbv ... delta` tactics.",
+      "grep -rniE 'SimplexCat|sSet|SimplicialSet|realization|nerve' --include=*.v . -> 0 constructive hits; there is no simplex category Δ, no simplicial set category, no Top, no geometric realization functor.",
+      "The coend machinery exists but this topological example (∫^n Sn · Δn) is not instantiated (it also needs copowers/tensoring by a set, itself not developed as a general construction)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed ABSENT. No SimplexCat/simplicial set/Top/geometric-realization/copower anywhere; only prose (Theory/Kan/Extension.v ~90 'Geometric realization is the left Kan extension...' background essay — verified). The topological example ∫^n Sn·Δn is not instantiated, and copowers/tensoring-by-a-set are not developed either."
+    }
+  }
+]

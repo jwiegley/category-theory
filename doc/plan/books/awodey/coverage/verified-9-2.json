@@ -1,0 +1,358 @@
+[
+  {
+    "id": "awodey:9.7:construction-change-of-base",
+    "classification": "PARTIAL",
+    "aliases": [
+      "change of base along a function of sets",
+      "reindexing functor alpha* = precomposition (- o alpha)",
+      "adjoint triple alpha_! -| alpha* -| alpha_* (Sigma_alpha -| alpha* -| Pi_alpha)",
+      "left/right Kan extension along a functor (Lan -| Induced -| Ran)",
+      "Sets^J / Sets^I, indexed families of sets, fibrewise sum and product",
+      "dependent sum / substitution / dependent product (Lawvere quantifiers-as-adjoints)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 127,
+        "symbol": "Induced",
+        "intree_statement": "Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {|\n  fobj := fun G => G ◯ F;\n  fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |}\n|}.   (* Context {A B : Category} {F : A ⟶ B} {C : Category} *)"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 222,
+        "symbol": "LeftKan",
+        "intree_statement": "Class LeftKan := {\n  Lan : [A, C] ⟶ [B, C];           (* the left Kan extension functor *)\n  lan_adjoint : Lan ⊣ Induced      (* universal property: Lan ⊣ Induced *)\n}."
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 140,
+        "symbol": "RightKan",
+        "intree_statement": "Class RightKan := {\n  Ran : [A, C] ⟶ [B, C];           (* the right Kan extension functor *)\n  ran_adjoint : Induced ⊣ Ran      (* universal property: Induced ⊣ Ran *)\n}."
+      }
+    ],
+    "statement_record": {
+      "book": "For alpha : J -> I of sets (discrete categories), reindexing alpha*(A) = A o alpha : Sets^I -> Sets^J has a left adjoint Sigma_alpha and a right adjoint Pi_alpha, computed fibrewise as (Sigma_alpha B)_i = sum over alpha^{-1}(i) of B_j and (Pi_alpha B)_i = product over alpha^{-1}(i) of B_j.",
+      "intree": "Induced := (− ◯ F) : [B, C] ⟶ [A, C] is the reindexing/precomposition functor for an arbitrary F : A ⟶ B and arbitrary target C; LeftKan / RightKan are CLASSES bundling a functor together with lan_adjoint : Lan ⊣ Induced resp. ran_adjoint : Induced ⊣ Ran.",
+      "strength_comparison": "intree-weaker: the middle functor alpha* is present in full generality (and the adjoint-triple SHAPE Lan ⊣ Induced ⊣ Ran is stated), but the two adjoints exist only as HYPOTHESES — LeftKan/RightKan have no instance anywhere in the tree (grep 'LeftKan|RightKan' outside Theory/Kan/Extension.v yields exactly one hit, the Kan_Limit theorem in Structure/Limit/Kan/Extension.v, which also takes RightKan as a hypothesis). Nothing computes the fibrewise sum/product formula, nothing specialises to DiscreteCat J ⟶ DiscreteCat I, and there is no Sets-valued existence result."
+    },
+    "gap": "Missing: (a) any existence theorem for Lan/Ran (no LeftKan or RightKan instance exists in-tree, for Sets or any other target — the coend/end formulas in Instance/Sets/{Coend,End}.v are never assembled into one); (b) the explicit fibrewise description (Sigma_alpha B)_i = sum over the fibre alpha^{-1}(i), (Pi_alpha B)_i = product over that fibre; (c) the specialisation to discrete categories, i.e. Sets^J as [DiscreteCat J, Sets] with alpha* = Induced (DiscreteCat_Functor alpha). Present: only the reindexing functor Induced and the abstract adjoint-triple shape.",
+    "negative_search_log": [
+      "grep -rni --include='*.v' 'reindex|change of base|change_of_base|base change' — hits are Theory/Subobject/Functor.v (subobject reindexing along pullbacks) and prose headers only; nothing for functor categories",
+      "grep -rn --include='*.v' 'Sigma_alpha|Pi_alpha|sigma_alpha' — 0 hits",
+      "grep -rn --include='*.v' 'RightKan|LeftKan|LocalRightKan|LocalLeftKan' outside Theory/Kan/Extension.v — 1 hit (Structure/Limit/Kan/Extension.v:46, a theorem that also assumes RightKan)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-9-2.json) reached the same PARTIAL. Aliases expanded independently: 'change of base', 'reindexing', 'Sigma_alpha/Pi_alpha', 'Lan/Ran', 'indexed family', 'dependent sum/product'. Commands: rg -in 'base change|change of base|BaseChange' --glob '*.v' (only Construction/ColouredPROP/BaseChange*, an unrelated base change of COLOURS, plus prose headers); rg -n 'LeftKan|RightKan|Lan\\b|Ran\\b' --glob '*.v' outside Theory/Kan/Extension.v -> only Structure/Limit/Kan/Extension.v:46 Kan_Limit, itself parameterised by `{@RightKan ...} (a hypothesis, not an instance); rg -in 'Sigma_alpha|Pi_alpha' -> 0. Cited evidence re-opened and verified verbatim: Theory/Kan/Extension.v:127 `Program Definition Induced : ([B, C]) ⟶ ([A, C])`, :140 `Class RightKan` with `ran_adjoint : Induced ⊣ Ran`, :222 `Class LeftKan` with `lan_adjoint : Lan ⊣ Induced`. Line numbers exact; file registered in _CoqProject:445. The PARTIAL is generous but honest: alpha* IS constructible in-tree as Induced (DiscreteCat_Functor alpha) with C := Sets, since Instance/Discrete.v supplies DiscreteCat/DiscreteCat_Functor and Instance/Fun.v supplies [J, Sets]; the gap statement (no Lan/Ran instance anywhere, no fibrewise formula, no discrete specialisation) is accurate and complete."
+    }
+  },
+  {
+    "id": "awodey:9.7:construction-sum-delta-product",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Sigma -| Delta -| Pi for a J-indexed family",
+      "constant/diagonal functor Delta : C ⟶ [J, C]",
+      "colim -| Delta -| lim",
+      "indexed product / indexed coproduct over an index Type",
+      "disjoint sum of a family, cartesian product of a family",
+      "transposition rule: family of maps A -> B_j  ↔  one map A -> prod_j B_j"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 105,
+        "symbol": "iprod_ump",
+        "intree_statement": "Definition iprod_ump {C : Category} {A : Type} (f : A → C)\n  (L : Limit (DiscreteCat_Functor f))\n  (c : C) (pi : ∀ a, c ~> f a) :\n  ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a."
+      },
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} :\n  Diagonal_Product C ⊣ ×(C) := {\n  adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |}\n                     ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }."
+      },
+      {
+        "file": "Functor/Diagonal.v",
+        "line": 33,
+        "symbol": "Diagonal",
+        "intree_statement": "Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {\n  fobj := fun x => {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |};\n  fmap := fun _ _ f => {| transform := fun _ => f |} }."
+      }
+    ],
+    "statement_record": {
+      "book": "For !_J : J -> 1, the reindexing functor is the constant-family (diagonal) functor Delta : Sets -> Sets^J, Delta(A)(j) = A, and it has left adjoint Sigma(B) = sum_j B_j and right adjoint Pi(B) = prod_j B_j; the transposition rules are the familiar ones for sums and products of a family.",
+      "intree": "iprod_ump: for a family f : A → C with a chosen Limit of the discrete diagram, every competing family pi : ∀ a, c ~> f a factors uniquely through the projections — this IS the Pi transposition rule, stated as a universal property. Diagonal J : C ⟶ [J, C] is the constant-family functor Delta. Diagonal_Product_Adjunction : Diagonal_Product C ⊣ ×(C) is the genuine adjunction Delta ⊣ Pi, but only for the two-element index (target C ∏ C).",
+      "strength_comparison": "intree-weaker: the Pi half of the transposition is present only as a UMP relative to an assumed `Limit (DiscreteCat_Functor f)`, never as an adjunction Delta ⊣ Pi for a general index type; the Sigma half has no elementary counterpart at all (there is no icoprod / IsIndexedCoproduct — Colimit F is only defined as `Limit (F^op)` in Structure/Limit.v:158); and neither the general Delta ⊣ Pi nor Sigma ⊣ Delta is proven. The only genuine adjunction is the binary case (Diagonal_Product_Adjunction)."
+    },
+    "gap": "Missing: (a) the adjunctions themselves for a general index — no `colim ⊣ Δ ⊣ lim` and no `Σ ⊣ Δ ⊣ Π` instance exists (Structure/Cone/Const.v mentions Δ ⊣ lim only in prose and proves only Cone_Comma : (Δ ↓ Δ(F)) ↔ Cone F); (b) indexed COPRODUCTS as an elementary notion (no IsIndexedCoproduct / icoprod dual of Structure/Limit/Product.v); (c) any Sets-level witness — Sets has no Limit, Complete, or HasIndexedProducts instance in-tree (grep found HasIndexedProducts declared at Structure/Limit/Product.v:128 with zero instances), so the concrete sum/product of a J-indexed family of setoids is not constructed; (d) the derivation via uniqueness of adjoints from the general change-of-base triple.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'icoprod|indexed coproduct|IsIndexedCoproduct|Colimit (DiscreteCat' — 0 hits",
+      "grep -rn --include='*.v' 'HasIndexedProducts' — declaration only (Structure/Limit/Product.v:128), no instance",
+      "grep -rn --include='*.v' 'Limit|Complete' Instance/Sets.v Instance/Sets/*.v — 1 hit, a prose reference to Structure/Limit/Weighted.v"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed on PARTIAL. Independent searches: rg -n 'Diagonal' Functor/Diagonal.v (Delta : C ⟶ [J, C] present, with the header at :28 stating 'colim ⊣ Δ ⊣ lim' as PROSE only); rg -n '⊣' --glob '*.v' restricted to Definition/Instance headers -> the complete list of in-tree adjunction constructions contains no Delta-vs-limit adjunction for a general index (only Adjunction/Diagonal/Product.v's binary case). Cited evidence re-opened: Structure/Limit/Product.v:105 `Definition iprod_ump ... ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a` (exact); Adjunction/Diagonal/Product.v:36 `Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C)` (exact); Functor/Diagonal.v:33 `Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C]` (exact). All three files in _CoqProject. Negative claims re-verified: `HasIndexedProducts` appears at Structure/Limit/Product.v:128 (declaration), Structure/Limit/Product.v:34 (prose) and Theory/WeaklyInitial.v:44 (prose) — ZERO instances, as claimed; `Complete` is only ever a hypothesis (Adjunction/SAFT.v, Adjunction/GAFT.v), and Structure/Complete.v:115 defines `Complete {C} := ∀ D (F : D ⟶ C), Limit F` with no Sets witness; Structure/Limit.v:158 `Definition Colimit `(F : J ⟶ C) := Limit (F^op)` confirmed verbatim. One imprecision in the negative log, immaterial to the verdict: the third entry says grepping Limit|Complete over Instance/Sets*.v gives '1 hit'; it actually gives several (Instance/Sets.v:80,109-110 and Instance/Sets/Karoubi.v's Cauchy-completeness hits), but every one is prose or a DIFFERENT notion (Cauchy completeness), so the substantive claim — no Limit/Complete/HasIndexedProducts instance for Sets — holds."
+    }
+  },
+  {
+    "id": "awodey:9.7:remark-slice-indexed-reindexing",
+    "classification": "ABSENT",
+    "aliases": [
+      "Sets^J ≃ Sets/J (families of sets vs bundles)",
+      "family-to-bundle equivalence, indexing projection sum_j A_j -> J",
+      "fibre family pi^{-1}(j), fibres of a map",
+      "Grothendieck construction over a discrete category / category of elements",
+      "compatibility of the equivalence with reindexing (alpha^sharp vs alpha*)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Sets\\^J' — 0 hits",
+      "grep -rni --include='*.v' 'family of sets' — 1 hit, Construction/Slice.v:73, PROSE in the file header only ('an object of Set/I is the same data as an I-indexed family of sets ... an equivalence Set/I ≃ Set^I'), no Coq statement",
+      "grep -rni --include='*.v' 'fibre family|indexing projection|family_slice' — 0 hits",
+      "grep -rni --include='*.v' 'fibre|fiber' — hits are Instance/FinSet/Pushout.v (connected components), Instance/Sets/Coend.v (fibre equivalence of a coend), Construction/Grothendieck/Fiber.v (fibre of an IndexedCat); none is the family/bundle equivalence",
+      "grep -rn --include='*.v' '≃' filtered for slice/functor-category — 0 relevant hits; the only slice-level isos in the tree are Comma_Slice / Comma_Coslice (Construction/Slice.v:140,181), which identify the slice with a comma category, not with a functor category",
+      "grep -rn --include='*.v' '@Slice|Slice C' outside Construction/Slice* — 0 hits, so no other file even builds on the slice"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found no counterpart. My own searches: rg -in 'indexed famil|family fibration|fibre famil|fiber famil|Sets\\^|equival.*slice|slice.*equival' --glob '*.v' -> the only relevant hit is Construction/Slice.v:73-76, which states 'an equivalence Set/I ≃ Set^I' in the file's BACKGROUND ESSAY, citing Leinster and nLab, with no Coq statement anywhere; rg -in 'category of elements' -> Construction/Grothendieck.v:108, prose. The classifier's sharpest negative claim was independently re-run and confirmed EXACTLY: `rg -n '@Slice|Slice C' --glob '*.v' | grep -v '^Construction/Slice'` returns 0 hits — no file outside Construction/Slice.v and Construction/Slice/Pullback.v uses the Slice constructor at all (the five other files matching the bare word 'Slice' — Structure/Topos.v:95, Structure/Pullback.v:130, Construction/Arrow.v:92, Construction/Comma.v:46, Construction/Displayed/Codomain.v:43 — only name it in prose). Note the nearest structural relative, Construction/Displayed/Codomain.v, gives the codomain fibration and `codomain_cleaving`/`codomain_cleaving_pullbacks`, i.e. cartesian-lifts-iff-pullbacks; it is NOT the families-vs-bundles equivalence and does not weaken ABSENT."
+    }
+  },
+  {
+    "id": "awodey:9.7:prop18",
+    "classification": "PARTIAL",
+    "aliases": [
+      "pullback functor between slices has both adjoints",
+      "alpha^sharp : Sets/I -> Sets/J, base change functor f*",
+      "Star_Functor (base change) / Bang_Functor (post-composition)",
+      "Sigma_f -| f* -| Pi_f on slices",
+      "pullback preserves limits and colimits (RAPL/LAPC consequence)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 67,
+        "symbol": "Star_Functor",
+        "intree_statement": "Program Definition Star_Functor `(f : c ~> a) :\n  @Slice C a ⟶ @Slice C c := {|\n  fobj := λ '(_; h), let pull : Pullback h f := pullbacks h f in\n                     (Pull h f pull; pullback_snd h f pull);\n  fmap := λ '(a; x) '(b; y) '(g; H), ... (mediator from ump_pullbacks) |}.   (* under Hypothesis pullbacks : ∀ {X Y Z : C} (f : Y ~> Z) (g : X ~> Z), Pullback f g *)"
+      },
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 50,
+        "symbol": "Bang_Functor",
+        "intree_statement": "Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {|\n  fobj := λ '(o; h), (o; f ∘ h);\n  fmap := λ x y f, (_; _)\n|}."
+      }
+    ],
+    "statement_record": {
+      "book": "For any function alpha : J -> I of sets, the pullback functor alpha^sharp : Sets/I -> Sets/J has both a left adjoint alpha_L and a right adjoint alpha_sharp; consequently alpha^sharp preserves all limits and all colimits.",
+      "intree": "Star_Functor f : @Slice C a ⟶ @Slice C c is the base-change (pullback) functor, defined under an explicit `Hypothesis pullbacks`; Bang_Functor f : @Slice C a ⟶ @Slice C b is post-composition. NEITHER adjunction is asserted: the only statement of one in the tree is a fully COMMENTED-OUT stub, Construction/Slice/Pullback.v:121-127, '(* Program Definition Base_Functor_Adjunction `(f : a ~> b) : Star_Functor f ⊣ Bang_Functor f := ... *)', whose own header note (line 38-40) records that it is a sketch and even has the adjointness the wrong way round.",
+      "strength_comparison": "intree-weaker: both functors of the book's statement exist (in greater generality — any category with pullbacks, not just Sets), but the CONTENT of Proposition 9.18 — that the middle functor is a two-sided adjoint — is not proven at all, in Sets or anywhere. There is no right adjoint Pi_alpha of any kind in the tree, and no Sets-level instantiation (Sets is never shown to have pullbacks, so Star_Functor's hypothesis is never discharged for Sets)."
+    },
+    "gap": "Neither adjunction is proven: Sigma_alpha ⊣ alpha* is a commented-out stub and Pi_alpha does not exist in-tree (grep 'Pi_Functor|dependent product functor|right adjoint to pullback' — 0 hits). Also missing: the specialisation to Sets (no `Pullback` instance for Sets discharging Star_Functor's `Hypothesis pullbacks`), and the stated consequence that alpha^sharp preserves all limits and colimits — the general RAPL/LAPC machinery exists (Adjunction/Continuity.v) but cannot be applied because no adjunction is available.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently and for the same reason. I read Construction/Slice/Pullback.v in full: Bang_Functor is defined at line 50 and Star_Functor at line 67 (both cited line numbers exact), Star_Functor under `Hypothesis pullbacks : ∀ {X Y Z : C} (f : Y ~> Z) (g : X ~> Z), Pullback f g` at line 63. The adjunction really is dead code: lines 121-127 are `(* Program Definition Base_Functor_Adjunction ... *)`, entirely commented out, and the header at lines 38-40 records that the stub even has the direction reversed. Nothing else in the tree asserts either adjunction (my rg -n '⊣' sweep over all Definition/Instance/Theorem headers lists every in-tree adjunction; none involves Bang_Functor or Star_Functor). The Sets-level gap is real: rg -n 'Pullback' over Instance/ shows a HasPullbacks instance ONLY for FinSet (Instance/FinSet/Classifier.v:264 FinSet_Pullbacks); Sets has none, so Star_Functor's hypothesis is never discharged for Sets. The 'preserves all limits and colimits' consequence is likewise unreachable. The record's empty negative_search_log is tolerable for a PARTIAL (schema requires it only for ABSENT), and the negatives it does need are inlined in the gap field with the commands named."
+    }
+  },
+  {
+    "id": "awodey:9.7:construction-slice-adjoints-explicit",
+    "classification": "PARTIAL",
+    "aliases": [
+      "post-composition is left adjoint to pullback (alpha_L = Sigma_alpha)",
+      "Bang_Functor / f_! lower shriek",
+      "right adjoint by partial sections over the fibre of alpha",
+      "Pi_alpha, dependent product functor on slices",
+      "set of sections { s : alpha^{-1}(i) -> A | pi o s = inclusion }"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 50,
+        "symbol": "Bang_Functor",
+        "intree_statement": "Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {|\n  fobj := λ '(o; h), (o; f ∘ h);\n  fmap := λ x y f, (_; _)\n|}.   (* i.e. alpha_L(pi : A ~> J) = (alpha ∘ pi : A ~> I), the book's explicit left adjoint *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The left adjoint of pullback is post-composition, alpha_L(pi : A -> J) = (alpha o pi : A -> I); the right adjoint alpha_sharp sends pi : A -> J to the object over I whose fibre over i is the set of partial sections { s : alpha^{-1}(i) -> A | pi o s = the inclusion of alpha^{-1}(i) into J }.",
+      "intree": "Bang_Functor is exactly the book's alpha_L: on objects (o; h) ↦ (o; f ∘ h) — post-composition of the structure morphism with f — as a functor between the slice categories Slice C a and Slice C b.",
+      "strength_comparison": "intree-weaker: the left adjoint's explicit formula is present verbatim (as a functor), but it is never PROVEN to be left adjoint to Star_Functor (the adjunction is a commented-out stub at Construction/Slice/Pullback.v:121-127), and the right adjoint's partial-sections description has no in-tree counterpart whatsoever."
+    },
+    "gap": "The right adjoint (partial sections over the fibre of alpha) is entirely absent — no Pi functor on slices, no notion of a set of partial sections, no fibre of a map. And the left adjoint, while present as the correct functor, carries no adjointness proof: the claim 'composition along alpha is left adjoint to pullback along alpha' is nowhere asserted in-tree. The Sigma_alpha ⊣ alpha* ⊣ Pi_alpha notation the book adopts here has no in-tree bundle either.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: the book's explicit LEFT adjoint (post-composition) is literally Bang_Functor (Construction/Slice/Pullback.v:50, `fobj := λ '(o; h), (o; f ∘ h)`), quoted accurately, but no adjointness is proven; the right adjoint's partial-sections description has no counterpart. I searched for the sections construction independently: rg -in '\\bsection of\\b|set of sections|global section' --glob '*.v' — every hit is a split epi/mono section (Theory/Morphisms.v:51, Structure/Coequalizer/Split.v:44-45, Monad/Monadicity/*) or a SHEAF global section (Theory/Sheaf.v:37,54); nothing builds the set { s : alpha^-1(i) → A | pi ∘ s = incl }. rg -in 'fibre|fiber' likewise turns up only Grothendieck fibres, Displayed fibres and FinSet connected components. strength_comparison ('present verbatim as a functor, never proven left adjoint') is honest."
+    }
+  },
+  {
+    "id": "awodey:9.7:construction-product-exponential-factorization",
+    "classification": "PARTIAL",
+    "aliases": [
+      "(J x -) -| (-)^J on Sets, currying adjunction, product-exponential adjunction",
+      "exponential object, internal hom, curry/uncurry, exp_iso",
+      "Sigma_J -| J* -| Pi_J between Sets/J and Sets",
+      "sections of a map, Pi_J(pi) = { s : J -> A | pi o s = id }",
+      "factoring an adjunction as a composite of two adjunctions (Adjunction/Compose.v)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 38,
+        "symbol": "Sets_Closed",
+        "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := {\n  exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |};\n  exp_iso := fun _ _ _ => {| to := (curry) ... ; from := (uncurry) ... |} }."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 51,
+        "symbol": "Closed.exp_iso",
+        "intree_statement": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;   (* field of Class Closed, Structure/Cartesian/Closed.v:43: the product-exponential adjunction (- × y) ⊣ (- ^ y) as a natural isomorphism Hom(x × y, z) ≅ Hom(x, z^y) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For I = 1 the change-of-base triple reads Sigma_J -| J* -| Pi_J between Sets/J and Sets, with Sigma_J(pi : A -> J) = A, J*(A) = (p_1 : J x A -> J), Pi_J(pi) = { s : J -> A | pi o s = 1_J }; hence Sigma_J J* A = J x A and Pi_J J* A = A^J, so the adjunction (J x -) -| (-)^J on Sets factors through Sets/J as the composite of Sigma_J -| J* and J* -| Pi_J.",
+      "intree": "Sets_Closed asserts that Sets (setoids) is cartesian closed, i.e. supplies exp_iso : x × y ~> z ≊ x ~> z^y with z^y the setoid of ≈-respecting maps. This is the destination adjunction (J × −) ⊣ (−)^J, proved directly.",
+      "strength_comparison": "intree-weaker on the item's actual content: the target adjunction (J × −) ⊣ (−)^J is present (indeed proved constructively for setoids), but the FACTORIZATION through Sets/J — the point of the construction — has no in-tree counterpart. Note also a presentational gap: exp_iso is a hom-setoid bijection natural in all three arguments, not an `Adjunction` record between the functors (− × y) and (− ^ y), so even the composite-of-adjunctions statement could not be formed without first packaging it."
+    },
+    "gap": "Missing: (a) the functors Sigma_J : Sets/J ⟶ Sets (domain), J* : Sets ⟶ Sets/J (the projection p_1 : J × A → J), Pi_J : Sets/J ⟶ Sets (sections of a map) — none is constructed, and no in-tree notion of 'the set of sections of pi' exists; (b) the two adjunctions Sigma_J ⊣ J* and J* ⊣ Pi_J; (c) the computations Sigma_J J* A ≅ J × A and Pi_J J* A ≅ A^J; (d) the resulting factorization of the currying adjunction through the slice (Adjunction/Compose.v does provide composition of adjunctions, but there is nothing to compose). Present: only the endpoint, that Sets is cartesian closed.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass had this as ABSENT-leaning; on reading the record I accept PARTIAL, because the item's own statement includes the destination adjunction (J × −) ⊣ (−)^J on Sets, and that IS in-tree. Evidence re-opened and verified: Instance/Sets/Cartesian/Closed.v:38 `Program Instance Sets_Closed : @Closed Sets _` with `exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}` (exact); Structure/Cartesian/Closed.v:51 `exp_iso {x y z} : x × y ~> z ≃ x ~> z^y` as a field of `Class Closed` (declared at :43) (exact). Both files in _CoqProject. One refinement of the strength_comparison, which does not change the verdict: exp_iso carries NO naturality FIELD — naturality is asserted only in the header prose at Structure/Cartesian/Closed.v:32-34,47-50 and is recovered downstream as derived corollaries (curry_comp_l:165, curry_comp:177, uncurry_comp_r:185, uncurry_comp:193). So the record's phrase 'natural in all three arguments' is substantively supported but is a DERIVED fact, not part of the class; the record's own observation that this is not an `Adjunction` record and would need packaging before any composite-of-adjunctions statement could be formed is exactly right, and Adjunction/Compose.v:173 (Adjunction_Compose) is correctly identified as the machinery with nothing to feed it."
+    }
+  },
+  {
+    "id": "awodey:9.7:def19",
+    "classification": "ABSENT",
+    "aliases": [
+      "locally cartesian closed category (LCCC)",
+      "every slice has exponentials",
+      "Sigma_f -| f* -| Pi_f for every arrow f",
+      "dependent sum / substitution / dependent product; Seely's type-theoretic semantics",
+      "class/predicate LocallyCartesianClosed"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' 'locally cartesian' — 5 hits, ALL prose in comments: Instance/Sets.v:97, Instance/Cat.v:129, Construction/Slice.v:91,97, Construction/Slice/Pullback.v:36, Structure/Pullback.v:126; no Coq statement",
+      "grep -rni --include='*.v' 'LocallyCartesianClosed|Locally_Cartesian|LCCC' — 0 hits",
+      "grep -rn --include='*.v' 'Pi_Functor|dependent product functor|right adjoint to pullback' — 0 hits",
+      "ls Structure/ — no LCCC file; Structure/Cartesian/Closed.v defines only the absolute Class Closed (cartesian closed), Structure/Closed.v is the Eilenberg–Kelly stub",
+      "the two functors that WOULD enter the definition (Bang_Functor = Sigma_f, Star_Functor = f*) exist in Construction/Slice/Pullback.v, but no adjunction between them is asserted (the only such statement is the commented-out Base_Functor_Adjunction stub at lines 121-127) and Pi_f does not exist, so no fragment of the DEFINITION as a predicate on a category is in force"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found no LCCC predicate either. My independent sweep: rg -in 'locally cartesian' --glob '*.v' returns exactly the 5 prose sites the record lists (Instance/Cat.v:129, Instance/Sets.v:97, Construction/Slice.v:91 and :97, Construction/Slice/Pullback.v:36, Structure/Pullback.v:126 — note this is 6 line hits across 5 files, an immaterial off-by-one in the log's phrasing), every one a comment; rg -in 'LCCC|LocallyCartesianClosed' -> 0. I also confirmed the two functors that would enter the definition exist but the third does not: rg -in 'Pi_f|Π_f|dependent product' --glob '*.v' finds only prose (Structure/Pullback.v:128, Construction/Slice.v:91-96, Construction/Slice/Pullback.v:37). ls Structure/ confirms no LCCC file. ABSENT stands. Not OUT_OF_SCOPE: the library has universe polymorphism and both Slice and Closed, so the definition is perfectly statable here — it simply is not stated."
+    }
+  },
+  {
+    "id": "awodey:9.7:prop20",
+    "classification": "ABSENT",
+    "aliases": [
+      "locally cartesian closed iff every slice is cartesian closed",
+      "slice of a slice is a slice",
+      "LCCC implies CCC (via E ≅ E/1)",
+      "relative product / Pi_f constructed inside a slice by pullback of p^F along a transpose",
+      "slices have binary products iff the base has pullbacks"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' 'locally cartesian' — 5 hits, all prose comments (see def19 log); the LHS of the equivalence has no in-tree predicate",
+      "grep -rn --include='*.v' 'Cartesian (Slice|Closed (Slice|Terminal (Slice' — 0 hits: the slice category carries NO structural instance at all in-tree (no Terminal, no Cartesian, no Closed)",
+      "grep -rni --include='*.v' 'slice.*cartesian closed' — 0 hits",
+      "grep -rn --include='*.v' '@Slice|Slice C' outside Construction/Slice* — 0 hits, confirming nothing downstream develops slices",
+      "grep -rniE --include='*.v' 'slice of a slice' — 0 hits (grep -rnE 'Slice.*Slice' returns only the two functor signatures in Construction/Slice/Pullback.v:50,68, i.e. Sigma_f and f* between slices of the SAME base, never a slice of a slice)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. The decisive negative was re-run by me and confirmed: `rg -n '@Slice|Slice C' --glob '*.v' | grep -v '^Construction/Slice'` = 0 hits, so no structural instance (Terminal, Cartesian, Closed) is ever declared on a slice category anywhere in-tree; and no slice-of-a-slice is ever formed. rg -in 'slice.*cartesian closed' -> 0. Both sides of the claimed equivalence are therefore missing, and the relative-product construction the proof needs (pullback of p^F along a transpose) has no in-tree fragment. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:9.7:remark21",
+    "classification": "ABSENT",
+    "aliases": [
+      "terminal object clause in the definition of LCCC",
+      "E ≅ E/1, slice over the terminal object recovers the category",
+      "LCCC implies cartesian closed",
+      "C/1 iso C",
+      "slice over terminal"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' 'slice over the terminal|terminal.*slice' — 0 hits",
+      "grep -rn --include='*.v' 'C/1' — 1 hit, Construction/Slice.v:67, PROSE only ('since C/1 is isomorphic to C, a theorem proved over an arbitrary base specializes to the absolute theorem over the terminal object'); no lemma states the iso",
+      "grep -rn --include='*.v' 'Slice.*One|One.*Slice' — 0 hits; Instance/One.v (the terminal category) is never combined with Construction/Slice.v",
+      "grep -rni --include='*.v' 'LocallyCartesianClosed|LCCC|locally cartesian' — no Coq statement (see def19 log), so the remark's subject matter (which clause to include in the definition, and its consequence LCCC ⇒ CCC) has nothing to attach to"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. I re-ran the key negative: rg -n 'C/1' --glob '*.v' -> the single hit is Construction/Slice.v:67, inside the background essay ('since C/1 is isomorphic to C, a theorem proved over an arbitrary base specializes to the absolute theorem over the terminal object'); no lemma anywhere states C ≅ C/1, and Instance/One.v is never combined with Construction/Slice.v. With no LCCC predicate in force (see def19), the remark's subject — which clause belongs in the definition, and the consequence LCCC ⇒ CCC — has nothing to attach to. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:9.7:example22",
+    "classification": "ABSENT",
+    "aliases": [
+      "presheaf categories are locally cartesian closed",
+      "Sets^(C^op) LCCC / presheaf topos",
+      "presheaf category is cartesian closed (exponentials of presheaves)",
+      "[C^op, Sets] Closed instance",
+      "every slice of a presheaf category is cartesian closed"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' 'locally cartesian' — 5 prose hits only; no LCCC predicate exists to instantiate at Presheaves",
+      "grep -rn --include='*.v' '@Closed (@Fun|Closed.*Fun|Fun.*Closed' — 0 hits; the only structural instance on functor categories is Functor_Category_Cartesian (Instance/Fun/Cartesian.v:111, `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)`), giving FINITE PRODUCTS only — no exponentials, hence not even the cartesian closure of presheaves",
+      "grep -rni --include='*.v' 'presheaf' — Theory/Sheaf.v:124,127 define Presheaf/Presheaves as abbreviations (`Definition Presheaves {U C : Category} := [U^op, C]`), a bare naming alias; Theory/Sheaf.v:84 mentions the presheaf topos in prose only",
+      "grep -rn --include='*.v' 'Structure/Topos' instances — Structure/Topos.v's ElementaryTopos has exactly one in-tree witness, FinSet_Topos (Instance/FinSet/Topos.v); presheaf categories are not shown to be a topos either"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. Verified the load-bearing negative myself: the only structural instance on functor categories is Instance/Fun/Cartesian.v:111 `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)` (line number exact, quote exact) — finite products only; rg -n 'Closed' over Instance/Fun.v and Instance/Fun/**.v returns a single hit, the prose cross-reference at Instance/Fun.v:73. So presheaf categories are not even shown CARTESIAN CLOSED in-tree, let alone locally so. Theory/Sheaf.v:124 `Definition Presheaf (U C : Category) := U^op ⟶ C` and :127 `Definition Presheaves {U C : Category} := [U^op, C]` re-read and confirmed as bare naming aliases. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:9.7:lem23",
+    "classification": "ABSENT",
+    "aliases": [
+      "a slice of a presheaf category is a presheaf category",
+      "category of elements ∫P / el(P) / El(P) / Grothendieck construction of a presheaf",
+      "Sets^(D^op) ≃ Sets^(C^op)/P",
+      "discrete opfibration over C associated with a presheaf",
+      "p_! (left Kan extension along the element projection) commuting with Sigma_P"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' 'category of elements' — 1 hit, Construction/Grothendieck.v:108, PROSE in the file's background essay ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)'); no construction",
+      "grep -rni --include='*.v' 'discrete opfibration' — 1 hit, the same prose paragraph",
+      "grep -rnE --include='*.v' '\\bElements\\b|\\bEl_' — hits are comment headings in Instance/FinSet/Pushout.v and Instance/Sets/Coend.v; unrelated",
+      "grep -rn --include='*.v' 'Grothendieck.*Sets|presheaf.*Grothendieck|Grothendieck.*presheaf' — 0 hits; Construction/Grothendieck.v takes an IndexedCat (Cat-valued, coherent pseudofunctor-lite), and Construction/Grothendieck/Strict.v's IndexedCat_of_StrictFunctor needs a STRICT functor B ⟶ Cat with fibrewise UIP, which a contravariant Sets-valued presheaf is not packaged as",
+      "grep -rni --include='*.v' 'slice.*presheaf' — 0 hits; and no slice of any functor category is constructed (grep '@Slice|Slice C' outside Construction/Slice* — 0 hits)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed — this was the clearest ABSENT in the batch. My own searches: rg -n 'Elements|elements of' --glob '*.v' finds no category-of-elements construction (all hits are prose or unrelated section headings such as Instance/Sets/Coend.v:68 and Instance/FinSet/Pushout.v:309,430); rg -in 'category of elements' -> the single prose hit at Construction/Grothendieck.v:108, re-read and confirmed verbatim ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F), whose projection is a discrete opfibration'). The record's diagnosis of why Construction/Grothendieck.v cannot be reused is correct: Grothendieck takes an IndexedCat (Cat-valued with a coherence pack) and Construction/Grothendieck/Strict.v's IndexedCat_of_StrictFunctor needs a strict B ⟶ Cat under fibrewise UIP, neither of which a Sets-valued presheaf is packaged as. Additionally, the p_! leg of the lemma is unreachable independently: LeftKan has no instance in-tree (see the change-of-base record). ABSENT stands."
+    }
+  }
+]

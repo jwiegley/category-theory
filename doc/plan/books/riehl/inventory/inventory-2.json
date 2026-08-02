@@ -1,0 +1,1587 @@
+{
+  "book": "riehl",
+  "range": {
+    "pdf_start": 73,
+    "pdf_end": 100
+  },
+  "pages": [
+    {
+      "pdf_page": 73,
+      "book_page": "53",
+      "empty": false,
+      "items": [
+        "riehl:2.0:construction-ncolor"
+      ],
+      "notes": "Chapter 2 opener (no running head; folio centred at foot). Flush-right Mazur epigraph [Maz16] — not an item. Unnumbered chapter roadmap prose; the only inventoriable content is the n-Color functor built in prose. Footnote 1 states the four colour theorem as motivation (a footnote marker, never an item number)."
+    },
+    {
+      "pdf_page": 74,
+      "book_page": "54",
+      "empty": false,
+      "items": [
+        "riehl:2.0:construction-ncolor",
+        "riehl:2.1:example1",
+        "riehl:2.1:def-nno"
+      ],
+      "notes": "Roadmap prose concludes; §2.1 'Representable functors' heading with a Leinster epigraph [Lei14] (not an item). NUMBER 2.1.2 IS CONSUMED BY A NUMBERED DISPLAY — the commuting recursion square inside Example 2.1.1 (0/x0 into N and X, r and s and f). It carries no claim distinct from its enclosing example and is not back-referenced outside it, so per policy no 'equation' item is minted and the §2.1 counter has no real gap. Footnote 2 (natural numbers as the initial rig) is motivational; footnote 3 defines a natural numbers object and IS recorded."
+    },
+    {
+      "pdf_page": 75,
+      "book_page": "55",
+      "empty": false,
+      "items": [
+        "riehl:2.1:def3",
+        "riehl:2.1:def4"
+      ],
+      "notes": "Opens with an unnumbered display of the covariant and contravariant hom-functors C(c,-) and C(-,c) (no tag, does not consume a number). Footnote 4 argues against the term 'corepresentable'."
+    },
+    {
+      "pdf_page": 76,
+      "book_page": "56",
+      "empty": false,
+      "items": [
+        "riehl:2.1:example5"
+      ],
+      "notes": "Example 2.1.5 starts here (clauses (i)-(vii) begin) and runs onto PDF 77. Footnote 5 suggests treating Examples 2.1.5 and 2.1.6 as exercises."
+    },
+    {
+      "pdf_page": 77,
+      "book_page": "57",
+      "empty": false,
+      "items": [
+        "riehl:2.1:example5",
+        "riehl:2.1:example6"
+      ],
+      "notes": "Clauses (viii)-(xiv) of Example 2.1.5 continue from PDF 76 (recorded under its starting page). Unnumbered prose fixes the adjective 'free' (and the dual 'cofree') as terminology for universal properties of covariantly represented functors — naming convention, not a separate definition. Example 2.1.6 starts at the foot and runs onto PDF 78."
+    },
+    {
+      "pdf_page": 78,
+      "book_page": "58",
+      "empty": false,
+      "items": [
+        "riehl:2.1:example6"
+      ],
+      "notes": "Entirely the continuation of Example 2.1.6, clauses (i)-(vii) (recorded under PDF 77). No new numbered environment starts. Footnote 6 on the nerve of BG."
+    },
+    {
+      "pdf_page": 79,
+      "book_page": "59",
+      "empty": false,
+      "items": [
+        "riehl:2.1:exi",
+        "riehl:2.1:exii",
+        "riehl:2.1:exiii",
+        "riehl:2.1:exiv"
+      ],
+      "notes": "Closing prose of §2.1, then the unnumbered 'Exercises.' heading with 2.1.i-2.1.iv (4 exercises, matching the pagemap's per-section count). §2.1's arabic counter is then contiguous 1..6 with 2 consumed by a display. §2.2 'The Yoneda lemma' heading with the Mac Lane epigraph [ML98b] begins mid-page (not an item)."
+    },
+    {
+      "pdf_page": 80,
+      "book_page": "60",
+      "empty": false,
+      "items": [
+        "riehl:2.2:example1",
+        "riehl:2.2:example2"
+      ],
+      "notes": "Example 2.2.1 contains a large untagged commuting ladder diagram (empty sets, singletons, F_n) — no display number consumed. Footnote 7 defines a free group action; folded into Example 2.2.2's summary."
+    },
+    {
+      "pdf_page": 81,
+      "book_page": "61",
+      "empty": false,
+      "items": [
+        "riehl:2.2:prop3",
+        "riehl:2.2:thm4"
+      ],
+      "notes": "Proposition 2.2.3 is stated with an immediate QED box (its proof is the preceding Example 2.2.2 argument). Theorem 2.2.4 carries the parenthetical TITLE '(Yoneda lemma)' — a title, not a part label. Its 'Proof of the bijection' begins here. Footnotes 8 and 9 are historical."
+    },
+    {
+      "pdf_page": 82,
+      "book_page": "62",
+      "empty": false,
+      "items": [
+        "riehl:2.2:thm4"
+      ],
+      "notes": "Wholly the proof of Theorem 2.2.4. NUMBERS 2.2.5 AND 2.2.6 ARE BOTH CONSUMED BY NUMBERED DISPLAYS: (2.2.5) is the defining formula for the inverse map Psi (Psi(x)_d(f) := Ff(x)); (2.2.6) is the naturality square for alpha at f. Both are proof-internal steps of the enclosing theorem and are back-referenced only inside that same proof, so per policy no 'equation' items are minted and the §2.2 counter has no real gap. 'Proof of naturality' begins at the foot."
+    },
+    {
+      "pdf_page": 83,
+      "book_page": "63",
+      "empty": false,
+      "items": [
+        "riehl:2.2:thm4",
+        "riehl:2.2:remark7",
+        "riehl:2.2:construction-yoneda-bifunctor"
+      ],
+      "notes": "Naturality proof concludes. After Remark 2.2.7 the text builds, in unnumbered prose plus untagged displays, the evaluation bifunctor ev, the Yoneda functor, and the composite Hom(yo(-),-) — recorded as an unnumbered construction spanning PDF 83-84."
+    },
+    {
+      "pdf_page": 84,
+      "book_page": "64",
+      "empty": false,
+      "items": [
+        "riehl:2.2:construction-yoneda-bifunctor",
+        "riehl:2.2:cor8"
+      ],
+      "notes": "Opens with the untagged two-variable natural-isomorphism display completing the construction begun on PDF 83. Corollary 2.2.8 carries the parenthetical title '(Yoneda embedding)'. Footnote 10 explains the reuse of the hiragana yo symbol for both embeddings."
+    },
+    {
+      "pdf_page": 85,
+      "book_page": "65",
+      "empty": false,
+      "items": [
+        "riehl:2.2:example9",
+        "riehl:2.2:cor10",
+        "riehl:2.2:cor11"
+      ],
+      "notes": "Example 2.2.9's diagrams are untagged (no numbers consumed). Corollary 2.2.11 (Cayley) is stated at the foot; its proof runs onto PDF 86."
+    },
+    {
+      "pdf_page": 86,
+      "book_page": "66",
+      "empty": false,
+      "items": [
+        "riehl:2.2:cor11",
+        "riehl:2.2:exi",
+        "riehl:2.2:exii",
+        "riehl:2.2:exiii",
+        "riehl:2.2:exiv",
+        "riehl:2.2:exv",
+        "riehl:2.2:exvi",
+        "riehl:2.2:exvii"
+      ],
+      "notes": "Proof of Corollary 2.2.11 finishes, then the unnumbered 'Exercises.' heading with 2.2.i-2.2.vii (7 exercises, matching the pagemap). Exercise 2.2.vii is split into parts (i) and (ii) — parts, not separate exercises. §2.2's arabic counter is contiguous 1..11 with 5 and 6 consumed by displays."
+    },
+    {
+      "pdf_page": 87,
+      "book_page": "67",
+      "empty": false,
+      "items": [
+        "riehl:2.3:def-representable-isomorphism",
+        "riehl:2.3:prop1",
+        "riehl:2.3:cor2"
+      ],
+      "notes": "§2.3 'Universal properties and universal elements' heading with a Cheng epigraph [Che22] (not an item). The bold terms 'representably isomorphic' / 'representable isomorphism' are defined in running prose and recorded as an unnumbered definition. Corollary 2.3.2 is stated at the foot; its proof falls on PDF 88, outside this range. Numbering continues correctly into PDF 88 with Definition 2.3.3 (owned by the next agent)."
+    },
+    {
+      "pdf_page": 88,
+      "book_page": "68",
+      "empty": false,
+      "items": [
+        "riehl:2.3:cor2",
+        "riehl:2.3:def3",
+        "riehl:2.3:example4",
+        "riehl:2.3:example6",
+        "riehl:2.3:example7"
+      ],
+      "notes": "Opens with the proof of Corollary 2.3.2 (item STARTS on PDF 87, owned by the other agent) plus a short prose paragraph on 'the' representing object. NUMBER 2.3.5 IS CONSUMED BY A NUMBERED DISPLAY, not an environment: the display Ring(Z[x],R) ~= UR sits inside Example 2.3.4 and is back-referenced only within that same example, so no separate item is minted. Example 2.3.7 continues onto PDF 89."
+    },
+    {
+      "pdf_page": 89,
+      "book_page": "69",
+      "empty": false,
+      "items": [
+        "riehl:2.3:example7",
+        "riehl:2.3:example8"
+      ],
+      "notes": "Top third is the tail of Example 2.3.7 (affine space A^n as an R^n-torsor; the term 'G-torsor' is coined here, inside that example). NUMBER 2.3.9 IS CONSUMED BY A NUMBERED DISPLAY inside Example 2.3.8 (Vect_k(V (x) W, U) ~= Bilin(V,W;U)); it is referenced only from within that example, so no separate item. Footnote 11 (naturality also in V and W, cf. Proposition 4.4.6) is a footnote, not an item."
+    },
+    {
+      "pdf_page": 90,
+      "book_page": "70",
+      "empty": false,
+      "items": [
+        "riehl:2.3:prop10",
+        "riehl:2.3:remark12"
+      ],
+      "notes": "First half is unnumbered prose deriving the usual span/quotient construction of the tensor product from its universal property. NUMBER 2.3.11 IS CONSUMED BY A NUMBERED DISPLAY inside the proof of Proposition 2.3.10 (the chain Vect_k(V(x)W,-) ~= Bilin(V,W;-) ~= Bilin(W,V;-) ~= Vect_k(W(x)V,-)); it is back-referenced from Remark 2.3.12 but carries no claim distinct from the proposition it proves, so per campaign policy no equation item is minted. Footnote 12 is a footnote. Remark 2.3.12 continues onto PDF 91."
+    },
+    {
+      "pdf_page": 91,
+      "book_page": "71",
+      "empty": false,
+      "items": [
+        "riehl:2.3:remark12",
+        "riehl:2.3:example13",
+        "riehl:2.3:exi",
+        "riehl:2.3:exii",
+        "riehl:2.3:exiii",
+        "riehl:2.3:exiv"
+      ],
+      "notes": "Tail of Remark 2.3.12 (the diagram forcing phi(w (x) v) = v (x) w), then Example 2.3.13, then the unnumbered 'Exercises.' heading and the four roman-numbered exercises that close section 2.3. Footnote 13 (the more general group ring K[G] over a commutative unital ring K, with Ring replaced by K-algebras) is a footnote, not an item. SECTION 2.3 ARABIC COUNTER CLOSES AT 13 with Example 2.3.13 (no trailing numbered display); 1..13 verified contiguous with 5, 9, 11 consumed by displays."
+    },
+    {
+      "pdf_page": 92,
+      "book_page": "72",
+      "empty": false,
+      "items": [
+        "riehl:2.4:def1",
+        "riehl:2.4:construction-elements-projection",
+        "riehl:2.4:def2"
+      ],
+      "notes": "Section 2.4 heading and its motivating prose (mapping-in vs mapping-out universal properties; forward reference to Proposition 2.4.8). The forgetful/projection functor Pi is introduced by name in unnumbered prose between Definitions 2.4.1 and 2.4.2 with an accompanying unnumbered diagram; recorded as an unnumbered construction. No numbered displays on this page."
+    },
+    {
+      "pdf_page": 93,
+      "book_page": "73",
+      "empty": false,
+      "items": [
+        "riehl:2.4:construction-elements-projection",
+        "riehl:2.4:example3",
+        "riehl:2.4:example4",
+        "riehl:2.4:example5",
+        "riehl:2.4:example6"
+      ],
+      "notes": "Reprints the unnumbered Pi: (integral)F -> C diagram at the top (a repeat of the PDF 92 diagram, not a new item), then Examples 2.4.3-2.4.6. Example 2.4.6 contains two unnumbered triangle diagrams for the coslice and slice categories. No numbered displays."
+    },
+    {
+      "pdf_page": 94,
+      "book_page": "74",
+      "empty": false,
+      "items": [
+        "riehl:2.4:lem7",
+        "riehl:2.4:prop8"
+      ],
+      "notes": "Opens with an unnumbered prose observation that C(-,c) ~= C^op(c,-) and hence c/(C^op) ~= (C/c)^op (deferred to Exercise 1.2.i, outside this chapter). Lemma 2.4.7 with its proof, then Proposition 2.4.8 whose statement and proof run onto PDF 95. Footnote 14 (Exercise 2.4.iii: the identity at c is not necessarily the only initial object in c/C) is a footnote. No numbered displays."
+    },
+    {
+      "pdf_page": 95,
+      "book_page": "75",
+      "empty": false,
+      "items": [
+        "riehl:2.4:prop8",
+        "riehl:2.4:prop9",
+        "riehl:2.4:example10",
+        "riehl:2.4:example11",
+        "riehl:2.4:example12"
+      ],
+      "notes": "Proof of Proposition 2.4.8 completes here, then Propositions 2.4.9 and Examples 2.4.10, 2.4.11. Example 2.4.12 begins at the very bottom of the page with only its header line, its enumerated body (i)-(vi) running onto PDF 96-97. Footnote 15 is a footnote. No numbered displays."
+    },
+    {
+      "pdf_page": 96,
+      "book_page": "76",
+      "empty": false,
+      "items": [
+        "riehl:2.4:example12"
+      ],
+      "notes": "Wholly the continuation of Example 2.4.12, clauses (i) through (vi) (contravariant power set; U: Vect_k -> Set; Bilin(V,W;-); U(-)^n on Group; U(-)^* on Vect_k^op; U: Ring -> Set, whose clause runs onto PDF 97). No item STARTS on this page. Footnote 16 (in the topos of sets {T} in Omega is the subobject classifier, cf. section E.4) is a footnote, not an item. No numbered displays."
+    },
+    {
+      "pdf_page": 97,
+      "book_page": "77",
+      "empty": false,
+      "items": [
+        "riehl:2.4:example12",
+        "riehl:2.4:remark-every-category-is-elements",
+        "riehl:2.4:def13",
+        "riehl:2.4:prop14"
+      ],
+      "notes": "Tail of Example 2.4.12(vi), then an unnumbered prose claim that every category arises as a category of elements for the constant functor at the singleton (recorded as an unnumbered remark), then Definition 2.4.13, the unnumbered lifting-diagram reformulation with two unnumbered squares, Proposition 2.4.14, a paragraph of consequences, and the start of the proof (which runs onto PDF 98). No numbered displays."
+    },
+    {
+      "pdf_page": 98,
+      "book_page": "78",
+      "empty": false,
+      "items": [
+        "riehl:2.4:prop14",
+        "riehl:2.4:exi",
+        "riehl:2.4:exii",
+        "riehl:2.4:exiii",
+        "riehl:2.4:exiv",
+        "riehl:2.4:exv"
+      ],
+      "notes": "Proof of Proposition 2.4.14 completes, followed by an unnumbered closing puzzle ('define C(A,-) x C(B,-): C -> Set ... what would it mean for this functor to be representable?'). The puzzle is NOT recorded separately because it is restated word-for-word as Exercise 2.4.x on PDF 99 and would be a duplicate. Then the unnumbered 'Exercises.' heading and 2.4.i-2.4.v. Footnote 17 defines the FIBER E_c of Pi over c in a footnote (used by Exercise 2.4.ix); not recorded as its own item since Exercise 2.4.ix carries the same content. No numbered displays."
+    },
+    {
+      "pdf_page": 99,
+      "book_page": "79",
+      "empty": false,
+      "items": [
+        "riehl:2.4:exvi",
+        "riehl:2.4:exvii",
+        "riehl:2.4:exviii",
+        "riehl:2.4:exix",
+        "riehl:2.4:exx"
+      ],
+      "notes": "Remaining exercises 2.4.vi-2.4.x, closing section 2.4 and Chapter 2; bottom half of the page is blank. SECTION 2.4 ARABIC COUNTER CLOSES AT 14 (Proposition 2.4.14) and 1..14 are ALL named environments -- section 2.4 contains NO numbered displays at all, so its continuity check needs no display allowance. No trailing numbered display after 2.4.14."
+    },
+    {
+      "pdf_page": 100,
+      "book_page": "80",
+      "empty": true,
+      "items": [],
+      "notes": "Blank verso closing Chapter 2. No running head, no folio, no content of any kind."
+    }
+  ],
+  "items": [
+    {
+      "id": "riehl:2.0:construction-ncolor",
+      "kind": "construction",
+      "number": null,
+      "name": "the n-colouring functor n-Color : Graph^op -> Set and its representing object K_n",
+      "statement_summary": "In unnumbered chapter-roadmap prose, a contravariant functor from graphs to sets is constructed: it sends a simple graph G to the set of n-colourings of its vertices (assignments of one of n fixed colours to each vertex such that adjacent vertices get distinct colours), and sends a graph homomorphism G' -> G to the map restricting a colouring of G along the homomorphism (well defined because homomorphisms preserve the incidence relation, so adjacent vertices of G' have distinct images' colours). The chapter then asserts that the complete graph on n vertices K_n represents this functor: n-colourings of G correspond naturally and bijectively to graph homomorphisms G -> K_n, so K_n is the universal n-coloured graph (a terminal object among n-coloured graphs). The roadmap also previews that natural endomorphisms of n-Color are exactly the colour permutations, i.e. the symmetries of K_n, and that no m-colouring can be converted uniformly into an n-colouring when m > n since there are no graph homomorphisms K_m -> K_n.",
+      "book_section": "2.0",
+      "book_page": "53",
+      "pdf_pages": [
+        73,
+        74
+      ],
+      "cross_refs": [
+        "riehl:2.1:def4",
+        "riehl:2.2:thm4"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "spans-page-break",
+        "chapter-roadmap-before-section-1"
+      ]
+    },
+    {
+      "id": "riehl:2.1:example1",
+      "kind": "example",
+      "number": "2.1.1",
+      "name": "a universal property of the natural numbers (discrete dynamical systems)",
+      "statement_summary": "Defines a discrete dynamical system to be a set X equipped with an endomorphism f : X -> X and a distinguished element x_0 in X; such data determines the sequence x_{n+1} := f(x_n). The example then states the principle of mathematical recursion categorically: the natural numbers N together with the successor function s : N -> N and the element 0 form the universal discrete dynamical system, meaning that for every discrete dynamical system (X, f, x_0) there is a UNIQUE function r : N -> X with r(n) = x_n, equivalently the unique r making the numbered display commute (r composed with the global element 0 equals x_0, and r . s = f . r). This exhibits (N, s, 0) as the initial object of the category of discrete dynamical systems.",
+      "book_section": "2.1",
+      "book_page": "54",
+      "pdf_pages": [
+        74
+      ],
+      "cross_refs": [
+        "riehl:2.1:def-nno"
+      ],
+      "flags": [
+        "contains-numbered-display-2.1.2"
+      ]
+    },
+    {
+      "id": "riehl:2.1:def-nno",
+      "kind": "definition",
+      "number": null,
+      "name": "natural numbers object",
+      "statement_summary": "Given in footnote 3 rather than a numbered environment: in a category C possessing a terminal object *, a natural numbers object is a diagram consisting of an object N together with a global element z : * -> N and an endomorphism s : N -> N that constitutes the INITIAL discrete dynamical system internal to C, i.e. the initial object among triples (X, f : X -> X, x_0 : * -> X) with morphisms commuting with both the chosen point and the endomorphism.",
+      "book_section": "2.1",
+      "book_page": "54",
+      "pdf_pages": [
+        74
+      ],
+      "cross_refs": [
+        "riehl:2.1:example1"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "footnote-definition"
+      ]
+    },
+    {
+      "id": "riehl:2.1:def3",
+      "kind": "definition",
+      "number": "2.1.3",
+      "name": "a representable characterization of initial or terminal objects",
+      "statement_summary": "Two dual clauses. (i) An object c of a category C is initial if and only if the covariant hom-functor C(c,-) : C -> Set is naturally isomorphic to the constant functor at the singleton set (the functor sending every object to a one-element set and every morphism to the identity). (ii) An object c of C is terminal if and only if the contravariant hom-functor C(-,c) : C^op -> Set is naturally isomorphic to the corresponding constant singleton-valued functor on C^op. Equivalently, C has an initial object exactly when the constant singleton functor on C is representable, and a terminal object exactly when the constant singleton functor on C^op is representable.",
+      "book_section": "2.1",
+      "book_page": "55",
+      "pdf_pages": [
+        75
+      ],
+      "cross_refs": [
+        "riehl:2.1:def4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.1:def4",
+      "kind": "definition",
+      "number": "2.1.4",
+      "name": "representation, represents, represented by, representable functor",
+      "statement_summary": "Let F be a covariant or contravariant Set-valued functor whose domain C is a LOCALLY SMALL category (so that the hom-functors land in small sets). (i) A representation for F consists of an object c of C together with a SPECIFIED natural isomorphism alpha : C(c,-) => F when F is covariant, or alpha : C(-,c) => F when F is contravariant; one then says c represents F and F is represented by c. (ii) F is representable when such data exists. The text stresses that a representable functor encodes a universal property of its representing object, generalizing Definition 2.1.3, in two dual forms: a covariant representation gives natural isomorphisms C(c,x) =~ Fx describing arrows OUT of c, a contravariant one gives C(x,c) =~ Fx describing arrows INTO c. A footnote rejects the alternative term 'corepresentable' for the covariant case.",
+      "book_section": "2.1",
+      "book_page": "55",
+      "pdf_pages": [
+        75
+      ],
+      "cross_refs": [
+        "riehl:2.1:def3",
+        "riehl:2.3:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.1:example5",
+      "kind": "example",
+      "number": "2.1.5",
+      "name": "representable covariant functors (fourteen clauses)",
+      "statement_summary": "Fourteen covariant functors together with their representing objects, each with the bijection made explicit. (i) The identity functor on Set is represented by a singleton, Set(*,X) =~ X. (ii) The forgetful functor Top -> Set is represented by the one-point space. (iii) The forgetful functor Group -> Set is represented by the integers, Group(Z,G) =~ UG, so Z is the free group on one generator. (iv) For a unital ring R, the forgetful functor from left R-modules to Set is represented by R itself, the free R-module on one generator. (v) The forgetful functor Ring -> Set is represented by the polynomial ring Z[x], the free unital ring on one generator. (vi) The n-th power of the underlying-set functor on Group is represented by the free group on n generators, and on Ab by the direct sum of n copies of Z. (vii) More generally each group presentation determines a functor sending G to the set of tuples in G satisfying the relations, represented by the presented group (illustrated with the symmetric group on three letters). (viii) The units functor Ring -> Set is represented by the Laurent polynomial ring Z[x, x^{-1}]. (ix) The objects functor ob : Cat -> Set is represented by the terminal category 1. (x) The morphisms functor mor : Cat -> Set is represented by the walking arrow category 2. (xi) The functor sending a small category to its set of isomorphisms (in a specified direction) is represented by the walking isomorphism category. (xii) The functor sending a small category to its composable pairs is represented by the category 3, and more generally the ordinal n+1 represents paths of n composable morphisms. (xiii) The forgetful functor on pointed sets is represented by the two-element based set. (xiv) Path : Top -> Set is represented by the unit interval and Loop on based spaces by the based circle. The example closes by reserving the adjective 'free' for universal properties expressed by covariant represented functors.",
+      "book_section": "2.1",
+      "book_page": "56",
+      "pdf_pages": [
+        76,
+        77
+      ],
+      "cross_refs": [
+        "riehl:2.1:def4",
+        "riehl:2.2:example9"
+      ],
+      "flags": [
+        "multi-part",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.1:example6",
+      "kind": "example",
+      "number": "2.1.6",
+      "name": "representable contravariant functors (seven clauses)",
+      "statement_summary": "Seven contravariant Set-valued functors with representing objects. (i) The covariant-in-nothing power set functor P : Set^op -> Set is represented by the two-element set of truth values, via characteristic (classifying) functions; naturality says that precomposing a classifying map with f computes the preimage. (ii) The open-subset functor O : Top^op -> Set is represented by the Sierpinski space (two points, one open one closed), a continuous map into it corresponding to the preimage of the open point. (iii) The closed-subset functor C : Top^op -> Set is ALSO represented by the Sierpinski space (preimage of the closed point), so O and C are naturally isomorphic, the isomorphism carrying an open set to its complement. (iv) The functor sending a set X to the functions X x A -> B is represented by the exponential set B^A; this natural isomorphism is CURRYING. (v) The dual-vector-space functor on Vect_k^op is represented by the ground field k. (vi) For an abelian group A and n >= 0, singular cohomology with coefficients in A, restricted to homotopy classes of CW complexes, is represented by the Eilenberg-MacLane space K(A,n). (vii) For a topological group G, a classifying space BG is a CW complex representing the functor sending a CW complex to the set of isomorphism classes of principal G-bundles over it.",
+      "book_section": "2.1",
+      "book_page": "57",
+      "pdf_pages": [
+        77,
+        78
+      ],
+      "cross_refs": [
+        "riehl:2.1:def4",
+        "riehl:2.3:example6"
+      ],
+      "flags": [
+        "multi-part",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.1:exi",
+      "kind": "exercise",
+      "number": "2.1.i",
+      "name": "cyclic groups as representing objects",
+      "statement_summary": "For a positive integer n, the quotient Z/n is the cyclic group of order n, i.e. the free group containing an element of order n. Using this universal property, (i) describe the functor that Z/n represents, and (ii) characterize all group homomorphisms from Z/n to Z/m for arbitrary positive integers n and m.",
+      "book_section": "2.1",
+      "book_page": "59",
+      "pdf_pages": [
+        79
+      ],
+      "cross_refs": [
+        "riehl:2.1:def4"
+      ],
+      "flags": [
+        "multi-part"
+      ]
+    },
+    {
+      "id": "riehl:2.1:exii",
+      "kind": "exercise",
+      "number": "2.1.ii",
+      "name": "representable functors preserve monomorphisms",
+      "statement_summary": "Prove that if F : C -> Set is representable then F preserves monomorphisms, i.e. F carries every monomorphism of C to an injective function. Then use the contrapositive to exhibit a covariant set-valued functor on some concrete category that fails to be representable because it destroys a monomorphism.",
+      "book_section": "2.1",
+      "book_page": "59",
+      "pdf_pages": [
+        79
+      ],
+      "cross_refs": [
+        "riehl:2.1:def4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.1:exiii",
+      "kind": "exercise",
+      "number": "2.1.iii",
+      "name": "representability transported along an equivalence of categories",
+      "statement_summary": "Suppose F : C -> Set and G : D -> Set are equivalent in the sense that there is an equivalence of categories H : C -> D with G . H naturally isomorphic to F. Decide (i) whether representability of G implies representability of F, and (ii) whether representability of F implies representability of G.",
+      "book_section": "2.1",
+      "book_page": "59",
+      "pdf_pages": [
+        79
+      ],
+      "cross_refs": [
+        "riehl:2.1:def4"
+      ],
+      "flags": [
+        "multi-part"
+      ]
+    },
+    {
+      "id": "riehl:2.1:exiv",
+      "kind": "exercise",
+      "number": "2.1.iv",
+      "name": "subfunctors of a represented functor",
+      "statement_summary": "Defines (in the exercise statement) a subfunctor of G to be a functor F equipped with a natural transformation F => G all of whose components are monomorphisms; for contravariant Set-valued G this amounts to a choice of subset Fc of Gc for each object such that each Gf restricts to a function Fc -> Fc'. The task: characterize exactly which families of subsets of the hom-sets C(-,c) assemble into a subfunctor of the represented functor C(-,c) (i.e. which are closed under precomposition — the sieve condition).",
+      "book_section": "2.1",
+      "book_page": "59",
+      "pdf_pages": [
+        79
+      ],
+      "cross_refs": [
+        "riehl:2.1:def4"
+      ],
+      "flags": [
+        "contains-inline-definition"
+      ]
+    },
+    {
+      "id": "riehl:2.2:example1",
+      "kind": "example",
+      "number": "2.2.1",
+      "name": "natural transformations out of a represented functor on the ordinal category omega",
+      "statement_summary": "Warm-up computation. A functor F from the ordinal category omega to Set is the same as a sequence of sets F_0, F_1, ... together with functions F_n -> F_{n+1}. The represented functor omega(k,-) sends an object n to the empty set for n < k and to a singleton for n >= k. Consequently the data of a natural transformation alpha : omega(k,-) => F is vacuous below k, and for n >= k each component picks out an element alpha_n of F_n; naturality forces alpha_{n+1} to be the image of alpha_n under the transition function. Hence such a natural transformation is completely and uniquely determined by the single element alpha_k of F_k, namely the image of the identity morphism at k under the k-th component, and EVERY element of F_k arises this way — naturality imposes no further restriction. (This is the Yoneda lemma in the special case of omega.)",
+      "book_section": "2.2",
+      "book_page": "60",
+      "pdf_pages": [
+        80
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.1:example5",
+        "riehl:2.2:exiii"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:example2",
+      "kind": "example",
+      "number": "2.2.2",
+      "name": "natural transformations out of a represented functor on a one-object groupoid BG",
+      "statement_summary": "For a group G regarded as a one-object category BG, there is a unique covariant represented functor and a unique contravariant one: the covariant one is the underlying set of G with its LEFT multiplication action, the contravariant one is G with its RIGHT multiplication action. A functor X : BG -> Set is a left G-set, and a natural transformation phi from the represented functor G to X is exactly a G-EQUIVARIANT map phi : G -> X (equivariance is the naturality condition). Equivariance forces phi(g) = g . phi(e), so phi is determined by its value on the identity element, and any element of X may be chosen as that value because the left action of G on itself is free. A footnote defines a free action as one with trivial stabilizers and explains why freeness is what prevents contradictory prescriptions.",
+      "book_section": "2.2",
+      "book_page": "60",
+      "pdf_pages": [
+        80
+      ],
+      "cross_refs": [
+        "riehl:2.2:prop3",
+        "riehl:2.2:thm4",
+        "riehl:2.3:example7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:prop3",
+      "kind": "proposition",
+      "number": "2.2.3",
+      "name": "G-equivariant maps out of G are classified by elements",
+      "statement_summary": "For a group G and a left G-set X, the G-equivariant maps from G (with its left regular action) to X correspond bijectively to the elements of X, the bijection sending an equivariant map phi to the element phi(e) obtained by evaluating at the identity element of G. (Stated with the proof supplied by the preceding example.)",
+      "book_section": "2.2",
+      "book_page": "61",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [
+        "riehl:2.2:example2",
+        "riehl:2.2:thm4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:thm4",
+      "kind": "theorem",
+      "number": "2.2.4",
+      "name": "Yoneda lemma",
+      "statement_summary": "Let C be a LOCALLY SMALL category, F : C -> Set any functor, and c an object of C. Then evaluation at the identity, the function sending a natural transformation alpha : C(c,-) => F to the element alpha_c(id_c) of Fc, is a BIJECTION from the collection of natural transformations from the covariant represented functor C(c,-) to F onto the set Fc. Moreover this correspondence is NATURAL IN BOTH c AND F. The inverse sends an element x of Fc to the natural transformation whose component at d carries f : c -> d to Ff(x); the proof verifies that this is well defined and natural, that it is a two-sided inverse, and separately verifies naturality in F (with respect to natural transformations F => G, using vertical composition) and naturality in c (with respect to morphisms c -> d, using precomposition). A consequence noted after the statement: even though C need only be locally small, the collection of natural transformations from a represented functor to F is genuinely a small set. The dual statement, for contravariant functors and natural transformations out of C(-,c), is left to an exercise.",
+      "book_section": "2.2",
+      "book_page": "61",
+      "pdf_pages": [
+        81,
+        82,
+        83
+      ],
+      "cross_refs": [
+        "riehl:2.2:example1",
+        "riehl:2.2:example2",
+        "riehl:2.2:prop3",
+        "riehl:2.2:remark7",
+        "riehl:2.2:cor8",
+        "riehl:2.2:exi",
+        "riehl:2.3:prop1"
+      ],
+      "flags": [
+        "has-title",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.2:remark7",
+      "kind": "remark",
+      "number": "2.2.7",
+      "name": "the Yoneda lemma as a representability statement about evaluation",
+      "statement_summary": "When C is SMALL, the functor category of Set-valued functors on C is locally small, so its hom-collections are sets. In that setting the Yoneda lemma may be read as the assertion that the represented functor C(c,-), viewed as an OBJECT of the functor category, REPRESENTS the evaluation functor ev_c from the functor category to Set (the functor sending F to the set Fc); the representation is exactly the natural isomorphism given by evaluation at the identity. The remark notes this formulation captures naturality in F but not naturality in the object c, motivating the two-variable formulation that follows.",
+      "book_section": "2.2",
+      "book_page": "63",
+      "pdf_pages": [
+        83
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.2:construction-yoneda-bifunctor",
+        "riehl:2.1:def4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:construction-yoneda-bifunctor",
+      "kind": "construction",
+      "number": null,
+      "name": "the two-variable form of the Yoneda lemma: evaluation bifunctor vs Hom(yo(-),-)",
+      "statement_summary": "Built in unnumbered prose and untagged displays. Two functors out of the product of C with the category of Set-valued functors on C are constructed: (a) the EVALUATION bifunctor sending a pair (c, F) to the set Fc; and (b) the composite obtained from the Yoneda functor yo : C^op -> Set^C (sending c to C(c,-) and a morphism f : c -> d to precomposition C(d,-) => C(c,-)), regarded via a previous exercise as a functor C -> (Set^C)^op, followed by the hom-bifunctor; this composite sends (c, F) to the collection of natural transformations from C(c,-) to F. The claim is then that evaluation at the identity morphism of the representing object is a NATURAL ISOMORPHISM between these two bifunctors on C x Set^C, which is precisely naturality in both variables in the Yoneda lemma. A size caveat is recorded: when C is only locally small the functor category need not be locally small, so the second functor a priori lands in a possibly-large SET of natural transformations, but the bijection of the Yoneda lemma shows the composite is nonetheless valued in genuine small sets.",
+      "book_section": "2.2",
+      "book_page": "63",
+      "pdf_pages": [
+        83,
+        84
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.2:remark7",
+        "riehl:2.2:cor8"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.2:cor8",
+      "kind": "corollary",
+      "number": "2.2.8",
+      "name": "Yoneda embedding",
+      "statement_summary": "For a locally small category C, the covariant Yoneda embedding sending an object c to the contravariant represented functor C(-,c) and a morphism f to postcomposition by f, viewed as a functor from C to the category of contravariant Set-valued functors on C, and the contravariant Yoneda embedding sending c to C(c,-) and f to precomposition, viewed as a functor from C^op to the category of covariant Set-valued functors on C, are both FULL AND FAITHFUL embeddings. Consequently C is isomorphic to the full subcategory of presheaves spanned by the representable presheaves, and C^op likewise for covariant represented functors; natural transformations between represented functors correspond exactly to morphisms between representing objects. The proof observes that full faithfulness means the action on morphisms gives bijections between hom-sets, and identifies that action as the two-sided inverse of the Yoneda evaluation-at-identity isomorphism. A footnote records that the same hiragana symbol denotes both embeddings.",
+      "book_section": "2.2",
+      "book_page": "64",
+      "pdf_pages": [
+        84
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.2:example9",
+        "riehl:2.2:cor10",
+        "riehl:2.2:cor11",
+        "riehl:2.3:prop1"
+      ],
+      "flags": [
+        "has-title"
+      ]
+    },
+    {
+      "id": "riehl:2.2:example9",
+      "kind": "example",
+      "number": "2.2.9",
+      "name": "natural transformations between the objects and morphisms functors on Cat",
+      "statement_summary": "Consider the parallel pair of functors ob and mor from Cat to Set, represented respectively by the terminal category 1 and the walking arrow 2 (from an earlier example). There are evident natural maps: the identity-assigning map from objects to morphisms, and the domain and codomain maps from morphisms to objects; these are the components of natural transformations between ob and mor. Transporting them across the representing isomorphisms and applying the Yoneda embedding, each natural transformation must arise from a morphism between the representing categories; since the only functors between 1 and 2 are the two object-inclusions and the unique collapse, there are EXACTLY THREE natural transformations between ob and mor, namely identity, domain and codomain, and no others.",
+      "book_section": "2.2",
+      "book_page": "65",
+      "pdf_pages": [
+        85
+      ],
+      "cross_refs": [
+        "riehl:2.2:cor8",
+        "riehl:2.1:example5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:cor10",
+      "kind": "corollary",
+      "number": "2.2.10",
+      "name": "row operations are left multiplication by a matrix",
+      "statement_summary": "Every row operation on matrices with n rows is given by left multiplication by some n x n matrix, namely the matrix obtained by applying that row operation to the identity matrix. The proof works in the category whose objects are positive integers and whose morphisms m -> n are n-by-m matrices over a unital ring: elements of the represented functor Hom(-, n) are matrices with n rows, elementary row operations define natural endomorphisms of that functor (naturality is linearity of matrix multiplication), so by the Yoneda embedding each is definable by left multiplication by an n x n matrix, and the Yoneda bijection identifies that matrix as the operation applied to the identity.",
+      "book_section": "2.2",
+      "book_page": "65",
+      "pdf_pages": [
+        85
+      ],
+      "cross_refs": [
+        "riehl:2.2:cor8",
+        "riehl:2.2:thm4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:cor11",
+      "kind": "corollary",
+      "number": "2.2.11",
+      "name": "Cayley's theorem",
+      "statement_summary": "Any group is isomorphic to a subgroup of a permutation group. The proof regards the group G as a one-object category, so that the covariant Yoneda embedding sends its unique object to the right G-set G (with G acting by right multiplication). By the Yoneda embedding, the only G-equivariant endomorphisms of that right G-set are left multiplications by fixed elements of G, so every G-equivariant endomorphism is automatically an automorphism. Hence the Yoneda embedding gives an isomorphism of G onto the automorphism group of the right G-set G, and composing with the faithful forgetful functor to Set yields an isomorphism of G onto a subgroup of the symmetric group on the underlying set of G.",
+      "book_section": "2.2",
+      "book_page": "65",
+      "pdf_pages": [
+        85,
+        86
+      ],
+      "cross_refs": [
+        "riehl:2.2:cor8",
+        "riehl:2.2:example2"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.2:exi",
+      "kind": "exercise",
+      "number": "2.2.i",
+      "name": "the dual Yoneda lemma",
+      "statement_summary": "State and prove the statement dual to the Yoneda lemma: for a contravariant functor F : C^op -> Set and an object c, characterize the natural transformations from the contravariant represented functor C(-,c) to F (again via evaluation of the component at c on the identity morphism, giving a bijection onto Fc natural in both variables).",
+      "book_section": "2.2",
+      "book_page": "66",
+      "pdf_pages": [
+        86
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:exii",
+      "kind": "exercise",
+      "number": "2.2.ii",
+      "name": "why the Yoneda lemma does not dualize to maps INTO a represented functor",
+      "statement_summary": "Explain why the Yoneda lemma does not dualize so as to classify natural transformations from an ARBITRARY set-valued functor INTO a represented functor: dualizing replaces the generic domain category by its opposite but must not replace the specific target category Set by its opposite, so the dual statement still concerns transformations mapping OUT of a represented functor.",
+      "book_section": "2.2",
+      "book_page": "66",
+      "pdf_pages": [
+        86
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.2:exi"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:exiii",
+      "kind": "exercise",
+      "number": "2.2.iii",
+      "name": "the Yoneda embedding for the ordinal category omega, proved directly",
+      "statement_summary": "Since diagrams of shape omega amount to a countably infinite family of objects together with a countably infinite sequence of morphisms, describe the Yoneda embedding of omega into the category of contravariant Set-valued functors on omega concretely, as a family of omega^op-indexed functors and natural transformations, and prove DIRECTLY — without invoking the Yoneda lemma — that this embedding is full and faithful.",
+      "book_section": "2.2",
+      "book_page": "66",
+      "pdf_pages": [
+        86
+      ],
+      "cross_refs": [
+        "riehl:2.2:cor8",
+        "riehl:2.2:example1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:exiv",
+      "kind": "exercise",
+      "number": "2.2.iv",
+      "name": "the isomorphisms functor as a subfunctor of the morphisms functor",
+      "statement_summary": "The functor sending a small category to its set of isomorphisms in a specified direction is a subfunctor of the functor sending a small category to its set of morphisms. Use the Yoneda lemma to produce a functor between the representing categories (the walking isomorphism and the walking arrow) that induces the corresponding MONIC natural transformation between the two represented functors.",
+      "book_section": "2.2",
+      "book_page": "66",
+      "pdf_pages": [
+        86
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.1:example5",
+        "riehl:2.1:exiv"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:exv",
+      "kind": "exercise",
+      "number": "2.2.v",
+      "name": "natural endomorphisms of the contravariant power set functor",
+      "statement_summary": "By the Yoneda lemma, natural endomorphisms of the contravariant power set functor on Set correspond bijectively to endomorphisms of its representing object, the two-element set of truth values. Describe the natural endomorphism of the power set functor corresponding to each of the four self-maps of that two-element set, and determine which of them induce natural endomorphisms of the COVARIANT power set functor.",
+      "book_section": "2.2",
+      "book_page": "66",
+      "pdf_pages": [
+        86
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.1:example6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:exvi",
+      "kind": "exercise",
+      "number": "2.2.vi",
+      "name": "reparameterizations as natural automorphisms of the path functor",
+      "statement_summary": "Use the Yoneda lemma to explain the correspondence between self-homeomorphisms of the standard closed unit interval and natural automorphisms of the path functor Top -> Set (which the exercise names reparameterizations), the interval being the representing object of that functor.",
+      "book_section": "2.2",
+      "book_page": "66",
+      "pdf_pages": [
+        86
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.1:example5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.2:exvii",
+      "kind": "exercise",
+      "number": "2.2.vii",
+      "name": "natural endomorphisms of forgetful and identity functors on Top and Vect",
+      "statement_summary": "Two parts. (i) Use the Yoneda lemma to characterize all natural endomorphisms of the forgetful functor Top -> Set, then refine this to characterize all natural endomorphisms of the identity functor on Top, and decide whether there exists a natural family of continuous self-maps of every space not all of which are identities. (ii) Do the same for the forgetful functor from vector spaces over a field to Set and for the identity functor on that category, deciding whether there is a natural family of linear self-maps of every vector space not all of which are identities.",
+      "book_section": "2.2",
+      "book_page": "66",
+      "pdf_pages": [
+        86
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.1:example5"
+      ],
+      "flags": [
+        "multi-part"
+      ]
+    },
+    {
+      "id": "riehl:2.3:def-representable-isomorphism",
+      "kind": "definition",
+      "number": null,
+      "name": "representably isomorphic objects; representable isomorphism",
+      "statement_summary": "Defined in running prose at the start of §2.3 with no environment number. In a locally small category C, two objects x and y are called representably isomorphic when the contravariant represented functors C(-,x) and C(-,y) are naturally isomorphic AND the covariant represented functors C(x,-) and C(y,-) are naturally isomorphic. An isomorphism of either of these two forms, i.e. a natural isomorphism between the represented functors, is called a representable isomorphism. The prose notes that isomorphic objects are automatically representably isomorphic by functoriality of the Yoneda embeddings, and that the Yoneda lemma supplies the converse: from a representable isomorphism one may construct an explicit isomorphism in C.",
+      "book_section": "2.3",
+      "book_page": "67",
+      "pdf_pages": [
+        87
+      ],
+      "cross_refs": [
+        "riehl:2.3:prop1",
+        "riehl:2.2:cor8"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "riehl:2.3:prop1",
+      "kind": "proposition",
+      "number": "2.3.1",
+      "name": "isomorphism of objects equals natural isomorphism of represented functors",
+      "statement_summary": "For a pair of objects x and y in a LOCALLY SMALL category C, the following three kinds of DATA are equivalent (not merely equivalent conditions — the equivalence is at the level of the data): (i) an isomorphism x =~ y in C; (ii) a natural isomorphism C(-,x) =~ C(-,y) in the category of contravariant Set-valued functors; (iii) a natural isomorphism C(y,-) =~ C(x,-) in the category of covariant Set-valued functors. The proof observes that the full and faithful Yoneda embeddings preserve, reflect, and CREATE isomorphisms; it also gives the explicit construction: given a natural isomorphism alpha of contravariant represented functors, the arrows alpha_x(id_x) : x -> y and (alpha^{-1})_y(id_y) : y -> x are mutually inverse, verified by chasing the identity through the two naturality squares.",
+      "book_section": "2.3",
+      "book_page": "67",
+      "pdf_pages": [
+        87
+      ],
+      "cross_refs": [
+        "riehl:2.3:def-representable-isomorphism",
+        "riehl:2.2:thm4",
+        "riehl:2.2:cor8",
+        "riehl:2.3:cor2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.3:cor2",
+      "kind": "corollary",
+      "number": "2.3.2",
+      "name": "essential uniqueness of representing objects",
+      "statement_summary": "If two objects x and y of a category C both represent the same functor, then x and y are isomorphic, and moreover there is a UNIQUE isomorphism x =~ y that commutes with the given representation data. The proof composes the two representations to obtain a representable isomorphism between the represented functors, applies the previous proposition to extract an isomorphism in C, and uses faithfulness of the Yoneda embedding for uniqueness (uniqueness is uniqueness of the isomorphism making the triangle of natural transformations commute — there may be many other isomorphisms x =~ y). This justifies speaking of THE representing object of a representable functor.",
+      "book_section": "2.3",
+      "book_page": "67",
+      "pdf_pages": [
+        87,
+        88
+      ],
+      "cross_refs": [
+        "riehl:2.3:prop1",
+        "riehl:2.1:def4",
+        "riehl:2.2:cor8"
+      ],
+      "flags": [
+        "proof-continues-outside-range",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.3:def3",
+      "kind": "definition",
+      "number": "2.3.3",
+      "name": "element and universal element of a set-valued functor",
+      "statement_summary": "For a set-valued functor F on a locally small category C, covariant or contravariant, an ELEMENT of F is a pair (c, x) with c an object of C and x in Fc. The element is UNIVERSAL when the natural transformation supplied by the Yoneda lemma from that element -- Psi(x): C(c,-) => F in the covariant case, Psi(x): C(-,c) => F in the contravariant case -- is a natural ISOMORPHISM rather than merely a natural transformation. In that case c is said to represent F and the natural isomorphism Psi(x) is the representation determined by x.",
+      "book_section": "2.3",
+      "book_page": "68",
+      "pdf_pages": [
+        88
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.4:prop8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.3:example4",
+      "kind": "example",
+      "number": "2.3.4",
+      "name": "universal element for the forgetful functor Ring -> Set",
+      "statement_summary": "The forgetful functor U: Ring -> Set is represented by the polynomial ring Z[x]; the universal element is the indeterminate x in Z[x]. The natural isomorphism Ring(Z[x], R) ~= UR (numbered display (2.3.5)) sends a ring homomorphism phi: Z[x] -> R to its value phi(x) in R, exactly the evaluation prescribed by the proof of the Yoneda lemma.",
+      "book_section": "2.3",
+      "book_page": "68",
+      "pdf_pages": [
+        88
+      ],
+      "cross_refs": [
+        "riehl:2.3:def3",
+        "riehl:2.1:example5"
+      ],
+      "flags": [
+        "encloses-numbered-display-2.3.5"
+      ]
+    },
+    {
+      "id": "riehl:2.3:example6",
+      "kind": "example",
+      "number": "2.3.6",
+      "name": "universal element for the contravariant power set functor",
+      "statement_summary": "The contravariant power set functor P: Set^op -> Set is represented by the two-element set Omega = {top, bottom}, via the natural isomorphism Set(A, Omega) ~= P(A). The universal element is the SUBSET {top} in P(Omega) -- an element of P(Omega), not the point top of Omega. The isomorphism sends a function f: A -> Omega to the preimage f^{-1}(top), a subset of A.",
+      "book_section": "2.3",
+      "book_page": "68",
+      "pdf_pages": [
+        88
+      ],
+      "cross_refs": [
+        "riehl:2.3:def3",
+        "riehl:2.1:example6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.3:example7",
+      "kind": "example",
+      "number": "2.3.7",
+      "name": "representable G-sets are torsors",
+      "statement_summary": "A functor E: BG -> Set, i.e. a left G-set, is representable if and only if there is an isomorphism of left G-sets G ~= E. Consequently a representable G-set is non-empty, FREE (every stabilizer subgroup is trivial) and TRANSITIVE (the orbit of any point is all of E); conversely every non-empty free transitive left G-set is representable (proof deferred to Example 2.4.10). The data of a representation, i.e. a specific isomorphism G ~= E, is determined by the choice of a universal element e in E, the image of the identity of G; so a representable G-set is a group that has forgotten its identity element, and is called a G-TORSOR. Worked instance: n-dimensional affine space A^n is a torsor for the additive group R^n; choosing an origin o gives R^n ~= A^n, and o is the universal element, the coordinates of p being the unique vector v with v . o = p.",
+      "book_section": "2.3",
+      "book_page": "68",
+      "pdf_pages": [
+        88,
+        89
+      ],
+      "cross_refs": [
+        "riehl:2.3:def3",
+        "riehl:2.4:example10"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.3:example8",
+      "kind": "example",
+      "number": "2.3.8",
+      "name": "the tensor product as a representation of the bilinear-maps functor",
+      "statement_summary": "Fix k-vector spaces V and W and consider Bilin(V,W;-): Vect_k -> Set carrying U to the set of k-bilinear maps V x W -> U (functions linear in each variable separately; equivalently, by currying, linear maps V -> Hom(W,U) or W -> Hom(V,U)). A representation of this functor defines the TENSOR PRODUCT V (x)_k W, i.e. an isomorphism Vect_k(V (x)_k W, U) ~= Bilin(V,W;U) (numbered display (2.3.9)) natural in U. By the Yoneda lemma this natural isomorphism is determined by a universal element, the universal bilinear map (x): V x W -> V (x)_k W; tracing the identity through the naturality square shows every bilinear f: V x W -> U factors as f = f-bar . (x) for a UNIQUE linear f-bar: V (x)_k W -> U. Thus V (x)_k W is the universal vector space equipped with a bilinear map out of V x W, and the universal bilinear map is initial in the category of Example 2.4.12(iii).",
+      "book_section": "2.3",
+      "book_page": "69",
+      "pdf_pages": [
+        89
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.3:def3",
+        "riehl:2.4:example12"
+      ],
+      "flags": [
+        "encloses-numbered-display-2.3.9"
+      ]
+    },
+    {
+      "id": "riehl:2.3:prop10",
+      "kind": "proposition",
+      "number": "2.3.10",
+      "name": "commutativity of the tensor product",
+      "statement_summary": "For any k-vector spaces V and W there is an isomorphism V (x)_k W ~= W (x)_k V. Proof: by Corollary 2.3.2 it suffices to exhibit a natural isomorphism of the represented functors Bilin(V,W;-) ~= Bilin(W,V;-), given by sending a bilinear f: V x W -> U to f-hat: W x V -> U with f-hat(w,v) := f(v,w); composing with the two tensor-product representations gives a natural isomorphism Vect_k(V (x)_k W, -) ~= Vect_k(W (x)_k V, -) (numbered display (2.3.11)), which by Proposition 2.3.1 arises from an isomorphism of the representing objects.",
+      "book_section": "2.3",
+      "book_page": "70",
+      "pdf_pages": [
+        90
+      ],
+      "cross_refs": [
+        "riehl:2.3:prop1",
+        "riehl:2.3:cor2",
+        "riehl:2.3:example8"
+      ],
+      "flags": [
+        "encloses-numbered-display-2.3.11"
+      ]
+    },
+    {
+      "id": "riehl:2.3:remark12",
+      "kind": "remark",
+      "number": "2.3.12",
+      "name": "the explicit commutativity isomorphism of the tensor product",
+      "statement_summary": "The Yoneda lemma makes the isomorphism of Proposition 2.3.10 explicit: the image of the identity linear map under the composite isomorphism Vect_k(V (x) W, V (x) W) ~= Bilin(V,W;V (x) W) ~= Bilin(W,V;V (x) W) ~= Vect_k(W (x) V, V (x) W) is an isomorphism phi: W (x)_k V -> V (x)_k W, and it is the unique linear map with phi(w (x) v) = v (x) w for all w in W, v in V. Tracing the identity: it goes to the universal bilinear map (x): V x W -> V (x) W, then to its precomposite with the swap W x V -> V x W, and the universal property of (x): W x V -> W (x) V produces the unique linear phi making that triangle commute.",
+      "book_section": "2.3",
+      "book_page": "70",
+      "pdf_pages": [
+        90,
+        91
+      ],
+      "cross_refs": [
+        "riehl:2.3:prop1",
+        "riehl:2.3:prop10",
+        "riehl:2.3:example8"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.3:example13",
+      "kind": "example",
+      "number": "2.3.13",
+      "name": "the group ring as a representing object",
+      "statement_summary": "For a fixed group G, the functor Group(G, (-)^x): Ring -> Set carries a unital ring R to the set of group homomorphisms from G to the group of units R^x. This functor is represented by the GROUP RING Z[G], i.e. there is a natural isomorphism Ring(Z[G], R) ~= Group(G, R^x). Its universal element is a group homomorphism eta: G -> Z[G]^x; the bijection sends a ring homomorphism phi: Z[G] -> R to the composite phi^x . eta: G -> R^x, where phi^x: Z[G]^x -> R^x is the induced map on units. (A footnote notes the generalization replacing Z by an arbitrary commutative unital ring K and Ring by K-algebras.)",
+      "book_section": "2.3",
+      "book_page": "71",
+      "pdf_pages": [
+        91
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.3:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.3:exi",
+      "kind": "exercise",
+      "number": "2.3.i",
+      "name": "identify universal elements for three given representations",
+      "statement_summary": "Determine the universal elements for the representations: (i) the one defining the category 2 in Example 2.1.5(x); (ii) the one defining the Sierpinski space in Example 2.1.6(ii); (iii) the one defining the Sierpinski space in Example 2.1.6(iii).",
+      "book_section": "2.3",
+      "book_page": "71",
+      "pdf_pages": [
+        91
+      ],
+      "cross_refs": [
+        "riehl:2.3:def3",
+        "riehl:2.1:example5",
+        "riehl:2.1:example6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.3:exii",
+      "kind": "exercise",
+      "number": "2.3.ii",
+      "name": "unit and associativity of the tensor product from its universal property",
+      "statement_summary": "Using only the defining universal property of the tensor product (the representation of Bilin), prove (i) k (x)_k V ~= V for any k-vector space V, and (ii) U (x)_k (V (x)_k W) ~= (U (x)_k V) (x)_k W for any k-vector spaces U, V, W.",
+      "book_section": "2.3",
+      "book_page": "71",
+      "pdf_pages": [
+        91
+      ],
+      "cross_refs": [
+        "riehl:2.3:example8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.3:exiii",
+      "kind": "exercise",
+      "number": "2.3.iii",
+      "name": "the evaluation map as universal element for the function-set functor",
+      "statement_summary": "The set B^A of functions from a set A to a set B represents the contravariant functor Set(- x A, B): Set^op -> Set. The universal element for this representation is a function ev: B^A x A -> B, the EVALUATION MAP. Define this evaluation map and describe the universal property it satisfies, in analogy with the universal bilinear map (x) of Example 2.3.8.",
+      "book_section": "2.3",
+      "book_page": "71",
+      "pdf_pages": [
+        91
+      ],
+      "cross_refs": [
+        "riehl:2.3:def3",
+        "riehl:2.3:example8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.3:exiv",
+      "kind": "exercise",
+      "number": "2.3.iv",
+      "name": "non-uniqueness of universal elements",
+      "statement_summary": "Although the data of a representation of a functor is encoded by a single universal element, a given functor may admit several distinct universal elements. Find alternate universal elements for the functors considered in Example 2.3.4 (the forgetful functor Ring -> Set) and Example 2.3.6 (the contravariant power set functor).",
+      "book_section": "2.3",
+      "book_page": "71",
+      "pdf_pages": [
+        91
+      ],
+      "cross_refs": [
+        "riehl:2.3:example4",
+        "riehl:2.3:example6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:def1",
+      "kind": "definition",
+      "number": "2.4.1",
+      "name": "category of elements of a covariant set-valued functor",
+      "statement_summary": "For a covariant functor F: C -> Set, the CATEGORY OF ELEMENTS (integral)F has as objects the elements of F, i.e. pairs (c, x) with c an object of C and x in Fc, and as morphisms (c,x) -> (c',x') those morphisms f: c -> c' of C satisfying Ff(x) = x'. Composition and identities are inherited from C.",
+      "book_section": "2.4",
+      "book_page": "72",
+      "pdf_pages": [
+        92
+      ],
+      "cross_refs": [
+        "riehl:2.3:def3",
+        "riehl:2.4:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:construction-elements-projection",
+      "kind": "construction",
+      "number": null,
+      "name": "the forgetful projection functor Pi from the category of elements",
+      "statement_summary": "Unnumbered construction introduced in prose (with an accompanying diagram, repeated on the next page): the category of elements carries an evident forgetful functor Pi: (integral)F -> C, sending an object (c,x) to c and a morphism f: (c,x) -> (c',x') to the underlying morphism f: c -> c' of C. The convention fixing the direction of morphisms in the contravariant case (Definition 2.4.2) is chosen precisely so that this projection is COVARIANT for both variances.",
+      "book_section": "2.4",
+      "book_page": "72",
+      "pdf_pages": [
+        92,
+        93
+      ],
+      "cross_refs": [
+        "riehl:2.4:def1",
+        "riehl:2.4:def2",
+        "riehl:2.4:def13",
+        "riehl:2.4:prop14"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.4:def2",
+      "kind": "definition",
+      "number": "2.4.2",
+      "name": "category of elements of a contravariant set-valued functor",
+      "statement_summary": "For a contravariant F: C^op -> Set, the category of elements (integral)F is NOT the naive dualization of Definition 2.4.1: it is defined as the OPPOSITE of the category of elements obtained by regarding F as a covariant functor on C^op, so that the projection to C stays covariant. Explicitly: objects are the elements of F, pairs (c,x) with c in C and x in Fc; morphisms (c,x) -> (c',x') are morphisms f: c -> c' of C such that Ff(x') = x.",
+      "book_section": "2.4",
+      "book_page": "72",
+      "pdf_pages": [
+        92
+      ],
+      "cross_refs": [
+        "riehl:2.4:def1",
+        "riehl:2.4:construction-elements-projection"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:example3",
+      "kind": "example",
+      "number": "2.4.3",
+      "name": "the category of elements of the n-coloring functor",
+      "statement_summary": "For the contravariant functor n-Color: Graph^op -> Set carrying a graph to the set of its n-colorings (assignments of one of n colors to each vertex such that no two adjacent vertices share a color), an object of (integral)(n-Color) is a graph together with a chosen n-coloring, i.e. an n-colored graph, and a morphism is a graph homomorphism phi: G -> G' that preserves the chosen colorings (each vertex is carried to a vertex of the same color). So (integral)(n-Color) is the category of n-colored graphs and color-preserving graph homomorphisms.",
+      "book_section": "2.4",
+      "book_page": "73",
+      "pdf_pages": [
+        93
+      ],
+      "cross_refs": [
+        "riehl:2.4:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:example4",
+      "kind": "example",
+      "number": "2.4.4",
+      "name": "pointed objects as the category of elements of a forgetful functor",
+      "statement_summary": "For a concrete category C with forgetful functor U: C -> Set, the objects of (integral)U are elements x in Uc of the underlying set of a specified object c of C, and morphisms are morphisms of C whose underlying functions preserve the chosen elements. This category is denoted C_* and is called the category of POINTED OBJECTS in C.",
+      "book_section": "2.4",
+      "book_page": "73",
+      "pdf_pages": [
+        93
+      ],
+      "cross_refs": [
+        "riehl:2.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:example5",
+      "kind": "example",
+      "number": "2.4.5",
+      "name": "dependent sums, dependent products and dependent functions",
+      "statement_summary": "When C is a DISCRETE category, a functor F: C -> Set is an indexed family of sets (F_c) indexed by objects of C, and (integral)F is again discrete, with object set the DEPENDENT SUM Sigma_{c in C} F_c. The canonical projection Pi: Sigma_{c in C} F_c -> C has fiber F_c over c; elements of the dependent sum are DEPENDENT PAIRS (c,x) with x in F_c. The related DEPENDENT PRODUCT Prod_{c in C} F_c is the set of SECTIONS of Pi, i.e. DEPENDENT FUNCTIONS f specifying an element f(c) in F_c for each c in C.",
+      "book_section": "2.4",
+      "book_page": "73",
+      "pdf_pages": [
+        93
+      ],
+      "cross_refs": [
+        "riehl:2.4:def1",
+        "riehl:2.4:construction-elements-projection"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:example6",
+      "kind": "example",
+      "number": "2.4.6",
+      "name": "slice categories as categories of elements of represented functors",
+      "statement_summary": "Objects of (integral)C(c,-) are morphisms f: c -> x of C with domain c, and a morphism from f: c -> x to g: c -> y is a morphism h: x -> y 'under c', i.e. with h . f = g. This is the slice (coslice) category c/C under the object c introduced in Exercise 1.1.iii, and the projection Pi: c/C -> C sends f: c -> x to its codomain x and a commutative triangle to the leg opposite c. Dually, (integral)C(-,c) is the slice category C/c over c: objects are morphisms f: x -> c with codomain c, morphisms from f to g: y -> c are h: x -> y with g . h = f, and the projection C/c -> C projects onto the domain.",
+      "book_section": "2.4",
+      "book_page": "73",
+      "pdf_pages": [
+        93
+      ],
+      "cross_refs": [
+        "riehl:2.4:def1",
+        "riehl:2.4:def2",
+        "riehl:2.4:lem7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:lem7",
+      "kind": "lemma",
+      "number": "2.4.7",
+      "name": "the category of elements as a comma category over the Yoneda embedding",
+      "statement_summary": "For a contravariant functor F: C^op -> Set, the category of elements is isomorphic to the comma category (integral)F ~= (Yoneda) DOWNARROW F, formed relative to the Yoneda embedding y: C -> Set^{C^op} and the object F viewed as a functor 1 -> Set^{C^op}. The isomorphism is constructed from the Yoneda lemma: objects of y DOWNARROW F are natural transformations from a represented functor to F, and elements x in Fc correspond bijectively to natural transformations Psi(x): C(-,c) => F (the printed text renders this as 'elements c in Fx', an evident transposition typo); the bijection extends to a fully faithful (hence isomorphism-inducing) assignment on morphisms, because the naturality clause of the Yoneda lemma makes commutativity of the triangle of natural transformations equivalent to the equation Ff(x') = x defining morphisms of (integral)F. The isomorphism commutes with the canonical projections from (integral)F and from y DOWNARROW F to C (Exercise 1.3.vi); the covariant dual is Exercise 2.4.i and a different comma-category characterization is Exercise 2.4.ii.",
+      "book_section": "2.4",
+      "book_page": "74",
+      "pdf_pages": [
+        94
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.4:def2",
+        "riehl:2.4:exi",
+        "riehl:2.4:exii"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:prop8",
+      "kind": "proposition",
+      "number": "2.4.8",
+      "name": "universal elements are universal elements (initial/terminal objects of the category of elements)",
+      "statement_summary": "For a COVARIANT functor F: C -> Set, an element x in Fc is a universal element (Definition 2.3.3) if and only if the object (c,x) of (integral)F is INITIAL; hence F is representable if and only if its category of elements has an initial object. Dually, for a CONTRAVARIANT functor F: C^op -> Set, x in Fc is a universal element if and only if (c,x) in (integral)F is TERMINAL, so F is representable if and only if its category of elements has a terminal object. Proof of the covariant case: x is universal iff each component Psi(x)_d: C(c,d) -> Fd is a bijection, i.e. iff for every d and every y in Fd there is a unique f: c -> d with Psi(x)_d(f) = Ff(x) = y, which is exactly the statement that there is a unique morphism (c,x) -> (d,y) in (integral)F for every object (d,y), i.e. that (c,x) is initial.",
+      "book_section": "2.4",
+      "book_page": "74",
+      "pdf_pages": [
+        94,
+        95
+      ],
+      "cross_refs": [
+        "riehl:2.2:thm4",
+        "riehl:2.3:def3",
+        "riehl:2.4:def1",
+        "riehl:2.4:def2",
+        "riehl:2.4:exiv"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.4:prop9",
+      "kind": "proposition",
+      "number": "2.4.9",
+      "name": "the subcategory of representations is empty or a contractible groupoid",
+      "statement_summary": "For any functor F: C -> Set, the full subcategory of (integral)F spanned by its representations (i.e. by its universal elements) is either EMPTY or a CONTRACTIBLE GROUPOID -- there is a unique isomorphism between any two of its objects and no other morphisms. Proof: if F is not representable the subcategory is empty; otherwise, by Proposition 2.4.8 the representations are exactly the initial objects of (integral)F, and by Lemma 1.6.16 the subcategory spanned by the initial objects of any category is empty or a contractible groupoid. This is the precise sense in which representations, though not unique set-theoretically, are unique category-theoretically.",
+      "book_section": "2.4",
+      "book_page": "75",
+      "pdf_pages": [
+        95
+      ],
+      "cross_refs": [
+        "riehl:2.4:prop8",
+        "riehl:2.3:cor2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:example10",
+      "kind": "example",
+      "number": "2.4.10",
+      "name": "the category of elements of a G-set is the action groupoid; torsors are representable",
+      "statement_summary": "For a G-set X: BG -> Set, the category of elements (integral)X is isomorphic to the ACTION GROUPOID X//G of Example 1.5.19: its objects are the elements x in X and its morphisms g: x -> y are the group elements g in G with g . x = y. By Example 2.3.7 any element of X may serve as a universal element if X is representable, so by Proposition 2.4.9, X is representable if and only if (integral)X ~= X//G is a CONTRACTIBLE GROUPOID. This proves the converse claimed in Example 2.3.7: if the action of G on X is free and transitive (and X non-empty), then for every pair x, y in X there is a unique g in G with g . x = y, so each hom-set of X//G is a singleton, the groupoid is contractible, and X is representable.",
+      "book_section": "2.4",
+      "book_page": "75",
+      "pdf_pages": [
+        95
+      ],
+      "cross_refs": [
+        "riehl:2.3:example7",
+        "riehl:2.4:prop9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:example11",
+      "kind": "example",
+      "number": "2.4.11",
+      "name": "the natural numbers as the universal discrete dynamical system",
+      "statement_summary": "The category of discrete dynamical systems (Example 2.1.1) is the category of elements of the forgetful functor U: End -> Set, whose domain End is the category of sets equipped with an endomorphism and functions commuting with the endomorphisms. This functor U is represented by the object (N, s: N -> N) of End, with representation given by the universal element 0 in N. By Proposition 2.4.8, (N, s: N -> N, 0 in N) is therefore INITIAL in the category of elements, i.e. it is the universal discrete dynamical system -- the universal property observed in Example 2.1.1.",
+      "book_section": "2.4",
+      "book_page": "75",
+      "pdf_pages": [
+        95
+      ],
+      "cross_refs": [
+        "riehl:2.4:prop8",
+        "riehl:2.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:example12",
+      "kind": "example",
+      "number": "2.4.12",
+      "name": "six categories of elements and their initial or terminal objects",
+      "statement_summary": "A six-clause catalogue identifying categories of elements and their universal objects. (i) For the contravariant power set functor: objects are pairs (A' subset A), morphisms f: A -> B with f^{-1}(B') = A'; the TERMINAL object is ({top} subset Omega) with Omega = {top,bottom}, corresponding to the representation of Example 2.1.6(i) -- but it is not the unique terminal object, being isomorphic to ({bottom} subset Omega) and to any singleton subset of a two-element set. (ii) For U: Vect_k -> Set: objects are vectors v in a k-vector space V, morphisms are linear T: V -> W with T(v) = w; (k, 1) is INITIAL but not uniquely so -- every (k, c) with c a nonzero scalar is initial, and more generally any 1-dimensional V with nonzero v. (iii) For Bilin(V,W;-): objects are bilinear maps f: V x W -> U, morphisms are linear T: U -> U' with T . f = f'; the universal bilinear map (x): V x W -> V (x)_k W is INITIAL, which is exactly the universal property of Example 2.3.8. (iv) For U(-)^n: Group -> Set: objects are a group G with an n-tuple (g_1,...,g_n), morphisms are homomorphisms carrying the tuple to the tuple; the INITIAL object is the free group F_n on n generators x_1,...,x_n, since a homomorphism out of F_n is uniquely and freely determined by the images of the generators (no relations). (v) For U(-)^*: Vect_k^op -> Set: objects are linear maps f: V -> k, i.e. vectors in a dual space, morphisms from f to g: W -> k are linear T: V -> W with f = gT; this category is isomorphic to the slice Vect_k/k, and id_k is TERMINAL (as is any nonzero scalar multiple), giving the universal dual vector. (vi) For U: Ring -> Set: objects are (R, r in R), morphisms are ring homomorphisms preserving the chosen element; the INITIAL object is x in Z[x]. Although initial objects have no non-identity endomorphisms in the category of elements, the ring Z[x] has many ring endomorphisms, classified by Ring(Z[x],-) ~= U, i.e. by integer polynomials p(x); by Corollary 2.2.8 every natural endomorphism of U: Ring -> Set therefore has components R -> R of the form r |-> p(r) for an integer polynomial p.",
+      "book_section": "2.4",
+      "book_page": "75",
+      "pdf_pages": [
+        95,
+        96,
+        97
+      ],
+      "cross_refs": [
+        "riehl:2.4:prop8",
+        "riehl:2.3:example8",
+        "riehl:2.1:example6",
+        "riehl:2.2:cor8"
+      ],
+      "flags": [
+        "multi-clause",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.4:remark-every-category-is-elements",
+      "kind": "remark",
+      "number": null,
+      "name": "every category is a category of elements for the constant singleton-valued functor",
+      "statement_summary": "Unnumbered prose claim between Example 2.4.12 and Definition 2.4.13: any category E arises as a category of elements, namely for the constant functor Delta_*: E -> Set valued at the singleton set; a representation for this functor amounts precisely to an initial object of E. The more interesting examples are those where E is the category of elements of a functor indexed by a DIFFERENT category C, related to it by a projection functor Pi: E -> C; the following definition and proposition isolate the property of such projections that characterizes them.",
+      "book_section": "2.4",
+      "book_page": "77",
+      "pdf_pages": [
+        97
+      ],
+      "cross_refs": [
+        "riehl:2.4:def1",
+        "riehl:2.4:prop8",
+        "riehl:2.4:def13",
+        "riehl:2.4:prop14"
+      ],
+      "flags": [
+        "unnumbered-prose-claim"
+      ]
+    },
+    {
+      "id": "riehl:2.4:def13",
+      "kind": "definition",
+      "number": "2.4.13",
+      "name": "discrete left fibration and discrete right fibration",
+      "statement_summary": "A functor Pi: E -> C is a DISCRETE LEFT FIBRATION if for every morphism f: c -> c' in C and every lift e in E of the DOMAIN object c (i.e. Pi(e) = c) there is a UNIQUE morphism in E with domain e lifting f. Dually, Pi is a DISCRETE RIGHT FIBRATION if for every f: c -> c' in C and every lift e' in E of the CODOMAIN object c' there is a unique morphism in E with codomain e' lifting f. Equivalently, in lifting-diagram form: Pi is a discrete left (respectively right) fibration if for every commutative square from 1 -> E and 2 -> C whose left leg is the functor 1 -> 2 picking out the object 0 (respectively 1), there exists a unique diagonal filler 2 -> E making both triangles commute.",
+      "book_section": "2.4",
+      "book_page": "77",
+      "pdf_pages": [
+        97
+      ],
+      "cross_refs": [
+        "riehl:2.4:construction-elements-projection",
+        "riehl:2.4:prop14"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:prop14",
+      "kind": "proposition",
+      "number": "2.4.14",
+      "name": "categories of elements are exactly the discrete fibrations",
+      "statement_summary": "The category-of-elements construction defines FULLY FAITHFUL functors (integral)-: Set^C -> CAT/C and (integral)-: Set^{C^op} -> CAT/C into the slice category CAT/C of categories over C. In the covariant (C-indexed) case the essential image is the full subcategory of DISCRETE LEFT FIBRATIONS; in the contravariant case it is the full subcategory of DISCRETE RIGHT FIBRATIONS. In particular the projection Pi: (integral)F -> C is a discrete left fibration when F is covariant and a discrete right fibration when F is contravariant, and this property characterizes exactly those functors over C arising from the construction. By full faithfulness, natural transformations alpha: F => G can be identified with functors (integral)alpha: (integral)F -> (integral)G over C. Proof (covariant case, fully faithful functoriality deferred to Exercise 2.4.viii): the projection is a discrete left fibration because for f: c -> c' and a lift (c,x), the morphism f: (c,x) -> (c', Ff(x)) is the unique morphism of (integral)F with that domain projecting to f. Conversely, given a discrete left fibration Pi: E -> C, define F: C -> Set by Fc := the set of objects of E lifting c, and Ff: Fc -> Fc' by sending e to the codomain of the unique morphism of E with domain e lifting f; uniqueness of lifts makes F functorial (Fg . Ff = F(g . f) and F preserves identities), and the resulting Pi: (integral)F -> C reproduces E over C, so E ~= (integral)F over C.",
+      "book_section": "2.4",
+      "book_page": "77",
+      "pdf_pages": [
+        97,
+        98
+      ],
+      "cross_refs": [
+        "riehl:2.4:def13",
+        "riehl:2.4:def1",
+        "riehl:2.4:def2",
+        "riehl:2.4:exviii"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "riehl:2.4:exi",
+      "kind": "exercise",
+      "number": "2.4.i",
+      "name": "covariant dual of the comma-category description of the category of elements",
+      "statement_summary": "Define a CONTRAVARIANT isomorphism relating the category of elements of a covariant functor F: C -> Set with the comma category y DOWNARROW F, formed relative to the Yoneda embedding y: C^op -> Set^C and the object F: 1 -> Set^C. (This is the dual of Lemma 2.4.7.)",
+      "book_section": "2.4",
+      "book_page": "78",
+      "pdf_pages": [
+        98
+      ],
+      "cross_refs": [
+        "riehl:2.4:lem7",
+        "riehl:2.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:exii",
+      "kind": "exercise",
+      "number": "2.4.ii",
+      "name": "the category of elements as a comma category over the singleton",
+      "statement_summary": "For F: C -> Set, show that (integral)F is isomorphic to the comma category * DOWNARROW F formed from the singleton set viewed as *: 1 -> Set and the functor F: C -> Set. State and prove a similar result for contravariant functors.",
+      "book_section": "2.4",
+      "book_page": "78",
+      "pdf_pages": [
+        98
+      ],
+      "cross_refs": [
+        "riehl:2.4:lem7",
+        "riehl:2.4:def1",
+        "riehl:2.4:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:exiii",
+      "kind": "exercise",
+      "number": "2.4.iii",
+      "name": "initial objects of a coslice and terminal objects of a slice",
+      "statement_summary": "Characterize all INITIAL objects of the coslice category c/C and all TERMINAL objects of the slice category C/c. (Referenced by footnote 14 on printed p. 74, which notes that the identity at c is not necessarily the only initial object of c/C.)",
+      "book_section": "2.4",
+      "book_page": "78",
+      "pdf_pages": [
+        98
+      ],
+      "cross_refs": [
+        "riehl:2.4:example6",
+        "riehl:2.4:prop8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:exiv",
+      "kind": "exercise",
+      "number": "2.4.iv",
+      "name": "dualize the representability criterion of Proposition 2.4.8",
+      "statement_summary": "Use the principle of duality to convert the proof that a COVARIANT functor is representable if and only if its category of elements has an INITIAL object into a proof that a CONTRAVARIANT functor is representable if and only if its category of elements has a TERMINAL object.",
+      "book_section": "2.4",
+      "book_page": "78",
+      "pdf_pages": [
+        98
+      ],
+      "cross_refs": [
+        "riehl:2.4:prop8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:exv",
+      "kind": "exercise",
+      "number": "2.4.v",
+      "name": "the Sierpinski space as the universal space with an open subset",
+      "statement_summary": "Explain the sense in which the Sierpinski space is the UNIVERSAL topological space equipped with an open subset.",
+      "book_section": "2.4",
+      "book_page": "78",
+      "pdf_pages": [
+        98
+      ],
+      "cross_refs": [
+        "riehl:2.4:prop8",
+        "riehl:2.3:exi"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:exvi",
+      "kind": "exercise",
+      "number": "2.4.vi",
+      "name": "the category of elements of the preorders functor",
+      "statement_summary": "Define a contravariant functor F: Set^op -> Set carrying a set to the set of preorders on it. Describe its category of elements. Is F representable?",
+      "book_section": "2.4",
+      "book_page": "79",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [
+        "riehl:2.4:def2",
+        "riehl:2.4:prop8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:exvii",
+      "kind": "exercise",
+      "number": "2.4.vii",
+      "name": "the twisted arrow category",
+      "statement_summary": "For a locally small category C, regard the two-sided represented functor Hom(-,-): C^op x C -> Set as a COVARIANT functor on its domain C^op x C. The category of elements of Hom is called the TWISTED ARROW CATEGORY. Justify this name by describing its objects and morphisms.",
+      "book_section": "2.4",
+      "book_page": "79",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [
+        "riehl:2.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:exviii",
+      "kind": "exercise",
+      "number": "2.4.viii",
+      "name": "full faithfulness of the category-of-elements construction",
+      "statement_summary": "Prove that the category of elements construction defines the action on objects of a FULLY FAITHFUL functor (integral)(-): Set^C -> CAT/C. Conclude that two functors F, G: C -> Set are naturally isomorphic if and only if (integral)F ~= (integral)G over C. (This is the deferred half of Proposition 2.4.14.)",
+      "book_section": "2.4",
+      "book_page": "79",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [
+        "riehl:2.4:prop14"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:exix",
+      "kind": "exercise",
+      "number": "2.4.ix",
+      "name": "fibers of a discrete fibration are discrete categories",
+      "statement_summary": "Prove that the FIBERS of a discrete left or right fibration Pi: E -> C are discrete categories: for each object c of C, the subcategory E_c of objects of E that Pi carries to c and morphisms of E that Pi carries to the identity at c is a discrete category (only identity morphisms).",
+      "book_section": "2.4",
+      "book_page": "79",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [
+        "riehl:2.4:def13",
+        "riehl:2.4:prop14"
+      ],
+      "flags": []
+    },
+    {
+      "id": "riehl:2.4:exx",
+      "kind": "exercise",
+      "number": "2.4.x",
+      "name": "representability of the product of two represented functors",
+      "statement_summary": "Answer the question posed at the end of section 2.4: fixing objects A, B in a locally small category C, consider the functor C(A,-) x C(B,-): C -> Set carrying an object X to the set C(A,X) x C(B,X), whose elements are pairs of maps a: A -> X and b: B -> X. What would it mean for this functor to be representable? (The intended answer anticipates the coproduct of A and B, whose universal property is the subject of the coming chapters.)",
+      "book_section": "2.4",
+      "book_page": "79",
+      "pdf_pages": [
+        99
+      ],
+      "cross_refs": [
+        "riehl:2.4:prop8",
+        "riehl:2.3:def3"
+      ],
+      "flags": []
+    }
+  ]
+}

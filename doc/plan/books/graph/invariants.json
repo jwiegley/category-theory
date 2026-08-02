@@ -1,0 +1,98 @@
+{
+ "issues": 710,
+ "edges": 1096,
+ "acyclic": true,
+ "violations": [],
+ "layers": {
+  "0": 185,
+  "1": 153,
+  "2": 133,
+  "3": 80,
+  "4": 72,
+  "5": 31,
+  "6": 17,
+  "7": 12,
+  "8": 11,
+  "9": 11,
+  "10": 4,
+  "11": 1
+ },
+ "hazards": [],
+ "acknowledged_serialize_pairs": [
+  [
+   "Instance/Fun/Closed.v",
+   392,
+   718
+  ],
+  [
+   "Instance/Module/Tensor.v",
+   388,
+   449
+  ],
+  [
+   "Instance/Rng/Free.v",
+   312,
+   443
+  ],
+  [
+   "Instance/Sets/Pointed.v",
+   312,
+   708
+  ],
+  [
+   "Instance/Sets/Powerset.v",
+   466,
+   704
+  ],
+  [
+   "Instance/Sets/Powerset.v",
+   466,
+   871
+  ],
+  [
+   "Instance/Sets/Powerset.v",
+   704,
+   871
+  ],
+  [
+   "Instance/Sets/Powerset.v",
+   750,
+   871
+  ],
+  [
+   "Instance/Sets/Pullback.v",
+   402,
+   730
+  ],
+  [
+   "Structure/BooleanAlgebra.v",
+   639,
+   653
+  ],
+  [
+   "Structure/Lattice.v",
+   340,
+   389
+  ],
+  [
+   "Structure/Lattice.v",
+   340,
+   422
+  ],
+  [
+   "Structure/Lattice.v",
+   389,
+   422
+  ],
+  [
+   "Structure/Limit/Interchange.v",
+   563,
+   564
+  ],
+  [
+   "Theory/Algebra/Monoid/Free.v",
+   296,
+   502
+  ]
+ ]
+}

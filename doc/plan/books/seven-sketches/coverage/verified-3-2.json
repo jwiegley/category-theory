@@ -1,0 +1,518 @@
+[
+ {
+  "id": "7sketches:3.2.5:def3.28",
+  "classification": "PRESENT",
+  "aliases": [
+   "isomorphism",
+   "invertible morphism / two-sided inverse",
+   "iso, f^{-1}, A ≅ B, isomorphic objects",
+   "Class Isomorphism / IsIsomorphism (library naming)",
+   "equivalence (Eilenberg–Mac Lane 1945 terminology)",
+   "dual form: an isomorphism in C^op is an isomorphism in C"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 113,
+    "symbol": "Isomorphism",
+    "intree_statement": "Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }.  Infix \"≅\" := Isomorphism (at level 91)."
+   },
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 133,
+    "symbol": "IsIsomorphism",
+    "intree_statement": "Class IsIsomorphism {x y : C} (f : x ~> y) := { two_sided_inverse : y ~> x; is_right_inverse : f ∘ two_sided_inverse ≈ id; is_left_inverse : two_sided_inverse ∘ f ≈ id }."
+   },
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 301,
+    "symbol": "comp_inverse_unique",
+    "intree_statement": "Lemma comp_inverse_unique {C : Category} {x y : C} (f : x ~> y) (g g' : y ~> x) : f ∘ g ≈ id[y] -> g' ∘ f ≈ id[x] -> g ≈ g'."
+   },
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 187,
+    "symbol": "iso_equivalence",
+    "intree_statement": "#[export] Program Instance iso_equivalence : Equivalence Isomorphism := { Equivalence_Reflexive := @iso_id; Equivalence_Symmetric := @iso_sym; Equivalence_Transitive := fun _ _ _ g f => iso_compose f g }."
+   }
+  ],
+  "statement_record": {
+   "book": "f : A -> B is an isomorphism when there is g : B -> A with f;g = id_A and g;f = id_B; f and g are then inverses, g = f^{-1}, and A and B are isomorphic, A ≅ B.",
+   "intree": "Class Isomorphism (x y : C) := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }, with the morphism-level predicate IsIsomorphism f, uniqueness of two-sided inverses (comp_inverse_unique) and iso_equivalence : Equivalence Isomorphism.",
+   "strength_comparison": "same — the setoid rephrasing (≈ for the two inverse laws instead of =) is the faithful library idiom; the book's diagrammatic order f;g is the library's to ∘ from with the arguments swapped, and both laws are present. In-tree is if anything slightly stronger: the well-definedness of the notation f^{-1} (uniqueness of the inverse) and the fact that ≅ is an equivalence relation on objects are proved, whereas the book only asserts them in prose."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached PRESENT via `rg 'Class Isomorphism'` -> Theory/Isomorphism.v. Opened the file: Class Isomorphism at :113 with to/from/iso_to_from/iso_from_to and `Infix \"≅\"` at :126 exactly as quoted; IsIsomorphism at :133; comp_inverse_unique at :301 (quote exact, including the g/g' asymmetric hypotheses); iso_equivalence at :187 built from iso_id/iso_sym/iso_compose. `f⁻¹` notation for `from` at :252 also present, matching the book's f^{-1}. Theory/Isomorphism.v is registered in _CoqProject:444. strength_comparison 'same, if anything slightly stronger' is honest: inverse uniqueness and the equivalence-relation status are proved, not asserted. No same-name-weaker or definition-without-API problem: the API (iso_sym, iso_compose, iso_to_monic/epic, to_equiv_implies_iso_equiv, ob_setoid) is present."
+  }
+ },
+ {
+  "id": "7sketches:3.2.5:example3.29",
+  "classification": "PARTIAL",
+  "aliases": [
+   "isomorphisms in Set are the bijections",
+   "bijection = injective + surjective function",
+   "bijective_is_iso / iso_is_bijective",
+   "invertible function has a two-sided inverse function",
+   "monos in Sets are injections, epis are surjections (the neighbouring characterizations)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets.v",
+    "line": 400,
+    "symbol": "bijective_is_iso",
+    "intree_statement": "Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) : injective h -> surjective h -> IsIsomorphism h.  (with `injective f := f x ≈ f y -> x ≈ y` and `surjective f := ∀ y, { x & f x ≈ y }` from Lib/Setoid.v)"
+   },
+   {
+    "file": "Instance/Sets.v",
+    "line": 369,
+    "symbol": "injectivity_is_monic",
+    "intree_statement": "Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f.  (composes with Theory/Isomorphism.v:264 `Program Instance iso_to_monic ... : Monic iso` to give the injectivity half of the converse)"
+   }
+  ],
+  "statement_record": {
+   "book": "The isomorphisms of Set are exactly the bijections; concretely f : {a,b,c} -> {1,2,3} with f(a)=2, f(b)=1, f(c)=3 is an isomorphism.",
+   "intree": "bijective_is_iso : injective h -> surjective h -> IsIsomorphism h, in Sets (setoids and ≈-respecting maps).",
+   "strength_comparison": "intree-weaker: only the direction bijection ⇒ isomorphism is stated. The converse (isomorphism ⇒ bijection) is not asserted anywhere — the injectivity half is composable from iso_to_monic + injectivity_is_monic, but the surjectivity half (which is immediate from `from h`) is never stated, so the book's 'exactly' is not in force. Also note the in-tree `surjective` is the split/choice form (a chosen preimage), stronger than mere surjectivity, so the hypothesis of bijective_is_iso is stronger than the book's."
+  },
+  "gap": "No in-tree statement of the converse direction: nothing says an isomorphism in Sets is injective and (split) surjective, hence no iff characterizing the isomorphisms of Sets as the bijections. No concrete finite witness (the {a,b,c} ≅ 3 instance) is built; the nearest concrete cousin is `finset_monic_iff_injective` (Instance/FinSet/Classifier.v:335), which characterizes monos, not isos.",
+  "negative_search_log": [
+   "grep -rn 'iso.*surj|surj.*iso' --include='*.v' . — only prose in the Instance/Sets.v header and an unrelated hit in Construction/Grothendieck/RoundTrip.v",
+   "grep -rn 'IsIsomorphism' --include='*.v' Instance/ — single hit, Instance/Sets.v:401 (bijective_is_iso)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same PARTIAL before reading coverage. My searches: `rg -i 'biject|inject|surject' Instance/Sets.v Instance/Sets/*.v Instance/Coq.v` -> only Instance/Sets.v:400 bijective_is_iso and :369 injectivity_is_monic; `rg 'iso' Instance/Sets/*.v | grep -i 'inject|surject|biject'` -> 0 hits; no lemma anywhere states iso ⇒ injective/surjective in Sets. Verified :400 verbatim (`injective h -> surjective h -> IsIsomorphism h`, proof Defined) and :369 verbatim. Verified the classifier's characterization of the hypotheses against Lib/Setoid.v:117 (`injective` = `f x ≈ f y -> x ≈ y`) and :121 (`surjective` = `{ x & f x ≈ y }`, the split/choice-carrying form) — so 'the in-tree hypothesis is stronger than the book's' is accurate. Also verified the cross-reference Instance/FinSet/Classifier.v:335 finset_monic_iff_injective exists and is about MONOS, not isos, as stated. Gap statement is precise and honest; the book's 'exactly' is genuinely not in force."
+  }
+ },
+ {
+  "id": "7sketches:3.2.5:def-cardinality",
+  "classification": "PARTIAL",
+  "aliases": [
+   "cardinality of a finite set",
+   "isomorphism class / iso-class of an object",
+   "skeleton, skeletal category, FinSet skeleton",
+   "Cantor cardinal = equivalence class under bijection",
+   "m ≅ n in FinSet implies m = n (isomorphism invariance of the count)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 187,
+    "symbol": "iso_equivalence",
+    "intree_statement": "#[export] Program Instance iso_equivalence : Equivalence Isomorphism := { Equivalence_Reflexive := @iso_id; Equivalence_Symmetric := @iso_sym; Equivalence_Transitive := fun _ _ _ g f => iso_compose f g }.  (packaged on objects as `#[export] Instance ob_setoid : Setoid C := {| equiv := Isomorphism; setoid_equiv := iso_equivalence |}`, Theory/Isomorphism.v:195)"
+   },
+   {
+    "file": "Instance/FinSet.v",
+    "line": 116,
+    "symbol": "FinSet",
+    "intree_statement": "Program Definition FinSet : Category := {| obj := nat; hom := fun m n => Fin.t m → Fin.t n; homset := fun m n => fun_setoid (Fin.t m) (Fin.t n); id := fun _ i => i; compose := fun _ _ _ f g i => f (g i) |}."
+   }
+  ],
+  "statement_record": {
+   "book": "The cardinality of a finite set A is the n ∈ ℕ with A ≅ n in FinSet; more generally (Cantor) the cardinality of a set X is its isomorphism class, the collection of all sets isomorphic to X.",
+   "intree": "`≅` is an equivalence relation on the objects of any category (iso_equivalence), recorded as the object setoid ob_setoid — i.e. isomorphism classes are well defined. FinSet is the SKELETON: its objects are already the natural numbers, `obj := nat` with `n` standing for Fin.t n.",
+   "strength_comparison": "intree-weaker: the two halves are present separately but never joined. Isomorphism classes exist as a well-defined equivalence relation on objects (Cantor's definition, at every category, not just Set), and FinSet's objects ARE the cardinals by construction, so 'the n with A ≅ n' is definitional there — but nothing in-tree assigns a cardinality to an object of a non-skeletal category of finite sets, and nothing proves the invariance that makes the assignment well defined."
+  },
+  "gap": "Missing: (i) any `cardinality` function on objects (Theory/Metacategory.v:415 defines `cardinality` for a Metacategory — a count of identity arrows — which is a different notion); (ii) the skeletality theorem for FinSet, `m ≅[FinSet] n -> m = n` (no occurrence of Isomorphism in Instance/FinSet.v at all), so the phrase 'the n for which A ≅ n' is never shown to determine n uniquely; (iii) any category of arbitrary finite sets together with an equivalence to skeletal FinSet, which is what would let a general finite set be assigned a cardinality. The only skeletality statements in-tree are for posets (Test/Poset.v:102 poset_nat_skeletal, :150 poset_two_skeletal) and are order-theoretic, not about isomorphism classes of finite sets.",
+  "negative_search_log": [
+   "grep -rn 'cardinal|Cardinal' --include='*.v' . — hits only Theory/Metacategory.v (arrow count of a metacategory) and Instance/Shapes.v (the Cardinality functor Tries a ⟶ Vectors a, a different notion)",
+   "grep -rn 'Skeleton|skeletal' --include='*.v' . | grep -i 'definition|lemma|theorem|class|instance' — only Test/Poset.v poset_nat_skeletal / poset_two_skeletal; no Skeleton construction",
+   "grep -rn 'Isomorphism|≅' --include='*.v' Instance/FinSet.v Instance/FinSet/ — no isomorphism statement about FinSet objects (only Require Import lines in the satellite files)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL on the same two halves. Verified: Theory/Isomorphism.v:187 iso_equivalence and :195 ob_setoid (`Setoid C := {| equiv := Isomorphism |}`) — Cantor's iso-class reading is genuinely in force at every category; Instance/FinSet.v:116 `obj := nat` verbatim. Independently confirmed the three gap claims: (i) `rg -i cardinal --glob '*.v'` returns only Theory/Metacategory.v:415 (a count of identity arrows in an FMap, a different notion — read it) and Instance/Shapes.v:449 (the Cardinality functor Tries a ⟶ Vectors a); (ii) `rg '≅|Isomorphism' Instance/FinSet.v Instance/FinSet/*.v` — zero isomorphism statements about FinSet objects (satellite hits are Require lines only), and `rg '≅.*-> .*='` finds no skeletality lemma anywhere in-tree; (iii) Test/Poset.v:102 poset_nat_skeletal and :150 poset_two_skeletal exist verbatim and are order-theoretic antisymmetry, exactly as the record says. There is no non-skeletal category of finite sets in-tree."
+  }
+ },
+ {
+  "id": "7sketches:3.2.5:ex3.30",
+  "classification": "PARTIAL",
+  "aliases": [
+   "inverse of an isomorphism / f^{-1}",
+   "counting isomorphisms between finite sets, n! bijections",
+   "automorphism group, Aut(n), symmetric group S_n, Perm n",
+   "iso_sym / from / two_sided_inverse",
+   "enumeration of hom-sets in FinSet"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 156,
+    "symbol": "iso_sym",
+    "intree_statement": "Program Definition iso_sym {x y : C} `(f : x ≅ y) : y ≅ x := {| to := from f; from := to f; iso_to_from := iso_from_to f; iso_from_to := iso_to_from f |}."
+   }
+  ],
+  "statement_record": {
+   "book": "(1) Write down the inverse f^{-1} : 3 -> A of the isomorphism f of Example 3.29. (2) There are 3! = 6 distinct isomorphisms A -> 3.",
+   "intree": "iso_sym : (x ≅ y) -> (y ≅ x), the inverse of an isomorphism obtained by swapping `to` and `from` and the two inverse laws.",
+   "strength_comparison": "intree-weaker: part (1) is covered in general form (the inverse of an isomorphism exists, is computed by swapping, and is unique by comp_inverse_unique), but part (2) — the count — has no in-tree counterpart at any level of generality."
+  },
+  "gap": "No counting or enumeration of isomorphisms anywhere in the library: no automorphism group, no symmetric group, no `Perm n`. Construction/PROP.v:265–277 states explicitly that the permutation PROP whose hom m ~> n is S_n 'remains unbuilt' and that downstream consumers supply their own datatype. Nothing computes the size of a hom-set or of an iso-set in FinSet, so '3! = 6' is unformalizable as it stands without first building finite permutations.",
+  "negative_search_log": [
+   "grep -rn 'Aut\\b|automorphism|Automorphism|symmetric group|Sym\\b' --include='*.v' . — only prose (Construction/Cayley.v, Construction/PROP.v, Structure/Monoidal/Braided.v); no Aut or S_n object",
+   "grep -rn 'factorial|permutation' --include='*.v' . — Theory/Multicategory* only, where `tperm` is a permutation WITNESS type for multicategory symmetry, never counted",
+   "read Construction/PROP.v:255–280 — 'the permutation subcategory [Perm n] itself remains unbuilt'"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass classified this ABSENT; on comparison I let PARTIAL stand rather than overturn, because the exercise is genuinely two-part and part (1) ('write down the inverse') does have a general in-tree counterpart: Theory/Isomorphism.v:156 iso_sym (verified verbatim) plus `from`/`f⁻¹` and comp_inverse_unique. The record does not overstate — strength_comparison and gap both say the count has no counterpart at any level of generality. Verified the negative log independently: `rg -i 'Aut\\b|automorphism|symmetric group'` gives prose only; no Perm/S_n object; Construction/PROP.v:265-278 read in full and it does say '[Perm n] itself remains unbuilt' (quote accurate). Nothing in-tree computes the size of a hom-set or iso-set, so part (2) (3! = 6) is unformalizable as stated. Downstream consumers should treat the PARTIAL as 'general inverse operation only'; the distinctive content of the exercise (counting) is absent."
+  }
+ },
+ {
+  "id": "7sketches:3.2.5:ex3.31",
+  "classification": "PRESENT",
+  "aliases": [
+   "identity morphisms are isomorphisms",
+   "reflexivity of ≅",
+   "iso_id / id_iso",
+   "id is its own inverse (unitality)",
+   "every object is isomorphic to itself"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 149,
+    "symbol": "iso_id",
+    "intree_statement": "#[export] Program Instance iso_id {x : C} : x ≅ x := { to := id; from := id }.  (the two obligations id ∘ id ≈ id are discharged by unitality)"
+   }
+  ],
+  "statement_record": {
+   "book": "For any category C and object c, id_c is an isomorphism (its own inverse, by unitality).",
+   "intree": "iso_id {x : C} : x ≅ x with to := id and from := id — the identity paired with itself as a two-sided inverse, obligations closed by the unit laws.",
+   "strength_comparison": "same — stated for an arbitrary category C and arbitrary object x, exactly the book's generality; the ≈ form of the two inverse laws is the faithful setoid rephrasing."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached PRESENT: `rg 'iso_id'` -> Theory/Isomorphism.v:149, verified verbatim (`#[export] Program Instance iso_id {x : C} : x ≅ x := { to := id; from := id }`), stated for an arbitrary category and object, obligations closed by unitality. Matches the book's generality exactly. No weaker-same-name trap: iso_id is the reflexivity witness actually consumed by iso_equivalence:187 and by Construction/Groupoid.v:107, so it is live, not decorative."
+  }
+ },
+ {
+  "id": "7sketches:3.2.5:ex3.32",
+  "classification": "PARTIAL",
+  "aliases": [
+   "group = one-object groupoid",
+   "monoid as a one-object category, delooping BG / BM",
+   "groupoid (every morphism invertible), core of a category",
+   "free monoid on one generator ℕ is not a group",
+   "Z/2Z as the one-object category with s;s = id"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Groupoid.v",
+    "line": 103,
+    "symbol": "Groupoid",
+    "intree_statement": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}."
+   },
+   {
+    "file": "Instance/Comp.v",
+    "line": 382,
+    "symbol": "Group",
+    "intree_statement": "Definition Group := Algebra GroupOp GroupEq.  (GroupOp = the signature {one : nullary, mul : binary, inv : unary}; GroupEq = the five group equations)"
+   },
+   {
+    "file": "Instance/Comp.v",
+    "line": 405,
+    "symbol": "Bool",
+    "intree_statement": "Definition Bool : Group. Proof. exists BoolOp. ... Defined.  (bool under xor, i.e. Z/2Z — the answer to part (2) of the exercise, in equational rather than categorical form)"
+   }
+  ],
+  "statement_record": {
+   "book": "A monoid (one-object category) in which every morphism is an isomorphism is a group. Is the free monoid ℕ on one generator (Example 3.13) a group? Is the one-object category with s;s = id (Example 3.18, Z/2Z) a group?",
+   "intree": "Groupoid C is the category whose morphisms are exactly the isomorphisms of C (the core); separately Group := Algebra GroupOp GroupEq is a group as a model of the equational theory, with Bool : Group the two-element group.",
+   "strength_comparison": "intree-weaker: the two ingredients exist in unrelated presentations and are never identified. `Groupoid C` is a CONSTRUCTION (the maximal subgroupoid), not the predicate 'every morphism of C is an isomorphism'; the file header itself records at Construction/Groupoid.v:93 that 'no standalone [Groupoid] class' exists. `Group` is universal-algebraic, not a one-object category. Neither states the book's identification."
+  },
+  "gap": "Missing: (i) any delooping construction turning a monoid into a one-object category (grep for delooping/BG finds only the monoidal-category-as-one-object-BICATEGORY story in Theory/Bicategory/OneObject.v, which deloops a monoidal category, not a monoid); (ii) a `Groupoid`/`IsGroupoid` PREDICATE on a category ('every morphism is an isomorphism') — only the core construction exists; (iii) hence the identification 'group = one-object category all of whose morphisms are isomorphisms'; (iv) the free monoid ℕ on one generator as a category, so part (1) has no in-tree object to negate. Part (2)'s answer exists only as the algebraic group `Bool` (bool, xor), not as a one-object category with s ∘ s ≈ id.",
+  "negative_search_log": [
+   "grep -rn 'delooping|Deloop|BG\\b|monoid.*as a category|category with one object' --include='*.v' . — only Theory/Bicategory/OneObject.v (monoidal category as a one-object bicategory) and prose in Theory/Functor.v:68",
+   "grep -rn 'Class Groupoid|IsGroupoid|every morphism is an iso|all morphisms are iso' --include='*.v' . — one prose hit, Construction/Groupoid.v:13",
+   "grep -rn 'one-object' --include='*.v' . — prose only, plus Theory/Multicategory/Operad.v (one-object MULTIcategory, a different setting)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass hovered between ABSENT and PARTIAL and I accept PARTIAL: both cited pieces are real. Verified Construction/Groupoid.v:103 verbatim (`Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}`), Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq`, and :405 `Definition Bool : Group` — I read BoolOp at :395: carrier bool, one := false, mul := xor, inv := identity, so the record's parenthetical 'bool under xor, i.e. Z/2Z' is accurate. Also verified the disclosure the record quotes: Construction/Groupoid.v:93-95 does say 'no standalone category of groupoids exists in-tree, so the adjunction remark in the header above remains prose rather than a theorem' (the record paraphrased it as 'no standalone [Groupoid] class', which is a slightly loose rendering of a line that is really about the category of groupoids — but the substantive claim, that there is no IsGroupoid PREDICATE, is independently true: my `rg 'Class Groupoid|IsGroupoid'` returned only the prose at Groupoid.v:13). My own searches for a monoid-delooping construction (`rg -i 'deloop|one-object|single object'`) found only Theory/Bicategory/OneObject.v (monoidal category as a one-object BIcategory) — the gap statement is correct. Structure/Group.v is group OBJECTS in a cartesian monoidal category, a different notion, correctly not cited."
+  }
+ },
+ {
+  "id": "7sketches:3.2.5:ex3.33",
+  "classification": "ABSENT",
+  "aliases": [
+   "isomorphisms in a free category are the identities",
+   "free/path category on a graph, Free(G), FreeOnQuiver",
+   "invertible path has length zero",
+   "path length is additive under concatenation",
+   "Free(G) has no nontrivial isomorphisms / its core is discrete"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'Isomorphism|≅' --include='*.v' Construction/Free.v Construction/Free/Quiver.v — Construction/Free.v only Requires Theory/Isomorphism; no statement about isomorphisms of Free",
+   "grep -n 'Lemma|Theorem|Corollary|Proposition|Definition|Program Definition|Program Instance' Construction/Free/Quiver.v and Construction/Free.v — the files deliver FreeOnQuiver, InducedFunctor, UniversalArrowQuiverCat, FreeForgetfulAdjunction, FreeSyntax and the tlist equivalence kit; none mentions invertibility",
+   "grep -rn 'tlist_length|length' --include='*.v' Construction/Free/Quiver.v Lib/TList.v — the ingredients exist (Lib/TList.v:323 tlist_app_length : tlist_length (xs +++ ys) = tlist_length xs + tlist_length ys, and Construction/Free.v:118 defines Free with homset := eq on paths and compose := concatenation), but no consequence about isomorphisms is drawn",
+   "grep -rn 'Class Groupoid|IsGroupoid|discrete core' --include='*.v' . — no predicate under which the claim could be phrased"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT. My searches: `rg -i isomorph Construction/Free.v Construction/Free/Quiver.v` -> Require lines plus unrelated prose at Free.v:74/240/295; `rg '^(Program )?(Definition|Lemma|...)' Construction/Free/Quiver.v` -> FreeOnQuiver:431, InducedFunctor:464, UniversalArrowQuiverCat:518, FreeCatFunctor:546, FreeForgetfulAdjunction:550, FreeSyntax:600 — nothing about invertibility. Verified the record's ingredient claims: Lib/TList.v:323 tlist_app_length exists verbatim, and Construction/Free.v:118-122 defines Free with `homset := fun _ _ => {| equiv := eq |}` and `compose` = concatenation (so the length argument the book intends is available but never run). Correctly ABSENT; the negative log is accurate and the aliases are the right ones."
+  }
+ },
+ {
+  "id": "7sketches:3.2.5:example3.34",
+  "classification": "PARTIAL",
+  "aliases": [
+   "retraction / section, one-sided inverse",
+   "split monomorphism, split epimorphism",
+   "f;g = id but g;f ≠ id",
+   "split idempotent, Karoubi splitting",
+   "the inclusion iso ⊆ split mono is strict"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Morphisms.v",
+    "line": 70,
+    "symbol": "Retraction",
+    "intree_statement": "Class Retraction `(f : x ~> y) := { retract : y ~> x; retract_comp : f ∘ retract ≈ id }.  (Definition SplitEpi `(f : x ~> y) := Retraction f, Theory/Morphisms.v:126)"
+   },
+   {
+    "file": "Theory/Morphisms.v",
+    "line": 56,
+    "symbol": "Section",
+    "intree_statement": "Class Section `(f : x ~> y) := { section : y ~> x; section_comp : section ∘ f ≈ id }.  (Definition SplitMono `(f : x ~> y) := Section f, Theory/Morphisms.v:127)"
+   },
+   {
+    "file": "Theory/Morphisms.v",
+    "line": 179,
+    "symbol": "sections_are_monic",
+    "intree_statement": "Lemma sections_are_monic : Section f → Monic f.  (dually Lemma retractions_are_epic : Retraction f → Epic f, Theory/Morphisms.v:162)"
+   },
+   {
+    "file": "Theory/Morphisms/Classes.v",
+    "line": 66,
+    "symbol": "iso_in_split_mono",
+    "intree_statement": "Lemma iso_in_split_mono {C : Category} {x y : C} (f : x ~> y) : IsoClass x y f → SplitMonoClass x y f.  (dually iso_in_split_epi, Theory/Morphisms/Classes.v:77 — the inclusions whose strictness Example 3.34 exhibits)"
+   }
+  ],
+  "statement_record": {
+   "book": "There are f : 2 -> 3 and g : 3 -> 2 in Set with f;g = id_2 but g;f ≠ id_3; so a one-sided inverse pair need not be an isomorphism. Such a pair is called a retraction (f a split mono, g a split epi).",
+   "intree": "Section f (a left inverse: section ∘ f ≈ id) and Retraction f (a right inverse: f ∘ retract ≈ id) as classes, with sections_are_monic / retractions_are_epic, and the class inclusions iso_in_split_mono / iso_in_split_epi.",
+   "strength_comparison": "intree-weaker: the vocabulary and the positive consequences of a one-sided inverse are fully present (a section is monic, a retraction is epic, an iso is both), but the point of the example — that the converse fails, i.e. that a section/retraction pair need NOT be an isomorphism — is never witnessed. The library has the same-name classes without the separating example."
+  },
+  "gap": "No in-tree witness that the inclusions iso ⊊ split mono and iso ⊊ split epi are strict: no concrete pair f, g with f ∘ g ≈ id and g ∘ f ≉ id, and no proof anywhere that such an f fails to be an isomorphism. The nearest thing is Theory/Morphisms.v:85 `Class SplitIdempotent` (r ∘ s ≈ id with s ∘ r ≈ split_idem, an arbitrary idempotent) and Construction/Karoubi.v:226 karoubi_idem_splits, which produce exactly such pairs generically — but with no instance in which split_idem is exhibited as ≉ id, so the non-iso conclusion is never drawn. Theory/Isomorphism.v:392 `Monic_Retraction_Iso : Retraction f -> Monic f -> x ≅ y` gives the extra hypothesis that upgrades a one-sided inverse to an isomorphism; the complementary negative statement — that without it the upgrade fails — is absent.",
+  "negative_search_log": [
+   "grep -rn 'split.*iso|iso.*split' --include='*.v' Theory/ Structure/ Construction/ — only the positive inclusions (Theory/Morphisms/Classes.v:66,77) and Structure/Factorization/StrongEpi.v:154 strong_epi_mono_is_iso",
+   "grep -n 'Lemma|Theorem|Definition' Construction/Karoubi.v — Karoubi, Karoubi_Embed, Karoubi_Embed_Full/Faithful, karoubi_idem_splits; no non-identity idempotent instance"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached PARTIAL with the same reasoning. Verified every citation: Theory/Morphisms.v:56 Class Section, :70 Class Retraction (both quoted verbatim, including field names section_comp / retract_comp), :126 SplitEpi := Retraction, :127 SplitMono := Section, :162 retractions_are_epic, :179 sections_are_monic; Theory/Morphisms/Classes.v:66 iso_in_split_mono and :77 iso_in_split_epi verbatim; Theory/Isomorphism.v:392 Monic_Retraction_Iso verbatim (`Retraction f -> Monic f -> x ≅ y`); Construction/Karoubi.v:226 karoubi_idem_splits. I additionally found Instance/Sets/Karoubi.v:80 `sets_split` (a concrete Sets splitting r ∘ s ≈ id, s ∘ r ≈ e for an arbitrary idempotent e) — this is the closest in-tree thing to the book's f/g pair, and it CONFIRMS rather than undercuts the record's gap: e is an arbitrary idempotent and no instance exhibits e ≉ id, so the non-iso conclusion is still never drawn. Gap statement stands as written."
+  }
+ },
+ {
+  "id": "7sketches:3.3.2:def3.35",
+  "classification": "PRESENT",
+  "aliases": [
+   "functor",
+   "covariant functor, morphism of categories",
+   "Class Functor with fobj / fmap",
+   "preserves identities and composition (fmap_id, fmap_comp)",
+   "dual: a functor C^op ⟶ D is a contravariant functor"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Functor.v",
+    "line": 96,
+    "symbol": "Functor",
+    "intree_statement": "Class Functor {C : Category} {D : Category} := { fobj : C → D; fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y; fmap_respects : ∀ x y, Proper (respectful equiv equiv) (@fmap x y); fmap_id {x : C} : fmap (@id C x) ≈ id; fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) : fmap (f ∘ g) ≈ fmap f ∘ fmap g }."
+   }
+  ],
+  "statement_record": {
+   "book": "A functor F : C -> D is an object assignment Ob(C) -> Ob(D) and, for every f : c1 -> c2, a morphism F(f) : F(c1) -> F(c2), such that F(id_c) = id_{F(c)} and F(f;g) = F(f);F(g).",
+   "intree": "Class Functor with fobj : C → D, fmap : (x ~> y) → (fobj x ~> fobj y), fmap_id : fmap id ≈ id and fmap_comp : fmap (f ∘ g) ≈ fmap f ∘ fmap g (plus fmap_respects, the setoid side condition that fmap preserves ≈).",
+   "strength_comparison": "same — universe-polymorphic in both categories, laws stated with ≈ instead of = as the library's setoid discipline requires. The extra field fmap_respects has no counterpart in the book because the book's hom-sets carry equality rather than a setoid; it is exactly the well-definedness condition that = makes automatic, so this is faithful rather than stronger. The book writes F(f;g) = F(f);F(g) in diagrammatic order, matching fmap (f ∘ g) ≈ fmap f ∘ fmap g under the composition-order convention."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached PRESENT. Verified Theory/Functor.v:96 verbatim, including the universe annotations `Class Functor@{o1 h1 p1 o2 h2 p2}` and all five fields (fobj, fmap, fmap_respects, fmap_id, fmap_comp). Registered at _CoqProject:443. The strength_comparison's treatment of fmap_respects as the faithful setoid side condition rather than an extra hypothesis is correct — it is exactly the well-definedness the book gets free from `=`."
+  }
+ },
+ {
+  "id": "7sketches:3.3.2:example3.36",
+  "classification": "ABSENT",
+  "aliases": [
+   "functors 2 -> 3 between finite linear orders",
+   "walking arrow, interval category _2",
+   "the three-object chain 0 -> 1 -> 2 as a category",
+   "a functor out of 2 is a morphism of the target",
+   "monotone map between finite posets as a functor"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn '_2 ⟶|⟶ _2' --include='*.v' . — the only functors out of the walking arrow are Instance/Two.v:174 _2_as_Set : _2 ⟶ Sets and Theory/Metacategory/ArrowsOnly.v:508 Two_from_Two : _2 ⟶ Category_from_Metacategory Two; none lands in a three-object chain",
+   "grep -rn 'Three' --include='*.v' . — the category 3 DOES exist (Theory/Metacategory.v:413 `Definition Three : Category := FromArrows ThreeArrows`, whose ThreeArrows table at :396 is exactly 0 -id-> , 1, 2 with 3 : 0→1, 4 : 1→2, 5 = 4∘3 : 0→2; also Theory/Metacategory/ArrowsOnly.v:352 `Three : Metacategory := {| pairs := composable_pairs 3 |}`), but NO functor into it is ever constructed — Theory/Metacategory.v:533 `FromThree {C : Category} (c : C) : Three ⟶ C` is commented out",
+   "grep -rn 'walking arrow' --include='*.v' . — Instance/Two.v header states in PROSE that 'a functor 2 ⟶ C is exactly a choice of one morphism of C'; there is no theorem to that effect (no equivalence [_2, C] ≃ Arrow C; Construction/Arrow.v:110 only defines Arrow := Id[C] ↓ Id[C])",
+   "grep -n 'Lemma|Theorem|Definition' Instance/Proset.v Instance/Poset.v — preorders as categories exist, but no correspondence between ordinary functors of preorder categories and monotone maps (only the ENRICHED version, Construction/Enriched/Two.v:183 EnrichedFunctor_Two_monotone)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT, and the classifier's negative log is BETTER than mine: I had missed that the three-object chain exists in-tree. I verified its find — Theory/Metacategory.v:396 ThreeArrows (the composable-pairs table 0,1,2 with 3:0→1, 4:1→2, 5=4∘3) and :413 `Definition Three : Category := FromArrows ThreeArrows`, registered at _CoqProject:458; and Theory/Metacategory/ArrowsOnly.v:352 `Three : Metacategory := {| pairs := composable_pairs 3 |}`. I also verified the key negative: Theory/Metacategory.v:532-541 `FromThree` is inside a (* ... *) comment block, so no functor into Three exists; `rg '\\bThree\\b'` over the whole tree returns no other constructor. Instance/Two.v:174 _2_as_Set and ArrowsOnly.v:508 Two_from_Two confirmed as the only functors out of _2. ABSENT is right: both the source and target shapes exist, but not one functor 2 ⟶ 3, and no theorem that a functor out of a free/linear category is determined by its object action."
+  }
+ },
+ {
+  "id": "7sketches:3.3.2:ex3.37",
+  "classification": "ABSENT",
+  "aliases": [
+   "enumerate the functors 2 -> 3",
+   "count the functor category [2, 3]",
+   "six monotone maps {0<1} -> {0<1<2}",
+   "hom-set of Cat between finite categories",
+   "functors between finite posetal categories = order-preserving maps"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn '_2 ⟶|⟶ _2' --include='*.v' . — no functor from _2 into any three-object category (see the log for 7sketches:3.3.2:example3.36)",
+   "grep -rn 'Three' --include='*.v' . — Theory/Metacategory.v:413 defines the category Three, but nothing enumerates or counts functors into it; Theory/Metacategory.v:447 ThreeArrows_card_3 counts the OBJECTS (identity arrows) of ThreeArrows, not functors",
+   "grep -rn 'factorial|permutation|cardinal' --include='*.v' . — the library has no counting apparatus for hom-sets or functor categories at all (see 7sketches:3.2.5:ex3.30)",
+   "grep -n 'Lemma|Theorem|Definition' Instance/Fun.v — the functor category [C, D] exists as a category, but no result computes its objects for finite C, D"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT. Verified the two load-bearing negatives: Theory/Metacategory.v:447 ThreeArrows_card_3 counts identity arrows (its `cardinality` at :415 filters pairs with dom = cod = v), so it is not a count of functors — the record's characterization is exact; and there is no counting apparatus anywhere (same searches as ex3.30). Instance/Fun.v gives [C,D] as a category but computes nothing about its objects for finite C, D. The enumeration of the six functors 2 ⟶ 3 has no in-tree counterpart at any level."
+  }
+ },
+ {
+  "id": "7sketches:3.3.2:example3.38",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the projection functor from a free category onto its quotient by relations",
+   "identity-on-objects functor Free(G) -> Free(G)/~",
+   "presented category, generators and relations, commutative square category",
+   "quotient of a category by a hom-congruence, QuotientProj",
+   "the universal property of the free category on a quiver (functors out of Free(G) are determined by their action on edges)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Quotient.v",
+    "line": 294,
+    "symbol": "QuotientProj",
+    "intree_statement": "Definition QuotientProj : C ⟶ Quotient C R := Build_Functor C (Quotient C R) (fun x => x) (fun x y f => f) (fun x y f g Hfg => cong_incl Hfg) (fun x => cong_refl (@id C x)) (fun x y z f g => cong_refl (f ∘ g)).  — the identity-on-objects, identity-on-morphisms functor onto the quotient; only the equivalence coarsens"
+   },
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 518,
+    "symbol": "UniversalArrowQuiverCat",
+    "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful.  (built by universal_arrow_from_UMP with FreeOnQuiver, the unit UnitQuiverCatAdjunction, and InducedFunctor — so a functor out of Free(G) exists and is UNIQUE for each quiver homomorphism G ⇨ QuiverOfCat C)"
+   }
+  ],
+  "statement_record": {
+   "book": "Writing F for the free square category (objects A',B',C',D', arrows f',g',h',i', no equations) and C for the commutative square category (same shape plus f;h = g;i), there are many functors F -> C but EXACTLY ONE sending A'↦A, B'↦B, C'↦C, D'↦D: once the object assignment is fixed, each of the ten paths of F has a unique image in C with the matching source and target.",
+   "intree": "QuotientProj : C ⟶ Quotient C R is the canonical identity-on-objects functor from a category onto its quotient by a hom-congruence, and UniversalArrowQuiverCat gives the free category's universal property (a functor out of FreeOnQuiver G is uniquely determined by a quiver homomorphism out of G).",
+   "strength_comparison": "intree-weaker: the EXISTENCE half is present in full generality — Comm_square is precisely Quotient(Free_square, R) and QuotientProj is precisely the object-preserving functor the example exhibits. The UNIQUENESS half is not: the free UMP pins a functor by its action on EDGES, not by its action on objects, and the example's uniqueness uses the extra fact that the target is thin between the relevant objects. No in-tree statement says an object-fixing functor into a thin category is unique."
+  },
+  "gap": "Missing: (i) the two concrete categories — neither the free square category nor the commutative square category is built in-tree (Construction/Sq.v's `Sq C` is the DOUBLE category of commuting squares, a different object, and no square-shaped quiver or presentation exists); (ii) the uniqueness clause, i.e. that a functor into a category with at most one morphism between the relevant objects is determined by its object action (there is no in-tree `Thin` predicate and no such lemma; Instance/Proset.v records thinness only in prose); (iii) consequently no instance in which QuotientProj is shown to be the unique object-preserving functor.",
+  "negative_search_log": [
+   "grep -rln 'commut.*square|square categor' --include='*.v' . — hits are all about commuting squares as a PROPERTY (naturality, pullback pasting, double categories), never the 4-object presented category",
+   "grep -rn 'Thin|thin' --include='*.v' Instance/Proset.v Instance/Poset.v Instance/Two.v — prose only, no predicate or lemma"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "This is the record I scrutinised hardest, since my blind pass had it ABSENT. I let PARTIAL stand: the evidence is real and the strength_comparison does not overstate. Verified Construction/Quotient.v:294 QuotientProj verbatim (identity on objects AND on morphisms, only the equivalence coarsens — which really is the general form of the book's object-preserving functor, since Comm_square = Quotient(Free_square, R)), and Construction/Free/Quiver.v:518 UniversalArrowQuiverCat verbatim. The uniqueness half is correctly withheld: the free UMP pins a functor by its action on EDGES, not on objects. I independently confirmed the gap: `rg -i 'Free_square|Comm_square|square categor'` finds neither concrete category, and `rg 'Thin|thin'` finds no predicate — only prose. ONE CITATION SLIP, not affecting the verdict: the negative log says 'Instance/Proset.v records thinness only in prose'; the prose is actually at Instance/Poset.v:19-22 ('skeletal thin category'), not Proset.v. Evidence fields are unaffected."
+  }
+ },
+ {
+  "id": "7sketches:3.3.2:ex3.39",
+  "classification": "ABSENT",
+  "aliases": [
+   "image of each of the ten morphisms of the free square category",
+   "action on morphisms of the quotient projection functor",
+   "path in a free category mapped to its equivalence class",
+   "generators and their composites under the presented-category projection",
+   "explicit fmap table for a functor between finite categories"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rln 'commut.*square|square categor' --include='*.v' . — neither the free square category nor the commutative square category exists in-tree, so there are no ten morphisms to tabulate (see the record for 7sketches:3.3.2:example3.38)",
+   "grep -n 'Lemma|Theorem|Definition' Construction/Quotient.v — QuotientProj's action on morphisms is the identity (`fun x y f => f`), which is the general shape of the answer, but no instance is computed",
+   "grep -rn 'Free_square|FreeSquare|Comm_square|CommSquare' --include='*.v' . — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT. Verified `rg 'Free_square|FreeSquare|Comm_square|CommSquare'` = 0 hits, so there are no ten morphisms to tabulate; Construction/Quotient.v:297 does give QuotientProj's morphism action as `fun x y f => f`, the general shape of the answer, but no instance is computed. Correctly ABSENT and consistent with the example3.38 record it depends on."
+  }
+ },
+ {
+  "id": "7sketches:3.3.2:ex3.40",
+  "classification": "ABSENT",
+  "aliases": [
+   "a functor is not determined by its action on objects",
+   "two functors agreeing on objects but differing on morphisms",
+   "walking parallel pair (• ⇉ •) as target, Instance/Parallel.v",
+   "faithfulness fails / distinct functors with equal fobj",
+   "the object action does not determine the arrow action"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn '_2 ⟶|⟶ _2' --include='*.v' . — only _2_as_Set and the Metacategory comparison functors; no pair of functors out of _2 into Parallel",
+   "grep -rn 'Parallel' --include='*.v' . — Instance/Parallel.v (the walking parallel pair, exactly the book's D) is used only as a diagram SHAPE for (co)equalizers (Structure/Coequalizer.v, Structure/Limit.v); nothing constructs two functors into it",
+   "grep -rn 'agree on objects|same on objects|fobj.*=.*fobj' --include='*.v' . — the only statement of this shape is Construction/Quotient.v:334 QuotientLift_unique, whose hypothesis Hobj : ∀ x, fobj[G] x = fobj[F] x is accompanied by a SEPARATE morphism-level hypothesis HG — i.e. the library implicitly acknowledges that object agreement is insufficient, but never asserts it",
+   "grep -rn 'Faithful' --include='*.v' Theory/ — Faithful/Full are about a single functor's action on homs, not about two functors sharing an object action"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT, noting (as the record does) that BOTH of the book's categories exist in-tree — Instance/Two.v:134 `_2` and Instance/Parallel.v:80 `Parallel` (the walking parallel pair) — while the demonstration does not. Verified the record's sharpest observation: Construction/Quotient.v:334-338 QuotientLift_unique really does take the object hypothesis `Hobj : ∀ x, fobj[G] x = fobj[F] x` TOGETHER WITH a separate morphism-level hypothesis HG, so the library implicitly acknowledges object-agreement is insufficient without ever asserting it. I additionally searched Test/*.v for a Fail-locked counterexample (the library's idiom for negative facts): Test/Issue138.v:75-76 locks that Forgetful is not a Cat ⟶ Quiv functor, which is a typing lock, not a pair of functors agreeing on objects. Nothing found; ABSENT stands."
+  }
+ },
+ {
+  "id": "7sketches:3.3.2:example3.41",
+  "classification": "ABSENT",
+  "aliases": [
+   "no object-preserving functor from a quotient back to the free category",
+   "the quotient projection has no identity-on-objects section",
+   "a functor must respect imposed equations (fmap_respects)",
+   "distinct parallel paths remain distinct in a free category",
+   "non-existence of a functor / obstruction to defining a functor"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rln 'commut.*square|square categor' --include='*.v' . — the two concrete categories do not exist in-tree (see 7sketches:3.3.2:example3.38)",
+   "grep -rn 'no functor|not a functor|cannot be a functor|fails to be a functor' --include='*.v' . — 0 hits; the library contains no non-existence-of-a-functor result of any kind",
+   "grep -n 'Lemma|Theorem|Definition' Construction/Quotient.v — QuotientLift takes the hypothesis HF : ∀ x y (f g : x ~> y), R x y f g → fmap[F] f ≈ fmap[F] g as the CONDITION for lifting through the quotient, which is the positive form of the obstruction; it is never turned into the negative statement that a functor out of a quotient cannot separate R-related morphisms",
+   "the ingredients are in-tree — Theory/Functor.v:96 fmap_respects (functors preserve ≈) and Construction/Free.v:118 `homset := fun _ _ => {| equiv := eq |}` (distinct paths are distinct morphisms of the free category) — but no consequence is drawn from them"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT. Verified the two ingredient citations — Theory/Functor.v:96 fmap_respects, and Construction/Free.v:118-121 where `homset := fun _ _ => {| equiv := eq |}` makes distinct paths distinct morphisms — and the record is correct that no consequence is drawn. Also verified Construction/Quotient.v's QuotientLift hypothesis `HF : R x y f g → fmap[F] f ≈ fmap[F] g` is the positive form of the obstruction and is never negated. I checked the strongest form of the record's claim ('the library contains no non-existence-of-a-functor result of any kind'): the only negative results in-tree are Fail-command typing/universe locks (Test/Issue138.v, Test/ProbeFunnyPoly.v), which are not theorems that a proposed assignment fails to be a functor. Claim stands."
+  }
+ }
+]

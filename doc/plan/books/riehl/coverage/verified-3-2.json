@@ -1,0 +1,402 @@
+[
+  {
+    "id": "riehl:3.1:exii",
+    "classification": "PRESENT",
+    "aliases": [
+      "essential uniqueness of limits",
+      "limits are unique up to unique isomorphism",
+      "terminal object of the cone category is unique",
+      "representing object unique up to unique iso (univ_property_unique_up_to_unique_iso)",
+      "shape-specific duals: pullback_transport, equalizer_unique, coequalizer_unique"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 175,
+        "symbol": "univ_property_unique_up_to_unique_iso",
+        "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s)."
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c)."
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 329,
+        "symbol": "pullback_transport",
+        "intree_statement": "Lemma pullback_transport {C : Category} {x y z : C} {f : x ~> z} {g : y ~> z} (P P' : Pullback f g) : PullbackTransport P P'.  (* PullbackTransport bundles transport_iso : Pull f g P ≅ Pull f g P' with transport_fst : pullback_fst f g P' ∘ to transport_iso ≈ pullback_fst f g P and transport_snd likewise *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3.1.ii: give a direct proof of Proposition 3.1.7 — from the universal properties of two limit cones λ : Δl ⇒ F and λ' : Δl' ⇒ F, construct the unique isomorphism l ≅ l' between the summits that commutes with the cone legs.",
+      "intree": "univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s), instantiated at the universal property P := IsALimit F supplied by LimitIsUniversalProperty, whose setoid eqP := LimitSetoid F identifies two limit witnesses exactly when their leg families [limit_acone] agree pointwise.",
+      "strength_comparison": "same — the transported structure being ≈-equal in LimitSetoid IS the 'commutes with the cone legs' clause, and Unique gives the uniqueness the exercise asks for.  Two presentational differences, neither weakening the claim: (a) the in-tree proof is the Yoneda/representability argument rather than the direct cone-mediator construction the exercise requests (a proof-method difference, not a content gap); (b) no named corollary spells out the limit instantiation — the reader must apply the general Proposition at LimitIsUniversalProperty (one application, no side conditions).  pullback_transport is the fully spelled-out leg-commuting form, but only for the pullback shape."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass ran BEFORE opening coverage-3-2.json. My independent searches (grep -rn --include='*.v' for 'limit_unique|Limit_Unique|limits_unique|unique isomorphism|univ_property_unique_up_to'; enumeration of Structure/Limit.v, Structure/Limit/Preservation.v, Theory/Equivalence/Limit.v declarations) found NO lemma of the shape (L1 L2 : Limit F) -> apex ≅ apex anywhere, and reached the same two components the classifier cites. VERIFIED at the cited locations: Structure/UniversalProperty.v:175 Proposition univ_property_unique_up_to_unique_iso (quote exact; it lives in Section UniversalProperty opened at :104 with Context (C)(P)(eqP)(H : IsUniversalProperty C P eqP), so the instantiation needs exactly one hypothesis and no side conditions); Structure/UniversalProperty/Limit.v:141 Proposition LimitIsUniversalProperty (quote exact, ends in Defined., no Admitted, .vo present). Composition checked by hand: with P := IsALimit F and eqP := LimitSetoid F (Structure/Limit.v:143, which compares witnesses by pointwise ≈ of their limit_acone leg families), the clause 'univ_property_respects_iso c d p t ≈ s' unfolds to λ_x ∘ i ≈ λ'_x for every x — genuinely the exercise's 'commuting with the cone legs' condition, so PRESENT is honest and the strength_comparison's disclosure is accurate. Residual wrinkles the record already half-discloses, recorded here for Phase E: (a) LimitIsUniversalProperty has ZERO downstream consumers (grep for it outside its own file returns only prose in Theory/Isomorphism.v:82), so the limit-level corollary is never taken; (b) LimitIsUniversalProperty is stated over C^op, so the iso produced is an isomorphism in C^op and needs Isomorphism_Opposite to be read in C — presentational, not a strength gap. Also verified the third evidence item: Theory/Morphisms/Stability.v:329 pullback_transport is real, Qed, and its PullbackTransport record does carry transport_fst/transport_snd (leg-commutation), as quoted."
+    }
+  },
+  {
+    "id": "riehl:3.1:exiii",
+    "classification": "PRESENT",
+    "aliases": [
+      "category of cones = comma category Δ ↓ F",
+      "Cones F ≅ (Δ ↓ =(F))",
+      "diagonal/constant functor Δ : C ⟶ [J,C]",
+      "cocone category = F ↓ Δ (dual)",
+      "Comma / ↓ notation, Instance/Cones.v"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cones/Comma.v",
+        "line": 73,
+        "symbol": "Cones_Comma",
+        "intree_statement": "Theorem Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F))."
+      },
+      {
+        "file": "Instance/Cones/Comma.v",
+        "line": 34,
+        "symbol": "Cones_to_Comma",
+        "intree_statement": "Theorem Cones_to_Comma `(F : [J, C]) : Cones F ⟶ (Δ ↓ =(F)).  (* with Cones_from_Comma `(F : [J, C]) : (Δ ↓ =(F)) ⟶ Cones F at line 48 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3.1.iii: prove that the category of cones over F : J ⟶ C is isomorphic to the comma category Δ ↓ F formed from the constant-diagram functor Δ : C ⟶ C^J and F : 1 ⟶ C^J; argue by duality that the category of cones under F is F ↓ Δ.",
+      "intree": "Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F)), where =(F) is the constant functor 1 ⟶ [J,C] picking out F and Δ : C ⟶ [J,C] is the J-indexed diagonal; the two comparison functors Cones_to_Comma / Cones_from_Comma are given explicitly and shown mutually inverse.",
+      "strength_comparison": "same (arguably intree-stronger on the primary clause: the comparison is exhibited as an isomorphism in Cat with both functors named, not merely an equivalence).  The dual clause is not separately named — the library has only the definitional alias `Cocones F := Cones (F^op)` (Instance/Cones.v:46), which is a naming alias and not an assertion — but Cones_Comma is universally quantified over J, C, F, so instantiating it at J^op, C^op, F^op yields the cocone statement directly, exactly the 'argue by duality' the exercise prescribes."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Instance/Cones/Comma.v independently (grep -rn 'Cone' -l over *.v, then read the file) before opening the coverage record. VERIFIED: line 73 Theorem Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F)) — quote exact; Cones_to_Comma at :34 and Cones_from_Comma at :48 as claimed; file registered in _CoqProject:179; .vo present; no Admitted. SUPPLEMENTARY evidence the classifier missed, strengthening PRESENT: Structure/Cone/Const.v:72 Lemma Cone_Comma `(F : [J, C]) : (Δ ↓ Δ(F)) ↔ Cone F gives the object-level bijection as well, and Structure/Cone/Const.v:53 Cone_Natural_Transform gives Δ(N) ⟹ F ↔ Cone[N] F (the exercise's Δ-transposition step). ONE CORRECTION TO THE PROSE, not to the verdict: the strength_comparison's parenthetical 'arguably intree-stronger ... isomorphism in Cat ... not merely an equivalence' is NOT supported by the TYPE of the statement — Instance/Cat.v:28-34 says explicitly that Functor_Setoid identifies naturally isomorphic functors, so ≅[Cat] in this library IS equivalence of categories (Ho(Cat)), and Cat is 'NOT the strict 1-category of categories of the textbooks'. The claim is nonetheless materially true because the proof witnesses both round trips with IDENTITY components (`exists (id, ttt)` / `exists id`, lines 78-88), which only typecheck if the composites are the identity on objects definitionally — but Cones_Comma is Qed, so no consumer can recover that. Classification unaffected (Riehl's own claim is an isomorphism of categories and the in-tree proof does realise it); logged in problems[] as a library-defect."
+    }
+  },
+  {
+    "id": "riehl:3.1:exiv",
+    "classification": "PRESENT",
+    "aliases": [
+      "equalizers are monomorphisms",
+      "equalizer_monic",
+      "IsEqualizer / fork API",
+      "kernel_monic (the zero-morphism special case)",
+      "dual: coequalizers are epimorphisms"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 83,
+        "symbol": "equalizer_monic",
+        "intree_statement": "Lemma equalizer_monic {q : C} {e : q ~> x} (E : IsEqualizer f g q e) : Monic e.  (* in Section EqualizerLimit with Context {x y : C} (f g : x ~> y); IsEqualizer f g q e is the elementary fork record: fork_eq : f ∘ e ≈ g ∘ e together with eq_desc : ∀ {z} (h : z ~> x), f ∘ h ≈ g ∘ h → ∃! u : z ~> q, e ∘ u ≈ h *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3.1.iv: prove that if E --h--> A ⇉(f,g) B is an equalizer diagram then h is a monomorphism.",
+      "intree": "Lemma equalizer_monic {q : C} {e : q ~> x} (E : IsEqualizer f g q e) : Monic e.",
+      "strength_comparison": "same.  Hypothesis and conclusion match exactly (apex-pinned elementary equalizer predicate, Monic in the setoid sense g1 ≈ g2 from e ∘ g1 ≈ e ∘ g2).  No extra hypotheses: no ambient completeness, no assumption that the category has all equalizers.  Related but distinct in-tree consequence: kernel_monic (Structure/Kernel.v:97) derives it for kernels."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass hit this immediately (grep -rn --include='*.v' -i 'equalizer.*mono|Monic' | grep -i equal). VERIFIED: Structure/Equalizer/Fork.v:83 Lemma equalizer_monic {q : C} {e : q ~> x} (E : IsEqualizer f g q e) : Monic e — quote exact, Qed, .vo present, file at _CoqProject. Hypotheses checked against the record's parenthetical: the enclosing section does Context {x y : C} (f g : x ~> y) only, so there is no ambient completeness or HasEqualizers assumption — strength_comparison 'same' is honest. The cited downstream consumer Structure/Kernel.v:97-101 does derive kernel_monic via equalizer_monic (checked), and the dual coequalizer_epic exists at Structure/Coequalizer.v:83. Also independently confirmed a real consumer in Theory/WeaklyInitial.v:131-132, so the lemma is live API, not a stub."
+    }
+  },
+  {
+    "id": "riehl:3.1:exv",
+    "classification": "PRESENT",
+    "aliases": [
+      "monomorphisms are stable under pullback",
+      "monic_pullback_stable",
+      "base change preserves monos / pullback-stable morphism class",
+      "IsPullback + Monic",
+      "dual: epis are stable under pushout"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 226,
+        "symbol": "monic_pullback_stable",
+        "intree_statement": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P)."
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 264,
+        "symbol": "iso_pullback_stable",
+        "intree_statement": "Lemma iso_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : IsIsomorphism m) (P : Pullback f m) : IsIsomorphism (pullback_fst f m P)."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3.1.v: if the square with legs k : P → C, h : P → B over the cospan f : B → A, g : C → A is a pullback and f is a monomorphism, then the opposite leg k is a monomorphism.",
+      "intree": "monic_pullback_stable (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P) — the projection opposite the monic leg m is monic.",
+      "strength_comparison": "same.  Presentational difference only: the pullback is taken as the bundled record `Pullback f m` (which packages its own apex and UMP) rather than the apex-pinned `IsPullback` predicate that the same file introduces; `is_pullback_pullback` (line 71) converts an arbitrary given pullback square into that record, so the apex-pinned form of the exercise is an immediate consequence and no generality is lost.  iso_pullback_stable is the companion statement for isomorphisms."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass located Theory/Morphisms/Stability.v by grepping the declaration list, before reading the coverage record. VERIFIED: line 226 Lemma monic_pullback_stable (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P) — quote exact, Qed, proof genuinely uses only the pullback UMP plus monicity of m (read in full). Companion iso_pullback_stable at :264 confirmed. The strength_comparison's escape hatch is real: is_pullback_pullback at Stability.v:71 does convert an apex-pinned IsPullback square into the bundled Pullback record, so the book's 'if this given square is a pullback' phrasing is recoverable with no loss. File in _CoqProject, .vo present, no Admitted."
+    }
+  },
+  {
+    "id": "riehl:3.1:exvi",
+    "classification": "PRESENT",
+    "aliases": [
+      "pullback pasting law",
+      "pullback composition and cancelation",
+      "two-squares lemma / prism lemma",
+      "pullback_paste, pullback_unpaste",
+      "dual: pushout pasting"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 106,
+        "symbol": "pullback_paste",
+        "intree_statement": "Lemma pullback_paste (HQ : IsPullback h m Q q1 q2) (HP : IsPullback k q1 P p1 p2) : IsPullback (h ∘ k) m P p1 (q2 ∘ p2).  (* Section Pasting, Context {a b c y : C} {k : a ~> b} {h : b ~> c} {m : y ~> c} {Q : C} {q1 : Q ~> b} {q2 : Q ~> y} {P : C} {p1 : P ~> a} {p2 : P ~> Q} *)"
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 160,
+        "symbol": "pullback_unpaste",
+        "intree_statement": "Lemma pullback_unpaste (HQ : IsPullback h m Q q1 q2) (Hcomm : k ∘ p1 ≈ q1 ∘ p2) (HO : IsPullback (h ∘ k) m P p1 (q2 ∘ p2)) : IsPullback k q1 P p1 p2."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3.1.vi: in a commutative rectangle made of two adjacent squares whose right-hand square is a pullback, the left-hand square is a pullback if and only if the composite rectangle is a pullback (pullback composition and cancelation).",
+      "intree": "pullback_paste: right square a pullback and left square a pullback ⟹ outer rectangle a pullback.  pullback_unpaste: right square a pullback, left square commutes, outer rectangle a pullback ⟹ left square a pullback.",
+      "strength_comparison": "same — both directions of the iff are proved, over the apex-pinned IsPullback predicate, with the right-hand square hypothesised in both directions exactly as in the book.  The extra argument Hcomm : k ∘ p1 ≈ q1 ∘ p2 in pullback_unpaste is not an added hypothesis in substance: the book's phrase 'commutative rectangle made of two adjacent squares' already supplies commutativity of the left square, which the outer rectangle alone cannot recover (the file's own comment says exactly this).  A header note records that an earlier planning draft transposed the two squares and that the proved forms are the standard law."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found both halves independently. VERIFIED: Theory/Morphisms/Stability.v:106 pullback_paste and :160 pullback_unpaste, quotes exact, both Qed, read in full — pullback_paste really proves (right pullback + left pullback) ⇒ outer, and pullback_unpaste really proves (right pullback + left commutes + outer pullback) ⇒ left, i.e. both directions of the book's iff under the standing hypothesis that the RIGHT square is a pullback. The record's claim that a header note documents an earlier transposed draft is TRUE and I checked it verbatim: Stability.v:89-94 'Note: an earlier planning draft transposed the two squares; the statements proved below are the standard pasting law, in which the hypothesis that the RIGHT-hand square (over the cospan h, m) is a pullback is required in BOTH directions.' The extra Hcomm argument is likewise justified in-file at :156-159. No dual (pushout pasting) exists in-tree, but the exercise does not ask for one."
+    }
+  },
+  {
+    "id": "riehl:3.1:exvii",
+    "classification": "ABSENT",
+    "aliases": [
+      "limit over a shape with an initial object is the value at that object",
+      "the inclusion of an initial object is an initial (cofinal) functor",
+      "cofinal / final functor, cofinality theorem",
+      "dual: colimit over a shape with a terminal object; colimit over a successor ordinal",
+      "connected limit / absolute limit",
+      "Initial J together with Limit F"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'cofinal' .  — 0 hits",
+      "grep -rn --include='*.v' -i 'final functor' .  — 0 hits (only Functor/Structure/Terminal.v:53 'An initial functor preserves the initial object', which is the structure-preservation notion, not cofinality)",
+      "grep -rn --include='*.v' -i 'connected limit' .  — 0 hits",
+      "grep -rn --include='*.v' -i 'absolute limit' .  — 0 hits",
+      "grep -rn --include='*.v' -e 'Initial J' -e 'Initial (J' .  — 0 hits (no development ever assumes an initial object in the INDEXING category)",
+      "grep -rn --include='*.v' -i 'has an initial object' .  — 3 hits, all unrelated (Instance/Fact.v:38 factorization category; Construction/DecoratedCospan.v:212; Adjunction/GAFT.v:174 comma-category initials)",
+      "grep -rn --include='*.v' -i 'shape with an initial' / 'indexing category has' / 'J has an initial' .  — 0 hits",
+      "grep -rn --include='*.v' -i 'successor ordinal' .  — 0 hits (Instance/Omega.v indexes the Adámek chain by ω but proves nothing about colimits over successor ordinals)",
+      "grep -rn --include='*.v' 'Limit (' / 'IsALimit (' / 'Cone (' .  — every occurrence is either the empty shape (Structure/Limit/Terminal.v:33 Terminal_Limit for F : 0 ⟶ C), a discrete shape (Structure/Limit/Product.v), the parallel-pair shape (Structure/Coequalizer.v), Omega (Theory/Adamek.v), or a post-composition F ◯ G with F acting on the TARGET; none constrains J's own initial object",
+      "Structure/Limit/Kan/Extension.v (Kan_Limit) computes limits as right Kan extensions along the terminal functor Erase J, but says nothing about J having an initial object"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, by a different route than the classifier: I grepped -i for 'cofinal|final functor|initial functor' (only Functor/Structure/Terminal.v:53, which is initial-OBJECT preservation, not cofinality), for 'reindex' (only subobject reindexing, weighted-limit reindexing, and unrelated hits), for 'initial object.*limit|limit.*initial object|has an initial object' (Instance/Fact.v:38, Instance/Cones.v:45, Instance/Cones/Limit.v:34, Construction/DecoratedCospan.v:212, Adjunction/GAFT.v:174, Structure/Limit/Terminal.v:29 — all about the initial object of the CONE/comma/factorization category or of the target, never of the indexing category J), and for 'Initial J|@Initial J' (0 hits). I also inspected Structure/Cone/Const.v, Instance/Cones/Limit.v, Structure/Limit/Terminal.v and Structure/Limit/Kan/Extension.v: none constrains J's own initial object. The dual half (colimit over a successor ordinal) is likewise absent — Instance/Omega.v supplies the ω order and Theory/Adamek.v the chain, but nothing about successor stages. ABSENT CONFIRMED. Two nits on the record's negative_search_log, neither affecting the verdict: the 'final functor — 0 hits' entry then cites a hit (that hit is for 'initial functor', a different string), and the library's InitialFunctor notation (Functor/Structure/Terminal.v:59) collides with the standard meaning of 'initial functor' (= cofinal); logged in problems[]."
+    }
+  },
+  {
+    "id": "riehl:3.1:exviii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "sign ambiguity in the lcm pullback",
+      "divisibility preorder on the integers, lcm/gcd as pullback/pushout",
+      "an object isomorphic to a limit is again a limit (iso-invariance of a universal property)",
+      "pullbacks are well defined only up to canonical isomorphism",
+      "is_pullback_precompose_iso, pullback_transport, univ_property_respects_iso"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 108,
+        "symbol": "is_pullback_precompose_iso",
+        "intree_statement": "Lemma is_pullback_precompose_iso {A B Z : C} {f : A ~> Z} {g : B ~> Z} {P P' : C} {p1 : P ~> A} {p2 : P ~> B} (i : P' ≅ P) {p1' : P' ~> A} {p2' : P' ~> B} (H1 : p1 ∘ to i ≈ p1') (H2 : p2 ∘ to i ≈ p2') : IsPullback f g P p1 p2 → IsPullback f g P' p1' p2'."
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 329,
+        "symbol": "pullback_transport",
+        "intree_statement": "Lemma pullback_transport {C : Category} {x y z : C} {f : x ~> z} {g : y ~> z} (P P' : Pullback f g) : PullbackTransport P P'.  (* transport_iso : Pull f g P ≅ Pull f g P', with transport_fst / transport_snd asserting the iso commutes with both projections *)"
+      },
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 163,
+        "symbol": "univ_property_respects_iso",
+        "intree_statement": "Proposition univ_property_respects_iso (c d : C) (iso : c ≅ d) : P c -> P d.  (* for any universal property P, e.g. P := IsALimit F via LimitIsUniversalProperty *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3.1.viii: if the positive integers (a,b) satisfy the universal property expressed by the pullback display (3.1.20) (the lcm/gcd pullback in the divisibility preorder on ℤ), show that (−a,−b) satisfies the same universal property, and explain why this does not make the pullback ill-defined.",
+      "intree": "is_pullback_precompose_iso: precomposing a pullback's projections with an isomorphism of the apex again yields a pullback — i.e. any object isomorphic to a pullback apex satisfies the same universal property.  pullback_transport: any two pullbacks of one cospan are related by an isomorphism of apexes commuting with both projections — i.e. the construction is well defined up to canonical isomorphism.",
+      "strength_comparison": "intree-weaker: the general principle underlying both halves of the exercise is present in full and at exactly the pullback level (iso-invariance of the universal property, plus essential uniqueness), but the exercise's actual object — the divisibility preorder on the integers with lcm as pullback, in which a and −a are isomorphic — cannot be stated in-tree at all, so the sign-ambiguity phenomenon has no witness."
+    },
+    "gap": "No divisibility (or any arithmetic) preorder exists in-tree: grep for 'lcm', 'gcd', 'divisib', 'least common multiple', 'greatest common' over all *.v returns 0 hits, and Instance/Poset.v / Instance/Proset.v supply only the generic preorder-to-category construction with no ℤ or ℕ instance.  Consequently (1) display (3.1.20) itself has no in-tree counterpart, and (2) the concrete non-triviality the exercise turns on — a preorder with a non-identity isomorphism a ≅ −a, so that the 'unique' pullback object genuinely has distinct representatives — is never exhibited.  What is present is only the ambient general principle (is_pullback_precompose_iso, pullback_transport, univ_property_respects_iso).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'lcm|gcd|divisib|least common multiple|greatest common' .  — 0 hits",
+      "grep -n Instance/Poset.v Instance/Proset.v — only generic Poset/Proset constructors over an abstract relation R; no integer or divisibility instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently returned 0 hits for 'lcm|gcd|divisib' over all *.v, and confirmed Instance/Poset.v / Instance/Proset.v carry only the generic preorder-to-category construction with no ℤ or ℕ instance — so the concrete object of the exercise genuinely has no in-tree counterpart, exactly as the gap states. VERIFIED the positive evidence: Structure/SubobjectClassifier.v:108 Lemma is_pullback_precompose_iso, quote exact, Qed. ADVERSARIAL CHECK PERFORMED: the lemma sits inside Section SubobjectClassifier (opened :38) whose Context includes Terminal (:41), HasPullbacks (:42) and even SubobjectClassifier (:60) — but the statement and proof mention none of them, so Coq discharges only C and the exported lemma is as general as quoted; no hidden topos hypothesis. Its one in-file consumer is :152. pullback_transport (Theory/Morphisms/Stability.v:329) and univ_property_respects_iso (Structure/UniversalProperty.v:163) verified at their cited lines. PARTIAL with 'intree-weaker' is the honest call: the general principle is fully present at pullback level, the arithmetic witness is not."
+    }
+  },
+  {
+    "id": "riehl:3.1:exix",
+    "classification": "PARTIAL",
+    "aliases": [
+      "coproduct inclusions are split monomorphisms over a zero object",
+      "inl is a section / SplitMono / Section inl",
+      "retraction [id, 0] : x + y → x built from the zero morphism",
+      "biproduct axiom exl ∘ inl ≈ id (bi_exl_inl)",
+      "dual: product projections are split epis in a pointed category"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 299,
+        "symbol": "exl_can_inl",
+        "intree_statement": "Lemma exl_can_inl {x y : C} : exl ∘ can_comparison x y ∘ inl ≈ id.  (* Section BicartesianSemiadditive, Context `{Z : @ZeroObject C} `{HC : @Cartesian C} `{HD : @Cocartesian C}; can_comparison x y := (id △ zero_mor) ▽ (zero_mor △ id).  Companion exr_can_inr at line 317. *)"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 175,
+        "symbol": "inl_merge",
+        "intree_statement": "Lemma inl_merge {x z w : C} (f : z ~> x) (g : w ~> x) : f ▽ g ∘ inl ≈ f.  (* at f := id and g := zero_mor this is the exercise's retraction (id ▽ 0) ∘ inl ≈ id, but that instance is never taken *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3.1.ix: in a category with a zero object, prove that the legs (inclusions) of a coproduct cone are split monomorphisms; asks whether the result extends to other categorical contexts.",
+      "intree": "exl_can_inl : exl ∘ can_comparison x y ∘ inl ≈ id — the composite exl ∘ can_comparison is a left inverse (retraction) of the coproduct injection inl, in a category with a zero object.",
+      "strength_comparison": "intree-weaker: the retraction equation is proved only under the extra hypothesis that C is also Cartesian (the retraction is routed through the coproduct-to-product comparison morphism), whereas the exercise needs only a zero object and binary coproducts; and the conclusion is never packaged as the exercise's claim (`Section inl` / `SplitMono inl` / `Monic inl`)."
+    },
+    "gap": "Two precise gaps.  (1) No lemma states that inl : x ~> x + y is a Section/SplitMono/Monic under the exercise's hypotheses (zero object + coproducts): grep over all *.v for 'Section inl', 'Monic inl', 'Section (@inl', 'Monic (@inl', 'inl_monic', 'inl_section', 'coprod_monic' returns 0 hits; the library's vocabulary for the conclusion exists (Theory/Morphisms.v:127 `Definition SplitMono f := Section f`, :179 sections_are_monic) but is never applied to coproduct injections.  (2) The one in-tree assertion of a retraction for inl (exl_can_inl) additionally assumes Cartesian structure, so it does not cover the minimal setting; the minimal retraction id ▽ zero_mor is available as an instance of inl_merge but that instance is never taken.  Structure/Biproduct.v's bi_exl_inl : bi_exl ∘ bi_inl ≈ id is a defining FIELD of the Biproduct record, i.e. assumed rather than derived, and presupposes the far stronger biproduct hypothesis.  The exercise's follow-up question (does the result extend to other contexts?) is likewise unaddressed — the relevant in-tree remark that coproduct injections need not be monos in general is only a header comment (Structure/Cocartesian.v:75).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Section inl|Monic inl|Section (inl|Monic (inl|Section (@inl|Monic (@inl|inl_monic|inr_monic|inl_section|coprod_monic' .  — 0 hits",
+      "grep -rn --include='*.v' 'inl\\b' Structure/Preadditive.v Structure/Additive.v Structure/Abelian.v — 0 hits; Structure/Biproduct.v hits are the record fields bi_exl_inl / bi_exr_inl and the copair lemmas, all under the Biproduct hypothesis"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL conclusion independently: I found Theory/Morphisms.v:127 Definition SplitMono f := Section f and :179 sections_are_monic (both line numbers verified exactly), found no lemma anywhere asserting that a coproduct injection is a Section/SplitMono/Monic, and located the same near-miss at Structure/Semiadditive.v:299 exl_can_inl. VERIFIED the evidence: exl_can_inl : exl ∘ can_comparison x y ∘ inl ≈ id, quote exact, in a section whose Context is ZeroObject + Cartesian + Cocartesian (Semiadditive.v:255-257) — so the record's 'proved only under the extra hypothesis that C is also Cartesian' is exactly right, and the retraction really is routed through can_comparison := (id △ zero_mor) ▽ (zero_mor △ id) (:288). Structure/Cocartesian.v:175 inl_merge verified verbatim, and the record is right that the instance f := id, g := zero_mor is never taken. The gap's claim that bi_exl_inl is an assumed FIELD is verified: Structure/Biproduct.v:52 lists bi_exl_inl : bi_exl ∘ bi_inl ≈ id as a Record field of Biproduct, i.e. hypothesis, not theorem. The header pointer at Structure/Cocartesian.v:75 ('the injections need not even be monomorphisms (nLab, \"coproduct\")') is also verbatim correct. PARTIAL CONFIRMED."
+    }
+  },
+  {
+    "id": "riehl:3.1:exx",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the product category is the categorical product in Cat",
+      "Cat_Cartesian / Cat has binary products",
+      "C ∏ D, Construction/Product.v",
+      "indexed/dependent product of a family of categories, Π_{i∈I} C_i",
+      "HasIndexedProducts, iprod over a discrete diagram"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x); fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := fun _ _ => {| fobj := fst; fmap := fun _ _ => fst |}; exr := fun _ _ => {| fobj := snd; fmap := fun _ _ => snd |} }.  (* the class field ump_products is discharged in the obligations *)"
+      },
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 128,
+        "symbol": "HasIndexedProducts",
+        "intree_statement": "Class HasIndexedProducts (C : Category) := { ... }  (* with iprod (line 93), iprod_proj (98), iprod_ump (105) reading a Limit (DiscreteCat_Functor f) as an A-indexed product; never instantiated at C := Cat *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3.1.x: prove that the product of categories (Definition 1.3.12) defines the product in the category of categories, and define an analogous product of an indexed family of categories.",
+      "intree": "Cat_Cartesian : @Cartesian Cat with product_obj := @Product (the product category of Construction/Product.v), projections Fst/Snd and pairing ⟨F,G⟩, the universal property discharged as the ump_products field.",
+      "strength_comparison": "intree-weaker on two counts.  (a) Cat's hom-setoid is Functor_Setoid, which identifies functors up to NATURAL ISOMORPHISM (the file's own header: 'the hom-equivalence in Cat is natural isomorphism, not on-the-nose equality, so these are ≅ in [Cat]'); the UMP is therefore proved up to natural iso rather than the strict equality of functors that the book's 1-categorical Cat asks for.  (b) The second clause is not addressed at all."
+    },
+    "gap": "The indexed-family clause has no in-tree counterpart.  Structure/Limit/Product.v supplies `iprod` / `iprod_proj` / `iprod_ump` / `HasIndexedProducts` for a general category with limits of discrete diagrams, but there is no `HasIndexedProducts Cat` instance, no `Complete Cat`, and no direct construction of Π_{i∈I} C_i as a category (grep for 'indexed product', 'IndexedProduct', 'family of categories', 'HasIndexedProducts' finds only the generic machinery in Structure/Limit/Product.v plus its consumer Theory/WeaklyInitial.v).  Separately, the binary clause is proved only up to natural isomorphism because Cat is the weak (non-strict) category of categories; Instance/StrictCat has no Cartesian instance either (grep 'StrictCat_Cartesian|Cartesian StrictCat' — 0 hits), so the strict form is unavailable.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'indexed product|iprod|family of categories|IndexedProduct' .  — only Structure/Limit/Product.v (generic) and Theory/WeaklyInitial.v (its consumer)",
+      "grep -rn --include='*.v' 'HasIndexedProducts|Complete Cat|Cat_Complete|@Complete Cat' .  — no instance at Cat",
+      "grep -rn --include='*.v' 'Cartesian StrictCat|@Cartesian StrictCat|StrictCat_Cartesian|StrictCat_Product' .  — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Instance/Cat/Cartesian.v:39 Cat_Cartesian and independently concluded that the indexed-family clause has no counterpart (Structure/Limit/Product.v's iprod/iprod_proj/iprod_ump/HasIndexedProducts are generic over a category with limits of discrete diagrams and are never instantiated at Cat; there is no Complete Cat). VERIFIED: Cat_Cartesian quote exact at :39, .vo present so ump_products really is discharged (no Admitted anywhere in-tree); HasIndexedProducts verified at Structure/Limit/Product.v:128 with the quoted fields. The 'weaker on count (a)' claim is SUBSTANTIATED, not hand-waved: Instance/Cat.v:145 sets homset := @Functor_Setoid and Instance/Cat.v:28-38 states outright that this identifies naturally isomorphic functors, that an isomorphism in this Cat is an EQUIVALENCE, that it is the homotopy category Ho(Cat), and that it is 'NOT the strict 1-category of categories of the textbooks' — so the UMP genuinely holds up to natural iso, not up to functor equality as Riehl's 1-categorical Cat asks. Instance/Cat/Cartesian.v:26-30 repeats the caveat. PARTIAL CONFIRMED."
+    }
+  },
+  {
+    "id": "riehl:3.1:exxi",
+    "classification": "ABSENT",
+    "aliases": [
+      "coproduct in Group is the free product",
+      "coproduct in Ab is the direct sum",
+      "coproduct in CRing is the tensor product",
+      "categories Grp / Group / Ab / AbGroup / CRing / Ring / Mod",
+      "category of algebras for an equational signature (universal algebra) and its coproducts"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'CRing' .  — 0 hits; 'category of groups' — 0 hits; 'GroupHom' — 0 hits; 'AbelianGroup' — 0 hits; 'Rng' — 0 hits",
+      "grep -rn --include='*.v' -i 'free product' .  — 12 hits, all prose in header essays (Construction/Funny.v on Weber's paper title and on Mon; Construction/Groupoid.v; Structure/Cartesian.v:69; Structure/Cocartesian.v:44,53,68,74) — no construction",
+      "grep -rn --include='*.v' -i 'direct sum' .  — 2 hits, both header prose (Structure/Cocartesian.v:68 'direct sum of vector spaces'; Structure/Abelian.v:119)",
+      "grep -rn --include='*.v' -i 'tensor product of commutative' .  — 1 hit, header prose only (Structure/Cocartesian.v:69 'tensor product of commutative algebras')",
+      "ls Instance/ — the concrete categories present are Sets, Coq, Ens, Cat, StrictCat, Fun, FinSet, CMon, Rel, Poset, Proset, Omega, One, Zero, Two, Parallel, Roof, Discrete, Lambda, AST, Comp, Props, Shapes, ZX, Fact, Cones; no Grp, Ab, Ring or Mod",
+      "Structure/Group.v defines only the INTERNAL notion `Class GroupObject (grp : C)` (line 109), not a category of groups",
+      "Instance/Comp.v does universal algebra: it builds `Algs : Category` for an operation signature and proves Algs_Terminal / Algs_Cartesian / Algs_Closed / Algs_Initial, and defines `Group := Algebra GroupOp GroupEq` (line 382) — but `Algs_Cocartesian` (line 224) is COMMENTED OUT, and no category of equational algebras (hence no category of groups) is ever assembled, so no coproduct of groups exists in-tree",
+      "Nearest structure, still not the item: Instance/CMon.v + Instance/CMon/Biproduct.v build the category of COMMUTATIVE MONOIDS with biproducts (so its coproduct is the direct product); commutative monoids are not abelian groups, and this covers none of the three named categories"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently: ls Instance/ shows Sets, Coq, Ens, Cat, StrictCat, Fun, FinSet, CMon, Rel, Poset, Proset, Omega, One, Zero, Two, Parallel, Roof, Discrete, Lambda, AST, Comp, Props, Shapes, ZX, Fact, Cones — no Grp, Ab, Ring or Mod; Structure/Group.v is the INTERNAL group-object notion in a cartesian monoidal category, not a category of groups; and grep for 'free product|direct sum|tensor product of commutative' returns only header prose. I SPOT-CHECKED THE RECORD'S MOST LOAD-BEARING AND MOST FALSIFIABLE CLAIM — that Instance/Comp.v builds Algs but leaves Algs_Cocartesian commented out — and it is TRUE: Instance/Comp.v:151 Program Definition Algs : Category, with Algs_Terminal (:160), Algs_Cartesian (:169), Algs_Closed (:190) and Algs_Initial (:209) live, while the Algs_Cocartesian block at :223-232 is enclosed in (* ... *) and therefore contributes nothing; Definition Group := Algebra GroupOp GroupEq is at :382 and is a TYPE of group algebras, never assembled into a category. So no coproduct of groups, abelian groups or commutative rings exists in-tree by any route. The CMon caveat is also right: Instance/CMon/Biproduct.v:442 CMon_Biproduct makes the coproduct of commutative monoids the direct product, which is the semiadditive phenomenon, not any of the three categories named. ABSENT CONFIRMED."
+    }
+  },
+  {
+    "id": "riehl:3.1:exxii",
+    "classification": "ABSENT",
+    "aliases": [
+      "limits are invariant under equivalence of the indexing category",
+      "restriction/precomposition of a diagram along E : I ⟶ J, limits of F versus F ◯ E",
+      "equivalence of cone categories Cone_J(F) ≃ Cone_I(FE)",
+      "cofinal / initial functor, cofinality theorem",
+      "reindexing a diagram along a functor of shapes"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'equivalence of indexing' / 'restriction of a diagram' / 'reindexing of diagrams' .  — 0 hits",
+      "grep -rn --include='*.v' -i 'cofinal' / 'final functor' .  — 0 hits",
+      "grep -rn --include='*.v' 'Limit (|IsALimit (|Cone (' .  — every composite occurrence is F ◯ G with F acting on the TARGET category (Theory/Equivalence/Limit.v, Structure/Limit/Preservation.v, Construction/Comma/Limit.v); there is no occurrence of a diagram precomposed with a functor between INDEXING categories",
+      "Theory/Equivalence/Limit.v — the whole file is about an equivalence E : @EquivalenceOfCategories C D F of the TARGET categories: equivalence_preserves_limits, equivalence_reflects_limits, equivalence_creates_limits, ff_reflects_limit, and limit_transport (which transports along an equality G ≈ G' of two diagrams over the SAME index J).  None varies the shape category",
+      "Theory/Kan/Extension.v:120 defines the restriction functor Induced := (− ◯ F) : [B,C] ⟶ [A,C] along a functor F : A ⟶ B, but proves nothing relating limits of a diagram to limits of its restriction, and never specialises F to an equivalence",
+      "Instance/Cones.v / Instance/Cones/Comma.v — the cone category Cones F is built for one fixed shape J; no comparison functor Cones F ⟶ Cones (F ◯ E) and no equivalence of cone categories over different shapes"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and by a route the classifier did not use: I enumerated every declaration of Theory/Equivalence/Limit.v and confirmed that the whole file varies the TARGET category (equivalence_preserves_limits, equivalence_reflects_limits, equivalence_creates_limits, ff_reflects_limit) while limit_transport/isalimit_transport (:245-253) transport along a natural iso between two diagrams over the SAME index J — the shape category is never varied. I separately grepped -i for 'cofinal|final functor' (0), 'reindex' (subobject/weighted-limit only), and 'I ⟶ J|indexing category' (0 relevant), and checked Instance/Cones.v / Instance/Cones/Comma.v for any comparison functor between cone categories of different shapes (none: Cones F is built for one fixed J). The record's Theory/Kan/Extension.v:120 claim is verified verbatim — Induced := (− ◯ F) : [B,C] ⟶ [A,C] exists as the restriction functor, but nothing relates limits of a diagram to limits of its restriction, and F is never specialised to an equivalence. ABSENT CONFIRMED."
+    }
+  }
+]

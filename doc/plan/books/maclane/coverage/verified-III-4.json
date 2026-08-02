@@ -1,0 +1,241 @@
+[
+  {
+    "id": "maclane:III.3:def7",
+    "classification": "PARTIAL",
+    "aliases": ["cokernel pair", "cokernel_pair / CokernelPair", "pushout of f with itself (IsPushout f f)", "kernel pair (exact dual, kernel_pair)", "copair / cofork of a single arrow"],
+    "evidence": [
+      {"file": "Structure/Pushout.v", "line": 47, "symbol": "IsPushout",
+       "intree_statement": "Definition IsPushout {x y z : C} (f : x ~> y) (g : x ~> z) : Type := @Pullback (C^op) y z x f g. — general binary pushout of a span, with accessors pushout_in1/pushout_in2/pushout_commutes/pushout_ump and the HasPushouts class (line 148)"},
+      {"file": "Structure/Regular.v", "line": 46, "symbol": "kernel_pair",
+       "intree_statement": "Definition kernel_pair {C : Category} `{H : @HasPullbacks C} {x y : C} (f : x ~> y) : Pullback f f — \"The kernel pair of f : x ~> y is the pullback of f along itself\" (header line 41): the exact dual of the cokernel pair, named and used in-tree"}
+    ],
+    "statement_record": {
+      "book": "The cokernel pair of f : a -> b is the pushout of f with f: an object r with a parallel pair u, v : b -> r satisfying u f = v f, universal among parallel pairs h, k : b -> s with h f = k f (unique t : r -> s with t u = h, t v = k).",
+      "intree": "Definition IsPushout {x y z : C} (f : x ~> y) (g : x ~> z) : Type := @Pullback (C^op) y z x f g. (general pushout); Definition kernel_pair ... (f : x ~> y) : Pullback f f (the dual specialization, which IS named in-tree)",
+      "strength_comparison": "intree-weaker: only the general pushout is defined; the cokernel-pair specialization (the pushout of f with itself, i.e. IsPushout f f) is never named, instantiated, or given any API or lemmas, although the exactly dual specialization kernel_pair := Pullback f f is defined and load-bearing in Structure/Regular.v"
+    },
+    "gap": "No cokernel-pair definition anywhere in the tree: rg -il 'cokernel.?pair' over *.v returns 0 files, and rg 'cokernel_pair|CokernelPair' returns 0 hits (Structure/Kernel.v and Structure/Abelian.v have only the null-object cokernel of III.3:def4). The concept is expressible in one line as IsPushout f f over Structure/Pushout.v, but that instance is never taken, so none of the cokernel-pair API the book's later uses need (the parallel pair u,v with u∘f ≈ v∘f and its UMP as stated on parallel pairs, links to regular monos) exists.",
+    "negative_search_log": [
+      "rg -il 'cokernel.?pair' --glob '*.v' — 0 hits",
+      "rg -in 'cokernel_pair|CokernelPair|copair' --glob '*.v' — only 'copairing' (the ▽ coproduct copair of Structure/Cocartesian.v), unrelated",
+      "rg -in 'cokernel' --glob '*.v' -l — only Structure/Abelian.v, Structure/Kernel.v (null-object cokernels, not cokernel pairs)",
+      "rg -in 'along itself|with itself|pushout of f' — only kernel_pair prose ('pullback of f along itself', Structure/Regular.v:41, Structure/Pullback.v:94); no pushout-of-f-with-itself anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently found the same picture: rg -il 'cokernel.?pair|CokernelPair' -> 0 hits; kernel_pair verified at Structure/Regular.v:46 with the line-41 'pullback of f along itself' prose exact; IsPushout verified verbatim at Structure/Pushout.v:47. PARTIAL with this gap statement is the honest call (the special case is one definitional instantiation away but is never taken and has no API). Both cited files registered in _CoqProject."}
+  },
+  {
+    "id": "maclane:III.3:def8",
+    "classification": "PRESENT",
+    "aliases": ["Colimit", "direct limit / inductive limit / Lim->", "initial cocone (universal cocone over F)", "Limit of the opposite diagram F^op", "diagonal functor Delta : C ⟶ [J,C] with colim ⊣ Δ"],
+    "evidence": [
+      {"file": "Structure/Limit.v", "line": 158, "symbol": "Colimit",
+       "intree_statement": "Definition Colimit `(F : J ⟶ C) := Limit (F^op)."},
+      {"file": "Structure/Limit.v", "line": 113, "symbol": "Limit",
+       "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x } — at F^op this is exactly the initial-cocone universal property"},
+      {"file": "Structure/Limit/Preservation.v", "line": 130, "symbol": "IsAColimit",
+       "intree_statement": "Definition IsAColimit `(F : J ⟶ C) (c : C) : Type := IsALimit (F^op) c. — with covariant accessors colimit_inj (line 135, the injections F x ~> c) and colimit_med (line 152, the mediator out of a competing Cocone)"},
+      {"file": "Functor/Diagonal.v", "line": 33, "symbol": "Diagonal",
+       "intree_statement": "Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] — Mac Lane's diagonal functor Δ (constant diagram on objects, constant natural transformation on arrows), notation Δ[J](c)"}
+    ],
+    "statement_record": {
+      "book": "For F : J -> C the diagonal functor Delta : C -> C^J sends c to the constant functor; a colimit (direct/inductive limit) of F is a universal arrow <r, u> from the object F of C^J to Delta: r = Colim F with u : F -> Delta r universal among natural transformations tau : F -> Delta c, i.e. components tau_i : F i -> c with tau_j ∘ F u = tau_i.",
+      "intree": "Definition Colimit `(F : J ⟶ C) := Limit (F^op). where Limit bundles a terminal cone: ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x, vertex_map[limit_cone] ∘ u ≈ vertex_map[N]; read at F^op this is the initial cocone with injections F x ~> Colim F and unique mediators to every cocone (covariant API in Structure/Limit/Preservation.v).",
+      "strength_comparison": "same: a natural transformation F ⟹ Δc is literally a cocone (legs F i ~> c with the commuting triangles), so the book's universal-arrow-to-Δ property and the library's initial-cocone property are the same UMP up to presentation; the library states it by duality (terminal cone over F^op) per its C^op^op = C architecture, and the Δ functor itself is also in-tree (Functor/Diagonal.v, with the colim ⊣ Δ ⊣ lim reading discussed in its header), though the comma-category/universal-arrow packaging is not the primary definition"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "All four evidence quotes verified verbatim at the cited lines (Colimit at Limit.v:158, Limit class at 113, IsAColimit/colimit_inj/colimit_med at Preservation.v:130/135/152, Diagonal at Functor/Diagonal.v:33 with the colim ⊣ Δ ⊣ lim header prose). Blind pass reached PRESENT independently. The Diagonal header explicitly states 'a cone over a diagram F with apex c is exactly a natural transformation Δ[J](c) ⟹ F', matching the book's presentation. Files in _CoqProject."}
+  },
+  {
+    "id": "maclane:III.3:def9",
+    "classification": "PRESENT",
+    "aliases": ["Cocone (cone from base F to vertex c)", "cone under a diagram", "limiting/universal cocone = colimit ump", "ACone / vertex_map / cone_coherence", "colimit_inj / colimit_med"],
+    "evidence": [
+      {"file": "Structure/Cone.v", "line": 72, "symbol": "Cocone",
+       "intree_statement": "Definition Cocone `(F : J ⟶ C) := Cone (F^op). — \"A cocone over F is the dual notion: a cone over the opposite diagram F^op, whose legs run F x ~> apex\""},
+      {"file": "Structure/Cone.v", "line": 24, "symbol": "ACone",
+       "intree_statement": "Class ACone ... (c : obj[C]) (F : J ⟶ C) := { vertex_map (x : J) : c ~{C}~> F x; cone_coherence {x y} (f : x ~{J}~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y } — at F^op the coherence is the book's commuting triangles tau_j ∘ F u ≈ tau_i"},
+      {"file": "Structure/Limit.v", "line": 113, "symbol": "Limit (ump_limits)",
+       "intree_statement": "ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ vertex_map[N] — the limiting (universal) cone; at F^op (Colimit) this is the universal cocone mu : F -> Colim F through which every cocone tau factors by a unique t'",
+       "note": null},
+      {"file": "Structure/Limit/Preservation.v", "line": 152, "symbol": "colimit_med",
+       "intree_statement": "Definition colimit_med `(H : @IsAColimit J C F c) (N : Cocone F) : ... — the covariant restatement: the unique mediator Colim F ~> vertex of any competing cocone, alongside colimit_inj (line 135)"}
+    ],
+    "statement_record": {
+      "book": "A natural transformation tau : F -> Delta c, written tau : F -> c, is a cone from the base F : J -> C to the vertex c (all triangles tau_j ∘ F u = tau_i commute). A colimit of F is an object Colim F with a cone mu : F -> Colim F from the base which is universal: every cone tau : F -> c factors as tau_i = t' ∘ mu_i for a unique t' (the limiting or universal cone).",
+      "intree": "Definition Cocone `(F : J ⟶ C) := Cone (F^op). with legs vertex_map x : F x ~> apex and coherence fmap[F^op] f ∘ vertex_map x ≈ vertex_map y; universality is ump_limits at F^op, restated covariantly by colimit_inj/colimit_med in Structure/Limit/Preservation.v.",
+      "strength_comparison": "same: the cocone-as-natural-transformation-to-Δ and cocone-as-leg-family presentations coincide (the legs with triangle coherence are exactly the components of tau : F ⟹ Δc), and the universal-cocone property is the colimit ump verbatim, setoid-rephrased with ≈"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees. ACone verified at Cone.v:24-33 (vertex_map + cone_coherence exactly as quoted), Cocone at Cone.v:72 with the quoted comment, colimit_med/ump_colimit/cocone_inj verified in Preservation.v. The covariant accessor API (colimit_inj, ump_colimit, colimit_med, colimit_med_commutes/unique) means the dual is instantiated in-tree, not merely assumed. Files in _CoqProject."}
+  },
+  {
+    "id": "maclane:III.3:remark4",
+    "classification": "PARTIAL",
+    "aliases": ["omega-chain / ω-chain colimit", "union of nested sets as colimit", "direct limit over omega", "Cocomplete Sets / Set is small-cocomplete", "Chain : Omega ⟶ C"],
+    "evidence": [
+      {"file": "Instance/Omega.v", "line": 72, "symbol": "Omega",
+       "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; ... |} — the ordinal ω as a category (the book's index J = omega = {0 -> 1 -> 2 -> ...})"},
+      {"file": "Construction/Chain.v", "line": 64, "symbol": "Chain",
+       "intree_statement": "Program Definition Chain : Omega ⟶ C := {| fobj := chain_obj; fmap := fun _ _ p => chain_hom p |} — ω-indexed nested diagrams as genuine functors out of Omega (here the initial-algebra chain 0 -> F 0 -> F² 0 -> ...)"},
+      {"file": "Structure/Complete.v", "line": 119, "symbol": "Cocomplete",
+       "intree_statement": "Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F. — the small-cocompleteness vocabulary the remark's forward pointer needs, used hypothetically (e.g. adamek_cocomplete, Theory/Adamek/Corollaries.v:59)"}
+    ],
+    "statement_record": {
+      "book": "For J = omega and F : omega -> Set sending every arrow to an inclusion (nested sets F_0 ⊆ F_1 ⊆ ...), the union U of the F_n with the inclusion cone is Colim F; the same reading of unions as colimits applies in Grp, Ab, etc. Forward pointer: every F : J -> Set with J small has a colimit (Set is small-cocomplete, Exercise V.1.8).",
+      "intree": "Omega (Instance/Omega.v:72) provides the shape category, Chain (Construction/Chain.v:64) shows ω-chains packaged as functors Omega ⟶ C, and Cocomplete (Structure/Complete.v:119) states all-colimits; but no colimit over Omega is ever computed in Sets, and Cocomplete has no concrete witness.",
+      "strength_comparison": "intree-weaker: the shape (ω as a category), the chain-diagram packaging, and the cocompleteness vocabulary all exist, but the remark's actual content — computing the colimit of a nested ω-chain in Set as the union with inclusion cone, and Set's small-cocompleteness — is not proven for any concrete case"
+    },
+    "gap": "No union-as-colimit computation anywhere: Sets has no colimit-of-chain construction (Instance/Sets/ contains Pushout, Coend, End, Cocartesian — no chain/omega colimit; rg -in 'union' Instance/ finds only disjoint-union coproducts and FinSet's union-find pushout algorithm). No cocompleteness witness: rg ': *@?Cocomplete|Sets_Cocomplete|Coq_Cocomplete' finds no instance — Cocomplete appears only as a hypothesis (Theory/Adamek/Corollaries.v takes CC : @Cocomplete C as input; per its header no concrete AdamekData/colimit-of-chain is constructed in-tree, and the concrete initial algebras in Instance/Coq/Lists.v are proved directly, not via the chain colimit). The Grp/Ab half is moot (no such categories in-tree).",
+    "negative_search_log": [
+      "rg -in ': *@?Cocomplete|Cocomplete [A-Z]|Sets_Cocomplete|Coq_Cocomplete' --glob '*.v' — only the definition (Structure/Complete.v:119) and hypothesis uses (Theory/Adamek/Corollaries.v:61); no concrete instance",
+      "rg -in 'union' Instance/ — only coproduct-as-disjoint-union prose (Instance/Sets/Cocartesian.v, Instance/Coq.v:193) and FinSet union-find (Instance/FinSet/Pushout.v); no union-as-colimit",
+      "ls Instance/Sets/ — Cartesian, Classifier, Cocartesian, Coend, End, Image, Karoubi, Par, Pushout, Streams: no chain/omega/filtered colimit file"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently found exactly this state: rg 'Sets_Cocomplete|Coq_Cocomplete' -> 0 hits; Cocomplete only defined (Structure/Complete.v:119) and consumed as a hypothesis (Theory/Adamek/Corollaries.v:61); no colimit constructed in any Instance/ file; Omega verified at Instance/Omega.v:72 and Chain at Construction/Chain.v:64. CLAUDE.md corroborates the gap ('no concrete AdamekData is constructed in-tree — the initial algebras (list/streams) are proved directly'). PARTIAL with this gap is the right call: the shape category and chain packaging are genuine fragments of the remark's setup."}
+  },
+  {
+    "id": "maclane:III.3:ex1",
+    "classification": "ABSENT",
+    "aliases": ["CRng / category of commutative rings", "tensor product of rings R ⊗ S", "coproduct of commutative rings", "Rng / ring objects", "pushout of ring maps"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'CRng|\\bRng\\b|category of (commutative )?rings|category of abelian' --glob '*.v' — 0 hits: no category of (commutative) rings anywhere in the tree",
+      "ls Instance/ — no ring-category instance (Cat, CMon, Coq, Ens, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX only)",
+      "rg -in 'Definition Mon\\b|Mon : Category' — Theory/Algebra/Monoid/Hom.v:83 gives internal monoids Mon(C), the closest algebraic-category machinery; no internal rings, no ring tensor product",
+      "rg -in 'tensor' hits are all monoidal-category tensors (Structure/Monoidal.v, Construction/Day.v, etc.), never a tensor product of rings/algebras as a coproduct",
+      "verifier addition: rg -in 'commutative ring' — only prose (Construction/Localization.v:67 mentions non-commutative rings in a background essay); confirms no ring category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search (rg -i 'CRing|CRng|commutative ring') found only one prose hit, Construction/Localization.v:67 (background essay on localization of rings), no ring category, no ring objects, no tensor-of-rings. Instance/ listing verified. ABSENT stands."}
+  },
+  {
+    "id": "maclane:III.3:ex2",
+    "classification": "PARTIAL",
+    "aliases": ["pushouts from binary coproducts and coequalizers", "pullbacks from products and equalizers (dual reduction)", "HasPushouts", "finite colimit existence theorem (dual Mac Lane V.2.1)", "colimits by coproducts and coequalizers"],
+    "evidence": [
+      {"file": "Instance/Sets/Pushout.v", "line": 185, "symbol": "Sets_HasPushouts",
+       "intree_statement": "#[export] Program Instance Sets_HasPushouts : HasPushouts Sets — pushouts in Sets exist, built directly as the quotient (B ⊔ C)/~ by the inductively generated glue relation pushout_eq (the exercise's 'apply this to Set' conclusion, though not obtained by the coproduct+coequalizer route)"},
+      {"file": "Instance/FinSet/Pushout.v", "line": 513, "symbol": "FinSet_HasPushouts",
+       "intree_statement": "#[export] Program Instance FinSet_HasPushouts : HasPushouts FinSet — a second direct pushout construction (union-find labeling), again not via the reduction"}
+    ],
+    "statement_record": {
+      "book": "Prove that a category with binary coproducts and coequalizers has pushouts (the pushout of a span b <- a -> c obtained by coequalizing the two composites a -> b + c); apply this to Set, Grp, and Top.",
+      "intree": "Only direct constructions of the conclusion in particular categories: Sets_HasPushouts (Instance/Sets/Pushout.v:185) and FinSet_HasPushouts (Instance/FinSet/Pushout.v:513); the general reduction theorem does not exist, and Structure/Topos.v:22-24 states for the dual: 'the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library'.",
+      "strength_comparison": "intree-weaker: the general theorem (the exercise's actual content) is absent; only the Set-instance of its conclusion exists, and by direct quotient construction rather than by coproduct+coequalizer"
+    },
+    "gap": "The reduction theorem itself is not formalized in either direction: no lemma builds IsPushout/HasPushouts from Cocartesian + coequalizers (nor IsPullback from Cartesian + equalizers — Structure/Topos.v:22-24 discloses this explicitly as a known in-tree gap, and Structure/Complete.v:49-51 and Structure/Equalizer.v:78-84 cite Mac Lane V.2.1 as background prose only). Coequalizers in Sets are themselves not constructed (rg 'Coequalizer' over Instance/Sets/ — 0 hits), so the route could not even be assembled; and the Grp/Top applications have no host categories in-tree.",
+    "negative_search_log": [
+      "rg -in 'products and equalizers|equalizers and products|Limit_from|from_products' --glob '*.v' — only header prose (Structure/Limit.v:71, Structure/Complete.v:51, Structure/Equalizer.v:80) plus the explicit gap disclosure Structure/Topos.v:23",
+      "rg -n 'HasPushouts' --glob '*.v' — class + op-duality converters (Structure/Pushout.v:148,158,168) and the two direct instances (Sets, FinSet); no derivation from coproducts+coequalizers",
+      "rg -in 'Coequalizer' Instance/ — only Instance/Parallel.v and Instance/Two.v (shape-category header prose); no coequalizer construction in any concrete category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same: no coproduct+coequalizer->pushout lemma anywhere (rg 'coproduct.*coequalizer|coequalizer.*coproduct' -> 0 hits); Sets_HasPushouts verified at Instance/Sets/Pushout.v:185 (direct inductive glue-quotient) and FinSet_HasPushouts at Instance/FinSet/Pushout.v:513; the Topos.v:22-24 disclosure of the dual gap verified verbatim. PARTIAL with the Set-conclusion-only evidence and this precise gap is honest. Both instance files registered in _CoqProject."}
+  },
+  {
+    "id": "maclane:III.3:ex3",
+    "classification": "ABSENT",
+    "aliases": ["Matr_K / category of matrices over a field", "matrix category (objects natural numbers, homs m x n matrices)", "coequalizer of two matrices", "cokernel of A - B in a linear category", "FdVect / K-linear skeleton"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in '\\bMatr\\b|matrices over' --glob '*.v' — 0 hits",
+      "rg -il 'matrix' --glob '*.v' — hits are header prose analogies only (Structure/Preadditive.v, Structure/Semiadditive.v, Structure/Monoidal/CompactClosed.v, Instance/ZX.v, etc.); no category whose objects are naturals and homs are K-matrices",
+      "ls Instance/ — no Matr/Vect/FdVect instance; Instance/ZX.v is the qubit ZX-calculus PROP, not Matr_K, and carries no coequalizer development",
+      "rg -in 'Coequalizer' Instance/ — 0 relevant hits (only shape-category prose in Parallel.v/Two.v), so no coequalizer computation in any linear category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agrees: rg -i 'matr' hits only prose analogies (Structure/Abelian.v:120 'a matrix whose (k,j) entry...', ZX.v history essay); no matrix category, no Vect/FdVect, no coequalizers in any Instance. ABSENT stands."}
+  },
+  {
+    "id": "maclane:III.3:ex4",
+    "classification": "PARTIAL",
+    "aliases": ["coproduct of categories / Cat_Cocartesian", "disjoint-union category C ∐ D", "coproducts in Mon (free product of monoids)", "category of graphs Grph", "Cocartesian instances for Cat/Mon/Grph"],
+    "evidence": [
+      {"file": "Instance/Cat/Cocartesian.v", "line": 40, "symbol": "Cat_Cocartesian",
+       "intree_statement": "#[export] Program Instance Cat_Cocartesian : @Cocartesian Cat := { product_obj := @Coproduct; fork := ... } — binary coproducts in Cat as disjoint-union categories, with copairing by case analysis and cross-summand homs empty"},
+      {"file": "Construction/Coproduct.v", "line": 35, "symbol": "Coproduct",
+       "intree_statement": "Program Definition Coproduct : Category — the disjoint-union category C ∐ D underlying Cat's coproducts (cross homs are False)"},
+      {"file": "Theory/Algebra/Monoid/Hom.v", "line": 83, "symbol": "Mon",
+       "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; ... |} — the category Mon(C) of internal monoids exists (instantiable at a cartesian base to recover the book's Mon), but carries no coproduct structure"}
+    ],
+    "statement_record": {
+      "book": "Describe coproducts, showing they exist, in Cat (small categories), Mon (monoids — where the coproduct is the free product), and Grph (graphs).",
+      "intree": "Cat: Cat_Cocartesian (Instance/Cat/Cocartesian.v:40) over the disjoint-union Coproduct category (Construction/Coproduct.v:35) — this third of the exercise is fully formalized. Mon: only the category Mon(C) of internal monoids exists (Theory/Algebra/Monoid/Hom.v:83), with a forgetful functor but no colimits. Grph: no category of graphs exists at all.",
+      "strength_comparison": "intree-weaker: one of the three requested coproduct constructions (Cat) is complete; Mon exists as a category but without coproducts (the free product of monoids, the mathematically substantial part, is absent — Instance/CMon.v's biproducts are the commutative-monoid analogue, not Mon's free product); Grph is entirely absent"
+    },
+    "gap": "Coproducts in Mon: no Cocartesian/colimit structure on Theory/Algebra/Monoid/Hom.v's Mon(C) (rg 'Cocartesian' Theory/Algebra/ hits only Comonoid.v, on other business); the free product of monoids is nowhere constructed — 'free product' appears only in header prose (Structure/Cocartesian.v:44-74 and Construction/Funny.v:113, whose essay observes without proof that the funny tensor M □ N of one-object categories is the free product in Mon). Category of graphs: rg '\\bGrph\\b|Category of graphs' over *.v — 0 hits (the many 'graph' matches are string-diagram/hypergraph-category files, a different concept), so graph coproducts cannot even be stated.",
+    "negative_search_log": [
+      "rg -in '\\bGrph\\b|category of monoids|Category of graphs' --glob '*.v' — only Structure/Monoid.v:91 header prose ('a monoid object in the category of monoids is already commutative'); no Grph",
+      "rg -l 'Cocartesian' Theory/Algebra/ — only Theory/Algebra/Comonoid.v (comonoid supply, unrelated); no coproducts on Mon",
+      "rg -in 'free product' --glob '*.v' — prose-only hits (Structure/Cartesian.v:69, Structure/Cocartesian.v:44,53,68,74, Construction/Funny.v:113 'M □ N is their coproduct in Mon — the free product', Construction/Funny/Hom.v:8 Weber citations); no formalized free-product construction [corrected by verifier: the classifier's original log claimed 0 hits]"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Classification and gap verified: Cat_Cocartesian at Instance/Cat/Cocartesian.v:40 over Construction/Coproduct.v:35 verified verbatim; Mon(C) at Theory/Algebra/Monoid/Hom.v:83 verified (sigma-packaged internal monoids, forgetful functor, no colimit structure); no Grph anywhere. One factual error corrected in the search log: rg -in 'free product' does NOT return 0 hits — it hits background-essay prose in Structure/Cartesian.v:69, Structure/Cocartesian.v:44/53/68/74, and Construction/Funny.v:113 (which even asserts, prose-only, that the funny tensor of one-object categories is the free product in Mon). All hits are unformalized prose, so PARTIAL and the gap statement stand unchanged."}
+  },
+  {
+    "id": "maclane:III.3:ex5",
+    "classification": "ABSENT",
+    "aliases": ["coequalizer in Sets/Set", "quotient set X/E as coequalizer of the projections E ⇉ X", "setoid quotient as colimit", "Sets_HasCoequalizers / Coequalizer instance", "quotient by equivalence relation"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'Coequalizer' Instance/Sets/ — 0 hits; ls Instance/Sets/ shows no Coequalizer file (Cartesian, Classifier, Cocartesian, Coend, End, Image, Karoubi, Par, Pushout, Streams only)",
+      "rg -iln 'Coequalizer' Instance/ — only Instance/Parallel.v:25 and Instance/Two.v:51, both header prose about the walking parallel-pair SHAPE, not a coequalizer construction in any concrete category",
+      "Structure/Equalizer.v:95ff states 'In Set the coequalizer of f and g is the quotient of y by the equivalence relation...' — header prose only; Structure/Coequalizer.v is the abstract IsCoequalizer cofork API with no Sets instance",
+      "nearest neighbors (technique, not the statement): Instance/Sets/Pushout.v builds the pushout apex as an inductive setoid quotient by a generated equivalence (pushout_eq), and Instance/Sets/Coend.v quotients by the dinaturality relation — but the quotient X/E of a set(oid) by an equivalence relation is never identified with the coequalizer of the projection pair E ⇉ X, and no coequalizers exist in Sets or Coq instances at all"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees exactly: rg -l 'Coequalizer' Instance/ -> nothing beyond shape prose; IsCoequalizer lives only in the abstract Structure/Coequalizer* and Monad/Regular consumers; Structure/Equalizer.v:94-96 prose verified ('In Set the coequalizer of f and g is the quotient of y by the equivalence relation generated by f x ~ g x'). The nearest-neighbor disclosure (Sets/Pushout.v and Sets/Coend.v inductive quotients) is accurate and appropriately not counted as evidence. ABSENT stands."}
+  },
+  {
+    "id": "maclane:III.3:ex6",
+    "classification": "PRESENT",
+    "aliases": ["coproduct exists iff hom-product functor representable", "representability of the cocone functor", "LimitIsUniversalProperty / ConePresheaf", "IsUniversalProperty (Hom(c,-) ≅ repr_functor)", "colimit as representing object of Cocone(F,-)"],
+    "evidence": [
+      {"file": "Structure/UniversalProperty/Limit.v", "line": 141, "symbol": "LimitIsUniversalProperty",
+       "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c). — with repr_functor := ConePresheaf F: 'being a limit of [F] is a universal property, namely the representability of the cone presheaf [ConePresheaf F] by the object [c]... the natural isomorphism [Hom(c, z) ≅ Cone(c, F)]' (header, lines 139-140)"},
+      {"file": "Structure/UniversalProperty.v", "line": 41, "symbol": "IsUniversalProperty",
+       "intree_statement": "Class IsUniversalProperty (C : Category) (P : C → Type) (eqP : ...) := { repr_functor : C ⟶ Sets ; repr_equivalence : forall c : C, Isomorphism (P c) (Isomorphism [Hom c,─] repr_functor) } — proofs of the property at c correspond to representations of the functor by c, in both directions"},
+      {"file": "Structure/Limit/Preservation.v", "line": 130, "symbol": "IsAColimit",
+       "intree_statement": "Definition IsAColimit `(F : J ⟶ C) (c : C) : Type := IsALimit (F^op) c. — so the coproduct case is the instantiation of LimitIsUniversalProperty at C^op with the discrete two-object diagram, where ACone c (F^op) is a two-leg family (a ~> c, b ~> c), i.e. C(a,c) × C(b,c)"},
+      {"file": "Structure/UniversalProperty/Cartesian.v", "line": 60, "symbol": "CartesianProductIsUniversalProperty",
+       "intree_statement": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) ... — the binary-product sibling instantiated explicitly, showing the specialization pattern the coproduct case follows by duality"}
+    ],
+    "statement_record": {
+      "book": "Objects a and b have a coproduct in C if and only if the functor c |-> C(a,c) x C(b,c) : C -> Set is representable (the representing object then being a + b).",
+      "intree": "LimitIsUniversalProperty (Structure/UniversalProperty/Limit.v:141): for any diagram F : J ⟶ C, IsALimit F c holds iff c represents ConePresheaf F, i.e. Hom(c,z) ≅ Cone(c,F) naturally; since IsAColimit F c := IsALimit (F^op) c, being a coproduct apex of the discrete pair (a,b) is representing the covariant cocone functor, whose value at c is the setoid of two-leg families (a ~> c) and (b ~> c) — C(a,c) × C(b,c) in substance.",
+      "strength_comparison": "intree-stronger: the in-tree result is the representability characterization for arbitrary diagrams over arbitrary categories (with proofs-of-limithood ≅ representations, sharper than a bare iff), subsuming the binary-coproduct case as the instantiation at C^op with the discrete two-object shape; caveat, the coproduct instance is not separately written out (only the product-side sibling CartesianProductIsUniversalProperty is), and the hom-product appears as the cone setoid (a two-leg family with vacuous coherence) rather than a literal binary product of hom-setoids — equivalent up to the discrete-diagram unpacking"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Close call, examined adversarially: my blind pass initially leaned PARTIAL because no coproduct-side statement is written (rg -i 'coproduct|cocartesian' over Structure/UniversalProperty* -> 0 hits; no ColimitIsUniversalProperty file). Settled on CONFIRMED because (1) CartesianProductIsUniversalProperty is verified verbatim at Cartesian.v:60-63 with repr_functor literally [Hom ─,x] × [Hom ─,y] — the exact hom-product functor of the exercise, product-side; (2) the library's coproduct concept IS the op-instantiation by definition — Structure/Cocartesian.v:115-117 is 'Notation Cocartesian C := (@Cartesian (C^op))' — and C^op^op = C holds definitionally, so reading the proposition at C^op is the same zero-content move by which the tree defines Cocartesian/Colimit/Cocone themselves, not a dual-assumed-but-absent situation; (3) the presentation caveat is honestly disclosed in strength_comparison. All four evidence quotes verified at their cited lines; all files in _CoqProject."}
+  },
+  {
+    "id": "maclane:III.3:ex7",
+    "classification": "ABSENT",
+    "aliases": ["category Ab of abelian groups", "finitely generated subgroups", "directed/filtered colimit of subobjects", "object as colimit of its finitely generated subobjects", "colimit over an inclusion preorder J_A"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'category of abelian|Definition Ab|Instance Ab |Definition Grp|Instance Grp' --glob '*.v' — 0 hits for a concrete category of (abelian) groups; Structure/Abelian.v is abelian CATEGORIES (kernels/cokernels/factorization over an abstract C), not the category Ab, and Instance/ contains no Ab/Grp",
+      "rg -in 'finitely generated|subgroup' --glob '*.v' — only header prose (Theory/Isomorphism.v:89 core groupoid, Instance/Poset.v:58 Galois theory, Construction/Cayley.v:53 symmetric groups); no finitely-generated-subobject machinery",
+      "rg -in 'filtered|directed colimit' --glob '*.v' — only Comonad/CoKleisli.v:81 ('filtered stream', unrelated); no filtered/directed colimit theory to host the generalization",
+      "nearest machinery: Instance/Poset.v (preorders as categories, so J_A would be expressible) and Instance/CMon.v (commutative monoids), but no colimit-of-subobjects statement anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agrees: no Ab or Grp category anywhere in Instance/ (listing verified); Structure/Abelian.v is the abstract abelian-category spine, not Ab; no filtered/directed colimit theory. Cayley.v:53 spot-checked (prose on symmetric groups). ABSENT stands."}
+  }
+]

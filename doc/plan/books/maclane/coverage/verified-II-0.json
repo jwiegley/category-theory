@@ -1,0 +1,590 @@
+[
+  {
+    "id": "maclane:II.1:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "ETAC",
+      "elementary theory of an abstract category",
+      "first-order theory of categories",
+      "formal language of category theory",
+      "metacategory axioms",
+      "arrows-only axiomatization"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 133,
+        "symbol": "Metacategory",
+        "intree_statement": "Record Metacategory := { arr := nat; pairs : M.t arr; composite (f g h : arr) := M.MapsTo (f, g) h pairs; ... } (arrows-only first-order data: composable pairs and their composites, identities defined from the composition table)"
+      },
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 261,
+        "symbol": "FromArrows",
+        "intree_statement": "Program Definition FromArrows (M : Metacategory) : Category := ... (every model of the arrows-only first-order axioms yields a Category whose objects are the identity arrows)"
+      },
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 42,
+        "symbol": "(header essay)",
+        "intree_statement": "\"The first-order theory of categories, and its computable models ... Mac Lane ... uses 'metacategory' for any model of the first-order theory of categories, stated before a set theory is fixed.\""
+      }
+    ],
+    "statement_record": {
+      "book": "The first-order language for category theory (ETAC): atomic statements assert 'a is the domain/codomain of f', 'i is the identity of a', 'h is the composite of g with f'; well-formed formulas are built from these by propositional connectives and quantifiers over objects and arrows; a sentence is a statement with all variables bound; the category axioms of I.1 are sentences of this language, true in every category.",
+      "intree": "Record Metacategory := { pairs : M.t arr; composite (f g h : arr) := M.MapsTo (f, g) h pairs; ... }; Program Definition FromArrows (M : Metacategory) : Category",
+      "strength_comparison": "intree-weaker: the library formalizes the first-order THEORY on the model side only — the arrows-only axioms are rendered shallowly as a Coq record (Theory/Metacategory.v and the parallel Theory/Metacategory/ArrowsOnly.v), whose inhabitants are exactly Mac Lane's metacategories, with FromArrows the machine-checked bridge to Category. The syntactic LANGUAGE itself (atomic formulas, connectives, quantifiers, the notion of 'sentence') is not deep-embedded; there is no reified type of ETAC statements."
+    },
+    "gap": "No deep embedding of the ETAC language: no inductive type of atomic statements/well-formed formulas/sentences, and no satisfaction relation between statements and categories. Only the theory's axioms exist, shallowly, as the Metacategory record (models), plus the category axioms as the Category class true of every instance.",
+    "negative_search_log": [
+      "grep -rniE 'ETAC|elementary theory|first-order|first order' --include='*.v' . -- hits only in Theory/Metacategory.v prose (models of the first-order theory) and citations of Lawvere's ETCS; no formula syntax",
+      "grep -rniE '\\bwff\\b|well-formed formula|sentence|quantifier' --include='*.v' . -- hits are prose about adjoint quantifiers and PROP universal properties; no statement calculus"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same two artifacts (Theory/Metacategory.v shallow arrows-only axioms; no reified formula type) plus one the record omits: Solver/Expr.v deep-embeds a quantifier-free EQUATIONAL syntax of morphism expressions with reify/denote/decide, a genuine fragment of a statement language, though with no connectives/quantifiers/dual operator, so the classification and gap stand unchanged. All quotes verified (Record Metacategory lines 133-143, FromArrows line 261, header essay lines 42-52 splice accurate)."
+    }
+  },
+  {
+    "id": "maclane:II.1:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "dual of a statement",
+      "dual statement",
+      "statement dualization",
+      "duality (syntactic)",
+      "co- prefix",
+      "opposite/op rendering of duality"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Opposite.v",
+        "line": 106,
+        "symbol": "Opposite",
+        "intree_statement": "Definition Opposite `(C : Category) : Category := {| obj := @obj C; hom := fun x y => @hom C y x; ...; compose := fun _ _ _ f g => g ∘ f; ... |} (domain/codomain interchanged, composites reversed — the semantic content of statement dualization)"
+      },
+      {
+        "file": "Structure/Initial.v",
+        "line": 96,
+        "symbol": "Initial",
+        "intree_statement": "Notation \"'Initial' C\" := (@Terminal (C^op)) (the table entry 'terminal object' dualizes to 'initial object', realized definitionally)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 104,
+        "symbol": "Epic",
+        "intree_statement": "Class Epic {x y} (f : x ~> y) := ... with header comment: \"`Epic f` ... is exactly `Monic f` in `C^op`\" (the table entry 'f is monic' dualizes to 'f is epi')"
+      },
+      {
+        "file": "Construction/Opposite.v",
+        "line": 146,
+        "symbol": "Isomorphism_Opposite",
+        "intree_statement": "Program Instance Isomorphism_Opposite {C : Category} {x y : C} (iso : @Isomorphism C x y) : @Isomorphism (C^op) x y (the table entry 'f is invertible' is self-dual)"
+      }
+    ],
+    "statement_record": {
+      "book": "The dual Sigma* of an ETAC statement is obtained by interchanging 'domain' and 'codomain' and reversing all composites, leaving logical structure unchanged; with a table of instances (f : a->b dualizes to f : b->a, monic to epi, right inverse to left inverse, invertible self-dual, terminal to initial).",
+      "intree": "Definition Opposite `(C : Category) : Category := {| hom := fun x y => @hom C y x; compose := fun _ _ _ f g => g ∘ f; ... |}, plus the per-notion dual definitions: Notation \"'Initial' C\" := (@Terminal (C^op)); Class Epic ('exactly Monic f in C^op'); Isomorphism_Opposite; Definition Colimit `(F : J ⟶ C) := Limit (F^op) (Structure/Limit.v:158); Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op) (Theory/Monad.v:144)",
+      "strength_comparison": "intree-weaker as a syntactic operation, faithful in semantic substance: statements are not reified, so there is no operator Sigma |-> Sigma*; instead the library realizes dualization as re-reading a statement in C^op (Mac Lane's own II.2 lemma identifies the two), and every entry of the book's dualization table has a definitional in-tree counterpart. The monic/epi entry is documented but has no named conversion lemma across op."
+    },
+    "gap": "The syntactic dualization operation on a reified statement language is absent (no deep embedding, see maclane:II.1:def1). Dualization exists only concept-by-concept: definitionally for terminal/initial, limit/colimit, monad/comonad, product/coproduct, etc.; as an explicit instance for isomorphisms (Isomorphism_Opposite); and only as a documentation comment for monic/epi (no Monic-in-C^op <-> Epic-in-C lemma).",
+    "negative_search_log": [
+      "grep -rn 'monic_op|epic_op|Monic_op|Epic_op|Monic_Op|Epic_Op' --include='*.v' . -- 0 hits (no named monic/epi op-conversion lemma)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: no syntactic statement operator; semantic table entries verified (Opposite line 106, Initial notation Structure/Initial.v:96-98, Epic class line 104 with comment-only monic/epi duality, Isomorphism_Opposite line 146; Colimit Structure/Limit.v:158, Comonad Theory/Monad.v:144 also verified). Confirmed 0 hits for any Monic/Epic op-conversion lemma; the gap statement is exact."
+    }
+  },
+  {
+    "id": "maclane:II.1:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "duality is involutive",
+      "double dual statement",
+      "op involution",
+      "op_invol",
+      "(C^op)^op = C",
+      "Opposite_Opposite"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Opposite.v",
+        "line": 126,
+        "symbol": "op_invol",
+        "intree_statement": "Lemma op_invol {C : Category} : (C^op)^op = C. (header: \"Duality is built in here so that (C^op)^op = C holds by reflexivity: the two associativity laws are swapped ... so applying the construction twice lands every field back on its original\")"
+      },
+      {
+        "file": "Functor/Opposite.v",
+        "line": 49,
+        "symbol": "Opposite_Functor_invol",
+        "intree_statement": "Corollary Opposite_Functor_invol `{F : C ⟶ D} : (F^op)^op = F. Proof. reflexivity. Qed."
+      },
+      {
+        "file": "Natural/Transformation/Opposite.v",
+        "line": 46,
+        "symbol": "Opposite_Transform_invol",
+        "intree_statement": "Corollary Opposite_Transform_invol `{F : C ⟶ D} {G : C ⟶ D} `(N : F ⟹ G) : (N^op)^op = N. Proof. reflexivity. Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "Dualization is an involution on statements: Sigma** = Sigma; if a statement concerns a diagram, its dual concerns the same diagram with all arrows reversed.",
+      "intree": "Lemma op_invol {C : Category} : (C^op)^op = C; Corollary Opposite_Functor_invol : (F^op)^op = F (by reflexivity); Corollary Opposite_Transform_invol : (N^op)^op = N (by reflexivity)",
+      "strength_comparison": "same, rendered semantically and intree-stronger in form: the library interprets statement dualization as passage to the opposite (the identification Mac Lane himself makes in II.2), and there the involution holds as a strict equality — definitional for functors and transformations, and by design (swapped symmetric law fields, record eta) for categories — rather than merely as a logical equivalence of statements. The involutivity claim, the remark's entire mathematical content, is an exact in-tree theorem at all three levels (categories, functors, 2-cells)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Borderline PRESENT/PARTIAL, resolved to PRESENT defensibly: the remark's entire mathematical content (involutivity of dualization) is a proven in-tree theorem at all three levels, rendered on the semantic op side that Mac Lane's own II.2 lemma identifies with statement duality, and the strength_comparison discloses the rendering. One nuance: op_invol (Construction/Opposite.v:126) is proved by destruct+f_equal, not a literal `reflexivity` script — the header's 'provable by [reflexivity]' is the file's own claim, quoted accurately; functor/transform involutions ARE Proof. reflexivity. Qed."
+    }
+  },
+  {
+    "id": "maclane:II.1:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "duality principle",
+      "principle of categorical duality",
+      "dual theorem for free",
+      "theorem-doubling",
+      "by duality",
+      "instantiation at C^op"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Opposite.v",
+        "line": 29,
+        "symbol": "(header essay)",
+        "intree_statement": "\"The opposite category is the theorem-doubling device of category theory. Because the axioms for a category are invariant under reversing every arrow, a statement holds in C precisely when its dual ... holds in C^op, so any theorem proved for all categories yields its dual with no further work\""
+      },
+      {
+        "file": "Structure/Initial.v",
+        "line": 112,
+        "symbol": "zero_unique",
+        "intree_statement": "Definition zero_unique {x} (f g : initial_obj ~{C}~> x) : f ≈ g := @one_unique _ I _ _ _. (Mac Lane's own example instance of the principle — uniqueness for terminal objects instantiated at C^op yields uniqueness for initial objects, with no new proof)"
+      },
+      {
+        "file": "Theory/Monad.v",
+        "line": 144,
+        "symbol": "Comonad",
+        "intree_statement": "Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op). (the pattern applied theory-wide: the entire dual theory is inherited by instantiation)"
+      },
+      {
+        "file": "Structure/Limit.v",
+        "line": 158,
+        "symbol": "Colimit",
+        "intree_statement": "Definition Colimit `(F : J ⟶ C) := Limit (F^op)."
+      }
+    ],
+    "statement_record": {
+      "book": "Metatheorem: if an ETAC statement Sigma is a consequence of the category axioms, so is its dual Sigma* — the dual of each axiom is again an axiom, and dualizing every step of a proof yields a proof of the dual conclusion; hence every theorem about arbitrary categories automatically yields its dual theorem (example: terminal objects unique up to iso dualizes to initial objects unique up to iso).",
+      "intree": "No single quantified statement exists. The mechanism that delivers each instance is definitional op-duality: zero_unique := one_unique at C^op (Structure/Initial.v — exactly the book's example), Comonad := @Monad (C^op) (M^op), Colimit := Limit (F^op), Initial := Terminal (C^op), plus zero_comp proved by 'apply one_comp'.",
+      "strength_comparison": "intree-weaker as a metatheorem, but each instance is delivered at full strength: the library cannot state 'for every provable Sigma, Sigma* is provable' without a deep embedding of the statement language and its proof calculus, neither of which exists in-tree. Instead any theorem proven over an arbitrary Category can be instantiated at C^op, and (C^op)^op = C makes the resulting dual usable without transport — the effect of the duality principle, realized case-by-case rather than once and for all."
+    },
+    "gap": "The metatheorem itself (a single statement quantifying over ETAC statements/proofs) is not formalized — it would require a deep embedding of ETAC and its deduction system. The library provides the semantic instantiation mechanism (definitional op with strict involution) that yields every individual dual theorem, and uses it pervasively, but each dual is obtained by an explicit per-concept instantiation, not by invoking a formalized principle.",
+    "negative_search_log": [
+      "grep -rniE 'ETAC|first-order|well-formed formula' --include='*.v' . -- no reified statement language (see maclane:II.1:def1)",
+      "grep -rni 'duality principle' --include='*.v' . -- prose citations only, no formal statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass identical: no deep embedding, so no quantified metatheorem; the semantic instantiation mechanism is pervasive and the book's own example is realized verbatim (zero_unique := one_unique at C^op, Structure/Initial.v:112, verified). All four evidence citations checked."
+    }
+  },
+  {
+    "id": "maclane:II.1:remark2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "duality for functors",
+      "duality for several categories",
+      "opposite functor",
+      "F^op",
+      "op is covariant on functors",
+      "Cat^co",
+      "functors not reversed by duality"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Opposite.v",
+        "line": 31,
+        "symbol": "Opposite_Functor",
+        "intree_statement": "Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := @Build_Functor (C^op) (D^op) F (λ (x y : C^op) (f : x ~{C^op}~> y), @fmap C D F y x f) ... (F^op reuses F's object and morphism maps; duality reverses the arrows in each category but does NOT reverse the functor)"
+      },
+      {
+        "file": "Functor/Opposite.v",
+        "line": 49,
+        "symbol": "Opposite_Functor_invol",
+        "intree_statement": "Corollary Opposite_Functor_invol `{F : C ⟶ D} : (F^op)^op = F. Proof. reflexivity. Qed."
+      },
+      {
+        "file": "Natural/Transformation/Opposite.v",
+        "line": 28,
+        "symbol": "Opposite_Transform",
+        "intree_statement": "Definition Opposite_Transform `{F : C ⟶ D} {G : C ⟶ D} `(N : F ⟹ G) : G^op ⟹ F^op := ... (header: \"Oppositization is covariant on functors but reverses 2-cells ... This makes op the 2-functor `Cat^co ⟶ Cat`\")"
+      }
+    ],
+    "statement_record": {
+      "book": "The duality principle extends to the elementary theory of several categories with functors between them: the dual of a statement dualizes the atomic parts referring to each category simultaneously; 'T is a functor' is self-dual (T(gf)=(Tg)(Tf) dualizes to itself), so the principle still holds; duality reverses the arrows in each category but does not reverse the functors.",
+      "intree": "Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op (same object/arrow maps, functoriality fields reindexed — the semantic form of 'T is a functor is self-dual' and 'functors are not reversed'); Opposite_Functor_invol : (F^op)^op = F; Opposite_Transform : N : F ⟹ G yields N^op : G^op ⟹ F^op",
+      "strength_comparison": "intree-weaker on the metatheoretic claim, same on the mathematical substance: the extension of the syntactic duality principle to multi-category/functor theories is not (and cannot be, absent a deep embedding) stated; but its semantic realization is complete — F^op : C^op ⟶ D^op with unchanged direction and unchanged maps, involutive by reflexivity, with the 2-cell direction-reversal (beyond the book's remark) also formalized."
+    },
+    "gap": "The metatheorem for several-category ETAC theories (dual of every provable functor-statement is provable) is not stated, for the same reason as maclane:II.1:thm1. The semantic content — the opposite functor construction, its covariance ('functors not reversed'), and its involutivity — is fully present.",
+    "negative_search_log": [
+      "grep -rniE 'ETAC|elementary theory' --include='*.v' . -- no multi-category statement language in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed; Opposite_Functor line 31, invol line 49, Opposite_Transform line 28 all verified, and PARTIAL is consistent with thm1 (this remark extends the metatheorem, unlike remark1 whose content is exhausted by the proven involution)."
+    }
+  },
+  {
+    "id": "maclane:II.2:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "opposite category",
+      "dual category",
+      "C^op",
+      "Opposite",
+      "op category",
+      "C*"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Opposite.v",
+        "line": 106,
+        "symbol": "Opposite",
+        "intree_statement": "Definition Opposite `(C : Category) : Category := {| obj := @obj C; hom := fun x y => @hom C y x; homset := fun x y => @homset C y x; id := @id C; compose := fun _ _ _ f g => g ∘ f; ...; comp_assoc := fun x y z w f g h => @comp_assoc_sym C w z y x h g f; ... |}"
+      },
+      {
+        "file": "Construction/Opposite.v",
+        "line": 123,
+        "symbol": "^op (notation)",
+        "intree_statement": "Notation \"C ^op\" := (@Opposite C) (at level 7, ...) : category_scope."
+      },
+      {
+        "file": "Construction/Opposite.v",
+        "line": 137,
+        "symbol": "op / unop",
+        "intree_statement": "Definition op {C : Category} {x y} (f : y ~{C}~> x) : x ~{C^op}~> y := f. Definition unop {C : Category} {x y} (f : x ~{C^op}~> y) : y ~{C}~> x := f. (the book's f |-> f^op bijection on arrows; since hom-sets are definitionally equal, both are the identity on the underlying arrow)"
+      }
+    ],
+    "statement_record": {
+      "book": "For each category C the opposite category C^op: same objects; arrows f^op in bijection with the arrows f of C with domain and codomain interchanged (f : a -> b gives f^op : b -> a); f^op g^op = (g f)^op defined exactly when g f is defined in C; C^op is a category, and e.g. f^op is monic iff f is epi.",
+      "intree": "Definition Opposite `(C : Category) : Category := {| hom := fun x y => @hom C y x; compose := fun _ _ _ f g => g ∘ f; ... |} with Notation C^op, and op/unop realizing the arrow bijection",
+      "strength_comparison": "same, and intree-stronger on strictness: all of the book's data are present (objects unchanged, hom-sets reversed, composition reversed, category laws proved by permuting C's law fields), with the additional design guarantee that (C^op)^op = C holds on the nose (op_invol) — the book's f/f^op bijection becomes the definitional identity op/unop. The book's passing 'f^op monic iff f epi' illustration lives as the documented definitional duality of the Monic/Epic classes (Theory/Morphisms.v:102,114) rather than a named lemma; that observation is inventoried under II.1:def2/II.2:lem1."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass identical; all three citations verified against the file text; strength_comparison honestly flags the monic/epi illustration as comment-only and routes it to II.1:def2/II.2:lem1."
+    }
+  },
+  {
+    "id": "maclane:II.2:lem1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "duality realized by the opposite category",
+      "Sigma true in C^op iff Sigma* true in C",
+      "semantic duality lemma",
+      "op transfer of properties",
+      "dual property = property of C^op"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Opposite.v",
+        "line": 146,
+        "symbol": "Isomorphism_Opposite",
+        "intree_statement": "Program Instance Isomorphism_Opposite {C : Category} {x y : C} (iso : @Isomorphism C x y) : @Isomorphism (C^op) x y := { to := from iso; from := to iso; ... } (an explicit per-notion instance of the transfer C -> C^op)"
+      },
+      {
+        "file": "Structure/Initial.v",
+        "line": 96,
+        "symbol": "Initial",
+        "intree_statement": "Notation \"'Initial' C\" := (@Terminal (C^op)) (the dual property IS the original property of the opposite category, definitionally — exactly the lemma's conclusion, adopted as a definition scheme)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 102,
+        "symbol": "Epic (doc)",
+        "intree_statement": "\"`Epic f` witnesses that `f : x ~> y` is an epimorphism ... This is exactly `Monic f` in `C^op`.\" (comment only; no conversion lemma)"
+      },
+      {
+        "file": "Theory/Monad.v",
+        "line": 144,
+        "symbol": "Comonad",
+        "intree_statement": "Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op)."
+      }
+    ],
+    "statement_record": {
+      "book": "Metalemma, by induction on the construction of Sigma from atomic statements: an ETAC statement Sigma with free arrow variables is true of arrows f, g, ... of C iff its dual Sigma* is true of f^op, g^op, ... of C^op; in particular a sentence Sigma is true in C^op iff Sigma* is true in C, so the dual of a property is the original property applied to the opposite category.",
+      "intree": "No general statement-level lemma. Its conclusion is adopted as the library's definitional scheme: Initial := Terminal (C^op), Comonad := @Monad (C^op) (M^op), Colimit := Limit (F^op) (Structure/Limit.v:158), Cocartesian := Cartesian (C^op) (per Instance/Cat/Cocartesian.v header), with explicit transfer instances such as Isomorphism_Opposite.",
+      "strength_comparison": "intree-weaker: the book's lemma is a single metatheorem proved by induction on formulas; the library has no reified formulas, so the correspondence exists only concept-by-concept. Where it exists it is definitional (stronger than an iff), but coverage is per-notion: monic/epi transfer across op, for instance, is documented in comments (Theory/Morphisms.v:102,114) without a named lemma."
+    },
+    "gap": "No deep-embedded statement language, hence no induction-on-formulas proof and no single lemma 'Sigma true in C^op iff Sigma* true in C'. The correspondence is realized definitionally for many notions (initial/terminal, limit/colimit, monad/comonad, cartesian/cocartesian) and as an instance for isomorphisms, but some table entries (monic/epi, left/right inverse) have no in-tree conversion lemma across op, only documentation.",
+    "negative_search_log": [
+      "grep -rn 'monic_op|epic_op|Monic_op|Epic_op|Monic_Op|Epic_Op' --include='*.v' . -- 0 hits",
+      "grep -rniE 'ETAC|first-order|well-formed formula|sentence' --include='*.v' . -- no statement calculus (prose hits only)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed. The cross-claim 'Cocartesian := Cartesian (C^op)' verified as Notation at Structure/Cocartesian.v:115-117 (same device as Initial). Blind search also found no Monic<->Epic op lemma; per-notion definitional coverage is stated accurately."
+    }
+  },
+  {
+    "id": "maclane:II.2:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "opposite functor",
+      "T^op",
+      "Opposite_Functor",
+      "op involution on Cat",
+      "op as covariant endofunctor Cat -> Cat",
+      "duality 2-functor"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Opposite.v",
+        "line": 31,
+        "symbol": "Opposite_Functor",
+        "intree_statement": "Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := @Build_Functor (C^op) (D^op) F (λ (x y : C^op) (f : x ~{C^op}~> y), @fmap C D F y x f) (λ ...fmap_respects...) (λ x, fmap_id) (λ ..., @fmap_comp _ _ F _ _ _ g f)."
+      },
+      {
+        "file": "Functor/Opposite.v",
+        "line": 41,
+        "symbol": "^op (functor notation)",
+        "intree_statement": "Notation \"F ^op\" := (@Opposite_Functor _ _ F) ... : functor_scope."
+      },
+      {
+        "file": "Functor/Opposite.v",
+        "line": 49,
+        "symbol": "Opposite_Functor_invol",
+        "intree_statement": "Corollary Opposite_Functor_invol `{F : C ⟶ D} : (F^op)^op = F. Proof. reflexivity. Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "For T : C -> B, the object function c |-> Tc and arrow function f^op |-> (Tf)^op define a functor T^op : C^op -> B^op; the assignments C |-> C^op, T |-> T^op define a covariant functor Cat -> Cat.",
+      "intree": "Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op (same object/arrow maps, laws reindexed) with involution (F^op)^op = F by reflexivity; the covariance of C |-> C^op, T |-> T^op is noted in prose (\"op is the 2-functor Cat^co ⟶ Cat\", Functor/Opposite.v:29, Natural/Transformation/Opposite.v:24) but not bundled as a Functor instance on Cat.",
+      "strength_comparison": "first half same (T^op is exactly the book's construction, plus strict involutivity); second half intree-weaker: no bundled covariant endofunctor Cat ⟶ Cat carrying C |-> C^op and T |-> T^op, so the functoriality claims ((S T)^op = S^op T^op, (1_C)^op = 1_{C^op}) are not packaged as fmap_comp/fmap_id of an Op functor — they hold definitionally but are unstated."
+    },
+    "gap": "The bundled functor Op : Cat ⟶ Cat (fobj := Opposite, fmap := Opposite_Functor) is absent — no in-tree Functor instance has Opposite as its object map; its functor laws and its proper action on Cat's hom-equivalence (natural isomorphism) are never stated. (The finer 2-categorical fact that op reverses 2-cells, making it Cat^co ⟶ Cat, exists only as documentation.)",
+    "negative_search_log": [
+      "grep -rn 'fobj := fun.*Opposite|fobj := Opposite|:= @Opposite' --include='*.v' . -- 0 hits",
+      "grep -rn 'Cat ⟶ Cat' --include='*.v' . -- hits are Functor/Construction/Product.v (Cat ∏ Cat ⟶ Cat), StrictCat_to_Cat, Discrete left adjoint; none is the op endofunctor",
+      "grep -rn 'Cat\\^co' --include='*.v' . (via earlier searches) -- prose comments in Functor/Opposite.v:29 and Natural/Transformation/Opposite.v:24 only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently confirmed the gap: no in-tree Functor instance has Opposite as object map (only prose 'op is the 2-functor Cat^co -> Cat' in Functor/Opposite.v:29 and Natural/Transformation/Opposite.v:24); T^op with strict involution verified at the cited lines."
+    }
+  },
+  {
+    "id": "maclane:II.2:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "contravariant functor",
+      "functor out of C^op",
+      "contramap",
+      "presheaf-style encoding",
+      "covariant vs contravariant convention"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Opposite.v",
+        "line": 56,
+        "symbol": "contramap",
+        "intree_statement": "Definition contramap `{F : C^op ⟶ D} `(f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f). (with the preceding comment: \"A functor F : C^op ⟶ D is a contravariant functor on C: it reverses the direction of morphisms.\")"
+      },
+      {
+        "file": "Functor/Opposite.v",
+        "line": 24,
+        "symbol": "(header)",
+        "intree_statement": "\"A contravariant functor C ⟶ D is, by definition, an ordinary functor out of C^op; see [contramap] at the end.\""
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 180,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : C^op ⟶ Sets := ... (representative of the library-wide convention: contravariant functors are everywhere carried as functors from C^op — presheaves C^op ⟶ Sets, Curried_CoHom, etc.)"
+      }
+    ],
+    "statement_record": {
+      "book": "A functor S : C^op -> B, re-expressed over C by Sbar f := S f^op, is a contravariant functor from C to B: object function c |-> Sbar c, arrow function sending f : a -> b to Sbar f : Sbar b -> Sbar a with Sbar(1_c) = 1 and Sbar(f g) = (Sbar g)(Sbar f); a functor as in I.3 is called covariant, and named functors are by convention presented covariantly (T : C -> B or S : C^op -> B).",
+      "intree": "Definition contramap `{F : C^op ⟶ D} `(f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f), under the stated identification 'a contravariant functor C ⟶ D is, by definition, an ordinary functor out of C^op'",
+      "strength_comparison": "same: the library adopts exactly the book's own preferred encoding (contravariant = covariant from C^op) as its convention, with contramap the book's Sbar f := S f^op verbatim. The unfolded contravariant laws — identity preservation and order-reversal of composition, the book's display (1) — hold as fmap_id and fmap_comp of F at C^op (where g ∘ f is f ∘ g in C) rather than as separately named lemmas; no standalone 'Contravariant' class exists, matching the book's remark that it is the same concept re-expressed."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed; contramap (Functor/Opposite.v:56) and the header identification verified; Sub : C^op ⟶ Sets at Theory/Subobject/Functor.v:180 verified as the convention witness. PRESENT is faithful since the book itself defines contravariant functors by reduction to covariant functors on C^op, which is literally the library's convention."
+    }
+  },
+  {
+    "id": "maclane:II.2:construction2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "contravariant power-set functor",
+      "powerset functor",
+      "inverse image functor",
+      "P-bar",
+      "subobject functor",
+      "Sub presheaf",
+      "power object"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 180,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x; ... |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f); ... |} |} (contravariant subobject functor by chosen-pullback reindexing — the categorical generalization of X |-> P(X), f |-> f^{-1})"
+      },
+      {
+        "file": "Structure/Topos.v",
+        "line": 129,
+        "symbol": "Pow",
+        "intree_statement": "Definition Pow {C : Category} {H : ElementaryTopos C} (a : C) : C := Ω ^ a. (\"the categorical power set\" as an object; computed concretely in the FinSet topos, e.g. Pow 2 = 4 by eq_refl)"
+      }
+    ],
+    "statement_record": {
+      "book": "The contravariant power-set functor Pbar : Set -> Set: Pbar X = the set of all subsets of X; for f : X -> Y, Pbar f : Pbar Y -> Pbar X sends each subset T of Y to its inverse image f^{-1} T.",
+      "intree": "Program Definition Sub : C^op ⟶ Sets (contravariant, reindexing a subobject along f by pullback = inverse image), and Definition Pow (a : C) : C := Ω ^ a in any elementary topos",
+      "strength_comparison": "intree-weaker as the book's concrete example, intree-stronger as a generality: the inverse-image contravariant functoriality exists at full categorical generality (Sub over any category with chosen pullbacks; in Set-like categories subobjects of X are exactly subsets and pullback is f^{-1}), and power objects exist through the topos layer; but the specific endofunctor X |-> P(X), f |-> f^{-1} on a category of sets is never constructed, and Sub is not instantiated at Coq/Sets/FinSet to recover it."
+    },
+    "gap": "No concrete contravariant powerset functor on any in-tree set-like category (Coq, Sets, Ens, FinSet): no functor with fobj X := (X -> Prop) (or subset carrier) and fmap f := preimage. The general Sub : C^op ⟶ Sets and the topos-level Pow a := Ω ^ a cover the mathematical substance but the book's Set-instance is not instantiated.",
+    "negative_search_log": [
+      "grep -rniE '\\bPow\\b|power.?set' --include='*.v' . -- hits are Structure/Topos.v Pow := Ω^a (power object) and Multicategory pow (n-fold product); no powerset functor on Set",
+      "grep -rn 'fobj := fun.*Prop|fobj := λ.*Prop' --include='*.v' . -- 0 hits",
+      "grep -rniE 'preimage|inverse image' --include='*.v' . -- hits are prefmap/eso preimages (fullness/essential surjectivity) and Instance/Ens.v membership condition; none defines the powerset functor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed PARTIAL with the stated gap. Blind pass independently found only the two cited generalizations (Sub by pullback reindexing = inverse image, Theory/Subobject/Functor.v:180 verified; Pow := Ω^a, Structure/Topos.v:129 verified) and additionally checked Instance/Ens.v and EnsT directly: they build categories of Ensembles with A = f^{-1}(B) morphism conditions but no powerset FUNCTOR; no fobj into (X -> Prop) anywhere; Sub is never instantiated at Coq/Sets/FinSet."
+    }
+  },
+  {
+    "id": "maclane:II.2:construction3",
+    "classification": "ABSENT",
+    "aliases": [
+      "dual vector space functor",
+      "V |-> V*",
+      "linear dual",
+      "conjugate space",
+      "Vect_K",
+      "FdVect",
+      "transpose of a linear map"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'vector|Vect\\b|linear map|dual space' --include='*.v' . -- all hits are prose (Theory/Functor.v:68, Theory/Natural/Transformation.v:45-51, Theory/Kan/Extension.v:89, Theory/Equivalence.v:86 mention vector spaces as motivation; Theory/Sheaf.v uses Coq.Vectors.Vector, the list-like data type) — no category of vector spaces exists in-tree",
+      "grep -rniE 'FdVect|K-Vect|VectK|Vec_' --include='*.v' . -- only Instance/Shapes.v vec/trie (length-indexed containers) and the StarAutonomous header's prose mention of FdVect as an intended model; no Vect instance",
+      "ls Instance/ -- no Vect/VectorSpace/Mod/module-category instance directory (checked against the full Instance/ listing via earlier greps; the closest algebraic instances are CMon and Coq/Sets/FinSet)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: vector spaces occur only in motivational prose (Functor.v, Natural/Transformation.v, StarAutonomous FdVect mention, CompactClosed essays); no Vect/Mod category instance in-tree; closest algebraic instance is CMon. ABSENT is correct."
+    }
+  },
+  {
+    "id": "maclane:II.2:construction4",
+    "classification": "PRESENT",
+    "aliases": [
+      "covariant hom-functor",
+      "hom(a,-)",
+      "C(a,-)",
+      "Curried_Hom",
+      "corepresentable functor",
+      "post-composition k_*"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |}; ... |} (fobj at a is exactly the covariant hom-functor hom(a,-) : C ⟶ Sets, acting by post-composition k_* : g |-> k ∘ g)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 26,
+        "symbol": "(header)",
+        "intree_statement": "\"Fixing one argument yields the two partial hom-functors: the covariant Hom(a, -) : C ⟶ Sets (acting by post-composition) and the contravariant Hom(-, b) : C^op ⟶ Sets (acting by pre-composition).\""
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p); ... |}; fmap := fun x y f => {| morphism := fun g => snd f ∘ g ∘ fst f |} |} (the bifunctor whose second-argument restriction is C(a,-))"
+      }
+    ],
+    "statement_record": {
+      "book": "For C with small hom-sets and a in C, the covariant hom-functor C(a,-) : C -> Set: b |-> hom(a,b); k : b -> b' goes to hom(a,k) : hom(a,b) -> hom(a,b'), f |-> k o f, also written k_* ('composition with k on the left').",
+      "intree": "Curried_Hom C : C^op ⟶ [C, Sets], whose value at a is the functor with fobj y := (hom a y as a setoid) and fmap f := {| morphism := fun g => f ∘ g |}",
+      "strength_comparison": "same up to the setoid rendering: hom-sets are setoids and the target is Sets (the category of setoids) rather than Set — the library's faithful analogue of 'small hom-sets' (and simultaneously of the book's own II.2 Ens device for possibly-large hom-sets); the action is literally f |-> k ∘ f. Intree-stronger packaging: the whole family a |-> C(a,-) comes curried as the Yoneda embedding, with Yoneda_Full/Yoneda_Faithful proved in the same file."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed; Curried_Hom (Functor/Hom.v:60-71) verified: value at a is exactly hom(a,-) with fmap f := (fun g => f ∘ g), i.e. k_*; setoid rendering faithful per the frozen definitions."
+    }
+  },
+  {
+    "id": "maclane:II.2:construction5",
+    "classification": "PRESENT",
+    "aliases": [
+      "contravariant hom-functor",
+      "hom(-,b)",
+      "C(-,b)",
+      "presheaf",
+      "Curried_CoHom",
+      "pre-composition g*",
+      "representable presheaf"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 146,
+        "symbol": "Curried_CoHom",
+        "intree_statement": "Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op. (preceded by: \"Curried_CoHom C c = [Hom ─,c] is the presheaf Hom(-, c) : C^op ⟶ Sets, obtained as the covariant Curried_Hom on C^op. This is the contravariant Yoneda embedding\") with Notation \"[Hom ─ , A ]\""
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 68,
+        "symbol": "Curried_Hom (fmap)",
+        "intree_statement": "fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} (pre-composition with f — the book's g* : f |-> f ∘ g action, which at C^op gives Curried_CoHom's arrow action)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| ...; fmap := fun x y f => {| morphism := fun g => snd f ∘ g ∘ fst f |} |} (first-argument restriction is C(-,b): pre-composition; the combined form realizes k_* f = k ∘ f and g* f = f ∘ g at once)"
+      }
+    ],
+    "statement_record": {
+      "book": "For each object b of C (small hom-sets), the contravariant hom-functor written covariantly as C(-,b) : C^op -> Set: a |-> hom(a,b); each g : a -> a' goes to hom(g,b) : hom(a',b) -> hom(a,b), f |-> f o g, also written g* ('composition with g on the right'); thus k_* f = k o f and g* f = f o g.",
+      "intree": "Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op, whose value at b is the presheaf hom(-,b) : C^op ⟶ Sets acting by pre-composition (morphism := fun g => g ∘ op f), alongside the uncurried CoHom : C ∏ C^op ⟶ Sets and the bifunctor Hom whose fmap composes on both sides",
+      "strength_comparison": "same up to the setoid rendering (hom-setoids, target Sets instead of Set); the pre-composition action is literal, and the definition-by-duality (covariant hom of C^op) is exactly the book's own presentation of C(-,b) as a covariant functor on C^op. Intree-stronger packaging: curried as the contravariant Yoneda embedding C ⟶ [C^op, Sets] feeding the presheaf/Yoneda development."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed; Curried_CoHom := Curried_Hom C^op (Functor/Hom.v:146-149) with precomposition action g ∘ op f verified at line 68-70; matches the book's own covariant-on-C^op presentation exactly."
+    }
+  }
+]

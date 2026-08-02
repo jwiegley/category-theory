@@ -1,0 +1,210 @@
+216	MacLane I.1: Commutative diagrams as first-class objects
+220	MacLane I.2: Delooping monoids and groups into one-object categories
+223	MacLane I.2: Preorders as thin categories, with partial and linear orders
+224	MacLane I.2: Finite ordinals as categories and the chain ω
+233	MacLane I.3: Functors out of 1, 2, and 3
+234	MacLane I.3: Functors between preorders, groups, and representation categories
+235	MacLane I.3: Two distinct functors sharing the identity object function
+238	MacLane I.4: The skeleton equivalence between finite sets and finite ordinals
+242	MacLane I.4: Natural transformations into a preorder
+246	MacLane I.5: Split morphisms, idempotent composites, and regular arrows
+247	MacLane I.5: Uniqueness of terminal, initial, and zero objects
+248	MacLane I.5: Groupoids and the structure of connected groupoids
+259	MacLane I.7: Top, the category of topological spaces
+268	MacLane II.2: Open(X) and the presheaf of continuous functions
+273	MacLane II.3: Preorders are closed under products and functor categories
+276	MacLane II.4: Functor categories over discrete shapes and their size
+296	MacLane II.7: The free monoid and its universal property
+299	MacLane II.8: The least congruence and presented categories
+308	MacLane III.1: Metric-space completion as a universal arrow
+315	MacLane III.1: Quotient setoids and coequalizers in Sets
+323	MacLane III.3: Cokernel pairs and the pushout characterization of epimorphisms
+334	MacLane III.4: Limits along an index category with an initial object
+346	MacLane III.7: The density theorem: set-valued functors as colimits of representables
+357	MacLane IV.2: The adjoint string on the objects functor of Cat
+370	MacLane IV.3: Concrete reflective and coreflective subcategories
+372	MacLane IV.3: Posets are reflective in preorders, and T0-spaces in Top
+374	MacLane IV.4: Skeletons and skeletal categories
+380	MacLane IV.5: Galois connections are adjunctions between preorders
+382	MacLane IV.5: The powerset preorder and the direct-image/inverse-image adjunction
+384	MacLane IV.5: Quantifiers as adjoints to substitution
+402	MacLane IV.9: A subobject classifier for the category of sets
+404	MacLane IV.10: Sets and presheaf categories as elementary toposes
+405	MacLane IV.10: Every elementary topos has finite colimits
+407	MacLane V.1: Completeness of Sets by cone sets
+417	MacLane V.2: Finite index categories and finite limits
+422	MacLane V.2: Products in a preorder are greatest lower bounds
+443	MacLane V.6: Left adjoints to forgetful functors by the adjoint functor theorem
+445	MacLane V.7: Intersections and unions of subobjects
+456	MacLane V.9: The underlying-set functor of Top and its adjoint triple
+457	MacLane V.9: Subspace and quotient topologies as sliced adjoint inverses
+463	MacLane VI.1: Monads on a preorder are closure operators, and their algebras are the closed elements
+490	MacLane VII.1: Cocartesian monoidal structure from finite coproducts
+500	MacLane VII.3: Monoids in a monoidal category recover the classical algebraic structures
+520	MacLane VII.7: Coherence for symmetric monoidal categories, and product/coproduct as symmetric tensor
+590	MacLane X.3: Existence of Kan extensions from completeness and the global adjoint to precomposition
+603	MacLane X.7: Kan extensions along the identity and the terminal functor give functors and (co)limits
+643	Awodey 1.5: Automorphism groups, permutation groups, and Cayley's theorem
+645	Awodey 1.9 Ex 3: Isomorphisms versus bijective homomorphisms in Sets, Mon, and Pos
+647	Awodey 1.9 Ex 5: Free categories on graphs with exactly six arrows
+652	Awodey 2.2: Initial and terminal objects in slice categories, coslices, and posets
+658	Awodey 3.2: The coproduct bifunctor + : C ∏ C ⟶ C
+666	Awodey 4.4: Finitely presented example categories — the walking isomorphism, Z/2Z, cyclic groups, and presentations of the category 3
+671	Awodey 5.1: Local membership of generalized elements, and the equalizer as a comprehension subobject
+672	Awodey 5.3/5.7 Ex 1: Pullback calculus — the prism lemma, and monos as pullback squares
+684	Awodey 6.3: Complete lattices — meets give joins, and the infinite distributive law as the Heyting criterion
+685	Awodey 6.3: Powersets and open-set lattices as complete Heyting algebras, and the failure of the Boolean laws
+705	Awodey 7.7: The category of directed graphs as the functor category Sets^Γ
+714	Awodey 8.2/8.4: Lower sets, the principal-down-set embedding, and the thin-category Yoneda criterion
+737	Awodey 9.8: The adjoint functor theorem for complete posets — a join-preserving monotone map has a right adjoint
+754	Seven Sketches 1.2: Partitions of a set, and their correspondence with equivalence relations and surjections
+755	Seven Sketches 1.1: The coarseness preorder on partitions, joins as least upper bounds, and the connectivity observation
+756	Seven Sketches 1.1: Joins in the two-element order — Cocartesian and Initial structure on _2, and the boolean reading of meet and join
+757	Seven Sketches 1.2: Monotone maps into the booleans classify upper sets, with pullback along a monotone map
+758	Seven Sketches 1.2: The divisibility preorder on the naturals, with gcd and lcm as meet and join
+759	Seven Sketches 1.2: The integers and the reals as ordered carriers, with comprehension subsets and structure-preserving maps
+760	Seven Sketches 1.4: The ceiling/multiplication Galois connection between the integers and the reals
+761	Seven Sketches 1.3: Elementary calculus of meets and joins in a preorder — singletons, idempotence, monotonicity in the subset, and non-existence
+762	Seven Sketches 1.4: The partition Galois connection induced by a function — pushforward and pullback of partitions
+763	Seven Sketches 1.4: Level shift — reflexive-transitive closure is left adjoint to the underlying relation
+764	Seven Sketches 1.3: Preservation of meets and joins by a monotone map, the one-way join comparison, and a right adjoint with a generative effect
+765	Seven Sketches 1.4: Finite chains as preorders, and the non-crossing criterion for adjunctions between total orders
+766	Seven Sketches 1.4: Normalization as a closure operator on the reduction preorder
+767	Seven Sketches 1.2: Dagger preorders are exactly equivalence relations, and skeletal ones are discrete
+768	Seven Sketches 1.2: The preorder presented by a graph — reachability closure, the edgeless case, and transitive redundancy
+769	Seven Sketches 1.2: Cardinality as a monotone map from the powerset preorder to the naturals
+770	Seven Sketches 1.2: Functions as total single-valued relations, their fibres, and the injective/surjective classification
+771	Seven Sketches 2.2: Symmetric monoidal preorders — the class, strict versus weak axioms, and the thin-category reading of the induced equivalence
+772	Seven Sketches 2.2: Every commutative monoid is a symmetric monoidal preorder on its discrete order
+773	Seven Sketches 2.2: Refuting a proposed monoidal structure — the failure of monotonicity for poker hands and for multiplication on the reals
+774	Seven Sketches 2.2: The ordered-commutative-monoid recipe, and the reals under addition as a symmetric monoidal preorder
+775	Seven Sketches 2.2: Monoidal structures on the arithmetic preorders — ℕ with + and ·, divisibility with ·, and the failures for + on divisibility and · on ℤ
+776	Seven Sketches 2.2: Wiring diagrams over a monoidal preorder — validity, the graphical-proof theorem, and the crossing-free fragment
+777	Seven Sketches 2.2: The chemistry monoidal preorder of material collections, and catalysis
+778	Seven Sketches 2.2/2.5: The two-element base Bool — both monoidal structures, closedness by implication, and Bool as a quantale
+779	Seven Sketches 2.2/2.3: The three-element chain with min as a monoidal preorder, and categories enriched in it
+780	Seven Sketches 2.2/2.5: The powerset monoidal preorder — intersection with the whole set as unit, indexed predicates, and whether it is a quantale
+781	Seven Sketches 2.2: Cost, Lawvere's monoidal preorder of distances, and its opposite
+782	Seven Sketches 2.2: Monoidal monotones — a faithful lax level, the strong/strict trichotomy, and the oplax dual
+783	Seven Sketches 2.2: Inclusion and floor as monoidal monotones between ℕ and ℝ
+784	Seven Sketches 2.2: The monoidal monotones between Bool and Cost
+785	Seven Sketches 2.3: Preorders are exactly Bool-categories — upgrading the two translations to a bijection
+786	Seven Sketches 2.4: The category of preorders, the category of Bool-categories, and the equivalence between them
+787	Seven Sketches 2.3: Lawvere metric spaces as Cost-categories, and short maps as Cost-functors
+788	Seven Sketches 2.3: Cost-weighted graphs and their shortest-path Lawvere metric space
+789	Seven Sketches 2.5: V-matrices over a quantale, and the category Mat(V)
+790	Seven Sketches 2.5: The weight matrix of a V-weighted graph, and computing the presented V-category by matrix powers
+791	Seven Sketches 2.3: Enrichment in the powerset and bottleneck quantales — V-weighted graphs beyond Bool and Cost
+792	Seven Sketches 2.4: Change of base of enrichment along a monoidal monotone
+793	Seven Sketches 2.4: Change of base along Cost → Bool — Lawvere metric spaces become preorders
+794	Seven Sketches 2.5: Hausdorff distance between subsets of a V-category, and the failure of symmetry
+795	Seven Sketches 2.4: Opposite, dagger and skeletal V-categories, and extended metric spaces
+796	Seven Sketches 2.4: The V-product of V-categories, and where symmetry of the base is used
+797	Seven Sketches 2.5: Symmetric monoidal closed preorders — the hom-element and the tensoring Galois connection
+798	Seven Sketches 2.5: The calculus of a monoidal closed preorder, and its self-enrichment
+799	Seven Sketches 2.5: Unital commutative quantales — the class and its join vocabulary
+800	Seven Sketches 2.5: Cost is monoidal closed by truncated subtraction, and is a quantale
+801	Seven Sketches 2.5: Closedness of a monoidal preorder equals distributivity of the tensor over joins
+802	Seven Sketches 3.2: The free category on a single loop is the additive naturals, and free categories have only identity isomorphisms
+803	Seven Sketches 3.2.3: The preorder reflection of a category, and its left adjointness to the preorder inclusion
+804	Seven Sketches 3.2.2/3.3.2: The free square category, its comparison with the commutative square, and the failure of the reverse comparison
+805	Seven Sketches 3.1/3.3: Database schemas as finitely presented categories, and instances as Set-valued functors
+806	Seven Sketches 3.3.3: Instances on small presented schemas — idempotent endofunctions, involutions, and an equalizing pair
+807	Seven Sketches 3.4.1: The one-loop schema — its instances are discrete dynamical systems, and migration along a schema functor
+808	Seven Sketches 3.5.2: A product is exactly a terminal object in the category of cones
+809	Seven Sketches 3.5.3: Restriction along a functor is a pullback of categories of elements
+810	Seven Sketches 4.1: Co-design diagrams — a typed box-and-wire syntax denoting feasibility relations
+811	Seven Sketches 4.2: V-profunctors over a quantale, and feasibility relations as the Boolean case
+812	Seven Sketches 4.2: The bridge presentation of a Bool-profunctor, and its feasibility matrix
+813	Seven Sketches 4.3: Composition of V-profunctors, the unit profunctor, and the category Prof_V
+814	Seven Sketches 4.3: Feas — preorders and feasibility relations as the Boolean instance of Prof_V
+815	Seven Sketches 4.2/4.3: Cost-profunctors — distance matrices, composition, and computation by matrix powers
+816	Seven Sketches 4.3: Companions and conjoints of a V-functor, and the adjointness criterion
+817	Seven Sketches 4.3: V-adjunctions between V-categories
+818	Seven Sketches 4.3: The collage of a V-profunctor, and the collage inclusions
+819	Seven Sketches 4.3: Profunctors as a bicategory — the non-skeletal base by iso-classes or weak composition
+820	Seven Sketches 4.4: Transporting braiding and symmetry along an equivalence, and symmetric monoidal categories as those equivalent to strict ones
+821	Seven Sketches 4.4: Enrichment over a thin base — identity and composition data determined by properties
+822	Seven Sketches 4.4: Interpreting a wiring diagram in an arbitrary symmetric monoidal category, with a worked set-valued example
+823	Seven Sketches 4.5: Consequences of compact closure — monoidal closedness, uniqueness of duals, and the double dual
+824	Seven Sketches 4.5: Corel — corelations as a compact closed category, and the snake check at a three-element set
+825	Seven Sketches 4.5: Prof_V is compact closed — the product of V-categories as tensor, and the opposite as dual
+826	Seven Sketches 5.2.1: Strict props — objects exactly ℕ, and the bijectivity the PROP class omits
+827	Seven Sketches 5.2.1: FinSet as a prop — the symmetric strict monoidal structure on the skeleton
+828	Seven Sketches 5.2.1: Bij, the prop of finite bijections, and the free prop on the empty signature
+829	Seven Sketches 5.2.1: Corel as a prop — corelations over the skeletal finite sets
+830	Seven Sketches 5.2.1: FinRel — relations between finite sets as a prop, with the disjoint-union tensor
+831	Seven Sketches 5.2.1: Posetal props — thin props as symmetric monoidal preorders on (ℕ, +)
+832	Seven Sketches 5.2.1: Prop functors and the category of props
+833	Seven Sketches 5.2.1: Two prop functors — the inclusion of bijections and the graph functor into relations
+834	Seven Sketches 5.2.2: Port graphs — the acyclic (m,n)-port-graph datatype
+835	Seven Sketches 5.2.2: PG, the prop of port graphs
+836	Seven Sketches 5.2.4: G-labeled port graphs and the port-graph model of the free prop
+837	Seven Sketches 5.2.4: A worked three-generator prop signature — expressions and their diagrams
+838	Seven Sketches 5.2.5: The free prop versus the prop presented with no equations
+839	Seven Sketches 5.3.1: Rigs — the class, the naturals and the booleans, and rings as rigs
+840	Seven Sketches 5.3.1: Every quantale determines a rig
+841	Seven Sketches 5.3.1: Square matrices over a rig form a rig, and are not commutative
+842	Seven Sketches 5.3.2: The signal-flow signature G_R and the free prop SFG_R
+843	Seven Sketches 5.3.3: Mat(R), the prop of matrices over a rig
+844	Seven Sketches 5.3.4: The semantics prop functor S : SFG_R → Mat(R)
+845	Seven Sketches 5.3.4: The matrix of a signal flow graph counts amplification along paths
+846	Seven Sketches 5.4.1: Fullness of the signal-flow semantics — every matrix is realized
+847	Seven Sketches 5.4.2: Bimonoid objects, and the bimonoid on the object 1 of Mat(R)
+848	Seven Sketches 5.4.1: Mat(R) is presented by the signal-flow generators modulo the bimonoid equations
+849	Seven Sketches 5.4.1: Graphical reasoning with the presentation of Mat(R) — rewriting, alternatives, and a non-derivability argument
+850	Seven Sketches 5.4.2: The underlying-set functor Mat(R) → Set and transport of monoid objects
+851	Seven Sketches 5.4.2: Monoidal structures as commutative monoid objects — in Cat and in Preord
+852	Seven Sketches 5.4.2: The tensor product of commutative monoids, and rigs as monoid objects in (CMon, ⊗, ℕ)
+853	Seven Sketches 5.4.2: The prop presenting the theory of monoids, and models in an arbitrary monoidal category
+854	Seven Sketches 5.4.3: Rel_R, the prop of relations over a rig
+855	Seven Sketches 5.4.3: Behaviors of signal flow graphs, mirrored generators, and the prop SFG_R⁺
+856	Seven Sketches 5.4.3: Behaviors of mixed signal flow graphs — solution sets, joint images, kernels and linearity
+857	Seven Sketches 5.4.3: LinRel_R — linear relations form a sub-prop of Rel_R
+858	Seven Sketches 5.4.3: Rel_R is compact closed with every object self-dual
+859	Seven Sketches 5.3.2/5.4.3: Signal flow graphs over rigs of differential operators — a linear ODE system and cruise control
+860	Seven Sketches 6.2.1: Deciding initiality in small concrete categories
+861	Seven Sketches 6.2.3: Elementary pushout calculus — pushouts along isomorphisms, discrete categories, and a collapsing pushout in Set
+862	Seven Sketches 6.2.3: The pushout over the initial object is the binary coproduct
+863	Seven Sketches 6.2.4: Generators for finite colimits — initial object with pushouts, and coequalizers with finite coproducts
+864	Seven Sketches 6.2.4: FinSet and Set have all finite colimits
+865	Seven Sketches 6.2.4: Colimits at the small shapes by duality — the empty, discrete two-object, and one-object diagrams
+866	Seven Sketches 6.2.4: The colimit formula in Set — a finite colimit is a quotient of a coproduct
+867	Seven Sketches 6.3.1: The spider of a single Frobenius monoid
+868	Seven Sketches 6.3.1: The spider normal-form theorem — connected Frobenius diagrams are spiders
+869	Seven Sketches 6.3.1: The free prop on the Frobenius presentation is Cospan(FinSet)
+870	Seven Sketches 6.3.3: Two distinct hypergraph structures on linear relations
+871	Seven Sketches 6.4.1: The power-set functor is lax symmetric monoidal
+872	Seven Sketches 6.4.2: Decorated cospans form a hypergraph category — deriving the coherences from the decoration functor
+873	Seven Sketches 6.4.2: The constant decoration recovers the plain cospan category
+874	Seven Sketches 6.4.3: C-circuits — edge-labelled graphs over a component set
+875	Seven Sketches 6.4.3: The circuit decoration functor from finite sets to sets
+876	Seven Sketches 6.4.3: Cospan_Circ, the hypergraph category of open electric circuits
+877	Seven Sketches 6.5.1: Context-free grammars present free operads
+878	Seven Sketches 6.5.2: The many-coloured operad of sets and multi-argument functions
+879	Seven Sketches 6.5.2: The operad Cospan of finite-set cospans, and substitution as nesting
+880	Seven Sketches 6.5.3: Algebras for a coloured operad
+881	Seven Sketches 6.5.3: Electric circuits as an algebra of the cospan operad
+882	Seven Sketches 6.5.3: Cospan-algebras are equivalent to hypergraph props
+883	Seven Sketches 7.2.1: Epi-mono factorization — uniqueness in Sets, and the factorization carried by every topos
+884	Seven Sketches 7.2.1: A quantale whose tensor computes binary meets is a cartesian closed preorder
+885	Seven Sketches 7.2.3: The internal connectives on a subobject classifier — AND, OR, NOT and implication
+886	Seven Sketches 7.2.2/7.2.3: Worked characteristic maps — the identity and empty subobjects, and boolean combinations
+887	Seven Sketches 7.3.2: The metric topology — ε-balls generate a topology on any metric space
+888	Seven Sketches 7.3.2/7.3.3: The Sierpiński space — the four topologies on a two-element set, its opens, and its sheaves
+889	Seven Sketches 7.3.2: The quantale of open sets, and categories enriched in it
+890	Seven Sketches 7.3.3: Sheaves on a topological space — matching families, unique gluing, and Shv(X, Op)
+891	Seven Sketches 7.3.3: The sheaf of sections of a map, from the discrete case to a continuous bundle
+892	Seven Sketches 7.3.3/7.4.1: Sheaves on the one-point space are sets
+893	Seven Sketches 7.4: A topos is a category of sheaves — Shv(X, Op) as an elementary topos
+894	Seven Sketches 7.4.1: The subobject classifier of Shv(X, Op) is the sheaf of opens
+895	Seven Sketches 7.4.1: The subobject classifier of the topos of graphs
+896	Seven Sketches 7.4.3: Predicates in a topos — comprehension and the entailment order
+897	Seven Sketches 7.4.2/7.4.3: The Heyting algebra of predicates on an object of a topos
+898	Seven Sketches 7.4.4: Quantifiers in a topos — ∀ by the exponential pullback and ∃ by image factorization
+899	Seven Sketches 7.4.5: Modalities (Lawvere–Tierney operators) on the subobject classifier
+900	Seven Sketches 7.4.6: The internal language of a topos and its Kripke–Joyal semantics
+901	Seven Sketches 7.5.1: The interval domain and the topos of behavior types
+902	Seven Sketches 7.5.2: A sheaf is determined by its values on a basis, continuously
+903	Seven Sketches 7.5.2: Behavior types — the constant sheaf and sheaves of locally defined continuous maps
+904	Seven Sketches 7.5.3: A behavior contract as a formula of the internal temporal logic

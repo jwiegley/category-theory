@@ -1,0 +1,487 @@
+[
+  {
+    "id": "riehl:3.4:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "canonical comparison map for colimits",
+      "kappa : colim (F K) -> F (colim K)",
+      "colimit comparison morphism / comparison map",
+      "PreservesColimit / preserves_colimit (this library's colimit-preservation vocabulary)",
+      "F preserves the colimit iff the comparison map is an isomorphism",
+      "dual of the limit comparison F(lim K) -> lim(F K)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'comparison' --include='*.v' . | grep -iE 'colim|limit' -- 0 hits. Every 'comparison' in the tree is something else: the Eilenberg-Moore comparison functor (Monad/Comparison.v, Monad/Lifting.v), the Karoubi/Funny comparison functors, the Semiadditive x+y -> x*y comparison, the Terminal/Cartesian/Closed functor-structure comparisons, and the Companion comparison square. None is a (co)limit comparison map.",
+      "grep -rniE 'colim.*comparison|comparison.*colim|compare.*colimit|colimit_map|canonical_(map|morphism)' --include='*.v' . -- 0 hits.",
+      "grep -rniE 'preserves.*(iff|↔|<->)|(iff|↔).*preserve' --include='*.v' . -- 0 hits; no 'preservation iff the comparison is invertible' characterization exists anywhere in the tree.",
+      "grep -rn 'PreservesColimit' --include='*.v' . -- 12 hits, all accounted for: the definition PreservesColimit G F := PreservesLimit G^op F^op (Structure/Limit/Preservation.v:196), the covariant accessor preserves_colimit (:205), the equivalence witness (Theory/Equivalence/Limit.v:436), and the honesty notes in Theory/Adamek.v:35-45 and Theory/Adamek/Corollaries.v:41-43. The definition is apex-only -- it says F(apex) carries SOME colimit of F ◯ G -- and no comparison map is ever formed from it.",
+      "grep -rn 'colimit_med|colimit_inj' --include='*.v' . -- the mediator and injection accessors exist (Structure/Limit/Preservation.v:135,152) and Theory/Adamek.v consumes them, but the specific mediator kappa := colimit_med (colimit of F ◯ K) (image cocone at F(colim K)) is never defined or named.",
+      "grep -rniE 'creates? (all )?(limits|colimits)|CreatesLimits?|create_limit' --include='*.v' . -- 3 hits (Theory/Displayed.v:91 comment, Construction/Comma.v:100 comment, Construction/Comma/Limit.v:17 header); none concerns a comparison map.",
+      "Closest relative found and rejected: Theory/Adamek.v:107 Record AdamekData packages the honest LEG-AGREEMENT form of colimit preservation for one diagram (colimit_inj adamek_colim n ≈ fmap[F] (colimit_inj HL n)). That is the cone-level statement of preservation, not the comparison morphism nor the biconditional the exercise asks for."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and by a different route: I read Structure/Limit/Preservation.v end to end first and observed that PreservesLimit (:48) is the *direct* apex-only predicate `preserves_limit (L : Limit G) : IsALimit (F o G) (F L)` and PreservesColimit (:196) is its one-line op-dual, so no comparison morphism is ever formed in either variance -- there is nothing to dualise. Re-ran the classifier's decisive search: `rg -ni 'comparison' --glob '*.v' | grep -iE 'colim|limit'` returns 0 lines, confirming the negative log verbatim. The AdamekData citation (Theory/Adamek.v:107-111) is accurate: `adamek_legs : forall n, colimit_inj adamek_colim n ~= fmap[F] (colimit_inj HL n)` is leg-agreement, i.e. cone-level preservation, not a comparison map nor a biconditional. Note for Phase E: the tree DOES have the raw material (colimit_med/colimit_inj at Structure/Limit/Preservation.v:135,152) to define kappa in three lines, so this is a small additive gap, not a structural one."
+    }
+  },
+  {
+    "id": "riehl:3.4:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "category of elements El(F) / ∫F / Elts",
+      "Grothendieck construction of a Set-valued functor",
+      "comma category =(1) ↓ F, i.e. 1 ↓ F over the terminal setoid",
+      "the projection Pi : El F ⟶ C creates limits",
+      "connected colimits / connected category",
+      "Comma_Complete, comma_proj2 creates limits"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 238,
+        "symbol": "comma_limit",
+        "intree_statement": "Definition comma_limit : Limit K := @Build_Limit J (=(d) ↓ U) K apex_cone comma_ump. -- in the section context {U : C ⟶ D} {d : D} (HC : @Complete C) (HU : PreservesImageLimit) {J : Category} (K : J ⟶ (=(d) ↓ U)), where Gdiag := comma_proj2 ◯ K, Ldiag := HC J Gdiag, and the created apex is apex_obj := ((ttt, vertex_obj[Ldiag]); phi) with legs apex_leg j := ((ttt, limit_leg (limit_is_alimit Ldiag) j); _). The apex and legs project on the nose to the C-limit apex and legs, so this is STRICT creation along comma_proj2."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 245,
+        "symbol": "Comma_Complete",
+        "intree_statement": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K."
+      }
+    ],
+    "statement_record": {
+      "book": "Generalizing Proposition 3.4.8: for any F : C ⟶ Set, the projection Pi from the category of elements of F to C (i) strictly creates all limits that C admits and that F preserves, and (ii) strictly creates all connected colimits that C admits.",
+      "intree": "Definition comma_limit : Limit K (with apex ((ttt, vertex_obj[Ldiag]); phi), Ldiag the chosen C-limit of comma_proj2 ◯ K) under (HC : @Complete C) and (HU : PreservesImageLimit U); Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U).",
+      "strength_comparison": "intree-weaker: covers only clause (i), and only for the comma category =(d) ↓ U, never identified with the category of elements. It is also stated with a WHOLESALE hypothesis pack rather than per-class: HC must make C complete for ALL shapes and HU must make U preserve the image cone of EVERY diagram, whereas Riehl's creation is per class of diagrams. On the other side the preservation hypothesis PreservesImageLimit is cone-level, i.e. STRONGER (and more honest) than the tree's apex-only PreservesLimit, and the creation is genuinely strict, matching Riehl's 'strictly creates'."
+    },
+    "gap": "Three precise gaps. (1) The category of elements is not defined in-tree and is never identified with =(1) ↓ F: grep for 'category of elements|Elements|Elts|El_|ElCat' returns nothing categorical, and Construction/Grothendieck.v builds ∫ only for an IndexedCat (a Cat-valued pseudofunctor-lite), not for a Sets-valued functor, so El(F) ≅ =(terminal setoid) ↓ F is not available even as a corollary. (2) Clause (ii), creation of CONNECTED colimits, is entirely absent: grep -rniE 'connected categor|connected diagram|connected colimit' returns 0 hits, and there is no notion of a connected category anywhere in the tree. (3) The creation statement is not phrased per class of diagrams (Comma_Complete demands full completeness of C and preservation of every image limit), so 'creates all limits that C admits and F preserves' is not literally available even for the comma instance.",
+    "negative_search_log": [
+      "grep -rniE 'Elements|Elts|El_|category_of_elements|ElCat' --include='*.v' . -- only FMap/list 'elements' in Theory/Metacategory.v and prose uses of the English word.",
+      "grep -rniE 'connected categor|connected diagram|connected colimit' --include='*.v' . -- 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified at the cited locations: Construction/Comma/Limit.v:238 is exactly `Definition comma_limit : Limit K :=` and :245 is `Definition Comma_Complete`; both are in _CoqProject. I independently checked the 'projects on the nose' claim by reading the definitions rather than trusting it: apex_obj (:159) = ((ttt, vertex_obj[Ldiag]); phi) and apex_leg (:163) = ((ttt, limit_leg (limit_is_alimit Ldiag) j); _), so comma_proj2 of the constructed limit cone IS the chosen C-limit cone definitionally. PreservesImageLimit (:110) is indeed quantified over ALL J and G, so the wholesale-hypothesis criticism in strength_comparison is accurate.\nCALIBRATION CORRECTION (does not change the class): strength_comparison says 'the creation is genuinely strict, matching Riehl's strictly creates'. That overstates by one clause. What is proved is strict LIFTING plus limit-ness (a limit of K exists whose comma_proj2-image is the given C-limit cone on the nose); the UNIQUENESS of the lift -- the other half of Mac Lane/Riehl creation -- is nowhere stated, and no creation predicate exists in the tree at all (see the verdict on riehl:3.4:exiii). Phase E should not cite Comma/Limit.v as an in-tree instance of 'strictly creates'.\nMy blind pass had provisionally called this ABSENT because no category of elements exists; on review the classifier is right that =(d) |> U at D := Sets, d := the terminal setoid, U := F is exactly el(F) structurally (objects ((tt, c); h : 1 ~> F c) = (c, element of F c)), so the overlap is real and PARTIAL is the better call. Both gap clauses (2) and (3) re-verified: `rg -ni 'connected'` over *.v yields no connected-category/diagram notion anywhere."
+    }
+  },
+  {
+    "id": "riehl:3.4:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "creates limits / CreatesLimit",
+      "conservative functor / reflects isomorphisms / ReflectsIsos",
+      "preserves + conservative implies creates",
+      "creation of limits from preservation and reflection of isos",
+      "creates limits for a class of diagrams"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'creates? (all )?(limits|colimits)|CreatesLimits?|create_limit|creation of limits' --include='*.v' . -- 3 hits, all prose: Theory/Displayed.v:91 (a pointer that the displayed setting hosts 'creation of limits'), Construction/Comma.v:100, Construction/Comma/Limit.v:17. No class, record, or theorem named for creation of limits exists.",
+      "grep -rn 'Creates|creates' --include='*.v' . -- the only creation MACHINERY in the tree is CreatesUSplitCoequalizers (Monad/Monadicity/Beck.v:164) and CreatedSplitCoequalizer (Monad/Monadicity/BeckObjects.v:385), both restricted to coequalizers of U-split pairs, plus equivalence_creates_limits/colimits (Theory/Equivalence/Limit.v:486,582).",
+      "Closest relative found and rejected #1: equivalence_creates_limits (Theory/Equivalence/Limit.v:486) : Limit (F ◯ G) → Limit G for an equivalence F. This is an instance of the CONCLUSION for one class of functors, but it is proved by transporting along the quasi-inverse (rapl_limit + limit_transport), assumes neither that C has the limits nor conservativity, and states nothing of the implication the exercise asks for.",
+      "Closest relative found and rejected #2: creates_split_reflects_isos (Monad/Monadicity/Beck.v:264) : CreatesUSplitCoequalizers U → ReflectsIsos U. This is the CONVERSE implication (creation ⇒ conservative), and only for U-split coequalizers.",
+      "grep -rniE 'reflects isos|ReflectsIsos|conservative functor' --include='*.v' . -- 15 hits. The class ReflectsIsos (Structure/Limit/Preservation.v:243) supplies the conservativity vocabulary and ff_reflects_isos (Theory/Equivalence/Limit.v:335) inhabits it for fully faithful functors, but nothing derives creation of limits from it. crude_monadicity (Monad/Monadicity/Crude.v, used at Monad/Lifting.v:497) is the only 'preserves + reflects isos ⇒ X' theorem in the tree and its X is monadicity, not creation of limits.",
+      "grep -rniE 'preserves.*(iff|↔|<->)|(iff|↔).*preserve' --include='*.v' . -- 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind search agreed before reading the record. Re-verified every negative: `rg -n 'CreatesLimit|ReflectsLimit'` over the whole tree returns 0 hits -- Structure/Limit/Preservation.v defines only PreservesLimit/PreservesColimit/PreservesAllLimits/PreservesAllColimits and ReflectsIsos (:243), and the ONLY creation machinery is CreatesUSplitCoequalizers (Monad/Monadicity/Beck.v:164) plus equivalence_creates_limits (Theory/Equivalence/Limit.v:486). The classifier's 'closest relative #2' is exactly right and is the sharpest point in the record: creates_split_reflects_isos (Beck.v:264) proves the CONVERSE of the exercise (creation => conservative) for one class of coequalizers. Conservativity itself is well supplied (ReflectsIsos, ff_reflects_isos at Theory/Equivalence/Limit.v:335), so the missing piece is precisely the notion of creation plus the implication."
+    }
+  },
+  {
+    "id": "riehl:3.4:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "category of pointed sets Set_* and its forgetful functor to Set",
+      "category of pointed spaces Top_* and its forgetful functor to Top",
+      "coslice 1/Set as pointed sets",
+      "wedge sum / basepoint-preserving maps",
+      "forgetful functor fails to preserve coproducts (a counterexample)",
+      "necessity of the connectedness hypothesis"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Instance/ -- the concrete categories in the tree are Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX. There is no Set_* and no Top.",
+      "grep -rniE 'topolog|open set' --include='*.v' . -- 52 hits, every one of them prose in a background essay (Physics/Topology/Logic, topological K-theory, Top[W^-1] as the homotopy category). No topological space, no category Top, is constructed.",
+      "grep -rniE 'pointed|basepoint|base point|pointed set|wedge sum' --include='*.v' . -- the hits are the unrelated 'pointed endofunctor' class (Instance/Fun.v:230, WellPointed :240) plus prose: Instance/Coq/Par.v:34 notes Par is EQUIVALENT to pointed sets without constructing them, Instance/Coq/ParE.v:116 likewise, and Construction/Slice.v:82 notes in a comment that 'pointed sets are the coslice of Set under the singleton' -- an observation never instantiated.",
+      "grep -rniE 'coslice' --include='*.v' . -- Coslice C c is defined (Construction/Slice.v:169) with Comma_Coslice (:181), but it is never instantiated at Sets and the terminal setoid, and nothing is proved about coproducts in a coslice.",
+      "No forgetful functor of the required shape exists to state the failure against, and the tree contains no counterexample-style 'fails to preserve' result for any functor (grep -rniE 'fails to preserve|does not preserve' returns only prose remarks)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. Spot-checked the two most falsifiable citations and both are exact: Construction/Slice.v:82 reads 'pointed structures: pointed sets are the coslice of Set under the one-point set (Wikipedia, \"Comma category\")' -- an essay remark, never instantiated; and Coslice is at Construction/Slice.v:169 with Comma_Coslice at :181, neither applied to Sets and the terminal setoid. `ls Instance/` confirms no Set_* and no Top. Because there is no pointed category and no connectedness notion, this exercise has no statable in-tree form; ABSENT is right and the resulting Phase-E issue necessarily depends on constructing Set_* (or instantiating Coslice Sets 1) first."
+    }
+  },
+  {
+    "id": "riehl:3.4:exv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "product category C ∏ D / prod_{i in I} C_i",
+      "projection functors Fst, Snd, pi_k",
+      "projections preserve limits",
+      "projections jointly create limits",
+      "limits in a product category are computed componentwise",
+      "a product of categories has a class of limits iff each factor does"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Product.v",
+        "line": 38,
+        "symbol": "Product_Cartesian",
+        "intree_statement": "Program Instance Product_Cartesian : @Cartesian (C ∏ D) := { product_obj := fun x y => (fst x × fst y, snd x × snd y); fork := fun _ _ _ f g => (fst f △ fst g, snd f △ snd g); exl := fun x y => (exl, exl); exr := fun x y => (exr, exr) } -- in the context `{@Cartesian C} `{@Cartesian D}."
+      }
+    ],
+    "statement_record": {
+      "book": "For a product prod_{i in I} C_i of categories: (i) each projection pi_k preserves limits; (ii) the projections jointly create limits -- if every component diagram pi_k F has a limit, those limits are the components of a limit of F; hence a product of categories has a given class of limits or colimits iff each factor does.",
+      "intree": "Program Instance Product_Cartesian : @Cartesian (C ∏ D) with product_obj, fork, exl, exr all defined componentwise, given @Cartesian C and @Cartesian D. The file header states the intent explicitly: 'This is the special case, for the discrete two-object diagram shape, of the general fact that limits in a functor category [J, D] are computed pointwise ... a product category C ∏ D inherits any limit that both factors possess.'",
+      "strength_comparison": "intree-weaker: only ONE shape (binary products), only TWO factors (binary C ∏ D, no I-indexed product of categories exists in the tree), only the (⟸) direction of the final biconditional, and only for limits -- no colimit/Cocartesian analogue for C ∏ D is instantiated. Nothing is asserted about the projections at all."
+    },
+    "gap": "Everything about the projections is missing. (1) No I-indexed product of categories: only the binary Construction/Product.v Product (C ∏ D); grep shows no prod over a family of categories. (2) The projection functors Fst and Snd exist (Construction/Product.v:149,157) but no PreservesLimit witness is ever built for them -- part (i) is unstated. (3) Joint creation (part (ii)) has no counterpart at all: there is no notion of a jointly-creating family in the tree (grep -rniE 'jointly' finds only pushout_jointly_epic and unrelated prose). (4) The componentwise inheritance is proved only for binary products (Product_Cartesian) and for closed/monoidal structure (Structure/Cartesian/Closed/Product.v:43, Structure/Monoidal/Product.v:39); there is no Product_Terminal, no Product_Cocartesian, and no general 'Limit G in C ∏ D from limits in each factor'. (5) The 'only if' direction (a product of categories has the limits ⇒ each factor does) is absent.",
+    "negative_search_log": [
+      "grep -rn '(C ∏ D)' --include='*.v' Structure/ Instance/ Construction/ -- only Product_Cartesian, Product_Closed, Product_Monoidal, Swap, Product_Opposite; no limit/terminal/cocartesian instance.",
+      "grep -rn 'Product_Terminal|Product_Cocartesian|Product_Limit' --include='*.v' . -- 0 hits.",
+      "grep -rniE 'jointly' --include='*.v' . -- 0 relevant hits (pushout_jointly_epic and prose only)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "The single evidence entry checks out: Structure/Cartesian/Product.v:38 is exactly `Program Instance Product_Cartesian : @Cartesian (C ∏ D) := {` with componentwise product_obj/fork/exl/exr, and the file is registered in _CoqProject. My own blind pass missed this file (I grepped Construction/Product.v, which has only Fst/Snd/Swap), so the classifier found strictly more than I did.\nI considered overturning to ABSENT, since every clause the exercise is ABOUT -- projections preserve limits, projections JOINTLY create limits -- is missing, and Product_Cartesian touches only the trailing 'Conclude that...' sentence, for one shape, two factors, one direction. I let PARTIAL stand because that trailing clause is genuinely part of the item and the gap field states all five omissions precisely. Re-verified negatives: no Product_Terminal / Product_Cocartesian / Product_Limit anywhere; `rg -ni 'jointly'` yields only joint FUNCTORIALITY (Binoidal/Premonoidal) and the SAFT jointly-monic prose, no jointly-creating-family notion; and there is no I-indexed product of categories, only the binary C ∏ D (Construction/Product.v:95,142)."
+    }
+  },
+  {
+    "id": "riehl:3.4:exvi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "split idempotent, retract diagram r s = id",
+      "the parallel pair (id_A, s r) and its equalizer/coequalizer",
+      "split coequalizer / split equalizer / split fork",
+      "absolute limit and absolute colimit",
+      "idempotent splitting is an absolute colimit",
+      "Karoubi envelope, Cauchy completeness"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Coequalizer/Split.v",
+        "line": 132,
+        "symbol": "split_coequalizer_preserved",
+        "intree_statement": "Corollary split_coequalizer_preserved {C D : Category} (F : C ⟶ D) {x y : C} (f g : x ~> y) (S : SplitCoequalizer f g) : IsCoequalizer (fmap[F] f) (fmap[F] g) (F (scoeq_obj S)) (fmap[F] (scoeq_e S))."
+      },
+      {
+        "file": "Structure/Coequalizer/Split.v",
+        "line": 90,
+        "symbol": "split_coequalizer_is_coequalizer",
+        "intree_statement": "Theorem split_coequalizer_is_coequalizer {C : Category} {x y : C} (f g : x ~> y) (S : SplitCoequalizer f g) : IsCoequalizer f g (scoeq_obj S) (scoeq_e S)."
+      }
+    ],
+    "statement_record": {
+      "book": "For a retract B -s-> A -r->> B with r s = id_B: (i) s exhibits B as the equalizer, and r as the coequalizer, of the parallel pair (id_A, s r); (ii) B is both the limit and the colimit of the diagram given by the idempotent s r; (iii) these limits and colimits are preserved by ANY functor -- they are absolute.",
+      "intree": "Corollary split_coequalizer_preserved (F : C ⟶ D) (S : SplitCoequalizer f g) : IsCoequalizer (fmap[F] f) (fmap[F] g) (F (scoeq_obj S)) (fmap[F] (scoeq_e S)), on top of Theorem split_coequalizer_is_coequalizer and Theorem functor_preserves_split (:104). The retract data itself is available as Class SplitIdempotent (Theory/Morphisms.v:85) with split_idem_sr : s ∘ r ≈ split_idem and split_idem_rs : r ∘ s ≈ id.",
+      "strength_comparison": "intree-weaker: the coequalizer half of (i) and its absoluteness (iii) are proved in the GENERAL split-coequalizer form, which subsumes the exercise's instance, but the instance is never taken -- no in-tree term exhibits (id_A, s ∘ r, r) as a SplitCoequalizer (the witness is e := r, s := s, t := id_A, with law4 g ∘ t = s ∘ r ≈ s ∘ e). The equalizer half and clause (ii) have no counterpart at all."
+    },
+    "gap": "(a) The instance is missing: given a SplitIdempotent (Theory/Morphisms.v:85), no in-tree term builds SplitCoequalizer id[A] (s ∘ r) with scoeq_e := r, hence neither the coequalizer of clause (i) nor its absoluteness is available for the retract diagram; only the general theorem about split coequalizers exists. (b) The equalizer half of clause (i) is entirely absent: there is no SplitEqualizer/split fork record dual to Structure/Coequalizer/Split.v (grep -rniE 'SplitEqualizer|split equalizer|split fork' finds only two prose mentions, Comonad/Coalgebra.v:89 and Monad/Monadicity/BeckObjects.v:19, plus no definition), so 'split equalizers are absolute' is unproved. (c) Clause (ii) -- B as both the limit and the colimit of the walking-idempotent diagram -- is absent: there is no walking-idempotent shape category and no (co)limit statement over an endomorphism diagram. (d) Construction/Karoubi.v:67 asserts in PROSE that 'splitting an idempotent is an absolute colimit' but proves nothing of the kind.",
+    "negative_search_log": [
+      "grep -rniE 'SplitEqualizer|split equalizer|split fork' --include='*.v' . -- 3 hits, all prose; no dual record exists.",
+      "grep -rn 'SplitCoequalizer' --include='*.v' . -- the only inhabitants built in-tree are the Beck/monadicity ones (Monad/Monadicity/BeckObjects.v:76, Monad/Monadicity/Beck.v:237,318); none comes from a split idempotent.",
+      "grep -rniE 'idempotent' --include='*.v' . | grep -iE 'equali|coequali|limit' -- 2 hits, both comments (Construction/Karoubi.v:67, Structure/Coequalizer/Split.v:17)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both evidence quotes are verbatim-accurate at Structure/Coequalizer/Split.v:90 and :132. I independently CHECKED THE CLASSIFIER'S ARITHMETIC on the witness it proposes and it is correct: with f := id[A], g := s o r, scoeq_e := r, scoeq_s := s, scoeq_t := id[A], law1 gives r o id ~= r o (s o r) = (r o s) o r = r, law2 gives r o s ~= id, law3 gives id o id ~= id, law4 gives (s o r) o id ~= s o r. So the SplitCoequalizer instance really is three lines away, and clause (i)-coequalizer plus clause (iii)-colimit follow immediately from split_coequalizer_is_coequalizer and split_coequalizer_preserved. That makes this the cheapest item in the batch. Re-verified that no SplitEqualizer record exists (`rg -ni 'SplitEqualizer|split equalizer|split fork'` returns 3 prose hits only: Comonad/Coalgebra.v:89, Monad/Monadicity/BeckObjects.v:19,54), and that SplitIdempotent (Theory/Morphisms.v:85) carries exactly split_idem_sr : s o r ~= split_idem and split_idem_rs : r o s ~= id as claimed.\nOne calibration point on gap clause (d): Construction/Karoubi.v:67-70 is a BACKGROUND-ESSAY sentence explicitly attributed to nLab ('Cauchy complete category'), not a claim that the tree proves it, so 'asserts in PROSE ... but proves nothing of the kind' reads harsher than the file warrants. The substance of the gap is unaffected."
+    }
+  },
+  {
+    "id": "riehl:3.4:def-absolute",
+    "classification": "PARTIAL",
+    "aliases": [
+      "absolute limit / absolute colimit",
+      "preserved by every functor",
+      "Absolute predicate on a (co)limit",
+      "split coequalizers are absolute (Pare)",
+      "absolute coequalizer, Beck's theorem"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Coequalizer/Split.v",
+        "line": 132,
+        "symbol": "split_coequalizer_preserved",
+        "intree_statement": "Corollary split_coequalizer_preserved {C D : Category} (F : C ⟶ D) {x y : C} (f g : x ~> y) (S : SplitCoequalizer f g) : IsCoequalizer (fmap[F] f) (fmap[F] g) (F (scoeq_obj S)) (fmap[F] (scoeq_e S)). -- the quantification over an ARBITRARY F : C ⟶ D is exactly the absoluteness property, applied to the archetypal case."
+      }
+    ],
+    "statement_record": {
+      "book": "A limit or colimit is ABSOLUTE when it is preserved by every functor out of the ambient category (coined in prose inside part (iii) of Exercise 3.4.vi, with the split-idempotent (co)equalizer as the motivating instance).",
+      "intree": "Corollary split_coequalizer_preserved (F : C ⟶ D) ... : IsCoequalizer (fmap[F] f) (fmap[F] g) (F (scoeq_obj S)) (fmap[F] (scoeq_e S)), with the file header naming the notion: 'Colimits preserved by all functors in this way are called *absolute* (Pare, \"On absolute colimits\", 1971; nLab: absolute colimit), and split coequalizers are the archetypal example.'",
+      "strength_comparison": "intree-weaker: the property is asserted only for one class of colimits (split coequalizers) and only in the elementary IsCoequalizer form; the concept itself is never reified, so nothing in the tree can say of a given Limit/Colimit that it is absolute."
+    },
+    "gap": "There is no definition of an absolute (co)limit. Nothing of the shape 'Definition Absolute {J C} {G : J ⟶ C} (L : Limit G) := ∀ (D : Category) (F : C ⟶ D), PreservesLimit G F' (or its cone-level/leg-agreeing strengthening) exists, so absoluteness cannot be predicated of a limit, cannot be assumed as a hypothesis, and has no closure theory (composites, absoluteness of split idempotents, absolute colimits vs Cauchy completeness). The word 'absolute' occurs in-tree only in prose (Structure/Coequalizer/Split.v:32, Construction/Karoubi.v:67-70, Monad/Monadicity/BeckObjects.v:53, Comonad/Coalgebra.v:102), and the sole assertion carrying the property is the split-coequalizer corollary cited above; the dual (absolute limits, e.g. split equalizers) is not proved at all.",
+    "negative_search_log": [
+      "grep -rni 'absolute' --include='*.v' . -- 12 hits, all comments/prose except that the property itself is proved by functor_preserves_split (:104) and split_coequalizer_preserved (:132) in Structure/Coequalizer/Split.v.",
+      "grep -rniE 'preserved by every functor|preserved by any functor|Absolute(Limit|Colimit)' --include='*.v' . -- only the Structure/Coequalizer/Split.v header and Comonad/Coalgebra.v:102 prose."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently on the same reasoning. Re-ran `rg -ni 'absolute'` over all *.v: 12 hits, and every one is prose (Structure/Coequalizer/Split.v:9,32-33; Construction/Karoubi.v:67,70; Monad/Monadicity/BeckObjects.v:53,200; Comonad/Coalgebra.v:102; Construction/Slice.v:69 and Instance/Coq/Comonad/Store.v:71 use the English word in an unrelated sense). No Absolute* identifier exists. The evidence entry is the right one: the universal quantification over an arbitrary F : C ⟶ D in split_coequalizer_preserved IS the property, instantiated once. The gap field's suggested shape (`forall (D : Category) (F : C ⟶ D), PreservesLimit G F`) is well-formed against the in-tree vocabulary, though Phase E should prefer the cone-level/leg-agreeing strengthening for the same reason Construction/Comma/Limit.v:47-67 gives (apex-only PreservesLimit leaves the legs unconstrained), which the gap field already anticipates."
+    }
+  },
+  {
+    "id": "riehl:3.5:eq1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "lim_J C(X, F-) is the set of cones Cone(X, F)",
+      "the hom-diagram C(X,-) ◯ F : J ⟶ Set",
+      "limits in Set computed as compatible tuples (Theorem 3.2.11)",
+      "Nat(Delta 1, G) as the limit of a Set-valued diagram",
+      "cone = natural transformation out of the constant diagram"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 145,
+        "symbol": "cone_of_nat",
+        "intree_statement": "Program Definition cone_of_nat (c : C) (α : Δ[J]( @terminal_obj Sets Sets_Terminal ) ⟹ HomDiagram c F) : ACone c F := {| vertex_map := fun j => α j ttt |} (coherence obligation discharged by naturality of α at the unique point). Here HomDiagram c F : J ⟶ Sets is C(c, F-): 'fobj := fun j => {| carrier := c ~{C}~> F j |}; fmap := fun j j' g => {| morphism := fun h => fmap[F] g ∘ h |}' (Structure/Limit/Weighted.v:49)."
+      },
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 157,
+        "symbol": "nat_of_cone",
+        "intree_statement": "Program Definition nat_of_cone (c : C) (κ : ACone c F) : Δ[J]( @terminal_obj Sets Sets_Terminal ) ⟹ HomDiagram c F := {| transform := fun j => {| morphism := fun _ => @vertex_map _ _ _ _ κ j |} |}."
+      },
+      {
+        "file": "Instance/Sets/End.v",
+        "line": 144,
+        "symbol": "Sets_End",
+        "intree_statement": "Program Definition Sets_End : End F := ... for F : C^op ∏ C ⟶ Sets, with carrier Definition end_family : Type := { s : forall x : C, F (x, x) & forall (x y : C) (f : x ~{C}~> y), fmap[F] ((id, f) : (x,x) ~> (x,y)) (s x) ≈ fmap[F] ((op f, id) : (y,y) ~> (x,y)) (s y) } (:59). ADDED BY VERIFIER: instantiated at HomDiagram X F ◯ Snd this setoid of compatible families IS the left-hand side of (3.5.1); the composite is never formed in-tree."
+      },
+      {
+        "file": "Structure/Cone.v",
+        "line": 79,
+        "symbol": "ConePresheaf",
+        "intree_statement": "Instance ConePresheaf {J C : Category} (F : @Functor J C) : @Functor C^op Sets -- sends c to the setoid {| carrier := Cone[c]F ; is_setoid := AConeEquiv _ _ |} and a morphism to precomposition of every leg. ADDED BY VERIFIER: this already packages Cone(-,F), the right-hand side of (3.5.1), as a first-class Sets-valued presheaf."
+      }
+    ],
+    "statement_record": {
+      "book": "For F : J ⟶ C small and X an object of a locally small C, the composite C(X,F-) : J ⟶ Set has a limit, computed as the set of tuples (lambda_j : X → F j) with F f . lambda_j = lambda_k; hence lim_J C(X,F-) ≅ Cone(X,F), the set of cones over F with summit X.",
+      "intree": "The hom-diagram C(X,F-) is HomDiagram X F : J ⟶ Sets, and the setoid [[[J,Sets]]](Δ[J](1), HomDiagram X F) of Sets-natural transformations out of the constant-singleton weight is converted to and from the setoid of cones with apex X by cone_of_nat / nat_of_cone -- a Sets-natural transformation Δ(1) ⟹ C(X,F-) is exactly a family of legs X ~> F j satisfying fmap[F] f ∘ leg_j ≈ leg_k.",
+      "strength_comparison": "intree-weaker: the left-hand side of (3.5.1) is never formed. Nat(Δ1, G) is only the STANDARD CONSTRUCTION of lim G in Sets, and the tree nowhere proves that it is a limit of G, so the in-tree content is the element-level dictionary 'compatible family of legs = cone', not the isomorphism lim_J C(X,F-) ≅ Cone(X,F)."
+    },
+    "gap": "Two things are missing. (1) The library never constructs limits in Sets: Instance/Sets.v:109 says outright that 'completeness of [Sets] is built piecewise under Instance/Sets/ -- products and exponentials, pushouts, and Cauchy completeness', and grep over Instance/ for Limit/Complete finds no Limit instance for Sets and no theorem 'lim G ≅ Nat(Δ1,G)' for G : J ⟶ Sets. So lim_J C(X,F-), the left side of (3.5.1), cannot even be written. (2) cone_of_nat and nat_of_cone are never proved mutually inverse: the round trips appear only inside the obligations of wl_iso (:308) for the Lmed-based maps, so even the identification 'setoid of compatible families ≅ Cone(X,F)' is not packaged as an Isomorphism in Sets. The footnote extension to large diagrams whose limit exists is likewise unaddressed.\n\n[VERIFIER ADDENDUM 2026-07-31] The claim that the limit of the hom-diagram cannot be written in-tree is too strong. Instance/Sets/End.v proves Sets_End F : End F for EVERY F : C^op ∏ C ⟶ Sets (funext-free), with carrier end_family (:59) the setoid of compatible families; taking F := HomDiagram X F ◯ Snd : J^op ∏ J ⟶ Sets yields an end whose wedge condition is exactly fmap[F] f ∘ lambda_j ≈ lambda_k, i.e. Riehl's (3.5.1) tuple. The object therefore exists in-tree; what is missing is (a) the identification of that end with a Limit of a Sets-valued diagram and (b) the composite ever being formed.",
+    "negative_search_log": [
+      "grep -rniE 'Limit|Complete' --include='*.v' Instance/ -- no Limit instance or completeness theorem for Sets; only prose.",
+      "grep -rniE 'pointwise.*limit|limit.*pointwise|functor categor.*(limit|complete)' --include='*.v' . -- only prose (Instance/Fun.v:101-105, Structure/Cartesian/Product.v:33)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Classification stands, but the GAP FIELD OVERSTATES THE OBSTRUCTION and I have appended a marked addendum plus two evidence entries rather than silently rewriting it.\n(1) The claim 'lim_J C(X,F-), the left side of (3.5.1), cannot even be written' is not right. Instance/Sets/End.v builds `Sets_End F : End F` for EVERY F : C^op ∏ C ⟶ Sets, funext-free, whose carrier `end_family` (:59) is literally the setoid of compatible families. Composing HomDiagram X F with Snd : J^op ∏ J ⟶ J gives a functor J^op ∏ J ⟶ Sets whose end has wedge condition fmap[F] f o lambda_j ~= lambda_k -- EXACTLY Riehl's (3.5.1) tuple condition. So the left-hand side is constructible today as Sets_End (HomDiagram X F ◯ Snd); what is missing is the identification of that end with a Limit, not the object itself. This materially shrinks the Phase-E issue and should be stated in it.\n(2) The record never mentions ConePresheaf (Structure/Cone.v:79), which already packages Cone(-,F) as a genuine Sets-valued presheaf C^op ⟶ Sets -- i.e. the right-hand side of (3.5.1) IS a first-class in-tree object, contrary to the impression the record leaves.\n(3) Otherwise verified: cone_of_nat is at Weighted.v:145 and nat_of_cone at :157 as cited, quotes accurate, file in _CoqProject; and the observation that the two are never packaged as a mutual inverse is correct (the round trips appear only inside the wl_iso obligations at :308, in the Lmed-mediated form). The negative that Sets has no Limit instance is confirmed: `rg -n 'Limit|Colimit|Complete' Instance/` finds only Instance/Cones/Limit.v (Limit from a terminal cone, generic) and prose; Instance/Sets.v:108-111 is quoted correctly."
+    }
+  },
+  {
+    "id": "riehl:3.5:thm2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "covariant representables preserve limits",
+      "C(X, lim F) ≅ lim_J C(X, F-)",
+      "hom functor is continuous / Hom(X,-) preserves limits",
+      "Curried_Hom, [Hom A , ─], HomDiagram",
+      "the limit cone represents the cone functor"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 344,
+        "symbol": "conical_of_limit",
+        "intree_statement": "Lemma conical_of_limit `(F : J ⟶ C) : Limit F → WeightedLimit (Δ[J]( @terminal_obj Sets Sets_Terminal )) F. -- unpacking WeightedLimit (:101), this delivers wlim_obj := the limit apex, an isomorphism in Sets wlim_iso (c) : [[[J,Sets]]](Δ(1), HomDiagram c F) ≅ {| carrier := c ~{C}~> wlim_obj |} for every c, and its naturality wlim_natural (c c' : C) (h : c' ~> c) (α : W ⟹ HomDiagram c F) : to (wlim_iso c') (nat_compose (HomDiagram_precompose h F) α) ≈ to (wlim_iso c) α ∘ h."
+      },
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 308,
+        "symbol": "wl_iso",
+        "intree_statement": "Program Definition wl_iso (c : C) : @Isomorphism Sets ([[[J,Sets]]](Δ[J]( @terminal_obj Sets Sets_Terminal ), HomDiagram c F)) {| carrier := c ~{C}~> Lobj ; is_setoid := @homset C c Lobj |} := {| to := wl_to c ; from := wl_from c |} -- with wl_to c α := Lmed (mkCone (cone_of_nat c α)) and wl_from c u := the cone (fun j => Lleg j ∘ u), both round trips discharged."
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 142,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c) -- proved by exhibiting (@ConePresheaf J C F) as the represented presheaf, i.e. the natural isomorphism Hom(c, z) ≅ Cone(c, F) (file header, :36-38). ADDED BY VERIFIER: a second independent in-tree route to the representability half of Theorem 3.5.2, not cited by Phase C."
+      }
+    ],
+    "statement_record": {
+      "book": "For F : J ⟶ C whose limit exists in a locally small C, the canonical map C(X, lim_J F) → lim_J C(X, F-) is a natural isomorphism for every X; hence every covariant representable C(X,-) : C ⟶ Set preserves whatever limits exist in C.",
+      "intree": "Lemma conical_of_limit : Limit F → WeightedLimit (Δ[J](1)) F, i.e. an isomorphism in Sets between the setoid of Sets-natural transformations Δ(1) ⟹ C(c,F-) (equivalently, of cones from c) and the hom-setoid c ~> lim F, natural in c.",
+      "strength_comparison": "intree-weaker: the natural isomorphism C(X, lim F) ≅ Cone(X,F) is proved at full strength in both directions with naturality in X, but the MIDDLE term of Riehl's chain -- lim_J C(X,F-), the limit of the hom-diagram taken in Set -- is never formed, and the conclusion 'C(X,-) preserves limits' is never stated. Note also that the naturality proved is in the apex X only; naturality in the diagram F is not addressed."
+    },
+    "gap": "The preservation conclusion is missing, and cannot presently be stated: (1) the tree constructs no limits in Sets (Instance/Sets.v:109 records that completeness of Sets is only piecewise: products, exponentials, pushouts, Cauchy completeness), so 'lim_J C(X,F-) in Set' has no in-tree meaning and the comparison map of (3.5.3) is not formed; (2) no PreservesLimit witness is ever built for a hom-functor -- grep -rn 'PreservesLimit|PreservesAllLimits' shows the only inhabitants in the tree are right adjoints (Adjunction/Continuity.v:199,202) and equivalences (Theory/Equivalence/Limit.v:421), and Curried_Hom / [Hom A , ─] (Functor/Hom.v:60,80) appears in no preservation statement; (3) consequently the corollary form 'representables send limits in C to limits in Set' is absent.\n\n[VERIFIER ADDENDUM 2026-07-31] The claim that the limit of the hom-diagram cannot be written in-tree is too strong. Instance/Sets/End.v proves Sets_End F : End F for EVERY F : C^op ∏ C ⟶ Sets (funext-free), with carrier end_family (:59) the setoid of compatible families; taking F := HomDiagram X F ◯ Snd : J^op ∏ J ⟶ Sets yields an end whose wedge condition is exactly fmap[F] f ∘ lambda_j ≈ lambda_k, i.e. Riehl's (3.5.1) tuple. The object therefore exists in-tree; what is missing is (a) the identification of that end with a Limit of a Sets-valued diagram and (b) the composite ever being formed.",
+    "negative_search_log": [
+      "grep -rniE 'hom.*preserv|preserv.*hom|representable.*(preserv|limit)|Hom_?Limit' --include='*.v' . -- 0 relevant hits.",
+      "grep -rn 'PreservesLimit|PreservesAllLimits' --include='*.v' . -- inhabited only by right adjoints and equivalences."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Classification stands; evidence verified and EXTENDED. conical_of_limit is at Structure/Limit/Weighted.v:344 and wl_iso at :308 exactly as cited, with conical_weighted (:354) proving both directions -- the record's characterisation of what is proved is honest.\nMISSED EVIDENCE (added): Structure/UniversalProperty/Limit.v:142 `LimitIsUniversalProperty` gives the SAME representability iso by a second, independent route -- being a limit of F is representing ConePresheaf F, i.e. Hom(c,z) ≅ Cone(c,F) naturally in c. The record cites only the weighted-limit route, understating how firmly the C(X,-) side of Riehl's triangle is already in the tree.\nGAP OVERSTATEMENT (addendum appended, same as for riehl:3.5:eq1): 'lim_J C(X,F-) in Set has no in-tree meaning' is too strong -- Instance/Sets/End.v's Sets_End applied to HomDiagram X F ◯ Snd realises precisely that object as the setoid of compatible families. The genuine missing links are (a) end-in-Sets ≅ limit-in-Sets and (b) any PreservesLimit witness for a hom-functor. Re-verified (b): `rg -n 'PreservesLimit|PreservesAllLimits'` shows the only inhabitants are right adjoints (Adjunction/Continuity.v:198,202) and equivalences, and Curried_Hom (Functor/Hom.v:60) appears in no preservation statement."
+    }
+  },
+  {
+    "id": "riehl:3.5:example4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "power / cotensor A^I, prod_I A",
+      "indexed product of a constant family",
+      "C(X, A^I) ≅ C(X,A)^I",
+      "iprod / IsIndexedProduct / HasIndexedProducts",
+      "evaluation projections ev_i : A^I ⟶ A"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 105,
+        "symbol": "iprod_ump",
+        "intree_statement": "Definition iprod_ump {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) (c : C) (pi : ∀ a, c ~> f a) : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a."
+      },
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 51,
+        "symbol": "IsIndexedProduct",
+        "intree_statement": "Record IsIndexedProduct {C : Category} {A : Type} (f : A → C) (p : C) (proj : ∀ a : A, p ~> f a) := { iprod_desc {c : C} (pi : ∀ a, c ~> f a) : ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a } -- with the index A an arbitrary Type (no finiteness), and HasIndexedProducts (:128) packaging a choice for every family."
+      }
+    ],
+    "statement_record": {
+      "book": "The I-indexed power (cotensor) A^I of an object A is the I-fold product of A with itself; its representable universal property is the natural isomorphism C(X, A^I) ≅ C(X,A)^I, a map into A^I being exactly an I-indexed family of maps into A recovered by composing with the projections ev_i.",
+      "intree": "Record IsIndexedProduct f p proj := { iprod_desc {c} (pi : ∀ a, c ~> f a) : ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a } and its limit-side reading iprod_ump; instantiated at the constant family f := fun _ : I => A this is precisely the bijection between c ~> A^I and I-indexed families c ~> A.",
+      "strength_comparison": "same content, weaker packaging: the unique-existence form ∃! u, ∀ a, proj a ∘ u ≈ pi a IS the claimed bijection C(X, A^I) ≅ C(X,A)^I for the constant family, and is proved for an arbitrary index Type. But it is never specialized to a constant family, the object A^I is never named, and it is not exhibited as an isomorphism of hom-setoids."
+    },
+    "gap": "(1) Powers/cotensors are not defined: grep -rniE 'copower|cotensor|powers' finds no such notion (the 'powers' hits are Lawvere-theory powers of the generic object and multicategory pow, unrelated), so there is no A^I, no ev_i, and no constant-family instance of iprod. (2) The universal property is available only in ∃!-form; it is not packaged as an Isomorphism in Sets between the hom-setoid (X ~> A^I) and the setoid of I-indexed families, and no naturality statement in X accompanies it (there is no iprod analogue of merge_comp/fork_comp). (3) The link Riehl draws to Set -- that A^I there is the function set and ev_i is evaluation -- has no counterpart, since Sets is not shown to have indexed products (Instance/Sets/Cartesian.v covers binary products only).",
+    "negative_search_log": [
+      "grep -rniE 'copower|cotensor|indexed coproduct' --include='*.v' . -- 0 hits.",
+      "grep -rniE '\\bpowers\\b|power object' --include='*.v' . -- only Lawvere powers of the generic object, multicategory pow, and topos power objects Pow a := Ω ^ a; none is Riehl's power/cotensor."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence exact: Structure/Limit/Product.v:105 is `Definition iprod_ump ...` and :51 is `Record IsIndexedProduct ...`, index A an arbitrary Type, file in _CoqProject.\nI seriously considered OVERTURNING to PRESENT and record why I did not, because the record is internally in tension: strength_comparison opens 'same content, weaker packaging' (which is also a deviation from the frozen enum same|intree-weaker|intree-stronger) while the classification is PARTIAL, and the sibling record riehl:3.5:example7 accepts an equational UMP as PRESENT. The asymmetry is nonetheless defensible on a fact I checked independently: the coproduct of example7 exists in-tree as a NAMED object with a full covariant API (Coprod, ▽, inl/inr, inl_merge/inr_merge/merge_inv/merge_comp) and concrete inhabitants (Sets, Coq, Props), whereas there is no A^I, no ev_i, no constant-family instantiation of iprod, and -- verified -- NO HasIndexedProducts instance anywhere in the tree (`rg -n 'HasIndexedProducts'` returns only the class at Structure/Limit/Product.v:128 and a pointer in Theory/WeaklyInitial.v:44). So the power is uninhabited as well as unnamed. PARTIAL stands, and Phase E should scope the issue as a thin naming/packaging wrapper over iprod plus a Sets witness, not as new limit theory."
+    }
+  },
+  {
+    "id": "riehl:3.5:thm5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Yoneda embedding preserves and reflects limits",
+      "y : C ⟶ Set^{C^op}, Curried_CoHom, [Hom ─ , A ]",
+      "fully faithful functors reflect limits",
+      "limits in a presheaf category are computed pointwise",
+      "covariant representables preserve limits"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 401,
+        "symbol": "ff_reflects_limit",
+        "intree_statement": "Definition ff_reflects_limit : IsALimit G (vertex_obj[N]) := @Build_IsALimit J C G (vertex_obj[N]) (@coneFrom _ _ _ N) ff_reflect_ump -- in the section context (HF : Full F) (HfF : Faithful F), {G : J ⟶ C}, (N : Cone G), (HL : IsALimit (F ◯ G) (F (vertex_obj[N]))), (Hlegs : ∀ x, limit_leg HL x ≈ fmap[F] (cone_leg N x)). This is the reflection half of clause (ii), at cone level with leg agreement."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 96,
+        "symbol": "Yoneda_Full",
+        "intree_statement": "#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C) -- with the companion #[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C) (:85). Read at C^op these give Full/Faithful for Curried_CoHom C := Curried_Hom C^op : C ⟶ [C^op, Sets] (:146), Riehl's covariant Yoneda embedding y."
+      },
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 344,
+        "symbol": "conical_of_limit",
+        "intree_statement": "Lemma conical_of_limit `(F : J ⟶ C) : Limit F → WeightedLimit (Δ[J]( @terminal_obj Sets Sets_Terminal )) F -- the natural-in-X isomorphism C(X, lim F) ≅ (cones from X), which is as far as clause (i) gets in-tree (see riehl:3.5:thm2)."
+      }
+    ],
+    "statement_record": {
+      "book": "For any locally small C: (i) covariant representables C(X,-) preserve all limits that exist in C; (ii) the covariant Yoneda embedding y : C ⟶ Set^{C^op} both preserves and reflects limits -- a cone is a limit cone iff its image is. (The proof of (ii) uses pointwise limits in Set^{C^op} plus (i) for preservation, and full-and-faithfulness plus Lemma 3.4.5 for reflection.)",
+      "intree": "ff_reflects_limit : full + faithful F, plus a cone N over G whose image at F(vertex N) is a limit with legs fmap[F] (cone_leg N x), gives IsALimit G (vertex_obj[N]); Yoneda_Full / Yoneda_Faithful : the (co)Yoneda embedding Curried_Hom C is full and faithful; conical_of_limit : the representable natural iso for clause (i).",
+      "strength_comparison": "intree-weaker: the reflection half of clause (ii) is available only as an UNCOMPOSED pair -- the general fully-faithful reflection theorem and the fullness/faithfulness of the Yoneda embedding are each proved, but no statement about y reflecting limits exists; the preservation half of clause (ii) is absent outright; clause (i) is present only as the cone-representability iso, not as preservation (see riehl:3.5:thm2). On one point the tree is stronger than a naive reading: ff_reflects_limit is stated at cone level with an explicit leg-agreement hypothesis Hlegs, which is the honest form."
+    },
+    "gap": "(1) Nothing composes ff_reflects_limit with Yoneda_Full/Yoneda_Faithful, so 'y reflects limits' is unstated. (2) The preservation half of clause (ii) is entirely missing, and both of its ingredients are missing too: there is no theorem that limits in a functor category [C, D] (in particular in [C^op, Sets]) are computed pointwise -- Instance/Fun.v:101-105 only describes pointwise inheritance in prose, and the sole pointwise instance in the tree is Functor_Category_Cartesian (Instance/Fun/Cartesian.v:111) for binary products -- and clause (i) itself is not proved as preservation. (3) Riehl's immediately following remark that y does NOT create limits has no counterpart (there is no creation-of-limits notion at all).",
+    "negative_search_log": [
+      "grep -rn 'Yoneda' --include='*.v' -l . -- 20 files; none states any limit preservation or reflection property of the embedding.",
+      "grep -rniE 'pointwise.*limit|functor categor.*(limit|complete)' --include='*.v' . -- prose only."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All three evidence entries verified: Theory/Equivalence/Limit.v:401 `Definition ff_reflects_limit : IsALimit G (vertex_obj[N]) :=` in the Full+Faithful section with the leg-agreement hypothesis Hlegs (:353), Functor/Hom.v:96 `#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).` with Yoneda_Faithful at :85, and Curried_CoHom at Functor/Hom.v:146 as `Curried_Hom C^op : C ⟶ [C^op, Sets]` -- so the record's identification of Riehl's y with the in-tree embedding is correct. I reached the same PARTIAL blind, on the same 'uncomposed pair' reasoning.\nGap clause (2) re-verified independently and it is the load-bearing one: Instance/Fun/ contains exactly ONE file (Cartesian.v), whose sole result is Functor_Category_Cartesian (:111) for binary products, so 'limits in [C^op,Sets] are computed pointwise' -- Riehl's Proposition 3.4.9, the engine of the preservation half -- has no in-tree counterpart at all. That is the real prerequisite and the Phase-E issue should depend on it rather than on thm5 directly."
+    }
+  },
+  {
+    "id": "riehl:3.5:example7",
+    "classification": "PRESENT",
+    "aliases": [
+      "representable universal property of the binary coproduct",
+      "C(X + Y, Z) ≅ C(X,Z) × C(Y,Z)",
+      "copairing / case analysis [f,g], merge, ▽",
+      "maps out of a coproduct are pairs of maps",
+      "ump_coproducts, inl_merge/inr_merge/merge_inv"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 136,
+        "symbol": "ump_products",
+        "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g). -- Cocartesian C is NOTATION for @Cartesian (C^op) (Structure/Cocartesian.v:115), with inl := @exl _ O, inr := @exr _ O and merge := @fork _ O (:131,142-143), so this field read at C^op is exactly h ≈ f ▽ g ↔ (h ∘ inl ≈ f) * (h ∘ inr ≈ g): the bijection between maps X + Y ~> Z and pairs of maps (X ~> Z, Y ~> Z)."
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 200,
+        "symbol": "merge_comp",
+        "intree_statement": "Corollary merge_comp {x y z w : C} (f : y ~> z) (h : w ~> z) (g : z ~> x) : (g ∘ f) ▽ (g ∘ h) ≈ g ∘ f ▽ h. -- naturality of the bijection in the target object Z (postcomposition)."
+      }
+    ],
+    "statement_record": {
+      "book": "For any objects X, Y, Z of a locally small C, the representable universal property of the coproduct is the natural isomorphism C(X + Y, Z) ≅ C(X,Z) × C(Y,Z): the set of maps out of a coproduct is the product of a pair of hom-sets.",
+      "intree": "ump_products read in C^op: h ≈ f ▽ g ↔ (h ∘ inl ≈ f) * (h ∘ inr ≈ g), with the covariant surface inl_merge (f ▽ g ∘ inl ≈ f, :175), inr_merge (:182), merge_inl_inr (inl ▽ inr ≈ id, :189), merge_inv (f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i), :196) and merge_comp ((g ∘ f) ▽ (g ∘ h) ≈ g ∘ f ▽ h, :200).",
+      "strength_comparison": "same, modulo presentation: the biconditional is the bijection stated pointwise (▽ is a two-sided inverse to h ↦ (h ∘ inl, h ∘ inr): inl_merge/inr_merge give one round trip, merge_comp with merge_inl_inr the other), and merge_comp is precisely its naturality in Z. The tree never bundles this as an Isomorphism in Sets between the hom-setoid (x + y ~> z) and a product setoid -- it states universal properties equationally throughout -- and it never phrases it as 'Hom(-,Z) carries coproducts to products'."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn '≊' --include='*.v' . -- the hom-setoid-isomorphism notation is used for adjunctions, exponentials and the Yoneda embedding, never for (co)products; confirms the packaged-iso form of this item is absent while the equational content is present."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PRESENT is right and the evidence is exact: Structure/Cartesian.v:136 is the ump_products field `h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)` and Structure/Cocartesian.v:200 is `Corollary merge_comp {x y z w : C} (f : y ~> z) (h : w ~> z) (g : z ~> x) : (g ∘ f) ▽ (g ∘ h) ≈ g ∘ f ▽ h.` I verified the duality chain the record leans on rather than taking it on trust: Cocartesian C is NOTATION for @Cartesian (C^op) (Structure/Cocartesian.v:115), merge := @fork _ O (:131), inl/inr := exl/exr (:142-143), and the covariant surface inl_merge (:175), inr_merge (:182), merge_inl_inr (:189), merge_inv (:196) all exist. Cocartesian.v:24-28 states this design explicitly, so reading the coproduct UMP off ump_products is the library's intended and documented route, not a stretch by the classifier. Under the frozen definition (setoid/equational rephrasing is faithful) the unpackaged form is presentation, not substance, and the record says so without overclaiming: it flags that the Sets-iso packaging and the 'Hom(-,Z) carries coproducts to products' phrasing are absent. No issue should be filed."
+    }
+  },
+  {
+    "id": "riehl:3.5:example8",
+    "classification": "ABSENT",
+    "aliases": [
+      "copower / tensor I . A, coprod_I A",
+      "indexed coproduct of a constant family",
+      "C(coprod_I A, X) ≅ C(A,X)^I",
+      "IsIndexedCoproduct / HasIndexedCoproducts / icoprod",
+      "colimit of a discrete diagram",
+      "in Set the copower is I × A"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'copower|cotensor|indexed coproduct|I ⋅ A' --include='*.v' . -- 0 hits.",
+      "grep -rniE 'IsIndexedCoproduct|HasIndexedCoproducts|icoprod|Colimit \\(DiscreteCat' --include='*.v' . -- 0 hits. The dual notion IS in the tree for products (Structure/Limit/Product.v: IsIndexedProduct :51, iprod :93, iprod_ump :105, HasIndexedProducts :128, all as limits of DiscreteCat_Functor f), and it has NO coproduct counterpart: grep -rn 'DiscreteCat_Functor' shows the discrete diagram is used only under Limit (Theory/WeaklyInitial.v:90-91, Adjunction/GAFT.v:249, Adjunction/SAFT.v:146,186), never under Colimit.",
+      "grep -rniE 'coproduct.*famil|famil.*coproduct|∐|⨿' --include='*.v' . -- the only ∐ in the tree is the COPRODUCT CATEGORY C ∐ D (Construction/Coproduct.v:111) and prose; coproducts of objects are binary only (Structure/Cocartesian.v: Coprod : C → C → C, :125).",
+      "Consequently neither the copower object coprod_I A nor its representable universal property C(coprod_I A, X) ≅ C(A,X)^I nor the Set computation coprod_I A ≅ I × A has any in-tree counterpart; Instance/Sets/Cocartesian.v provides binary coproducts of setoids only."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Every negative re-run and confirmed: `rg -ni 'copower|cotensor|indexed coproduct'` returns 0 hits; there is no IsIndexedCoproduct / HasIndexedCoproducts / icoprod; and the classifier's sharpest observation is verified -- `rg -n 'DiscreteCat_Functor'` shows the discrete diagram appears ONLY under Limit (Structure/Limit/Product.v, Theory/WeaklyInitial.v:90-91, Adjunction/GAFT.v:249,251, Adjunction/SAFT.v:146,186) and never under Colimit, so the dual of the whole Structure/Limit/Product.v development is simply not taken. The ∐ notation is indeed the COPRODUCT CATEGORY (Construction/Coproduct.v:111), not a coproduct of objects. Object-level coproducts are binary only. Phase E note: unlike its product counterpart this cannot be closed by an op-alias alone -- Colimit F := Limit (F^op) means the discrete diagram would have to be re-presented over DiscreteCat A ^op, which is not the same functor definitionally."
+    }
+  }
+]

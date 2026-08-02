@@ -1,0 +1,1327 @@
+{
+  "book": "awodey",
+  "range": {
+    "pdf_start": 102,
+    "pdf_end": 135
+  },
+  "pages": [
+    {
+      "pdf_page": 102,
+      "book_page": "93",
+      "empty": true,
+      "items": [],
+      "notes": "Chapter 5 title page + chapter-intro paragraph + opening motivational prose of 5.1 Subobjects (monos as generalized subsets; the image sub-gadget m(M) in a category G of 'gadgets'). Purely motivational, no definition or claim stated; nothing inventoriable."
+    },
+    {
+      "pdf_page": 103,
+      "book_page": "94",
+      "empty": false,
+      "items": [
+        "awodey:5.1:def1",
+        "awodey:5.1:prop-equivalent-subobjects-iso"
+      ],
+      "notes": "Remark 5.2 (abuse of language: calling M the subobject when the mono is clear) deliberately NOT inventoried - pure notational convention, no formalizable content."
+    },
+    {
+      "pdf_page": 104,
+      "book_page": "95",
+      "empty": false,
+      "items": [
+        "awodey:5.1:prop-factor-through-mono-is-mono",
+        "awodey:5.1:construction-subobject-pushforward",
+        "awodey:5.1:def-local-membership",
+        "awodey:5.1:example3"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 105,
+      "book_page": "96",
+      "empty": false,
+      "items": [
+        "awodey:5.1:remark4",
+        "awodey:5.2:def5"
+      ],
+      "notes": "Section 5.2 Pullbacks opens here; Definition 5.5 starts on this page and completes on PDF 106."
+    },
+    {
+      "pdf_page": 106,
+      "book_page": "97",
+      "empty": false,
+      "items": [
+        "awodey:5.2:def5",
+        "awodey:5.2:prop-pullback-unique"
+      ],
+      "notes": "Definition 5.5 continued (universal property + picture). Remark 5.6 (product-style notation A x_C B and <z1,z2> for the mediating map) deliberately NOT inventoried - notation only."
+    },
+    {
+      "pdf_page": 107,
+      "book_page": "98",
+      "empty": false,
+      "items": [
+        "awodey:5.2:prop7"
+      ],
+      "notes": "Also carries the generalized-element restatement of the pullback UMP (every z into A x_C B is uniquely <z1,z2> with f z1 = g z2, exhibiting A x_C B as a subobject of A x B); folded into the Proposition 5.7 record rather than inventoried separately, being a verbatim restatement of Definition 5.5. Proposition 5.7 statement begins here."
+    },
+    {
+      "pdf_page": 108,
+      "book_page": "99",
+      "empty": false,
+      "items": [
+        "awodey:5.2:prop7"
+      ],
+      "notes": "Continuation: rest of the Proposition 5.7 statement (the diagram, both directions) and its full proof."
+    },
+    {
+      "pdf_page": 109,
+      "book_page": "100",
+      "empty": false,
+      "items": [
+        "awodey:5.2:cor8",
+        "awodey:5.2:construction-pullback-in-sets",
+        "awodey:5.2:example9",
+        "awodey:5.2:construction-inverse-image"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 110,
+      "book_page": "101",
+      "empty": false,
+      "items": [
+        "awodey:5.2:construction-inverse-image",
+        "awodey:5.2:prop-pullback-of-mono",
+        "awodey:5.3:lem10"
+      ],
+      "notes": "Top of the page is the TAIL of section 5.2 (running head already reads 5.3); the 5.3 heading appears mid-page. The two pre-heading items are attributed to book_section 5.2 despite sitting on printed p.101, which the pagemap section table assigns to 5.3."
+    },
+    {
+      "pdf_page": 111,
+      "book_page": "102",
+      "empty": false,
+      "items": [
+        "awodey:5.3:cor11",
+        "awodey:5.3:prop12"
+      ],
+      "notes": "Proposition 5.12 begins here (statement + start of proof) and completes on PDF 112."
+    },
+    {
+      "pdf_page": 112,
+      "book_page": "103",
+      "empty": false,
+      "items": [
+        "awodey:5.3:prop12",
+        "awodey:5.3:cor13"
+      ],
+      "notes": "Continuation: rest of the Proposition 5.12 proof (identity law via two-pullbacks), then Corollary 5.13."
+    },
+    {
+      "pdf_page": 113,
+      "book_page": "104",
+      "empty": false,
+      "items": [
+        "awodey:5.3:example14"
+      ],
+      "notes": "Example 5.14 begins here and runs through PDF 115."
+    },
+    {
+      "pdf_page": 114,
+      "book_page": "105",
+      "empty": false,
+      "items": [
+        "awodey:5.3:example14"
+      ],
+      "notes": "Continuation of Example 5.14: V_phi as phi-inverse of top, substitution f-inverse(V_phi) = V_(phi f) by the two-pullbacks lemma, and the commuting naturality square."
+    },
+    {
+      "pdf_page": 115,
+      "book_page": "106",
+      "empty": false,
+      "items": [
+        "awodey:5.3:example14",
+        "awodey:5.3:example15"
+      ],
+      "notes": "End of Example 5.14 (2^f is precomposition; the iso 2^A = P(A) is natural in A), then Example 5.15."
+    },
+    {
+      "pdf_page": 116,
+      "book_page": "107",
+      "empty": false,
+      "items": [
+        "awodey:5.4:prop16"
+      ],
+      "notes": "Section 5.4 Limits opens here. Proposition 5.16 statement + most of its proof; proof completes on PDF 117."
+    },
+    {
+      "pdf_page": 117,
+      "book_page": "108",
+      "empty": false,
+      "items": [
+        "awodey:5.4:prop16",
+        "awodey:5.4:def17"
+      ],
+      "notes": "End of the Proposition 5.16 proof, then Definition 5.17 begins (diagram, cone, morphism of cones); completes on PDF 118."
+    },
+    {
+      "pdf_page": 118,
+      "book_page": "109",
+      "empty": false,
+      "items": [
+        "awodey:5.4:def17",
+        "awodey:5.4:def18",
+        "awodey:5.4:example19",
+        "awodey:5.4:example20"
+      ],
+      "notes": "Definition 5.17 completes (the category Cone(D)); Definition 5.18 (limit) and Examples 5.19, 5.20 follow. Example 5.20 continues onto PDF 119. Context page PDF 119 also opens Examples 5.21 (empty J: limit = terminal object) and 5.22 (cospan J: limit = pullback), which START outside this range and are NOT recorded here."
+    },
+    {
+      "pdf_page": 119,
+      "book_page": "110",
+      "empty": false,
+      "items": [
+        "awodey:5.4:example20",
+        "awodey:5.4:example21",
+        "awodey:5.4:example22"
+      ],
+      "notes": "Top of page completes Example 5.20 (parallel-pair index category; limit = equalizer), which STARTS on PDF 118 and belongs to the adjacent agent's range - not recorded here. Page renders crisply."
+    },
+    {
+      "pdf_page": 120,
+      "book_page": "111",
+      "empty": false,
+      "items": [
+        "awodey:5.4:def-all-finite-limits",
+        "awodey:5.4:prop23"
+      ],
+      "notes": "Proposition 5.23 plus the opening of its proof (product-of-objects / product-of-arrows equalizer construction); proof completes on PDF 121."
+    },
+    {
+      "pdf_page": 121,
+      "book_page": "112",
+      "empty": false,
+      "items": [
+        "awodey:5.4:cor24",
+        "awodey:5.4:thm25",
+        "awodey:5.5:def26"
+      ],
+      "notes": "Tail of the Proposition 5.23 proof. Corollary 5.24 and Theorem 5.25 sit ABOVE the '5.5 Preservation of limits' heading on this page, so they are assigned to section 5.4; Definition 5.26 falls below the heading and is assigned to 5.5."
+    },
+    {
+      "pdf_page": 122,
+      "book_page": "113",
+      "empty": false,
+      "items": [
+        "awodey:5.5:prop27"
+      ],
+      "notes": "The covariant representable Hom_C(C,-) : C -> Sets is only RECALLED here (defined earlier in the book), so it is not recorded as a new construction; its action f_*(g) = f o g is folded into Proposition 5.27. The bullet list is Proposition 5.27's proof, which begins and ends on this page."
+    },
+    {
+      "pdf_page": 123,
+      "book_page": "114",
+      "empty": false,
+      "items": [
+        "awodey:5.5:def28",
+        "awodey:5.5:construction-contravariant-representable",
+        "awodey:5.5:cor29",
+        "awodey:5.5:remark-hom-coproduct",
+        "awodey:5.5:example-reindexing-preserves-coproducts"
+      ],
+      "notes": "Displayed equation (5.1) here is an EQUATION number on the separate chapter.number equation counter, not an item number - the item numbering runs 5.28, 5.29 across this page."
+    },
+    {
+      "pdf_page": 124,
+      "book_page": "115",
+      "empty": false,
+      "items": [
+        "awodey:5.6:construction-pushout-sets"
+      ],
+      "notes": "Upper two thirds complete the reindexing example started on PDF 123. Section heading '5.6 Colimits' appears on this page; the Sets-pushout construction is announced at the foot of this page and developed on PDF 125."
+    },
+    {
+      "pdf_page": 125,
+      "book_page": "116",
+      "empty": false,
+      "items": [
+        "awodey:5.6:def-colimit"
+      ],
+      "notes": "Body of the Sets-pushout construction (recorded under PDF 124) occupies the top half; the unnumbered general definition of cocone/colimit occupies the bottom half."
+    },
+    {
+      "pdf_page": 126,
+      "book_page": "117",
+      "empty": false,
+      "items": [
+        "awodey:5.6:example30"
+      ],
+      "notes": "Example 5.30 (direct limit of groups) starts here and continues onto PDF 127."
+    },
+    {
+      "pdf_page": 127,
+      "book_page": "118",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation only: the whole page is the remainder of Example 5.30 (explicit description of G_infinity, its group operations, universality, and the closing observation that U : Groups -> Sets 'creates omega-colimits'). Nothing new starts here. Draft typo on this page: the induced map is introduced as 'h_omega : G_omega -> H' but then written 'g_omega([x_n]) = g_n(x_n)' - should read h_omega([x_n]) = h_n(x_n)."
+    },
+    {
+      "pdf_page": 128,
+      "book_page": "119",
+      "empty": false,
+      "items": [
+        "awodey:5.6:def31",
+        "awodey:5.6:prop32",
+        "awodey:5.6:remark-ab-coproduct",
+        "awodey:5.6:example33"
+      ],
+      "notes": "Proposition 5.32 is stated without a fresh proof ('the remaining details of which have already been discussed' on PDF 126-127)."
+    },
+    {
+      "pdf_page": 129,
+      "book_page": "120",
+      "empty": false,
+      "items": [
+        "awodey:5.6:construction-covariant-powerset"
+      ],
+      "notes": "Continuation of Example 5.33 (relativized hierarchy V_n(A), the ladder diagram for V_omega(f)); the covariant powerset functor P_! is defined in running prose here and is recorded separately."
+    },
+    {
+      "pdf_page": 130,
+      "book_page": "121",
+      "empty": false,
+      "items": [
+        "awodey:5.6:example34",
+        "awodey:5.6:prop35"
+      ],
+      "notes": "Top of page closes Example 5.33 ('the cumulative hierarchy is functorial'). Proposition 5.35's proof begins on PDF 131."
+    },
+    {
+      "pdf_page": 131,
+      "book_page": "122",
+      "empty": false,
+      "items": [
+        "awodey:5.6:example-colimit-ambient-dependence"
+      ],
+      "notes": "Upper half is the proof of Proposition 5.35 (Kleene iteration, 'Newton's method'). The unnumbered closing example (colimit of the finite omega-CPOs computed in Pos vs in omega-CPO) starts at the foot of the page."
+    },
+    {
+      "pdf_page": 132,
+      "book_page": "123",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation only, three lines: conclusion of the unnumbered ambient-dependence example (the colimit in the category of omega-CPOs is omega + 1). Remaining four fifths of the page are blank. Nothing new starts here; this is the last page of section 5.6."
+    },
+    {
+      "pdf_page": 133,
+      "book_page": "124",
+      "empty": false,
+      "items": [
+        "awodey:5:ex1",
+        "awodey:5:ex2",
+        "awodey:5:ex3"
+      ],
+      "notes": "Section 5.7 Exercises begins. Exercise 1's prose says 'm : M -> C' while its diagram labels the codomain X - a draft inconsistency; the mathematical content is unambiguous."
+    },
+    {
+      "pdf_page": 134,
+      "book_page": "125",
+      "empty": false,
+      "items": [
+        "awodey:5:ex4",
+        "awodey:5:ex5"
+      ],
+      "notes": "Exercise 4 is starred (harder). Exercise 5 part (a) is here; part (b) is on PDF 135."
+    },
+    {
+      "pdf_page": 135,
+      "book_page": "126",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation only: three lines carrying Exercise 5 part (b); rest of the page blank. Last page of chapter 5. Nothing new starts here."
+    }
+  ],
+  "items": [
+    {
+      "id": "awodey:5.1:def1",
+      "kind": "definition",
+      "number": "5.1",
+      "name": "subobject; the preorder category Sub_C(X); inclusion and equivalence of subobjects",
+      "statement_summary": "A subobject of an object X in a category C is a monomorphism m : M >-> X. A morphism between subobjects m, m' of X is an arrow f : M -> M' of the slice category C/X, i.e. an arrow of C with m' o f = m. These subobjects and morphisms form a category Sub_C(X). Because m' is monic there is at most one such f, so Sub_C(X) is a preorder. Inclusion is defined by: m is contained in m' iff there exists some f : m -> m'. Two subobjects are equivalent, written m == m', iff they are isomorphic as subobjects, i.e. each is contained in the other, equivalently there exist f and f' making both triangles over X commute.",
+      "book_section": "5.1",
+      "book_page": "94",
+      "pdf_pages": [
+        103
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.1:prop-equivalent-subobjects-iso",
+      "kind": "proposition",
+      "number": null,
+      "name": "equivalent subobjects have isomorphic domains",
+      "statement_summary": "Unnumbered result stated and proved in the prose of Definition 5.1: if subobjects m : M >-> X and m' : M' >-> X are equivalent, witnessed by f : M -> M' and f' : M' -> M with m' f = m and m f' = m', then m = m' f = m f' f, and since m is monic f' f = id_M; symmetrically f f' = id_M'. Hence M is isomorphic to M' via f. So mutually-including subobjects have isomorphic domains.",
+      "book_section": "5.1",
+      "book_page": "94",
+      "pdf_pages": [
+        103
+      ],
+      "cross_refs": [
+        "awodey:5.1:def1"
+      ],
+      "flags": [
+        "unnumbered-result"
+      ]
+    },
+    {
+      "id": "awodey:5.1:prop-factor-through-mono-is-mono",
+      "kind": "proposition",
+      "number": null,
+      "name": "a factorization of a mono through a mono is itself monic",
+      "statement_summary": "Unnumbered result in prose: if m : M >-> X and m' : M' >-> X are subobjects with m contained in m', the mediating arrow f : M -> M' satisfying m' f = m is itself monic. Consequently M is a subobject of M' (not merely of X).",
+      "book_section": "5.1",
+      "book_page": "95",
+      "pdf_pages": [
+        104
+      ],
+      "cross_refs": [
+        "awodey:5.1:def1"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "proof-omitted"
+      ]
+    },
+    {
+      "id": "awodey:5.1:construction-subobject-pushforward",
+      "kind": "construction",
+      "number": null,
+      "name": "direct-image / pushforward functor i_* : Sub(M') -> Sub(X) along a mono",
+      "statement_summary": "Unnumbered construction in prose: for a mono i : M' >-> X there is a functor i_* : Sub(M') -> Sub(X) given by post-composition with i, well defined because a composite of monomorphisms is again monic (and monotone for inclusion of subobjects, since Sub is a preorder).",
+      "book_section": "5.1",
+      "book_page": "95",
+      "pdf_pages": [
+        104
+      ],
+      "cross_refs": [
+        "awodey:5.1:def1",
+        "awodey:5.1:prop-factor-through-mono-is-mono"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:5.1:def-local-membership",
+      "kind": "definition",
+      "number": null,
+      "name": "local membership relation z in_X M for generalized elements",
+      "statement_summary": "Definition made in running prose: given a generalized element z : Z -> X and a subobject m : M >-> X, define z in_X M to hold iff there exists f : Z -> M with z = m f. Since m is monic such an f, when it exists, is unique, so this is genuinely a relation (proof-irrelevant) between generalized elements of X and subobjects of X, not extra structure.",
+      "book_section": "5.1",
+      "book_page": "95",
+      "pdf_pages": [
+        104
+      ],
+      "cross_refs": [
+        "awodey:5.1:def1"
+      ],
+      "flags": [
+        "definition-in-prose",
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "awodey:5.1:example3",
+      "kind": "example",
+      "number": "5.3",
+      "name": "an equalizer as a subobject; its local membership predicate",
+      "statement_summary": "An equalizer e : E -> A of a parallel pair f, g : A -> B is a monomorphism, hence a subobject of A, and it satisfies: for every generalized element z : Z -> A, z in_A E iff f z = g z. Thus E is exactly the subobject of those generalized elements of A on which f and g agree, i.e. E = { z : Z -> A | f(z) = g(z) } contained in A - the internalized comprehension of the equation f = g, generalizing the global-element description in Sets.",
+      "book_section": "5.1",
+      "book_page": "95",
+      "pdf_pages": [
+        104
+      ],
+      "cross_refs": [
+        "awodey:5.1:def-local-membership",
+        "awodey:5.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.1:remark4",
+      "kind": "remark",
+      "number": "5.4",
+      "name": "the poset of subobjects Sub_C(X)/== and Sub_Sets(X) = P(X)",
+      "statement_summary": "It is often convenient to replace the preorder Sub_C(X) by the poset obtained by quotienting out the equivalence relation == (mutual inclusion); under that reading a subobject IS an equivalence class of monos into X. In Sets this quotient poset is isomorphic to the powerset: Sub_Sets(X) = P(X), i.e. every subobject is represented by a unique subset. Both readings of 'subobject' (a mono, or an equivalence class of monos) are used in the sequel.",
+      "book_section": "5.1",
+      "book_page": "96",
+      "pdf_pages": [
+        105
+      ],
+      "cross_refs": [
+        "awodey:5.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.2:def5",
+      "kind": "definition",
+      "number": "5.5",
+      "name": "pullback (fiber product) of a cospan",
+      "statement_summary": "In any category C, a pullback of arrows f : A -> C and g : B -> C with common codomain consists of an object P together with arrows p1 : P -> A and p2 : P -> B such that f p1 = g p2, and which is universal with this property: for any object Z and arrows z1 : Z -> A, z2 : Z -> B with f z1 = g z2 there exists a UNIQUE u : Z -> P with z1 = p1 u and z2 = p2 u. The pullback object is also written A x_C B, with the mediating arrow written <z1, z2>.",
+      "book_section": "5.2",
+      "book_page": "96",
+      "pdf_pages": [
+        105,
+        106
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.2:prop-pullback-unique",
+      "kind": "proposition",
+      "number": null,
+      "name": "pullbacks are unique up to isomorphism",
+      "statement_summary": "Unnumbered result asserted in prose from the universal property: any two pullbacks of the same pair of arrows f, g are isomorphic; concretely, the arrows between them uniquely determined by the two universal properties are mutually inverse.",
+      "book_section": "5.2",
+      "book_page": "97",
+      "pdf_pages": [
+        106
+      ],
+      "cross_refs": [
+        "awodey:5.2:def5"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "proof-omitted"
+      ]
+    },
+    {
+      "id": "awodey:5.2:prop7",
+      "kind": "proposition",
+      "number": "5.7",
+      "name": "pullbacks from binary products and equalizers (both directions)",
+      "statement_summary": "In a category with binary products and equalizers, given f : A -> C and g : B -> C: if e : E -> A x B is an equalizer of f o pi1 and g o pi2, and one sets p1 = pi1 e and p2 = pi2 e, then (E, p1, p2) is a pullback of f and g. Conversely, if (E, p1, p2) is given as a pullback of f and g, then the induced arrow e = <p1, p2> : E -> A x B is an equalizer of f o pi1 and g o pi2. (Proof by the two universal properties; uniqueness uses that the equalizer e is monic.) This realizes A x_C B as the subobject { <z1,z2> in A x B | f z1 = g z2 } of A x B.",
+      "book_section": "5.2",
+      "book_page": "98",
+      "pdf_pages": [
+        107,
+        108
+      ],
+      "cross_refs": [
+        "awodey:5.2:def5",
+        "awodey:5.1:example3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.2:cor8",
+      "kind": "corollary",
+      "number": "5.8",
+      "name": "products + equalizers imply pullbacks",
+      "statement_summary": "If a category C has binary products and equalizers, then it has all pullbacks (of arbitrary cospans).",
+      "book_section": "5.2",
+      "book_page": "100",
+      "pdf_pages": [
+        109
+      ],
+      "cross_refs": [
+        "awodey:5.2:prop7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.2:construction-pullback-in-sets",
+      "kind": "construction",
+      "number": null,
+      "name": "explicit pullback in Sets as a subset of the product",
+      "statement_summary": "Unnumbered construction: instantiating the product-plus-equalizer recipe in Sets gives the pullback of f : A -> C and g : B -> C explicitly as the subset A x_C B = { <a,b> in A x B | f a = g b }, with the inclusion into A x B and the two coordinate projections as the pullback cone.",
+      "book_section": "5.2",
+      "book_page": "100",
+      "pdf_pages": [
+        109
+      ],
+      "cross_refs": [
+        "awodey:5.2:cor8",
+        "awodey:5.2:prop7"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:5.2:example9",
+      "kind": "example",
+      "number": "5.9",
+      "name": "inverse image in Sets is a pullback",
+      "statement_summary": "In Sets, for a function f : A -> B and a subset V of B, put f^-1(V) = { a in A | f(a) in V }, a subset of A, and let i : V -> B, j : f^-1(V) -> A be the inclusions and f-bar : f^-1(V) -> V the evident restriction of f. Then the square (f-bar, j, i, f) is a pullback: for all z : Z -> A, z factors through f^-1(V) iff f z factors through V. Hence the inverse image f^-1(V) as a subobject of A is determined uniquely up to isomorphism by being a pullback of the subobject V along f.",
+      "book_section": "5.2",
+      "book_page": "100",
+      "pdf_pages": [
+        109
+      ],
+      "cross_refs": [
+        "awodey:5.2:def5",
+        "awodey:5.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.2:construction-inverse-image",
+      "kind": "construction",
+      "number": null,
+      "name": "inverse image / reindexing map f^-1 : Sub(B) -> Sub(A) by pullback",
+      "statement_summary": "Unnumbered construction generalizing Example 5.9 to any category: given f : A -> B and a subobject m : M >-> B, form the pullback A x_B M of m along f, with legs m' : A x_B M -> A and the map into M. Since m is monic so is m' (asserted, proof left to the reader as an exercise), so taking pullbacks along a fixed f defines a map f^-1 : Sub(B) -> Sub(A), m |-> m'. It is then announced as the goal of section 5.3 that f^-1 is a FUNCTOR, and hence respects equivalence of subobjects: M == N implies f^-1(M) == f^-1(N).",
+      "book_section": "5.2",
+      "book_page": "100",
+      "pdf_pages": [
+        109,
+        110
+      ],
+      "cross_refs": [
+        "awodey:5.2:example9",
+        "awodey:5.1:def1",
+        "awodey:5.2:prop-pullback-of-mono",
+        "awodey:5.3:cor13"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:5.2:prop-pullback-of-mono",
+      "kind": "proposition",
+      "number": null,
+      "name": "a pullback of a monomorphism is a monomorphism",
+      "statement_summary": "Unnumbered claim: in the pullback square of a mono m : M >-> B along an arbitrary arrow f : A -> B, the opposite leg m' : A x_B M -> A is again monic. Stated in the text with the proof explicitly left to the reader ('Exercise!').",
+      "book_section": "5.2",
+      "book_page": "101",
+      "pdf_pages": [
+        110
+      ],
+      "cross_refs": [
+        "awodey:5.2:def5",
+        "awodey:5.2:construction-inverse-image"
+      ],
+      "flags": [
+        "unnumbered-result",
+        "proof-left-as-exercise",
+        "section-boundary-attribution"
+      ]
+    },
+    {
+      "id": "awodey:5.3:lem10",
+      "kind": "lemma",
+      "number": "5.10",
+      "name": "Two-pullbacks lemma (pullback pasting and cancellation)",
+      "statement_summary": "In a category with pullbacks, consider a commutative diagram of two adjacent squares: a top row F -> E -> D over a bottom row A -> B -> C, with vertical arrows h'' : F -> A, h' : E -> B, h : D -> C. (1) If both squares are pullbacks, then so is the outer rectangle; consequently A x_B (B x_C D) is isomorphic to A x_C D. (2) If the RIGHT square and the OUTER rectangle are pullbacks, then so is the LEFT square. (Proof: diagram chase. Note the left-square-alone converse is not claimed.)",
+      "book_section": "5.3",
+      "book_page": "101",
+      "pdf_pages": [
+        110
+      ],
+      "cross_refs": [
+        "awodey:5.2:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.3:cor11",
+      "kind": "corollary",
+      "number": "5.11",
+      "name": "the pullback of a commutative triangle is a commutative triangle (prism lemma)",
+      "statement_summary": "Given a commutative triangle over C - arrows gamma : A -> B, alpha : A -> C, beta : B -> C with beta gamma = alpha - and any h : C' -> C, suppose the pullbacks alpha' : A' -> C' of alpha along h and beta' : B' -> C' of beta along h exist. Then there exists a UNIQUE arrow gamma' : A' -> B' such that the resulting prism diagram commutes: the left-hand face is a commutative triangle (beta' gamma' = alpha') and the upper face (A' -> A, gamma', gamma, B' -> B) is a commutative rectangle - and moreover that upper square is itself a pullback. Proof: apply the two-pullbacks lemma.",
+      "book_section": "5.3",
+      "book_page": "102",
+      "pdf_pages": [
+        111
+      ],
+      "cross_refs": [
+        "awodey:5.3:lem10"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.3:prop12",
+      "kind": "proposition",
+      "number": "5.12",
+      "name": "pullback is a functor between slice categories: h* : C/C -> C/C'",
+      "statement_summary": "For a fixed arrow h : C' -> C in a category C with pullbacks, pulling back along h is a functor h* : C/C -> C/C' between slice categories. On objects it sends (alpha : A -> C) to (alpha' : C' x_C A -> C'), the pullback of alpha along h; on an arrow gamma : alpha -> beta of C/C its value is the unique gamma' supplied by Corollary 5.11. The functor laws h*(1_X) = 1_{h*X} and h*(g o f) = h*(g) o h*(f) are verified by repeated application of the two-pullbacks lemma (e.g. for identities, stacking the identity square on the pullback square: the outer rectangle is a pullback, hence so is the upper square).",
+      "book_section": "5.3",
+      "book_page": "102",
+      "pdf_pages": [
+        111,
+        112
+      ],
+      "cross_refs": [
+        "awodey:5.3:cor11",
+        "awodey:5.3:lem10"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.3:cor13",
+      "kind": "corollary",
+      "number": "5.13",
+      "name": "f^-1 : Sub(B) -> Sub(A) is a functor; it descends to the posets of equivalence classes",
+      "statement_summary": "Let C have pullbacks and f : A -> B be any arrow. The square of categories and functors formed by f^-1 : Sub(B) -> Sub(A), f* : C/B -> C/A and the two inclusions Sub(-) -> C/(-) commutes, simply because f^-1 is by definition the restriction of f* to the subcategory Sub(B). In particular f^-1 is functorial, i.e. monotone for inclusion of subobjects: M contained in N implies f^-1(M) contained in f^-1(N). It follows that M == N implies f^-1(M) == f^-1(N), so f^-1 is also defined on equivalence classes, giving f^-1/== : Sub(B)/== -> Sub(A)/==.",
+      "book_section": "5.3",
+      "book_page": "103",
+      "pdf_pages": [
+        112
+      ],
+      "cross_refs": [
+        "awodey:5.3:prop12",
+        "awodey:5.2:construction-inverse-image",
+        "awodey:5.1:remark4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.3:example14",
+      "kind": "example",
+      "number": "5.14",
+      "name": "characteristic functions, the natural iso 2^A = P(A), and substitution as pullback",
+      "statement_summary": "In Sets: (i) the pullback E = { <a,b> | f(a) = g(b) } is the equalizer <f',g'> : E -> A x B of f pi1 and g pi2. (ii) Specializing B = 1, C = 2 = {top, bottom} and g = top : 1 -> 2, the equalizer is exactly the 'extension' of the propositional function f : A -> 2; so the correspondence between subsets U of A and characteristic functions chi_U : A -> 2 is rephrased as: U is the pullback of top : 1 -> 2 along chi_U. (iii) The isomorphism 2^A = P(A) sends phi : A -> 2 to its extension V_phi = { x in A | phi(x) = top } = phi^-1(top), described as a pullback. (iv) For any f : B -> A the inverse-image operation f^-1 : P(A) -> P(B) is given by pullback, and the two-pullbacks lemma yields f^-1(V_phi) = f^-1(phi^-1(top)) = (phi f)^-1(top) = V_{phi f}: logically, substituting a term f for the variable in a propositional function is modeled by pulling the extension back along f. (v) Hence the square with horizontal isos 2^A = P(A), 2^B = P(B), left edge 2^f (precomposition with f) and right edge f^-1 commutes; i.e. the isomorphism 2^A = P(A) is NATURAL in A, a strictly stronger condition than having an isomorphism at each object.",
+      "book_section": "5.3",
+      "book_page": "104",
+      "pdf_pages": [
+        113,
+        114,
+        115
+      ],
+      "cross_refs": [
+        "awodey:5.3:lem10",
+        "awodey:5.2:prop7",
+        "awodey:5.2:example9",
+        "awodey:5.1:remark4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.3:example15",
+      "kind": "example",
+      "number": "5.15",
+      "name": "reindexing an indexed family of sets is a pullback",
+      "statement_summary": "Let (A_i)_{i in I} be an I-indexed family of sets and alpha : J -> I any function; reindexing along alpha yields the J-indexed family (A_{alpha(j)})_{j in J}. This reindexing is a pullback: taking for each A_i the constant i-valued map p_i : A_i -> I and the induced map on the coproduct p = [p_i] : coproduct_{i in I} A_i -> I, the pullback of p along alpha is the reindexed family with its own indexing projection q; in symbols J x_I (coproduct_{i in I} A_i) is isomorphic to coproduct_{j in J} A_{alpha(j)}. Details are left to the reader as an instructive exercise.",
+      "book_section": "5.3",
+      "book_page": "106",
+      "pdf_pages": [
+        115
+      ],
+      "cross_refs": [
+        "awodey:5.2:def5"
+      ],
+      "flags": [
+        "proof-left-to-reader"
+      ]
+    },
+    {
+      "id": "awodey:5.4:prop16",
+      "kind": "proposition",
+      "number": "5.16",
+      "name": "finite products + equalizers iff pullbacks + terminal object",
+      "statement_summary": "A category has finite products and equalizers if and only if it has pullbacks and a terminal object. The 'only if' direction is Corollary 5.8 (plus the terminal object as the empty product). For the converse, assume C has pullbacks and a terminal object 1: the binary product is the pullback over 1, A x B = A x_1 B; and the equalizer of f, g : A -> B is constructed as the pullback of <f,g> : A -> B x B along the diagonal Delta = <1_B, 1_B> : B -> B x B (intuitively E = { <a,b> | f(a) = b = g(a) } = { a | f(a) = g(a) }), the projection e : E -> A being verified an equalizer by a diagram chase.",
+      "book_section": "5.4",
+      "book_page": "107",
+      "pdf_pages": [
+        116,
+        117
+      ],
+      "cross_refs": [
+        "awodey:5.2:cor8",
+        "awodey:5.2:prop7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.4:def17",
+      "kind": "definition",
+      "number": "5.17",
+      "name": "diagram of type J, cone to a diagram, morphism of cones, the category Cone(D)",
+      "statement_summary": "Let J and C be categories. A diagram of type J in C is a functor D : J -> C (objects of the 'index category' J written i, j, ..., their values D_i, D_j). A cone to a diagram D consists of an object C of C together with a family of arrows c_j : C -> D_j, one for each object j of J, such that for every arrow alpha : i -> j in J the triangle commutes, i.e. D_alpha o c_i = c_j. A morphism of cones theta : (C, c_j) -> (C', c'_j) is an arrow theta : C -> C' in C making every triangle commute, i.e. c_j = c'_j o theta for all j in J. Cones to D and their morphisms form a category Cone(D).",
+      "book_section": "5.4",
+      "book_page": "108",
+      "pdf_pages": [
+        117,
+        118
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.4:def18",
+      "kind": "definition",
+      "number": "5.18",
+      "name": "limit of a diagram; finite limit",
+      "statement_summary": "A limit for a diagram D : J -> C is a TERMINAL OBJECT in the category Cone(D). A finite limit is a limit for a diagram whose index category J is finite. A limit is denoted by its projections p_i : lim_j D_j -> D_i. Spelled out, the universal property is: for any cone (C, c_j) to D there exists a unique arrow u : C -> lim_j D_j such that p_j o u = c_j for every j.",
+      "book_section": "5.4",
+      "book_page": "109",
+      "pdf_pages": [
+        118
+      ],
+      "cross_refs": [
+        "awodey:5.4:def17"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.4:example19",
+      "kind": "example",
+      "number": "5.19",
+      "name": "limit over the discrete two-object category is the binary product",
+      "statement_summary": "Take J = {1, 2}, the discrete category with two objects and no non-identity arrows. A diagram D : J -> C is then just a pair of objects D_1, D_2 of C; a cone on D is an object C with two arrows c_1 : C -> D_1, c_2 : C -> D_2 (no commutativity conditions); and a limit of D, being a terminal such cone, is exactly a binary product of D_1 and D_2 with its projections. Thus lim_j D_j is isomorphic to D_1 x D_2.",
+      "book_section": "5.4",
+      "book_page": "109",
+      "pdf_pages": [
+        118
+      ],
+      "cross_refs": [
+        "awodey:5.4:def18"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.4:example20",
+      "kind": "example",
+      "number": "5.20",
+      "name": "limit over the parallel-pair category is the equalizer",
+      "statement_summary": "Take J to be the category with two objects and two parallel non-identity arrows alpha, beta between them. A diagram of type J is a parallel pair D_alpha, D_beta : D_1 -> D_2 in C. A cone is a pair of arrows c_1 : C -> D_1, c_2 : C -> D_2 with D_alpha c_1 = c_2 and D_beta c_1 = c_2, hence equivalently just an arrow c_1 with D_alpha c_1 = D_beta c_1. A limit for D is therefore precisely an equalizer of D_alpha and D_beta.",
+      "book_section": "5.4",
+      "book_page": "109",
+      "pdf_pages": [
+        118,
+        119
+      ],
+      "cross_refs": [
+        "awodey:5.4:def18",
+        "awodey:5.1:example3"
+      ],
+      "flags": [
+        "continues-onto-next-page"
+      ]
+    },
+    {
+      "id": "awodey:5.4:example21",
+      "kind": "example",
+      "number": "5.21",
+      "name": "limit over the empty index category is a terminal object",
+      "statement_summary": "When the index category J is empty there is exactly one diagram D : J -> C, and a limit for it is precisely a terminal object of C; so the limit over the empty diagram is isomorphic to 1.",
+      "book_section": "5.4",
+      "book_page": "110",
+      "pdf_pages": [
+        119
+      ],
+      "cross_refs": [
+        "awodey:5.4:def18"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.4:example22",
+      "kind": "example",
+      "number": "5.22",
+      "name": "limit over the cospan index category is a pullback",
+      "statement_summary": "Taking J to be the three-object finite category shaped as a cospan (two non-identity arrows with a common codomain), a limit for a diagram of that shape, i.e. for A -f-> C <-g- B, is exactly the pullback A x_C B of f and g.",
+      "book_section": "5.4",
+      "book_page": "110",
+      "pdf_pages": [
+        119
+      ],
+      "cross_refs": [
+        "awodey:5.4:def18"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.4:def-all-finite-limits",
+      "kind": "definition",
+      "number": null,
+      "name": "category has all finite limits",
+      "statement_summary": "A category C is said to have all finite limits when every diagram D : J -> C whose index category J is finite has a limit in C. Stated in running prose immediately after Proposition 5.23 to fix the meaning of its hypothesis.",
+      "book_section": "5.4",
+      "book_page": "111",
+      "pdf_pages": [
+        120
+      ],
+      "cross_refs": [
+        "awodey:5.4:def18",
+        "awodey:5.4:prop23"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "awodey:5.4:prop23",
+      "kind": "proposition",
+      "number": "5.23",
+      "name": "finite limits from finite products and equalizers",
+      "statement_summary": "A category has all finite limits if and only if it has all finite products and all equalizers; equivalently (via the preceding proposition relating pullbacks to products+equalizers) if and only if it has pullbacks and a terminal object. The proof constructs the limit of a finite diagram D : J -> C explicitly: form the two finite products P0 = prod over objects i in J0 of D_i and P1 = prod over arrows (alpha : i -> j) in J1 of D_j; define phi, psi : P0 -> P1 by pi_alpha o phi = pi_cod(alpha) and pi_alpha o psi = D_alpha o pi_dom(alpha); take the equalizer e : E -> P0 of phi and psi and set e_i = pi_i o e. A family (c_i : C -> D_i) is a cone on D exactly when phi<c_i> = psi<c_i>, so (E, e_i) is a cone and every cone factors uniquely through E by a morphism of cones; hence (E, e_i) is the limit.",
+      "book_section": "5.4",
+      "book_page": "111",
+      "pdf_pages": [
+        120,
+        121
+      ],
+      "cross_refs": [
+        "awodey:5.4:def18",
+        "awodey:5.4:def-all-finite-limits",
+        "awodey:5.4:cor24"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.4:cor24",
+      "kind": "corollary",
+      "number": "5.24",
+      "name": "limits of a given cardinality from products and equalizers of that cardinality",
+      "statement_summary": "A category has all limits of a given cardinality kappa if and only if it has all equalizers and all products of that cardinality. Here C has limits of cardinality kappa means C has a limit for every diagram D : J -> C whose arrow-set J1 has cardinality at most kappa, and C has products of cardinality kappa means C has products of kappa-many objects. Proved by the same construction as Proposition 5.23.",
+      "book_section": "5.4",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "awodey:5.4:prop23"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.4:thm25",
+      "kind": "theorem",
+      "number": "5.25",
+      "name": "dual theorem: colimits from coproducts and coequalizers",
+      "statement_summary": "Dual of Proposition 5.23 and Corollary 5.24, obtained by dualizing cones to cocones and limits to colimits: a category C has all finite colimits if and only if it has all finite coproducts and all coequalizers, equivalently if and only if it has pushouts and an initial object; and C has all colimits of size kappa if and only if it has coequalizers and coproducts of size kappa. Stated without a separate proof, by duality.",
+      "book_section": "5.4",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "awodey:5.4:prop23",
+        "awodey:5.4:cor24",
+        "awodey:5.6:def-colimit"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.5:def26",
+      "kind": "definition",
+      "number": "5.26",
+      "name": "functor preserving limits of type J; continuous functor",
+      "statement_summary": "A functor F : C -> D preserves limits of type J when, for every diagram D : J -> C and every limiting cone p_j : L -> D_j, the image cone F p_j : F L -> F D_j is a limiting cone for the composite diagram F D : J -> D; briefly F(lim D_j) is isomorphic to lim F(D_j) via the canonical comparison. A functor that preserves all limits is called continuous.",
+      "book_section": "5.5",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "awodey:5.4:def18"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.5:prop27",
+      "kind": "proposition",
+      "number": "5.27",
+      "name": "representable functors preserve all limits",
+      "statement_summary": "For a locally small category C and any object C, the covariant representable functor Hom_C(C, -) : C -> Sets (sending f : X -> Y to postcomposition f_* : Hom(C,X) -> Hom(C,Y), f_*(g) = f o g) preserves all limits. Proof reduces to products and equalizers: Hom_C(C,1) = {!_C} is a singleton; Hom(C, X x Y) is isomorphic to Hom(C,X) x Hom(C,Y) by pairing with the two projections; Hom_C(C, prod_i X_i) is isomorphic to prod_i Hom_C(C, X_i); and if e : E -> X is the equalizer of f, g : X -> Y then e_* : Hom(C,E) -> Hom(C,X) is the equalizer of f_* and g_* in Sets, since any h with f_* h = g_* h satisfies f h = g h and hence factors uniquely through e.",
+      "book_section": "5.5",
+      "book_page": "113",
+      "pdf_pages": [
+        122
+      ],
+      "cross_refs": [
+        "awodey:5.5:def26",
+        "awodey:5.4:prop23",
+        "awodey:5.5:cor29"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.5:def28",
+      "kind": "definition",
+      "number": "5.28",
+      "name": "contravariant functor",
+      "statement_summary": "A functor of the form F : C^op -> D is called a contravariant functor on C. Explicitly it sends f : A -> B to F(f) : F(B) -> F(A) and reverses composition, F(g o f) = F(f) o F(g).",
+      "book_section": "5.5",
+      "book_page": "114",
+      "pdf_pages": [
+        123
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.5:construction-contravariant-representable",
+      "kind": "construction",
+      "number": null,
+      "name": "contravariant representable functor Hom_C(-, C)",
+      "statement_summary": "For a locally small category C and a fixed object C, the assignment X |-> Hom(X,C) is a contravariant functor Hom_C(-, C) : C^op -> Sets, sending f : X -> Y to the precomposition map f^* : Hom(Y,C) -> Hom(X,C) given by f^*(g) = g o f. Presented as the typical example of Definition 5.28.",
+      "book_section": "5.5",
+      "book_page": "114",
+      "pdf_pages": [
+        123
+      ],
+      "cross_refs": [
+        "awodey:5.5:def28",
+        "awodey:5.5:cor29"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:5.5:cor29",
+      "kind": "corollary",
+      "number": "5.29",
+      "name": "contravariant representables take colimits to limits",
+      "statement_summary": "Dual form of Proposition 5.27: a contravariant representable functor Hom_C(-, C) : C^op -> Sets carries all colimits in C to limits in Sets.",
+      "book_section": "5.5",
+      "book_page": "114",
+      "pdf_pages": [
+        123
+      ],
+      "cross_refs": [
+        "awodey:5.5:prop27",
+        "awodey:5.5:construction-contravariant-representable",
+        "awodey:5.5:remark-hom-coproduct"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.5:remark-hom-coproduct",
+      "kind": "remark",
+      "number": null,
+      "name": "hom out of a coproduct splits as a product of homs (eq. 5.1) and its instances",
+      "statement_summary": "Instance of Corollary 5.29: for a coproduct X + Y in any locally small category C there is a canonical isomorphism Hom(X + Y, C) = Hom(X,C) x Hom(Y,C), given by precomposing with the two coproduct injections (displayed as equation 5.1). Two consequences are drawn: (i) since the ultrafilter functor Ult : Bool^op -> Sets is representable with Ult(B) = Hom_Bool(B, 2), the ultrafilters of a coproduct A + B of boolean algebras correspond exactly to pairs (U,V) of ultrafilters with U in A and V in B; (ii) in Sets the same isomorphism is the exponent law C^(X+Y) = C^X x C^Y, of which the arithmetic law k^(m+n) = k^n * k^m is a special case.",
+      "book_section": "5.5",
+      "book_page": "114",
+      "pdf_pages": [
+        123
+      ],
+      "cross_refs": [
+        "awodey:5.5:cor29"
+      ],
+      "flags": [
+        "equation-number-5.1-is-on-the-separate-equation-counter"
+      ]
+    },
+    {
+      "id": "awodey:5.5:example-reindexing-preserves-coproducts",
+      "kind": "example",
+      "number": null,
+      "name": "reindexing (pullback) functor on slices of Sets preserves coproducts",
+      "statement_summary": "For an I-indexed family of sets (A_i) and a reindexing function alpha : J -> I there is an isomorphism J x_I (coprod_{i in I} A_i) = coprod_{j in J} A_alpha(j). Read as a statement about the pullback functor alpha^* : Sets/I -> Sets/J, alpha^*(p : A -> I) = (J x_I A -> J), this says alpha^* preserves coproducts: alpha^*(A_i) = coprod_{j in alpha^{-1}(i)} A_i, and hence alpha^*(coprod_{i in I} A_i) = coprod_{j in J} A_alpha(j) = coprod_{i in I} coprod_{j in alpha^{-1}(i)} A_alpha(j) = coprod_{i in I} alpha^*(A_i). Continues an earlier example (5.15) that described reindexing as pullback.",
+      "book_section": "5.5",
+      "book_page": "114",
+      "pdf_pages": [
+        123,
+        124
+      ],
+      "cross_refs": [
+        "awodey:5.3:example15"
+      ],
+      "flags": [
+        "unnumbered-example",
+        "cross-ref-number-5.15-read-from-the-text-not-verified-in-this-range"
+      ]
+    },
+    {
+      "id": "awodey:5.6:construction-pushout-sets",
+      "kind": "construction",
+      "number": null,
+      "name": "pushout in Sets as a quotient of the disjoint sum",
+      "statement_summary": "Given functions f : A -> B and g : A -> C, the pushout in Sets is constructed by first forming the coproduct (disjoint sum) B -> B + C <- C, then taking the equivalence relation ~ on B + C generated by the conditions f(a) ~ g(a) for all a in A, and finally taking the quotient: B +_A C = (B + C)/~. Intuitively B placed next to C with the images of A identified. Noted to be the dual of the construction of pullbacks from products and equalizers.",
+      "book_section": "5.6",
+      "book_page": "115",
+      "pdf_pages": [
+        124,
+        125
+      ],
+      "cross_refs": [
+        "awodey:5.4:thm25",
+        "awodey:5:ex5"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:5.6:def-colimit",
+      "kind": "definition",
+      "number": null,
+      "name": "cocone, morphism of cocones, and colimit",
+      "statement_summary": "Definition given in running prose, dual to Definition 5.18. A cocone from the base D : J -> C consists of an object C (the vertex) together with arrows c_j : D_j -> C for each j in J such that c_j o D(alpha) = c_i for every alpha : i -> j in J. A morphism of cocones f : (C,(c_j)) -> (C',(c'_j)) is an arrow f : C -> C' in C with f o c_j = c'_j for all j. A colimit for D is an initial object in the category of cocones, i.e. a cocone mapping uniquely to any other cocone from D; it is written colim_{j in J} D_j.",
+      "book_section": "5.6",
+      "book_page": "116",
+      "pdf_pages": [
+        125
+      ],
+      "cross_refs": [
+        "awodey:5.4:def18",
+        "awodey:5.4:thm25"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "awodey:5.6:example30",
+      "kind": "example",
+      "number": "5.30",
+      "name": "direct limit of a sequence of groups",
+      "statement_summary": "Given a sequence of groups and homomorphisms G_0 -g0-> G_1 -g1-> G_2 -> ..., regarded as a diagram of type omega = (N, <=) viewed as a poset category, in Groups, the colimit G_infinity = colim_{n in omega} G_n always exists and is constructed as follows. Start from the disjoint sum of sets coprod_{n in omega} G_n and impose the equivalence relation generated by x_n ~ g_n(x_n); writing g_{i,j} = g_{j-1} o ... o g_i : G_i -> G_j for i <= j, the elements of G_infinity are classes [x_n] with x_n in G_n, and [x_n] = [y_m] iff g_{n,k}(x_n) = g_{m,k}(y_m) for some k >= m,n. The group structure is [x]*[y] = [x'*y'] for representatives x', y' in a common G_n, with unit [u_0] and inverse [x]^{-1} = [x^{-1}]; the maps u_n : G_n -> G_infinity, u_n(x) = [x], are then homomorphisms satisfying u_{n+1} o g_n = u_n. Universality: for any group H and homomorphisms h_n : G_n -> H with h_{n+1} o g_n = h_n there is a unique homomorphism G_infinity -> H commuting with all u_n, and it is even the unique such FUNCTION - i.e. the colimit is computed on the underlying sets, an instance of the forgetful functor U : Groups -> Sets creating omega-colimits. The same construction works for other equational algebraic structures (though non-equational conditions need not be preserved).",
+      "book_section": "5.6",
+      "book_page": "117",
+      "pdf_pages": [
+        126,
+        127
+      ],
+      "cross_refs": [
+        "awodey:5.6:def-colimit",
+        "awodey:5.6:def31",
+        "awodey:5.6:prop32"
+      ],
+      "flags": [
+        "draft-typo-in-source"
+      ]
+    },
+    {
+      "id": "awodey:5.6:def31",
+      "kind": "definition",
+      "number": "5.31",
+      "name": "functor creating limits (and colimits) of type J",
+      "statement_summary": "A functor F : C -> D creates limits of type J if for every diagram C : J -> C and every limiting cone p_j : L -> F C_j in D there is a UNIQUE cone pbar_j : Lbar -> C_j in C with F(pbar_j) = p_j and F(Lbar) = L, and moreover that cone is a limit for C in C. Briefly: every limit in D is the image of a unique cone in C, which is a limit there. Creating colimits is defined dually/analogously.",
+      "book_section": "5.6",
+      "book_page": "119",
+      "pdf_pages": [
+        128
+      ],
+      "cross_refs": [
+        "awodey:5.5:def26",
+        "awodey:5.6:prop32"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.6:prop32",
+      "kind": "proposition",
+      "number": "5.32",
+      "name": "the forgetful functor Groups -> Sets creates omega-colimits and all limits",
+      "statement_summary": "The forgetful functor U : Groups -> Sets creates omega-colimits (colimits of chains indexed by omega), and it also creates all limits. Stated as a summary of the construction carried out in Example 5.30; the same holds generally for categories of algebraic structures given by operations satisfying equations.",
+      "book_section": "5.6",
+      "book_page": "119",
+      "pdf_pages": [
+        128
+      ],
+      "cross_refs": [
+        "awodey:5.6:def31",
+        "awodey:5.6:example30",
+        "awodey:5.6:remark-ab-coproduct"
+      ],
+      "flags": [
+        "stated-without-fresh-proof"
+      ]
+    },
+    {
+      "id": "awodey:5.6:remark-ab-coproduct",
+      "kind": "remark",
+      "number": null,
+      "name": "not all colimits of algebras are created by the forgetful functor",
+      "statement_summary": "Counterpoint to Proposition 5.32: the forgetful functor does not create all colimits. The cited witness is that the coproduct of abelian groups has as underlying set the product, G + H is isomorphic to G x H, so the underlying set of the coproduct is not the coproduct (disjoint sum) of the underlying sets.",
+      "book_section": "5.6",
+      "book_page": "119",
+      "pdf_pages": [
+        128
+      ],
+      "cross_refs": [
+        "awodey:5.6:prop32"
+      ],
+      "flags": [
+        "unnumbered-remark"
+      ]
+    },
+    {
+      "id": "awodey:5.6:example33",
+      "kind": "example",
+      "number": "5.33",
+      "name": "cumulative hierarchy as an omega-colimit, and its functoriality",
+      "statement_summary": "The set-theoretic cumulative hierarchy presented as an omega-colimit. Basic form: V_0 = empty, V_{n+1} = P(V_n); since A subset B implies P(A) subset P(B) these form a chain empty = V_0 subset V_1 subset V_2 subset ..., and V_omega = colim_n V_n is the cumulative hierarchy of rank omega (continuable through higher ordinals). Relativized form over a set A of atoms: V_0(A) = A, V_{n+1}(A) = A + P(V_n(A)), with v_0 : V_0(A) -> V_1(A) the left coproduct injection and v_n = 1_A + P_!(v_{n-1}) : A + P(V_{n-1}(A)) -> A + P(V_n(A)), where P_! is the covariant (direct-image) powerset functor; then V_omega(A) = colim_n V_n(A), and V_omega = V_omega(empty). Functoriality: any function f : A -> B induces f_0 = f, f_1 = f + P_!(f), ..., f_{n+1} = f + P_!(f_n), whose squares commute, giving a cocone on the diagram V_n(A) with vertex V_omega(B) and hence a unique mediating map V_omega(f) : V_omega(A) -> V_omega(B); thus V_omega is a functor.",
+      "book_section": "5.6",
+      "book_page": "119",
+      "pdf_pages": [
+        128,
+        129,
+        130
+      ],
+      "cross_refs": [
+        "awodey:5.6:def-colimit",
+        "awodey:5.6:construction-covariant-powerset"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.6:construction-covariant-powerset",
+      "kind": "construction",
+      "number": null,
+      "name": "covariant (direct image) powerset functor P_!",
+      "statement_summary": "Defined in running prose inside Example 5.33: the covariant powerset functor P_! sends a set X to its powerset P(X) and a function f : X -> Y to the image operation P_!(f) : P(X) -> P(Y) given by P_!(f)(U) = { f(u) | u in U } for U subset X. Contrasted with the contravariant (inverse-image) powerset functor used elsewhere.",
+      "book_section": "5.6",
+      "book_page": "120",
+      "pdf_pages": [
+        129
+      ],
+      "cross_refs": [
+        "awodey:5.6:example33"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:5.6:example34",
+      "kind": "example",
+      "number": "5.34",
+      "name": "omega-CPOs and continuous monotone maps",
+      "statement_summary": "Defines omega-CPOs as an example of omega-cocompleteness in posets: a poset D is an omega-CPO if every diagram d : omega -> D, i.e. every ascending chain d_0 <= d_1 <= d_2 <= ..., has a colimit d_omega = colim_n d_n, characterized order-theoretically by (1) d_n <= d_omega for all n in omega, and (2) for all x in D, if d_n <= x for all n then d_omega <= x - i.e. d_omega is the least upper bound of the chain. A monotone map of omega-CPOs h : D -> E is called continuous if it preserves colimits of type omega, h(colim_n d_n) = colim_n h(d_n).",
+      "book_section": "5.6",
+      "book_page": "121",
+      "pdf_pages": [
+        130
+      ],
+      "cross_refs": [
+        "awodey:5.6:def-colimit",
+        "awodey:5.5:def26",
+        "awodey:5.6:prop35"
+      ],
+      "flags": [
+        "carries-unnumbered-definitions-inside-an-Example-environment"
+      ]
+    },
+    {
+      "id": "awodey:5.6:prop35",
+      "kind": "proposition",
+      "number": "5.35",
+      "name": "least fixed point of a continuous map on an omega-CPO (Kleene iteration)",
+      "statement_summary": "If D is an omega-CPO with an initial (least) element 0 and h : D -> D is continuous, then h has a fixed point h(x) = x which is moreover least among all fixed points. Proof: define d : omega -> D by d_0 = 0 and d_{n+1} = h(d_n); since 0 <= d_0, repeated application of the monotone h gives an ascending chain d_n <= d_{n+1}, so the colimit d_omega = colim_n d_n exists, and continuity gives h(d_omega) = colim_n h(d_n) = colim_n d_{n+1} = d_omega (the last step because dropping the trivial first term d_0 = 0 does not change the colimit). If x is any fixed point then 0 <= x, and inductively d_{n+1} = h(d_n) <= h(x) = x, so d_omega <= x since d_omega is the colimit.",
+      "book_section": "5.6",
+      "book_page": "121",
+      "pdf_pages": [
+        130,
+        131
+      ],
+      "cross_refs": [
+        "awodey:5.6:example34"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5.6:example-colimit-ambient-dependence",
+      "kind": "example",
+      "number": null,
+      "name": "colimits depend on the ambient category: finite omega-CPOs in Pos versus in omega-CPO",
+      "statement_summary": "An unnumbered worked example showing that a colimit is computed relative to the ambient category. Let omega_n = { k in omega | k <= n } be the finite omega-CPOs, with the continuous inclusion maps omega_0 -> omega_1 -> omega_2 -> ... In Pos the colimit of this chain exists and is omega. But omega itself is not omega-complete: the chain 0 <= 1 <= 2 <= ... has no colimit in omega. Hence the colimit of the omega_n taken in the category of omega-CPOs must be something else, and it is omega + 1 = (0 <= 1 <= 2 <= ... <= omega): in omega + 1 every bounded chain has its colimit in the bounded part and every unbounded chain has omega as colimit.",
+      "book_section": "5.6",
+      "book_page": "122",
+      "pdf_pages": [
+        131,
+        132
+      ],
+      "cross_refs": [
+        "awodey:5.6:example34",
+        "awodey:5.6:def-colimit"
+      ],
+      "flags": [
+        "unnumbered-example"
+      ]
+    },
+    {
+      "id": "awodey:5:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "monic iff the identity square on it is a pullback; representables preserve monos",
+      "statement_summary": "Show that an arrow m : M -> X in any category is monic if and only if the square whose two parallel sides are both 1_M and whose other two sides are both m (i.e. the square with corners M, M, M, X) is a pullback. Conclude that representable functors Hom(C, -) preserve monomorphisms.",
+      "book_section": "5.7",
+      "book_page": "124",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [
+        "awodey:5.5:prop27"
+      ],
+      "flags": [
+        "source-inconsistency-prose-writes-m-:-M-to-C-while-the-diagram-labels-the-codomain-X"
+      ]
+    },
+    {
+      "id": "awodey:5:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "monos are stable under pullback",
+      "statement_summary": "Show that in any category, given a pullback square with vertical arrows m' : M' -> A' and m : M -> A over a map f : A' -> A, if m is monic then so is m'.",
+      "book_section": "5.7",
+      "book_page": "124",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:5:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "equalizers from pullbacks and products",
+      "statement_summary": "(Equalizers by pullbacks and products.) Show that a category with pullbacks and (binary) products has equalizers, as follows: given f, g : A -> B, form the pullback of the diagonal Delta = <1_B, 1_B> : B -> B x B along <f, g> : A -> B x B, obtaining E with projection e : E -> A; show that e : E -> A is an equalizer of f and g.",
+      "book_section": "5.7",
+      "book_page": "124",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [
+        "awodey:5.4:prop23"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:5:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "the category Par(C) of partial maps",
+      "statement_summary": "(Starred; partial maps.) For any category C with pullbacks, define the category Par(C) of partial maps in C: the objects are those of C, and an arrow f : A -> B is a pair (|f|, U_f) where U_f >-> A is a subobject of A (an equivalence class of monomorphisms) and |f| : U_f -> B is an arrow, taken up to a suitably defined equivalence of such pairs. Composition of (|f|, U_f) : A -> B with (|g|, U_g) : B -> C is defined by pulling U_g >-> B back along |f| to get |f|^*(U_g) >-> U_f and then composing, yielding (|g o f|, |f|^*(U_g)) : A -> C. Verify that this really defines a category (associativity and identities).",
+      "book_section": "5.7",
+      "book_page": "125",
+      "pdf_pages": [
+        134
+      ],
+      "cross_refs": [
+        "awodey:5.1:def1"
+      ],
+      "flags": [
+        "starred-exercise",
+        "cross-ref-to-the-subobject-definition-of-section-5.1-whose-exact-id-was-not-verified-in-this-range"
+      ]
+    },
+    {
+      "id": "awodey:5:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "pushouts by duality",
+      "statement_summary": "(Pushouts.) (a) Dualize the definition of a pullback to define the copullback, usually called the pushout, of two arrows with a common domain. (b) Indicate how to construct pushouts using coproducts and coequalizers, giving the proof by duality (dual to the construction of pullbacks from products and equalizers).",
+      "book_section": "5.7",
+      "book_page": "125",
+      "pdf_pages": [
+        134,
+        135
+      ],
+      "cross_refs": [
+        "awodey:5.4:thm25",
+        "awodey:5.6:construction-pushout-sets"
+      ],
+      "flags": [
+        "has-lettered-parts-a-b"
+      ]
+    }
+  ]
+}

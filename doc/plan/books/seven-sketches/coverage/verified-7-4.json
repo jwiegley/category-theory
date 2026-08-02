@@ -1,0 +1,485 @@
+[
+  {
+    "id": "7sketches:7.4.1:eq7.50",
+    "classification": "PARTIAL",
+    "aliases": [
+      "subobject classifier of Shv(X,Op) as a presheaf",
+      "Omega presheaf, Ω(U) = { V open : V ⊆ U }",
+      "presheaf of sieves / down-sets on the poset of opens",
+      "subobject presheaf Sub : C^op ⟶ Sets",
+      "truth-value object of a sheaf topos"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}."
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 180,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x ; is_setoid := @SubObj_Setoid C x |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f) ; proper_morphism := sub_reindex_respects (unop f) |} |}."
+      }
+    ],
+    "statement_record": {
+      "book": "For a space X with poset of opens Op, the object part of the subobject classifier of Shv(X,Op) is the presheaf sending each open U to the SET of opens contained in U.",
+      "intree": "Sub : C^op ⟶ Sets has fobj x := SubObj x (the setoid of subobjects of x), and classifier_classifies asserts SubObj x ≅ (x ~> Ω) in Sets whenever a classifier exists.",
+      "strength_comparison": "intree-weaker: the library states the generic fact 'the classifier's points over x are the subobjects of x' and builds the generic subobject presheaf Sub, but never instantiates either at a poset of opens — there are no topological spaces, no frame/locale, and no Op(X) in the tree (grep for 'topological', 'opens', 'Frame', 'Locale' finds only prose). The concrete assignment U ↦ {V open ⊆ U} is nowhere written, and Sub is never shown to be (or to underlie) the Ω of a presheaf or sheaf topos."
+    },
+    "gap": "The topological model is entirely missing: no topological space, no poset/frame of open sets, hence no presheaf U ↦ {V : V open, V ⊆ U}. What exists is (a) the generic subobject presheaf Sub : C^op ⟶ Sets built by chosen-pullback reindexing and (b) the generic classification isomorphism SubObj x ≅ (x ~> Ω). The bridge — that for C = Op(X) the subobject presheaf IS the classifier of Shv(X,Op) — is not stated anywhere.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass (run before opening coverage-7-4.json): find -iname '*heaf*|*Topos*|*Classifier*|*Heyting*|*Frame*|*Locale*'; rg -il 'heyting|frame|locale|open set|topolog'; rg -in 'sieve' (2 prose hits); rg -in 'topological space|open set|Opens|powerset|union|intersection' (no formal opens); rg -n 'Coq.Reals|Rdefinitions|R_scope' (0 hits); rg -in 'bundle|vector field|manifold|tangent|section of' (prose only); rg -in 'category of graphs|quiver' (Construction/Free/Quiver.v QuiverCategory:358); rg -in 'internal logic|intuitionistic|excluded middle|double negation' (prose only); rg -n 'Heyting' (7 hits, all comments); Theory/Subobject.v inspected (sub_le preorder only, no meets/joins/Heyting on SubObj). My independent classification was ABSENT-leaning/PARTIAL and the record's PARTIAL is defensible and honestly hedged: at C = a poset of opens, SubObj U genuinely IS {V : V <= U}, so Theory/Subobject/Functor.v:180 Sub : C^op -> Sets is the generic form of (7.50). Both citations re-checked at the exact lines: Theory/Subobject/Functor.v:180 'Program Definition Sub : C^op ⟶ Sets' and Structure/SubobjectClassifier.v:187 (statement line; the name 'Theorem classifier_classifies' is on 186) — quotes accurate. Both files are registered in _CoqProject. strength_comparison is honest: I independently confirmed no topological space, no frame/locale, no Op(X), and that Sub is nowhere identified with the Ω of a presheaf or sheaf topos (only two SubobjectClassifier instances exist: Instance/FinSet/Classifier.v:353 and the cross-universe theorems of Instance/Sets/Classifier.v)."
+    }
+  },
+  {
+    "id": "7sketches:7.4.1:eq7.51",
+    "classification": "PARTIAL",
+    "aliases": [
+      "restriction maps of the Ω presheaf",
+      "V ↦ V ∩ W restriction on opens",
+      "pullback reindexing of subobjects along an inclusion",
+      "sub_reindex / f* on SubObj",
+      "presheaf action / functoriality on Op(X)^op"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 180,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x ; ... |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f) ; proper_morphism := sub_reindex_respects (unop f) |} |}."
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 35,
+        "symbol": "sub_reindex",
+        "intree_statement": "Definition sub_reindex {x y : C} (f : y ~> x) (u : SubObj x) : SubObj y := {| sub_dom := Pull f (sub_mono u) (pullback f (sub_mono u)); sub_mono := pullback_fst f (sub_mono u) (pullback f (sub_mono u)); sub_is_monic := monic_pullback_stable f (sub_mono u) (sub_is_monic u) (pullback f (sub_mono u)) |}."
+      }
+    ],
+    "statement_record": {
+      "book": "For opens V ⊆ U, the restriction map Ω(U) → Ω(V) of the truth-value presheaf sends an open subset of U to its intersection with V; together with (7.50) this gives a presheaf.",
+      "intree": "The contravariant action of Sub on f : y ~> x is sub_reindex f, pullback of the mono along f; sub_reindex_respects makes it a Sets-morphism.",
+      "strength_comparison": "intree-weaker: pullback reindexing of subobjects is the exact generic form of the book's restriction (in a poset of opens, pullback of W ↪ U along V ↪ U is W ∩ V), but the library requires an ambient HasPullbacks C and never specialises to a poset, where the restriction would compute as intersection. No open sets exist in-tree, so the intersection formula itself is never stated."
+    },
+    "gap": "Only the generic form is present: restriction of subobjects by chosen pullback. The identification of that reindexing with set-theoretic intersection in the poset of opens — and the poset of opens itself — is absent. Note also that sub_reindex needs a chosen pullback structure (HasPullbacks), whereas the book's formula is elementary.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind search found the same two anchors before reading the record: Theory/Subobject/Functor.v:35 sub_reindex (pullback of the mono along f) and :180 Sub's fmap := sub_reindex (unop f). Both line numbers exact, quotes verbatim-faithful, file in _CoqProject. The record's key honesty point checks out: sub_reindex is defined via a CHOSEN pullback (Pull/pullback f (sub_mono u)) and so needs an ambient HasPullbacks, whereas the book's restriction is the elementary intersection; nothing in-tree computes reindexing as V ∩ W, and no poset of opens exists (rg for 'opens'/'topological'/'Frame'/'Locale' returns prose only)."
+    }
+  },
+  {
+    "id": "7sketches:7.4.1:ex7.52",
+    "classification": "PARTIAL",
+    "aliases": [
+      "subobject classifier of Set is the booleans",
+      "Ω = 2 / Ω = Bool",
+      "sheaves on the one-point space ≃ Set",
+      "Shv(1) and its truth values",
+      "two truth values / two-element classifier"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 353,
+        "symbol": "FinSet_Classifier",
+        "intree_statement": "#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; truth := fun _ => fin_true; char := fun u x (m : u ~{FinSet}~> x) (_ : Monic m) (b : Fin.t x) => fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |}."
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 321,
+        "symbol": "fin2_cases",
+        "intree_statement": "Lemma fin2_cases (j : Fin.t 2) : (j = fin_true) + (j = fin_false)."
+      }
+    ],
+    "statement_record": {
+      "book": "For X the one-point space, reconcile 'the subobject classifier of Set is the two-element boolean set' with the recipe Ω(U) = {opens ⊆ U}: over the point the opens are ∅ and the point, so there are exactly two truth values.",
+      "intree": "FinSet_Classifier proves the two-element set 2 with truth = fin_true is a subobject classifier for FinSet, and fin2_cases proves 2 has exactly the two elements fin_true, fin_false.",
+      "strength_comparison": "intree-weaker: the target of the reconciliation (Ω = the 2-element boolean object, with exactly two truth values) is proved, but for FinSet rather than Set, and the source of the reconciliation — the sheaf-topos recipe evaluated at the one-point space — has no in-tree counterpart. In Sets the classifier is NOT 2: Instance/Sets/Classifier.v uses PropSetoid (Type@{o} under iffT) one universe up, so even the 'Ω_Set = Bool' half only holds in-tree for the skeletal finite model."
+    },
+    "gap": "Missing: the one-point space, its poset of opens {∅, ⋆}, the sheaf-topos recipe of (7.50)/(7.51), and the equivalence Shv(1) ≃ Set that makes the reconciliation a reconciliation. Only the endpoint Ω = 2 is in-tree, and only for FinSet (in Sets the in-tree classifier object is a Prop-setoid one universe up, not a two-element set).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Independently I found the same endpoint: Instance/FinSet/Classifier.v:353 FinSet_Classifier with 'Ω := 2%nat; truth := fun _ => fin_true' (lines 354-357 carry the record's quoted body) and :321 fin2_cases — both citations exact. The record's strongest claim is the self-limiting one and it is TRUE: Instance/Sets/Classifier.v does not build a SubobjectClassifier instance for Sets at all; it proves cross-universe theorems over PropSetoid (carrier Type@{o} under iffT, :151) with sets_char_pullback/:224 and sets_char_unique/:283, so the 'Ω_Set = Bool' reading only holds in-tree for skeletal FinSet. No one-point space, no Op(pt), no Shv(1) ≃ Set anywhere."
+    }
+  },
+  {
+    "id": "7sketches:7.4.1:ex7.53",
+    "classification": "PARTIAL",
+    "aliases": [
+      "functoriality of the subobject-classifier presheaf",
+      "restriction composes: (W ⊆ V ⊆ U) restrict twice = restrict once",
+      "presheaf laws: fmap_comp and fmap_id for Ω",
+      "sub_reindex_comp / sub_reindex_id",
+      "reindexing is functorial (Beck-style base change on subobjects)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 152,
+        "symbol": "sub_reindex_comp",
+        "intree_statement": "Lemma sub_reindex_comp {x y z : C} (g : y ~> x) (f : z ~> y) (u : SubObj x) : sub_reindex (g ∘ f) u ≈ sub_reindex f (sub_reindex g u)."
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 143,
+        "symbol": "sub_reindex_id",
+        "intree_statement": "Lemma sub_reindex_id {x : C} (u : SubObj x) : sub_reindex id u ≈ u."
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 180,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x ; ... |}; fmap := ... sub_reindex (unop f) ... |} (functor obligations discharged by sub_reindex_respects_mor, sub_reindex_id, sub_reindex_comp)."
+      }
+    ],
+    "statement_record": {
+      "book": "(1) Prove the assignment (7.50)/(7.51) is functorial: for W ⊆ V ⊆ U, restricting U→V then V→W agrees with restricting U→W. (2) Is functoriality alone enough to make it a presheaf? (No — identities must also be preserved.)",
+      "intree": "sub_reindex_comp gives the composition law for the generic restriction, sub_reindex_id gives exactly the missing identity clause the exercise's part (2) is fishing for, and Sub packages both as a genuine functor C^op ⟶ Sets.",
+      "strength_comparison": "intree-weaker: both clauses the exercise asks for are proved, but for the generic subobject presheaf over an arbitrary category with chosen pullbacks, not for the presheaf U ↦ {opens ⊆ U} on a poset of opens (which does not exist in-tree). The in-tree proof also goes through pullback pasting, whereas the book's is a two-line intersection computation."
+    },
+    "gap": "The functoriality proved is that of the generic subobject presheaf Sub (reindexing by chosen pullback), not that of the open-set assignment U ↦ {V open ⊆ U} with restriction V ↦ V ∩ W: no topological space or poset of opens exists in-tree, so the concrete computation the exercise asks for cannot be stated.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind search hit the same three anchors. Re-read at the cited lines: Theory/Subobject/Functor.v:143 'Lemma sub_reindex_id ... sub_reindex id u ≈ u', :152 'Lemma sub_reindex_comp ... sub_reindex (g ∘ f) u ≈ sub_reindex f (sub_reindex g u)', and :180 Sub whose three Program obligations are discharged by sub_reindex_respects_mor / sub_reindex_id / sub_reindex_comp exactly as the record's parenthetical claims (verified in the file, obligations at 190-199). The record is right that part (2) of the exercise (identities must also be preserved) has a genuine in-tree counterpart in sub_reindex_id. Gap statement honest: the concrete U ↦ {V open ⊆ U} computation is unstatable in-tree."
+    }
+  },
+  {
+    "id": "7sketches:7.4.1:construction-omega-classifier",
+    "classification": "ABSENT",
+    "aliases": [
+      "the truth-value presheaf on opens is a sheaf",
+      "Ω is a sheaf / gluing of matching families of opens",
+      "truth morphism true : 1 ⟶ Ω of a sheaf topos",
+      "terminal sheaf, generic subobject on Shv(X,Op)",
+      "the truth values of Shv(X) are the open sets of X"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -F 'Shv' . → 0 hits; -F 'Sh(' → 0 hits (no sheaf topos over a space anywhere in the tree)",
+      "grep -rn --include='*.v' -i 'topological\\|topology' . → only prose in file headers (Theory/Sheaf.v, Structure/Pullback.v, …); no topological space, no poset of opens",
+      "grep -rn --include='*.v' -F 'opens' . → 5 hits, all the English verb 'opens' in background essays (Theory/Universal/Arrow.v:43, Construction/Arrow.v:88, …)",
+      "grep -rn --include='*.v' -w 'Frame' . → 19 hits, all Instance/Lambda/Full.v evaluation-context frames; -F 'Locale' → 0 hits (no frames/locales)",
+      "grep -rn --include='*.v' -i 'matching family' . → 5 hits, all comments in Theory/Sheaf/Category.v; no matching family for the truth-value presheaf",
+      "grep -rn --include='*.v' -i 'gluing' . → 25 hits, all prose; the only formal gluing statement is the [Sheaf] class field 'restriction' (Theory/Sheaf.v:192), whose own header (Theory/Sheaf/Category.v:33) discloses it is per-leg and NOT the textbook unique-gluing condition; it is never verified for any particular presheaf",
+      "grep -rn --include='*.v' 'SubobjectClassifier' . → the abstract Class (Structure/SubobjectClassifier.v:44, with fields Ω, truth, char, char_pullback, char_unique) and exactly two concrete uses: Instance/FinSet/Classifier.v:353 and Instance/Sets/Classifier.v (cross-universe theorems). Neither is a presheaf or sheaf topos",
+      "grep -rn --include='*.v' 'ElementaryTopos' . → the class (Structure/Topos.v:112) and its single witness Instance/FinSet/Topos.v:38 FinSet_Topos; no presheaf or sheaf topos instance exists",
+      "grep -rn --include='*.v' -i 'sieve' . → 2 hits, both prose (Theory/Sheaf.v:80, Construction/Localization.v:101); no sieve construction"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. My blind pass reached the same verdict independently. Spot-checked the negative log and every claim holds: no 'Shv'; 'sieve' = 2 prose hits (Theory/Sheaf.v:80, Construction/Localization.v:101); SubobjectClassifier used at exactly Structure/SubobjectClassifier.v:44 (class, char at :49) with only the FinSet:353 and Sets cross-universe uses; ElementaryTopos at Structure/Topos.v:112 with the single witness Instance/FinSet/Topos.v:38. Crucially I re-verified the log's decisive claim myself: the [Sheaf] class (Theory/Sheaf.v:192) is NEVER instantiated for any concrete presheaf anywhere in the tree (rg 'Sheaf' outside Theory/Sheaf* yields only prose cross-references), and Theory/Sheaf/Category.v:28-42 documents that the inherited predicate is per-leg and vacuous beyond subsingleton fibres. NOTED TENSION, deliberately not overturned: neighbours eq7.50/7.51 earned PARTIAL from generic machinery, and the class field 'truth : 1 ~> Ω' (Structure/SubobjectClassifier.v:46) is arguably the generic form of this item's second half. I keep ABSENT because the item's distinctive content — verifying the sheaf condition for the truth-value presheaf, i.e. gluing V := ⋃ V_i — has no in-tree counterpart at any level of generality."
+    }
+  },
+  {
+    "id": "7sketches:7.4.1:example7.54",
+    "classification": "ABSENT",
+    "aliases": [
+      "subobject classifier of the topos of graphs",
+      "Ω in the presheaf topos on the parallel-pair category",
+      "Graph / Quiv is a topos",
+      "classifying map of a subgraph",
+      "graph with 2 vertices and 5 edges (the graph classifier)"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Graph' . → 4 files (Instance/Parallel.v, Construction/Free.v, Structure/Monoidal/Traced.v, Structure/Monoidal/HypergraphFunctor.v); the only graph-as-presheaf is Instance/Parallel.v:166 'Program Definition Presheaf_Graph : Parallel^op ⟶ Sets', which is ONE specific graph (vertices := nat, edges := nat * nat), not the category of graphs and not a classifier",
+      "grep -rn --include='*.v' 'Quiver' . → Construction/Free/Quiver.v defines Class Quiver (:54), QuiverHomomorphism (:205) and '#[export] Instance QuiverCategory : Category' (:358) — the category of graphs exists, but nothing in the file or the tree gives it products, exponentials, a subobject classifier, or a topos structure",
+      "grep -rn --include='*.v' 'SubobjectClassifier' . → only Structure/SubobjectClassifier.v (the class), Instance/FinSet/Classifier.v:353, Instance/Sets/Classifier.v; no graph/quiver/presheaf classifier",
+      "grep -rn --include='*.v' 'ElementaryTopos' . → the class plus the single witness FinSet_Topos (Instance/FinSet/Topos.v:38); QuiverCategory is never shown to be a topos",
+      "grep -rn --include='*.v' -F 'subgraph' . → 0 hits",
+      "grep -rn --include='*.v' -i 'sieve' . → 2 hits, both prose; the presheaf-topos recipe Ω(c) = sieves on c is not formalized",
+      "Instance/Parallel.v read in full: it defines the walking parallel pair (Parallel, :80) and APair (:129); nothing about presheaves on it forming a topos"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search reached the same conclusion and found the same near miss the record already logs: Construction/Free/Quiver.v does define the category of graphs ('#[export] Instance QuiverCategory : Category' at :358, Class Quiver at :54 with nodes/edges/edgeset), and Instance/Parallel.v:166 'Program Definition Presheaf_Graph : Parallel^op ⟶ Sets' is one specific graph-as-presheaf (vertices := nat, edges := nat*nat). Neither carries products, exponentials, a classifier, or a topos structure; ElementaryTopos has the single FinSet witness. rg -F 'subgraph' = 0 hits (re-run). The two-vertex five-arrow classifier graph of Example 7.54 has no in-tree counterpart. Nothing missed."
+    }
+  },
+  {
+    "id": "7sketches:7.4.1:ex7.55",
+    "classification": "ABSENT",
+    "aliases": [
+      "classify a subgraph by a graph homomorphism into Ω",
+      "characteristic map of a subgraph",
+      "char of a mono in the graph topos",
+      "graph homomorphism G → Ω picking out H",
+      "worked classifying morphism example"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -F 'subgraph' . → 0 hits",
+      "grep -rn --include='*.v' 'Graph' . → 4 files; only Instance/Parallel.v:166 Presheaf_Graph (a single graph as a presheaf), no category of graphs as a topos, no monos-of-graphs development",
+      "grep -rn --include='*.v' 'QuiverCategory' . → Construction/Free/Quiver.v:358 and Test/Issue138.v; the category of quivers carries no classifier, so no characteristic morphism can be written",
+      "grep -rn --include='*.v' 'char ' . → the classifier field 'char' (Structure/SubobjectClassifier.v:49) and its FinSet instance/examples (Instance/FinSet/Classifier.v:357, Instance/FinSet/Topos.v:77-81 FinSet_char_at_true / FinSet_char_at_false). The only worked characteristic-map computations in-tree are on Fin.t 2 in FinSet, not on graphs",
+      "grep -rn --include='*.v' 'ElementaryTopos' . → only FinSet_Topos; the graph topos this exercise computes in does not exist in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Independent search agrees: no 'subgraph' anywhere, no classifier on QuiverCategory, so no characteristic graph homomorphism can even be typed. Re-verified the log's positive counterpoint: the only worked char computations in-tree are on Fin.t 2 (Structure/SubobjectClassifier.v:49 field char; Instance/FinSet/Classifier.v:353 char := fin_of_bool (fin_existsb ...), with the Topos.v examples). Correctly ABSENT rather than PARTIAL: this is a computation IN the graph topos, which does not exist in-tree at any level of generality."
+    }
+  },
+  {
+    "id": "7sketches:7.4.2:eq7.56",
+    "classification": "PARTIAL",
+    "aliases": [
+      "conjunction and disjunction of open sets (∩ and ∪)",
+      "meet and join in the Heyting algebra of truth values",
+      "product and coproduct in a posetal / thin category",
+      "Props_Cartesian (∧) and Props_Cocartesian (∨)",
+      "lattice structure on Ω, internal logic connectives"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "#[export] Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "#[export] Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }."
+      }
+    ],
+    "statement_record": {
+      "book": "For opens U, V of a space X, define their conjunction to be U ∩ V and their disjunction to be U ∪ V — the meet-and-join half of the Heyting structure on the truth values of a sheaf topos.",
+      "intree": "In Props (the thin category of Coq propositions ordered by implication), conjunction is the categorical product and disjunction the coproduct: Props_Cartesian with product_obj := and, Props_Cocartesian with product_obj := or.",
+      "strength_comparison": "intree-weaker: the categorical content — ∧ is the meet/product and ∨ the join/coproduct in the posetal category of truth values — is asserted, but only for the carrier Prop, not for the opens of a topological space. The library has no space, no frame of opens, and Props is never connected to the Ω of any topos (the only concrete classifiers are Fin.t 2 in FinSet and PropSetoid one universe up in Sets)."
+    },
+    "gap": "Missing: topological spaces and the poset Op(X); hence the identification ∧ = ∩, ∨ = ∪ on opens is unstatable. The in-tree Heyting-prealgebra structure lives on Coq's Prop (Instance/Props.v), and no in-tree result links that structure to the truth-value object of a topos, nor is there any Heyting-algebra class at all (grep 'Heyting' finds only 7 comment lines, e.g. Structure/Topos.v:81).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass found the same and only candidate, Instance/Props.v. Citations exact: Props_Cartesian at :69 ('product_obj := and') and Props_Cocartesian at :80 ('product_obj := or'); quotes verbatim. File in _CoqProject. The record's PARTIAL rests on a genuine generic overlap (in a thin category, ∧ IS the product and ∨ the coproduct, and Instance/Props.v:15-27 states the Heyting-prealgebra reading explicitly), while the gap statement is accurate on both counts I checked myself: no space/frame of opens, and rg 'Heyting' returns exactly 7 hits, ALL comments (Theory/Sheaf.v:85, Instance/Props.v:15/17/27, Theory/Lawvere.v:87, Instance/Two.v:86, Structure/Topos.v:81) — there is no Heyting-algebra class."
+    }
+  },
+  {
+    "id": "7sketches:7.4.2:eq7.57",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Heyting implication of opens, U ⇒ V = ⋃ { R open : R ∩ U ⊆ V }",
+      "relative pseudo-complement",
+      "exponential in a posetal cartesian closed category",
+      "right adjoint to meet: R ≤ (U ⇒ V) ⟺ R ∧ U ≤ V",
+      "Props_Closed / exp_iso / currying"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "#[export] Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 51,
+        "symbol": "Closed (exp_iso)",
+        "intree_statement": "Class Closed := { exponent_obj : C → C → C ; exp_iso {x y z} : x × y ~> z ≊ x ~> z^y ; … ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (curry' f) ≈ f }."
+      }
+    ],
+    "statement_record": {
+      "book": "For opens U, V of X, U ⇒ V is the union of all opens R with R ∩ U ⊆ V, equivalently the largest such open; this is the hardest connective and admits no further reduction in general.",
+      "intree": "Props_Closed exhibits implication (Basics.impl) as the exponential of the thin category Props, with exp_iso the currying bijection Hom(R ∧ P, Q) ≅ Hom(R, P → Q); the general Closed class states exp_iso : x × y ~> z ≊ x ~> z^y, which in a thin category IS the Heyting condition R ∧ U ≤ V ⟺ R ≤ (U ⇒ V).",
+      "strength_comparison": "intree-weaker: the defining adjunction of Heyting implication is present and is instantiated on a genuine posetal Heyting prealgebra (Props), but never on opens of a space. The book's explicit formula 'the union of all R with R ∩ U ⊆ V' requires arbitrary joins (a frame), which the library has nowhere; the in-tree exponential is postulated as data, not constructed as a supremum."
+    },
+    "gap": "No topological space, no frame/locale, hence no U ⇒ V := ⋃{R : R ∩ U ⊆ V}: the explicit construction by arbitrary joins is unavailable (grep 'Frame'/'Locale'/'opens' finds nothing formal). What is in-tree is only the abstract characterisation — implication as the exponential/right adjoint to meet (Closed.exp_iso) — plus one concrete posetal model, Coq's Prop, which is never identified with the truth values of a topos.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Same evidence found blind. Instance/Props.v:94 Props_Closed ('exponent_obj := Basics.impl' with exp_iso the currying bijection) and Structure/Cartesian/Closed.v:51 'exp_iso {x y z} : x × y ~> z ≊ x ~> z^y' — both line numbers exact, quotes accurate (the record's ump_exponents' clause is in the same class, ~:59). The strength_comparison's sharpest claim is correct and is the reason this is not PRESENT: the in-tree exponential is class DATA, while the book's U ⇒ V := ⋃{R : R ∩ U ⊆ V} is a CONSTRUCTION by arbitrary joins, and the library has no frame/locale and no arbitrary joins in a poset (verified independently)."
+    }
+  },
+  {
+    "id": "7sketches:7.4.2:def-negation",
+    "classification": "ABSENT",
+    "aliases": [
+      "Heyting negation ¬U := (U ⇒ false)",
+      "pseudo-complement of an open",
+      "interior of the complement",
+      "exponential into the initial object, 0^x",
+      "¬ on truth values of a topos / internal negation"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'pseudocomplement' . and -i 'pseudo-complement' . → 0 hits each",
+      "grep -rn --include='*.v' -i 'negation' . → 6 hits, none Heyting: Instance/FinSet/Topos.v:84 (a comment naming a 4-element power-object code), Instance/Coq/Par.v:226, Structure/Monoidal/StarAutonomous.v:42/197 (LINEAR negation), Structure/Additive.v:25/28 (additive inverses)",
+      "grep -rn --include='*.v' -i 'interior' . → 2 hits, both unrelated prose (Test/ProbeFunnyPoly.v:19, Theory/Lawvere.v:90); -i 'complement of' → 0 hits",
+      "NEAR MISS examined and rejected: Structure/Monoidal/StarAutonomous.v:229 'Program Definition dual (d : C) : C^op ⟶ C := {| fobj := fun x => @exponent_obj C _ x d; fmap := … |}' is 'negation = internal hom into a chosen false object', but (a) it is built over SymMonClosed (Structure/Monoidal/StarAutonomous.v:109), not the cartesian Closed of a Heyting algebra, (b) d is arbitrary and the intended instance is a DUALIZING object with star_double_dual : x ≅ double_dual dualizer x (:269) — exactly the ¬¬ = id law that Heyting negation on opens fails. It asserts nothing about ¬U = U ⇒ ⊥ in a bicartesian closed poset",
+      "grep -rn --include='*.v' 'exp_zero\\|prod_zero\\|0 \\^\\|\\^ 0' . → the only zero-exponential facts are exp_zero : x^0 ≅ 1 (Structure/BiCCC.v:236) and prod_zero_l/r (:208/:221) — the wrong direction; no lemma about 0^x, i.e. about ¬x, anywhere",
+      "grep -rn --include='*.v' -i 'topological\\|topology' . / -F 'opens' . / -w 'Frame' . / -F 'Locale' . → no topological space, no poset of opens, so 'interior of the complement' is not statable",
+      "Instance/Props.v read in full: it supplies Props_Initial (0 = False, :61) and Props_Closed (:94), so ¬P would be expressible as exponent_obj P False, but no definition or lemma of negation is written"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Independent search agrees and found the same two near misses the record already examined and rejected with sound reasoning: (a) Structure/Monoidal/StarAutonomous.v's dual/double_dual is LINEAR negation over SymMonClosed with the dualizing iso axiomatised — the opposite of Heyting ¬; (b) Instance/Props.v does supply Props_Initial (:61, 0 = False) and Props_Closed (:94) so that ¬P would be expressible as exponent_obj P False, but I re-grepped and confirm no such definition or lemma is written. Also independently re-verified the record's precise claim about zero-exponentials: the only in-tree facts are x^0 ≅ 1 (Structure/BiCCC.v:236) and prod_zero_l/r — there is NO lemma about 0^x, which is what negation would be. 'Interior of the complement' is unstatable (no topology)."
+    }
+  },
+  {
+    "id": "7sketches:7.4.2:example7.58",
+    "classification": "ABSENT",
+    "aliases": [
+      "connectives computed on opens of the real line",
+      "worked Heyting algebra example on ℝ",
+      "¬(-∞,3) = (3,∞), intuitionistic negation is not complementation",
+      "open intervals as truth values",
+      "computation of U ⇒ V for opens of ℝ"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'Reals' . → 2 hits, both prose about enriched categories over the extended non-negative reals (Construction/Enriched.v:74, Construction/Karoubi.v:87); grep -F 'Coq.Reals' / -F 'Rdefinitions' → 0 hits (the real numbers are not imported anywhere)",
+      "grep -rn --include='*.v' -i 'real line' . → 0 hits; -i 'interval' . → 11 hits, all unrelated prose",
+      "grep -rn --include='*.v' -i 'topological\\|topology' . → only background prose; no topological space, no usual topology on ℝ",
+      "grep -rn --include='*.v' -F 'opens' . → 5 hits, all the English verb; -w 'Frame' . → Instance/Lambda evaluation frames only; -F 'Locale' → 0 hits",
+      "grep -rn --include='*.v' -i 'negation' . → no Heyting negation (see 7sketches:7.4.2:def-negation log); nothing to compute with",
+      "grep -rn --include='*.v' 'Heyting' . → 7 hits, all comments (Theory/Sheaf.v:85, Theory/Lawvere.v:87, Instance/Two.v:86, Instance/Props.v:15/17/27, Structure/Topos.v:81); there is no Heyting-algebra class, so no worked instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Independently re-ran the decisive grep: rg -n 'Coq.Reals|Rdefinitions|R_scope' over all .v files returns ZERO hits — the real numbers are not imported anywhere in the tree, so the worked computation on opens of ℝ has no possible in-tree home. Combined with the absence of any topological space, any frame of opens, and any Heyting negation (see def-negation), nothing of this example exists. Not OUT_OF_SCOPE — it is formalizable in principle (Coq has reals and the library has universe polymorphism), so ABSENT is the right call under the frozen definitions."
+    }
+  },
+  {
+    "id": "7sketches:7.4.2:ex7.59",
+    "classification": "ABSENT",
+    "aliases": [
+      "double negation of ℝ ∖ {0}",
+      "U ⊆ ¬¬U but ¬¬U ⊄ U",
+      "double-negation is not the identity in a Heyting algebra",
+      "¬¬ closure / regular open",
+      "punctured line, dense open"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'double negation' . → 0 hits",
+      "grep -rn --include='*.v' -i 'negation' . → 6 hits, none Heyting (see def-negation log)",
+      "NEAR MISS examined and rejected: Structure/Monoidal/StarAutonomous.v:252 'Definition double_dual (d : C) : C ⟶ C := dual d ◯ (dual d)^op' with the class field star_double_dual {x : C} : x ≅ double_dual dualizer x (:269). This is double LINEAR negation in a symmetric monoidal closed category, and it is AXIOMATISED to be an isomorphism — the precise opposite of what this exercise exhibits (¬¬U = ℝ ⊋ U for the punctured line). It does not bear on the Heyting inclusion U ≤ ¬¬U",
+      "grep -rn --include='*.v' -i 'excluded middle' . → 1 hit, a comment in Structure/Topos.v:82; no formal statement",
+      "grep -rn --include='*.v' -i 'Reals' / -F 'Coq.Reals' / -i 'real line' . → no real numbers in the tree, so the punctured line is unstatable",
+      "grep -rn --include='*.v' -i 'topological\\|topology' . / -F 'opens' . → no topological spaces or open sets"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Same blind verdict. The record's near-miss analysis is correct and worth keeping: Structure/Monoidal/StarAutonomous.v's star_double_dual AXIOMATISES x ≅ ¬¬x, which is precisely the law this exercise exhibits as FAILING for the punctured line — citing it as coverage would have been a same-name-weaker error, and the classifier avoided it. Independently confirmed: no reals, no topology, no Heyting negation, no 'double negation' hit anywhere in .v files."
+    }
+  },
+  {
+    "id": "7sketches:7.4.2:ex7.60",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the opens representing true (X) and false (∅)",
+      "top and bottom of the Heyting algebra of opens",
+      "terminal and initial object in a posetal bicartesian closed category",
+      "unit and annihilator laws: 1 × x ≅ x, 0 × x ≅ 0, x^0 ≅ 1, x^1 ≅ x, 1^x ≅ 1, 0 + x ≅ x",
+      "⊤ and ⊥ in the internal logic of a topos"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 451,
+        "symbol": "prod_one_l",
+        "intree_statement": "#[export] Program Instance prod_one_l {x : C} : 1 × x ≅ x := { to := exr; from := one △ id }.  (the book's 'true ∧ U = U')"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 375,
+        "symbol": "coprod_zero_l",
+        "intree_statement": "#[export] Program Instance coprod_zero_l {x : C} : 0 + x ≅ x := { to := zero ▽ id; from := inr }.  (the book's 'false ∨ U = U')"
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 236,
+        "symbol": "exp_zero",
+        "intree_statement": "#[export] Program Instance exp_zero {x : C} : x^0 ≅ 1 := { to := one; from := curry (zero ∘ to prod_zero_r) }.  (the book's 'false ⇒ U = true')"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 389,
+        "symbol": "exp_one",
+        "intree_statement": "#[export] Program Instance exp_one {x : C} : x^1 ≅ x := { to := eval ∘ id △ one; from := curry exl }.  (the book's 'true ⇒ U = U')"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 415,
+        "symbol": "one_exp",
+        "intree_statement": "#[export] Program Instance one_exp {x : C} : 1^x ≅ 1 := { to := one; from := curry one }.  (the book's 'U ⇒ true = true')"
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 208,
+        "symbol": "prod_zero_l",
+        "intree_statement": "#[export] Program Instance prod_zero_l {x : C} : 0 × x ≅ 0 := { to := uncurry zero; from := zero }.  (the book's 'false ∧ U = false')"
+      }
+    ],
+    "statement_record": {
+      "book": "In the Heyting algebra of opens of a space: the open acting as 'true' is X (X ∧ U = U, X ∨ U = X, U ⇒ X = X, X ⇒ U = U) and the open acting as 'false' is ∅ (∅ ∨ U = U, ∅ ∧ U = ∅, ∅ ⇒ U = X).",
+      "intree": "In any bicartesian closed category the corresponding unit/annihilator isomorphisms are proved: 1 × x ≅ x, 0 + x ≅ x, 0 × x ≅ 0, x^0 ≅ 1, x^1 ≅ x, 1^x ≅ 1 (indexed as high-school algebra in Theory/Algebra.v:68-88).",
+      "strength_comparison": "intree-weaker on two counts: (a) six of the exercise's seven clauses are proved only for a general BiCCC, never for opens of a space (no topological space or frame exists in-tree); (b) the seventh clause, 'true ∨ U = true' (1 + x ≅ 1), is FALSE in a general bicartesian closed category and is a genuinely posetal/lattice fact — the library has no lemma for it and no notion of thin/posetal category on which to state it. Conversely the in-tree isomorphisms are ≅ (invertible morphisms) rather than the equalities a poset gives, which is the faithful setoid rephrasing."
+    },
+    "gap": "Two gaps. (1) No topological space and no poset of opens, so 'true = X' and 'false = ∅' cannot be stated; the in-tree laws are about a generic terminal 1 and initial 0. (2) The clause 'true ∨ U = true' (i.e. 1 + x ≅ 1) is absent and is not derivable in the generic bicartesian closed setting the other six clauses live in — it needs posetality, which the library does not axiomatise (Instance/Props.v gives one thin bicartesian closed model but proves no such absorption law).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. This record has the most evidence and I checked every citation individually; ALL SIX line numbers are exact and the quotes verbatim: Structure/Cartesian.v:451 prod_one_l (1 × x ≅ x), Structure/Cocartesian.v:375 coprod_zero_l (0 + x ≅ x), Structure/BiCCC.v:208 prod_zero_l (0 × x ≅ 0) and :236 exp_zero (x^0 ≅ 1), Structure/Cartesian/Closed.v:389 exp_one (x^1 ≅ x) and :415 one_exp (1^x ≅ 1). All files in _CoqProject. I also verified the record's Theory/Algebra.v:68-88 pointer (the high-school-algebra Goal block, x+0/0+x/x×0/0×x/x×1/1×x/x^0/x^1/1^x all present). The load-bearing negative claim — that the seventh clause 'true ∨ U = true' (1 + x ≅ 1) is absent — I re-verified by grep (no coprod_one/one_coprod/1 + x lemma), and it is correctly identified as unprovable in a general BiCCC. MINOR IMPRECISION, not overturned: the gap says the library has 'no notion of thin/posetal category'; in fact thin categories DO exist in-tree as instances (Instance/Proset.v, Instance/Poset.v, Instance/Props.v, Instance/Two.v) — what is missing is a Thin/Posetal CLASS and any absorption law, so the substance of the gap (1 + x ≅ 1 is nowhere proved and not derivable generically) stands."
+    }
+  },
+  {
+    "id": "7sketches:7.4.2:example7.61",
+    "classification": "ABSENT",
+    "aliases": [
+      "sheaf of sections of a bundle",
+      "sections of π : E → X over an open U",
+      "sheaf of vector fields / tangent bundle of a manifold",
+      "predicate on a sheaf in the internal logic",
+      "largest open on which a property holds (internal truth value)"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'sheaf of sections' . → 0 hits; -i 'fibre bundle' . → 1 hit, a bibliographic citation in Structure/Pullback.v:104",
+      "grep -rn --include='*.v' -i 'vector bundle' . → 1 hit, prose in Construction/Karoubi.v:78 (Karoubi splitting idempotents of vector bundles); no bundle object, no projection, no sections",
+      "grep -rn --include='*.v' -i 'vector field' / -i 'tangent' / -i 'gradient' / -i 'étale' (formal) → 0 formal hits (only SGA citations in Structure/Topos.v:36)",
+      "grep -rn --include='*.v' -i 'manifold' . → 3 hits, all prose (Structure/Group.v:46, Structure/Monoidal/Braided.v:100/103); no differential geometry in the tree",
+      "grep -rn --include='*.v' -i 'Sections' . → 4 hits, all about split monos/retractions (Theory/Morphisms.v:13/52/123, Theory/Functor.v:353) — a different sense of 'section'",
+      "grep -rn --include='*.v' -i 'internal logic' . → 1 hit, a comment in Structure/Monoidal/Semicartesian.v:28 about affine logic; there is no internal-language or internal-predicate development",
+      "grep -rn --include='*.v' -i 'topological\\|topology' . / -F 'opens' . / -F 'Shv' . → no topological spaces, no open sets, no sheaves on a space (the only sheaf machinery is the abstract Site/Sheaf pair of Theory/Sheaf.v:159/192 over an arbitrary category)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Independently re-ran the searches: no 'bundle' object (only bundled-record prose and one Karoubi citation about vector bundles), no 'vector field', no 'manifold' outside prose, no 'tangent'; the four 'section' hits are split monos/retractions (Theory/Morphisms.v), a different sense — the record caught that trap correctly. Also confirmed the deeper structural point: the only sheaf machinery is the abstract Site/Sheaf pair (Theory/Sheaf.v:159/192) over an arbitrary category, never instantiated for any concrete presheaf, and there is no internal-language/internal-predicate development, so 'the largest open on which a property holds' has no in-tree meaning."
+    }
+  }
+]

@@ -1,0 +1,455 @@
+[
+ {
+  "id": "7sketches:3.5.1:remark3.85",
+  "classification": "PARTIAL",
+  "aliases": [
+   "terminal object is unique up to unique isomorphism",
+   "uniqueness of universal / representing objects",
+   "one_unique, hom-setoid x ~> 1 is contractible",
+   "univ_property_unique_up_to_unique_iso",
+   "'the' limit vs 'a' limit (definite-article licence)",
+   "dual: initial object unique up to unique iso"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/UniversalProperty.v",
+    "line": 175,
+    "symbol": "univ_property_unique_up_to_unique_iso",
+    "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s)."
+   },
+   {
+    "file": "Structure/UniversalProperty/Limit.v",
+    "line": 141,
+    "symbol": "LimitIsUniversalProperty",
+    "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c)."
+   },
+   {
+    "file": "Structure/UniversalProperty/Cartesian.v",
+    "line": 60,
+    "symbol": "CartesianProductIsUniversalProperty",
+    "intree_statement": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) (fun z => CartesianProductStructuresEquiv x y z)."
+   }
+  ],
+  "statement_record": {
+   "book": "Strengthening Prop 3.84: between any two terminal objects there is a UNIQUE isomorphism, so terminal objects are unique up to unique isomorphism; this licenses the abuse of language 'the' terminal object, and correspondingly 'the' limit / colimit / product.",
+   "intree": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s).  — for any P registered as an IsUniversalProperty; registered for IsALimit (LimitIsUniversalProperty), IsCartesianProduct (CartesianProductIsUniversalProperty), and AUniversalArrow (Structure/UniversalProperty/Universal/Arrow.v:61).",
+   "strength_comparison": "same (indeed intree-stronger) for the general principle: [Unique] is Lib/Setoid.v's ∃!-record, so the in-tree statement asserts existence of an iso c ≅ d, that it transports t to s, and that ANY iso doing so equals it — exactly the book's 'unique isomorphism', and stated for arbitrary representable universal properties rather than only terminal objects. intree-weaker at the remark's headline instance: terminal objects are never registered as an IsUniversalProperty, and no in-tree lemma exhibits (let alone uniquely characterizes) an isomorphism between two terminal objects."
+  },
+  "gap": "The terminal-object case — the remark's actual subject — has no in-tree assertion. Structure/Terminal.v's [Terminal] class carries only [one_unique] (any two maps x ~> 1 agree); nothing in the tree constructs `terminal_obj T1 ≅ terminal_obj T2` for two Terminal structures, and Terminal is not among the three predicates instantiated into the IsUniversalProperty framework (limits, cartesian products, universal arrows). Reaching the terminal case would require chaining Terminal_Limit (Structure/Limit/Terminal.v:33) with LimitIsUniversalProperty and then univ_property_unique_up_to_unique_iso; that chain is not carried out in-tree. Also absent: any in-tree remark/notation making the definite article official (no `the_limit`/`the_terminal` abbreviation).",
+  "negative_search_log": [
+   "rg -n --glob '*.v' -i 'terminal.*uniq|uniq.*terminal|unique up to|terminal_unique' — hits are header prose (Structure/Terminal.v:18, Structure/Initial.v prose, Theory/Isomorphism.v:79-82) plus the [one_unique] field; no lemma",
+   "rg -n --glob '*.v' 'terminal_obj ≅|≅ terminal_obj|initial_obj ≅|≅ initial_obj' — only Structure/ZeroObject.v:42 zero_coincide (a class FIELD, not a theorem about two terminal objects)",
+   "rg -n --glob '*.v' '@Terminal' — no lemma taking two Terminal instances",
+   "rg -n --glob '*.v' 'IsUniversalProperty' — instantiated only in Structure/UniversalProperty/{Cartesian,Limit,Universal/Arrow}.v"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, on the same reasoning. Verified all three citations at the exact lines: Structure/UniversalProperty.v:175 `Proposition univ_property_unique_up_to_unique_iso`, Structure/UniversalProperty/Limit.v:141 `LimitIsUniversalProperty`, Structure/UniversalProperty/Cartesian.v:60 `CartesianProductIsUniversalProperty` (quotes accurate; the fourth instantiation named in statement_record, Structure/UniversalProperty/Universal/Arrow.v:61, also checks out). Re-ran the negative searches independently: `rg -i 'unique.*iso|iso.*unique|Terminal.*unique'` over all .v files returns, for the terminal case, ONLY header prose (Structure/Terminal.v:18 'Terminal objects are unique up to (unique) isomorphism whenever they exist', Structure/Initial.v:36-37, Theory/Isomorphism.v:79-82) plus the `one_unique` FIELD (Structure/Terminal.v:111), which is uniqueness of MAPS into 1, not an isomorphism between two terminal objects. `rg 'terminal_obj ≅|≅ terminal_obj'` yields only Structure/ZeroObject.v:42 `zero_coincide` (a class field asserting the chosen 0 and 1 coincide, not a theorem) and Theory/Lambek.v:79. `rg 'IsUniversalProperty'` confirms exactly three instantiations (Cartesian, Limit, Universal/Arrow) — Terminal is not among them, so the classifier's gap statement is exact. All four cited files are registered in _CoqProject. strength_comparison is honest: it separates the general principle (in-tree, arguably stronger) from the remark's headline instance (absent)."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:def3.86",
+  "classification": "PRESENT",
+  "aliases": [
+   "binary product / product of two objects",
+   "Cartesian structure: product_obj, exl, exr, fork ⟨f,g⟩",
+   "IsCartesianProduct (product of a designated pair)",
+   "ump_products / universal mapping property of the product",
+   "limit of the discrete two-object diagram",
+   "dual: coproduct / Cocartesian"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 145,
+    "symbol": "IsCartesianProduct",
+    "intree_statement": "Class IsCartesianProduct (x y z : C) := { fork' {a} (f : a ~> x) (g : a ~> y) : a ~> z; exl' : z ~> x; exr' : z ~> y; fork'_respects : ∀ a, Proper (equiv ==> equiv ==> equiv) (@fork' a); ump_product {a} (f : a ~> x) (g : a ~> y) (h : a ~> z) : h ≈ fork' f g ↔ (exl' ∘ h ≈ f) * (exr' ∘ h ≈ g) }."
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 121,
+    "symbol": "Cartesian",
+    "intree_statement": "Class Cartesian := { product_obj : obj → obj → obj where \"x × y\" := (product_obj x y); fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z; exl {x y} : x × y ~> x; exr {x y} : x × y ~> y; fork_respects : ∀ x y z, Proper (equiv ==> equiv ==> equiv) (@fork x y z); ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g) }."
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 211,
+    "symbol": "exl_fork / exr_fork / fork_exl_exr",
+    "intree_statement": "Corollary exl_fork {x z w : C} (f : x ~> z) (g : x ~> w) : exl ∘ f △ g ≈ f.  Corollary exr_fork ... : exr ∘ f △ g ≈ g.  Corollary fork_exl_exr {x y : C} : exl △ exr ≈ @id C (x × y)."
+   }
+  ],
+  "statement_record": {
+   "book": "A product of X and Y in C is an object X × Y with p_X : X × Y → X and p_Y : X × Y → Y such that for every C with f : C → X and g : C → Y there is a UNIQUE ⟨f,g⟩ : C → X × Y with ⟨f,g⟩ ; p_X = f and ⟨f,g⟩ ; p_Y = g.",
+   "intree": "Class IsCartesianProduct (x y z : C) := { fork' {a} (f : a ~> x) (g : a ~> y) : a ~> z; exl' : z ~> x; exr' : z ~> y; ...; ump_product {a} (f : a ~> x) (g : a ~> y) (h : a ~> z) : h ≈ fork' f g ↔ (exl' ∘ h ≈ f) * (exr' ∘ h ≈ g) }.",
+   "strength_comparison": "same. [IsCartesianProduct x y z] is exactly the book's 'z is a product of x and y' for a DESIGNATED object, so the per-pair reading of Def 3.86 is available and is not merely the bundled 'C has all products'. The ∃! is packaged as a biconditional rather than a Unique record: existence is the given [fork'], and uniqueness is the ← direction (any h satisfying both triangles is ≈ fork' f g); [exl_fork]/[exr_fork] recover the two commuting equations and are proved from it. Setoid rephrasing (≈ for =) is faithful. [Cartesian] is the same UMP with a chosen product operation, plus a Proper field forced by the setoid setting."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: PRESENT, same evidence. Line numbers verified exactly — Structure/Cartesian.v:121 `Class Cartesian`, :145 `Class IsCartesianProduct`, :211/:220/:261 `exl_fork`/`exr_fork`/`fork_exl_exr`; quotes match the source verbatim. Checked the same-name-weaker-statement trap: `ump_products`/`ump_product` really are the full biconditional `h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)`, so the ← direction carries the book's uniqueness clause; it is not a bare 'projections exist' field. Checked the definition-without-API trap: exl_fork/exr_fork/fork_exl_exr/fork_comp are all derived below, so the API is present. IsCartesianProduct supplies the book's per-PAIR reading ('a product of X and Y'), which the bundled Cartesian class alone would not — the classifier is right to lead with it. Registered in _CoqProject."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:example3.87",
+  "classification": "PRESENT",
+  "aliases": [
+   "cartesian product of sets is the categorical product",
+   "Sets_Cartesian / product setoid",
+   "Coq_Cartesian / prod type",
+   "fst, snd as projections; fun c => (f c, g c) as the mediator",
+   "Set has binary products"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets/Cartesian.v",
+    "line": 32,
+    "symbol": "Sets_Cartesian",
+    "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; is_setoid := {| equiv := fun z w => @equiv _ x (fst z) (fst w) * @equiv _ y (snd z) (snd w) ; setoid_equiv := _ |} |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := fun _ _ => {| morphism := fst |}; exr := fun _ _ => {| morphism := snd |} }."
+   },
+   {
+    "file": "Instance/Coq.v",
+    "line": 141,
+    "symbol": "Coq_Cartesian",
+    "intree_statement": "Program Instance Coq_Cartesian : @Cartesian Coq := { product_obj := λ x y, x * y : Type; fork := λ _ _ _ f g x, (f x, g x); exl := λ _ _ p, fst p; exr := λ _ _ p, snd p }."
+   }
+  ],
+  "statement_record": {
+   "book": "In Set, a product of X and Y is the ordinary cartesian product {(x,y)} with projections p_X(x,y) = x, p_Y(x,y) = y, and the unique mediator ⟨f,g⟩(c) = (f(c), g(c)).",
+   "intree": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; ... equiv := componentwise ... |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := fst; exr := snd }.",
+   "strength_comparison": "same. Discharging the instance discharges [ump_products], i.e. the uniqueness clause of Def 3.86, for exactly these data — carrier is the pair type, projections are fst/snd, mediator is c ↦ (f c, g c). The library's 'Set' is [Sets], the category of SETOIDS, so the product carries the componentwise equivalence (a₁,b₁) ≈ (a₂,b₂) ⟺ a₁ ≈ a₂ ∧ b₁ ≈ b₂; this is the faithful setoid rephrasing, not a weakening. [Coq_Cartesian] gives the same statement for the category of Coq types and functions, where product_obj is literally the `prod` type."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: PRESENT, same evidence. Instance/Sets/Cartesian.v:32 `Sets_Cartesian` and Instance/Coq.v:141 `Coq_Cartesian` verified at those exact lines; both quotes are faithful to the source (Coq.v is written with λ-notation exactly as quoted). Both files registered in _CoqProject. The setoid caveat is stated honestly: the product carrier is the pair TYPE with componentwise ≈, which is the faithful setoid rephrasing the frozen definitions admit, and Coq_Cartesian gives the strict-equality reading for good measure. Discharging the instance discharges ump_products, so the uniqueness half of Def 3.86 is genuinely proved for these data, not merely asserted."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:ex3.88",
+  "classification": "PARTIAL",
+  "aliases": [
+   "product in a preorder category is the meet",
+   "meet / infimum / greatest lower bound / glb",
+   "Proset, Poset, thin category, posetal category",
+   "Cartesian structure on a thin category",
+   "dual: coproduct is the join / supremum",
+   "order-theoretic collapse dictionary"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Two/Monoidal.v",
+    "line": 80,
+    "symbol": "Two_Cartesian",
+    "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |}.  (with Definition two_meet (x y : TwoObj) : TwoObj := match x with TwoX => TwoX | TwoY => y end, Instance/Two/Monoidal.v:37)"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 69,
+    "symbol": "Props_Cartesian",
+    "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }.  (Props is the thin category of propositions ordered by implication, Instance/Props.v:39)"
+   }
+  ],
+  "statement_record": {
+   "book": "For a preorder (P, ≤) with corresponding thin category P, the categorical product x × y in P is the meet x ∧ y of the preorder.",
+   "intree": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; ... |}; Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; ... }.",
+   "strength_comparison": "intree-weaker: only two CONCRETE preorders are covered. [Two_Cartesian] proves the claim for the two-element order {TwoX < TwoY}, where the product object is literally named [two_meet]; [Props_Cartesian] proves it for the preorder of propositions ordered by entailment, where the product object is conjunction (the meet). Neither is the book's general statement quantified over an arbitrary preorder."
+  },
+  "gap": "No general theorem. Instance/Proset.v:33 builds the thin category [Proset P] of an arbitrary PreOrder R, but carries NO Cartesian instance and no statement relating products there to any order-theoretic operation; Instance/Poset.v likewise only mentions the collapse ('a product is a meet') in its header essay (line 50), with no formal counterpart. Crucially, the library defines no general meet/infimum/greatest-lower-bound vocabulary for a preorder at all (`rg -i '\\bmeet\\b'` finds only [two_meet], prose, and unrelated uses), so the book's identification cannot even be STATED in-tree without first introducing that vocabulary.",
+  "negative_search_log": [
+   "rg -ni --glob '*.v' '\\bmeet\\b' — only Instance/Two/Monoidal.v's two_meet plus header prose (Instance/Poset.v:50, Instance/Props.v:66, Construction/Enriched/Two.v)",
+   "rg -ni --glob '*.v' 'infimum|greatest lower|glb|lattice' — no definition of a meet/glb for a preorder",
+   "rg -n --glob '*.v' 'Proset' — only Instance/Proset.v, Instance/Poset.v, Test/Poset.v, one comment in Instance/Props.v; no Cartesian/Terminal/Limit instance on Proset",
+   "rg -ni --glob '*.v' 'thin categ|posetal|preorder' -l — hits are header essays plus Instance/{Two,Props,Poset,Proset,Rel,Omega}.v; no general preorder-product theorem"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same PARTIAL. Instance/Two/Monoidal.v:80 `Two_Cartesian` (product_obj := two_meet, defined at :37) and Instance/Props.v:69 `Props_Cartesian` (product_obj := and) verified at those exact lines; both registered in _CoqProject. Independently re-ran the negative searches and reproduce the classifier's result: `rg -i '\\b(infimum|supremum|greatest lower|least upper|lub|glb|join)\\b'` over all .v files returns only MONAD `join` (Monad/Compose.v, Monad/Graded.v, Monad/Distributive.v) — there is no order-theoretic meet/glb vocabulary anywhere. `rg 'Proset'` finds only Instance/Proset.v, Instance/Poset.v, Test/Poset.v and one comment in Instance/Props.v; Instance/Proset.v carries no Cartesian, Terminal or Limit instance. Instance/Poset.v:50-51 states 'a product is a meet, and more generally the limit over a subset is its greatest lower bound' in the header essay ONLY, with no formal counterpart — this is prose, not a defect, since the essay cites nLab rather than claiming an in-tree theorem. The gap statement is exact, including its sharp observation that the book's identification cannot even be STATED in-tree without first introducing meet vocabulary."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:example3.89",
+  "classification": "PRESENT",
+  "aliases": [
+   "product category C × D",
+   "Construction/Product.v, Product C D, C ∏ D",
+   "pairs of objects, pairs of morphisms, componentwise composition",
+   "binary product in Cat",
+   "bifunctor domain / Eilenberg-Mac Lane functor of two variables"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Product.v",
+    "line": 95,
+    "symbol": "Product",
+    "intree_statement": "Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); homset := ... componentwise equiv ...; id := fun _ => (id, id); compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g); ... |}."
+   },
+   {
+    "file": "Instance/Cat/Cartesian.v",
+    "line": 39,
+    "symbol": "Cat_Cartesian",
+    "intree_statement": "Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x) ; fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := {| fobj := fst ; fmap := fun _ _ => fst |}; exr := {| fobj := snd ; fmap := fun _ _ => snd |} }."
+   }
+  ],
+  "statement_record": {
+   "book": "The product of categories C and D has objects the pairs (c,d), morphisms (c,d) → (c',d') the pairs (f,g) with f : c → c' in C and g : d → d' in D, and componentwise composition (f,g);(f',g') = (f;f', g;g'). Presented as an example of a product, here in the category of categories.",
+   "intree": "Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); id := fun _ => (id, id); compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g); ... |}.",
+   "strength_comparison": "same, and the 'example of a product' framing is discharged too: [Cat_Cartesian] proves C ∏ D really IS the categorical product in Cat, with projections Fst/Snd and the pairing ⟨F,G⟩, including the [ump_products] obligation. In-tree the hom-setoid is the componentwise ≈ (the setoid rephrasing); the composition order is written ∘ (diagrammatic ';' reversed), which is presentation only."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: PRESENT, same evidence. Construction/Product.v:95 `Definition Product` and Instance/Cat/Cartesian.v:39 `Cat_Cartesian` verified at those exact lines; quotes accurate (id := fun _ => (id, id), compose componentwise, hom the pair of homs). Both registered in _CoqProject. Checked the 'example of a product' half is not merely asserted: Cat_Cartesian genuinely discharges ump_products, with the caveat the classifier already names — Cat's hom-equivalence is natural isomorphism, so the UMP holds up to ≅ rather than on the nose, which is the correct in-tree reading and not a weakening of the book's example (which only builds the category)."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:ex3.90",
+  "classification": "PARTIAL",
+  "aliases": [
+   "identity morphisms of a product category",
+   "associativity of composition in C × D",
+   "1 × 2, terminal category times the walking arrow, unit law for ×",
+   "product of two preorder categories = product preorder",
+   "prod_one_l / prod_one_r unitors"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Product.v",
+    "line": 95,
+    "symbol": "Product",
+    "intree_statement": "Definition Product (C D : Category) : Category := {| ...; id := fun _ => (id, id); compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g); ...; comp_assoc := fun x y z w f g h => (@comp_assoc C (fst x) (fst y) (fst z) (fst w) (fst f) (fst g) (fst h), @comp_assoc D (snd x) (snd y) (snd z) (snd w) (snd f) (snd g) (snd h)) |}."
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 451,
+    "symbol": "prod_one_l",
+    "intree_statement": "#[export] Program Instance prod_one_l {x : C} : 1 × x ≅ x := { to := exr; from := one △ id }.  (instantiated at C := Cat via Cat_Cartesian, Instance/Cat/Cartesian.v:39, and Cat_Terminal, Instance/One.v:54)"
+   }
+  ],
+  "statement_record": {
+   "book": "Four questions about C × D: (1) what are its identity morphisms? (2) why is composition associative? (3) what is 1 × 2? (4) what is P × Q for preorders P, Q?",
+   "intree": "id := fun _ => (id, id); comp_assoc := fun x y z w f g h => (@comp_assoc C ... , @comp_assoc D ...) — i.e. identities are pairs of identities and associativity is proved componentwise from associativity in each factor. And prod_one_l : 1 × x ≅ x.",
+   "strength_comparison": "same for (1) and (2): the [Product] definition ANSWERS them by construction — the identity at (c,d) is (id, id), and the [comp_assoc]/[comp_assoc_sym] fields are literally the componentwise pair of the two factors' associativity proofs. For (3), only up to isomorphism and only via the generic unitor: [prod_one_l] at C := Cat gives 1 ∏ _2 ≅[Cat] _2, where 1 is Instance/One.v's terminal category and _2 is Instance/Two.v's walking arrow — the library never states the answer for this specific pair, and ≅[Cat] is isomorphism in Cat (whose hom-equivalence is natural isomorphism), not a strict identification of categories."
+  },
+  "gap": "Part (4) is absent: nothing in-tree relates the product CATEGORY of two thin categories to the product PREORDER. Instance/Proset.v:33 builds [Proset P] from a PreOrder but there is no `Proset P ∏ Proset Q ≅ Proset (product order)` statement, no product-of-preorders construction, and no lemma that C ∏ D is thin when C and D are. Part (3) is answered only derivatively, by instantiating the generic [prod_one_l] unitor at Cat rather than by any in-tree computation of 1 ∏ _2.",
+  "negative_search_log": [
+   "rg -n --glob '*.v' 'Proset' — no product-of-prosets construction anywhere",
+   "rg -ni --glob '*.v' 'product preorder|product order|product poset' — 0 hits",
+   "rg -n --glob '*.v' 'Product.*Two|Two.*Product' and inspection of Instance/One.v, Instance/Two.v — no statement about 1 ∏ _2"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same PARTIAL with the same 4-way split. Construction/Product.v:95 confirmed to answer (1) and (2) by construction — `id := fun _ => (id, id)` and `comp_assoc`/`comp_assoc_sym` are literally the componentwise pairs of the factors' proofs. Structure/Cartesian.v:451 `prod_one_l : 1 × x ≅ x` verified at that exact line (an #[export] Program Instance inside `Context {@Terminal C}`); I independently confirmed the instantiation at C := Cat is available — Cat_Cartesian (Instance/Cat/Cartesian.v:39) and Cat_Terminal (Instance/One.v:54) both exist and are registered — so the classifier's derivative reading of part (3) is legitimate and is flagged as derivative rather than sold as a direct result. Part (4) negative search reproduced: `rg -i 'product (pre)?order|product poset|product preorder'` returns 0 relevant hits (sole hit Functor/Diagonal.v:64 is about products of OBJECTS), and no thinness-preservation lemma for ∏ exists. Gap statement exact."
+  }
+ },
+ {
+  "id": "7sketches:3.5.2:construction-cone-xy",
+  "classification": "PRESENT",
+  "aliases": [
+   "Cone(X,Y), category of cones over two objects",
+   "category of spans with fixed feet",
+   "Cones F (category of cones over a diagram)",
+   "comma category (Δ ↓ F) of the diagonal",
+   "wedges / cone morphisms commuting with both legs"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Cones.v",
+    "line": 29,
+    "symbol": "Cones",
+    "intree_statement": "Program Definition Cones `(F : J ⟶ C) : Category := {| obj := Cone F; hom := fun N L => { u : vertex_obj[N] ~> vertex_obj[L] & ∀ j, vertex_map[L] ∘ u ≈ @vertex_map _ _ _ F (@coneFrom _ _ _ N) j }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun x => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}."
+   },
+   {
+    "file": "Instance/Two/Discrete.v",
+    "line": 111,
+    "symbol": "Pick_Two",
+    "intree_statement": "Program Definition Pick_Two {C : Category} (a b : C) : Two_Discrete ⟶ C := {| fobj := λ x, match x with TwoDX => a | TwoDY => b end; fmap := λ x y _, match x, y with TwoDX, TwoDX => id | ... end |}."
+   },
+   {
+    "file": "Instance/Cones/Comma.v",
+    "line": 73,
+    "symbol": "Cones_Comma",
+    "intree_statement": "Theorem Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F))."
+   }
+  ],
+  "statement_record": {
+   "book": "For objects X, Y of C, the category Cone(X,Y) has as objects the spans X ←f− C −g→ Y, and as morphisms (C,f,g) → (C',f',g') the morphisms a : C → C' with a ; f' = f and a ; g' = g.",
+   "intree": "Program Definition Cones `(F : J ⟶ C) : Category := {| obj := Cone F; hom := fun N L => { u : vertex_obj[N] ~> vertex_obj[L] & ∀ j, vertex_map[L] ∘ u ≈ vertex_map[N] j }; ... |}, instantiated at F := Pick_Two x y : Two_Discrete ⟶ C.",
+   "strength_comparison": "intree-stronger (more general): the library builds the category of cones over an ARBITRARY diagram F : J ⟶ C, of which the book's Cone(X,Y) is the case J = Two_Discrete, F = Pick_Two x y. At that instance the data line up exactly — an object is an apex with two legs (a span, since the discrete shape imposes no coherence), and a morphism is one apex map making both triangles commute (`∀ j, vertex_map[L] ∘ u ≈ vertex_map[N] j` at the two objects TwoDX, TwoDY). Only caveat of presentation: the specialization is never given its own name in-tree (there is no `Cone_XY` or span-category abbreviation), and Structure/Span.v's [Span C] is the unrelated Roof-shaped diagram, not a category of spans with fixed feet."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: PRESENT, same evidence, same reasoning that Cone(X,Y) is the J := Two_Discrete, F := Pick_Two x y instance of the general Cones. Instance/Cones.v:29 `Cones`, Instance/Two/Discrete.v:111 `Pick_Two`, Instance/Cones/Comma.v:73 `Cones_Comma : Cones F ≅[Cat] (Δ ↓ =(F))` all verified at those exact lines with accurate quotes; all three registered in _CoqProject. Confirmed at the instance that the data line up: over the discrete two-object shape cone_coherence is vacuous, so an object of `Cones (Pick_Two x y)` is exactly a span x ← N → y, and a hom is exactly one apex map u with both leg triangles commuting, with the commuting witness proof-irrelevant in the hom-setoid (`equiv := fun f g => `1 f ≈ `1 g`). ADDITION the classifier missed (does not change the verdict): Construction/Span/Category.v:49 defines `Record SpanArrow (X Y : C) := { apex : C; leg1 : apex ~> X; leg2 : apex ~> Y }`, which IS literally the object class of Cone(X,Y); but its setoid `span_equiv` (:64) quotients by apex-ISOMORPHISM respecting the legs rather than forming a category of cone morphisms, and SpanCat additionally needs HasPullbacks, so it is not a substitute — the classifier's dismissal of Structure/Span.v (the Roof-shaped diagram) is correct but incomplete in not mentioning this nearer neighbour."
+  }
+ },
+ {
+  "id": "7sketches:3.5.2:ex3.91",
+  "classification": "PARTIAL",
+  "aliases": [
+   "a product is a terminal object in the category of cones",
+   "terminal cone / universal cone",
+   "Limit_Cones (Terminal (Cones F) → Limit F)",
+   "Cartesian_Limit (binary products ↔ limits of two-object discrete diagrams)",
+   "dual: coproduct is an initial cocone"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Cones/Limit.v",
+    "line": 37,
+    "symbol": "Limit_Cones",
+    "intree_statement": "Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} : Limit F := {| limit_cone := @terminal_obj _ T; ump_limits := fun N => {| unique_obj := `1 (@one _ T N) ; unique_property := `2 (@one _ T N) ; uniqueness := fun v H => @one_unique _ T N (@one _ T N) (v; H) |} |}."
+   },
+   {
+    "file": "Structure/Limit/Cartesian.v",
+    "line": 39,
+    "symbol": "Cartesian_Limit",
+    "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C."
+   }
+  ],
+  "statement_record": {
+   "book": "A product X ←p_X− X × Y −p_Y→ Y is exactly the same thing as a terminal object in the category Cone(X,Y).",
+   "intree": "Limit_Cones : ∀ (F : J ⟶ C), @Terminal (Cones F) → Limit F, together with Cartesian_Limit : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C.",
+   "strength_comparison": "intree-weaker: only ONE direction of the book's 'exactly the same thing'. Composing the two in-tree results gives terminal-object-of-Cones ⇒ limit ⇒ product; the converse leg (a product yields a terminal object of Cones (Pick_Two x y)) is nowhere constructed. Note also that Limit_Cones is a bare implication, not a biconditional, and is not specialized to the two-object shape anywhere."
+  },
+  "gap": "The right-to-left half is missing: there is no in-tree construction of `@Terminal (Cones F)` from a `Limit F` / `IsALimit F c` (grep over the whole tree finds [Cones] mentioned only in Instance/Cones.v, Instance/Cones/Limit.v — a 44-line file containing only [Limit_Cones] — and Instance/Cones/Comma.v, which proves Cones F ≅[Cat] (Δ ↓ =(F)) but says nothing about terminality). Consequently 'a product IS a terminal cone' is available only as an implication in the direction terminal cone ⇒ product, never as the identification the exercise asks the reader to check.",
+  "negative_search_log": [
+   "rg -n --glob '*.v' 'Cones' — Instance/Cones.v, Instance/Cones/Limit.v, Instance/Cones/Comma.v, plus header prose in Structure/{Terminal,Limit,Cone/Const}.v and Construction/Comma.v",
+   "rg -n --glob '*.v' 'Terminal (Cones' — only Instance/Cones/Limit.v:37 (the hypothesis of Limit_Cones)",
+   "rg -n --glob '*.v' 'IsALimit.*Terminal|Terminal.*IsALimit|limit_terminal|terminal_cone' — 0 hits",
+   "wc -l Instance/Cones/Limit.v = 44; whole file inspected, [Limit_Cones] is its only definition"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same PARTIAL with the same missing direction. Instance/Cones/Limit.v:37 `Limit_Cones` and Structure/Limit/Cartesian.v:39 `Cartesian_Limit` verified at those exact lines with accurate quotes; both registered. Independently confirmed the file-length claim: `wc -l Instance/Cones/Limit.v` = 44, and Limit_Cones is its only definition — I read the whole file. Independently reproduced the negative search: `rg 'Cones'` across the tree yields only Instance/Cones.v, Instance/Cones/Limit.v, Instance/Cones/Comma.v plus header prose in Structure/{Terminal,Limit,Cone/Const}.v and Construction/Comma.v; no construction of `@Terminal (Cones F)` from a Limit exists. This is a genuine dual-assumed-but-absent finding and the classifier caught it rather than waving at Limit_Cones as if it were a biconditional — note the contrast with Terminal_Limit and Cartesian_Limit, which ARE ↔."
+  }
+ },
+ {
+  "id": "7sketches:3.5.2:def3.92",
+  "classification": "PRESENT",
+  "aliases": [
+   "cone over a diagram; apex, legs, projections",
+   "ACone / Cone / vertex_obj / vertex_map / cone_coherence",
+   "morphism of cones; category of cones Cones F",
+   "limit as terminal object of the cone category",
+   "indexing category / diagram functor D : J ⟶ C"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cone.v",
+    "line": 24,
+    "symbol": "ACone",
+    "intree_statement": "Class ACone {J : Category} {C : Category} (c : obj[C]) (F : J ⟶ C) := { vertex_map (x : J) : c ~{C}~> F x; cone_coherence {x y : J} (f : x ~{J}~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y }.  (and Class Cone (F : J ⟶ C) := { vertex_obj : C; coneFrom : ACone vertex_obj F }, Structure/Cone.v:51)"
+   },
+   {
+    "file": "Instance/Cones.v",
+    "line": 29,
+    "symbol": "Cones",
+    "intree_statement": "Program Definition Cones `(F : J ⟶ C) : Category := {| obj := Cone F; hom := fun N L => { u : vertex_obj[N] ~> vertex_obj[L] & ∀ j, vertex_map[L] ∘ u ≈ @vertex_map _ _ _ F (@coneFrom _ _ _ N) j }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun x => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}."
+   },
+   {
+    "file": "Instance/Cones/Limit.v",
+    "line": 37,
+    "symbol": "Limit_Cones",
+    "intree_statement": "Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} : Limit F := {| limit_cone := @terminal_obj _ T; ump_limits := fun N => {| unique_obj := `1 (@one _ T N) ; unique_property := `2 (@one _ T N) ; uniqueness := fun v H => @one_unique _ T N (@one _ T N) (v; H) |} |}."
+   },
+   {
+    "file": "Structure/Limit.v",
+    "line": 113,
+    "symbol": "Limit",
+    "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x }."
+   }
+  ],
+  "statement_record": {
+   "book": "For a diagram D : J → C: a cone (C, c_*) is an object C plus morphisms c_j : C → D(j) with c_k = c_j ; D(f) for every f : j → k; a morphism of cones (C,c_*) → (C',c'_*) is a : C → C' with c_j = a ; c'_j; cones and their morphisms form a category Cone(D); and lim(D) is DEFINED to be the terminal object of Cone(D), its object being the limit object and each c_j the j-th projection.",
+   "intree": "Class ACone (c : obj[C]) (F : J ⟶ C) := { vertex_map (x : J) : c ~> F x; cone_coherence (f : x ~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y }; Cones F : Category with hom = { u & ∀ j, vertex_map[L] ∘ u ≈ vertex_map[N] j }; Limit F := { limit_cone : Cone F; ump_limits : ∀ N, ∃! u, ∀ x, vertex_map[limit_cone] ∘ u ≈ vertex_map[N] x }.",
+   "strength_comparison": "same on every clause. [cone_coherence] is literally the book's condition (a) written in ∘-order (D(f) ∘ c_j ≈ c_k for c_k = c_j ; D(f)); the hom of [Cones] is literally the book's cone morphism (one apex map with all leg triangles commuting), with morphism equality taken on the apex map and the commuting witness proof-irrelevant; [vertex_obj] is the limit object and [vertex_map] the j-th projection. One presentational difference, worth naming: the library DEFINES [Limit] by the ∃! universal property rather than literally as the terminal object of [Cones F]; the identification with the book's definition is carried by [Limit_Cones], which proves it only in the direction Terminal (Cones F) ⇒ Limit F (the converse is not in-tree — see 7sketches:3.5.2:ex3.91). Instance/Cones/Comma.v additionally identifies Cones F with the comma category (Δ ↓ =(F))."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: PRESENT, same evidence. Structure/Cone.v:24 `ACone` (with `Cone` at :51), Instance/Cones.v:29 `Cones`, Structure/Limit.v:113 `Limit`, Instance/Cones/Limit.v:37 `Limit_Cones` all verified at those exact lines with accurate quotes; all registered in _CoqProject. Interrogated the one point where PARTIAL might have been argued — the book DEFINES lim(D) as the terminal object of Cone(D) whereas the library defines `Limit` by ∃! — and I agree with PRESENT: since a hom of `Cones F` is a sigma of an apex map plus the leg equations, and its setoid identifies homs by their apex maps alone, `ump_limits : ∀ N : Cone F, ∃! u, ∀ x, vertex_map[limit_cone] ∘ u ≈ vertex_map[N] x` unfolds to exactly 'the hom-setoid Cones F N limit_cone is contractible', i.e. terminality. The classifier discloses the presentational difference and the one-directional Limit_Cones bridge explicitly, and cross-references ex3.91 for the missing converse. cone_coherence is the book's condition (a) in ∘-order. Honest."
+  }
+ },
+ {
+  "id": "7sketches:3.5.2:example3.93",
+  "classification": "PRESENT",
+  "aliases": [
+   "terminal object is the limit of the empty diagram",
+   "nullary product / empty product",
+   "Terminal_Limit",
+   "J = 0, the empty category (Instance/Zero.v)",
+   "dual: initial object is the colimit of the empty diagram"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Terminal.v",
+    "line": 33,
+    "symbol": "Terminal_Limit",
+    "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C."
+   }
+  ],
+  "statement_record": {
+   "book": "Terminal objects are exactly limits in which the indexing category J is empty.",
+   "intree": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C.",
+   "strength_comparison": "same, and if anything intree-stronger in form: it is a proved BICONDITIONAL (both directions are constructed in the Qed'd proof — from a limit of the empty diagram the apex plus its mediating morphisms give [terminal_obj]/[one]/[one_unique], and from a terminal object the legless cone at [terminal_obj] with [one] as mediator gives the limit), over the genuinely empty shape `0` of Instance/Zero.v. No extra hypotheses."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: PRESENT, same evidence. Structure/Limit/Terminal.v:33 `Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C` verified verbatim at that exact line; registered in _CoqProject. Read the full Qed'd proof and confirm BOTH directions are genuinely constructed (→ builds terminal_obj/one/one_unique from the limit apex and its mediating morphisms, discharging the leg obligations by `inversion` on the empty shape; ← builds the legless cone at terminal_obj with `one` as mediator and `one_unique` for uniqueness). The shape `0` is Instance/Zero.v's genuinely empty category, not a stand-in. No extra hypotheses. strength_comparison ('same, if anything intree-stronger in form') is accurate."
+  }
+ },
+ {
+  "id": "7sketches:3.5.2:example3.94",
+  "classification": "PRESENT",
+  "aliases": [
+   "products are limits over a discrete two-object diagram",
+   "Cartesian_Limit",
+   "Two_Discrete / Pick_Two (shape category for binary products)",
+   "indexed product as limit of a discrete diagram",
+   "dual: coproducts are colimits over the discrete two-object diagram"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Cartesian.v",
+    "line": 39,
+    "symbol": "Cartesian_Limit",
+    "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C."
+   },
+   {
+    "file": "Structure/Limit/Product.v",
+    "line": 119,
+    "symbol": "limit_is_indexed_product",
+    "intree_statement": "Definition limit_is_indexed_product {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) : IsIndexedProduct f (iprod f L) (iprod_proj f L) := {| iprod_desc := fun c pi => iprod_ump f L c pi |}.  (with Record IsIndexedProduct ... := { iprod_desc {c : C} (pi : ∀ a, c ~> f a) : ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a }, Structure/Limit/Product.v:51)"
+   }
+  ],
+  "statement_record": {
+   "book": "Products are exactly limits in which the indexing category J consists of two objects v, w and no non-identity arrows (the discrete two-object category).",
+   "intree": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C.",
+   "strength_comparison": "same content, both directions proved (left-to-right reads the limit of [Pick_Two x y] as product_obj/exl/exr/fork; right-to-left builds the limit cone from the product with fork as mediator). One quantifier difference worth naming: the in-tree biconditional is stated at the level of the WHOLE category — 'every two-object discrete diagram has a limit' ⟺ 'C is Cartesian' — rather than per-pair ('this limit cone is a product of x and y'), so a single-pair reading has to be extracted from the proof rather than cited. The general A-indexed analogue is available per-diagram: [limit_is_indexed_product] converts a limit of any discrete diagram into an [IsIndexedProduct] record at its apex, which is the book's claim with J discrete of arbitrary size."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: PRESENT, same evidence. Structure/Limit/Cartesian.v:39 `Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C` verified verbatim; Structure/Limit/Product.v:119 `limit_is_indexed_product` and the `IsIndexedProduct` record at :51 verified at those exact lines. Both files registered. Read the full proof: both directions are genuinely constructed (→ presents a pair as `Pick_Two x y`, takes the apex as product_obj and the legs as exl/exr, the mediator as fork; ← builds the cone from the product with fork_exl_exr closing uniqueness). The quantifier caveat the classifier raises is real and correctly characterised as a difference of PACKAGING, not of strength — the biconditional ranges over the whole category rather than a single pair — and it is offset by the per-diagram `limit_is_indexed_product`, which gives the book's claim at an arbitrary discrete shape. Two_Discrete (Instance/Two/Discrete.v) really is discrete: TwoDHom has only the two identity constructors, with TwoDHom_X_Y_absurd/TwoDHom_Y_X_absurd proved."
+  }
+ }
+]

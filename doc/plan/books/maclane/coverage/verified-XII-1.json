@@ -1,0 +1,470 @@
+[
+  {
+    "id": "maclane:XII.3:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "CAT as a 2-category",
+      "Cat is a bicategory / strict 2-category",
+      "category of categories, functors, natural transformations",
+      "Godement product / horizontal composition of natural transformations",
+      "interchange law (middle-four, Theorem II.5.1)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 127,
+        "symbol": "Cat_Bicategory",
+        "intree_statement": "Definition Cat_Bicategory : Bicategory := Build_Bicategory Category (fun C D => @obj (@Fun C D)) (fun C D => @hom (@Fun C D)) (@Id) ... (@Cat_Hcompose) (fun C D f => nat_ρ f) (fun C D f => nat_λ f) (fun W X Y Z h g f => iso_sym (nat_α f g h)) Cat_hunit_left_natural Cat_hunit_right_natural Cat_hassoc_natural Cat_triangle Cat_pentagon.  (* 0-cells = Category, hom-category bicat C D = [C,D], 2-cells = natural transformations *)"
+      },
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 64,
+        "symbol": "Cat_Hcompose",
+        "intree_statement": "Program Definition Cat_Hcompose {C D E} : ([D,E] ∏ [C,D]) ⟶ [C,E] := {| fobj := fun p => fst p ◯ snd p; fmap := fun p q m => nat_hcompose (fst m) (snd m) |}.  (* fmap_comp obligation is the middle-four interchange law *)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 283,
+        "symbol": "nat_hcompose",
+        "intree_statement": "Program Definition nat_hcompose {C D E} {F G : C ⟶ D} {J K : D ⟶ E} ... : J ◯ F ⟹ K ◯ G  (* the Godement product; header line 74: \"the interchange law between the two makes Cat a strict 2-category\" *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Functors, with natural transformations as 2-cells, form a 2-category CAT: categories as 0-cells, functors as 1-cells, natural transformations as 2-cells, with the explicit vertical composite (τ·σ)c = τc ∘ σc, horizontal composite (σ'∘σ)c = σ'Sc ∘ R'σc, both associative and satisfying the interchange law (Thm II.5.1).",
+      "intree": "Cat_Bicategory assembles CAT with bi0cell := Category, bicat C D ≡ [C,D] (objects functors, 2-cells natural transformations, vertical composition = nat_compose), hcompose = Cat_Hcompose (functor composition on 1-cells, Godement product nat_hcompose on 2-cells), whose fmap_comp obligation is the interchange law; coherences are the [C,D] isos nat_ρ/nat_λ/(nat_α)⁻¹.",
+      "strength_comparison": "same — CAT and all its 2-cell operations (vertical nat_compose, horizontal Godement nat_hcompose, interchange) are realized; packaged in the Bicategory class (the library has no separate strict-2-category type), with functor-composition associativity/unit carried by the [C,D] coherence isos rather than asserted strictly, but the object realized IS the 2-category CAT."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Cat_Bicategory (Instance/Cat/Bicategory.v:127) realizing CAT: 1-cells=functors, 2-cells=nat transf, vertical=nat_compose, horizontal Godement=nat_hcompose, interchange = fmap_comp of Cat_Hcompose (L64, obligation L76-83). Verified all quotes/locations. Functor composition is definitionally associative so Cat's coherence cells (hassoc:=iso_sym nat_alpha, unitors nat_rho/nat_lambda) are trivial; the bicategory packaging faithfully realizes the 2-category CAT. Header Theory/Natural/Transformation.v:74-75 honestly says the interchange 'makes Cat a strict 2-category ... realized in this library as the motivating bicategory'. PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.3:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "topological spaces with homotopy classes of homotopies as a 2-category",
+      "Top 2-category",
+      "homotopy 2-category",
+      "continuous maps and homotopies",
+      "Top as a bicategory / homotopies as 2-cells"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'Record.*[Tt]opolog|Class.*[Tt]opolog|Definition Top\\b|topological space|Instance.*Top\\b|open set|is_open' --include=*.v .  -> only one hit, a prose mention in Theory/Universal/Arrow.v:38 ('problems of classical algebra and topology'); no topological-space datatype, no Top category",
+      "grep -rn -i 'homotopy' --include=*.v .  -> all hits are background-essay prose (Instance/Sets.v, Instance/Cat.v 'homotopy category', Instance/StrictCat.v 'Ho(Cat)', Construction/Arrow.v, Construction/Localization.v); no homotopy of maps, no homotopy-class quotient, no 2-cell construction",
+      "grep -rln -i 'topolog|homotopy|continuous map|top_space' --include=*.v .  -> hits confined to comment blocks of core theory files; no in-tree topological spaces, continuous maps, homotopies, or a homotopy 2-category on Top",
+      "No Top / topological-space object exists in Instance/ (verified by directory survey); the 2-category of construction2 has no in-tree counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind grep for topolog|homotopy|continuous map|Top found no topological-space datatype, no Top category; homotopy hits are contracting homotopies in bar resolutions (Comonad/Coalgebra.v), unrelated. No in-tree counterpart. Negative log accurate. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.3:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "2-category (elementary definition)",
+      "strict 2-category",
+      "2-cells, vertical and horizontal composition, whiskering, middle-four interchange",
+      "Cat-enriched category (strict)",
+      "bicategory (weak 2-category)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory.v",
+        "line": 204,
+        "symbol": "Bicategory",
+        "intree_statement": "Class Bicategory := { bi0cell : Type; bi1cell : bi0cell → bi0cell → bi1uhom; bi2cell {x y} (f g : bi1cell x y); bi2id; vcompose; ...; bicat (x y) : Category := {| obj := bi1cell; hom := bi2cell; id := bi2id; compose := vcompose; ... |}; hcompose {x y z} : bicat y z ∏ bicat x y ⟶ bicat x z; hunit_left; hunit_right; hassoc; ...; hcoherence_triangle; hcoherence_pentagon }"
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 156,
+        "symbol": "whisker_exchange",
+        "intree_statement": "Lemma whisker_exchange ... : lwhisker g' η ∘∘ rwhisker θ f ≈ rwhisker θ f' ∘∘ lwhisker g η.  (* the middle-four interchange in whisker form; lwhisker (line 90) and rwhisker (line 93) are the left/right whiskerings hcomp2 (bi2id) η and hcomp2 θ (bi2id) *)"
+      },
+      {
+        "file": "Theory/Bicategory.v",
+        "line": 274,
+        "symbol": "hassoc",
+        "intree_statement": "hassoc {w x y z} (h : bicat y z)(g : bicat x y)(f : bicat w x) : ((h ∘∘∘ g) ∘∘∘ f) ≅[bicat w z] (h ∘∘∘ (g ∘∘∘ f))  (* associativity of horizontal composition holds only up to this coherent iso, not strictly *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A 2-category: a category of 0-cells and 1-cells augmented with 2-cells α:f⇒g between parallel 1-cells, with a horizontal composite matching 1-cell composition (identity 2-cells 1_{1b}) and a vertical composite making each hom a category, subject to 1_{f'f}=1_{f'}∘1_f and the middle-four interchange (β'∘β)·(α'∘α)=(β'·α')∘(β·α); whiskering is horizontal composition with a vertical identity. Horizontal composition is STRICTLY associative and unital.",
+      "intree": "Bicategory carries exactly this elementary data — 2-cells bi2cell, vertical composition vcompose making bicat x y a Category, horizontal composition hcompose as a bifunctor, whiskerings lwhisker/rwhisker, and the middle-four interchange (whisker_exchange / hcomp2_comp) — but horizontal composition is associative and unital only up to the coherent 2-isomorphisms hassoc/hunit_left/hunit_right (fields), constrained by triangle and pentagon.",
+      "strength_comparison": "intree-weaker (more general): the in-tree Bicategory is a WEAK 2-category; it never imposes MacLane's strict associativity/unitality of horizontal composition, so it has more models. Every field of the elementary definition except strictness is present."
+    },
+    "gap": "No strict 2-category exists in-tree: the associativity and unit laws of horizontal composition are recorded as coherent isomorphisms (hassoc, hunit_left, hunit_right) rather than as the on-the-nose equalities MacLane's def1 demands. There is no class imposing those equalities (no TwoCategory/Strict2/StrictBicategory — grep found none), so the elementary strict 2-category is available only as the weaker Bicategory.",
+    "negative_search_log": [
+      "grep -rn -i 'TwoCategory|Two_Category|Strict2|StrictTwo|Class.*2.category|StrictBicategory|is_strict' --include=*.v .  -> only Test/Issue138.v:108 (C138_homset_is_strict, unrelated homset-strictness example); no strict-2-category class"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass confirms only Class Bicategory (weak) exists (Theory/Bicategory.v:204); grep TwoCategory|StrictBicategory|Strict2 -> none. All elementary 2-category data present via Bicategory: bi2cell, vcompose (makes bicat x y a Category), hcompose bifunctor whose fmap_comp IS the middle-four interchange (whisker form whisker_exchange verified at L156), identity-2-cell law via fmap_id. Missing only strictness: hassoc/hunit_left/hunit_right (L270-276) are coherent 2-isos, not on-the-nose equalities. Gap stated precisely. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.3:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "2-category via hom-categories",
+      "Cat-enriched category",
+      "category with hom-objects in CAT",
+      "composition functor K : T(b,c) x T(a,b) -> T(a,c)",
+      "V-category with V = Cat"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory.v",
+        "line": 241,
+        "symbol": "bicat / hcompose",
+        "intree_statement": "bicat (x y : bi0cell) : Category := {| obj := bi1cell x y; hom := bi2cell; ... |};  hcompose {x y z} : bicat y z ∏ bicat x y ⟶ bicat x z  (* def2's (ii) a category T(a,b) per pair, (iii) a composition bifunctor K; bi1id supplies (iv) the identity-picking functor Ua *)"
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 111,
+        "symbol": "Enriched",
+        "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K; eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left; eid_right; ecompose_assoc }  (* header line 69: 'K = Cat gives strict 2-categories' *)"
+      }
+    ],
+    "statement_record": {
+      "book": "An equivalent hom-object formulation of a 2-category: (i) a set of objects; (ii) for each pair (a,b) a category T(a,b) whose arrows are 2-cells; (iii) for each triple a composition functor K_{a,b,c}: T(b,c) x T(a,b) -> T(a,c); (iv) for each a a functor Ua:1 -> T(a,a); with K strictly associative and Ua a strict identity — i.e. a category with hom-objects enriched in CAT.",
+      "intree": "The hom-object shape is present as the Bicategory fields (bicat x y : Category = T(a,b); hcompose bifunctor = K; bi1id = the object picked by Ua), and the general notion 'category enriched in a monoidal V' is Construction/Enriched.v's Enriched class, whose header states K=Cat yields strict 2-categories.",
+      "strength_comparison": "intree-weaker / not concretely instantiated: Bicategory is the WEAK hom-category formulation (K associative/unital up to hassoc/hunit isos, not strictly). The strict Cat-enriched realization named by the item is NOT built, because there is no Monoidal Cat in-tree to plug into Enriched (Enriched is instantiated only at Sets and Two)."
+    },
+    "gap": "Two shortfalls: (a) strictness — the in-tree hom-category formulation (Bicategory) is weak, not the strict 2-category def2 axiomatizes; (b) the specific 'category enriched in CAT' realization is unavailable, since no Monoidal Cat is constructed in-tree (grep found no Monoidal instance on Cat), so Enriched cannot be instantiated at K=Cat. The abstract enriched-in-monoidal-V class exists, but its Cat specialization — the content of def2 — is not present.",
+    "negative_search_log": [
+      "grep -rn -i 'Monoidal.*Cat|Cat.*Monoidal|Cat_Monoidal|Monoidal Cat' --include=*.v Instance/  -> no Monoidal instance on Instance/Cat.v; Enriched instantiated only at Sets_Product_Monoidal and Two_Monoidal (Construction/Enriched/Sets.v, Construction/Enriched/Two.v)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified: Bicategory (bicat x y:Category as T(a,b), hcompose bifunctor as K, bi1id) is the WEAK hom-category formulation; Class Enriched (Construction/Enriched.v:111, header L69 'K = Cat gives strict 2-categories') is the general V-category but no @Monoidal Cat instance is registered (Cat_Cartesian:@Cartesian Cat exists at Instance/Cat/Cartesian.v:39 but is not wired to Monoidal; Enriched instantiated only at Sets and Two). So the strict Cat-enriched 2-category is not built and the elementary<->hom-object equivalence is not proven. Gap precise. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.3:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "category enriched in a monoidal category V",
+      "V-category",
+      "enriched category (Kelly 1982, Dubuc 1970)",
+      "Ab-category / Ab-enriched category",
+      "hom-objects in V with V-composition and V-identities"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched.v",
+        "line": 111,
+        "symbol": "Enriched",
+        "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K where \"a ⟿ b\" := (ehom a b); eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left ...; eid_right ...; ecompose_assoc ... }"
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 68,
+        "symbol": "Enriched (header dial)",
+        "intree_statement": "\"K = Set recovers ordinary locally small categories; K = Ab gives preadditive categories with bilinear composition ...; K = Cat gives strict 2-categories\"  (* cites Eilenberg-Kelly 1966 and Kelly 1982 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Replacing CAT by any monoidal category V and taking the hom-objects T(a,b) to be objects of V gives the notion of a category enriched in V (a V-category), with composition and identities as V-morphisms; V = Ab gives Ab-categories. (Kelly 1982, Dubuc 1970.)",
+      "intree": "Enriched (K : Category) {Monoidal K} is exactly a V-category: hom-objects ehom : eobj → eobj → K, identities eid : I ~> (x⟿x), composition ecompose : (y⟿z)⨂(x⟿y) ~> (x⟿z), with the two unit laws and associativity as K-morphism equalities; the Ab-enriched case is realized as Structure/Preadditive.v / Structure/Additive.v.",
+      "strength_comparison": "same — the general enriched-category notion over an arbitrary monoidal base V, with the same data (hom-objects in V, V-composition, V-identities, coherence). Header cites Kelly 1982 (matching the remark's Kelly 1982). Ab-categories present as the preadditive development; instantiated at Sets and Two."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Class Enriched (K:Category){@Monoidal K} (Construction/Enriched.v:111) is exactly a category enriched in a monoidal V, with hom-objects in V, eid/ecompose as V-morphisms, and the unit/associativity coherence. Ab-category case realized as Preadditive (CMon-enrichment, Structure/Preadditive.v:34, header 'every Ab-enriched category is an instance'). Header cites Kelly 1982 and Eilenberg-Kelly 1966. Matches the remark up to presentation. PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.4:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "adjunction in a 2-category",
+      "internal adjunction (in a bicategory)",
+      "adjoint 1-cells f ⊣ u with unit/counit and triangle identities",
+      "zig-zag / triangle identities in a 2-category",
+      "BicatAdjunction"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 270,
+        "symbol": "BicatAdjunction",
+        "intree_statement": "Class BicatAdjunction {x y : bi0cell} (f : bicat x y) (u : bicat y x) := { adj_unit : bi1id ~{bicat x x}~> (u ∘∘∘ f); adj_counit : (f ∘∘∘ u) ~{bicat y y}~> bi1id; adj_triangle_left : to (hunit_left f) ∘∘ hcomp2 adj_counit (bi2id (a:=f)) ∘∘ from (hassoc f u f) ∘∘ hcomp2 (bi2id (a:=f)) adj_unit ∘∘ from (hunit_right f) ≈ bi2id (a:=f); adj_triangle_right : ... ≈ bi2id (a:=u) }"
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 708,
+        "symbol": "adjoint_unique",
+        "intree_statement": "Theorem adjoint_unique {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) : a ≅[bicat y x] b.  (* uniqueness of adjoints up to invertible 2-cell, the mate of the identity *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In an arbitrary 2-category, 1-cells f:a->b and g:b->a are adjoint (f ⊣ g) when there are 2-cells η:1a⇒gf (unit) and ε:fg⇒1b (counit) satisfying the two triangle identities (εf)·(fη)=1f and (gε)·(ηg)=1g; in CAT these are the triangle laws of an ordinary adjunction (IV.1.9).",
+      "intree": "BicatAdjunction f u internal to any bicategory B: adj_unit η:Id_x⇒u∘f, adj_counit ε:f∘u⇒Id_y, and the two triangle identities adj_triangle_left/right, each stated as the unitor/associator-conjugated whiskering zig-zag equalling the identity 2-cell. Instance/Cat/Bicategory/Adjunction.v shows this coincides with ordinary F ⊣ U.",
+      "strength_comparison": "intree-stronger (more general): defined internally to an ARBITRARY bicategory (MacLane's is a strict 2-category), the triangles conjugated by the coherence isos hassoc/hunit; specializes to MacLane's when the coherences are identities. The notion of adjunction is identical (unit, counit, two triangles) — no strict/weak data difference — so this faithfully covers def1, and adds uniqueness up to invertible 2-cell."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Class BicatAdjunction (Theory/Bicategory/Adjunction.v:270): adj_unit (eta), adj_counit (epsilon), and both triangle identities (adj_triangle_left/right), stated internal to an ARBITRARY bicategory (subsumes strict 2-categories); adjoint_unique verified at L708. Concept identical to MacLane's (unit+counit+2 triangles, no strict/weak data difference); coincides with F dashv U in Cat (Instance/Cat/Bicategory/Adjunction.v per CLAUDE.md). intree-stronger. PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.4:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "right Kan extension in a 2-category",
+      "abstract / formal right Kan extension",
+      "universal 2-cell ε : rk ⇒ t",
+      "LocalRightKan / Ran",
+      "pointwise vs formal Kan extension"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 154,
+        "symbol": "LocalRightKan",
+        "intree_statement": "Class LocalRightKan (X : A ⟶ C) := { LocalRan : B ⟶ C; ran_transform : LocalRan ◯ F ⟹ X; ump_ran (M : B ⟶ C) (μ : M ◯ F ⟹ X) : (∃! δ, μ ≈ ran_transform ∙ δ ⊲ F) }"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 140,
+        "symbol": "RightKan",
+        "intree_statement": "Class RightKan := { Ran : [A, C] ⟶ [B, C]; ran_adjoint : Induced ⊣ Ran }  (* the global right Kan extension as right adjoint of restriction (− ◯ F) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In a 2-category, given k:m->c and t:m->a, a right Kan extension of t along k is a 1-cell r:c->a with a 2-cell ε:rk⇒t universal: for every α:sk⇒t there is a unique σ:s⇒r with α = ε·(σ whiskered by k). (Lifts the right Kan extension of X.3 to any 2-category.)",
+      "intree": "LocalRightKan X packages r = LocalRan : B⟶C, the counit ε = ran_transform : LocalRan◯F⟹X, and the universal property ump_ran: every μ : M◯F⟹X factors as μ ≈ ran_transform ∙ (δ ⊲ F) for a unique δ — precisely MacLane's r, ε, and unique σ, but with 1-cells = functors and 2-cells = natural transformations.",
+      "strength_comparison": "intree-weaker (special case): the universal property is identical, but it is stated ONLY in the 2-category CAT (functors and natural transformations), not internally to an arbitrary 2-category/bicategory. MacLane's def2 is the abstract 2-categorical lifting; the in-tree version is its CAT instance."
+    },
+    "gap": "The definition is not given internal to an arbitrary 2-category: no Kan-extension notion appears in Theory/Bicategory/ (grep for 'kan' returns only the Cat-based Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v). Only the CAT specialization (1-cells = functors, 2-cells = natural transformations) exists; the general 2-categorical/bicategorical right Kan extension is not formalized.",
+    "negative_search_log": [
+      "grep -rln -i 'kan' --include=*.v .  -> hits only Functor/Hom/Yoneda.v, Theory/Kan/Extension.v, Structure/Limit/Kan/Extension.v, Construction/Day.v, Structure/Coend.v etc.; all Cat/Sets-based, none internal to a Bicategory",
+      "grep -rn -i 'kan' --include=*.v Theory/Bicategory/  -> 0 hits (no Kan extension defined in a bicategory/2-category)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "LocalRightKan (Theory/Kan/Extension.v:154) and RightKan (L140) give MacLane's exact universal-property shape (extending 1-cell LocalRan, counit ran_transform:LocalRan o F => X, unique mediating delta) but ONLY in the 2-category Cat (functors/natural transformations), not an arbitrary 2-category; grep 'kan' in Theory/Bicategory/ -> 0 hits. Correctly asymmetric with XII.4:def1 (BicatAdjunction is internal to any bicategory; Kan is Cat-only). Gap precise. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.4:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "2-functor",
+      "strict functor between 2-categories",
+      "pseudofunctor / weak 2-functor",
+      "Cat-enriched functor",
+      "morphism of 2-categories preserving all composites on the nose"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Pseudofunctor.v",
+        "line": 147,
+        "symbol": "Pseudofunctor",
+        "intree_statement": "Class Pseudofunctor (B B' : Bicategory) := { pf0 : bi0cell B → bi0cell B'; pf1 {x y} : bicat B x y ⟶ bicat B' (pf0 x) (pf0 y); pf_id {x} : pf1 (bi1id) ≅ bi1id; pf_comp {x y z} (g f) : pf1 (g ∘∘∘ f) ≅ (pf1 g ∘∘∘ pf1 f); pf_comp_natural; pf_assoc_coherence; pf_unit_left; pf_unit_right }"
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 145,
+        "symbol": "EnrichedFunctor",
+        "intree_statement": "Class EnrichedFunctor ...  (* a V-functor; at V = Cat this would be a strict 2-functor, but Enriched requires @Monoidal K and there is no Monoidal Cat in-tree *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A 2-functor F: T -> U between 2-categories is a triple of maps on 0-, 1-, and 2-cells preserving all the 2-categorical structure — domains, codomains, identities, and both horizontal and vertical composites — on the nose.",
+      "intree": "Pseudofunctor B B' gives pf0 on 0-cells and hom-functors pf1 on 1-/2-cells, but preserves horizontal identities and composition only up to invertible 2-cells pf_id : pf1(bi1id) ≅ bi1id and pf_comp : pf1(g∘∘∘f) ≅ pf1 g ∘∘∘ pf1 f, subject to hexagon/unit coherence. The strict-2-functor route via EnrichedFunctor at V=Cat is blocked by the absence of Monoidal Cat.",
+      "strength_comparison": "intree-weaker / different data: a pseudofunctor is the WEAK 2-functor — it carries extra compositor/unitor iso DATA (pf_id, pf_comp) that MacLane's strict 2-functor lacks (it preserves composition strictly). The strict 2-functor is the special case pf_id = pf_comp = identity, which is not isolated as a class in-tree."
+    },
+    "gap": "No strict 2-functor is defined: the only morphism of bicategories in-tree is the Pseudofunctor, whose pf_id/pf_comp are genuine invertible-2-cell data rather than on-the-nose preservation. The Cat-enriched-functor realization (EnrichedFunctor at V=Cat) is unavailable because Cat has no Monoidal instance. No 'strict functor of 2-categories' class exists (grep for '2-functor'/'strict functor' finds only the pseudofunctor and unrelated strict-functor-equality machinery).",
+    "negative_search_log": [
+      "grep -rn -i '2-functor|two.functor|strict functor|StrictFunctor' --include=*.v .  -> only prose ('weak 2-functors' in Theory/Bicategory.v/Pseudofunctor.v) and unrelated 'strict functor equality' in Construction/Funny/*, Construction/Grothendieck/Strict.v; no strict 2-functor class",
+      "grep -rn -i 'Monoidal.*Cat|Cat_Monoidal' --include=*.v Instance/  -> no Monoidal Cat, so EnrichedFunctor cannot be instantiated at K=Cat"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Class Pseudofunctor (Theory/Bicategory/Pseudofunctor.v:147) is the WEAK 2-functor: pf_id:pf1(bi1id)~=bi1id and pf_comp:pf1(g o f)~=pf1 g o pf1 f preserve identity/horizontal composition only up to invertible 2-cells, whereas MacLane's 2-functor preserves on the nose. Strict 2-functor not isolated (grep '2-functor|strict functor' -> only 'weak 2-functor' prose + unrelated strict-functor-equality). EnrichedFunctor-at-Cat unavailable (no Monoidal Cat). Gap precise. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.4:def4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "2-natural transformation",
+      "strict 2-natural transformation",
+      "lax / oplax / pseudonatural transformation",
+      "Cat-enriched natural transformation",
+      "transformation whose naturality squares commute strictly"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Lax.v",
+        "line": 56,
+        "symbol": "LaxTransformation",
+        "intree_statement": "Class LaxTransformation {B B'} (F G : Pseudofunctor B B') := { lt0 (x) : bicat B' (pf0 F x) (pf0 G x); lt1 {x y} (f) : pf1[G] f ∘∘∘ lt0 x ~~> lt0 y ∘∘∘ pf1[F] f; lt1_natural ...; lt_unit ...; lt_comp ... }"
+      },
+      {
+        "file": "Theory/Bicategory/Lax.v",
+        "line": 152,
+        "symbol": "Pseudonatural",
+        "intree_statement": "Class Pseudonatural {B B'} {F G} (σ : LaxTransformation F G) := { pn_iso {x y} (f) : IsIsomorphism (lt1 σ f) }  (* naturators invertible *)"
+      },
+      {
+        "file": "Construction/Enriched/Natural.v",
+        "line": 28,
+        "symbol": "EnrichedTransform",
+        "intree_statement": "Class EnrichedTransform {K : Category} `{@Monoidal K} {C D : Enriched K} ...  (* a V-natural transformation; at V=Cat this is a 2-natural transformation, but requires Monoidal Cat *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For 2-functors F,G: T -> U, a 2-natural transformation θ: F => G assigns to each object a a 1-cell θ_a: Fa -> Ga such that for every 2-cell α: f => g the whiskered 2-cells agree strictly (the naturality square commutes on the nose); restricted to 1-cells θ is an ordinary natural transformation.",
+      "intree": "LaxTransformation gives component 1-cells lt0 and, for each 1-cell f, a naturator 2-cell lt1 f : Gf∘∘∘θ_x ⇒ θ_y∘∘∘Ff, natural in f (lt1_natural) with unit/composition coherence; Pseudonatural adds that every naturator is invertible. A strict 2-natural transformation is the case where lt1 f is the identity 2-cell.",
+      "strength_comparison": "intree-weaker / more general: the in-tree notion is the LAX (or pseudonatural) transformation carrying a naturator 2-cell as data; MacLane's 2-natural transformation is the STRICT special case (naturator = identity 2-cell, squares commute on the nose), which is not carved out as a class. Between pseudofunctors, not strict 2-functors."
+    },
+    "gap": "The strict 2-natural transformation (naturator lt1 f fixed to the identity 2-cell, i.e. strictly commuting naturality squares) is not isolated; only the lax/oplax/pseudonatural transformations between pseudofunctors exist. The Cat-enriched route (EnrichedTransform at V=Cat) is blocked by the absence of Monoidal Cat.",
+    "negative_search_log": [
+      "grep -rn -i '2-natural|strict.*natural.*transformation' --include=*.v .  -> the 2-dimensional transformations in-tree are Lax/Oplax/Pseudonatural (Theory/Bicategory/Lax.v); no strict-2-natural class",
+      "grep -rn -i 'Monoidal.*Cat' --include=*.v Instance/  -> no Monoidal Cat, so EnrichedTransform cannot instantiate K=Cat"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Class LaxTransformation (Theory/Bicategory/Lax.v:56) carries a naturator 2-cell lt1:Gf o theta_x => theta_y o Ff as DATA; Pseudonatural (L152) forces lt1 invertible (IsIsomorphism), NOT identity. MacLane's 2-natural transformation is the strict special case (identity naturator, squares commute on the nose), which is not carved out. Between pseudofunctors, not strict 2-functors. Gap precise. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.4:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the 2-category 2-Cat",
+      "2-category of 2-categories, 2-functors, 2-natural transformations",
+      "bicategory of bicategories",
+      "Bicat / 2Cat",
+      "category of lax transformations"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Modification.v",
+        "line": 162,
+        "symbol": "LaxTransformation_Category",
+        "intree_statement": "Definition LaxTransformation_Category {B B'} (F G : Pseudofunctor B B') : Category := ... (* objects = lax transformations F ⟹ G, homs = modifications, id/compose the identity and vertical-composite modifications *)"
+      },
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 22,
+        "symbol": "Cat_Bicategory (header)",
+        "intree_statement": "\"Following Instance/Cat.v, bi0cell := Category sits one universe level up; Cat_Bicategory is a registration-free Definition, never an Instance (there is no bicategory of bicategories).\""
+      }
+    ],
+    "statement_record": {
+      "book": "2-categories, 2-functors, and 2-natural transformations form the 0-cells, 1-cells, and 2-cells of a 2-category, denoted 2-Cat.",
+      "intree": "The constituent notions exist in weak form — Pseudofunctor (1-cells), LaxTransformation/Pseudonatural (2-cells), Modification (3-cells) — and LaxTransformation_Category F G assembles the lax transformations between two fixed pseudofunctors, with modifications between them, into a (1-)category (a single hom-category of the hypothetical structure). No 2-category/bicategory 2-Cat of all bicategories is assembled.",
+      "strength_comparison": "intree-weaker / not assembled: only one hom-category (LaxTransformation_Category, between two fixed pseudofunctors) is built, using the WEAK constituents (pseudofunctors and lax transformations) rather than MacLane's strict 2-functors and 2-natural transformations. The global 2-category 2-Cat is explicitly not constructed ('there is no bicategory of bicategories')."
+    },
+    "gap": "There is no in-tree object 2-Cat (nor a bicategory of bicategories) — Instance/Cat/Bicategory.v:22 explicitly disclaims it. What exists is (a) the weak constituent notions (Pseudofunctor, Lax/Oplax/Pseudonatural, Modification) and (b) a single hom-category LaxTransformation_Category F G for fixed F,G. Missing: the assembly of all 2-categories into a 2-category with 2-functors as 1-cells and 2-natural transformations as 2-cells, and (as with def3/def4) the constituents are the weak, not strict, versions.",
+    "negative_search_log": [
+      "grep -rn -i 'bicategory of bicateg|2-Cat|TwoCat|2Cat|category of 2-categor|category of bicateg' --include=*.v .  -> only Instance/Cat/Bicategory.v:22 disclaiming 'no bicategory of bicategories'; no 2-Cat object constructed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Constituents present: Identity_Pseudofunctor (Pseudofunctor.v:227) and Compose_Pseudofunctor (L463) as 1-cells, LaxTransformation_Category (Modification.v:162) as one hom-category of lax transformations with modifications as homs. But the global 2-Cat / bicategory-of-bicategories is NOT assembled: only Bicategory instances in tree are Cat_Bicategory, Trivial_Bicategory, and the one-object bicategory (OneObject.v); Instance/Cat/Bicategory.v:22 explicitly disclaims 'no bicategory of bicategories'. Gap precise. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.4:def5",
+    "classification": "PRESENT",
+    "aliases": [
+      "modification",
+      "3-cell between 2-natural transformations",
+      "modification between lax transformations",
+      "component 2-cells μ_a : θ_a ⇒ φ_a",
+      "Modification class / md_natural axiom"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Modification.v",
+        "line": 57,
+        "symbol": "Modification",
+        "intree_statement": "Class Modification {B B'} {F G : Pseudofunctor B B'} (σ τ : LaxTransformation F G) := { md (x) : lt0 σ x ~{bicat B' (pf0 F x) (pf0 G x)}~> lt0 τ x; md_natural {x y} (f) : lt1 τ f ∘∘ hcomp2 (bi2id (a:=pf1[G] f)) (md x) ≈ hcomp2 (md y) (bi2id (a:=pf1[F] f)) ∘∘ lt1 σ f }"
+      },
+      {
+        "file": "Theory/Bicategory/Modification.v",
+        "line": 162,
+        "symbol": "LaxTransformation_Category",
+        "intree_statement": "Definition LaxTransformation_Category ... : Category  (* modifications are the homs; id_modification and compose_modification give the identity/vertical composite, with Modification_Setoid identifying modifications by components *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given 2-natural transformations θ, φ: F => G between 2-functors F,G: T -> U, a modification μ: θ => φ assigns to each object a a 2-cell μ_a: θ_a => φ_a such that for every 2-cell α: f => g the two pasted 2-composites agree (eq (10)); a 3-cell.",
+      "intree": "Modification σ τ (for lax transformations σ,τ : F ⟹ G between pseudofunctors F,G : B ⟶ B') has component 2-cells md x : σ_x ⇒ τ_x in the hom-category bicat B' (Fx)(Gx), subject to the modification axiom md_natural relating the components to the naturators lt1 of σ and τ via the whiskerings; identity/composite modifications and the hom-setoid assemble LaxTransformation_Category.",
+      "strength_comparison": "intree-stronger (more general): the datum (a family of component 2-cells μ_a : θ_a ⇒ φ_a) and the single coherence axiom (the commuting square with the naturators and whiskerings) match MacLane's exactly, but the in-tree version is stated for LAX transformations between pseudofunctors (MacLane's is between 2-natural transformations between 2-functors), which subsumes the strict case."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Class Modification (Theory/Bicategory/Modification.v:57): component 2-cell family md x:sigma_x=>tau_x plus the modification axiom md_natural (= MacLane eq (10), the naturator/whiskering commuting square), with id_modification, compose_modification, Modification_Setoid, and LaxTransformation_Category. Datum and axiom match MacLane exactly; stated for lax transformations between pseudofunctors, which subsumes the strict (2-natural/2-functor) case. PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:XII.4:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "modification as a 3-cell",
+      "3-category",
+      "3-category as a 2-Cat-enriched category",
+      "iterated enrichment (Cat-enriched, 2-Cat-enriched)",
+      "n-category via enrichment"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Modification.v",
+        "line": 57,
+        "symbol": "Modification",
+        "intree_statement": "Class Modification {B B'} {F G} (σ τ : LaxTransformation F G) := { md (x) : lt0 σ x ~~> lt0 τ x; md_natural ... }  (* the top-dimensional cell = the '3-cell' μ : σ ⇛ τ of the remark *)"
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 111,
+        "symbol": "Enriched",
+        "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { ... }  (* the enrichment mechanism a 3-category would use with K = 2-Cat; header line 69 notes K = Cat gives strict 2-categories *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A modification is regarded as a 3-cell μ: θ => φ. Iterating the enriched-hom viewpoint: a 2-category is a category with hom-sets enriched in Cat, and a 3-category is defined as a category with hom-sets enriched in 2-Cat.",
+      "intree": "The modification (the '3-cell') is present as Modification (Theory/Bicategory/Modification.v), and the general enrichment mechanism 'category enriched in a monoidal V' that would define a 3-category as a 2-Cat-enriched category is present as the Enriched class. But no 3-category is built, and no 2-Cat (nor a Monoidal 2-Cat, nor a Monoidal Cat) exists to instantiate the tower.",
+      "strength_comparison": "intree-weaker / uninstantiated: the '3-cell' part is realized (Modification) and the enrichment pattern exists abstractly, but the substantive claim — 3-categories as 2-Cat-enriched categories — is not instantiated. The iterated tower (Cat-enriched giving 2-categories, 2-Cat-enriched giving 3-categories) is never realized, since neither Monoidal Cat nor 2-Cat is constructed in-tree."
+    },
+    "gap": "No 3-category exists in-tree, and the enrichment tower the remark describes is uninstantiated: there is no Monoidal Cat (so '2-category = Cat-enriched category' is not concretely realized — see def2) and no 2-Cat at all (see XII.4:construction1), hence no 'category enriched in 2-Cat'. Only the general Enriched class (instantiated at Sets and Two) and the Modification (the purported 3-cell) are present; the higher-categorical content is absent.",
+    "negative_search_log": [
+      "grep -rn -i 'bicategory of bicateg|2-Cat|TwoCat|2Cat|category of 2-categor' --include=*.v .  -> only the disclaimer in Instance/Cat/Bicategory.v:22; no 2-Cat, hence no enrichment in 2-Cat",
+      "grep -rn -i 'Monoidal.*Cat|3-categor|three.categor|tricategor' --include=*.v .  -> no Monoidal Cat and no 3-category/tricategory anywhere in the tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "DIVERGENCE NOTED, NOT OVERTURNED. My blind pass leaned ABSENT because the distinctive definitional content (a 3-category as a 2-Cat-enriched category) is absent: no 3-category/tricategory anywhere, no 2-Cat (see construction1), no Monoidal Cat (see def2/def3). However PARTIAL is defensible and I confirm it: the remark's 'a modification is regarded as a 3-cell' clause IS realized by Class Modification (Modification.v:57, header L40 treats modifications as cells of a hom-2-category), and the enrichment device the remark names ('a k-category is a category with hom-sets enriched in [V]') exists as Class Enriched (Construction/Enriched.v:111). So there is a genuine partial in-tree counterpart, not 'no counterpart'; the gap (no 2-Cat, hence no enrichment in 2-Cat, hence no 3-category) is stated precisely. CONFIRMED as PARTIAL."
+    }
+  }
+]

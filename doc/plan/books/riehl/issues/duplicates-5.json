@@ -1,0 +1,278 @@
+[
+  {
+    "item_id": "riehl:5.1:example4",
+    "issue": 471,
+    "part": "clause (ii): the free monoid / list monad",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.1 Example 5.1.4 clause (ii) (printed p. 183, PDF p. 203; item `riehl:5.1:example4`), which obtains this monad from the free/forgetful adjunction for monoids exactly as Mac Lane's Exercise VI.4.1 does. No new obligation: this issue's `W₀` monad and its `EilenbergMoore W₀ ≅ Mon` characterization already cover it.\n\nOne correction to this issue's *Current state* section, established by the Riehl Chapter 5 verification pass: the claim that there is \"no ordinary category `Mon`\" is **false**. `Theory/Algebra/Monoid/Hom.v:83` defines `Mon` with `Mon_Forget : Mon ⟶ C` at `:93`, and `Instance/CMon.v:140` defines `CMon` with `CMon_Forget : CMon ⟶ Sets` at `:169`; both are registered in `_CoqProject`. What is genuinely missing is the *free* functor and the adjunction — neither category has a left adjoint (`rg '⊣' Instance/CMon.v Instance/CMon/` → 0 hits). Build on `Mon`/`CMon` rather than constructing a third monoid category."
+  },
+  {
+    "item_id": "riehl:5.1:example4",
+    "issue": 472,
+    "part": "clause (iii): the free R-module monad",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.1 Example 5.1.4 clause (iii) (printed p. 183, PDF p. 203; item `riehl:5.1:example4`): the free `R`-module monad `R[−]` on `Set`, `R[A]` the finitely supported functions `A → R`, with unit the indicator of a point and multiplication distributing and consolidating coefficients — the same monad this issue builds, and Riehl names the free abelian group and free vector space monads as its special cases."
+  },
+  {
+    "item_id": "riehl:5.1:example4",
+    "issue": 442,
+    "part": "clause (iv): the free group monad",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.1 Example 5.1.4 clause (iv) (printed p. 183, PDF p. 203; item `riehl:5.1:example4`): the monad on `Set` induced by the free/forgetful adjunction for groups, carrying a set to the finite words in its letters and their formal inverses. This issue supplies the free group functor and its adjunction; Riehl asks for the monad they induce, which is one application of `Adjunction_Induced_Monad` away.\n\n- [ ] (from Riehl §5.1) Form the induced free-group monad on `Sets` as `Adjunction_Induced_Monad` of the free/forgetful adjunction, and record its unit and multiplication."
+  },
+  {
+    "item_id": "riehl:5.1:example5",
+    "issue": 466,
+    "part": "clause (i): the covariant power set monad",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.1 Example 5.1.5 clause (i) (printed p. 185, PDF p. 205; item `riehl:5.1:example5`): the covariant power set functor with singleton unit and union multiplication, presented as a monad that does *not* arise from a named adjunction. Riehl's proof of naturality of the multiplication turns on direct image being a left adjoint and hence preserving unions — worth reusing, since the in-tree direct/inverse image adjunction is #382. No new obligation beyond this issue's monad and its `SupLat ≅ EM` characterization."
+  },
+  {
+    "item_id": "riehl:5.1:example5",
+    "issue": 471,
+    "part": "clause (ii): the free commutative monoid (multiset) monad",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.1 Example 5.1.5 clause (ii) (printed p. 185, PDF p. 205; item `riehl:5.1:example5`) asks for the **commutative** variant of this issue's monad: `T A = ∐_{n≥0} A^{×n}` quotiented by the symmetric-group action, whose elements are finite unordered lists, equivalently the finitely supported functions `A → ℕ`; its algebras are the commutative monoids. The construction is a direct variation on the free-monoid monad delivered here, and the target category is already in-tree — `Instance/CMon.v:140` `CMon` with `CMon_Forget : CMon ⟶ Sets` at `:169` — but with no left adjoint (`rg '⊣' Instance/CMon.v Instance/CMon/` → 0 hits), no free construction (`rg -i 'free commutative|multiset|bag'` → no construction anywhere) and no algebra characterization.\n\n- [ ] (from Riehl §5.1 Ex. 5.1.5(ii)) The commutative variant: the free commutative monoid monad on `Sets` (lists modulo permutation, or finitely supported `ℕ`-valued functions — justify the presentation in the header), obtained as `Adjunction_Induced_Monad` of a `FreeCMon ⊣ CMon_Forget`, with `EilenbergMoore ≅ CMon` proved."
+  },
+  {
+    "item_id": "riehl:5.1:example7",
+    "issue": 463,
+    "part": "monad/comonad on a poset = closure/kernel operator",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.1 Example 5.1.7 (printed p. 186, PDF p. 206; item `riehl:5.1:example7`) makes the same identification and adds the dual half, which this issue's checklist does not currently name: a **comonad** on a poset is exactly a kernel (interior) operator — order-preserving with `K p ≤ p` and `K p ≈ K² p` — and its coalgebras are the corresponding fixed elements. Riehl also notes why the axioms are conditions rather than data: hom-sets in a thin category are subsingletons, so all the monad diagrams commute automatically and only the two inequalities carry content, and in a *poset* (not merely a preorder) antisymmetry upgrades `T² p ≈ T p` to an equality.\n\nAlso relevant to this issue's *Current state*: the prose overclaim it identifies at `Instance/Poset.v:48-49` is repeated at `Theory/Monad.v:68-70`, and #745 already carries a library-defect checkbox for the `Instance/Poset.v` half.\n\n- [ ] (from Riehl §5.1) The dual statement: a comonad on a poset is exactly a kernel (interior) operator, with its coalgebras the fixed elements — obtained by duality from the closure-operator result rather than reproved."
+  },
+  {
+    "item_id": "riehl:5.1:example7",
+    "issue": 745,
+    "part": "topological closure and interior on the subsets of a space",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.1 Example 5.1.7 (printed p. 186, PDF p. 206; item `riehl:5.1:example7`) gives the same example — the poset of subsets of a topological space carrying the closure operator as a monad and the interior operator as a comonad — as the running illustration of monads on a preorder. This issue's checklist already scopes both operators, the identification of algebras with closed subsets and coalgebras with open subsets, and the Kuratowski presentation, so nothing is added; the abstract poset-level identification is #463."
+  },
+  {
+    "item_id": "riehl:5.1:exi",
+    "issue": 502,
+    "part": "the induced free-monoid monad on a monoidal category",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.1 Exercise 5.1.i (printed p. 186, PDF p. 206; item `riehl:5.1:exi`) asks for exactly this construction, under the same hypotheses (a monoidal category with finite coproducts whose tensor preserves them in each variable), but phrased as a **monad** on the base rather than as an adjunction: construct `η : Id ⇒ T` and `μ : T² ⇒ T` for `T X = ∐_{n≥0} X^{⊗n}` and verify the monad axioms. Given this issue's `Free ⊣ Mon_Forget`, the monad is `Adjunction_Induced_Monad` of it, so the increment is small but is not currently on the checklist.\n\n- [ ] (from Riehl §5.1 Ex. 5.1.i) Expose the induced monad `T X = ∐_{n≥0} X^{⊗n}` on the base category — unit the `n = 1` injection, multiplication by concatenation — as `Adjunction_Induced_Monad` of `Free ⊣ Mon_Forget`, so the exercise's statement is directly available."
+  },
+  {
+    "item_id": "riehl:5.2:example6",
+    "issue": 465,
+    "part": "clause (ii): algebras of R ⊗ (−) on Ab are R-modules",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.2 Example 5.2.6 clause (ii) (printed p. 189, PDF p. 209; item `riehl:5.2:example6`): for a unital ring `R`, the algebras of the monad `R ⊗_ℤ (−)` on `Ab` are exactly the `R`-modules, the structure map encoding a ℤ-bilinear scalar multiplication and the two axioms saying `1 · a = a` and `r · (r' · a) = (r r') · a`. Same obligation as this issue's `EilenbergMoore (R ⊗ (−)) ≅ R-Mod`."
+  },
+  {
+    "item_id": "riehl:5.2:example6",
+    "issue": 471,
+    "part": "clause (iii): algebras of the free monoid monad are monoids",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.2 Example 5.2.6 clause (iii) (printed p. 189, PDF pp. 209–210; item `riehl:5.2:example6`): an algebra for the free monoid monad is a set with maps `α_n : A^n → A` for all `n`, the unit triangle forcing `α_1 = id` and the associativity square making the family determined by an associative unital binary operation — so the category of algebras is isomorphic to `Monoid`. This is the same `v₀, v₁, …` presentation this issue's checklist already names."
+  },
+  {
+    "item_id": "riehl:5.2:example6",
+    "issue": 463,
+    "part": "clause (iv): algebras of a closure operator are the closed elements",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.2 Example 5.2.6 clause (iv) (printed p. 189, PDF p. 210; item `riehl:5.2:example6`): for the closure operator on the poset of subsets of a topological space, an algebra is exactly a closed subset and a coalgebra for the interior kernel operator exactly an open subset. The algebra half is this issue's existing conclusion; the coalgebra half is the dual recorded on the §5.1 Example 5.1.7 append above. Prior art worth citing in the proof: `Construction/Reflective/Idempotent.v:464` `Idempotent_EM_Equivalence` already proves that the Eilenberg–Moore category of an idempotent monad is equivalent to its subcategory of local (fixed-point) objects, which in a poset *is* \"algebras = closed elements\"; what is missing is only the instantiation at a poset."
+  },
+  {
+    "item_id": "riehl:5.2:example11",
+    "issue": 471,
+    "part": "clause (ii): the Kleisli category of the list monad",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.2 Example 5.2.11 clause (ii) (printed p. 191, PDF p. 211; item `riehl:5.2:example11`) reads off the Kleisli category of the same monad: a Kleisli map `A → B` is a function assigning a list of elements of `B` to each element of `A`. That is a different quotient of the same construction and is not on this issue's checklist.\n\n- [ ] (from Riehl §5.2 Ex. 5.2.11(ii)) Instantiate the generic `Kleisli` construction (`Monad/Kleisli.v:38`) at the free-monoid monad and identify its hom-sets with the functions `A → ∐_n Bⁿ`."
+  },
+  {
+    "item_id": "riehl:5.2:construction-adjT",
+    "issue": 476,
+    "part": "the category Adj_T of adjunctions inducing a fixed monad",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.2, the unnumbered construction of `Adj_T` developed in running prose (printed pp. 192–193, PDF pp. 212–213; item `riehl:5.2:construction-adjT`). Riehl's objects are fully specified adjunctions `F ⊣ U : D → C` with the given unit and counit inducing `(T, η, μ)`, and her morphisms are functors `K : D → D'` with `K F = F'` and `U' K = U` — the same category this issue assembles. She notes that because the units agree, any such `K` is automatically a *strict* morphism of adjunctions, which is why no extra compatibility has to be imposed on the arrows."
+  },
+  {
+    "item_id": "riehl:5.2:construction-adjT",
+    "issue": 482,
+    "part": "morphisms of Adj_T: functors commuting with both adjoints",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.2, the unnumbered `Adj_T` construction (printed pp. 192–193, PDF pp. 212–213; item `riehl:5.2:construction-adjT`), whose morphism notion is this issue's comparison: a functor commuting with both adjoints. Riehl draws two consequences from it; the first, `K ε = ε' K`, is already on this issue's checklist, the second is not.\n\n- [ ] (from Riehl §5.2) The comparison commutes with adjoint transposition: for all `c` and `d` the square relating `C(c, U d) → D(F c, d) → D'(K F c, K d)` to `C(c, U' K d) → D'(F' c, K d)` commutes."
+  },
+  {
+    "item_id": "riehl:5.2:prop13",
+    "issue": 476,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.2 Proposition 5.2.13 (printed p. 193, PDF pp. 213–214; item `riehl:5.2:prop13`): in `Adj_T` the Kleisli adjunction is initial and the Eilenberg–Moore adjunction terminal — the same statement as this issue's Theorem 3, with the mediating functors forced to be `J X = F X`, `J f = ε_{F Y} ∘ F f` on a Kleisli map, and `K D = (U D, U ε_D)`, `K f = U f`.\n\nWorth carrying into the work: the terminal half's *existence* is already in-tree and matches Riehl's formula exactly — `Monad/Comparison.v:186` `EM_Comparison` has `fobj c = (U c; EM_Comparison_Algebra c)` with structure map `fmap[U] (counit A c)` (`:151-156`), and both commuting laws are proved as `EM_Comparison_Forget` (`:198`) and `EM_Comparison_Free` (`:260`), stated as natural isomorphisms with identity components rather than on-the-nose equalities (the file's header at `:205-211` explains why the two `TAlgebra` records are not literally equal). What is missing is the uniqueness clause, the ambient category, and the whole Kleisli half: there is no functor `C_T ⟶ D` for an arbitrary resolution anywhere in the tree (the only functors out of `Kleisli` are `Kleisli_Forget`, `Monad/Kleisli/Adjunction.v:75`, and `Kleisli_Pure`, `Monad/Kleisli/Premonoidal.v:377`)."
+  },
+  {
+    "item_id": "riehl:5.2:lem14",
+    "issue": 475,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.2 Lemma 5.2.14 (printed p. 194, PDF p. 214; item `riehl:5.2:lem14`) states this issue's Theorem 2 at the Eilenberg–Moore resolution: the canonical `K : C_T → C^T` is full and faithful with image exactly the free algebras, `K c = (T c, μ_c)`, the action on hom-sets being the transposition that identifies both `C_T(c,c')` and `C^T(K c, K c')` with `C(c, T c')`. Riehl then draws a consequence this issue's checklist does not name.\n\n- [ ] (from Riehl §5.2) The Kleisli and Eilenberg–Moore categories are equivalent **exactly when** every algebra is free — stated as a biconditional, with the free-vector-space and maybe-monad instances as witnesses.\n- [ ] Library defect to fix while here: `Monad/Kleisli.v:29` (\"`C_T` is the full subcategory of free algebras inside the Eilenberg–Moore category\"), `Monad/Eilenberg/Moore.v:33-35` (\"sitting inside `C^T` as the full subcategory of free algebras\") and `Monad/Eilenberg/Moore/Adjunction.v:48-50` (\"whose comparison into `C^T` lands in the free algebras\") assert this lemma in prose as though it were in force, while no functor `C_T ⟶ C^T` exists anywhere in the tree. Repoint all three at the new theorem."
+  },
+  {
+    "item_id": "riehl:5.2:exi",
+    "issue": 487,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.2 Exercise 5.2.i (printed p. 194, PDF p. 214; item `riehl:5.2:exi`): choose a monad on `Set` induced by the free/forgetful adjunction of some variety, identify its algebras, and prove that the `T`-algebra homomorphisms are exactly the homomorphisms of that structure. The homomorphism half is the part students most often skip and is worth checking explicitly against this issue's comparison functor; the obligation is otherwise this issue's theorem specialized to one variety."
+  },
+  {
+    "item_id": "riehl:5.3:construction-ab-monadic",
+    "issue": 472,
+    "part": "the free abelian group monad Z[−] and Ab as its algebras",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.3, the unnumbered construction opening the section (printed p. 195, PDF pp. 215–216; item `riehl:5.3:construction-ab-monadic`): the free/forgetful adjunction `Set ⇄ Ab` induces the monad `ℤ[−]` on `Set`, and the comparison `Ab → Set^{ℤ[−]}` is an isomorphism of categories — equipping a set with an evaluation `ℤ[A] → A` satisfying the two algebra laws is precisely to give it an abelian group structure, and an algebra map is precisely a homomorphism. This is the `R = ℤ` case of this issue's monad and its algebra characterization; the *strictness* of the monadicity (isomorphism rather than equivalence) is recorded on #484.\n\n- [ ] (from Riehl §5.3) Record the `R = ℤ` specialization explicitly: `ℤ[−]` on `Sets` with the comparison `Ab → Sets^{ℤ[−]}`, so the standard worked example is directly citable."
+  },
+  {
+    "item_id": "riehl:5.3:construction-ab-monadic",
+    "issue": 484,
+    "part": "strict monadicity: the comparison is an isomorphism",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.3 (printed p. 195, PDF pp. 215–216; item `riehl:5.3:construction-ab-monadic`) claims the comparison `Ab → Set^{ℤ[−]}` is an **isomorphism** of categories, i.e. that `Ab` is *strictly* monadic over `Set` — the isomorphism-conclusion side of this issue. The monad and the algebra characterization themselves are #472; what this issue owes is the strict vocabulary in which \"isomorphism, not merely equivalence\" can be stated at all (see the strict-monadicity and strict-creation checkboxes appended from Riehl §5.3 and §5.5)."
+  },
+  {
+    "item_id": "riehl:5.3:def-strictly-monadic",
+    "issue": 484,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.3, the unnumbered definition in running prose (printed p. 196, PDF p. 216; item `riehl:5.3:def-strictly-monadic`): a monadic functor is **strictly monadic** when the canonical comparison is an *isomorphism* of categories rather than an equivalence; Riehl notes that many functors met in practice, e.g. `U : Ab → Set`, are strictly monadic. In-tree this notion does not exist: `rg -i 'strictly monadic'` → 0 hits, and `Monad/Comparison.v:273` defines `Monadic` equivalence-valued only. Note also that `≅[Cat]` will not serve — `Instance/Cat.v:145` takes `homset := Functor_Setoid`, so a `Cat`-isomorphism is still only an equivalence (`Theory/Equivalence.v:163` `Equivalence_to_Cat_Iso`); the on-the-nose notion lives in `Instance/StrictCat.v` and has never been connected to monadicity.\n\n- [ ] (from Riehl §5.3) Define `StrictlyMonadic U` — the canonical comparison is an isomorphism of categories — as a first-class notion distinct from `Monadic`, and say in the header which ambient notion of \"isomorphism of categories\" is used and why."
+  },
+  {
+    "item_id": "riehl:5.3:exii",
+    "issue": 370,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.3 Exercise 5.3.ii (printed p. 197, PDF p. 217; item `riehl:5.3:exii`) asks for one of these concrete reflective subcategories to be carried through Proposition 5.3.3 and re-presented as the category of algebras for the induced idempotent monad. The general apparatus is in-tree (`Construction/Reflective/Idempotent.v:198` `Reflective_IdempotentMonad`, `:464` `Idempotent_EM_Equivalence`); what is missing is any concrete instance to feed it, since the only `Reflective` term ever *constructed* in the tree is `Idempotent_Reflective` (`:345`), the M-local subcategory of an abstract idempotent monad — circular for this purpose. This issue's examples are exactly what unblocks it.\n\n- [ ] (from Riehl §5.3 Ex. 5.3.ii) Carry at least one of these concrete reflective subcategories through the correspondence: exhibit its induced idempotent monad and the equivalence with that monad's Eilenberg–Moore category."
+  },
+  {
+    "item_id": "riehl:5.4:def-presentation",
+    "issue": 663,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.4, the unnumbered definition carried by display (5.4.1) (printed p. 198, PDF p. 218; item `riehl:5.4:def-presentation`): for an abelian group `A` and a set `G` of its elements the evaluation `ℤ[G] → A` is surjective exactly when `G` generates; relations are elements `R` of `ℤ[G]` set to zero, giving a second evaluation `ℤ[R] → ℤ[G]`; and `(G, R)` is a presentation `A = ⟨G | R⟩` precisely when `ℤ[G] ↠ A` is the coequalizer of that map and the zero homomorphism. This is the abelian-group instance of this issue's general coequalizer-of-free-algebras definition, and Riehl uses it to motivate the functorial (canonical) presentation of Proposition 5.4.2 — filed separately on #483.\n\n- [ ] (from Riehl §5.4) Instantiate the general definition at abelian groups: `A = ⟨G | R⟩` iff `ev : ℤ[G] ↠ A` coequalizes `ev : ℤ[R] → ℤ[G]` against the zero map, and note that this specializes the general parallel pair by taking one leg to be zero."
+  },
+  {
+    "item_id": "riehl:5.4:prop2",
+    "issue": 483,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.4 Proposition 5.4.2 (printed p. 198, PDF p. 218; item `riehl:5.4:prop2`) is this issue's Exercise-4 clause: the pair `T a, μ_A : (T²A, μ_{TA}) ⇉ (TA, μ_A)` followed by `a : (TA, μ_A) ↠ (A,a)` is a **coequalizer in `C^T`**, so every algebra is canonically a quotient of free algebras.\n\nExactly how close the tree is, from the Riehl Chapter 5 verification: both halves exist and are never composed. `Monad/Monadicity/BeckObjects.v:75` `canonical_split` gives the split coequalizer downstairs (`scoeq_obj := a`, `scoeq_e := t_alg[α]`, `scoeq_s = scoeq_t = ret`), and `:349` `created_is_coequalizer` lifts any `U^T`-split pair's split coequalizer to a coequalizer in `C^T` — but `canonical_split` is referenced only from `Beck.v:320` (`beck_split`) and never fed to the creation theorem, and the two legs `μ_A` and `T a` are never exhibited as `EilenbergMoore` morphisms (as the counit of `EM_Adjunction` at `EM_Free a`, and as `fmap[EM_Free] (t_alg[α])`, both functors existing at `Monad/Eilenberg/Moore/Adjunction.v:65,79`). An exhaustive pass over all `IsCoequalizer` occurrences confirms none has the canonical free presentation as its parallel pair.\n\n- [ ] (from Riehl §5.4) The canonical presentation is functorial in the algebra — a morphism of algebras induces a morphism of presentations, compatibly with composition."
+  },
+  {
+    "item_id": "riehl:5.4:def8",
+    "issue": 484,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.4 Definition 5.4.8 (printed p. 199, PDF p. 219; item `riehl:5.4:def8`) gives three clauses: (a) a `U`-split coequalizer, (b) `U` *creates* coequalizers of `U`-split pairs, (c) `U` *strictly* creates them (every `U`-split coequalizer has a **unique** lift). Clauses (a) and (b) are faithfully in-tree — (a) as the inline hypothesis type `SplitCoequalizer (fmap[U] f) (fmap[U] g)` and (b) as both fields of `Monad/Monadicity/Beck.v:164` `CreatesUSplitCoequalizers`, whose `create_coeq` is Riehl's existence clause up to the packaged comparison iso and whose `create_coeq_reflects` is her \"any such fork is a coequalizer\" clause. Clause (c) has no definition for a general functor: `rg -i 'strictly create|StrictlyCreates'` → 0 hits, and the on-the-nose unique-lift data exists only as `Monad/Monadicity/BeckObjects.v:385` `CreatedSplitCoequalizer`, specialised to `U = U^T` inside the Eilenberg–Moore section. `Beck.v:51-61` states the substitution of the iso-invariant rendering for Mac Lane's strict one as a deliberate design choice, so this is a disclosed gap rather than an oversight.\n\n- [ ] (from Riehl §5.4) Define strict creation of coequalizers of `U`-split pairs for a **general** functor `U` (unique on-the-nose lift of the split coequalizer to a coequalizer upstairs), by abstracting `CreatedSplitCoequalizer` away from `U^T`."
+  },
+  {
+    "item_id": "riehl:5.4:cor10",
+    "issue": 484,
+    "part": "clause (i): a monadic adjunction creates U-split coequalizers",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.4 Corollary 5.4.10 clause (i) (printed p. 201, PDF p. 221; item `riehl:5.4:cor10`): a monadic adjunction's right adjoint creates coequalizers of `U`-split pairs — creation, not strict creation, since `D` is only *equivalent* to `C^T` — proved by transporting Proposition 5.4.9 along the comparison equivalence. This is exactly the necessity direction this issue already scopes (\"transport the necessity direction from `U^T` to a general monadic `U`\"): in-tree, `Monad/Monadicity/Beck.v:911` `monadic_creates` proves it only at `EM_Forget`, and `Beck.v:104-110` records the transport as deliberately deferred. No new checkbox; Riehl's reading confirms that the transport is the whole content, and names the enabling lemma her proof uses — an equivalence creates any colimit it preserves and reflects (her Lemma 3.4.6, in-tree as `Theory/Equivalence/Limit.v:582` `equivalence_creates_colimits`)."
+  },
+  {
+    "item_id": "riehl:5.4:cor10",
+    "issue": 483,
+    "part": "clause (ii): the counit fork is a coequalizer",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.4 Corollary 5.4.10 clause (ii), display (5.4.11) (printed p. 201, PDF p. 221; item `riehl:5.4:cor10`): for a monadic adjunction and any object `D`, the counit components form a coequalizer `F U F U D ⇉ F U D → D`, the fork being `U`-split by `U ε_{F U D}`, `η_{U D}` and `η_{U F U D}`. In-tree the `U`-splitting of that fork exists as `Monad/Monadicity/Beck.v:317` `beck_split` (at `x = K c` it is precisely this splitting), but it lives inside `Section BeckMonadicity` under both the adjunction and the creation hypothesis, and the coequalizer property is obtained only indirectly through `beck_theta` (`Beck.v:640`); it is never stated as the counit presentation. The related `Monad/Lifting.v:218,228` `lift_is_coeq` is a chosen reflexive coequalizer of a transported pair, not `ε_D` as a coequalizer.\n\n- [ ] (from Riehl §5.4) State and prove the counit presentation unconditionally for a monadic adjunction: `ε_D : F U D → D` is a coequalizer of `F U ε_D` and `ε_{F U D}`, with the `U`-splitting exhibited."
+  },
+  {
+    "item_id": "riehl:5.4:exi",
+    "issue": 663,
+    "part": "the canonical presentation read as generators and relations",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.4 Exercise 5.4.i (printed p. 202, PDF p. 222; item `riehl:5.4:exi`) asks to explain how the *canonical* presentation of an abelian group — the coequalizer of free algebras of her Proposition 5.4.2 (#483) — is a presentation by generators and relations in this issue's sense, taking `G = A` itself and `R = ℤ[A]`. The bridging fact it uses, that in `Ab` a coequalizer is the cokernel of the difference, is recorded on #530.\n\n- [ ] (from Riehl §5.4 Ex. 5.4.i) Show the canonical (functorial) presentation of an algebra is a presentation by generators and relations in the sense defined here, with `G` the underlying object and `R` the free algebra on it."
+  },
+  {
+    "item_id": "riehl:5.4:exi",
+    "issue": 530,
+    "part": "in Ab the coequalizer of f,g is the cokernel of f − g",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.4 Exercise 5.4.i (printed p. 202, PDF p. 222; item `riehl:5.4:exi`) opens by using the **dual** of this issue's identity: in `Ab` the coequalizer of a parallel pair `f, g` is equally the cokernel of `f − g`, i.e. the coequalizer of `f − g` against zero. This issue proves the equalizer/kernel direction; the coequalizer/cokernel direction is not on its checklist, and no in-tree lemma supplies it (`Structure/Additive.v` and `Structure/Preadditive.v` contain no coequalizer statement at all, and `Structure/Kernel.v`'s only coequalizer content is `IsCokernel`/`cokernel_epic`).\n\n- [ ] (from Riehl §5.4 Ex. 5.4.i) The dual identity: in a preadditive category with negation, `IsCoequalizer f g q e ↔ IsCokernel (psub f g) e`, both directions, alongside the equalizer/kernel version."
+  },
+  {
+    "item_id": "riehl:5.4:exii",
+    "issue": 483,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.4 Exercise 5.4.ii (printed p. 202, PDF p. 222; item `riehl:5.4:exii`) asks for the canonical presentation (this issue's Exercise-4 clause) to be proved **directly by a diagram chase**, rather than deduced from the split coequalizer plus creation. That distinction is not currently met even in spirit: every coequalizer-in-`C^T` result in the tree — `created_is_coequalizer` (`Monad/Monadicity/BeckObjects.v:349`), `em_reflect_is_coeq` (`Monad/Monadicity/Beck.v:895`), `beck_is_coeq` (`Beck.v:337`) — descends through a `SplitCoequalizer` downstairs and cancels the split epimorphisms `T e` and `T (T e)`, i.e. exactly the route the exercise forbids.\n\n- [ ] (from Riehl §5.4 Ex. 5.4.ii) Also give a direct proof of the canonical presentation, independent of the split-coequalizer and creation machinery, so the result does not rest solely on the Beck apparatus."
+  },
+  {
+    "item_id": "riehl:5.5:thm1",
+    "issue": 484,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.5 Theorem 5.5.1, Beck's monadicity theorem (printed pp. 202–203, PDF pp. 222–223; item `riehl:5.5:thm1`): a right adjoint is monadic **iff** it creates coequalizers of `U`-split pairs, in both the equivalence and the isomorphism/strict-creation forms. This is the same biconditional this issue closes.\n\nWhere the tree stands, from the Riehl Chapter 5 verification: the hard half is complete and in one respect stronger than textbook renderings — `Monad/Monadicity/Beck.v:739` `beck_monadicity` derives conservativity from creation (`creates_split_reflects_isos`, `:264`) rather than assuming it, and `CreatesUSplitCoequalizers` (`:164`) is a faithful non-evil rendering of Riehl's own Definition 5.4.8(b). What is missing is precisely (a) the converse at a general right adjoint — `monadic_creates` (`:911`) proves it only at `EM_Forget` and `Beck.v:104-110` defers the transport — and (b) the strict form, which has no in-tree vocabulary at all. No `Admitted`/`admit`/`Axiom` appears anywhere in `Monad/Monadicity/*.v`."
+  },
+  {
+    "item_id": "riehl:5.5:cor3",
+    "issue": 487,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.5 Corollary 5.5.3 (printed p. 203, PDF pp. 223–224; item `riehl:5.5:cor3`): each of `Monoid`, `Group`, `Ab`, `Ring` and variants; `Set^{BG}`, `R-Mod`, `Vect_k`, `Aff_k`; `Lattice` and the meet- and join-semilattice categories; and `Set_*` is monadic over `Set`. Riehl proves the monoid case in full — `U : Monoid → Set` strictly creates the coequalizer of any pair whose underlying functions extend to a split coequalizer, the multiplication descending because a split coequalizer is absolute hence preserved by `(−) × (−)`, and the axioms following by cancelling the quotient epimorphism — and defers the rest to her Exercise 5.5.ii. That is this issue's theorem instantiated at a list of varieties.\n\n- [ ] (from Riehl §5.5) Instantiate the theorem at the lattice, meet-semilattice and join-semilattice categories (see the Riehl §5.5 lattices issue) and at pointed sets (#261), so the corollary's full list is covered and not just its algebraic core."
+  },
+  {
+    "item_id": "riehl:5.5:exi",
+    "issue": 484,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.5 Exercise 5.5.i (printed p. 208, PDF p. 228; item `riehl:5.5:exi`) is the strict form of the theorem, which this issue currently lists only as optional: the domain of a right adjoint is **isomorphic** (not merely equivalent) to the category of algebras iff `U` **strictly** creates coequalizers of `U`-split pairs. Riehl states it as a full exercise, so it should gate closure rather than be optional. Both sides of the strict statement are missing in-tree (`rg -i 'strictly creates|strict creation|strictly monadic'` → 0 hits), and `Beck.v:51-58` documents the iso-invariant substitution as deliberate — the strict version therefore has to be added alongside, not in place of, the existing rendering.\n\n- [ ] (from Riehl §5.5 Ex. 5.5.i) Prove the strict biconditional: the comparison is an isomorphism of categories **iff** `U` strictly creates coequalizers of `U`-split pairs, using the strict-creation definition appended from Riehl §5.4 and the `StrictlyMonadic` notion appended from Riehl §5.3."
+  },
+  {
+    "item_id": "riehl:5.5:exii",
+    "issue": 487,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.5 Exercise 5.5.ii (printed p. 208, PDF p. 228; item `riehl:5.5:exii`): use the monadicity theorem to prove that some category from her Corollary 5.5.3 list *other than* `Monoid` is monadic over `Set`. Delivering this issue's general variety theorem discharges it; if the implementation instead proceeds example by example, at least one non-monoid variety must be carried through."
+  },
+  {
+    "item_id": "riehl:5.5:exiv",
+    "issue": 464,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.5 Exercise 5.5.iv (printed p. 208, PDF p. 228; item `riehl:5.5:exiv`): the forgetful functor `Set^{BG} → Set` has the left adjoint `X ↦ G × X` with `G` acting on the left, and the exercise asks for the resulting adjunction to be shown **monadic** by appealing to the monadicity theorem — a step beyond this issue's algebra characterization, which identifies `EilenbergMoore (G × (−))` with `G`-sets but does not state that the identification *is* the canonical comparison of the free/forgetful adjunction.\n\n- [ ] (from Riehl §5.5 Ex. 5.5.iv) Exhibit the free/forgetful adjunction `G × (−) ⊣ U` and prove `Monadic U` via the monadicity theorem, checking that the comparison functor is the equivalence established here."
+  },
+  {
+    "item_id": "riehl:5.5:example7",
+    "issue": 465,
+    "part": "clause (i): R-Mod ⟶ Ab is monadic",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.5 Example 5.5.7 clause (i) (printed p. 205, PDF p. 225; item `riehl:5.5:example7`): the forgetful functor `R-Mod → Ab` is **monadic**, its induced monad being `R ⊗_ℤ (−)`. This issue builds that monad and the identification of its algebras; the monadicity statement — that the canonical comparison of the free/forgetful adjunction is the equivalence — is the extra step.\n\n- [ ] (from Riehl §5.5 Ex. 5.5.7(i)) State the identification as monadicity of `U : R-Mod ⟶ Ab`, i.e. show the canonical `EM_Comparison` of the free/forgetful adjunction is the equivalence established here, rather than merely exhibiting *some* equivalence."
+  },
+  {
+    "item_id": "riehl:5.5:example7",
+    "issue": 474,
+    "part": "clause (ii): Ring ⟶ Ab is monadic",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.5 Example 5.5.7 clause (ii) (printed p. 205, PDF p. 225; item `riehl:5.5:example7`): the forgetful functor `Ring → Ab` is monadic, by adapting the proof of her Corollary 5.5.3, with induced monad the tensor-algebra monad `A ↦ ⨁_{n≥0} A^{⊗n}`. Same obligation as this issue, which already scopes the monad, the ring-algebra characterization and the comparison being an isomorphism."
+  },
+  {
+    "item_id": "riehl:5.5:cor6",
+    "issue": 489,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.5 Corollary 5.5.6 (printed p. 204, PDF pp. 224–225; item `riehl:5.5:cor6`) proves the same theorem, attributing the argument to Paré: given a parallel pair in `cHaus` whose underlying functions admit an absolute coequalizer `h : Y ↠ Z` in `Set`, the covariant power set functor preserves that absolute coequalizer, so the closure operators on `X` and `Y` induce a unique closure operator on `P Z`; `Z` is then compact as the image of a compact space and Hausdorff by normality of `Y` separating preimages, and the lift satisfies the coequalizer property by an epimorphism argument on `h_*`. Worth having beside Mac Lane's proof, since it routes through the power set functor rather than through filters."
+  },
+  {
+    "item_id": "riehl:5.5:def-kuratowski",
+    "issue": 489,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.5, the prose definition opening the proof of Corollary 5.5.6 (printed pp. 204–205, PDF pp. 224–225; item `riehl:5.5:def-kuratowski`): a space presented as a set with a closure operator on its power set satisfying the four Kuratowski axioms (the closure of the empty set is empty; a subset is contained in its closure; closure is idempotent; closure carries a binary union to the union of the closures), with `f` continuous iff the image of a closure is contained in the closure of the image and closed iff those agree — hence, since every continuous map between compact Hausdorff spaces is closed, a function lifts to `cHaus` exactly when it preserves the closure operator. All of this is already scoped by this issue's checklist (the closure-space presentation, continuous and closed maps, and the compact-to-Hausdorff closedness lemma); Riehl adds only that such an operator is order-preserving and therefore a closure operator in the sense of #463. #745 covers the Kuratowski axioms on the subsets of a space independently."
+  },
+  {
+    "item_id": "riehl:5.6:cor2",
+    "issue": 489,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.6 Corollary 5.6.2 (printed p. 210, PDF p. 230; item `riehl:5.6:cor2`) draws a corollary from this issue's theorem that is not on its checklist: a bijective continuous map between compact Hausdorff spaces is a homeomorphism, immediately from conservativity of the monadic underlying-set functor. (`rg -i 'homeomorph'` returns zero hits tree-wide, so nothing of this exists today.)\n\n- [ ] (from Riehl §5.6) Corollary: a continuous bijection of compact Hausdorff spaces is an isomorphism in `cHaus`, derived from monadicity plus conservativity of a monadic functor."
+  },
+  {
+    "item_id": "riehl:5.6:remark3",
+    "issue": 489,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.6 Remark 5.6.3 (printed p. 210, PDF p. 230; item `riehl:5.6:remark3`) records the mathematical content behind the categorical proof of the previous corollary: monadicity together with the canonical presentation of an algebra by free algebras exhibits every compact Hausdorff space canonically as a quotient of the Stone–Čech compactification of its underlying set, so a continuous bijection induces a natural isomorphism of the two compactifications and hence a homeomorphism of the quotients. The general presentation lemma it invokes is in-tree in fork form (`Monad/Monadicity/BeckObjects.v:75` `canonical_split`, with `canonical_reflexive` at `:99`) and is being lifted to the algebra level by #483; only the `cHaus` reading is missing.\n\n- [ ] (from Riehl §5.6) Instantiate the canonical free-algebra presentation at `cHaus`: every compact Hausdorff space is canonically the quotient of the Stone–Čech compactification of its underlying set."
+  },
+  {
+    "item_id": "riehl:5.6:exi",
+    "issue": 489,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.6 Exercise 5.6.i (printed p. 217, PDF p. 237; item `riehl:5.6:exi`) asks for a second proof of this issue's theorem through the alternate monadicity criterion — `U` has a left adjoint, reflects isomorphisms, and `D` has and `U` preserves `U`-split coequalizers — combined with a direct point-set proof that a continuous bijection of compact Hausdorff spaces is a homeomorphism. The `U`-split coequalizers are constructed as in `Top`; her hint is that the coequalizer of maps of compact spaces is compact, and that Hausdorffness follows by using the split coequalizer diagram in `Set` to show the kernel pair of the quotient map is closed in `Y × Y`. In-tree the nearest criterion is the reflexive-pair form (`Monad/Monadicity/Crude.v` `crude_monadicity`, over `HasReflexiveCoequalizers`, `PreservesReflexiveCoequalizers` and `ReflectsIsos`), not the `U`-split form this exercise wants.\n\n- [ ] (from Riehl §5.6 Ex. 5.6.i) Second proof via the has-and-preserves criterion: construct `U`-split coequalizers in `cHaus` as in `Top` (compactness of the quotient; closedness of the kernel pair from the `Set`-level splitting) and conclude monadicity from conservativity plus preservation."
+  },
+  {
+    "item_id": "riehl:5.6:cor10",
+    "issue": 465,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.6 Corollary 5.6.10 (printed p. 212, PDF p. 232; item `riehl:5.6:cor10`): the forgetful functor `R-Mod → Ab` **creates** all colimits that `Ab` admits. Her proof uses this issue's monadicity together with the tensor–hom adjunction `Ab(R ⊗ A, B) ≅ Ab(A, Hom_ℤ(R, B))` (#388), which makes the induced monad a left adjoint — hence cocontinuous, and so is its square — so the colimit clause of the monadic-creation theorem (the Riehl §5.6 Theorem 5.6.5 issue) applies to every diagram in `Ab`.\n\n- [ ] (from Riehl §5.6) Corollary: `U : R-Mod ⟶ Ab` creates all colimits `Ab` admits, by exhibiting `R ⊗ (−)` as a left adjoint via the tensor–hom adjunction and applying the colimit clause of the monadic-creation theorem."
+  },
+  {
+    "item_id": "riehl:5.6:example8",
+    "issue": 409,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.6 Example 5.6.8 (printed p. 211, PDF pp. 231–232; item `riehl:5.6:example8`) builds the same object as the limit in `Ring` of the tower `… → ℤ/p³ → ℤ/p² → ℤ/p`, and adds a point this issue's checklist does not make: because the underlying-set functor is monadic it *creates* the limit cone, so the ring structure on the limit is not chosen but **forced** — it is the unique one making every projection to `ℤ/pⁿ` a ring homomorphism, i.e. componentwise addition and multiplication.\n\n- [ ] (from Riehl §5.6) State the ring structure on the inverse limit as *created* by the underlying-set functor — unique such that all projections are homomorphisms — rather than merely exhibited and checked."
+  },
+  {
+    "item_id": "riehl:5.6:cor6",
+    "issue": 373,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.6 Corollary 5.6.6 (printed p. 211, PDF p. 231; item `riehl:5.6:cor6`) proves this issue's result by a different and stronger route: a reflective inclusion is *monadic* (her Proposition 5.3.3), and a monadic functor creates all limits its codomain has (her Theorem 5.6.5), so the inclusion **creates** limits — not merely inherits and preserves them — and a reflective subcategory of a complete category is complete. This issue's background already describes the inclusion as creating limits, but its checklist asks only for inheritance plus preservation, which is strictly weaker.\n\n- [ ] (from Riehl §5.6) Strengthen the conclusion to *creation* of limits: the lift of a limit cone along the inclusion is unique up to isomorphism and any lifted cone that becomes limiting downstairs is limiting, not merely \"the limit lies in the subcategory and the inclusion preserves it\"."
+  },
+  {
+    "item_id": "riehl:5.6:cor9",
+    "issue": 329,
+    "part": "",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.6 Corollary 5.6.9 (printed p. 212, PDF p. 232; item `riehl:5.6:cor9`) is this issue's `Sets_Cocomplete` deliverable, obtained by a second and quite different proof: the contravariant power set functor is monadic (Paré, her Theorem 5.5.9), so applying the limit clause of the monadic-creation theorem *in `Set^op`* creates the colimit of a diagram in `Set` from the limit of the corresponding diagram of power sets. No new obligation — the conclusion is identical — but the alternative route is worth a header cross-reference once the Paré issue lands.\n\nFor the record, the Riehl Chapter 5 verification enumerated what `Sets` currently has: `Sets_Initial` (`Instance/Sets.v:265`), `Sets_Cocartesian` (`Instance/Sets/Cocartesian.v:28`), `Sets_HasPushouts` (`Instance/Sets/Pushout.v:185`) and `SetsCoend` (`Instance/Sets/Coend.v:163`). The last is the closest thing to a general colimit — a quotient of a sum indexed by all objects of an arbitrary `C` by exactly the dinaturality congruence, funext-free — so a colimit of `G : J ⟶ Sets` is derivable from it by taking a functor constant in the contravariant variable; that derivation is not stated in-tree and is the shortest route to this issue's goal. There is still no `HasCoequalizers Sets` and no indexed-coproduct instance (#320)."
+  },
+  {
+    "item_id": "riehl:5.6:construction-free-product",
+    "issue": 450,
+    "part": "the concrete free product of groups as a coequalizer",
+    "append_block": "### Also covered by\n\nRiehl, *Category Theory in Context*, 2nd ed., §5.6, the unnumbered free-product construction (printed pp. 212–213, PDF pp. 232–233; item `riehl:5.6:construction-free-product`) builds the same coproduct by a different method, and one that does not need the adjoint functor theorem. Since `U : Group → Set` does not preserve coproducts, she works relative to the free/forgetful adjunction: the first approximation is the free group `F(U G + U H)`, and the relations imposed by the two group operations are encoded by a parallel pair out of `F(U F U G + U F U H)` — one leg `F` applied to the disjoint union of the counit components, the other `F` of the canonical comparison between the coproduct of images and the image of the coproduct, followed by the counit at `F(U G + U H)`. The free product is the coequalizer of that pair. The general form of this construction, for any monadic functor over a cocomplete base, is filed as the Riehl §5.6 Proposition 5.6.11 issue.\n\n- [ ] (from Riehl §5.6) Also exhibit the free product as the coequalizer of the counit-based parallel pair between free groups described above, and check it agrees with the adjoint-functor-theorem construction."
+  }
+]

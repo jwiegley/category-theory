@@ -1,0 +1,425 @@
+[
+  {
+    "id": "riehl:1.5:lem1",
+    "classification": "ABSENT",
+    "aliases": [
+      "natural transformation as a functor out of C × 2",
+      "walking arrow / interval category 2 (in-tree: _2, Instance/Two.v)",
+      "cylinder object; directed homotopy C ∏ 2 ⟶ D",
+      "restriction along the endpoint inclusions i₀, i₁ : C ⟶ C ∏ 2",
+      "[2, D] = arrow category of D; Cat cartesian-closed transpose Cat(C ∏ 2, D) ≅ Cat(C, [2, D])"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'walking arrow' . → 1 hit, Instance/Two.v:7 ('The interval category 2 (the \"walking arrow\")'), a header comment on the definition of _2; no lemma anywhere.",
+      "grep -rn --include='*.v' -i 'interval categor' . → Instance/Two.v:7,20, Instance/Two/Monoidal.v:13, Instance/Two/Discrete.v:15, Instance/Fact.v:12 — all header prose; the only DEFINITION reached is Instance/Two.v:134 `Program Definition _2 : Category` (objects TwoX/TwoY, one non-identity arrow TwoXY), which is the shape only.",
+      "grep -rn --include='*.v' '∏ _2\\|_2 ∏\\|∏ Two\\|Two ∏' . → 0 hits. No construction in the tree ever forms the product of a category with the walking arrow, so the functors H : C ∏ 2 ⟶ D of the lemma have no in-tree home.",
+      "grep -rn --include='*.v' -i 'homotopy' . → 20 hits, all header prose. Instance/Two.v:83 states the lemma verbatim IN A COMMENT ('a natural transformation between two functors from C to D is a functor from C ∏ [_2] to D, a directed homotopy'), and Construction/Arrow.v:28,48,106 likewise asserts [2,C] ≅ Arrow C only in prose. Comments are not evidence and nothing in the tree proves either claim.",
+      "grep -rn --include='*.v' 'Arrow' Construction/Arrow.v → the only definition is line 110 `Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C])`, built as a comma category, never as a functor category over _2; no comparison functor between the two presentations exists.",
+      "grep -rn --include='*.v' 'Transform.*_2\\|_2.*Transform' . → 0 hits; grep -n 'Isomorphism\\|≅' Instance/Fun.v (the functor-category file, where such a correspondence would live) → nothing mentioning _2.",
+      "Ingredients present but never combined: Instance/Two.v:134 (_2 : Category) and Instance/Cat/Cartesian/Closed.v:47 (Cat_Closed, with exp_iso : Cat(A × B, C) ≅ Cat(A, [B, C]) and currying/uncurrying both proven). Instantiating B := _2 is the natural route to the lemma, but no in-tree statement mentions the endpoint inclusions i₀/i₁ or characterizes those functors H : C ∏ 2 ⟶ D whose restrictions are F and G, which is the whole content of Lemma 1.5.1."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same verdict independently before opening the coverage file. Searches run: rg -i 'walking arrow|interval category' (Instance/Two.v:7,20 header prose only); rg '_2 ∏|∏ _2|Two ∏|∏ Two' (0 hits); rg -i 'homotopy|cylinder' (Instance/Two.v:83 is the lemma stated VERBATIM IN A COMMENT, cited to nLab 'walking morphism'); rg for any lemma relating Transform/Nat to _2 (0 hits). Verified Instance/Two.v:134 is the only definition (Program Definition _2) and Construction/Arrow.v:110 is the only Arrow definition (Definition Arrow {C} : Category := (Id[C] ↓ Id[C])). CORROBORATION the classifier did not cite: Construction/Arrow.v:104-108 explicitly discloses that 'The [2, C] equivalence of the header, by contrast, remains documentation-level: no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree' — the library itself certifies the ABSENT verdict, and Construction/Arrow.v:52-56 states Riehl's Lemma 1.5.1 in prose with an explicit Riehl citation. Both Instance/Two.v and Construction/Arrow.v are registered in _CoqProject. Ingredient claim checked: Instance/Cat/Cartesian/Closed.v:47 Program Instance Cat_Closed with exp_iso is real."
+    }
+  },
+  {
+    "id": "riehl:1.5:def4",
+    "classification": "PRESENT",
+    "aliases": [
+      "equivalence of categories C ≃ D",
+      "quasi-inverse functor G with η : id_C ≅ GF and ε : FG ≅ id_D",
+      "EquivalenceOfCategories / quasi_inverse / equivalence_unit / equivalence_counit (library names)",
+      "isomorphism in Cat up to natural isomorphism (≅[Cat], since Cat's hom-setoid is Functor_Setoid)",
+      "weak equivalence / categorical equivalence; adjoint equivalence is the later strengthening"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 151,
+        "symbol": "EquivalenceOfCategories",
+        "intree_statement": "Class EquivalenceOfCategories {C D : Category} (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F }."
+      },
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 36,
+        "symbol": "CategoryEquivalence",
+        "intree_statement": "Definition CategoryEquivalence (C D : Category) : Type := ∃ F : C ⟶ D, EquivalenceOfCategories F.   Notation \"C ≃ D\" := (CategoryEquivalence C D) (at level 91)."
+      }
+    ],
+    "statement_record": {
+      "book": "An equivalence of categories consists of functors F : C → D and G : D → C together with natural isomorphisms η : id_C ≅ GF and ε : FG ≅ id_D; C ≃ D when such data exists, and F 'defines an equivalence' when it extends to one. No triangle identities are imposed (the adjoint form comes later, Proposition 4.3.5).",
+      "intree": "Class EquivalenceOfCategories {C D} (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F }, bundled as CategoryEquivalence C D := ∃ F, EquivalenceOfCategories F with notation C ≃ D.",
+      "strength_comparison": "same. The two cells are stated with ≈ on functors, which is Theory/Functor.v:148 Functor_Setoid — `{ iso : ∀ x, F x ≅ G x & ∀ x y (f : x ~> y), fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) }` — i.e. literally a natural isomorphism (proven equivalent to ≅[Fun] by Instance/Fun.v:255 Functor_Setoid_Nat_Iso, and repackaged in both directions here by equivalence_counit_iso/equivalence_unit_iso at lines 202/205 and Nat_Isos_to_Equivalence at line 268). Riehl's 'F defines an equivalence' is exactly the class applied to F. No triangle identities are demanded, matching the book; the adjoint strengthening lives separately in Theory/Equivalence/Adjoint.v. The bridge Equivalence_to_Cat_Iso/Cat_Iso_to_Equivalence (lines 163/172) records that this is an isomorphism in Cat because Cat's hom-setoid is Functor_Setoid — a presentation fact, not an extra hypothesis."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass landed on Theory/Equivalence.v:151 first. Quote checked character-by-character against the source: the class has exactly the three fields quoted, with the stated orientations (counit F ◯ quasi_inverse ≈ Id[D], unit Id[C] ≈ quasi_inverse ◯ F). Theory/Equivalence/Bundled.v:36 CategoryEquivalence and the ≃ notation at level 91 verified. The strength_comparison's load-bearing claim — that ≈ on functors IS natural isomorphism — verified at Theory/Functor.v:148 (Program Instance Functor_Setoid, equiv := { iso : ∀ x, F x ≅ G x & ∀ x y f, fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) }) and Instance/Fun.v:255 (Theorem Functor_Setoid_Nat_Iso : F ≅[Fun] G ↔ F ≈ G). Bridges at 163/172 and the componentwise accessors at 202/205/210/213 all present as described. Instance/Cat.v:145 confirms homset := @Functor_Setoid, so the 'iso in Cat IS an equivalence' remark is a presentation fact, not a smuggled hypothesis. No triangle identities are imposed, matching the book. Both files in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:1.5:lem5",
+    "classification": "PRESENT",
+    "aliases": [
+      "equivalence of categories is an equivalence relation",
+      "reflexive: C ≃ C via the identity functor",
+      "symmetric: the quasi-inverse is itself an equivalence",
+      "transitive: composite of equivalences is an equivalence (C ≃ D, D ≃ E ⟹ C ≃ E)",
+      "Equivalence_refl / Equivalence_sym / Equivalence_trans / EquivalenceOfCategories_Compose (library names)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 115,
+        "symbol": "Equivalence_trans",
+        "intree_statement": "Definition Equivalence_trans {C D E : Category} (E1 : C ≃ D) (E2 : D ≃ E) : C ≃ E := (`1 E2 ◯ `1 E1; EquivalenceOfCategories_Compose (`2 E1) (`2 E2)).   (* backed by EquivalenceOfCategories_Compose, line 94, whose two cells are proven at lines 72 and 83: (G ◯ F) ◯ (F' ◯ G') ≈ Id[E] and Id[C] ≈ (F' ◯ G') ◯ (G ◯ F) *)"
+      },
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 111,
+        "symbol": "Equivalence_sym",
+        "intree_statement": "Definition Equivalence_sym {C D : Category} (E : C ≃ D) : D ≃ C := (@quasi_inverse C D (`1 E) (`2 E); @EquivalenceOfCategories_sym C D (`1 E) (`2 E)).   (* EquivalenceOfCategories_sym, Theory/Equivalence.v:256: EquivalenceOfCategories quasi_inverse, quasi-inverted by F, with the two cells swapped by symmetry of ≈ *)"
+      },
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 108,
+        "symbol": "Equivalence_refl",
+        "intree_statement": "Definition Equivalence_refl (C : Category) : C ≃ C := (Id[C]; @EquivalenceOfCategories_Id C).   (* EquivalenceOfCategories_Id, Theory/Equivalence.v:276: the identity functor is an equivalence, quasi-inverse itself *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The relation 'is equivalent to' on categories is reflexive, symmetric and transitive; in particular C ≃ D and D ≃ E give C ≃ E.",
+      "intree": "Equivalence_refl (C : Category) : C ≃ C; Equivalence_sym {C D} (E : C ≃ D) : D ≃ C; Equivalence_trans {C D E} (E1 : C ≃ D) (E2 : D ≃ E) : C ≃ E — all three at the bundled ≃ level, with the composite's two cells proven as EquivalenceOfCategories_Compose_counit/_unit.",
+      "strength_comparison": "same, in constructive (data-carrying) form. The library deliberately does NOT register these as an instance of the standard library's Equivalence class (header, lines 102-107: the bundle is Type-valued and choice-carrying — a quasi-inverse is a choice — and must never be conjured by typeclass resolution), so the three laws are explicit Definitions computing the witnessing functors rather than a Prop-level relation. That is if anything stronger than the book's assertion: the composite equivalence's quasi-inverse is exhibited (F' ◯ G'), and two sanity corollaries (lines 123, 127) check the data definitionally. Riehl defers this to Exercise 1.5.vi; here it is proven."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Theory/Equivalence/Bundled.v independently. All three cited lines verified exactly: 108 Equivalence_refl, 111 Equivalence_sym, 115 Equivalence_trans, backed by EquivalenceOfCategories_Compose (line 94) whose two cells are genuine Qed-proofs at lines 72 (EquivalenceOfCategories_Compose_counit) and 83 (EquivalenceOfCategories_Compose_unit) — not admits. Reflexivity/symmetry trace back to Theory/Equivalence.v:276 (EquivalenceOfCategories_Id) and :256 (EquivalenceOfCategories_sym), both verified. The strength_comparison's claim about the deliberate non-registration as a stdlib Equivalence instance is verified against the file header at lines 102-107. Riehl defers this to Exercise 1.5.vi; the library proves it. File registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:1.5:example6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Set_partial ≃ Set_* (sets and partial functions equivalent to pointed sets)",
+      "Par / Pfn / PAR; Kleisli category of the maybe (option) monad",
+      "free-basepoint functor (−)₊ : X ↦ X ⊔ {∗}; forgetful U : Set_* ⟶ Set_partial",
+      "pointed set (X, x), based map; algebras of the maybe monad",
+      "U(−)₊ = Id on the nose, while (U−)₊ ≅ Id only up to natural isomorphism"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Par.v",
+        "line": 27,
+        "symbol": "Part",
+        "intree_statement": "Program Definition Part : Category := {| obj := Sets; hom := fun x y => @SetoidMorphism x (is_setoid x) (option y) (@option_setoid _ (is_setoid y)); homset := fun x y => @SetoidMorphism_Setoid x {| is_setoid := @option_setoid _ (is_setoid y) |} |}.   (* identity x ↦ Some x; composition (f ∘ g) x = match g x with None => None | Some b => f b end — Kleisli composition of the maybe monad, i.e. the composite is defined exactly on dom(g) ∩ g⁻¹(dom f) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "(−)₊ : Set_partial → Set_* (adjoin a disjoint basepoint) and U : Set_* → Set_partial (forget the basepoint, sending a based map to the partial function defined away from the preimage of the basepoint) form an equivalence of categories: U(−)₊ is literally the identity endofunctor of Set_partial, and there is a natural isomorphism η : id_{Set_*} ≅ (U−)₊ with components (X, x) → (X∖{x} ⊔ {X∖{x}}, X∖{x}) acting as the identity on X∖{x}.",
+      "intree": "Part : Category — setoids and partial setoid maps, encoded as total maps into option (None = undefined) with Kleisli composition; the header (lines 13-19) names it 'the category PAR (also written Par or Pfn) of setoids and partial maps … Equivalently this is the Kleisli category of the maybe monad option on Sets'. The Coq-types variant is Instance/Coq/Par.v:53 Par. Nothing else of the example exists.",
+      "strength_comparison": "intree-weaker: only ONE of the two categories in the equivalence is constructed. Part itself is a faithful rendering of Set_partial (the option encoding makes the domain of definition implicit rather than an explicit subset, and Kleisli composition is exactly the book's dom condition — a presentation change, not a strength change), but the equivalence, which is the entire claim of Example 1.5.6, is absent."
+    },
+    "gap": "Missing: (a) any category of pointed sets/pointed setoids — grep -rn --include='*.v' 'Pointed' . returns only Instance/Fun.v:230 `Class Pointed {C} (F : C ⟶ C)` for POINTED ENDOFUNCTORS (a natural transformation Id ⟹ F) and its WellPointed refinement at line 240, an unrelated notion; grep -i 'pointed set'/'based map'/'basepoint' → 0 hits; (b) the two comparison functors (−)₊ : Part ⟶ Set_* and U : Set_* ⟶ Part; (c) the identity composite U(−)₊ = Id and the natural isomorphism η : Id ≅ (U−)₊; (d) hence the conclusion Part ≃ Set_*. Theory/Coq/Maybe.v:28-29 records in a comment that 'the Kleisli category on Set is the category of sets and partial functions; its algebras are the pointed objects', but no Eilenberg–Moore category for option is built (the generic EM machinery exists in Monad/Eilenberg/Moore/, never instantiated at option), so even the pointed side is not reachable by the EM route in-tree. The generic target notion, EquivalenceOfCategories, is present (Theory/Equivalence.v:151), so only the example's own data is missing.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "MY BLIND PASS MISSED THE EVIDENCE, THE CLASSIFIER FOUND IT. I searched rg -i 'pointed set|partial function|basepoint|Maybe|option' and reached only Theory/Coq/Maybe.v:28-29 (prose: 'the Kleisli category on Set is the category of sets and partial functions'), so my preliminary verdict was ABSENT. The classifier's Instance/Sets/Par.v is real and my alias set was at fault: the file says 'partial MAPS', not 'partial functions'. Evidence verified at Instance/Sets/Par.v:27 — Program Definition Part : Category with hom := SetoidMorphism x (option y), identity x ↦ Some x and Kleisli composition, exactly as quoted; the header at lines 13-19 does name it PAR/Par/Pfn. Registered at _CoqProject:236 (and Instance/Coq/Par.v at :189, whose Par is at line 53 as claimed). Gap statement independently re-checked and accurate: Instance/Fun.v:230 Class Pointed is POINTED ENDOFUNCTORS (point : Id ⟹ F) with WellPointed at :240 — unrelated to pointed sets, exactly as the gap says; there is no pointed-sets category, neither comparison functor, and no equivalence. PARTIAL is the right call under the frozen definition: one of the two categories in the equivalence genuinely exists, and the gap names the missing (a)-(d) precisely."
+    }
+  },
+  {
+    "id": "riehl:1.5:def7",
+    "classification": "PRESENT",
+    "aliases": [
+      "full functor (hom-map surjective) / faithful functor (hom-map injective)",
+      "essentially surjective on objects (every d ≅ Fc)",
+      "Full / Faithful / EssentiallySurjective (library class names)",
+      "prefmap + fmap_sur (chosen section witnessing fullness); fmap_inj (faithfulness)",
+      "eso_obj / eso_iso (chosen preimage object and witnessing isomorphism)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 331,
+        "symbol": "Full",
+        "intree_statement": "Class Full `(F : C ⟶ D) := { prefmap {x y} (g : F x ~> F y) : x ~> y; fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g }."
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 342,
+        "symbol": "Faithful",
+        "intree_statement": "Class Faithful `(F : C ⟶ D) := { fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g }."
+      },
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 141,
+        "symbol": "EssentiallySurjective",
+        "intree_statement": "Class EssentiallySurjective {C D : Category} (F : C ⟶ D) := { eso_obj : D → C; eso_iso (d : D) : F (eso_obj d) ≅ d }."
+      }
+    ],
+    "statement_record": {
+      "book": "F : C → D is FULL if each action on hom-sets C(x,y) → D(Fx,Fy) is surjective; FAITHFUL if each is injective; ESSENTIALLY SURJECTIVE ON OBJECTS if every d ∈ D is isomorphic to Fc for some c ∈ C.",
+      "intree": "Full: a chosen section prefmap of fmap[F] with fmap_sur : fmap[F] (prefmap g) ≈ g for every g : F x ~> F y. Faithful: fmap_inj : fmap[F] f ≈ fmap[F] g → f ≈ g for parallel f, g : x ~> y. EssentiallySurjective: a chosen eso_obj : D → C with eso_iso (d) : F (eso_obj d) ≅ d.",
+      "strength_comparison": "same, in the library's constructive house style. Faithfulness is literally injectivity of the hom-map, with ≈ on hom-setoids in place of = (faithful setoid rephrasing). Fullness and essential surjectivity are stated in SPLIT (choice-carrying) form: instead of the propositions 'fmap is surjective' and 'there exists c with Fc ≅ d', the classes carry a chosen preimage morphism and a chosen preimage object with its witnessing isomorphism. Classically these are equivalent to Riehl's formulations (given AC); constructively the split form is the stronger datum, which is exactly why FF_ESO_Equivalence needs no choice axiom (Theory/Equivalence.v:101-118 discloses this design and cites the HoTT Book ch. 9 and Makkai's anafunctors). No functoriality is demanded of prefmap (Theory/Functor.v:326-330, issue #118), so nothing beyond a genuine preimage is required."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found all three classes independently. Quotes verified verbatim: Theory/Functor.v:331 Class Full {prefmap; fmap_sur}, :342 Class Faithful {fmap_inj}, Theory/Equivalence.v:141 Class EssentiallySurjective {eso_obj; eso_iso}. The strength_comparison's split-vs-propositional analysis is honest and is the library's own disclosed design (Theory/Equivalence.v:101-118 header, citing the HoTT Book ch.9 and Makkai's anafunctors; Theory/Functor.v:326-330 records the issue-#118 removal of prefmap's extraneous functoriality fields, and the two-field shape is pinned by the regression file Test/FullIssue118.v). Faithfulness quantifies f, g over a single pair (x, y) — the locality Riehl insists on, definitional here. Both files registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:1.5:remark8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "locality of fullness and faithfulness (per hom-set, not global injectivity/surjectivity on morphisms)",
+      "embedding = faithful + injective on objects; subcategory",
+      "fully faithful functor (full and faithful)",
+      "full embedding = fully faithful + injective on objects; full subcategory",
+      "Subcategory / Sub / Incl / Full_Implies_Full_Functor (library names)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Subcategory.v",
+        "line": 74,
+        "symbol": "Full_Implies_Full_Functor",
+        "intree_statement": "Lemma Full_Implies_Full_Functor : Full → Functor.Full Incl.   (* where Full : Type := ∀ (x y : C) (ox : sobj S x) (oy : sobj S y) (f : x ~> y), shom S ox oy f (line 69), Sub : Category (line 50) is the subcategory and Incl : Sub ⟶ C (line 59) its inclusion *)"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 342,
+        "symbol": "Faithful",
+        "intree_statement": "Class Faithful `(F : C ⟶ D) := { fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g }.   (* the locality the remark insists on is definitional: f and g are quantified only over a common (x, y), so nothing is claimed about non-parallel morphisms *)"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 355,
+        "symbol": "FullyFaithful",
+        "intree_statement": "Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y."
+      }
+    ],
+    "statement_record": {
+      "book": "Fullness and faithfulness are LOCAL conditions: faithfulness identifies f = g only for parallel morphisms with the same domain and codomain, and fullness only requires arrows k : Fx → Fy whose domain and codomain are already in the image to be hit; globally a faithful functor need not be injective on morphisms and a full functor need not be surjective on morphisms. A faithful functor injective on objects is an EMBEDDING and exhibits its domain as a subcategory; a full and faithful functor is FULLY FAITHFUL, and a fully faithful functor injective on objects is a FULL EMBEDDING, exhibiting the domain as a FULL SUBCATEGORY.",
+      "intree": "Full/Faithful are per-hom-set classes (Theory/Functor.v:331,342 — both quantified over a single pair x, y), the fully-faithful conjunction is used throughout and named at Theory/Functor.v:355 (FullyFaithful, with the reflects-isomorphisms consequence) and bundled at Instance/Cat.v:157 (Record Isomorphism_FullyFaithful with fields to_full/to_faithful/from_full/from_faithful); subcategories are Construction/Subcategory.v (Record Subcategory line 31, Sub line 50, Incl line 59) with fullness of a subcategory (line 69) proven to make the inclusion a full functor (line 74).",
+      "strength_comparison": "intree-weaker: the locality half is realized definitionally and the subcategory half is realized as a construction, but the remark's remaining vocabulary and its two negative observations are not stated. In particular nothing in-tree defines an EMBEDDING or a FULL EMBEDDING, because no predicate 'injective on objects' exists anywhere (grep -rn --include='*.v' -i 'injective on objects|inj_obj|fobj_inj|Embedding' . → hits only for the Yoneda EMBEDDING, Functor/Hom.v:82-109 and Functor/Hom/Yoneda.v:231,253, where 'embedding' is a name for a specific fully faithful functor and injectivity on objects is never claimed)."
+    },
+    "gap": "Three parts of the remark are absent. (1) EMBEDDING (faithful + injective on objects) and FULL EMBEDDING (fully faithful + injective on objects) are not defined; there is no injectivity-on-objects predicate in the library at all, and no theorem saying an embedding exhibits its domain as a (full) subcategory — the traffic runs only the other way, from a Subcategory record to fullness/faithfulness of Incl. (2) The generic faithfulness of a subcategory inclusion is asserted only in a comment (Construction/Subcategory.v:25-27, 'that inclusion is always faithful, since on each hom-set it is the first projection out of a sigma type'); no `Faithful (Incl C S)` lemma exists, and the only proofs are per-instance (e.g. Theory/Sheaf/Category.v:103 Sheaves_Faithful, whose one-line proof is exactly the generic argument). (3) The two negative observations — a faithful functor need not be injective on morphisms globally, a full functor need not be surjective on morphisms — have no in-tree counterexample or statement (grep for 'not injective', 'not surjective' over *.v → 0 relevant hits).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same grounds. Every cited line verified exactly: Construction/Subcategory.v Record Subcategory:31, Sub:50, Incl:59, Full:69, Full_Implies_Full_Functor:74, Replete:87, Wide:93 (all seven line numbers exact); Theory/Functor.v:342 Faithful and :355 FullyFaithful; Instance/Cat.v:157 Record Isomorphism_FullyFaithful with fields to_full/to_faithful/from_full/from_faithful (field names confirmed verbatim). The two negative claims in the gap were re-run blind and hold: rg -i 'injective on objects|inj_obj|fobj_inj' → 0 hits (so EMBEDDING and FULL EMBEDDING are genuinely undefinable in-tree today), and rg 'Faithful.*Incl|Incl.*Faithful' → exactly one hit, Theory/Sheaf/Category.v:103 Lemma Sheaves_Faithful (a per-instance proof whose one-line body 'constructor; simpl; intros x y f g Hfg; exact Hfg' is precisely the generic argument the Construction/Subcategory.v:25-27 comment describes but never proves). rg -i 'embedding' hits only the Yoneda embedding (Functor/Hom.v:30,82,93,109) where injectivity on objects is never claimed. strength_comparison 'intree-weaker' is honest."
+    }
+  },
+  {
+    "id": "riehl:1.5:thm9",
+    "classification": "PRESENT",
+    "aliases": [
+      "a functor is an equivalence iff it is full, faithful and essentially surjective",
+      "FF + ESO ⟹ equivalence (the AC direction)",
+      "an equivalence is full / faithful / essentially surjective (the easy direction)",
+      "FF_ESO_Equivalence / Equivalence_Full / Equivalence_Faithful / Equivalence_EssSurj (library names)",
+      "quasi-inverse constructed by choosing Gd and ε_d : FGd ≅ d"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/FullFaithful.v",
+        "line": 160,
+        "symbol": "FF_ESO_Equivalence",
+        "intree_statement": "Theorem FF_ESO_Equivalence `(F : C ⟶ D) `{@Full C D F} `{@Faithful C D F} `{@EssentiallySurjective C D F} : EquivalenceOfCategories F.   (* built from ff_eso_inverse F (line 67: fobj := eso_obj, fmap := fun d d' g => prefmap (from (eso_iso d') ∘ g ∘ to (eso_iso d))), ff_eso_counit (line 119) and ff_eso_unit (line 149) *)"
+      },
+      {
+        "file": "Theory/Equivalence/FullFaithful.v",
+        "line": 214,
+        "symbol": "Equivalence_Full",
+        "intree_statement": "Theorem Equivalence_Full `(E : @EquivalenceOfCategories C D F) : Full F.   (* section equivalence_prefmap g := from (equivalence_unit_at y) ∘ fmap[quasi_inverse] g ∘ to (equivalence_unit_at x), line 193, with equivalence_prefmap_sur : fmap[F] (equivalence_prefmap E g) ≈ g, line 203 *)"
+      },
+      {
+        "file": "Theory/Equivalence/FullFaithful.v",
+        "line": 171,
+        "symbol": "Equivalence_Faithful",
+        "intree_statement": "Theorem Equivalence_Faithful `(E : @EquivalenceOfCategories C D F) : Faithful F."
+      },
+      {
+        "file": "Theory/Equivalence/FullFaithful.v",
+        "line": 221,
+        "symbol": "Equivalence_EssSurj",
+        "intree_statement": "Theorem Equivalence_EssSurj `(E : @EquivalenceOfCategories C D F) : EssentiallySurjective F := Build_EssentiallySurjective F (fun d => quasi_inverse d) (fun d => equivalence_counit_at d)."
+      }
+    ],
+    "statement_record": {
+      "book": "A functor that defines an equivalence of categories is full, faithful and essentially surjective on objects; conversely, ASSUMING THE AXIOM OF CHOICE, any functor with these three properties defines an equivalence. The converse picks, for each d ∈ D, an object Gd and an isomorphism ε_d : FGd ≅ d, then uses full faithfulness plus Lemma 1.5.10 to define G on morphisms, prove functoriality, and produce η : id_C ≅ GF.",
+      "intree": "Both directions, as four theorems: FF_ESO_Equivalence (Full + Faithful + EssentiallySurjective → EquivalenceOfCategories F) and Equivalence_Full / Equivalence_Faithful / Equivalence_EssSurj (EquivalenceOfCategories F → each of the three properties). The quasi-inverse ff_eso_inverse is defined on objects by eso_obj and on morphisms exactly by Riehl's recipe, prefmap (from (eso_iso d') ∘ g ∘ to (eso_iso d)) — the conjugation of Lemma 1.5.10 followed by the chosen fmap-preimage.",
+      "strength_comparison": "same theorem, with the choice bookkeeping relocated rather than assumed. Riehl's converse needs AC to select (Gd, ε_d) for every d; the library's EssentiallySurjective already CARRIES that selection as data (eso_obj/eso_iso, Theory/Equivalence.v:141), so FF_ESO_Equivalence invokes no choice principle and is axiom-free — the header at Theory/Equivalence.v:101-118 states this explicitly and cites the HoTT Book and Makkai. Formally the in-tree implication has a stronger hypothesis (chosen preimages rather than mere existence) and is therefore weaker as an implication, but under AC the two hypotheses coincide, so no mathematical content is lost; the forward direction is unconditional and matches the book exactly. Riehl's proof-internal appeal to Lemma 1.5.10 is discharged inline (the conjugation formula appears literally in ff_eso_inverse's fmap and in ff_eso_unit_coherence, line 131) rather than as a cited lemma."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Theory/Equivalence/FullFaithful.v first and read it in full. All four cited theorems verified at the exact lines: FF_ESO_Equivalence:160, Equivalence_Faithful:171, Equivalence_Full:214, Equivalence_EssSurj:221, with the supporting ff_eso_inverse:67 (fmap := fun d d' g => prefmap (from (eso_iso d') ∘ g ∘ to (eso_iso d)) — quoted correctly), ff_eso_counit:119, ff_eso_unit:149, equivalence_prefmap:193, equivalence_prefmap_sur:203. No Admitted/admit anywhere in the file; the three data-carrying results end in Defined and Equivalence_Faithful in Qed, exactly as the file header claims (header cross-claim also checked downstream: Theory/Equivalence/Adjoint.v does import FullFaithful and consume equivalence_prefmap/equivalence_prefmap_sur at lines 112,130,152). The strength_comparison's treatment of the axiom of choice is the honest one — it states plainly that the in-tree hypothesis is stronger (chosen preimages rather than mere existence) and therefore the implication formally weaker, while the forward direction is unconditional; this is not a same-name-weaker-statement problem but the standard constructive rendering the library discloses in its own header. Downstream sanity: Instance/Sets/Karoubi.v:113 Corollary Sets_Cauchy : EquivalenceOfCategories (@Karoubi_Embed Sets) is a real consumer of the engine. File registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:1.5:lem10",
+    "classification": "PARTIAL",
+    "aliases": [
+      "transporting a morphism along isomorphisms; f' := v ∘ f ∘ u⁻¹",
+      "conjugation of a morphism by isomorphisms (iso_conjugate / iso_transport)",
+      "unique morphism a' → b' making the square with u : a ≅ a', v : b ≅ b' commute",
+      "induced hom-set bijection C(a,b) ≅ C(a',b')",
+      "the four equivalent commutativity conditions (u vs u⁻¹, v vs v⁻¹)",
+      "commuting square with isomorphisms on both vertical edges: to-form vs from-form",
+      "premon_square_from (library name, misfiled in Structure/Premonoidal.v)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Premonoidal.v",
+        "line": 171,
+        "symbol": "premon_square_from",
+        "intree_statement": "Lemma premon_square_from {a b c d : C} (i : a ≅ b) (j : c ≅ d) (f : a ~> c) (g : b ~> d) : g ∘ to i ≈ to j ∘ f → f ∘ from i ≈ from j ∘ g.   (* Declared inside Section Premonoidal, whose context is `Context {C : Category}` plus `Context `{@Binoidal C}`; neither the statement nor the proof mentions the Binoidal instance, so Coq discharges only C and this is a general-category lemma. Header at lines 167-170: 'Conjugating a commuting square by isomorphisms on both vertical edges: from g ∘ to i ≈ to j ∘ f we get f ∘ from i ≈ from j ∘ g ... this converts every to-direction naturality field into its from-direction form, so the inverse squares need not be part of the class data.' *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given a morphism f : a → b and isomorphisms u : a ≅ a' and v : b ≅ b', there is a UNIQUE morphism f' : a' → b' making any one — equivalently all — of the four displayed squares (built from u or u⁻¹ and v or v⁻¹) commute; explicitly f' := v f u⁻¹. The equivalence of the four commutativity conditions is left to Exercise 1.5.iii.",
+      "intree": "premon_square_from (Structure/Premonoidal.v:171): for isomorphisms i : a ≅ b, j : c ≅ d and morphisms f : a ~> c, g : b ~> d, g ∘ to i ≈ to j ∘ f implies f ∘ from i ≈ from j ∘ g. Renaming i := u, j := v and g := f', this is: from the square f' ∘ u ≈ v ∘ f infer the square f ∘ u⁻¹ ≈ v⁻¹ ∘ f' — one of the implications among Riehl's four commutativity conditions, in an arbitrary category.",
+      "strength_comparison": "intree-weaker: only the second half of the lemma is touched, and only one of its implications. Riehl's 1.5.10 has two halves — (i) EXISTENCE AND UNIQUENESS of f' : a' → b', with the explicit formula f' = v f u⁻¹, and (ii) the equivalence of the four squares built from u/u⁻¹ and v/v⁻¹ (deferred to Exercise 1.5.iii). premon_square_from delivers exactly one implication of (ii). It states nothing about existence, nothing about uniqueness, and does not give the converse or the two mixed square forms. The transport FORMULA itself (to v ∘ f ∘ from u) is pervasive in-tree as an idiom inside other definitions — Theory/Functor.v:159 is the coherence field of Functor_Setoid, Theory/Equivalence/FullFaithful.v:71 is the morphism action of ff_eso_inverse, Theory/Equivalence.v:243 equivalence_unit_conjugate is the instance of it for a fixed equivalence's unit — but it is nowhere isolated as a lemma about one f and two arbitrary isomorphisms."
+    },
+    "gap": "(a) EXISTENCE is unstated: no in-tree lemma introduces f' := to v ∘ f ∘ from u as the morphism making the square commute; the composite occurs only inside other definitions (Theory/Functor.v:159, Theory/Equivalence/FullFaithful.v:71,125, Theory/Equivalence.v:243, Construction/Karoubi/Universal.v:284). (b) UNIQUENESS is unstated: the cancellation tooling exists (Theory/Isomorphism.v:264/275/286 iso_to_monic/iso_from_monic/iso_to_epic, and :301 comp_inverse_unique) but nothing concludes that f' is the unique such morphism, which is the load-bearing half for Theorem 1.5.9's construction of G on morphisms. (c) Only ONE of the four commutativity conditions is linked to another: premon_square_from gives to-form ⇒ from-form; the converse and the two mixed forms (u against v⁻¹, u⁻¹ against v) are not stated, so Exercise 1.5.iii is only a quarter covered. (d) PLACEMENT/DISCOVERABILITY: the one general-category counterpart lives in Structure/Premonoidal.v under a premonoidal-flavoured name inside a Binoidal section, so no consumer looking for an isomorphism-transport lemma will find it; the natural home is Theory/Isomorphism.v. Any issue filed here should relocate/generalize premon_square_from rather than duplicate it, and should also retire the degenerate duplicates conjugate_iso_id (Construction/Grothendieck/Fiber.v:55) and conj_id (Construction/Grothendieck/Strict.v:277), which are the both-isos-are-identity special case written twice.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'iso_conjugate|iso_transport|conjugate_iso' . → 4 hits, none the lemma: Construction/PROP/Universal.v:134 ap_iso_transport (about a monoidal comparison map), and Construction/Grothendieck/Fiber.v:55 `Lemma conjugate_iso_id {C} {a b} (f : a ~> b) : from (@iso_id C b) ∘ f ∘ to (@iso_id C a) ≈ f` — the DEGENERATE case (both isomorphisms are the identity), duplicated at Construction/Grothendieck/Strict.v:278.",
+      "grep -rn --include='*.v' -i 'conjugat' . → 10 hits; the closest is Theory/Equivalence.v:243 `Lemma equivalence_unit_conjugate {x y} (f : x ~> y) : fmap[quasi_inverse] (fmap[F] f) ≈ to (equivalence_unit_at y) ∘ f ∘ from (equivalence_unit_at x)` — an INSTANCE of the transport formula for the unit isomorphisms of a fixed equivalence, not the general lemma, and it asserts no uniqueness. Others are braiding/bicategory-specific (Structure/Monoidal/Braided/Proofs.v:732,746,752; Theory/Bicategory/Adjunction.v:212).",
+      "grep -rn --include='*.v' 'to (.*) ∘ f ∘ from |from (.*) ∘ .* ∘ to ' . → ~20 hits, ALL uses of the conjugation expression inside other definitions (Theory/Functor.v:159 Functor_Setoid's coherence field; Theory/Equivalence/FullFaithful.v:71,125; Construction/Karoubi/Universal.v:284; Construction/Grothendieck/RoundTrip.v passim). The pattern is pervasive as an idiom and nowhere isolated as a lemma about a single f with two isomorphisms.",
+      "grep -rn --include='*.v' -i 'unique.*morphism.*iso|iso.*determin|hom_iso|Hom_Iso|iso_hom' . → no hit stating existence-and-uniqueness of a transported morphism; grep -rn --include='*.v' '(u : .* ≅ .*) (v : .* ≅ .*)' . → 0 hits (no lemma anywhere takes two isomorphisms as its hypotheses in this shape).",
+      "Uniqueness tooling exists but the lemma does not: Theory/Isomorphism.v:264/275/286 (iso_to_monic, iso_from_monic, iso_to_epic) give the cancellation that would make f' unique, and Theory/Isomorphism.v:301 comp_inverse_unique gives uniqueness of two-sided inverses. Nothing assembles these into Riehl's statement, and the equivalence of the four displayed commutativity conditions (his Exercise 1.5.iii) is nowhere stated.",
+      "PHASE D (blind): rg -n \"Lemma.*≅.*≅|Definition.*\\(u : .*≅.*\\).*\\(v : .*≅\" --glob '*.v' → 1 hit, Structure/Premonoidal.v:171 premon_square_from — the lemma the Phase C aliases missed, because it is named after its premonoidal consumer rather than after conjugation/transport.",
+      "PHASE D (blind): rg -n 'hom_iso|iso_hom|homset_iso|≅ \\(.* ~> .*\\)' --glob '*.v' → no induced hom-set bijection C(a,b) ≅ C(a',b') anywhere; the closest is Structure/Topos.v:144 SubObj (a × b) ≅ (a ~> Pow b), unrelated.",
+      "PHASE D (blind): re-ran rg -i 'conjugat' and confirmed the Phase C reading, with one correction — the duplicate degenerate lemma is Construction/Grothendieck/Strict.v:277 named conj_id, not 'Strict.v:278 conjugate_iso_id' as the Phase C log states."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:PARTIAL",
+      "notes": "OVERTURNED on a blind-search find the classifier's aliases could not reach. Its negative log searched 'conjugat', 'iso_transport', 'iso_conjugate' and the two-isomorphism hypothesis pattern; I ran instead rg 'Lemma.*≅.*≅' over *.v, which returns Structure/Premonoidal.v:171 premon_square_from — a GENERAL-CATEGORY lemma (its statement and proof never mention the section's Binoidal context, so the instance is not discharged into it) that converts the to-form of a square with isomorphic vertical edges into its from-form: g ∘ to i ≈ to j ∘ f → f ∘ from i ≈ from j ∘ g. That is exactly one implication of Riehl 1.5.10's 'any one — equivalently all — of the four squares' clause (his Exercise 1.5.iii), stated for arbitrary isos in an arbitrary category. Part of the item therefore exists, which is PARTIAL under the frozen definition, not ABSENT. The rest of the classifier's log is accurate and I have preserved it: existence and uniqueness of f' really are absent, and Construction/Grothendieck/Fiber.v:55 conjugate_iso_id really is only the degenerate both-isos-are-identity case. ONE CITATION INACCURACY in that log, which does not affect the verdict: the claimed duplicate at 'Construction/Grothendieck/Strict.v:278' is at line 277 and is named conj_id, not conjugate_iso_id. This overturn matters practically — an issue writer must know premon_square_from already exists (misfiled under a premonoidal name) so the work is to state existence/uniqueness and RELOCATE the square-form conversion to Theory/Isomorphism.v, not to write it fresh."
+    },
+    "phase_c_classification": "ABSENT"
+  },
+  {
+    "id": "riehl:1.5:def-connected",
+    "classification": "ABSENT",
+    "aliases": [
+      "connected category (any two objects joined by a finite zig-zag)",
+      "zig-zag / zigzag of morphisms; path in the underlying graph",
+      "connected diagram / connected shape (as used for connected limits)",
+      "connected groupoid (every pair of objects isomorphic)",
+      "connected components π₀ of a category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'connected' . → 20 hits, none a definition: Construction/Groupoid.v:43,59 (header prose on Brandt groupoids and van Kampen), Theory/DoubleCategory/Companion.v:249,408 and Structure/Factorization.v:33 and Construction/{Span,Cospan}/Category.v ('connected by an isomorphism', an English usage), Theory/Multicategory.v:139 and Theory/Algebra/Frobenius.v:107 and Instance/ZX.v:70,78,273 (prose about connected composites/wires), Structure/Monoidal/HypergraphFunctor.v:16 and Construction/Cospan/*.v ('Interconnected Systems', a paper title).",
+      "grep -rn --include='*.v' 'Connected|zigzag|zig-zag|ZigZag' . → no Class, Record, Definition or Lemma named Connected; every 'zigzag' hit is the ADJUNCTION zig-zag (triangle) identity: Theory/Adjunction.v:21, Comonad/Duality.v:154, Theory/DoubleCategory/Companion.v:21,27,40,45,47,149,156 — an unrelated use of the word.",
+      "The nearest computational relative is Instance/FinSet/Pushout.v:30,35,265,398,405, a connected-COMPONENTS quotient of a finite set under an edge relation, used to compute pushouts in skeletal FinSet. It is a construction on a finite relation, not a predicate on categories, and never applied to the hom-graph of a category.",
+      "grep -rn --include='*.v' -i 'connected limit|connected colimit|π₀|pi0|path component' . → 0 hits; the library's shapes (Instance/{Two,Parallel,Roof,Discrete,One,Zero}.v) are never classified as connected or not.",
+      "Consequence: the predicate needed by Proposition 1.5.13 (and by any later connected-limit material) has no in-tree counterpart, neither for general categories nor for groupoids."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. rg '\\bConnected\\b' over *.v → 0 hits (no Class, Record, Definition or Lemma of that name anywhere); rg -i 'connected|zig.?zag|zigzag' → every hit is either header prose (Construction/Groupoid.v:43,59 on Brandt groupoids; Instance/ZX.v; Structure/Factorization.v:33 'connected by an isomorphism', an English usage) or the ADJUNCTION zig-zag/triangle identity (Theory/Adjunction.v:21, Monad/Lifting.v, Monad/Monadicity/*, Theory/DoubleCategory/Companion.v) — an unrelated sense of the word, exactly as the classifier reports. The Instance/FinSet/Pushout.v connected-components machinery is a quotient of a finite set by an edge relation, never applied to the hom-graph of a category. Note for the issue writer: this predicate is a prerequisite of riehl:1.5:prop13 and of any future connected-limits material, so it should be filed as a dependency, not as an isolated one-line definition."
+    }
+  },
+  {
+    "id": "riehl:1.5:example11",
+    "classification": "ABSENT",
+    "aliases": [
+      "essential image of a functor (full subcategory spanned by objects isomorphic to some Fc)",
+      "a fully faithful functor is an equivalence onto its essential image",
+      "corestriction / factorization of F through its image",
+      "replete full subcategory generated by the image objects",
+      "image of a functor; full subcategory spanned by a family of objects"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'essential.image|EssentialImage|essential_image' . → 0 hits. grep -rn --include='*.v' -i 'onto its image|corestrict|spanned by' . → 1 hit, Instance/Sets/Image.v:17, which is about the epi-mono factorization of a single MORPHISM in Sets ('splits as an epimorphism onto its image followed by a monomorphism'), an unrelated notion.",
+      "grep -rn --include='*.v' -i 'image' . in Structure/ and Theory/ → all hits are image FACTORIZATION of morphisms (Structure/Regular/Factorization.v, Structure/Abelian.v image_mediator_epic, Structure/Limit/Preservation.v PreservesImageLimit); no construction takes a functor to a subcategory of its target.",
+      "Construction/Subcategory.v (read in full) provides Record Subcategory (line 31), Sub (line 50), Incl (line 59), Full (line 69), Replete (line 87), Wide (line 93) — the apparatus in which the essential image WOULD be built (sobj d := ∃ c, F c ≅ d, shom := everything), but no file instantiates it that way; grep -rn --include='*.v' 'Subcategory|sobj' . shows the only in-tree instantiations are Theory/Sheaf/Category.v:80 (Sheaves), Theory/Lawvere/Model.v (Models), Construction/Reflective.v and Construction/Localization.v — none image-related.",
+      "grep -rn --include='*.v' 'FF_ESO_Equivalence' . → the theorem the example invokes exists (Theory/Equivalence/FullFaithful.v:160) and is applied only in Construction/Karoubi/Universal.v and Construction/Grothendieck/RoundTrip.v-style settings; there is no derived corollary of the shape 'Full F → Faithful F → C ≃ (essential image of F)'.",
+      "Both halves of the example are therefore missing — the definition of the essential image AND the equivalence onto it — even though the engine (FF_ESO_Equivalence) and the full-subcategory apparatus (Construction/Subcategory.v) are both in place, which makes this a short derivation rather than new mathematics."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. rg -i 'essential[ _]?image' over *.v → 0 hits, confirmed twice. The classifier's reading of Construction/Subcategory.v as the apparatus in which the essential image WOULD be built is correct and I verified the record's fields support it (sobj : C → Type at line 32, shom at 34, Full at 69, Replete at 87) — the essential image is the instance sobj d := ∃ c, F c ≅ d with shom everything, and no file instantiates it that way. rg -i 'onto its image|corestrict|spanned by' reaches only Instance/Sets/Image.v (epi-mono factorization of a single MORPHISM in Sets — verified at lines 14-20, an unrelated notion). Both halves of the example are missing while both tools (FF_ESO_Equivalence, Construction/Subcategory.v) are in place, so the classifier's 'short derivation rather than new mathematics' framing is fair."
+    }
+  },
+  {
+    "id": "riehl:1.5:example12",
+    "classification": "ABSENT",
+    "aliases": [
+      "Mat_k, the category of matrices (objects ℕ, morphisms m × n matrices over a field k)",
+      "Vect_k^fd, finite-dimensional k-vector spaces and linear maps",
+      "Vect_k^basis, spaces with a chosen basis; the forgetful functor and choice-of-basis inverse",
+      "k^(−) : n ↦ k^n with the standard basis; a matrix as the coordinate description of a linear map",
+      "equivalence but not isomorphism of categories: abstract vs concrete linear algebra"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'matrix|matrices' . → 20 hits, ALL header prose or metaphor: Functor/Hom/Yoneda.v:89-90 (the row-operation illustration of Yoneda), Theory/Profunctor.v:54,64,68-69 ('a profunctor is a matrix of sets'), Theory/Equivalence.v:87 (which cites exactly this example — 'Finite-dimensional vector spaces over a field are equivalent, never isomorphic, to the small category of natural numbers and matrices' — as MOTIVATION in the file header), Structure/{Semiadditive,Bicartesian,Preadditive,Abelian}.v (the biproduct 'matrix calculus', i.e. 2×2 arrays of morphisms, not matrices over a field), Structure/Monoidal/{Traced,CompactClosed}.v, Instance/ZX.v:108,120,169.",
+      "grep -rn --include='*.v' 'Mat_k|MatCat|Matrix' . → 0 hits: no category of matrices is constructed.",
+      "grep -rn --include='*.v' -i 'vector space|Vect|FdVect|linear map|basis|dimension' . → 25 hits, all prose (Theory/Natural/Transformation.v:39-51 uses the basis-dependent V ≅ V* story as the motivating example for naturality; Theory/Kan/Extension.v:89; Theory/Algebra/Frobenius.v:50-66; Structure/Monoidal/StarAutonomous.v header) or unrelated ('basis of representability', 'field' in the record-field sense, 'dimension' in 2-dimensional category theory).",
+      "grep -rn --include='*.v' -i '\\bfield k\\b|Ring|Module\\b|scalar multiplication' . → 0 algebraic hits; ls Instance/ shows no linear-algebra instance (Sets, Coq, Cat, Fun, FinSet, Rel, Poset, Proset, CMon, Lambda, ZX, Omega, One, Two, Zero, Roof, Props, Ens, Shapes, Parallel, Discrete, AST, Comp, Cones, Fact, Adj, Adjoints, StrictCat). The only concrete additive object in-tree is Instance/CMon.v, commutative monoids over setoids — no negation, no scalars, no basis.",
+      "Consequence: none of the three categories (Mat_k, Vect_k^basis, Vect_k^fd), neither comparison functor, and none of the fully-faithful/essentially-surjective verifications can be expressed. The generic tools the example composes — FF_ESO_Equivalence (Theory/Equivalence/FullFaithful.v:160) and transitivity of ≃ (Theory/Equivalence/Bundled.v:115) — are present, but they have nothing here to act on."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. rg -i 'vector space|matrix|matrices|Vect|linear map' over *.v returns only header prose and the biproduct 'matrix calculus' (2×2 arrays of morphisms, Structure/{Abelian,Semiadditive,Preadditive}.v) — no algebra over a field anywhere. I independently re-ran `ls Instance/*.v`: the classifier's enumeration of the 28 instance files is exact and contains no linear-algebra instance; the only additive concrete object is Instance/CMon.v (commutative monoids over setoids — no negation, no scalars, no basis). Nice catch by the classifier, verified: Theory/Equivalence.v:87 cites this very example ('Finite-dimensional vector spaces over a field are equivalent, never isomorphic, to the small category of natural numbers and matrices') as motivation in its own header, so the library knows the example and has deliberately not built it. NOT OUT_OF_SCOPE — the library is universe-polymorphic and setoid-based, and Mat_k over a decidable field would be constructible; this is a genuine content gap."
+    }
+  },
+  {
+    "id": "riehl:1.5:prop13",
+    "classification": "ABSENT",
+    "aliases": [
+      "a connected groupoid is equivalent to any of its automorphism groups (G ≃ BG)",
+      "BG, the delooping of a group: one-object category whose morphisms are the group elements",
+      "automorphism group G(g,g) of an object; vertex group / isotropy group",
+      "groupoid (category in which every morphism is invertible); Brandt groupoid",
+      "the inclusion BG ↪ G is fully faithful and essentially surjective"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Class Groupoid|IsGroupoid|every morphism is invertible' . → the ONLY hit is a comment, Construction/Groupoid.v:45. The file's single definition is line 103, `Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}` — the CORE of C (its maximal subgroupoid), not a predicate 'C is a groupoid'. So the hypothesis of the proposition cannot even be stated in-tree.",
+      "grep -rn --include='*.v' -i 'deloop|one.object|BG\\b' . → Theory/Bicategory/OneObject.v:56 Monoidal_OneObject_Bicategory deloops a MONOIDAL CATEGORY into a one-object BICATEGORY (a different construction, one level up); Theory/Functor.v:68 and Theory/Coq/Monoid.v:24 mention 'a functor from a one-object category BG' and 'the hom-set of a one-object category' only in header prose. No construction turns a group or monoid into a category.",
+      "grep -rn --include='*.v' 'Category_from|_to_Category|as_Category|Cat_of' . → only Theory/Metacategory/ArrowsOnly.v:212 Category_from_Metacategory (arrows-only presentations) — nothing from an algebraic group/monoid.",
+      "grep -rn --include='*.v' -i 'automorphism|Aut(' . → 10 hits, all incidental prose ('apex-automorphism' in Theory/Adamek.v:38, 'natural automorphism' in Structure/Monoidal/Balanced.v:24,58 and Theory/Equivalence/Monoidal.v:435, 'central automorphism' in Construction/Indexed.v:43,60). No file forms the automorphism group of an object or the endomorphism monoid of an identity functor.",
+      "grep -rn --include='*.v' 'Class Group|Definition Group|GroupObject' . → Structure/Group.v:109 `Class GroupObject (grp : C)` (a group OBJECT in a cartesian monoidal category: monoid object plus antipode with left/right inverse laws) and Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq` (a universal-algebra signature/equation presentation). Neither yields a one-object category, and no functor from either to Cat exists.",
+      "grep -rn --include='*.v' -i 'connected' . → no predicate on categories (see the riehl:1.5:def-connected log), so the proposition's hypothesis 'connected groupoid' is doubly unavailable.",
+      "Consequence: neither the statement nor either of its ingredients (connectedness, delooping, automorphism group) exists; only the concluding tool, FF_ESO_Equivalence (Theory/Equivalence/FullFaithful.v:160), is in place."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, on both ingredients. Construction/Groupoid.v read in full: its ONLY definition is line 103 Program Definition Groupoid (C : Category) : Category — the CORE of C (hom := @Isomorphism C), not a predicate 'C is a groupoid', so the proposition's hypothesis is literally unstatable in-tree; the phrase 'a category in which every morphism is invertible' occurs only in the header comment at line 44. No delooping of a group or monoid exists: verified Structure/Group.v:109 Class GroupObject (a group object in a cartesian monoidal category) and Instance/Comp.v:382 Definition Group := Algebra GroupOp GroupEq (a universal-algebra presentation) — neither yields a one-object category, and Theory/Bicategory/OneObject.v:56 Monoidal_OneObject_Bicategory deloops a MONOIDAL CATEGORY into a BICATEGORY, one level up, as the classifier says. Connectedness is absent per the def-connected record. Three prerequisites (groupoid predicate, connectedness, delooping/automorphism group) must be filed before this proposition is reachable; only the concluding tool FF_ESO_Equivalence exists. Library honesty note (not a defect): Construction/Groupoid.v:93-95 itself discloses that 'no standalone category of groupoids exists in-tree, so the adjunction remark in the header above remains prose rather than a theorem'."
+    }
+  }
+]

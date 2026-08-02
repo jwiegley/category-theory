@@ -1,0 +1,359 @@
+[
+ {
+  "id": "riehl:5.5:thm1",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Beck's monadicity theorem",
+   "precise tripleability theorem (PTT)",
+   "U creates coequalizers of U-split pairs",
+   "CreatesUSplitCoequalizers / beck_monadicity",
+   "comparison functor K is an equivalence / Monadic U",
+   "monadic_creates (converse at the Eilenberg-Moore forgetful functor)"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Monadicity/Beck.v",
+    "line": 739,
+    "symbol": "beck_monadicity",
+    "intree_statement": "Context {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) (CR : CreatesUSplitCoequalizers U). Definition beck_monadicity : EquivalenceOfCategories (EM_Comparison A) := {| quasi_inverse := Beck_Inverse ; equivalence_counit := beck_equivalence_counit ; equivalence_unit := beck_equivalence_unit |}."
+   },
+   {
+    "file": "Monad/Monadicity/Beck.v",
+    "line": 911,
+    "symbol": "monadic_creates",
+    "intree_statement": "Context {D : Category} (T : D ⟶ D) `{H : @Monad D T}. Theorem monadic_creates : CreatesUSplitCoequalizers (EM_Forget T)."
+   },
+   {
+    "file": "Monad/Monadicity/Beck.v",
+    "line": 164,
+    "symbol": "CreatesUSplitCoequalizers",
+    "intree_statement": "Class CreatesUSplitCoequalizers {C D : Category} (U : C ⟶ D) := { create_coeq {x y : C} (f g : x ~> y) (S : SplitCoequalizer (fmap[U] f) (fmap[U] g)) : ∃ (q : C) (e : y ~> q), IsCoequalizer f g q e ∧ (∃ i : @Isomorphism D (U q) (scoeq_obj S), to i ∘ fmap[U] e ≈ scoeq_e S); create_coeq_reflects {x y : C} (f g : x ~> y) (S : SplitCoequalizer (fmap[U] f) (fmap[U] g)) (q : C) (e : y ~> q) (He : e ∘ f ≈ e ∘ g) (i : @Isomorphism D (U q) (scoeq_obj S)) (Hi : to i ∘ fmap[U] e ≈ scoeq_e S) : IsCoequalizer f g q e }."
+   }
+  ],
+  "statement_record": {
+   "book": "Theorem 5.5.1 (Beck). A right adjoint U : D -> C is monadic if and only if U creates coequalizers of U-split pairs; equivalently, the comparison K : D -> C^T is an equivalence (resp. isomorphism) iff U creates (resp. strictly creates) coequalizers of U-split pairs.",
+   "intree": "beck_monadicity : EquivalenceOfCategories (EM_Comparison A), for any adjunction A : F ⊣ U together with CR : CreatesUSplitCoequalizers U; and monadic_creates : CreatesUSplitCoequalizers (EM_Forget T) for the Eilenberg-Moore forgetful functor of any monad T.",
+   "strength_comparison": "intree-weaker: the hard half (creates ⇒ K is an equivalence) is complete and even STRONGER in hypothesis economy than many textbook renderings — conservativity is derived from creation (creates_split_reflects_isos, Beck.v:264) rather than assumed — and the in-tree CreatesUSplitCoequalizers is a faithful, non-evil rendering of Riehl's own Definition 5.4.8(b) (existence up to a packaged comparison iso + a reflection clause). What is missing is the converse leg at a GENERAL U: monadic_creates proves it only at U^T = EM_Forget (Riehl's Prop. 5.4.9 in its non-strict form), and the transport along the comparison equivalence that would yield Riehl's Corollary 5.4.10(i) — hence the biconditional — is explicitly deferred in the Beck.v header (lines 106-111). The parenthetical strict variant (K an isomorphism ⟺ U strictly creates) has no in-tree counterpart at all."
+  },
+  "gap": "The biconditional is not closed at an arbitrary right adjoint. Present: (creates ⇒ monadic) for any adjunction F ⊣ U [beck_monadicity], and (monadic ⇒ creates) only at the canonical U^T = EM_Forget [monadic_creates]. Missing: the transport of monadic_creates along the equivalence K, i.e. 'if U is monadic then U creates coequalizers of U-split pairs' for a general U (Beck.v:106-111 states this is deliberately left to a later development); and the strict form, since the library has no notion of STRICT creation (no on-the-nose unique lift) and no 'K is an isomorphism of categories' statement.",
+  "negative_search_log": [
+   "rg -n \"Monadic|monadic\" --glob '*.v' — checked every hit outside Monad/Monadicity/ for a strict-creation or general-converse statement; none",
+   "rg -ni \"tripleab\" --glob '*.v' — 0 hits (no 'strictly creates', no PTT/CTT/VTT vocabulary)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind pass (run before opening the coverage file) independently reached PARTIAL for exactly the reason given: forward leg general, converse only at EM_Forget. Evidence verified line by line: beck_monadicity Beck.v:739; monadic_creates Beck.v:911 under the section context at Beck.v:757-761 (Context {D} (T : D ⟶ D) `{H : @Monad D T}) — quote accurate; CreatesUSplitCoequalizers Beck.v:164-179, both clauses transcribed correctly. The deferral prose is at Beck.v:104-110, not 106-111 as cited — same paragraph, two lines off, no substantive error ('Transporting this converse along the equivalence K ... is deliberately left to a later development'). No same-name-weaker trap: Monadic (Monad/Comparison.v:273) unfolds to ∃ F (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A), so beck_monadicity really does deliver the book's conclusion at the supplied adjunction. Independent negative checks: `rg -ni 'tripleab|strictly creates'` → 0 hits; no 'K is an isomorphism of categories' anywhere; no Admitted/admit/Axiom in Monad/Monadicity/*.v. All cited files registered in _CoqProject (lines 268-270)."
+  }
+ },
+ {
+  "id": "riehl:5.5:cor3",
+  "classification": "ABSENT",
+  "aliases": [
+   "Monoid / Group / Ab / Ring monadic over Set",
+   "free-forgetful adjunction Set ⇄ Monoid, category of monoids",
+   "G-sets Set^{BG}, R-Mod, Vect_k, Aff_k monadic",
+   "Lattice / meet semilattice / join semilattice monadic over Set",
+   "Set_* (pointed sets) monadic; varieties of algebras are monadic"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n \"Monadic|monadic\" --glob '*.v' — the ONLY monadicity witnesses in tree are Identity_Monadic (Monad/Monadicity/Examples.v:155, the identity functor) and the fully hypothesis-scoped Lawvere_crude_monadicity (Theory/Lawvere/Monad.v:91, which assumes the free-model left adjoint AND all three crude hypotheses as Context data). No concrete algebraic category is shown monadic over Sets.",
+   "rg -n \"Definition (Ab|Ring|Grp|Group|Mod|Vect|Top|cHaus|Monoid|Lattice)\\b|: Category :=\" --glob 'Instance/**/*.v' — the tree has no category of monoids, groups, abelian groups, rings, modules, vector spaces, affine spaces or lattices. Instance/Comp.v:151 has Algs (algebras for an OpSignature, no equations) and Instance/Comp.v:382 'Definition Group := Algebra GroupOp GroupEq' — a TYPE of group-algebras, not a category, with no functor to Sets.",
+   "rg -n \"CMon\" --glob '*.v' -l — Instance/CMon.v does give the category of commutative monoids (Riehl's clause (i) includes commutative monoids) and CMon_Forget : CMon ⟶ Sets (Instance/CMon.v:169), but there is NO free commutative monoid functor, no adjunction, and no monadicity anywhere in Instance/CMon*.v.",
+   "rg -ni \"free monoid|FreeMonoid|free group|FreeGroup|free abelian|forgetful\" --glob '*.v' — the only free⊣forgetful adjunction in tree is Construction/Free/Quiver.v:550 (StrictCat ⇄ Quiver); nothing over Sets.",
+   "rg -ni \"pointed set|Set_\\*|basepoint\" --glob '*.v' — pointed sets appear only as prose in Instance/Coq/Par.v and Construction/Slice.v (coslice remark); no category Set_* with a free-forgetful adjunction.",
+   "rg -ni \"\\blattice\\b|semilattice\" --glob '*.v' — prose only (Instance/Poset.v, Construction/Opposite.v); no lattice category, so clause (iii) has no subject."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind search agreed (ABSENT). Spot-checks of the negative log all hold: Instance/CMon.v:169 CMon_Forget : CMon ⟶ Sets exists with no left adjoint (nothing in Instance/CMon*.v mentions free/adjunction); Instance/Comp.v:151 Algs and Instance/Comp.v:382 'Definition Group := Algebra GroupOp GroupEq' are exactly as described (a Type of algebras, not a category). Two additions to the log, neither disturbing the verdict: (a) Instance/Comp.v:92 DOES construct the free algebra on a set for an arbitrary finitary signature, with its universal property (induced_hom:108, from_free_unique:116) — but it is never packaged as a functor, there is no forgetful functor out of Algs, and hence no adjunction and no monadicity; (b) the log's 'the only free⊣forgetful adjunction in tree is Quiver' overlooks the free/forgetful resolutions of a monad (Monad/Kleisli/Adjunction.v, Monad/Eilenberg/Moore/Adjunction.v), which are not algebraic categories over Sets. My own check `rg -n '⊣' --glob '*.v' | grep -i sets` returns only the CCC adjunction remark (Instance/Sets/Cartesian/Closed.v:24) and the profunctor characterization (Theory/Profunctor/Adjunction.v:65,71) — no free-algebra adjunction over Sets."
+  }
+ },
+ {
+  "id": "riehl:5.5:def-lattice",
+  "classification": "ABSENT",
+  "aliases": [
+   "lattice (poset with finite meets and joins)",
+   "meet semilattice / join semilattice",
+   "bounded lattice, complete lattice",
+   "poset that is Cartesian and Cocartesian as a category",
+   "lattice homomorphism (order-preserving, preserves meets and joins)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni \"\\blattice\\b|semilattice|meet-semi|join-semi\" --glob '*.v' — 7 hits, ALL inside background-essay comments (Instance/Poset.v:60,90,93,95 on Birkhoff/Galois connections; Construction/FAlg.v:43 Knaster-Tarski; Theory/Adjunction.v:81; Instance/ZX.v:161 lattice surgery). No Definition/Class/Record.",
+   "rg -n \"\\bmeet\\b|\\bMeet\\b|\\bJoin\\b\" --glob '*.v' — only prose (Construction/Enriched/Two.v uses 'meet' for the truth-value tensor of the walking arrow, which is the enriching base, not a lattice object) and Instance/Shapes.v's unrelated 'Join' constructor.",
+   "rg -n \"^(Record|Class|Definition|Program Definition|Program Instance|Instance|Theorem|Lemma|Corollary)\\b\" Instance/Poset.v Instance/Proset.v — the poset/preorder files define only Poset/Proset as CATEGORIES (Instance/Poset.v:116, Instance/Proset.v:33); no finite-meet or finite-join structure, and no lattice morphism notion.",
+   "Note: the general vocabulary that would express the definition does exist (Structure/Cartesian.v, Structure/Cocartesian.v, Structure/Terminal.v, Structure/Initial.v applied to a thin category), but no file instantiates it to define a lattice or semilattice."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind search agreed (ABSENT). Re-ran `rg -ni '\\blattice\\b|semilattice'` — every hit is background-essay prose (Instance/Poset.v:60,90,93,95; Construction/FAlg.v:43; Construction/Opposite.v:39; Theory/Adjunction.v:81; Instance/ZX.v:161; Structure/Limit.v:108,110; Structure/Complete.v:71; Theory/Lawvere.v:87), no Definition/Class/Record. Instance/Poset.v:116 'Definition Poset ... : Category := Proset P' confirmed, with no finite-meet/join structure attached. Extra negative check of my own, not in the log and worth keeping: `rg -ni 'heyting|boolean algebra|frame\\b|locale'` finds no Heyting algebra, Boolean algebra, frame or locale either, so there is no neighbouring order-theoretic structure that could stand in for the definition."
+  }
+ },
+ {
+  "id": "riehl:5.5:def4",
+  "classification": "ABSENT",
+  "aliases": [
+   "finitary functor",
+   "preserves filtered colimits",
+   "filtered category / filtered diagram",
+   "directed colimit, ω-directed colimit",
+   "finitary monad (monad preserving filtered colimits)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni \"filtered|finitary\" --glob '*.v' — 17 hits, every one inside a background-essay comment (Theory/Lawvere.v:52,86,90,93; Theory/Monad.v:62,64; Theory/Lawvere/Monad.v:25,59,60; Instance/FinSet.v:61; Functor/Traversable.v:61; Instance/Comp.v:16; Structure/Distributive.v:13 uses 'finitary' for finite products; Comonad/CoKleisli.v:81 'filtered stream'). There is NO Definition/Class named Filtered, no predicate 'preserves filtered colimits', and no finitary-functor or finitary-monad predicate.",
+   "rg -ni \"directed colimit|sequential colimit|omega-colimit|cocone over omega\" --glob '*.v' — 0 hits. Construction/Chain.v + Instance/Omega.v give the ω-chain diagram used for Adámek, but ω-filteredness is never isolated as a property of an index category.",
+   "rg -n \"PreservesColimit\" Structure/Limit/Preservation.v — the preservation vocabulary that would host the definition exists (PreservesColimit / PreservesImageLimit), but it is never instantiated at a filtered or directed shape.",
+   "Also checked the accompanying prose claim (a right adjoint that is finitary induces a finitary monad): no counterpart, since 'finitary' is undefined."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind search agreed (ABSENT), and the split counts check out: `rg -ni filtered` → exactly one hit, Comonad/CoKleisli.v:81 ('the filtered stream'), pure prose; `rg -ni finitary` → 16 hits, all inside background essays (Theory/Lawvere.v:52,86,90,93; Theory/Monad.v:62,64; Theory/Lawvere/Monad.v:25,59,60; Instance/FinSet.v:61; Instance/Comp.v:16; Instance/Poset.v:66; Theory/Coq.v:76; Theory/Coq/Traversable.v:48; Functor/Traversable.v:61; and Structure/Distributive.v:13, where 'finitary' means finite products, exactly as the log says). No Filtered class, no filtered-colimit predicate, no finitary-functor or finitary-monad predicate. The preservation vocabulary (Structure/Limit/Preservation.v) exists but is never instantiated at a filtered shape, so there is nothing to upgrade this to PARTIAL."
+  }
+ },
+ {
+  "id": "riehl:5.5:def5",
+  "classification": "PARTIAL",
+  "aliases": [
+   "category of models for an algebraic theory",
+   "algebraic category / variety of algebras",
+   "finitary monadic functor U : A ⟶ Set",
+   "Models T Sets (Lawvere-theory models), ev1 underlying-set functor",
+   "locally finitely presentable category"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Lawvere/Monad.v",
+    "line": 91,
+    "symbol": "Lawvere_crude_monadicity",
+    "intree_statement": "Context (T : LawvereTheory) (L : Sets ⟶ Models T Sets) (adj : L ⊣ ev1 T) (RC : HasReflexiveCoequalizers (Models T Sets)) (pres : PreservesReflexiveCoequalizers (ev1 T)) (refl : ReflectsIsos (ev1 T)). Corollary Lawvere_crude_monadicity : EquivalenceOfCategories Lawvere_EM_Comparison."
+   },
+   {
+    "file": "Theory/Lawvere/Model.v",
+    "line": 50,
+    "symbol": "Model",
+    "intree_statement": "Record Model := { model_fun : @law_cat T ⟶ C; model_cartesian : @CartesianFunctor (@law_cat T) C model_fun (@law_cartesian T) _; model_terminal : @TerminalFunctor (@law_cat T) C model_fun (@law_terminal T) _ }.  (with Definition Models : Category := Sub (@Fun (@law_cat T) C) Models_sub at line 77, and the underlying-set functor Program Definition ev1 : Models T Sets ⟶ Sets at Theory/Lawvere/Sets.v:83)"
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 5.5.5. A category A is a category of models for an algebraic theory when there is a finitary monadic functor U : A -> Set (monadic with induced monad preserving filtered colimits); such a category is moreover locally finitely presentable, and cHaus is monadic over Set but not of this form.",
+   "intree": "The category of models of a Lawvere theory, Models T C := Sub (Fun (law_cat T) C) Models_sub (finite-product- and terminal-preserving functors out of the theory), with underlying-set functor ev1 : Models T Sets ⟶ Sets; Lawvere_crude_monadicity : EquivalenceOfCategories Lawvere_EM_Comparison, given a left adjoint L ⊣ ev1 T and the three crude-monadicity hypotheses as data.",
+   "strength_comparison": "intree-weaker: the library realizes the algebraic-theory side of the concept (models of a Lawvere theory, with the underlying-set functor and a conditional monadicity result), but not the book's DEFINING criterion, which quantifies over finitary monadic functors into Set. 'Finitary' is undefined in tree (no filtered colimits — see riehl:5.5:def4), the monadicity of ev1 is not proved but assumed piecewise (the free-model left adjoint enters as data, plus HasReflexiveCoequalizers/PreservesReflexiveCoequalizers/ReflectsIsos), and the theory ⟷ finitary-monad equivalence that would license the two presentations as interchangeable is explicitly deferred (Theory/Lawvere/Monad.v:59-62, ledger 2)."
+  },
+  "gap": "Missing: (a) the predicate itself — no in-tree property 'A is a category of models for an algebraic theory', i.e. no ∃ U : A ⟶ Sets that is monadic and finitary; (b) 'finitary' entirely (no filtered colimits, no finitary-monad predicate); (c) the unconditional monadicity of ev1 : Models T Sets ⟶ Sets (the left adjoint is Context data and the three crude hypotheses are unforced — Theory/Lawvere/Monad.v:31-38 says constructing the left adjoint is out of scope for that file); (d) the trailing prose claims — local finite presentability of such a category, and the cHaus non-example (no topology in tree).",
+  "negative_search_log": [
+   "rg -ni \"locally finitely presentable\" --glob '*.v' — 0 hits",
+   "rg -ni \"filtered|finitary\" --glob '*.v' — comments only (see riehl:5.5:def4 log)",
+   "rg -ni \"variety of algebras|algebraic theory\" --glob '*.v' — Instance/Comp.v:17 (universal algebra à la nLab: OpSignature/OpAlgebra/Algs, plus EqSignature-varieties with Group := Algebra GroupOp GroupEq) and Theory/Lawvere.v:52 prose. Instance/Comp.v's Algs has no forgetful functor to Sets and no monadicity, so it is not a second witness."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind pass independently reached PARTIAL with the same reading (Lawvere-theory models present, the book's defining criterion — finitary + monadic over Set — not). Evidence verified: Lawvere_crude_monadicity at Theory/Lawvere/Monad.v:91 under exactly the quoted Context block (lines 66-89); Model at Theory/Lawvere/Model.v:50, Models at :77; ev1 at Theory/Lawvere/Sets.v:83. The header claims the record leans on are accurately located: Monad.v:31-38 ('Constructing that left adjoint here would need the solution-set work for [Models T Sets], which is out of scope for this file ... the left adjoint enters as DATA') and Monad.v:59-62 (the finitary-monad ⟷ Lawvere-theory equivalence 'is deferred (ledger 2)'). gap clauses (a)-(d) are all true as stated; in particular no 'locally finitely presentable' anywhere and no cHaus (see riehl:5.5:cor6)."
+  }
+ },
+ {
+  "id": "riehl:5.5:cor6",
+  "classification": "ABSENT",
+  "aliases": [
+   "compact Hausdorff spaces are monadic over Set",
+   "cHaus, Top, topological space",
+   "ultrafilter monad β, Stone-Čech compactification",
+   "Manes' theorem (algebras of the ultrafilter monad = compact Hausdorff spaces)",
+   "codensity monad of FinSet ↪ Set"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni \"ultrafilter|stone|compact|hausdorff\" --glob '*.v' — the only relevant hit is a background-essay sentence, Theory/Monad.v:65-66 ('the algebras of the ultrafilter monad are exactly the compact Hausdorff spaces (Manes …)'), which is a citation, not a statement. Every other 'compact' hit is 'compact closed category' (Structure/Monoidal/CompactClosed.v, Traced.v, Collapse.v) and every 'stone' hit is 'Rosetta Stone' / 'stepping-stone'.",
+   "rg -ni \"topolog\" --glob '*.v' — all hits are bibliographic (Cahiers de Topologie, algebraic topology, Lawvere-Tierney topology on a topos). There is no category Top, no topological space, hence no cHaus and no underlying-set functor to be shown monadic.",
+   "rg -n \"Monadic|monadic\" --glob '*.v' — no witness beyond Identity_Monadic and the hypothesis-scoped Lawvere_crude_monadicity."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind search agreed (ABSENT). Verified the single near-hit: Theory/Monad.v:65-67 is a background-essay citation ('the algebras of the ultrafilter monad are exactly the compact Hausdorff spaces (Manes ... LNM 80, 1969)'), not a statement. No category Top, no topological space, no compactification, hence no underlying-set functor to be shown monadic; every other 'compact' hit is 'compact closed category'. Nothing in my independent sweep contradicts ABSENT."
+  }
+ },
+ {
+  "id": "riehl:5.5:def-kuratowski",
+  "classification": "ABSENT",
+  "aliases": [
+   "Kuratowski closure operator / closure axioms",
+   "topological space via closure on the power set",
+   "continuous map, closed map",
+   "interior operator (kernel operator)",
+   "closure operator as an idempotent monad on a poset"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni \"closure operator|kuratowski|interior operator\" --glob '*.v' — 0 hits for 'kuratowski' and 'interior operator'; 'closure operator' appears once, in an Instance/Poset.v:66 background essay (Tarski's consequence operator 'in this dictionary a monad on the poset of theories'), with no accompanying definition.",
+   "rg -n \"Closure|closure\" --glob '*.v' — every hit is an unrelated use: reflexive-transitive closure of a reduction relation (Instance/Lambda/Multi.v), equivalence closure for pushouts (Instance/Sets/Pushout.v), closure properties of centrality/determinism (Structure/Binoidal/Central.v, Premonoidal/Centre.v, CopyDiscard/Deterministic.v), left-class closure in Theory/Orthogonality.v. None is a closure operator on a power set.",
+   "rg -ni \"topolog\" --glob '*.v' — bibliographic only; no topological space, no continuous or closed map, no power-set order to carry the axioms.",
+   "rg -ni \"power set|powerset\" --glob '*.v' — nothing in Sets; only Structure/Topos.v's Pow a := Ω ^ a (an internal power OBJECT in an elementary topos), which carries no closure-operator structure.",
+   "Adjacent but not the item: Construction/Reflective/Idempotent.v has IdempotentMonad (the abstract shape of a closure operator), but it is never instantiated on a power-set poset and never given the four Kuratowski axioms."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind search agreed (ABSENT). 'kuratowski' and 'interior operator' → 0 hits; the sole 'closure operator' occurrence is Instance/Poset.v:66, inside the Galois-connection essay (Tarski's consequence operator, 'in this dictionary a monad on the poset of theories') — prose, no definition. The record's own honest caveat is right: Construction/Reflective/Idempotent.v (IdempotentMonad, documented at :36-46) is the abstract shape of a closure operator but is never instantiated on a power-set poset and never carries the four Kuratowski axioms; and Structure/Topos.v:129's Pow is an internal power OBJECT with no operator structure. No continuous or closed maps anywhere."
+  }
+ },
+ {
+  "id": "riehl:5.5:example7",
+  "classification": "PARTIAL",
+  "aliases": [
+   "R-Mod ⟶ Ab is monadic; tensoring monad R ⊗_Z −",
+   "Ring ⟶ Ab is monadic; tensor algebra monad",
+   "restriction ev : C^J ⟶ C^{ob J} is monadic",
+   "U : Cat ⟶ Quiver is monadic; free category monad on graphs",
+   "reflexive quivers rQuiver"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 550,
+    "symbol": "FreeForgetfulAdjunction",
+    "intree_statement": "Definition FreeCatFunctor : @Functor QuiverCategory StrictCat := (LeftAdjointFunctorFromUniversalArrows Forgetful (fun _ => @UniversalArrowQuiverCat _)). Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _.  (with Definition Forgetful : @Functor StrictCat QuiverCategory at line 412)"
+   },
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 127,
+    "symbol": "Induced",
+    "intree_statement": "Context {A B : Category} {F : A ⟶ B} {C : Category}. Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {| fobj := fun G => G ○ F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |}. (the general restriction/precomposition functor; with Instance/Discrete.v:52 DiscreteCat_Functor {A : Type} {C : Category} (f : A → C) : DiscreteCat A ⟶ C supplying the inclusion DiscreteCat (obj J) ⟶ J, clause (iii)'s ev : C^J ⟶ C^{ob J} is one instantiation away — added by Phase D)"
+   }
+  ],
+  "statement_record": {
+   "book": "Example 5.5.7. Four further monadic functors: (i) R-Mod -> Ab, monad R ⊗_Z −; (ii) Ring -> Ab, monad the tensor algebra; (iii) for C with coproducts and J small, the restriction ev : C^J -> C^{ob J}; (iv) U : Cat -> Quiver, whose monad is the free-category (paths) monad, factoring through the monadic Cat -> rQuiver.",
+   "intree": "FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful, where Forgetful : StrictCat ⟶ QuiverCategory and FreeCatFunctor is built from the universal arrows UniversalArrowQuiverCat.",
+   "strength_comparison": "intree-weaker: only clause (iv), and only its left-adjoint half. Since Monadic U (Monad/Comparison.v:273) unfolds to ∃ F (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A), the in-tree adjunction supplies F and A but nothing about the comparison functor. It is also stated over StrictCat rather than the weak Cat — a deliberate deviation the library locks in (Construction/Free/Quiver.v:41-46 and Test/Issue138.v:67-75 Fail-check that Forgetful is NOT typable as Cat ⟶ QuiverCategory, because a category's underlying quiver is not invariant under natural isomorphism). The monadicity itself is asserted only in a prose comment (Construction/Free.v:75-78, citing Leinster Thm 6.5.2), never proved."
+  },
+  "gap": "No monadicity is proved for any of the four clauses. Clause (iv): the free ⊣ forgetful adjunction exists (over StrictCat, not Cat), but EM_Comparison for it is never shown to be an equivalence, and there is no category of reflexive quivers (rQuiver) and hence no factorization through it. Clauses (i) and (ii): the tree has no Ab, no Ring, no R-Mod (see the riehl:5.5:cor3 log), so neither functor nor monad exists. Clause (iii) [CORRECTED IN PHASE D]: the restriction functor itself is essentially available — Theory/Kan/Extension.v:127 defines Induced := (− ○ F) : [B,C] ⟶ [A,C] and Instance/Discrete.v:52 DiscreteCat_Functor gives the inclusion DiscreteCat (obj J) ⟶ J — but the composite ev : C^J ⟶ C^{ob J} is never assembled, its left adjoint is never built (LeftKan/Lan, Theory/Kan/Extension.v:222-233, is a class with no instance for a discrete inclusion out of a category with coproducts), and its monadicity is never stated.",
+  "negative_search_log": [
+   "rg -ni \"\\b(Ring|Vect|Module|abelian group)\\b\" --glob '*.v' -l — no concrete category of rings, modules or abelian groups (Structure/Abelian.v is the abstract abelian-category axiomatics; Instance/CMon.v is commutative monoids only)",
+   "rg -ni \"reflexive quiver|rQuiver\" --glob '*.v' — 0 hits",
+   "rg -n \"Monadic|monadic\" Construction/Free.v Construction/Free/Quiver.v — only the prose claim at Construction/Free.v:75",
+   "[PHASE D correction] the earlier entry 'no functor C^J ⟶ C^{ob J}' was too strong: Theory/Kan/Extension.v:127 (Induced) + Instance/Discrete.v:52 (DiscreteCat_Functor) provide it up to instantiation; what is absent is the assembled functor, its left adjoint and its monadicity"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED as PARTIAL, with two field corrections (classification unchanged, so no phase_c_classification stamp). Verified evidence: Forgetful : StrictCat ⟶ QuiverCategory at Construction/Free/Quiver.v:412, FreeForgetfulAdjunction at :550, the negative Fail-checks at Test/Issue138.v:75-76 (with the explanatory comment at 66-74), and the Leinster prose at Construction/Free.v:75-78. CORRECTION (the reason this record is edited): the negative log and the gap asserted 'there is no restriction/evaluation functor C^J ⟶ C^{ob J}'. That is too strong. Theory/Kan/Extension.v:127 defines the general restriction functor Induced := (− ○ F) : [B,C] ⟶ [A,C] and Instance/Discrete.v:52 DiscreteCat_Functor supplies the inclusion DiscreteCat (obj J) ⟶ J, so clause (iii)'s functor is a single instantiation away (both files in _CoqProject at lines 445 and 182). What is genuinely missing for (iii) is the assembly, the left adjoint (LeftKan/Lan at Theory/Kan/Extension.v:222-233 is only a class, with no coproduct-formula instance), and the monadicity. I added that evidence entry and rewrote the clause-(iii) sentence of the gap; the strength_comparison and the rest of the gap I confirmed verbatim. PARTIAL still stands solely on the clause-(iv) left-adjoint half; no monadicity is proved for any clause."
+  }
+ },
+ {
+  "id": "riehl:5.5:prop8",
+  "classification": "PRESENT",
+  "aliases": [
+   "reflexive tripleability theorem",
+   "crude monadicity theorem (CTT)",
+   "coequalizers of reflexive pairs preserved + conservative ⇒ monadic",
+   "crude_monadicity / PreservesReflexiveCoequalizers / HasReflexiveCoequalizers",
+   "U reflects isomorphisms (conservative functor)"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Monadicity/Crude.v",
+    "line": 601,
+    "symbol": "crude_monadicity",
+    "intree_statement": "Context {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) (RC : HasReflexiveCoequalizers C) (pres : PreservesReflexiveCoequalizers U) (refl : ReflectsIsos U). Definition crude_monadicity : EquivalenceOfCategories (EM_Comparison A) := {| quasi_inverse := Crude_Inverse ; equivalence_counit := crude_equivalence_counit ; equivalence_unit := crude_equivalence_unit |}."
+   },
+   {
+    "file": "Monad/Monadicity/Crude.v",
+    "line": 100,
+    "symbol": "PreservesReflexiveCoequalizers",
+    "intree_statement": "Definition PreservesReflexiveCoequalizers {C D : Category} (U : C ⟶ D) : Type := ∀ (x y : C) (f g : x ~{C}~> y), ReflexivePair f g → ∀ (q : C) (e : y ~{C}~> q), IsCoequalizer f g q e → IsCoequalizer (fmap[U] f) (fmap[U] g) (U q) (fmap[U] e)."
+   },
+   {
+    "file": "Structure/Coequalizer/Reflexive.v",
+    "line": 54,
+    "symbol": "HasReflexiveCoequalizers",
+    "intree_statement": "Class HasReflexiveCoequalizers (C : Category) := { reflexive_coeq {x y : C} (f g : x ~> y) : ReflexivePair f g → ∃ (q : C) (e : y ~> q), IsCoequalizer f g q e }."
+   }
+  ],
+  "statement_record": {
+   "book": "Proposition 5.5.8 (reflexive tripleability). Let U : D -> C have a left adjoint. If (i) D has coequalizers of reflexive pairs, (ii) U preserves coequalizers of reflexive pairs, and (iii) U reflects isomorphisms, then U is monadic.",
+   "intree": "Given A : F ⊣ U (F : D ⟶ C, U : C ⟶ D — the library's C is the book's D), RC : HasReflexiveCoequalizers C, pres : PreservesReflexiveCoequalizers U and refl : ReflectsIsos U, crude_monadicity : EquivalenceOfCategories (EM_Comparison A).",
+   "strength_comparison": "same. Hypothesis for hypothesis: (i) = HasReflexiveCoequalizers on the domain of U, (ii) = PreservesReflexiveCoequalizers U, (iii) = ReflectsIsos U; the conclusion 'U is monadic' is exactly the payload of Monadic U (Monad/Comparison.v:273 — ∃ F A, EquivalenceOfCategories (EM_Comparison A)), here delivered at the given adjunction, so it is if anything marginally stronger (the equivalence is exhibited at the supplied A rather than merely existentially). Riehl states hypothesis (ii) as preservation of the coequalizers of reflexive pairs and the library states it elementarily (every IsCoequalizer of a reflexive pair is carried to an IsCoequalizer at the image apex); the header (Crude.v:40-50) discloses this as the standard crude hypothesis and explains that the colimit-vocabulary bridge is not needed. Note that the book DEFERS this proof to Exercise 5.5.iii; the library proves it in full."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED as PRESENT; my blind pass reached PRESENT before reading the record. Hypothesis-for-hypothesis check against Riehl 5.5.8: crude_monadicity at Monad/Monadicity/Crude.v:601 sits under the Context block at Crude.v:106-115, i.e. exactly (A : F ⊣ U), (RC : HasReflexiveCoequalizers C) on the DOMAIN of U, (pres : PreservesReflexiveCoequalizers U), (refl : ReflectsIsos U) — the record's note about the C/D naming swap is correct. PreservesReflexiveCoequalizers Crude.v:100-105 and HasReflexiveCoequalizers Structure/Coequalizer/Reflexive.v:54-57 quoted verbatim-correct; ReflectsIsos is the right notion (Structure/Limit/Preservation.v:243: IsIsomorphism (fmap[F] f) → IsIsomorphism f). No Admitted/admit/Axiom in Monad/Monadicity/*.v or Structure/Coequalizer*.v; files registered (_CoqProject:270, 307). NAMING CAVEAT for Phase E, so this is not double-filed: the in-tree file calls the result the CRUDE monadicity theorem, following nLab, whose 'crude monadicity theorem' IS the reflexive-coequalizer statement; it is therefore Riehl's Prop 5.5.8 (reflexive tripleability), not the Mac Lane VI.7 CTT/VTT that Riehl's surrounding prose merely cites (those remain absent, but they are prose pointers, not items)."
+  }
+ },
+ {
+  "id": "riehl:5.5:def-reflexive-pair",
+  "classification": "PRESENT",
+  "aliases": [
+   "reflexive parallel pair",
+   "common section of f and g",
+   "ReflexivePair record",
+   "reflexive graph / reflexive coequalizer input",
+   "split by both legs: f∘s = id = g∘s"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Coequalizer/Reflexive.v",
+    "line": 40,
+    "symbol": "ReflexivePair",
+    "intree_statement": "Record ReflexivePair {C : Category} {x y : C} (f g : x ~> y) := { refl_section : y ~> x; refl_section_f : f ∘ refl_section ≈ id; refl_section_g : g ∘ refl_section ≈ id }."
+   }
+  ],
+  "statement_record": {
+   "book": "Footnote to Proposition 5.5.8: a parallel pair f, g : A -> B is reflexive when both maps admit a common section, i.e. there is s : B -> A with f s = id_B = g s.",
+   "intree": "Record ReflexivePair (f g : x ~> y) := { refl_section : y ~> x; refl_section_f : f ∘ refl_section ≈ id; refl_section_g : g ∘ refl_section ≈ id }.",
+   "strength_comparison": "same — the setoid rephrasing (≈ for =) is the library's standard faithful rendering, and the data (one map retracted by both legs) is identical. The library packages the witness as a record rather than a proposition, which is the usual proof-relevant reading and is what Prop 5.5.8's proof consumes."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED as PRESENT; blind pass agreed. ReflexivePair at Structure/Coequalizer/Reflexive.v:40-44 is quoted verbatim-correct (refl_section, refl_section_f, refl_section_g with ≈ id), and this is not a definition-without-API: the recognizer common_section_reflexive:64 and the preservation theorem functor_preserves_reflexive:86 are present and used, and Prop 5.5.8's in-tree proof consumes the record directly (crude_reflexive, Crude.v:157). File registered (_CoqProject:307). The header's cross-pointer to Structure/Coequalizer/Split.v is accurate (functor_preserves_split really is there, Split.v:104)."
+  }
+ },
+ {
+  "id": "riehl:5.5:thm9",
+  "classification": "ABSENT",
+  "aliases": [
+   "contravariant power set functor P : Set^op ⟶ Set is monadic",
+   "Paré's theorem; algebras for the double power set monad",
+   "P is self-adjoint on the right (Set(A,PB) ≅ Set(B,PA))",
+   "power object functor in an elementary topos, Ω^(−)",
+   "Set^op ⟶ Set reflects isomorphisms / P is faithful"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni \"power set|powerset|power object\" --glob '*.v' — the only in-tree power construct is Structure/Topos.v:129 'Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a', an OBJECT-level power in a topos. It is never made into a functor C^op ⟶ C, never given a monad structure, and no adjunction involves it.",
+   "rg -ni \"self-adjoint|self adjoint|mutually right adjoint\" --glob '*.v' — 2 hits, both saying the IDENTITY functor is self-adjoint (Adjunction/Compose.v:29, Instance/Adjoints.v:17). The self-adjointness on the right of P — the source of the left adjoint in Paré's proof — is absent.",
+   "rg -ni \"double power|continuation monad\" --glob '*.v' — 'double power' 0 hits; 'continuation monad' only prose (Monad/Thunkable.v:105, Theory/Lawvere.v:98). So the induced monad P∘P^op is not in tree either.",
+   "rg -n \"\\^op ⟶ Sets\" --glob '*.v' — the contravariant Sets-valued functors in tree are Hom(−,b) (Functor/Hom.v), presheaves, and the subobject presheaf Sub : C^op ⟶ Sets (Theory/Subobject/Functor.v:180). Sub together with classifier_classifies (Structure/SubobjectClassifier.v:187, SubObj x ≅ (x ~> Ω)) is the nearest relative of P, but neither is shown to have a left adjoint, to be faithful, or to be monadic.",
+   "rg -n \"Monadic|monadic\" --glob '*.v' — no monadicity witness for any Sets-valued or Sets^op-domain functor."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind search agreed (ABSENT). Verified the near-relatives named in the log: Structure/Topos.v:129 Pow a := Ω ^ a is object-level only (never a functor, never a monad); Sub : C^op ⟶ Sets at Theory/Subobject/Functor.v:180 and classifier_classifies at Structure/SubobjectClassifier.v:187 are the closest analogues and neither is given a left adjoint, faithfulness, or monadicity. 'self-adjoint' hits are the identity functor only (Adjunction/Compose.v:29, Instance/Adjoints.v:17). My independent check for any adjunction touching Sets found only the CCC remark and the profunctor characterization, so P ⊣ P^op is nowhere in tree; the induced double-power-set (continuation) monad is likewise absent."
+  }
+ }
+]

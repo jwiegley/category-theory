@@ -1,0 +1,282 @@
+[
+ {
+  "roman": "1",
+  "title": "Categories, Functors, Natural Transformations",
+  "pdfStart": 21,
+  "pdfEnd": 72,
+  "offset": 20,
+  "splitAt": 44,
+  "sections": [
+   {
+    "n": 1,
+    "name": "Abstract and concrete categories",
+    "printed": 3
+   },
+   {
+    "n": 2,
+    "name": "Duality",
+    "printed": 9
+   },
+   {
+    "n": 3,
+    "name": "Functoriality",
+    "printed": 14
+   },
+   {
+    "n": 4,
+    "name": "Naturality",
+    "printed": 24
+   },
+   {
+    "n": 5,
+    "name": "Equivalence of categories",
+    "printed": 31
+   },
+   {
+    "n": 6,
+    "name": "The art of the diagram chase",
+    "printed": 39
+   },
+   {
+    "n": 7,
+    "name": "The 2-category of categories",
+    "printed": 47
+   }
+  ]
+ },
+ {
+  "roman": "2",
+  "title": "Universal Properties, Representability, and the Yoneda Lemma",
+  "pdfStart": 73,
+  "pdfEnd": 100,
+  "offset": 20,
+  "splitAt": 87,
+  "sections": [
+   {
+    "n": 1,
+    "name": "Representable functors",
+    "printed": 54
+   },
+   {
+    "n": 2,
+    "name": "The Yoneda lemma",
+    "printed": 59
+   },
+   {
+    "n": 3,
+    "name": "Universal properties and universal elements",
+    "printed": 67
+   },
+   {
+    "n": 4,
+    "name": "The category of elements",
+    "printed": 72
+   }
+  ]
+ },
+ {
+  "roman": "3",
+  "title": "Limits and Colimits",
+  "pdfStart": 101,
+  "pdfEnd": 150,
+  "offset": 20,
+  "splitAt": 123,
+  "sections": [
+   {
+    "n": 1,
+    "name": "Limits and colimits as universal cones",
+    "printed": 82
+   },
+   {
+    "n": 2,
+    "name": "Limits in the category of sets",
+    "printed": 93
+   },
+   {
+    "n": 3,
+    "name": "Functoriality of limits and colimits",
+    "printed": 98
+   },
+   {
+    "n": 4,
+    "name": "Preservation, reflection, and creation of limits and colimits",
+    "printed": 103
+   },
+   {
+    "n": 5,
+    "name": "The representable nature of limits and colimits",
+    "printed": 109
+   },
+   {
+    "n": 6,
+    "name": "Complete and cocomplete categories",
+    "printed": 115
+   },
+   {
+    "n": 7,
+    "name": "Matters of size",
+    "printed": 123
+   },
+   {
+    "n": 8,
+    "name": "Interactions between limits and colimits",
+    "printed": 125
+   }
+  ]
+ },
+ {
+  "roman": "4",
+  "title": "Adjunctions",
+  "pdfStart": 151,
+  "pdfEnd": 200,
+  "offset": 20,
+  "splitAt": 176,
+  "sections": [
+   {
+    "n": 1,
+    "name": "Adjoint functors",
+    "printed": 132
+   },
+   {
+    "n": 2,
+    "name": "The unit and counit as universal arrows",
+    "printed": 138
+   },
+   {
+    "n": 3,
+    "name": "The calculus of adjunctions",
+    "printed": 143
+   },
+   {
+    "n": 4,
+    "name": "Contravariant and multivariable adjoint functors",
+    "printed": 149
+   },
+   {
+    "n": 5,
+    "name": "Locally cartesian closed categories",
+    "printed": 156
+   },
+   {
+    "n": 6,
+    "name": "Adjunctions, limits, and colimits",
+    "printed": 165
+   },
+   {
+    "n": 7,
+    "name": "Existence of adjoint functors",
+    "printed": 173
+   }
+  ]
+ },
+ {
+  "roman": "5",
+  "title": "Monads and their Algebras",
+  "pdfStart": 201,
+  "pdfEnd": 238,
+  "offset": 20,
+  "splitAt": 222,
+  "sections": [
+   {
+    "n": 1,
+    "name": "Monads from adjunctions",
+    "printed": 182
+   },
+   {
+    "n": 2,
+    "name": "Adjunctions from monads",
+    "printed": 187
+   },
+   {
+    "n": 3,
+    "name": "Monadic functors",
+    "printed": 195
+   },
+   {
+    "n": 4,
+    "name": "Canonical presentations via free algebras",
+    "printed": 197
+   },
+   {
+    "n": 5,
+    "name": "Recognizing categories of algebras",
+    "printed": 202
+   },
+   {
+    "n": 6,
+    "name": "Limits and colimits in categories of algebras",
+    "printed": 209
+   }
+  ]
+ },
+ {
+  "roman": "6",
+  "title": "All Concepts are Kan Extensions",
+  "pdfStart": 239,
+  "pdfEnd": 270,
+  "offset": 20,
+  "splitAt": 256,
+  "sections": [
+   {
+    "n": 1,
+    "name": "Kan extensions",
+    "printed": 220
+   },
+   {
+    "n": 2,
+    "name": "A formula for Kan extensions",
+    "printed": 224
+   },
+   {
+    "n": 3,
+    "name": "Pointwise Kan extensions",
+    "printed": 232
+   },
+   {
+    "n": 4,
+    "name": "Derived functors as Kan extensions",
+    "printed": 236
+   },
+   {
+    "n": 5,
+    "name": "All concepts",
+    "printed": 242
+   }
+  ]
+ },
+ {
+  "roman": "E",
+  "title": "Epilogue: Theorems in Category Theory",
+  "pdfStart": 271,
+  "pdfEnd": 280,
+  "offset": 20,
+  "splitAt": 275,
+  "sections": [
+   {
+    "n": 1,
+    "name": "Theorems in basic category theory",
+    "printed": 251
+   },
+   {
+    "n": 2,
+    "name": "Coherence for symmetric monoidal categories",
+    "printed": 253
+   },
+   {
+    "n": 3,
+    "name": "The universal property of the unit interval",
+    "printed": 255
+   },
+   {
+    "n": 4,
+    "name": "A characterization of Grothendieck toposes",
+    "printed": 256
+   },
+   {
+    "n": 5,
+    "name": "Embeddings of abelian categories",
+    "printed": 257
+   }
+  ]
+ }
+]

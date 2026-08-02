@@ -1,0 +1,535 @@
+[
+  {
+    "id": "awodey:8.1:construction-set-valued-functor-category",
+    "classification": "PRESENT",
+    "aliases": [
+      "functor category [C, Sets] / Fun C Sets",
+      "diagram category Sets^C / presheaf category Sets^(C^op)",
+      "Presheaves / Copresheaves",
+      "category whose morphisms are natural transformations (Transform)",
+      "vertical composition of natural transformations, componentwise"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}.  (* Notation \"[ C , D ]\" := (@Fun C D) *)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 231,
+        "symbol": "nat_compose",
+        "intree_statement": "Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {| transform := λ X, transform[f] X ∘ transform[g] X |}."
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 113,
+        "symbol": "Transform",
+        "intree_statement": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f; naturality_sym {x y} (f : x ~> y) : transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform }."
+      }
+    ],
+    "statement_record": {
+      "book": "For a locally small C, the set-valued functors P, Q : C ⟶ Sets (diagrams on C; contravariantly, presheaves on C) and the natural transformations between them form a category Sets^C, with identities and composition computed componentwise, so that a commuting triangle of natural transformations evaluates at every object to a commuting triangle of functions, with a naturality cylinder over it for each arrow f : D → C.",
+      "intree": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D |}, where nat_compose has transform := λ X, transform[f] X ∘ transform[g] X and Transform carries the naturality square fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f.",
+      "strength_comparison": "same (in-tree stronger by generality): the library builds [C, D] for an ARBITRARY codomain D, of which Sets^C = [C, Sets] and Sets^(C^op) = [C^op, Sets] are instances (Theory/Sheaf.v:127/133 name the latter Presheaves/Copresheaves). Presentation differences only: Sets is the category of SETOIDS with ≈-respecting maps, and composition/identity laws hold up to ≈ rather than on the nose; the book's 'commuting triangle evaluates componentwise' is exactly nat_compose's definition, and the book's naturality cylinder is the Transform.naturality field."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same evidence independently: Instance/Fun.v:108 `Program Definition Fun : Category` with `Notation \"[ C , D ]\"` (line 119) and Theory/Sheaf.v:127/133 `Presheaves {U C} := [U^op, C]` / `Copresheaves {U C} := [U, C]`, so Awodey's Sets^C is `[C, Sets]` = `@Copresheaves C Sets` and Sets^(C^op) is `Presheaves`. All three cited lines verified verbatim (Instance/Fun.v:108, Theory/Natural/Transformation.v:231 nat_compose, :113 Transform). Componentwise composition/identity and the naturality 'cylinder' are exactly nat_compose/nat_id/Transform.naturality; the category laws are additionally restated for [C,D] as nat_id_left/nat_id_right/nat_comp_assoc (Instance/Fun.v:129-140). File registered in _CoqProject (line 200); Theory/Sheaf.v at line 473. strength_comparison is honest: the in-tree construction is strictly more general (arbitrary codomain D). No same-name-weaker or definition-without-API problem found."
+    }
+  },
+  {
+    "id": "awodey:8.1:construction-evaluation-functor",
+    "classification": "PARTIAL",
+    "aliases": [
+      "evaluation functor ev_C : [C, D] ⟶ D",
+      "eval / counit of the exponential adjunction in Cat",
+      "Fun_Eval / component functor / evaluation at an object",
+      "partial application of a curried functor (PartialApply_Curried_Right)",
+      "uncurry id at Cat_Closed"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 75,
+        "symbol": "eval",
+        "intree_statement": "Definition eval {x y} : y^x × x ~> y := uncurry id.  (* with ump_exponents {x y z} (f : x × y ~> z) : eval ∘ first (curry f) ≈ f *)"
+      },
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := ... currying ...; from := ... uncurrying ... |} }.  (* so @eval Cat Cat_Cartesian Cat_Closed C Sets : [C, Sets] ∏ C ⟶ Sets *)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 113,
+        "symbol": "Transform.transform",
+        "intree_statement": "Class Transform := { transform {x} : F x ~> G x; ... }  (* the component α_C = transform[α] C, the morphism half of ev_C *)"
+      },
+      {
+        "file": "Theory/Lawvere/Sets.v",
+        "line": 83,
+        "symbol": "ev1",
+        "intree_statement": "Program Definition ev1 : Models T Sets ⟶ Sets := {| fobj := fun M => `1 M (law_of_nat 1%nat); fmap := fun F G τ => transform (`1 τ) (law_of_nat 1%nat) |}.  (* evaluation of a functor-category object at a FIXED object: P ↦ P C, α ↦ α_C, functor laws componentwise; domain Models T Sets := Sub (@Fun (@law_cat T) Sets) Models_sub, a full subcategory of the functor category (Theory/Lawvere/Model.v:77) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For each object C of C there is a functor ev_C : Sets^(C^op) ⟶ Sets sending a set-valued functor P to the set P C and a natural transformation α : P → Q to its component α_C : P C → Q C; functoriality is exactly the componentwise definition of identity and composition of natural transformations.",
+      "intree": "Definition eval {x y} : y^x × x ~> y := uncurry id, instantiated at Cat via Cat_Closed (exponent_obj := @Fun) to the uncurried bifunctor [C, D] ∏ C ⟶ D; the component α_C is available as Transform's field transform[α] C.",
+      "strength_comparison": "intree-weaker: only the UNCURRIED evaluation bifunctor exists, and only abstractly as the CCC `eval` derived from the `Closed` class at Cat. The book's fixed-object functor ev_C : [C, D] ⟶ D (fobj P := P C, fmap α := α_C, with fmap_id / fmap_comp discharged componentwise) is never defined."
+    },
+    "gap": "No GENERAL evaluation functor ev_C : [C, D] ⟶ D for a fixed object C. The pattern does occur in-tree, but only once and only on a restricted domain: Theory/Lawvere/Sets.v:83 `ev1 : Models T Sets ⟶ Sets` has exactly fobj := fun M => M (law_of_nat 1) and fmap := fun τ => transform τ (law_of_nat 1), with the functor laws discharged as 'componentwise instances of the laws of the functor category' (:79-81) — i.e. Awodey's ev_C at one fixed object of one particular Lawvere theory, over Models T Sets = Sub (@Fun (law_cat T) Sets) Models_sub, a full subcategory of the functor category (Theory/Lawvere/Model.v:77). Nothing generalizes it: there is no ev_C for an arbitrary functor category, no family {ev_C}_{C : C}, and no statement that ev_C jointly reflects or preserves anything. The only other in-tree evaluation is the generic CCC `eval : y^x × x ~> y` (Structure/Cartesian/Closed.v:75), which at Cat would yield the bifunctor [C, Sets] ∏ C ⟶ Sets — but (a) no file instantiates `eval` at Cat, (b) no definition or lemma computes its action as (P, C) ↦ P C and (α, id) ↦ α_C (Instance/Cat/Cartesian/Closed.v mentions this only in the prose at lines 34-36), and (c) restricting it to a fixed second argument (eval ◯ ⟨Id, Const C⟩) is not carried out. Theory/Naturality.v's PartialApply_Curried_Right {F : C ⟶ [C, C]} {y : C} : C ⟶ C evaluates a CURRIED FUNCTOR at y (x ↦ F x y) rather than being ev_y, and is in any case inside the retained-but-commented-out block (Theory/Naturality.v:60-115).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'evaluation' . — 4 hits, all prose comments (Instance/Cat/Cartesian/Closed.v:34, Functor/Applicative.v:31, Theory/Lawvere/Sets.v:27/78)",
+      "grep -rn --include='*.v' 'ev_C' . — 0 hits",
+      "grep -rn --include='*.v' 'Eval_\\|Fun_Eval\\|at_object\\|component functor' . — 0 hits",
+      "grep -rn --include='*.v' 'fobj := fun \\(F\\|G\\|P\\|X\\) => \\(F\\|G\\|P\\|X\\) ' . — 1 hit (Theory/Kan/Extension.v:128, G ↦ G ◯ F, not evaluation)",
+      "grep -rn --include='*.v' '\\[C, *D\\] *⟶\\|\\[C, *Sets\\] *⟶' . — only Instance/Cat/Bicategory.v:65 (hcompose bifunctor) and Construction/Day.v:920 (Day tensor)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL stands, but one field was factually wrong and I corrected it (original text preserved here). Phase C's gap asserted: \"nothing in the tree has fobj := fun P => P C and fmap := fun alpha => transform[alpha] C (grep over `fobj := fun` shapes returns only Theory/Kan/Extension.v:128's precomposition functor and Monad/Kleisli/Adjunction.v:76)\". That is false. Theory/Lawvere/Sets.v:83 defines `Program Definition ev1 : Models T Sets ⟶ Sets := {| fobj := fun M => `1 M (law_of_nat 1%nat); fmap := fun F G τ => transform (`1 τ) (law_of_nat 1%nat) |}` — literally evaluation at a FIXED object, object action P ↦ P C and arrow action α ↦ α_C, with the functor laws discharged componentwise ('The functor laws are componentwise instances of the laws of the functor category', Theory/Lawvere/Sets.v:79-81). Its domain `Models T Sets` is a full subcategory of the functor category (Theory/Lawvere/Model.v:77 `Models := Sub (@Fun (@law_cat T) C) Models_sub`), so this is ev_C restricted to a full subcategory, not the general functor. Phase C's own negative log even records the Theory/Lawvere/Sets.v:78 comment 'Evaluation at the generic object' as 'prose only' and stopped five lines short of the definition. I added ev1 to evidence and rewrote gap accordingly. The classification is unchanged because the general ev_C : [C, D] ⟶ D is still absent and the CCC `eval` at Cat is still never instantiated or computed. I independently re-verified: Structure/Cartesian/Closed.v:75 `Definition eval {x y} : y^x × x ~> y := uncurry id` ✓; Instance/Cat/Cartesian/Closed.v:47 Cat_Closed with exponent_obj := @Fun ✓ and the eval-bifunctor claim living only in the prose at lines 34-36 ✓; Theory/Naturality.v's PartialApply_Curried_Right is indeed inside the commented-out block (the `(*` opens at line 61 and closes at line 115) ✓."
+    }
+  },
+  {
+    "id": "awodey:8.1:example-graphs",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Sets^Gamma = Graphs / category of directed multigraphs",
+      "walking parallel pair / free quiver (the shape Gamma)",
+      "Quiver, QuiverCategory, QuiverHomomorphism (Quiv)",
+      "graph homomorphism = natural transformation between the two functors",
+      "source/target maps G1 ⇉ G0"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Parallel.v",
+        "line": 80,
+        "symbol": "Parallel",
+        "intree_statement": "Program Definition Parallel : Category := {| obj := ParObj; hom := fun x y => ∃ b : bool, ParHom b x y; homset := fun x y => {| equiv := fun f g => ``f = ``g |}; id := ...; compose := ... |}.  (* ParObj := ParX | ParY; ParHom carries ParOne, ParTwo : ParX ⇉ ParY — Awodey's Γ *)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 358,
+        "symbol": "QuiverCategory",
+        "intree_statement": "#[export] Instance QuiverCategory : Category. (* built by Build_Category' QuiverHomomorphism QuiverId QuiverComp; objects are Quivers, morphisms QuiverHomomorphisms *)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 205,
+        "symbol": "QuiverHomomorphism",
+        "intree_statement": "Class QuiverHomomorphism (G : Quiver) (G' : Quiver) := { fnodes : @nodes G -> @nodes G'; fedgemap : ∀ x y : @nodes G, edges x y -> edges (fnodes x) (fnodes y); fedgemap_respects : ... }.  (* a graph homomorphism: node map + edge map preserving source and target by construction *)"
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 129,
+        "symbol": "APair",
+        "intree_statement": "Program Definition APair {C : Category} {x y : C} (f g : x ~> y) : Parallel ⟶ C := {| fobj := fun z => match z with ParX => x | ParY => y end; fmap := ... ParOne ↦ f, ParTwo ↦ g ... |}."
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 166,
+        "symbol": "Presheaf_Graph",
+        "intree_statement": "Program Definition Presheaf_Graph : Parallel^op ⟶ Sets := {| fobj := fun z => match z with ParX => {| carrier := nat |} (* vertices *) | ParY => {| carrier := nat * nat |} (* edges *) end; fmap := ... ParOne ↦ {| morphism := fst |} (source), ParTwo ↦ {| morphism := snd |} (target) ... |}. (* preceded at :152-161 by the in-tree statement of the identification: 'a presheaf on the parallel-pair category x ⇉ y is a graph (quiver): G0 is the set of vertices, G1 the set of edges, and the two arrows send an edge to its source and target', citing nLab/quiver *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Let Γ be the two-object category with a parallel pair of non-identity arrows 1 ⇉ 0. A functor G : Γ ⟶ Sets is exactly a directed multigraph (edge set G1, vertex set G0, source and target functions), and a natural transformation α : G → H is exactly a graph homomorphism. Hence Sets^Γ IS the category Graphs.",
+      "intree": "Parallel : Category is the two-object/two-parallel-arrow shape; QuiverCategory : Category is the category of quivers (nodes + per-endpoint-pair edge setoids) and quiver homomorphisms; APair f g : Parallel ⟶ C exhibits a parallel pair of C-morphisms as a functor out of Parallel.",
+      "strength_comparison": "intree-weaker: the two sides of the book's identification exist independently, but the identification itself — an isomorphism or equivalence [Parallel, Sets] ≅ QuiverCategory, or even the object-level bijection between functors Parallel ⟶ Sets and quivers — is nowhere stated. Additionally the in-tree Quiver is a DIFFERENT (equivalent) presentation: edges : nodes → nodes → Type indexes edges by their endpoint pair, so source/target are built into the typing rather than being two functions out of a single global edge set as a Γ-diagram supplies."
+    },
+    "gap": "The identification itself is missing, though the READING is in-tree. Instance/Parallel.v:152-161 states in prose that a presheaf on Parallel is exactly a graph/quiver (with nLab and Wikipedia quiver citations), and :166 `Presheaf_Graph : Parallel^op ⟶ Sets` exhibits one concrete graph in that form (vertices nat, edges nat*nat, ParOne ↦ fst = source, ParTwo ↦ snd = target). What is absent is any statement identifying [Parallel, Sets] (or [Parallel^op, Sets], or [Parallel, D] for any D) with QuiverCategory or with any category named Graphs: no isomorphism, no equivalence, not even an object-level bijection between functors Parallel ⟶ Sets and quivers; grep for 'Graphs' over *.v returns only prose comments in unrelated files. Three concrete obstructions to the identification being definitional: (1) presentation mismatch — Construction/Free/Quiver.v:54's `Class Quiver` has `edges : nodes → nodes → uedges` (fibred over endpoint pairs), whereas a functor Parallel ⟶ Sets gives one edge setoid plus two maps to the vertex setoid; (2) QuiverHomomorphism's node action is a bare function `fnodes` and QuiverHomomorphismEquivalence (Construction/Free/Quiver.v:219) compares homomorphisms using strict node EQUALITY with transports, while morphisms of [Parallel, Sets] are compared componentwise by ≈; (3) the converse of APair — that every functor Parallel ⟶ C arises from a parallel pair — is not proved.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'graphs\\b' . — 11 hits, all citation/prose comments; no Graphs category",
+      "grep -rn --include='*.v' -i 'directed multigraph\\|multigraph' . — 1 hit, a prose comment",
+      "CORRECTED by Phase D (original Phase C entry read: \"grep -rn --include='*.v' 'Parallel' . — hits are Structure/Equalizer.v, Structure/Coequalizer.v (limits over the shape) and Instance/Two.v prose; none relate Parallel to quivers/graphs\"). That is false: Instance/Parallel.v itself relates Parallel to quivers/graphs, in the prose at :152-161 and in the definition Presheaf_Graph : Parallel^op ⟶ Sets at :166. Structure/Equalizer.v and Structure/Coequalizer.v do use Parallel as a limit shape, and no file relates it to QuiverCategory.",
+      "grep -rn --include='*.v' 'Quiver' . — Construction/Free/Quiver.v, Instance/StrictCat.v, Test/Issue138.v, Construction/Free.v; all concern the free-category adjunction Quiv ⇄ StrictCat, never [Parallel, Sets]",
+      "rg 'Parallel' -l — 17 files; none states an equivalence or isomorphism between a Parallel functor category and QuiverCategory"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL stands, but the negative_search_log contained a false claim and the gap understated in-tree coverage; both corrected (originals preserved here). Phase C logged: \"grep -rn --include='*.v' 'Parallel' . — hits are Structure/Equalizer.v, Structure/Coequalizer.v (limits over the shape) and Instance/Two.v prose; none relate Parallel to quivers/graphs\". Instance/Parallel.v ITSELF relates them, twice over: (a) the block at lines 152-161 states the identification outright — 'a presheaf on the parallel-pair category x ⇉ y is a graph (quiver): G0 is the set of vertices, G1 the set of edges, and the two arrows send an edge to its source and target' — citing nLab/quiver and Wikipedia/quiver; and (b) line 166 defines `Program Definition Presheaf_Graph : Parallel^op ⟶ Sets` with fobj ParX := nat (vertices), ParY := nat*nat (edges) and fmap sending the two non-identity arrows to fst/snd — a worked graph-as-presheaf. The gap's closing sentence 'the category of structured sets reading Awodey draws from the example is likewise never formalized' is therefore too strong at the prose level. What genuinely remains missing (and keeps this PARTIAL) is unchanged: no equivalence/isomorphism [Parallel, Sets] ≃ QuiverCategory, no Graphs category, and no converse to APair. Phase C's three obstructions to a definitional identification (fibred `edges : nodes -> nodes -> uedges` at Construction/Free/Quiver.v, strict-object-equality QuiverHomomorphismEquivalence at :219, missing APair converse) I re-checked and they hold. Evidence lines all verified: Instance/Parallel.v:80, :129, Construction/Free/Quiver.v:358, :205. Both files registered in _CoqProject (221, 72)."
+    }
+  },
+  {
+    "id": "awodey:8.2:construction-hom-bifunctor-transposes",
+    "classification": "PARTIAL",
+    "aliases": [
+      "hom-bifunctor Hom : C^op ∏ C ⟶ Sets",
+      "covariant representable Hom(C, -) / Curried_Hom / [Hom A,─]",
+      "contravariant representable Hom(-, C) / Curried_CoHom / [Hom ─,A]",
+      "k : C^op ⟶ Sets^C (exponential transpose of Hom)",
+      "curry / uncurry of a bifunctor in Cat"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p); is_setoid := @homset C (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 134,
+        "symbol": "CoHom",
+        "intree_statement": "Program Definition CoHom `(C : Category) : C ∏ C^op ⟶ Sets := {| fobj := fun p => {| carrier := @hom (C^op) (fst p) (snd p); is_setoid := @homset (C^op) (fst p) (snd p) |}; fmap := fun x y (f : x ~{C ∏ C^op}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}.  (* the other-variance bifunctor; Curried_CoHom C := Curried_Hom C^op : C ⟶ [C^op, Sets] is the y transpose, Functor/Hom.v:146 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a locally small C: (a) the covariant representable Hom(C, −) : C ⟶ Sets is an object of Sets^C; (b) an arrow h : C → D induces Hom(h, −) : Hom(D, −) → Hom(C, −) — direction reversed — with component at X given by precomposition f ↦ f ∘ h; (c) this makes k : C^op ⟶ Sets^C a functor; (d) k is one exponential transpose of the hom-bifunctor Hom : C^op × C ⟶ Sets; (e) transposing in the other argument yields y : C ⟶ Sets^(C^op), equivalently k for C^op.",
+      "intree": "Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] with fobj x = Hom(x, −) and fmap (f : x ~{C^op}~> y) = the transformation with components g ↦ g ∘ op f; Hom `(C : Category) : C^op ∏ C ⟶ Sets with fmap (f, g)(q) = snd f ∘ q ∘ fst f; Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op.",
+      "strength_comparison": "same for clauses (a), (b), (c), (e) — Curried_Hom's fobj is exactly the covariant representable, its fmap is exactly reversed-direction precomposition, its type is exactly k, and Curried_CoHom is exactly y (using C^op^op = C by reflexivity, the library's duality design). intree-weaker on clause (d): nothing asserts that Curried_Hom (or Curried_CoHom) IS the exponential transpose of Hom."
+    },
+    "gap": "Clause (d) — that k = Curried_Hom is an exponential transpose of the hom-bifunctor Hom — is not stated. `Hom : C^op ∏ C ⟶ Sets`, `Curried_Hom : C^op ⟶ [C, Sets]`, `CoHom`, and `Curried_CoHom` are four INDEPENDENT Program Definitions; there is no lemma of the form `uncurry (Curried_Hom C) ≈ Hom C` or `curry (Hom C) ≈ Curried_Hom C`, and the curry/uncurry of Structure/Cartesian/Closed.v (via Instance/Cat/Cartesian/Closed.v's Cat_Closed) is never applied to Hom. Only `CoHom_Alt := Hom C ◯ Swap` (Functor/Hom.v:131) relates two of them, and even the promised agreement `CoHom_Alt ≈ CoHom` is stated in a comment (lines 126-130) rather than proved.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'curry\\|uncurry' Functor/Hom.v Functor/Hom/Yoneda.v — 0 hits",
+      "grep -rn --include='*.v' 'Curried_Hom' . — used only in Functor/Hom.v, Functor/Hom/Yoneda.v, Structure/UniversalProperty*.v; no transpose lemma anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Functor/Hom.v:49 `Hom : C^op ∏ C ⟶ Sets`, :60 `Curried_Hom : C^op ⟶ [C, Sets]` (fobj x = Hom(x,−); fmap (f : x ~{C^op}~> y) = the transformation g ↦ g ∘ op f, i.e. exactly Awodey's reversed-direction precomposition Hom(h,−) : Hom(D,−) → Hom(C,−)), :134 CoHom and :146 `Curried_CoHom C := Curried_Hom C^op : C ⟶ [C^op, Sets]`. So clauses (a),(b),(c),(e) are present verbatim and my blind leaning was PRESENT; I do not overturn, because Phase C's gap is real and precisely stated: clause (d) — that k is an exponential transpose of the hom-bifunctor — has no in-tree lemma. I re-ran the check: `rg 'curry|uncurry' Functor/Hom.v Functor/Hom/Yoneda.v` gives 0 hits, and the four definitions are independent. One nuance for the issue-drafting phase: the missing piece is bookkeeping (a `curry (Hom C) ≈ Curried_Hom C` lemma over Instance/Cat/Cartesian/Closed.v's Cat_Closed), not mathematical content, so any filed issue should be scoped small. Phase C's observation that even `CoHom_Alt ≈ CoHom` is asserted only in the comment at Functor/Hom.v:126-130 ('so they are the same bifunctor') and never proved is accurate."
+    }
+  },
+  {
+    "id": "awodey:8.2:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Yoneda embedding y : C ⟶ Sets^(C^op)",
+      "Curried_CoHom / [Hom ─,A] notation",
+      "contravariant representable presheaf Hom(-, C)",
+      "よ / the functor of points",
+      "postcomposition action Hom(-, f)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) |} |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}.  (* Curried_CoHom C := Curried_Hom C^op : C ⟶ [C^op, Sets] is y, notation [Hom ─,A]; Functor/Hom.v:146,149 *)"
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 231,
+        "symbol": "Yoneda_Embedding",
+        "intree_statement": "Program Instance Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.  (* the `from` obligation builds, from h : A ~> B, the transformation with components g ↦ h ∘ g — i.e. y h = Hom(−, h) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 8.1. The Yoneda embedding is the functor y : C ⟶ Sets^(C^op) sending each object C to the contravariant representable presheaf yC = Hom_C(−, C) : C^op ⟶ Sets, and each arrow f : C → D to the natural transformation yf = Hom_C(−, f) : Hom(−, C) → Hom(−, D), i.e. componentwise postcomposition with f.",
+      "intree": "Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op, with Notation \"[Hom ─ , A ]\" := (@Curried_CoHom _ A); unfolding Curried_Hom at C^op, the object action is A ↦ (x ↦ hom C x A) and the arrow action sends f : A ~> B to the transformation whose component at x is g ↦ f ∘ g.",
+      "strength_comparison": "same. The library obtains y by instantiating the single covariant curried hom-functor at C^op, which is legitimate because C^op^op = C holds by reflexivity in this library (the duality design of Construction/Opposite.v); the object and arrow actions then unfold to exactly Awodey's yC and yf. Presentational differences only: hom-collections are setoids and each component is a SetoidMorphism (respects ≈), and Sets is the category of setoids rather than of sets. The book's local-smallness hypothesis is automatic here (Theory/Category.v:115-116 gives every category hom-setoids at universe level h)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same answer. `Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op` (Functor/Hom.v:146) with `Notation \"[Hom ─ , A ]\"` (:149) is Awodey's y verbatim once unfolded: object action A ↦ (x ↦ hom C x A), arrow action f : A ~> B ↦ the transformation with component g ↦ f ∘ g (postcomposition). I verified the definitional step the record leans on: `op_invol {C : Category} : (C^op)^op = C` is at Construction/Opposite.v:126 and the header (lines 24-28) states it is provable by reflexivity, so Curried_Hom C^op really does typecheck as C ⟶ [C^op, Sets]. The record's claim that local smallness is automatic is correct: Theory/Category.v:111 `Class Category@{o h p | h <= p}` carries `hom : obj → obj → Type@{h}` and `homset : ∀ X Y, Setoid@{h p} (X ~> Y)`. Functor/Hom.v registered in _CoqProject:139. No weaker-same-name and no missing API: the arrow action is used downstream by Yoneda_Full/Yoneda_Faithful and by Structure/UniversalProperty.v."
+    }
+  },
+  {
+    "id": "awodey:8.2:def-embedding",
+    "classification": "PARTIAL",
+    "aliases": [
+      "embedding of categories = full + faithful + injective on objects",
+      "Class Full / Class Faithful",
+      "fully faithful functor / FullyFaithful",
+      "injective on objects (fobj injective)",
+      "strict embedding / isomorphism onto a subcategory"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 331,
+        "symbol": "Full",
+        "intree_statement": "Class Full `(F : C ⟶ D) := { prefmap {x y} (g : F x ~> F y) : x ~> y; fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g }."
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 342,
+        "symbol": "Faithful",
+        "intree_statement": "Class Faithful `(F : C ⟶ D) := { fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g }."
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 355,
+        "symbol": "FullyFaithful",
+        "intree_statement": "Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y."
+      }
+    ],
+    "statement_record": {
+      "book": "A functor F : C ⟶ D is called an embedding when it is full, faithful, AND injective on objects.",
+      "intree": "Class Full `(F : C ⟶ D) (a chosen section prefmap of fmap[F] with fmap_sur) and Class Faithful `(F : C ⟶ D) (fmap_inj); the bundled consequence in-tree is FullyFaithful : ∀ x y, F x ≅ F y → x ≅ y.",
+      "strength_comparison": "intree-weaker: two of the three defining conjuncts are present as classes, but there is no `Embedding` notion and no third conjunct. Where the book bundles full+faithful+injective-on-objects, the library's bundling of full+faithful concludes only reflection of isomorphisms (F x ≅ F y → x ≅ y), a strictly weaker and foundations-independent statement about objects. Note also that in-tree Full is CONSTRUCTIVELY witnessed by a chosen preimage `prefmap` rather than by bare surjectivity (an intentional strengthening of the data, cf. issue #118, but equivalent in content)."
+    },
+    "gap": "The notion 'injective on objects' does not exist in the tree: no class, definition, or field asserting `fobj[F] x = fobj[F] y → x = y` (or its setoid analogue), and no `Embedding` class packaging the three conjuncts. Greps for 'injective on objects', 'InjectiveOnObjects', 'inj_obj', 'fobj_inj', 'obj_inj', 'Class Embedding', 'is_embedding' return 0 hits each; the only in-tree uses of 'Embedding' are the names Yoneda_Embedding / Yoneda_Embedding' / Covariant_Yoneda_Embedding, which assert hom-setoid bijections and say nothing about objects.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'injective on objects' . — 0 hits",
+      "grep -rn --include='*.v' -i 'InjectiveOnObjects\\|inj_obj\\|obj_inj\\|fobj_inj\\|injective_obj' . — 0 hits each",
+      "grep -rn --include='*.v' -i 'Class Embedding\\|Embedding :\\|is_embedding' . — 0 hits each",
+      "grep -rn --include='*.v' 'Injective' . — 0 hits",
+      "grep -rn --include='*.v' 'Embedding' . — only Yoneda_Embedding, Yoneda_Embedding', Covariant_Yoneda_Embedding and prose comments"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL for the same reason. Verified Theory/Functor.v:331 `Class Full` (constructive: chosen section prefmap + fmap_sur), :342 `Class Faithful` (fmap_inj), :355 `Lemma FullyFaithful ... : ∀ x y, F x ≅ F y → x ≅ y`. I re-ran the decisive negative searches myself: `rg 'Injective'` — 0 hits tree-wide; `rg 'Class Embedding|is_embedding|injective on objects|InjectiveOnObjects|inj_obj|fobj_inj'` — 0 hits; every in-tree occurrence of 'Embedding' is Yoneda_Embedding / Yoneda_Embedding' / Covariant_Yoneda_Embedding, all of which are hom-setoid bijections and say nothing about objects. So the third conjunct and the bundled notion are genuinely absent and the gap is stated precisely. The record's caveat that in-tree Full is witnessed by a chosen preimage rather than bare surjectivity is accurate and correctly flagged as a presentational strengthening (Theory/Functor.v:322-330 documents the issue #118 rationale)."
+    }
+  },
+  {
+    "id": "awodey:8.2:construction-cayley",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Cayley's theorem / Cayley representation / left regular representation",
+      "G ↪ Aut(|G|), M ↪ End(|M|)",
+      "left translation g~(x) = g · x",
+      "right-equivariant map recovers fullness",
+      "Construction/Cayley.v, Covariant_Yoneda_Embedding"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 253,
+        "symbol": "Covariant_Yoneda_Embedding",
+        "intree_statement": "Program Instance Covariant_Yoneda_Embedding `(C : Category) : ∀ A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B.  (* natural (= equivariant) transformations between the regular representations are EXACTLY the translations *)"
+      },
+      {
+        "file": "Construction/Cayley.v",
+        "line": 114,
+        "symbol": "Cayley",
+        "intree_statement": "Program Instance Cayley : Category := { obj := C; hom := fun x y => { f : ∀ r, (y ~> r) → (x ~> r) & Proper (forall_relation (fun _ => respectful equiv equiv)) f ∧ ∀ (r : C) (k : y ~> r), f r k ≈ k ∘ f _ id }; homset := fun x y => {| equiv := fun f g => ∀ r k, `1 f r k ≈ `1 g r k |}; id := fun _ => (fun _ => Datatypes.id; _); compose := fun x y z f g => (fun r k => `1 g r (`1 f r k); _) }."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 85,
+        "symbol": "Yoneda_Faithful",
+        "intree_statement": "#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C).  (* proof: specialize the transformation at c and id, then rewrite id_left twice *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A group G embeds by an injective homomorphism into Aut(|G|) ⊆ |G|^|G| by g ↦ left translation, with (g·h)~ = g~ ∘ h~; likewise any monoid M into End(|M|). This representation is faithful but NOT full — there are self-maps of |G| that are not left translations. Fullness is recovered by restricting to RIGHT-EQUIVARIANT maps: if α(x·g) = α(x)·g for all g then α is itself a left translation. This is the prototype of the extra structure the Yoneda embedding puts on objects.",
+      "intree": "Covariant_Yoneda_Embedding : ∀ A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B (bijection between natural transformations of the covariant representables and morphisms); Cayley : Category whose hom x y is a family f : ∀ r, (y ~> r) → (x ~> r) CARRYING the equivariance/naturality condition ∀ r k, f r k ≈ k ∘ f _ id; Yoneda_Faithful (C) : Faithful (Curried_Hom C).",
+      "strength_comparison": "intree-stronger on clause (d) and weaker elsewhere. Stronger: the fullness-under-equivariance clause is proved for an ARBITRARY category (Covariant_Yoneda_Embedding / Yoneda_Full), of which a monoid is the one-object special case, and Construction/Cayley.v realizes it as a concrete representation category. Weaker: the group/monoid layer of the book's statement has no in-tree carrier at all, and the non-fullness clause is not stated anywhere."
+    },
+    "gap": "Three of the book item's clauses have no in-tree counterpart. (1) There is no category of groups or of monoids and no delooping of a monoid to a one-object category, so the statements 'G ↪ Aut(|G|)' and 'M ↪ End(|M|)' cannot be phrased: greps for 'Grp' return only prose comments (Structure/Group.v:63, Structure/Complete.v:55), for 'Aut '/'Automorphism' only unrelated apex-automorphism remarks, and for 'left translation'/'regular representation' only comment text (Construction/Cayley.v:58). Structure/Group.v has group OBJECTS internal to a category, not the category Grp, and Theory/Algebra/Monoid.v has monoid objects, not Mon. (2) The failure of fullness of the naive representation (an endomap of |G| that is not a left translation) is not stated or exhibited. (3) The equivariance condition is BUILT IN as a hom field of Construction/Cayley.v's Cayley rather than derived — the file assumes it where the book proves that equivariance forces left-translation; the derivation does exist in the general Yoneda form (Functor/Hom.v:96 Yoneda_Full's prefmap := fun c d f => f c id with fmap_sur), but it is never connected to Cayley. Construction/Cayley.v additionally proves only a SPLIT faithfulness (From_Cayley ◯ To_Cayley recovers the morphism, lines 158-172), not injectivity of a group homomorphism.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'left translation\\|Aut \\|Group homomorphism\\|MonoidCat\\|category of monoids' . — 0 or comment-only hits",
+      "grep -rn --include='*.v' 'Grp' . — 6 hits, all prose comments; no Grp category",
+      "grep -rn --include='*.v' -i 'deloop\\|one-object\\|one object' . — prose comments only (Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY to a bicategory, not a monoid to a category)",
+      "grep -rn --include='*.v' -i 'equivariant' . — 10 hits, all in Theory/Multicategory* (symmetric-group actions), unrelated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL stands; blind pass agreed. Verified Functor/Hom/Yoneda.v:253 Covariant_Yoneda_Embedding (`Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B`), Construction/Cayley.v:114 Cayley (whose hom carries the equivariance/Yoneda law `∀ r k, f r k ≈ k ∘ f _ id` as a field), Functor/Hom.v:85 Yoneda_Faithful. I independently confirmed the absence of the group/monoid layer: Structure/Group.v contains only `Class GroupObject` (line 109) — group objects internal to a category, not Grp — and there is no Aut/Sym/End(|M|) construction and no delooping of a monoid to a one-object category. One field is slightly inaccurate but not classification-changing, so I left it and record it here: the gap says Construction/Cayley.v 'proves only a SPLIT faithfulness (From_Cayley ◯ To_Cayley recovers the morphism, lines 158-172)'. Lines 158-172 are the two functor DEFINITIONS; no lemma `From_Cayley (To_Cayley f) ≈ f` exists anywhere in the file. The round trip is claimed only in the header (lines 39-41) and used implicitly inside Cayley_Right/Cayley_Left, which are stated with Leibniz `=` under a strict-id_left hypothesis — see the two LIBRARY-DEFECT entries in problems[]. That makes the in-tree side of this item marginally WEAKER than the record reports, which only reinforces PARTIAL."
+    }
+  },
+  {
+    "id": "awodey:8.2:construction-poset-lower-sets",
+    "classification": "ABSENT",
+    "aliases": [
+      "lower set / down-set / downward-closed subset",
+      "Low(P), the poset of lower sets ordered by inclusion",
+      "principal lower set ↓p = { q | q ≤ p }, order ideal",
+      "Alexandrov / sieve on a poset",
+      "order-reflecting monotone injection (p ≤ q iff ↓p ⊆ ↓q); poset case of the Yoneda embedding"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'lower set' . — 0 hits",
+      "grep -rn --include='*.v' -i 'lower-set' . — 0 hits",
+      "grep -rn --include='*.v' -i 'down-set' . — 1 hit, Construction/Slice.v:81, a prose comment saying the slice P/p is the principal down-set of p; no definition",
+      "grep -rn --include='*.v' -i 'downset\\|downward closed\\|down-closed' . — 0 hits each",
+      "grep -rn --include='*.v' -i 'order ideal\\|principal ideal\\|Alexandrov\\|Low(' . — 0 hits each",
+      "grep -rn --include='*.v' -i 'sieve' . — 2 hits, both prose comments (Theory/Sheaf.v:80, Construction/Localization.v:101); no sieve definition",
+      "grep -rn --include='*.v' -i 'powerset' . — 0 hits; Instance/Ens.v:34 gives Ens (Coq Ensembles as a category) and a subsets-of-T category, but neither is ordered by inclusion as a poset nor restricted to down-closed subsets",
+      "Read Instance/Poset.v (Definition Poset at line 116, over Instance/Proset.v:33's Proset) and Instance/Proset.v — a preorder/poset is presented AS a category; no construction of Low(P), no map ↓ : P → Low(P), no order-reflection lemma",
+      "grep -rn --include='*.v' -i 'reflects the order\\|order-reflect' . — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search found no counterpart either: `rg -i 'lower set|down-?closed|downset|down-?set|principal ideal|sieve'` returns exactly 3 hits, all prose (Construction/Slice.v:81 'down-set of p', Theory/Sheaf.v:80 and Construction/Localization.v:101 on sieves) — the same result Phase C logged. I additionally read Instance/Poset.v and Instance/Proset.v end to end: both present a preorder/poset AS a thin category (`Program Definition Proset {A} {R} (P : PreOrder R) : Category`, Instance/Proset.v:33), and neither constructs Low(P), the principal-lower-set map ↓ : P → Low(P), nor an order-reflection lemma. There is no powerset or sub-poset-of-inclusion construction. ABSENT is correct and the negative_search_log is honest (I spot-checked its Instance/Ens.v claim: Ens at line 34 is Coq Ensembles as a category, not ordered by inclusion)."
+    }
+  },
+  {
+    "id": "awodey:8.3:lem2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Yoneda lemma: Nat(yC, F) ≅ FC",
+      "Yoneda_Lemma / Covariant_Yoneda_Lemma",
+      "evaluation at the identity ϑ ↦ ϑ_C(1_C)",
+      "ninja Yoneda / end form ∫_x [C(c,x), F x] ≅ F c",
+      "natural in F and in C (naturality of the Yoneda bijection)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 133,
+        "symbol": "Yoneda_Lemma",
+        "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; from := {| morphism := fun y : F A => {| transform := fun x : C => {| morphism := fun phi : A ~{ C^op }~> x => @fmap (C^op) Sets F A x phi y |} |} |} }."
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 182,
+        "symbol": "Covariant_Yoneda_Lemma",
+        "intree_statement": "Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) : ∀ A : C, Copresheaves [Hom A,─] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; from := {| morphism := fun y : F A => {| transform := fun x : C => {| morphism := fun phi : A ~{ C }~> x => @fmap C Sets F A x phi y |} |} |} }."
+      },
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 297,
+        "symbol": "yoneda_reduction",
+        "intree_statement": "Definition yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c.  (* the end form ∫_x [C(c,x), F x] ≅ F c, forward map s ↦ s c id, inverse b ↦ (fun x g => fmap[F] g b), funext-free over Instance/Sets/End.v *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Lemma 8.2 (Yoneda). For C locally small, every object C and presheaf F ∈ Sets^(C^op): Hom_{Sets^(C^op)}(yC, F) ≅ FC, NATURAL IN BOTH F AND C. The forward map is ϑ ↦ ϑ_C(1_C); the inverse sends a ∈ FC to ϑ_a with (ϑ_a)_{C'}(h) = F(h)(a). Naturality in F: for ϑ : F → G the square with Hom(yC, ϑ) on the left and the component ϑ_C on the right commutes. Naturality in C: for h : C → D the square with Hom(yh, F) on the left and Fh on the right commutes.",
+      "intree": "Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A, with to := fun x => transform[x] A id and from := fun y => {| transform := fun x => {| morphism := fun phi => fmap[F] phi y |} |}.",
+      "strength_comparison": "intree-weaker: the bijection itself matches the book exactly — same forward map (evaluation at the identity), same inverse (F(h)(a)), same round-trip proofs (naturality of ϑ one way, fmap_id the other; obligations at Functor/Hom/Yoneda.v:166-179), and it is an isomorphism in Sets, so both directions are SetoidMorphisms respecting ≈. But the in-tree statement is a FAMILY of isomorphisms indexed by A (∀ A : C, ...) with F a section parameter; neither of the book's two naturality clauses is stated or proved."
+    },
+    "gap": "Naturality of the Yoneda bijection is absent in both arguments. (i) Naturality in C: the family `∀ A : C, Presheaves [Hom ─,A] F ≅ F A` is a bare Π-type, not a natural isomorphism; there is no statement that for h : C ~> D the square relating Hom(yh, F) to fmap[F] h commutes. (ii) Naturality in F: F is a fixed section parameter, so there is no statement that for ϑ : F ⟹ G the square relating Hom(yC, ϑ) to the component ϑ_C commutes; formalizing it would require organizing both sides as functors [C^op, Sets] ⟶ Sets, which is not done. The same limitation holds for Covariant_Yoneda_Lemma and for the end/coend forms (Theory/Coend/Yoneda.v's yoneda_reduction and coyoneda_reduction are also stated pointwise in c). Grep for 'natural in' over *.v shows the phrase only in comments (including Functor/Hom/Yoneda.v:22, which advertises 'natural in both A and F' that the code does not deliver).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'natural in' . — Functor/Hom/Yoneda.v:22 is a comment claiming naturality; no corresponding Lemma/Instance",
+      "grep -n 'Definition\\|Lemma\\|Theorem\\|Program\\|Instance ' Theory/Coend/Yoneda.v — coyoneda_iso/coyoneda_reduction/yoneda_iso/yoneda_reduction, all pointwise at a fixed object c",
+      "grep -rn --include='*.v' 'Yoneda' . — 27 files; none states a Natural/⟹ form of the Yoneda bijection"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL stands and the gap is exactly the one my blind pass identified. Verified Functor/Hom/Yoneda.v:133 `Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A` with to := fun x => transform[x] A id and from := fun y => the transformation phi ↦ fmap[F] phi y — the book's two maps verbatim — and the two round-trip obligations at lines 166-171 (fmap_id) and 172-179 (rewrite naturality), matching Awodey's proof exactly. Naturality in NEITHER argument is stated: the type is a bare Π over A and F is a fixed section parameter. I confirmed by independent search that no Natural/⟹ form of the Yoneda bijection exists anywhere (`rg 'natural in'` hits only comments; Theory/Coend/Yoneda.v:297 yoneda_reduction and :174 coyoneda_reduction are likewise pointwise at a fixed c). One structural detail worth recording for issue drafting: the statement typechecks because `Coercion Curried_Hom : Category >-> Functor` (Functor/Hom.v:78) turns `Presheaves [Hom ─,A] F` into the hom-SETOID as a Sets-object, so a naturality-in-F formulation would have to organize both sides as functors [C^op, Sets] ⟶ Sets — exactly what the gap says. See problems[] for the header defect at Functor/Hom/Yoneda.v:22."
+    }
+  },
+  {
+    "id": "awodey:8.3:thm3",
+    "classification": "PRESENT",
+    "aliases": [
+      "Yoneda embedding is full and faithful",
+      "Yoneda_Full / Yoneda_Faithful / Yoneda_Embedding / Yoneda_Embedding'",
+      "Hom_C(C, D) ≅ Nat(yC, yD)",
+      "every natural transformation yC → yD is yh for a unique h",
+      "y is fully faithful (reflects isomorphisms)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 96,
+        "symbol": "Yoneda_Full",
+        "intree_statement": "#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).  Proof. unshelve econstructor; simpl in *. - exact (fun c d f => f c id). - abstract(intros x y [Ftrans Fnat ?] c f; simpl in *; unfold op; now rewrite Fnat, id_right). Defined."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 85,
+        "symbol": "Yoneda_Faithful",
+        "intree_statement": "#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C).  Proof. constructor. intros c c' f g same_nat_iso. simpl in same_nat_iso. specialize same_nat_iso with c id. now rewrite 2 id_left in same_nat_iso. Qed."
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 231,
+        "symbol": "Yoneda_Embedding",
+        "intree_statement": "Program Instance Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.  (* ≊ is isomorphism in Sets between the two setoids; the `from` direction sends h : A ~> B to the transformation with components g ↦ h ∘ g, i.e. y h *)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 109,
+        "symbol": "Yoneda_Embedding'",
+        "intree_statement": "Corollary Yoneda_Embedding' (C: Category) (c d : C) : @IsIsomorphism Sets {| carrier := hom d c |} {| carrier := hom (fobj[C] c) (fobj[C] d) |} {| morphism := @fmap _ _ (Curried_Hom C) c d; proper_morphism := fmap_respects _ _ |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Theorem 8.3. The Yoneda embedding y : C ⟶ Sets^(C^op) is full and faithful. Proof by the Yoneda lemma at F = yD: Hom_C(C, D) = yD(C) ≅ Hom_{Sets^(C^op)}(yC, yD), and the bijection is exactly the action of y on arrows, so every natural transformation yC → yD is yh for a UNIQUE h : C → D.",
+      "intree": "Yoneda_Full (C) : Full (Curried_Hom C) with prefmap := fun c d f => f c id and fmap_sur discharged by naturality + id_right; Yoneda_Faithful (C) : Faithful (Curried_Hom C); Yoneda_Embedding (C) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B; Yoneda_Embedding' (C) c d : the map fmap[Curried_Hom C] c d is an IsIsomorphism in Sets.",
+      "strength_comparison": "same. Full/Faithful are stated for `Curried_Hom C : C^op ⟶ [C, Sets]` for an ARBITRARY C, so instantiating at C^op gives Full/Faithful of Curried_Hom C^op = Curried_CoHom C = Awodey's y verbatim (definitional, since C^op^op = C by reflexivity). The uniqueness clause is delivered twice over: Yoneda_Full's prefmap g = g c id exhibits the preimage exactly as the book's evaluation-at-identity, Yoneda_Faithful gives its uniqueness, and Yoneda_Embedding' packages the two as an isomorphism of hom-setoids in Sets whose forward map IS fmap[Curried_Hom]. Yoneda_Embedding states the same bijection directly in Awodey's contravariant orientation ([Hom ─,A] = yA). Setoid rephrasing only (≈ in place of =, and Full is witnessed by a chosen preimage rather than bare surjectivity)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Verified all four citations: Functor/Hom.v:96 `Yoneda_Full (C) : Full (Curried_Hom C)` with prefmap := fun c d f => f c id, :85 `Yoneda_Faithful (C) : Faithful (Curried_Hom C)`, :109 `Yoneda_Embedding' (C) c d : @IsIsomorphism Sets ... {| morphism := @fmap _ _ (Curried_Hom C) c d |}` — note this one pins the bijection to be fmap[y] itself, which is precisely Awodey's 'the bijection is exactly the action of y on arrows' — and Functor/Hom/Yoneda.v:231 Yoneda_Embedding in the contravariant orientation, whose `from` obligation (lines 234-245, `exact (X ∘ X0)`) is postcomposition, i.e. y h. The record's instantiation argument checks out: Yoneda_Full/Yoneda_Faithful at C^op give Full/Faithful of `Curried_Hom C^op`, which is DEFINITIONALLY `Curried_CoHom C` (Functor/Hom.v:146 is a plain `Definition ... := Curried_Hom C^op`), with (C^op)^op = C by reflexivity (Construction/Opposite.v:126 op_invol). No same-name-weaker trap: the names Yoneda_Full/Yoneda_Faithful carry the full-strength Full/Faithful classes of Theory/Functor.v, not a bespoke weakening. Both files registered in _CoqProject (139, 141)."
+    }
+  },
+  {
+    "id": "awodey:8.3:remark4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "size conditions / smallness for the Yoneda lemma",
+      "small vs locally small category",
+      "Sets^(C^op) is locally small when C is small",
+      "Hom(yC, P) is a set / universe levels",
+      "universe polymorphism {o h p}, hom-setoid universe"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; uhom := Type@{h} : Type@{h+1}; hom : obj → obj → uhom where \"a ~> b\" := (hom a b); homset : ∀ X Y, Setoid@{h p} (X ~> Y); ... }."
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 133,
+        "symbol": "Yoneda_Lemma",
+        "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := { ... }.  (* the type itself asserts that the collection of natural transformations [Hom ─,A] ⟹ F is an OBJECT of Sets, i.e. a set at the ambient level *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Remark 8.4 (size conditions). (i) If C is small then Sets^(C^op) is locally small, so Hom(yC, P) is a set for every presheaf P. (ii) If C is only locally small then Sets^(C^op) need not be locally small, but the Yoneda lemma still guarantees the particular collection Hom(yC, P) ≅ PC is a set. (iii) If C is not locally small then y : C ⟶ Sets^(C^op) is not even definable, so the Yoneda lemma does not apply.",
+      "intree": "Class Category@{o h p | h <= p} := { obj : Type@{o}; hom : obj → obj → Type@{h}; homset : ∀ X Y, Setoid@{h p} (X ~> Y); ... }; and Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A.",
+      "strength_comparison": "intree-weaker as a STATEMENT, though the underlying discipline is enforced. Case (iii) cannot arise: every in-tree Category has hom : obj → obj → Type@{h} with a Setoid on each hom, so local smallness relative to the universe parameters is built into the class and y is always definable. Cases (i)/(ii) are realized only implicitly: the very typability of Yoneda_Lemma asserts that Hom(yA, F) is an object of Sets, and the corresponding universe constraint (roughly, C small relative to Sets' carrier universe) is inferred by Coq rather than stated. Nothing in the tree states the trichotomy, states either implication, or distinguishes 'small' from 'locally small' at all."
+    },
+    "gap": "The library has no smallness vocabulary in which Remark 8.4 could be phrased: greps for 'Class Small', 'Small :', 'IsSmall', 'LocallySmall', 'Locally_Small' all return 0 hits, and Theory/Lawvere/Sets.v:44 records in-tree that 'the library has no smallness machinery' (there packaging a smallness hypothesis as data instead). Consequently: (a) no theorem 'C small ⇒ [C^op, Sets] locally small'; (b) no statement of case (ii) — that Hom(yC, P) is a set even when [C^op, Sets] is not locally small — the in-tree Yoneda_Lemma PRESUPPOSES rather than concludes that Hom(yC, P) is a Sets-object, since both sides of its ≅ must already be Sets-objects for the statement to type-check; (c) case (iii) is unstatable because the Category class makes every category locally small by construction. The universe constraints that do the work are implicit and undeclared — Functor/Hom.v and Functor/Hom/Yoneda.v carry no `Universes`/`Universe` declarations at all — so they are not readable as the book's remark. Related honest notes exist only as comments (Instance/Sets/End.v:47, Instance/Sets/Coend.v:60: 'these smallness constraints are inferred by universe polymorphism'; Instance/Sets/Classifier.v:24 on the Sets size obstruction).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Class Small\\|Small :\\|IsSmall\\|LocallySmall\\|Locally_Small' . — 0 hits each",
+      "grep -rn --include='*.v' -i 'locally small' . — 3 hits, all prose comments (Functor/Hom.v:18, Functor/Representable.v:29, Construction/Enriched.v:26)",
+      "grep -rn --include='*.v' 'Universes\\|Universe ' Functor/Hom.v Functor/Hom/Yoneda.v Instance/Sets.v — 0 hits (no explicit universe declarations on the Yoneda development)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL is the right call under the frozen definition (universe polymorphism exists, so this is a size discussion that is partly realized, not OUT_OF_SCOPE) and my blind pass reached the same. I re-ran every decisive negative search myself: `rg 'Class Small|Small :|IsSmall|LocallySmall|Locally_Small'` — 0 hits; `rg -i 'locally small'` — 3 hits, all prose (Functor/Hom.v:18, Functor/Representable.v:29, Construction/Enriched.v:26); `rg 'Universe|Universes' Functor/Hom.v Functor/Hom/Yoneda.v` — 0 hits. Theory/Lawvere/Sets.v:44 does say verbatim 'since the library has no smallness machinery' — quote accurate. The analysis in (b) is subtle and I verified it: `Presheaves [Hom ─,A] F` is a Sets-OBJECT only via `Coercion Curried_Hom : Category >-> Functor` (Functor/Hom.v:78), so Yoneda_Lemma's very typability presupposes rather than concludes that the collection of natural transformations is a set — case (ii) of the remark is exactly what is assumed, not derived. Case (iii) is indeed unstatable since Theory/Category.v:111-116 gives every category hom-setoids. strength_comparison ('intree-weaker as a STATEMENT, though the underlying discipline is enforced') is honest."
+    }
+  },
+  {
+    "id": "awodey:8.3:prop-yoneda-injective-objects",
+    "classification": "ABSENT",
+    "aliases": [
+      "y is injective on objects (yA = yB ⇒ A = B)",
+      "the Yoneda embedding is an embedding (full + faithful + injective on objects)",
+      "fobj[Curried_CoHom] injective",
+      "Hom(C, C) = Hom(C, D) forces C = D",
+      "strict / object-injective embedding"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'injective on objects' . — 0 hits",
+      "grep -rn --include='*.v' -i 'InjectiveOnObjects\\|inj_obj\\|obj_inj\\|fobj_inj\\|injective_obj' . — 0 hits each",
+      "grep -rn --include='*.v' 'Injective' . — 0 hits anywhere in the tree",
+      "grep -rn --include='*.v' 'Class Embedding\\|Embedding :\\|is_embedding' . — 0 hits; the only 'Embedding' names are Yoneda_Embedding (Functor/Hom/Yoneda.v:231), Covariant_Yoneda_Embedding (:253) and Yoneda_Embedding' (Functor/Hom.v:109), all of which assert hom-setoid bijections and make no claim about objects",
+      "Read Functor/Hom.v and Functor/Hom/Yoneda.v end-to-end — no statement of the form fobj[Curried_CoHom] A = fobj[Curried_CoHom] B → A = B, and no packaging of Yoneda_Full + Yoneda_Faithful into an 'embedding'",
+      "Nearest in-tree fact, deliberately NOT counted as partial coverage: Theory/Functor.v:355 FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y, which at F = y gives yA ≅ yB → A ≅ B. That is reflection of ISOMORPHISMS, an entirely different (and foundations-independent) claim from injectivity on objects, and it is already the content of awodey:8.3:thm3 rather than of this item; the library systematically avoids object-level equality (Instance/Cat.v:63 flags the object-equality-dependent underlying-graph functor as the reason Cat is built the way it is)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search found no counterpart. Independently re-ran the key greps: `rg 'Injective'` — 0 hits tree-wide; no statement of the form fobj[y] A = fobj[y] B → A = B anywhere; no Embedding class to package it into (same finding as awodey:8.2:def-embedding). I read Functor/Hom.v and Functor/Hom/Yoneda.v end to end and confirm nothing of the kind appears. I specifically endorse the log's refusal to count Theory/Functor.v:355 FullyFaithful as partial coverage: yA ≅ yB → A ≅ B is reflection of isomorphisms, a different claim, and is already the content of awodey:8.3:thm3. Note for issue drafting (not a reason to reclassify): the statement IS expressible here — obj is a Type with Coq equality available — but the library systematically avoids object-level equality, and the book's own printed argument for this claim is flagged in the inventory as a draft slip (variables switch from A,B to C,D mid-sentence), so ABSENT should be filed with low priority if at all."
+    }
+  }
+]

@@ -1,0 +1,2091 @@
+{
+  "book": "seven-sketches",
+  "range": {
+    "pdf_start": 233,
+    "pdf_end": 270
+  },
+  "pages": [
+    {
+      "pdf_page": 233,
+      "book_page": "221",
+      "empty": false,
+      "items": [],
+      "notes": "Chapter 7 opener (title 'Logic of behavior: Sheaves, toposes, and internal languages') and the start of section 7.1. Motivational prose about designing a safe autonomous-vehicle system; footnote 1 on emergence. No numbered environment, no prose definition or construction. Folio 221 printed bottom-centre, as the pagemap predicts for chapter openers."
+    },
+    {
+      "pdf_page": 234,
+      "book_page": "222",
+      "empty": false,
+      "items": [],
+      "notes": "Number 7.1 is CONSUMED BY A NUMBERED DISPLAY: the sensor/controller/motor wiring diagram, right-flush label (7.1). It is back-referenced ('the sensor component box in Eq. (7.1)') but is a picture, not a mathematical claim, so no equation item is minted. Also an unnumbered zoomed sensor diagram (radar/sonar/processor). No named environment on this page."
+    },
+    {
+      "pdf_page": 235,
+      "book_page": "223",
+      "empty": false,
+      "items": [],
+      "notes": "Number 7.2 is CONSUMED BY A NUMBERED DISPLAY: the motor's specification formula ((A = go) => S'' > 1) AND ((A = stop) => S'' = 0), right-flush label (7.2). It IS back-referenced (pp. 223, 224) but is an illustrative specification rather than a claim distinct from surrounding prose, so no equation item is minted; this was the closest call in the range. Remaining content is motivational prose introducing toposes, internal languages and behaviour types; footnote 2 on 'topoi vs toposes'."
+    },
+    {
+      "pdf_page": 236,
+      "book_page": "224",
+      "empty": false,
+      "items": [],
+      "notes": "End of section 7.1 (bullet list informally assigning behaviours to the wires S, A and to the controller box — illustration, no numbered item) and the start of section 7.2. Unnumbered display {p in P | likes_cats(p)} motivating predicates-as-subsets. No numbered environment on this page."
+    },
+    {
+      "pdf_page": 237,
+      "book_page": "225",
+      "empty": false,
+      "items": [
+        "7sketches:7.2.1:remark-topos-properties",
+        "7sketches:7.2.1:prop7.3",
+        "7sketches:7.2.1:ex7.4"
+      ],
+      "notes": "Section 7.2.1 opens with the unnumbered five-item list of Set-like properties of any topos (recorded as remark-topos-properties). Unnumbered bold run-in lead 'Limits and colimits.' is pure recall of Section 3.4.2 and is NOT recorded as an item. Two unnumbered ambiguous-corner-symbol diagrams motivate Proposition 7.3."
+    },
+    {
+      "pdf_page": 238,
+      "book_page": "226",
+      "empty": false,
+      "items": [
+        "7sketches:7.2.1:def7.5",
+        "7sketches:7.2.1:ex7.6",
+        "7sketches:7.2.1:ex7.7",
+        "7sketches:7.2.1:ex7.8"
+      ],
+      "notes": "Bold run-in lead 'Epi-mono factorizations.' introduces Definition 7.5; the lead itself is not an item. Footnote 3 on the etymology of epi/mono is not inventoriable."
+    },
+    {
+      "pdf_page": 239,
+      "book_page": "227",
+      "empty": false,
+      "items": [
+        "7sketches:7.2.1:def-epi-mono-factorization",
+        "7sketches:7.2.1:ex7.9",
+        "7sketches:7.2.1:def-cartesian-closed",
+        "7sketches:7.2.1:ex7.11"
+      ],
+      "notes": "Number 7.10 is CONSUMED BY A NUMBERED DISPLAY: the currying isomorphism C(A x C, D) =~ C(A, D^C), right-flush label (7.10). It sits INSIDE the prose definition of cartesian closure, so it is not a claim distinct from its enclosing item and no equation item is minted; the enclosing prose definition is recorded instead as def-cartesian-closed. Two unnumbered prose definitions on this page (epi-mono factorization/image; cartesian closed) are recorded even though both are introduced by bold run-in leads, because the paragraphs themselves define the notions."
+    },
+    {
+      "pdf_page": 240,
+      "book_page": "228",
+      "empty": false,
+      "items": [
+        "7sketches:7.2.1:def-elementary-topos",
+        "7sketches:7.2.2:def7.12"
+      ],
+      "notes": "Bold run-in lead 'Subobject classifier.' (still in 7.2.1) is not an item, but its footnote 4 states the definition of ELEMENTARY TOPOS and is recorded as def-elementary-topos. Section 7.2.2 begins mid-page. Number 7.13 is CONSUMED BY A NUMBERED DISPLAY: the pair of classifying pullback squares right-flush labelled (7.13) INSIDE the shaded Definition 7.12 box, hence not distinct from its enclosing item; no equation item minted."
+    },
+    {
+      "pdf_page": 241,
+      "book_page": "229",
+      "empty": false,
+      "items": [
+        "7sketches:7.2.2:construction-subobject-classifier-set",
+        "7sketches:7.2.2:ex7.16",
+        "7sketches:7.2.2:ex7.17"
+      ],
+      "notes": "Numbers 7.14 and 7.15 are CONSUMED BY NUMBERED DISPLAYS: Omega_Set := B = {true,false} labelled (7.14), and X = {y in Y | p(y) = true} labelled (7.15). (7.15) IS back-referenced on printed p. 230, but both displays are steps inside the prose construction of the subobject classifier in Set, which is recorded whole as construction-subobject-classifier-set; no separate equation items minted. Exercise 7.17 STARTS here and continues onto PDF 242."
+    },
+    {
+      "pdf_page": 242,
+      "book_page": "230",
+      "empty": false,
+      "items": [
+        "7sketches:7.2.2:ex7.17",
+        "7sketches:7.2.3:construction-and",
+        "7sketches:7.2.3:construction-or"
+      ],
+      "notes": "Exercise 7.17 part 2 continues here (item recorded under its starting page, PDF 241). Section 7.2.3 begins. Number 7.18 is CONSUMED BY A NUMBERED DISPLAY: the OR truth table, right-flush label (7.18); it is a step inside the prose construction of the disjunction map and is not back-referenced, so no equation item is minted. The AND and OR paragraphs, though introduced by bold run-in leads, construct the morphisms AND, OR : B x B -> B and are recorded."
+    },
+    {
+      "pdf_page": 243,
+      "book_page": "231",
+      "empty": false,
+      "items": [
+        "7sketches:7.2.3:ex7.19",
+        "7sketches:7.2.3:ex7.20",
+        "7sketches:7.2.3:ex7.21"
+      ],
+      "notes": "Bold run-in lead 'Review.' is a summary of sections 7.1-7.2.3 and is not an item. Its last paragraph first states that C-Inst is a topos and names 'presheaf toposes'; that claim is recorded once, at its fuller statement on PDF 244 (remark-presheaf-topos), not twice. No numbered display on this page."
+    },
+    {
+      "pdf_page": 244,
+      "book_page": "232",
+      "empty": false,
+      "items": [
+        "7sketches:7.3:remark-presheaf-topos",
+        "7sketches:7.3.1:def7.22"
+      ],
+      "notes": "Section 7.3 (Sheaves) and section 7.3.1 (Presheaves) both begin here. Footnote 5 (functors C -> Set also form a topos, using C^op as site) is folded into remark-presheaf-topos. Definition 7.22's shaded box STARTS here and continues onto PDF 245. No numbered display on this page."
+    },
+    {
+      "pdf_page": 245,
+      "book_page": "233",
+      "empty": false,
+      "items": [
+        "7sketches:7.3.1:def7.22",
+        "7sketches:7.3.1:example7.23"
+      ],
+      "notes": "Top of the page continues Definition 7.22's shaded box (morphism of presheaves = natural transformation); the item is recorded under its starting page, PDF 244. Number 7.24 is CONSUMED BY A NUMBERED DISPLAY: the 'arrow shape' picture right-flush labelled (7.24) INSIDE the shaded Example 7.23 box; back-referenced within the same example, but not distinct from it, so no equation item is minted."
+    },
+    {
+      "pdf_page": 246,
+      "book_page": "234",
+      "empty": false,
+      "items": [
+        "7sketches:7.3.2:def7.25",
+        "7sketches:7.3.2:example7.26"
+      ],
+      "notes": "Section 7.3.2 (Topological spaces) begins. Footnote 6 (a subset is 'open' iff it lies in Op) and footnote 7 (Euclidean distance) carry no independent content. Example 7.26's shaded box STARTS here and continues onto PDF 247. No numbered display on this page."
+    },
+    {
+      "pdf_page": 247,
+      "book_page": "235",
+      "empty": false,
+      "items": [
+        "7sketches:7.3.2:example7.26",
+        "7sketches:7.3.2:ex7.27",
+        "7sketches:7.3.2:example7.28",
+        "7sketches:7.3.2:ex7.29",
+        "7sketches:7.3.2:example7.30"
+      ],
+      "notes": "Top of the page continues Example 7.26 (epsilon-ball figure and the metric-space generalization); recorded under PDF 246. Example 7.30's shaded box STARTS at the bottom of this page and continues onto PDF 248. No numbered display on this page."
+    },
+    {
+      "pdf_page": 248,
+      "book_page": "236",
+      "empty": false,
+      "items": [
+        "7sketches:7.3.2:example7.30",
+        "7sketches:7.3.2:construction-opens-preorder",
+        "7sketches:7.3.2:ex7.31",
+        "7sketches:7.3.2:ex7.32",
+        "7sketches:7.3.2:remark7.33",
+        "7sketches:7.3.2:ex7.34"
+      ],
+      "notes": "Top of the page completes Example 7.30 (Op_1, Op_2, the Sierpinski space); recorded under PDF 247. The bold run-in lead 'The open sets of a topological space form a preorder.' heads a paragraph that actually builds the category Op, so the construction (not the lead) is recorded. Section 7.3.3 (Sheaves on topological spaces) begins at the foot of the page. Footnote 8 gives hints for Exercise 7.32. No numbered display on this page."
+    },
+    {
+      "pdf_page": 249,
+      "book_page": "237",
+      "empty": false,
+      "items": [
+        "7sketches:7.3.3:def7.35",
+        "7sketches:7.3.3:example7.36"
+      ],
+      "notes": "Definition 7.35 (matching family / gluing / sheaf condition / sheaf / Shv) fits entirely on this page; its internal restriction equation s_i|_{Ui n Uj} = s_j|_{Ui n Uj} is UNNUMBERED. Bold run-in lead 'Extended example: sections of a function.' at the foot of the page introduces the Sec_f construction, which is recorded starting on PDF 250 where its mathematics begins. No numbered display on this page."
+    },
+    {
+      "pdf_page": 250,
+      "book_page": "238",
+      "empty": false,
+      "items": [
+        "7sketches:7.3.3:ex7.38",
+        "7sketches:7.3.3:construction-sections-sheaf"
+      ],
+      "notes": "Number 7.37 is CONSUMED BY A NUMBERED DISPLAY: the picture of f : X -> Y with its fibers, right-flush labelled (7.37). Heavily back-referenced (Exercises 7.38, 7.40, 7.42) but it is a figure, not a claim, so no equation item is minted. The Sec_f construction STARTS here and runs through PDF 252."
+    },
+    {
+      "pdf_page": 251,
+      "book_page": "239",
+      "empty": false,
+      "items": [
+        "7sketches:7.3.3:construction-sections-sheaf",
+        "7sketches:7.3.3:ex7.40",
+        "7sketches:7.3.3:ex7.42"
+      ],
+      "notes": "TWO numbers CONSUMED BY NUMBERED DISPLAYS on this page: (7.39), the six cross-sections s_1..s_6 over U = {a,b}, and (7.41), the two restricted sections over V = {a}. Both are figures back-referenced in the surrounding text; neither is a distinct claim, so no equation items are minted. The Sec_f construction continues here (recorded under PDF 250)."
+    },
+    {
+      "pdf_page": 252,
+      "book_page": "240",
+      "empty": false,
+      "items": [
+        "7sketches:7.3.3:construction-sections-sheaf",
+        "7sketches:7.3.3:ex7.44",
+        "7sketches:7.3.3:example7.45"
+      ],
+      "notes": "Number 7.43 is CONSUMED BY A NUMBERED DISPLAY: the pair of overlapping sections g_1, g_2 that agree on {b}, right-flush labelled (7.43); back-referenced in Exercise 7.44 but a figure, so no equation item. The unnumbered 'glued section' figure follows. The Sec_f construction concludes here (recorded under PDF 250). Bold run-in lead 'Other examples of sheaves.' is not an item. Example 7.45's shaded box STARTS at the foot of the page and continues onto PDF 253."
+    },
+    {
+      "pdf_page": 253,
+      "book_page": "241",
+      "empty": false,
+      "items": [
+        "7sketches:7.3.3:example7.45",
+        "7sketches:7.3.3:example7.46"
+      ],
+      "notes": "Top of the page completes Example 7.45 (restriction along inclusions; Sec_f is a sheaf); recorded under PDF 252. Example 7.46's shaded box STARTS here (tangent bundle picture) and continues onto PDF 254. No numbered display on this page."
+    },
+    {
+      "pdf_page": 254,
+      "book_page": "242",
+      "empty": false,
+      "items": [
+        "7sketches:7.3.3:example7.46",
+        "7sketches:7.3.3:ex7.47",
+        "7sketches:7.3.3:example7.48",
+        "7sketches:7.3.3:ex7.49",
+        "7sketches:7.4:def-topos"
+      ],
+      "notes": "Top of the page completes Example 7.46 (Poincare hairy-ball theorem, local vs global sections as a generative effect); recorded under PDF 253. Section 7.4 (Toposes) begins at the foot of the page with the chapter's operative unnumbered definition 'a topos is defined to be a category of sheaves', which continues onto PDF 255 (outside this owned range). Footnote 9 (sheaf topos / Grothendieck topos vs Lawvere's elementary topos) is folded into that item. No numbered display on this page. RANGE BOUNDARY: PDF 255 opens section 7.4.1 and carries displays (7.50), (7.51) and forward references to Exercise 7.53 — all belong to the adjacent agent and are NOT recorded here."
+    },
+    {
+      "pdf_page": 255,
+      "book_page": "243",
+      "empty": false,
+      "items": [
+        "7sketches:7.4:def-topos",
+        "7sketches:7.4.1:eq7.50",
+        "7sketches:7.4.1:eq7.51"
+      ],
+      "notes": "Tail of Section 7.4 (toposes encompass sheaves on spaces and instances on a database schema; footnote 10 explains that presheaves count as sheaves and that making this precise would require sites, which are declared out of scope). Section 7.4.1 'The subobject classifier Omega in a sheaf topos' opens. The chapter counter is touched twice on this page, both times by DISPLAYS: (7.50) and (7.51). Both are recorded as `equation` items because each carries a distinct definitional claim and both are explicitly back-referenced later (by Exercises 7.52 and 7.53 and by the sheaf-condition verification on the next page). No named environment starts on this page."
+    },
+    {
+      "pdf_page": 256,
+      "book_page": "244",
+      "empty": false,
+      "items": [
+        "7sketches:7.4.1:ex7.52",
+        "7sketches:7.4.1:ex7.53",
+        "7sketches:7.4.1:construction-omega-classifier",
+        "7sketches:7.4.1:example7.54"
+      ],
+      "notes": "Contains an UNNUMBERED prose proof that the Omega of (7.50)/(7.51) satisfies the sheaf condition (with an unnumbered chain of equalities showing V and U_j intersect in V_j), followed by the unnumbered construction of the classifying morphism true from the terminal sheaf to Omega; both are folded into the single construction item recorded here. The bold run-in lead 'Upshot: Truth values are open sets.' is NOT recorded as an item per the campaign rule on unnumbered bold run-in leads; its content (truth values in Shv(X,Op) are the open sets, X being fully true and the empty set fully false) is folded into the construction item's summary. Example 7.54 STARTS at the foot of this page and continues onto PDF 257."
+    },
+    {
+      "pdf_page": 257,
+      "book_page": "245",
+      "empty": false,
+      "items": [
+        "7sketches:7.4.1:example7.54",
+        "7sketches:7.4.1:ex7.55",
+        "7sketches:7.4.2:eq7.56",
+        "7sketches:7.4.2:eq7.57",
+        "7sketches:7.4.2:def-negation"
+      ],
+      "notes": "Top of page continues Example 7.54 (the drawn subobject classifier of the topos of graphs, plus the recipe for the classifying homomorphism of a subgraph); that item is recorded under its starting page, PDF 256. Section 7.4.2 'Logic in a sheaf topos' opens here. Two numbers on this page are consumed by DISPLAYS, (7.56) and (7.57); both are recorded as `equation` items since each defines a logical connective on the open-set truth values, and (7.57) is back-referenced twice on this very page. Negation is defined in running prose immediately after (7.57) with no number of its own and is recorded as an unnumbered definition."
+    },
+    {
+      "pdf_page": 258,
+      "book_page": "246",
+      "empty": false,
+      "items": [
+        "7sketches:7.4.2:example7.58",
+        "7sketches:7.4.2:ex7.59",
+        "7sketches:7.4.2:ex7.60",
+        "7sketches:7.4.2:example7.61"
+      ],
+      "notes": "Four consecutive named environments, 7.58 through 7.61, no numbers consumed by displays on this page. Example 7.61 STARTS here (shaded box) and continues onto PDF 259."
+    },
+    {
+      "pdf_page": 259,
+      "book_page": "247",
+      "empty": false,
+      "items": [
+        "7sketches:7.4.2:example7.61",
+        "7sketches:7.4.3:def-predicate",
+        "7sketches:7.4.3:ex7.62",
+        "7sketches:7.4.3:eq7.63"
+      ],
+      "notes": "Top line finishes Example 7.61 (recorded under PDF 258). Section 7.4.3 'Predicates' opens; after a long paragraph of English-grammar motivation (skipped as motivational prose) the text gives an UNNUMBERED definition of a predicate in a sheaf topos, recorded here. The bold run-in lead 'The poset of subobjects.' is not itself an item, but the numbered display (7.63) it introduces is recorded as an `equation` item (it is back-referenced by name in Section 7.4.5) and its defining text runs over onto PDF 260."
+    },
+    {
+      "pdf_page": 260,
+      "book_page": "248",
+      "empty": false,
+      "items": [
+        "7sketches:7.4.3:eq7.63",
+        "7sketches:7.4.3:ex7.64",
+        "7sketches:7.4.3:remark-heyting-predicates",
+        "7sketches:7.4.4:example7.65"
+      ],
+      "notes": "Top of page completes the (7.63) item (turnstile notation for the ordering in an unnumbered display, the specialization to propositions when S is terminal, and the antisymmetry argument). After Exercise 7.64 comes an unnumbered paragraph asserting that the connectives extend pointwise to predicates and that the resulting poset is a Heyting algebra (recorded as a remark; the book explicitly declines to define Heyting algebra). Section 7.4.4 'Quantification' opens with an unnumbered sentence that quantification turns an (n+1)-ary predicate into an n-ary one; Example 7.65 fills the rest of the page and ENDS on it."
+    },
+    {
+      "pdf_page": 261,
+      "book_page": "249",
+      "empty": false,
+      "items": [
+        "7sketches:7.4.4:ex7.66",
+        "7sketches:7.4.4:def-universal-quantification",
+        "7sketches:7.4.4:ex7.67",
+        "7sketches:7.4.4:def-existential-quantification"
+      ],
+      "notes": "Two UNNUMBERED definitions introduced by bold run-in leads ('Universal quantification.' and 'Existential quantification.'). Per the campaign rule the bold lead is not an item, but the mathematics under each lead IS a definition made in running prose, so each is recorded as an unnumbered definition. The universal case also carries an unnumbered pullback square; the existential case runs over onto PDF 262 where its unnumbered epi-mono factorization square appears. No numbers are consumed by displays on this page."
+    },
+    {
+      "pdf_page": 262,
+      "book_page": "250",
+      "empty": false,
+      "items": [
+        "7sketches:7.4.4:def-existential-quantification",
+        "7sketches:7.4.4:ex7.68",
+        "7sketches:7.4.5:def7.69",
+        "7sketches:7.4.5:ex7.70",
+        "7sketches:7.4.5:prop7.71"
+      ],
+      "notes": "Top of page finishes the existential-quantification definition (recorded under PDF 261) including its unnumbered epi-mono factorization diagram. Section 7.4.5 'Modalities' opens, back-referencing Example 1.123 of Chapter 1 and the poset of (7.63). Definition 7.69 is a genuine boxed Definition; Proposition 7.71 is a genuine boxed Proposition whose box ends on this page (the sentence declining to prove it appears at the top of PDF 263 and is not part of the environment)."
+    },
+    {
+      "pdf_page": 263,
+      "book_page": "251",
+      "empty": false,
+      "items": [
+        "7sketches:7.4.5:ex7.72",
+        "7sketches:7.4.6:eq7.73",
+        "7sketches:7.4.6:example7.74"
+      ],
+      "notes": "Section 7.4.6 'Type theories and semantics' opens. Number 7.73 is consumed by a DISPLAY (the sample formula of the internal language); it is recorded as an `equation` item because it is back-referenced by number four separate times (in Example 7.74 and three times on PDF 264). Example 7.74 STARTS at the foot of this page and its discussion continues onto PDF 264. The surrounding paragraphs on soundness, internal language, categorical/Kripke-Joyal semantics are informal exposition and are not separately recorded (they are summarized inside the Example 7.74 entry)."
+    },
+    {
+      "pdf_page": 264,
+      "book_page": "252",
+      "empty": false,
+      "items": [
+        "7sketches:7.4.6:example7.74",
+        "7sketches:7.5:remark7.75",
+        "7sketches:7.5.1:def-interval-domain",
+        "7sketches:7.5.1:ex7.76"
+      ],
+      "notes": "Top of page continues Example 7.74 with two indented shaded blocks giving the Kripke-Joyal compilation of (7.73) for database instances and for sheaves on a space; recorded under PDF 263. NOTE an apparent authorial slip in both blocks: the quantifier order and the roles of S and T do not line up with the formula of (7.73) for a morphism from S to T (see problems[]). Section 7.5 'A topos of behavior types' opens with Remark 7.75 (recorded even though purely expository, per the campaign's no-filtering rule). Section 7.5.1 'The interval domain' then defines the interval domain and its basic opens in running prose with no number, recorded as an unnumbered definition. Exercise 7.76 STARTS at the very bottom (its header line only); its two parts are on PDF 265."
+    },
+    {
+      "pdf_page": 265,
+      "book_page": "253",
+      "empty": false,
+      "items": [
+        "7sketches:7.5.1:ex7.76",
+        "7sketches:7.5.1:construction-behavior-types",
+        "7sketches:7.5.1:ex7.77",
+        "7sketches:7.5.2:remark-basic-open-continuity",
+        "7sketches:7.5.2:example7.78"
+      ],
+      "notes": "Parts 1 and 2 of Exercise 7.76 sit at the top (item recorded under PDF 264). The topos BT of behavior types and the embedding of the real line into the interval domain are set up in unnumbered prose with one unnumbered display, recorded as a construction. Section 7.5.2 'Sheaves on the interval domain' opens; the bold run-in lead 'What is a sheaf on the interval domain?' is not itself an item, but the unnumbered continuity display relating a basic open to the limit over shrinking epsilon-enlargements is a distinct claim and is recorded as a remark. Example 7.78 STARTS at the foot of the page and continues onto PDF 266."
+    },
+    {
+      "pdf_page": 266,
+      "book_page": "254",
+      "empty": false,
+      "items": [
+        "7sketches:7.5.2:example7.78",
+        "7sketches:7.5.2:example7.79",
+        "7sketches:7.5.2:ex7.80",
+        "7sketches:7.5.2:example7.81",
+        "7sketches:7.5.2:remark-truth-values-interval-domain"
+      ],
+      "notes": "Top of page finishes Example 7.78 (constant sheaf), recorded under PDF 265. Three further named environments, 7.79 through 7.81. The unshaded paragraph after Example 7.81 on behavior types being 'almost any sort of behavior' is motivational and is not recorded. The bold run-in lead 'The subobject classifier as a sheaf on the interval domain.' is not itself an item, but the material under it makes a substantive claim about why the interval domain rather than the real line is needed for temporal truth values; that is recorded as an unnumbered remark STARTING here and continuing onto PDF 267."
+    },
+    {
+      "pdf_page": 267,
+      "book_page": "255",
+      "empty": false,
+      "items": [
+        "7sketches:7.5.2:remark-truth-values-interval-domain"
+      ],
+      "notes": "NOT empty, but no item starts here. The top two-thirds finish the unnumbered remark on temporal truth values (recorded under PDF 266): the counterexamples of the relieved watcher and the stock market show that truth on two overlapping intervals need not give truth on their union. Section 7.5.3 'Safety proofs in temporal logic' then opens with purely motivational prose about the MIT/Honeywell/NASA airspace project, component guarantees, and the informal notion of a 'behavior contract' (a guarantee captured by a predicate on behavior-type variables). No number is consumed anywhere on this page: the counter jumps from 7.81 on PDF 266 straight to 7.82 on PDF 268, and both of those are accounted for."
+    },
+    {
+      "pdf_page": 268,
+      "book_page": "256",
+      "empty": false,
+      "items": [
+        "7sketches:7.5.3:eq7.82"
+      ],
+      "notes": "Number 7.82 is consumed by a DISPLAY, the sample behavior-contract formula in the internal temporal logic; it is recorded as an `equation` item because it is back-referenced by number three times on this page. It is the LAST number drawn from the chapter counter: Section 7.6 'Summary and further reading', which opens on this page, contains no numbered environment or display at all. The surrounding prose (the at-t modality being of type (c) of Proposition 7.71, and the reading of the formula as an engagement guarantee) is folded into the item summary."
+    },
+    {
+      "pdf_page": 269,
+      "book_page": "257",
+      "empty": false,
+      "items": [],
+      "notes": "NOT empty, but nothing inventoriable: the remainder of Section 7.6 is a bibliography essay (Mac Lane-Moerdijk, Johnstone, Jacobs, Lambek-Scott, domain theory references, categorical approaches to dynamical systems) followed by the book's closing exhortation. No numbered environment, no numbered display, no definition or construction in prose."
+    },
+    {
+      "pdf_page": 270,
+      "book_page": "258",
+      "empty": true,
+      "items": [],
+      "notes": "Blank verso closing Chapter 7 (renders entirely white). Nothing on it."
+    }
+  ],
+  "items": [
+    {
+      "id": "7sketches:7.2.1:remark-topos-properties",
+      "kind": "remark",
+      "number": null,
+      "name": "Set-like properties enjoyed by any topos",
+      "statement_summary": "Asserted without proof as the organizing list of the section: every topos E (i) has all limits, (ii) has all colimits, (iii) is cartesian closed, (iv) has epi-mono factorizations, and (v) has a subobject classifier true : 1 -> Omega. Since Set is a topos, all five hold for Set. The book explicitly declines to prove any of them.",
+      "book_section": "7.2.1",
+      "book_page": "225",
+      "pdf_pages": [
+        237
+      ],
+      "cross_refs": [
+        "7sketches:7.2.2:def7.12",
+        "7sketches:7.2.1:def-cartesian-closed",
+        "7sketches:7.2.1:def-epi-mono-factorization"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.2.1:prop7.3",
+      "kind": "proposition",
+      "number": "7.3",
+      "name": "pasting law for pullbacks",
+      "statement_summary": "Given a commutative diagram with rows A -> B -> C and A' -> B' -> C' joined by three vertical maps, suppose the right-hand square (B, C, B', C') is a pullback. Then the left-hand square (A, B, A', B') is a pullback if and only if the outer rectangle (A, C, A', C') is a pullback.",
+      "book_section": "7.2.1",
+      "book_page": "225",
+      "pdf_pages": [
+        237
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.1:ex7.4",
+      "kind": "exercise",
+      "number": "7.4",
+      "name": "prove the pullback pasting law",
+      "statement_summary": "Prove Proposition 7.3 (the pullback pasting law) directly from the definition of limit given in Section 3.4.2.",
+      "book_section": "7.2.1",
+      "book_page": "225",
+      "pdf_pages": [
+        237
+      ],
+      "cross_refs": [
+        "7sketches:7.2.1:prop7.3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.1:def7.5",
+      "kind": "definition",
+      "number": "7.5",
+      "name": "monomorphism and epimorphism via pullback / pushout squares",
+      "statement_summary": "Let C be a category and f : A -> B a morphism. f is a monomorphism when the square whose two parallel legs are id_A : A -> A and whose other two legs are f (i.e. the square with corners A, A, A, B and maps id_A, id_A, f, f) is a pullback. Dually, f is an epimorphism when the square with corners A, B, B, B and maps f, f, id_B, id_B is a pushout. Epis are described informally as behaving like surjections and monos like injections.",
+      "book_section": "7.2.1",
+      "book_page": "226",
+      "pdf_pages": [
+        238
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.1:ex7.6",
+      "kind": "exercise",
+      "number": "7.6",
+      "name": "monomorphisms in Set are exactly the injections",
+      "statement_summary": "Show that in Set the monomorphisms coincide with the injective functions, in two parts: (1) if f is a monomorphism then f is injective; (2) if f : A -> B is injective then f is a monomorphism.",
+      "book_section": "7.2.1",
+      "book_page": "226",
+      "pdf_pages": [
+        238
+      ],
+      "cross_refs": [
+        "7sketches:7.2.1:def7.5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.1:ex7.7",
+      "kind": "exercise",
+      "number": "7.7",
+      "name": "isomorphisms are pullback-stable; the identity-verticals square is a pullback",
+      "statement_summary": "(1) Show that the pullback of an isomorphism along any morphism is again an isomorphism: given an isomorphism i : B' -> B and an arbitrary f : A -> B, show the induced map i' : A' -> A in the pullback square is an isomorphism. (2) Show that for any map f : A -> B the square whose two vertical legs are identities and whose two horizontal legs are f is a pullback.",
+      "book_section": "7.2.1",
+      "book_page": "226",
+      "pdf_pages": [
+        238
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.1:ex7.8",
+      "kind": "exercise",
+      "number": "7.8",
+      "name": "monomorphisms are stable under pullback",
+      "statement_summary": "Given a pullback square in a category C with maps g : A' -> A, f' : A' -> B', f : A -> B and h : B' -> B, use Proposition 7.3 and Exercise 7.7 to show that if f is a monomorphism then so is its pullback f'.",
+      "book_section": "7.2.1",
+      "book_page": "226",
+      "pdf_pages": [
+        238
+      ],
+      "cross_refs": [
+        "7sketches:7.2.1:prop7.3",
+        "7sketches:7.2.1:ex7.7",
+        "7sketches:7.2.1:def7.5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.1:def-epi-mono-factorization",
+      "kind": "definition",
+      "number": null,
+      "name": "epi-mono factorization and the image of a morphism",
+      "statement_summary": "Defined in running prose: a morphism f : C -> D in E has an epi-mono factorization when there is an object im(f) together with an epimorphism C ->> im(f) and a monomorphism im(f) >-> D whose composite is f. The text then records that in Set every function factors as the surjection onto its image im(f) = {f(c) | c in C} followed by the inclusion im(f) subset D, and that this factorization is unique up to isomorphism; and asserts that the same holds in any topos, i.e. every morphism f : c -> d can be written f = e ; m with e an epimorphism and m a monomorphism.",
+      "book_section": "7.2.1",
+      "book_page": "227",
+      "pdf_pages": [
+        239
+      ],
+      "cross_refs": [
+        "7sketches:7.2.1:def7.5"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.2.1:ex7.9",
+      "kind": "exercise",
+      "number": "7.9",
+      "name": "factor a concrete function through its image",
+      "statement_summary": "Factor the pictured function f from the three-element set to the three-element set as an epimorphism followed by a monomorphism.",
+      "book_section": "7.2.1",
+      "book_page": "227",
+      "pdf_pages": [
+        239
+      ],
+      "cross_refs": [
+        "7sketches:7.2.1:def-epi-mono-factorization"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.1:def-cartesian-closed",
+      "kind": "definition",
+      "number": null,
+      "name": "cartesian closed category",
+      "statement_summary": "Defined in running prose: a category C is cartesian closed when its products supply a symmetric monoidal structure with respect to which C is monoidal closed. Spelled out concretely, this means that for any two objects C, D of C there is a hom-object D^C in C together with an isomorphism C(A x C, D) =~ C(A, D^C) natural in A (numbered display (7.10)) — the currying bijection between two-argument maps out of a product and one-argument maps into an exponential. The text cross-references monoidal closure for preorders (Definition 2.79) and for compact closed categories (Proposition 4.60), and currying (Example 3.72).",
+      "book_section": "7.2.1",
+      "book_page": "227",
+      "pdf_pages": [
+        239
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.2.1:ex7.11",
+      "kind": "exercise",
+      "number": "7.11",
+      "name": "a quantale satisfying three conditions is a cartesian closed preorder",
+      "statement_summary": "Let V = (V, <=, I, tensor) be a unital commutative quantale (Definition 2.90) satisfying, for all v, w, x in V: v <= I; v tensor w <= v and v tensor w <= w; and if x <= v and x <= w then x <= v tensor w. (1) Show that V is a cartesian closed category, indeed a cartesian closed preorder. (2) Decide whether every cartesian closed preorder arises in this way.",
+      "book_section": "7.2.1",
+      "book_page": "227",
+      "pdf_pages": [
+        239
+      ],
+      "cross_refs": [
+        "7sketches:7.2.1:def-cartesian-closed"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.1:def-elementary-topos",
+      "kind": "definition",
+      "number": null,
+      "name": "elementary topos",
+      "statement_summary": "Stated in footnote 4: a category that has finite limits, is cartesian closed, and has a subobject classifier is called an elementary topos. The footnote contrasts this with the Grothendieck notion and notes that the book does not develop elementary toposes further.",
+      "book_section": "7.2.1",
+      "book_page": "228",
+      "pdf_pages": [
+        240
+      ],
+      "cross_refs": [
+        "7sketches:7.2.1:def-cartesian-closed",
+        "7sketches:7.2.2:def7.12",
+        "7sketches:7.4:def-topos"
+      ],
+      "flags": [
+        "footnote-definition",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.2.2:def7.12",
+      "kind": "definition",
+      "number": "7.12",
+      "name": "subobject classifier, characteristic map, predicate",
+      "statement_summary": "Let E be a category with finite limits, i.e. with pullbacks and a terminal object 1. A subobject classifier in E consists of an object Omega together with a monomorphism true : 1 -> Omega such that for all objects X, Y and every monomorphism m : X >-> Y there is a UNIQUE morphism char(m) : Y -> Omega making the square with legs X -> 1, m : X >-> Y, true : 1 -> Omega and char(m) : Y -> Omega a pullback. char(m) is called the characteristic map of m, and one says char(m) classifies m. Conversely, any map p : Y -> Omega determines a subobject by pulling true back along p, written {Y | p}. A predicate on Y is defined to be a morphism Y -> Omega.",
+      "book_section": "7.2.2",
+      "book_page": "228",
+      "pdf_pages": [
+        240
+      ],
+      "cross_refs": [
+        "7sketches:7.2.1:def7.5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.2:construction-subobject-classifier-set",
+      "kind": "construction",
+      "number": null,
+      "name": "the subobject classifier in Set",
+      "statement_summary": "Constructed in running prose: the subobject classifier of Set is the set of booleans Omega_Set := B = {true, false} (display (7.14)), with true : 1 -> B the function sending the point to true. For an injection m : X >-> Y the characteristic function is defined by char(m)(y) = true if m(x) = y for some x in X, and false otherwise — equivalently char(m)(y) = true iff y lies in the image of X. Conversely a predicate p : Y -> B classifies the subset X = {y in Y | p(y) = true} (display (7.15)), which is the concrete reading of the abstract notation {Y | p}. The construction thus exhibits the bijection between subsets of Y and functions Y -> B.",
+      "book_section": "7.2.2",
+      "book_page": "229",
+      "pdf_pages": [
+        241
+      ],
+      "cross_refs": [
+        "7sketches:7.2.2:def7.12"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.2.2:ex7.16",
+      "kind": "exercise",
+      "number": "7.16",
+      "name": "characteristic function of N inside Z",
+      "statement_summary": "Let X = N = {0,1,2,...} and Y = Z, so that X is a subset of Y and gives a monomorphism m : X >-> Y with characteristic function char(m) : Z -> B. Compute (1) char(m)(-5) and (2) char(m)(0).",
+      "book_section": "7.2.2",
+      "book_page": "229",
+      "pdf_pages": [
+        241
+      ],
+      "cross_refs": [
+        "7sketches:7.2.2:def7.12",
+        "7sketches:7.2.2:construction-subobject-classifier-set"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.2:ex7.17",
+      "kind": "exercise",
+      "number": "7.17",
+      "name": "characteristic functions of the identity and of the empty injection",
+      "statement_summary": "(1) The identity function id_N : N -> N is an injection, hence has a characteristic function char(id_N) : N -> B; give its exact value at each natural number n. (2) The unique function from the empty set into N is likewise an injection; give a concrete description of its characteristic function N -> B.",
+      "book_section": "7.2.2",
+      "book_page": "229",
+      "pdf_pages": [
+        241,
+        242
+      ],
+      "cross_refs": [
+        "7sketches:7.2.2:construction-subobject-classifier-set"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.2.3:construction-and",
+      "kind": "construction",
+      "number": null,
+      "name": "conjunction as the characteristic map of (true,true)",
+      "statement_summary": "Constructed in running prose: the function 1 -> B x B picking out the element (true, true) is a monomorphism, so it has a characteristic function char((true,true)) : B x B -> B. By the classification rule (display (7.15)) the only element of B x B sent to true is (true, true), so the truth table of char((true,true)) is exactly that of conjunction. Hence AND is DEFINED to be this characteristic map, a morphism B x B -> B, written infix as x AND y.",
+      "book_section": "7.2.3",
+      "book_page": "230",
+      "pdf_pages": [
+        242
+      ],
+      "cross_refs": [
+        "7sketches:7.2.2:construction-subobject-classifier-set",
+        "7sketches:7.2.2:def7.12"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.2.3:construction-or",
+      "kind": "construction",
+      "number": null,
+      "name": "disjunction as the map classified by a colimit of limits",
+      "statement_summary": "Constructed in running prose, working backwards from the truth table (numbered display (7.18)): the function OR : B x B -> B is the characteristic map of the three-element subset X = {(true,true), (true,false), (false,true)} of B x B. To make the description transportable to an arbitrary topos, X is re-described using only the properties listed at the start of Section 7.2.1 — as the union of {true} x B and B x {true}, i.e. a colimit of limits built from the terminal object, true and products. The same recipe therefore constructs an analogous subobject of Omega x Omega, and hence a morphism Omega x Omega -> Omega, in any topos E.",
+      "book_section": "7.2.3",
+      "book_page": "230",
+      "pdf_pages": [
+        242
+      ],
+      "cross_refs": [
+        "7sketches:7.2.3:construction-and",
+        "7sketches:7.2.1:remark-topos-properties"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.2.3:ex7.19",
+      "kind": "exercise",
+      "number": "7.19",
+      "name": "what does negation classify",
+      "statement_summary": "Negation NOT : B -> B, with NOT(false) = true and NOT(true) = false, is the characteristic function of some thing. (1) Determine what SORT of thing that is — an object, a topos, a morphism, a subobject, or a pullback diagram. (2) Having fixed the sort, identify which thing of that sort it is.",
+      "book_section": "7.2.3",
+      "book_page": "231",
+      "pdf_pages": [
+        243
+      ],
+      "cross_refs": [
+        "7sketches:7.2.2:construction-subobject-classifier-set"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.3:ex7.20",
+      "kind": "exercise",
+      "number": "7.20",
+      "name": "implication defined by P = (P AND Q)",
+      "statement_summary": "For booleans P, Q define P implies Q to mean the equation P = (P AND Q). (1) Fill in the truth table for P AND Q and for the statement P = (P AND Q) across the four rows. (2) Check whether the last column agrees with the intended meaning of implication. (3) Give the characteristic function m : B x B -> B corresponding to implication. (4) Say which subobject m classifies.",
+      "book_section": "7.2.3",
+      "book_page": "231",
+      "pdf_pages": [
+        243
+      ],
+      "cross_refs": [
+        "7sketches:7.2.3:construction-and"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.2.3:ex7.21",
+      "kind": "exercise",
+      "number": "7.21",
+      "name": "computing with characteristic functions of subsets of N",
+      "statement_summary": "Let E, P, T be the subsets of N consisting of the even numbers, the primes, and the numbers >= 10 respectively; each defines a characteristic function N -> B. Compute (1) char(E)(17), (2) char(P)(17), (3) char(T)(17), and (4) name the three smallest elements of the subset classified by (char(E) AND char(P)) OR char(T).",
+      "book_section": "7.2.3",
+      "book_page": "231",
+      "pdf_pages": [
+        243
+      ],
+      "cross_refs": [
+        "7sketches:7.2.3:construction-and",
+        "7sketches:7.2.3:construction-or"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3:remark-presheaf-topos",
+      "kind": "remark",
+      "number": null,
+      "name": "presheaf toposes",
+      "statement_summary": "Asserted without proof in running prose: any small category C can be regarded as a site, and the corresponding topos is the functor category of functors C^op -> Set, whose objects are called presheaves on C. The claim is first made on printed p. 231 in the form that the category C-Inst of database instances on any schema (Definition 3.60) is a topos, and such toposes are named presheaf toposes; footnote 5 adds that the covariant functor category C -> Set is also a topos, obtained by using C^op as the defining site. The book explicitly defers the notion of 'site' as too abstract for the chapter.",
+      "book_section": "7.3",
+      "book_page": "232",
+      "pdf_pages": [
+        244
+      ],
+      "cross_refs": [
+        "7sketches:7.3.1:def7.22",
+        "7sketches:7.4:def-topos"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.3.1:def7.22",
+      "kind": "definition",
+      "number": "7.22",
+      "name": "presheaf, sections, restriction maps, morphism of presheaves",
+      "statement_summary": "Let C be a small category. A presheaf P on C is a functor P : C^op -> Set. For each object c of C the set P(c) is called the set of sections of P over c. For each morphism f : c' -> c the function P(f) : P(c) -> P(c') is called the restriction map along f, and for a section s in P(c) one writes its restriction P(f)(s) in P(c') as s|_f. If P and Q are presheaves, a morphism alpha : P -> Q between them is by definition a natural transformation of the underlying functors C^op -> Set.",
+      "book_section": "7.3.1",
+      "book_page": "232",
+      "pdf_pages": [
+        244,
+        245
+      ],
+      "cross_refs": [
+        "7sketches:7.3:remark-presheaf-topos"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.3.1:example7.23",
+      "kind": "example",
+      "number": "7.23",
+      "name": "presheaves on the arrow shape are directed graphs",
+      "statement_summary": "ArShp is the category with two objects, Vertex and Pure Arrow, and two non-identity morphisms src, tgt : Vertex -> Pure Arrow; the picture (numbered display (7.24)) realizes these as including a vertex as the source and as the target of an arrow. A presheaf on ArShp is a functor ArShp^op -> Set, i.e. a database instance on the schema ArShp^op, which is the schema Gr of Section 3.3.5; hence presheaves on ArShp are exactly directed graphs, with a worked instance drawn. The example generalizes the picture-thinking (objects of C as shapes, morphisms as continuous maps of shapes, a presheaf as a lego construction glued out of those shapes) and closes with the unproved slogan that the category of presheaves on C is the free colimit completion of C.",
+      "book_section": "7.3.1",
+      "book_page": "233",
+      "pdf_pages": [
+        245
+      ],
+      "cross_refs": [
+        "7sketches:7.3.1:def7.22"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.2:def7.25",
+      "kind": "definition",
+      "number": "7.25",
+      "name": "topology, open set, cover, topological space, continuous function",
+      "statement_summary": "Let X be a set with powerset P(X). A topology on X is a subset Op of P(X), whose elements are called open sets, satisfying: (a) the whole set X is open; (b) closure under binary intersection, i.e. U, V in Op implies U intersect V in Op; (c) closure under arbitrary unions, i.e. for any index set I and family U_i in Op the union over i in I of U_i is in Op — the case I empty giving that the empty set is open. If U equals the union of a family (U_i) of opens, one says the family covers U. A topological space is a pair (X, Op) of a set with a topology on it. A continuous function between topological spaces (X, Op_X) and (Y, Op_Y) is a function f : X -> Y such that for every U in Op_Y the preimage f^{-1}(U) lies in Op_X.",
+      "book_section": "7.3.2",
+      "book_page": "234",
+      "pdf_pages": [
+        246
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:def7.35"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.2:example7.26",
+      "kind": "example",
+      "number": "7.26",
+      "name": "the usual topology on the plane, and every metric space as a space",
+      "statement_summary": "The usual topology Op on the plane is generated by epsilon-balls: for real epsilon > 0 and a point p = (x,y), the epsilon-ball centred at p is B(p; epsilon) := {p' | d(p,p') < epsilon}, where d is Euclidean distance (footnote 7). An arbitrary subset U of the plane is declared open, i.e. put in Op, exactly when for every point (x,y) in U there exists a small enough epsilon > 0 with B(x,y; epsilon) contained in U. The example notes that the same construction applies verbatim to any metric space X (Definition 2.51), so every metric space can be regarded as a topological space.",
+      "book_section": "7.3.2",
+      "book_page": "234",
+      "pdf_pages": [
+        246,
+        247
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:def7.25"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.3.2:ex7.27",
+      "kind": "exercise",
+      "number": "7.27",
+      "name": "the metric topology on the real line",
+      "statement_summary": "Regard the reals as a metric space with d(x1, x2) = |x1 - x2|. (1) Define the one-dimensional analogue B(x, epsilon) of an epsilon-ball. (2) Say when an arbitrary subset U of the reals is called open, by analogy with Example 7.26. (3) Find three open sets U1, U2, U such that the family (U_i) for i in {1,2} covers U. (4) Find an open set U together with a covering family (U_i) indexed by an infinite set I.",
+      "book_section": "7.3.2",
+      "book_page": "235",
+      "pdf_pages": [
+        247
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:example7.26",
+        "7sketches:7.3.2:def7.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.2:example7.28",
+      "kind": "example",
+      "number": "7.28",
+      "name": "coarsest and finest topologies; the discrete space",
+      "statement_summary": "For any set X there is a coarsest topology, with as few opens as possible, namely Op_crse = {empty set, X}, and a finest topology, with as many opens as possible, namely Op_fine = P(X) the full powerset. The space (X, P(X)) is called the discrete space on the set X.",
+      "book_section": "7.3.2",
+      "book_page": "235",
+      "pdf_pages": [
+        247
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:def7.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.2:ex7.29",
+      "kind": "exercise",
+      "number": "7.29",
+      "name": "verify the extreme topologies; maps out of a discrete space are continuous",
+      "statement_summary": "(1) Verify that Op_crse from Example 7.28 really is a topology, i.e. satisfies conditions (a)-(c) of Definition 7.25. (2) Verify the same for Op_fine. (3) Show that if (X, P(X)) is discrete and (Y, Op_Y) is any topological space, then EVERY function X -> Y is continuous.",
+      "book_section": "7.3.2",
+      "book_page": "235",
+      "pdf_pages": [
+        247
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:example7.28",
+        "7sketches:7.3.2:def7.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.2:example7.30",
+      "kind": "example",
+      "number": "7.30",
+      "name": "the four topologies on a two-element set; the Sierpinski space",
+      "statement_summary": "On X = {1, 2} there are exactly four topologies. Two of them are Op_crse and Op_fine from Example 7.28; the other two are Op_1 := {empty set, {1}, X} and Op_2 := {empty set, {2}, X}. The two spaces ({1,2}, Op_1) and ({1,2}, Op_2) are isomorphic, and either one is called the Sierpinski space.",
+      "book_section": "7.3.2",
+      "book_page": "235",
+      "pdf_pages": [
+        247,
+        248
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:example7.28"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.3.2:construction-opens-preorder",
+      "kind": "construction",
+      "number": null,
+      "name": "the open sets of a space form a preorder, hence a category",
+      "statement_summary": "Constructed in running prose: for a topological space (X, Op), the subset relation makes (Op, subset-of) a preorder — reflexive because U is a subset of U for every open U, and transitive because U subset V and V subset W give U subset W. Via the preorder-as-category passage of Section 3.2.3, Op is therefore a category whose objects are the open sets of X and in which the hom-set Op(U, V) is empty when U is not a subset of V and has exactly one element when U is a subset of V. This category Op is the site over which presheaves and sheaves on X are subsequently defined.",
+      "book_section": "7.3.2",
+      "book_page": "236",
+      "pdf_pages": [
+        248
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:def7.25",
+        "7sketches:7.3.3:def7.35"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.3.2:ex7.31",
+      "kind": "exercise",
+      "number": "7.31",
+      "name": "Hasse diagram and covers of the Sierpinski space",
+      "statement_summary": "For the Sierpinski space (X, Op_1) of Example 7.30: (1) write down the Hasse diagram of its preorder of open sets; (2) write down all of its covers.",
+      "book_section": "7.3.2",
+      "book_page": "236",
+      "pdf_pages": [
+        248
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:example7.30",
+        "7sketches:7.3.2:construction-opens-preorder"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.2:ex7.32",
+      "kind": "exercise",
+      "number": "7.32",
+      "name": "the subspace topology",
+      "statement_summary": "Given a topological space (X, Op) and any subset Y of X, the subspace topology on Y declares a subset A of Y to be open exactly when A = B intersect Y for some B in Op. (1) Find a B witnessing that the whole set Y is open in the subspace topology. (2) Show that the subspace topology really is a topology in the sense of Definition 7.25 (footnote 8 supplies distributivity hints). (3) Show that the inclusion function Y -> X is continuous.",
+      "book_section": "7.3.2",
+      "book_page": "236",
+      "pdf_pages": [
+        248
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:def7.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.2:remark7.33",
+      "kind": "remark",
+      "number": "7.33",
+      "name": "the open-set preorder of a space is a quantale",
+      "statement_summary": "For any topological space (X, Op), the preorder (Op, subset-of) of open sets, equipped with monoidal unit X and monoidal product intersection, is always a quantale in the sense of Definition 2.79. The remark states the fact is not needed later but invites the reader to explore it in Exercise 7.34.",
+      "book_section": "7.3.2",
+      "book_page": "236",
+      "pdf_pages": [
+        248
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:construction-opens-preorder",
+        "7sketches:7.3.2:ex7.34"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.2:ex7.34",
+      "kind": "exercise",
+      "number": "7.34",
+      "name": "categories enriched in the quantale of opens",
+      "statement_summary": "Recalling that Bool-categories are preorders (Section 2.3.2) and Cost-categories are Lawvere metric spaces (Section 2.3.3), and the interpretations of V-categories for other quantales V (Section 2.3.4): given a topological space (X, Op) and the corresponding quantale V of Remark 7.33, describe what a V-category should be imagined to be.",
+      "book_section": "7.3.2",
+      "book_page": "236",
+      "pdf_pages": [
+        248
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:remark7.33"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.3:def7.35",
+      "kind": "definition",
+      "number": "7.35",
+      "name": "matching family, gluing, sheaf condition, sheaf, category of sheaves",
+      "statement_summary": "Let (X, Op) be a topological space and P : Op^op -> Set a presheaf on Op. Given a family (U_i) for i in I of open sets covering U: a MATCHING FAMILY of P-sections over (U_i) consists of a section s_i in P(U_i) for each i such that for all i, j in I the restrictions agree on overlaps, s_i restricted to U_i intersect U_j equals s_j restricted to U_i intersect U_j. A GLUING (glued section) for a matching family is a section s in P(U) with s restricted to U_i equal to s_i for every i. P SATISFIES THE SHEAF CONDITION for the cover when every matching family for that cover has a UNIQUE gluing; P is a SHEAF on (X, Op) when it satisfies the sheaf condition for every open cover. A morphism of sheaves f : P -> Q is just a morphism of the underlying presheaves, i.e. a natural transformation, and Shv(X, Op) denotes the resulting category of sheaves on X. The text notes that Shv(X, Op) will turn out to be a topos.",
+      "book_section": "7.3.3",
+      "book_page": "237",
+      "pdf_pages": [
+        249
+      ],
+      "cross_refs": [
+        "7sketches:7.3.1:def7.22",
+        "7sketches:7.3.2:def7.25",
+        "7sketches:7.3.2:construction-opens-preorder"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.3:example7.36",
+      "kind": "example",
+      "number": "7.36",
+      "name": "the empty cover forces the sections over the empty set to be a singleton",
+      "statement_summary": "The degenerate but important instance of the sheaf condition: take U to be the empty subset of X and the index set I to be empty, so that the EMPTY family of opens covers U (the union of no sets is the empty set). The empty tuple then counts as a matching family, and it is the only matching family for this cover. Consequently a necessary — though rarely sufficient — condition for a presheaf P : Op^op -> Set to be a sheaf is that P(empty set) be isomorphic to the one-element set, i.e. P of the empty set must be a singleton.",
+      "book_section": "7.3.3",
+      "book_page": "237",
+      "pdf_pages": [
+        249
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:def7.35"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.3:ex7.38",
+      "kind": "exercise",
+      "number": "7.38",
+      "name": "fibers of a concrete function",
+      "statement_summary": "For the function f : X -> Y drawn in display (7.37), whose eight elements of X sit over five elements of Y: give (1) the fiber of f over a, (2) the fiber over c, (3) the fiber over d, and (4) an example of a different function f' : X -> Y for which every fiber has either one or two elements.",
+      "book_section": "7.3.3",
+      "book_page": "238",
+      "pdf_pages": [
+        250
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.3:construction-sections-sheaf",
+      "kind": "construction",
+      "number": null,
+      "name": "the sheaf of sections of a function between discrete spaces",
+      "statement_summary": "Constructed and verified in running prose (the 'extended example'). Regard the sets X and Y as discrete topological spaces, so every subset is open and the given f : X -> Y is automatically continuous (Exercise 7.29). Define a presheaf Sec_f : Op(Y)^op -> Set on an arbitrary subset U of Y by Sec_f(U) := {s : U -> X | (s ; f)(u) = u for all u in U}, i.e. the set of cross-sections choosing exactly one element of the fiber f^{-1}(u) for each u in U; the restriction map along an inclusion V subset U simply restricts the function s to V. The text then argues that Sec_f satisfies the sheaf condition: for a cover U = U1 union U2, a matching family is a pair of sections agreeing on the overlap U1 intersect U2, and such a pair glues to a unique section over U (illustrated with U1 = {a,b}, U2 = {b,e}, overlap {b}).",
+      "book_section": "7.3.3",
+      "book_page": "238",
+      "pdf_pages": [
+        250,
+        251,
+        252
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:def7.35",
+        "7sketches:7.3.3:example7.45",
+        "7sketches:7.3.2:ex7.29"
+      ],
+      "flags": [
+        "spans-page-break",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.3.3:ex7.40",
+      "kind": "exercise",
+      "number": "7.40",
+      "name": "enumerate sections of Sec_f over larger opens",
+      "statement_summary": "Referring to the function f of display (7.37): (1) for V1 = {a,b,c}, draw all the sections, i.e. all elements of Sec_f(V1), in the style of display (7.39); (2) for V2 = {a,b,c,d}, draw all elements of Sec_f(V2); (3) for V3 = {a,b,d,e}, say how many sections Sec_f(V3) has.",
+      "book_section": "7.3.3",
+      "book_page": "239",
+      "pdf_pages": [
+        251
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:construction-sections-sheaf"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.3:ex7.42",
+      "kind": "exercise",
+      "number": "7.42",
+      "name": "a restriction map of Sec_f made explicit",
+      "statement_summary": "(1) Write out the sets of sections Sec_f({a,b,c}) and Sec_f({a,c}). (2) Draw lines from the elements of the first to the elements of the second to display the restriction map along the inclusion {a,c} subset {a,b,c}.",
+      "book_section": "7.3.3",
+      "book_page": "239",
+      "pdf_pages": [
+        251
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:construction-sections-sheaf"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.3:ex7.44",
+      "kind": "exercise",
+      "number": "7.44",
+      "name": "matching and non-matching families for a two-set cover",
+      "statement_summary": "Let U1 = {a,b} and U2 = {b,e}, so their overlap is {b}. (1) Find sections s1 in Sec_f(U1) and s2 in Sec_f(U2) that do NOT agree on the overlap. (2) For that pair, decide whether there exists s in Sec_f(U1 union U2) restricting to s1 on U1 and to s2 on U2. (3) Find sections h1 in Sec_f(U1) and h2 in Sec_f(U2) that DO agree on the overlap but differ from the pair drawn in display (7.43). (4) Find h in Sec_f(U1 union U2) restricting to h1 and h2.",
+      "book_section": "7.3.3",
+      "book_page": "240",
+      "pdf_pages": [
+        252
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:construction-sections-sheaf",
+        "7sketches:7.3.3:def7.35"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.3:example7.45",
+      "kind": "example",
+      "number": "7.45",
+      "name": "the sheaf of sections of a continuous map",
+      "statement_summary": "Generalizing the discrete extended example to arbitrary spaces: let f : (X, Op_X) -> (Y, Op_Y) be a continuous function and define the functor Sec_f : Op_Y^op -> Set by Sec_f(U) := {g : U -> X | g is continuous and (g ; f)(u) = u for all u in U}. The morphisms of Op_Y being inclusions V subset U, the restriction of g to V is ordinary function restriction, the same as in display (7.41). The example asserts (leaving the check to the reader) that Sec_f is again a sheaf on Y.",
+      "book_section": "7.3.3",
+      "book_page": "240",
+      "pdf_pages": [
+        252,
+        253
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:construction-sections-sheaf",
+        "7sketches:7.3.3:def7.35",
+        "7sketches:7.3.2:def7.25"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.3.3:example7.46",
+      "kind": "example",
+      "number": "7.46",
+      "name": "the sheaf of vector fields on a manifold, and the hairy ball theorem",
+      "statement_summary": "Let M be a manifold (imagine a sphere) with tangent bundle TM, the space whose points are pairs (m, v) with m in M and v a tangent vector at m, together with the continuous projection pi : TM -> M sending (m, v) to m. By Example 7.45, pi determines a sheaf Sec_pi on M: an element v of Sec_pi(U) is a vector field over the open set U, continuously assigning a tangent vector to each point of U, e.g. a wind-velocity field; agreeing fields over overlapping regions glue to a field over the union. The example then records Poincare's hairy ball theorem: for a spherical M there is, for every open U strictly contained in M, a section that is nowhere zero, but on the whole sphere every section must vanish somewhere. This mismatch between local sections and global sections is framed as a generative effect and said to be measured by cohomology.",
+      "book_section": "7.3.3",
+      "book_page": "241",
+      "pdf_pages": [
+        253,
+        254
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:example7.45"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.3.3:ex7.47",
+      "kind": "exercise",
+      "number": "7.47",
+      "name": "sheaves on a sphere versus vector fields on it",
+      "statement_summary": "For M a sphere as in Example 7.46, Definition 7.35 gives the category Shv(M) of sheaves on M (such categories being toposes). Decide whether sheaves on M are in one-to-one correspondence with vector fields on M — explaining why if so — and if not, explain how sheaves on M and vector fields on M are actually related.",
+      "book_section": "7.3.3",
+      "book_page": "242",
+      "pdf_pages": [
+        254
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:example7.46",
+        "7sketches:7.3.3:def7.35"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.3:example7.48",
+      "kind": "example",
+      "number": "7.48",
+      "name": "Set is the topos of sheaves on the one-point space",
+      "statement_summary": "Every topological space (X, Op) gives rise to a topos of sheaves on it. In particular the category Set — which one may regard as the whole story of set theory — is the category of sheaves on the one-point space, so in topos theory Set corresponds to a single point; the example draws the moral that arbitrary toposes, living over more interesting spaces and more general sites, are correspondingly more complex.",
+      "book_section": "7.3.3",
+      "book_page": "242",
+      "pdf_pages": [
+        254
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:def7.35",
+        "7sketches:7.4:def-topos"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.3.3:ex7.49",
+      "kind": "exercise",
+      "number": "7.49",
+      "name": "sheaves on the Sierpinski space are functions",
+      "statement_summary": "For the Sierpinski space ({1,2}, Op_1) of Example 7.30: (1) describe the category Op for this space (as in Exercise 7.31); (2) say what a presheaf on Op consists of; (3) state what the sheaf condition amounts to for Op; (4) explain how a sheaf on Op is identified with a function.",
+      "book_section": "7.3.3",
+      "book_page": "242",
+      "pdf_pages": [
+        254
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:example7.30",
+        "7sketches:7.3.2:ex7.31",
+        "7sketches:7.3.3:def7.35"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4:def-topos",
+      "kind": "definition",
+      "number": null,
+      "name": "topos (sheaf topos / Grothendieck topos)",
+      "statement_summary": "The chapter's operative unnumbered definition, opening Section 7.4: a topos is DEFINED to be a category of sheaves. Consequently, for any topological space (X, Op) the category Shv(X, Op) of Definition 7.35 is a topos; taking X to be the one-point space with its unique topology recovers Set as a topos (Example 7.48); and for any database schema, i.e. finitely presented category C, the instance category C-Inst is also a topos — footnote 10 explaining that presheaves count as sheaves, which would be made precise via sites. Footnote 9 records that this notion is sometimes called a sheaf topos or Grothendieck topos, and that there is a more general elementary topos due to Lawvere.",
+      "book_section": "7.4",
+      "book_page": "242",
+      "pdf_pages": [
+        254,
+        255
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:def7.35",
+        "7sketches:7.3.3:example7.48",
+        "7sketches:7.3:remark-presheaf-topos",
+        "7sketches:7.2.1:def-elementary-topos"
+      ],
+      "flags": [
+        "spans-page-break",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.1:eq7.50",
+      "kind": "equation",
+      "number": "7.50",
+      "name": "the subobject classifier of a sheaf topos, as a presheaf",
+      "statement_summary": "For a topological space with open-set poset Op, defines the object of truth values of Shv(X,Op) on objects: to each open U it assigns the SET of opens contained in U. This is the object part of the functor from Op-opposite to Set that the section is identifying as the subobject classifier; the text motivates it by observing that a sheaf is first of all a presheaf, so one must say what presheaf the classifier is before checking the sheaf condition.",
+      "book_section": "7.4.1",
+      "book_page": "243",
+      "pdf_pages": [
+        255
+      ],
+      "cross_refs": [
+        "7sketches:7.4.1:eq7.51",
+        "7sketches:7.4.1:ex7.52",
+        "7sketches:7.4.1:ex7.53",
+        "7sketches:7.4.1:construction-omega-classifier",
+        "7sketches:7.3.3:def7.35"
+      ],
+      "flags": [
+        "back-referenced-by-number",
+        "distinct-claim",
+        "number-consumed-by-display"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.1:eq7.51",
+      "kind": "equation",
+      "number": "7.51",
+      "name": "restriction maps of the subobject-classifier presheaf",
+      "statement_summary": "Completes the previous display to a functor: for opens V contained in U, the restriction map from the truth values over U to those over V sends an open subset of U to its intersection with V. Together with the object assignment this is claimed to be a presheaf; functoriality is deferred to Exercise 7.53.",
+      "book_section": "7.4.1",
+      "book_page": "243",
+      "pdf_pages": [
+        255
+      ],
+      "cross_refs": [
+        "7sketches:7.4.1:eq7.50",
+        "7sketches:7.4.1:ex7.53"
+      ],
+      "flags": [
+        "back-referenced-by-number",
+        "distinct-claim",
+        "number-consumed-by-display"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.1:ex7.52",
+      "kind": "exercise",
+      "number": "7.52",
+      "name": "the one-point space and the booleans",
+      "statement_summary": "Take X to be the one-point space. Earlier the subobject classifier of Set was said to be the two-element boolean set; reconcile that with the general recipe of the previous display, i.e. show the opens-of-U description yields exactly two truth values over the one-point space.",
+      "book_section": "7.4.1",
+      "book_page": "244",
+      "pdf_pages": [
+        256
+      ],
+      "cross_refs": [
+        "7sketches:7.4.1:eq7.50"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.1:ex7.53",
+      "kind": "exercise",
+      "number": "7.53",
+      "name": "functoriality of the subobject-classifier presheaf",
+      "statement_summary": "Two parts. (1) Prove the assignment of the two previous displays is functorial: for opens W contained in V contained in U, restricting from U to V and then V to W agrees with restricting from U to W. (2) Ask whether functoriality alone suffices to conclude the assignment is a presheaf (the missing ingredient being preservation of identities).",
+      "book_section": "7.4.1",
+      "book_page": "244",
+      "pdf_pages": [
+        256
+      ],
+      "cross_refs": [
+        "7sketches:7.4.1:eq7.50",
+        "7sketches:7.4.1:eq7.51"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.1:construction-omega-classifier",
+      "kind": "construction",
+      "number": null,
+      "name": "the subobject classifier of Shv(X,Op) is a sheaf, with its truth morphism",
+      "statement_summary": "Unnumbered construction with proof in running prose. FIRST: the truth-value presheaf of the two preceding displays satisfies the sheaf condition. Given an open cover of U by opens U_i and a matching family, i.e. elements V_i (opens contained in U_i) with V_i intersect U_j equal to V_j intersect U_i for all i,j, the union V of the V_i is an open subset of U and is a gluing: an unnumbered chain of equalities distributing intersection over union shows V intersect U_j equals V_j for every j. SECOND: to make it a subobject classifier one supplies the sheaf morphism 'true' from the terminal sheaf (the presheaf sending every open to a one-element set) whose component at U sends the unique element to U itself, the largest open contained in U; thereafter the terminal sheaf is abbreviated 1. UPSHOT stated in a bold run-in: the truth values of Shv(X,Op) are the open sets of X, with X itself meaning fully true and the empty set fully false, so a proposition is in general true on some places and not others.",
+      "book_section": "7.4.1",
+      "book_page": "244",
+      "pdf_pages": [
+        256
+      ],
+      "cross_refs": [
+        "7sketches:7.4.1:eq7.50",
+        "7sketches:7.4.1:eq7.51",
+        "7sketches:7.3.3:def7.35",
+        "7sketches:7.2.2:def7.12"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.1:example7.54",
+      "kind": "example",
+      "number": "7.54",
+      "name": "the subobject classifier of the topos of graphs",
+      "statement_summary": "The category of graphs is a presheaf topos, also describable as the instances of a database schema. Its subobject classifier is exhibited concretely as a graph with two vertices, written 0 and V, and five arrows: a loop at 0 labelled (0,0;0), a loop at V labelled (V,V;0), a second loop at V labelled (V,V;A), and two arrows between 0 and V labelled (0,V;0) and (V,0;0). The terminal graph is one vertex with one loop, and the truth morphism sends that loop to the arrow (V,V;A). For a subgraph H of a graph G the classifying homomorphism sends a vertex to V if it lies in H and to 0 otherwise, and sends an arrow to (V,V;A) if the arrow lies in H, and otherwise to (V,0;0), (0,V;0), (V,V;0) or (0,0;0) according to whether its source alone, its target alone, both, or neither lie in H. The text remarks that finding the classifier oneself is easiest via the Yoneda lemma, which the book has not introduced.",
+      "book_section": "7.4.1",
+      "book_page": "244",
+      "pdf_pages": [
+        256,
+        257
+      ],
+      "cross_refs": [
+        "7sketches:7.3.1:example7.23",
+        "7sketches:7.4.1:ex7.55"
+      ],
+      "flags": [
+        "figure-transcribed-from-image",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.1:ex7.55",
+      "kind": "exercise",
+      "number": "7.55",
+      "name": "classify a given subgraph of a given graph",
+      "statement_summary": "A concrete instance of the previous example. G is drawn as four vertices A, B, C, D with a parallel pair of arrows f and g from A to B, an arrow h from B to C and an arrow i from C to D; H is the subgraph with vertices A, B, C and a single arrow from A to B. Compute the classifying graph homomorphism from G to the subobject classifier that picks out H.",
+      "book_section": "7.4.1",
+      "book_page": "245",
+      "pdf_pages": [
+        257
+      ],
+      "cross_refs": [
+        "7sketches:7.4.1:example7.54"
+      ],
+      "flags": [
+        "figure-transcribed-from-image"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.2:eq7.56",
+      "kind": "equation",
+      "number": "7.56",
+      "name": "conjunction and disjunction of open-set truth values",
+      "statement_summary": "For a topological space and two truth values, i.e. two opens U and V of X, defines their conjunction to be their intersection and their disjunction to be their union. This is the meet-and-join half of the Heyting structure on the truth values of a sheaf topos; the text notes only the mnemonic resemblance of the symbols.",
+      "book_section": "7.4.2",
+      "book_page": "245",
+      "pdf_pages": [
+        257
+      ],
+      "cross_refs": [
+        "7sketches:7.4.2:eq7.57",
+        "7sketches:7.4.2:example7.58",
+        "7sketches:7.4.3:remark-heyting-predicates"
+      ],
+      "flags": [
+        "distinct-claim",
+        "not-back-referenced-by-number",
+        "number-consumed-by-display"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.2:eq7.57",
+      "kind": "equation",
+      "number": "7.57",
+      "name": "Heyting implication of open-set truth values",
+      "statement_summary": "Defines implication of two truth values U and V as the union of all opens R whose intersection with U is contained in V, equivalently the largest such open. The accompanying prose stresses that this is the hardest connective to think about topologically and that it generally admits no further reduction. Back-referenced by number twice on the same page and used to compute negation.",
+      "book_section": "7.4.2",
+      "book_page": "245",
+      "pdf_pages": [
+        257
+      ],
+      "cross_refs": [
+        "7sketches:7.4.2:eq7.56",
+        "7sketches:7.4.2:def-negation",
+        "7sketches:7.4.2:example7.58"
+      ],
+      "flags": [
+        "back-referenced-by-number",
+        "distinct-claim",
+        "number-consumed-by-display"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.2:def-negation",
+      "kind": "definition",
+      "number": null,
+      "name": "negation of an open-set truth value is the interior of the complement",
+      "statement_summary": "Unnumbered definition in running prose. Negation of a truth value U is defined as U implies false. Unwinding the implication formula, this is the union of all opens R disjoint from U, i.e. the union of all opens contained in the complement of U; the text observes that a reader who knows topology will recognise this as the interior of the complement of U.",
+      "book_section": "7.4.2",
+      "book_page": "245",
+      "pdf_pages": [
+        257
+      ],
+      "cross_refs": [
+        "7sketches:7.4.2:eq7.57",
+        "7sketches:7.4.2:ex7.59",
+        "7sketches:7.4.2:ex7.60"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.2:example7.58",
+      "kind": "example",
+      "number": "7.58",
+      "name": "the connectives computed on two opens of the real line",
+      "statement_summary": "Takes the real line with its usual topology and the two opens U equal to everything below 3 and V the interval from -4 to 4. Computes: their conjunction is the interval from -4 to 3; their disjunction is everything below 4; the negation of U is everything above 3; the negation of V is everything below -4 together with everything above 4; U implies V is everything above -4; and V implies U is U itself. A worked check that intuitionistic negation on opens is not classical complementation.",
+      "book_section": "7.4.2",
+      "book_page": "246",
+      "pdf_pages": [
+        258
+      ],
+      "cross_refs": [
+        "7sketches:7.4.2:eq7.56",
+        "7sketches:7.4.2:eq7.57",
+        "7sketches:7.4.2:def-negation",
+        "7sketches:7.3.2:ex7.27"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.2:ex7.59",
+      "kind": "exercise",
+      "number": "7.59",
+      "name": "double negation of the punctured line",
+      "statement_summary": "On the real line take U to be the complement of the origin. Four parts: identify the negation of U; identify its double negation; decide whether U is contained in its double negation; decide whether the double negation is contained in U. (The intended point is that one inclusion holds in a Heyting algebra and the other fails here, since the double negation is all of the line.)",
+      "book_section": "7.4.2",
+      "book_page": "246",
+      "pdf_pages": [
+        258
+      ],
+      "cross_refs": [
+        "7sketches:7.4.2:def-negation"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.2:ex7.60",
+      "kind": "exercise",
+      "number": "7.60",
+      "name": "the open sets representing true and false",
+      "statement_summary": "For an arbitrary topological space, four parts. (1) Identify the open set that behaves as 'true', i.e. whose conjunction with every open U gives back U. (2) Check that this candidate also satisfies: its disjunction with any U is itself, U implies it is itself, and it implies U is U. (3) Identify the open set behaving as 'false', i.e. whose disjunction with every U gives back U. (4) Check that its conjunction with any U is itself and that it implies U is 'true'. Intended answers: the whole space and the empty set respectively.",
+      "book_section": "7.4.2",
+      "book_page": "246",
+      "pdf_pages": [
+        258
+      ],
+      "cross_refs": [
+        "7sketches:7.4.2:eq7.56",
+        "7sketches:7.4.2:eq7.57"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.2:example7.61",
+      "kind": "example",
+      "number": "7.61",
+      "name": "the sheaf of sections of a vector bundle and predicates on vector fields",
+      "statement_summary": "For a bundle map from E to X over a space X, the sheaf of sections assigns to each open U the set of maps from U to E whose composite with the bundle projection is the inclusion of U into X. Applied to the tangent bundle of a manifold M, this gives the sheaf whose value on U is the set of vector fields on U. The internal logic of the resulting topos then supports predicates on that sheaf, e.g. one sending a vector field v to the largest open subspace on which v is the gradient of a scalar function, or one returning the largest open on which v is nowhere zero; conjunction and disjunction of such predicates cut out the submanifolds where combinations of these properties hold, and the internal logic lets one reason about what else is forced there.",
+      "book_section": "7.4.2",
+      "book_page": "246",
+      "pdf_pages": [
+        258,
+        259
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:example7.46",
+        "7sketches:7.4.3:def-predicate"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.3:def-predicate",
+      "kind": "definition",
+      "number": null,
+      "name": "predicate in a sheaf topos",
+      "statement_summary": "Unnumbered definition in running prose. In the topos of sheaves on a space, a predicate on a sheaf S is a morphism of sheaves from S to the subobject classifier. By the definition of a sheaf morphism it supplies, for every open U, a function from the sections of S over U to the truth values over U, so applying the predicate to a section s over U yields an open subset of U: the region of U on which the predicate holds of s. The preceding motivation (predicates as typed sentence fragments whose truth varies with time) is expository.",
+      "book_section": "7.4.3",
+      "book_page": "247",
+      "pdf_pages": [
+        259
+      ],
+      "cross_refs": [
+        "7sketches:7.3.3:def7.35",
+        "7sketches:7.4.3:eq7.63",
+        "7sketches:7.4.3:ex7.62"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.3:ex7.62",
+      "kind": "exercise",
+      "number": "7.62",
+      "name": "the subsheaf cut out by a predicate",
+      "statement_summary": "A predicate from S to the subobject classifier not only acts on sections but, by the earlier definition of subobject classification, also determines a subobject of S, written as the comprehension of S along the predicate. Describe the sections of that subsheaf over an arbitrary open set.",
+      "book_section": "7.4.3",
+      "book_page": "247",
+      "pdf_pages": [
+        259
+      ],
+      "cross_refs": [
+        "7sketches:7.4.3:def-predicate",
+        "7sketches:7.2.2:def7.12"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.3:eq7.63",
+      "kind": "equation",
+      "number": "7.63",
+      "name": "the poset of predicates on a sheaf",
+      "statement_summary": "For a sheaf topos and an object S, the set of S-predicates is the hom-set from S to the subobject classifier; the display names the pair consisting of this set together with an order relation. The order is defined immediately around the display: one predicate is below another when, for every open U and every section s of S over U, the open set assigned by the first is contained in the open set assigned by the second; this is also written with a turnstile in an unnumbered display. When S is terminal the elements are called propositions and are simply morphisms from the terminal object to the classifier. The relation is antisymmetric, hence a genuine partial order, because mutual containment of opens is equality. Back-referenced by number in the modalities subsection.",
+      "book_section": "7.4.3",
+      "book_page": "247",
+      "pdf_pages": [
+        259,
+        260
+      ],
+      "cross_refs": [
+        "7sketches:7.4.3:def-predicate",
+        "7sketches:7.4.3:remark-heyting-predicates",
+        "7sketches:7.4.5:def7.69"
+      ],
+      "flags": [
+        "back-referenced-by-number",
+        "distinct-claim",
+        "number-consumed-by-display",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.3:ex7.64",
+      "kind": "exercise",
+      "number": "7.64",
+      "name": "an instance of entailment between predicates",
+      "statement_summary": "Exhibit a space X, a sheaf S on it, and two predicates on S such that the first entails the second in the order just defined. The exercise explicitly permits an informal answer.",
+      "book_section": "7.4.3",
+      "book_page": "248",
+      "pdf_pages": [
+        260
+      ],
+      "cross_refs": [
+        "7sketches:7.4.3:eq7.63"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.3:remark-heyting-predicates",
+      "kind": "remark",
+      "number": null,
+      "name": "predicates on a sheaf form a Heyting algebra, pointwise",
+      "statement_summary": "Unnumbered paragraph carrying real mathematical content. All the logical symbols of the previous subsection (true, false, conjunction, disjunction, implication, negation) extend to the poset of predicates on any sheaf S by computing pointwise: the conjunction of two predicates sends a section to the conjunction of their values, and likewise for the others. With respect to the order of the previous display, conjunction is the meet and disjunction the join in the sense of Chapter 1's definition of meets and joins. The paragraph then asserts that the poset of predicates on S forms a Heyting algebra, while explicitly declining to define the term and deferring to the further-reading section.",
+      "book_section": "7.4.3",
+      "book_page": "248",
+      "pdf_pages": [
+        260
+      ],
+      "cross_refs": [
+        "7sketches:7.4.3:eq7.63",
+        "7sketches:7.4.2:eq7.56",
+        "7sketches:7.4.2:eq7.57",
+        "7sketches:1.3.1:def81"
+      ],
+      "flags": [
+        "claim-stated-without-proof",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.4:example7.65",
+      "kind": "example",
+      "number": "7.65",
+      "name": "quantifying a two-variable predicate over sheaves of people and news",
+      "statement_summary": "Two sheaves S and T on a space and a predicate on their product. Reading T as newsworthy items and S as people, a section of T over an open U is an item newsworthy throughout U and a section of S over U is a person lasting throughout U; the predicate reads 's is worried about t' and returns not a bare truth value but the open subset of times on which it holds. Quantifying universally over the T variable yields a predicate in the single variable S which, applied to a person, returns the times at which that person is worried about everything in the news; quantifying existentially yields the times at which the person is worried about at least one item. The framing sentence of the subsection states that each quantifier turns a predicate in n+1 variables into one in n variables.",
+      "book_section": "7.4.4",
+      "book_page": "248",
+      "pdf_pages": [
+        260
+      ],
+      "cross_refs": [
+        "7sketches:7.4.3:def-predicate",
+        "7sketches:7.4.4:def-universal-quantification",
+        "7sketches:7.4.4:def-existential-quantification"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.4:ex7.66",
+      "kind": "exercise",
+      "number": "7.66",
+      "name": "quantifiers in the topos of sets",
+      "statement_summary": "In the topos of sets, where the classifier is the booleans, take the predicate on the product of the naturals and the integers that is true exactly when n is at most the absolute value of z. Four parts: determine the set of naturals for which the predicate holds for all integers; the set of naturals for which it holds for some integer; the set of integers for which it holds for all naturals; and the set of integers for which it holds for some natural.",
+      "book_section": "7.4.4",
+      "book_page": "249",
+      "pdf_pages": [
+        261
+      ],
+      "cross_refs": [
+        "7sketches:7.4.4:example7.65"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.4:def-universal-quantification",
+      "kind": "definition",
+      "number": null,
+      "name": "universal quantification of a predicate along a sheaf",
+      "statement_summary": "Unnumbered definition in running prose (introduced by a bold run-in lead). Given a predicate p on the product of sheaves S and T, the universally quantified predicate on S alone sends a section s over an open U to the LARGEST open V contained in U such that, for every section t of T over V, the predicate applied to the restriction of s to V and to t equals V (i.e. holds on all of V). Abstractly the resulting subsheaf of S is characterised as a PULLBACK: the square with corners the universally quantified subobject, the terminal object, S and the exponential of the classifier by T, whose right leg is the transpose of the composite of the terminal projection with truth and whose bottom leg is the exponential transpose (currying) of p.",
+      "book_section": "7.4.4",
+      "book_page": "249",
+      "pdf_pages": [
+        261
+      ],
+      "cross_refs": [
+        "7sketches:7.4.4:example7.65",
+        "7sketches:7.4.4:ex7.67",
+        "7sketches:7.4.4:def-existential-quantification"
+      ],
+      "flags": [
+        "diagram-transcribed-from-image",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.4:ex7.67",
+      "kind": "exercise",
+      "number": "7.67",
+      "name": "universal quantification on the worried-about-news predicate",
+      "statement_summary": "Apply the universal-quantification definition to the predicate 's is worried about news item t' of the earlier example, with s a person alive throughout an interval U and the sections of T over a subinterval V the items in the news throughout V. Two parts: (1) determine which open subset of U the universally quantified predicate returns for a person s; (2) decide whether that matches the informal reading given when the subsection opened.",
+      "book_section": "7.4.4",
+      "book_page": "249",
+      "pdf_pages": [
+        261
+      ],
+      "cross_refs": [
+        "7sketches:7.4.4:def-universal-quantification",
+        "7sketches:7.4.4:example7.65"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.4:def-existential-quantification",
+      "kind": "definition",
+      "number": null,
+      "name": "existential quantification of a predicate along a sheaf",
+      "statement_summary": "Unnumbered definition in running prose (introduced by a bold run-in lead). Given a predicate p on the product of sheaves S and T, the existentially quantified predicate on S sends a section s over an open U to the UNION of all opens V_i contained in U for which there exists a section t_i of T over V_i with the predicate applied to the restriction of s to V_i and to t_i equal to all of V_i. The text stresses that this does NOT entail a single global section of T over U witnessing the predicate: only a cover of the resulting open together with local witnesses, so the existential quantifier silently involves coverings. Abstractly: take the subobject of the product classified by p, compose its mono with the projection to S, and take the epi-mono factorization of the composite; the mono half is the existentially quantified subsheaf of S.",
+      "book_section": "7.4.4",
+      "book_page": "249",
+      "pdf_pages": [
+        261,
+        262
+      ],
+      "cross_refs": [
+        "7sketches:7.4.4:example7.65",
+        "7sketches:7.4.4:ex7.68",
+        "7sketches:7.4.4:def-universal-quantification"
+      ],
+      "flags": [
+        "diagram-transcribed-from-image",
+        "spans-page-break",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.4:ex7.68",
+      "kind": "exercise",
+      "number": "7.68",
+      "name": "existential quantification on the worried-about-news predicate",
+      "statement_summary": "Apply the existential-quantification definition to the predicate 'person s is worried about news item t' of the earlier example. Two parts: (1) determine the open set that the existentially quantified predicate returns for a person s; (2) decide whether it has the semantics one expects.",
+      "book_section": "7.4.4",
+      "book_page": "250",
+      "pdf_pages": [
+        262
+      ],
+      "cross_refs": [
+        "7sketches:7.4.4:def-existential-quantification",
+        "7sketches:7.4.4:example7.65"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.5:def7.69",
+      "kind": "definition",
+      "number": "7.69",
+      "name": "modality (Lawvere-Tierney-style operator) on the classifier of a sheaf topos",
+      "statement_summary": "A modality on the topos of sheaves on X is an endomorphism j of the subobject classifier in the category of sheaves such that for every open U of X and all truth values p, q over U: (a) p is below j applied to p (inflationary); (b) j applied twice to p is below j applied to p (which with (a) forces idempotence); and (c) j preserves binary conjunction, i.e. j of the conjunction equals the conjunction of the j-values. Note the definition demands a SHEAF MORPHISM, so the three conditions are required uniformly in U, and it does not separately require monotonicity or preservation of the top element.",
+      "book_section": "7.4.5",
+      "book_page": "250",
+      "pdf_pages": [
+        262
+      ],
+      "cross_refs": [
+        "7sketches:7.4.3:eq7.63",
+        "7sketches:1.4.4:example123",
+        "7sketches:7.4.5:ex7.70",
+        "7sketches:7.4.5:prop7.71"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.5:ex7.70",
+      "kind": "exercise",
+      "number": "7.70",
+      "name": "idempotence from the inflationary law",
+      "statement_summary": "Let j be an endomorphism of the subobject classifier of the sheaves on X satisfying only the inflationary law (every p over every open U is below j of p). Show that for all truth values q over U, j applied twice to q is below j of q IF AND ONLY IF j applied twice to q equals j of q. I.e. under condition (a), condition (b) of the modality definition is equivalent to genuine idempotence.",
+      "book_section": "7.4.5",
+      "book_page": "250",
+      "pdf_pages": [
+        262
+      ],
+      "cross_refs": [
+        "7sketches:7.4.5:def7.69"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.5:prop7.71",
+      "kind": "proposition",
+      "number": "7.71",
+      "name": "three modalities built from a fixed proposition",
+      "statement_summary": "Fix a proposition p, i.e. an element of the set of morphisms from the terminal sheaf to the subobject classifier. Then each of the following endomorphisms of the classifier is a modality in the sense of the preceding definition: (a) the map sending q to (p implies q); (b) the map sending q to (p or q); (c) the map sending q to ((q implies p) implies p), i.e. double negation relative to p. The text states immediately afterwards that the proof is not given, with references deferred to the further-reading section; so this is an unproved-in-book proposition.",
+      "book_section": "7.4.5",
+      "book_page": "250",
+      "pdf_pages": [
+        262
+      ],
+      "cross_refs": [
+        "7sketches:7.4.5:def7.69",
+        "7sketches:7.4.3:eq7.63",
+        "7sketches:7.5.3:eq7.82"
+      ],
+      "flags": [
+        "stated-without-proof-in-book"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.5:ex7.72",
+      "kind": "exercise",
+      "number": "7.72",
+      "name": "unwinding the 'assuming Bob is in San Diego' modality",
+      "statement_summary": "Let S be the sheaf of people and let j be the modality 'assuming Bob is in San Diego'. Six parts: (1) name any predicate on S; (2) fix a time interval U and say what sort of thing the predicate assigns to a person s over U and what it means; (3) say what sort of thing the j-value of that is and what it means; (4) decide with brief justification whether the predicate value is below its j-value; (5) decide whether j applied three times agrees with j applied twice; (6) choosing a second predicate q, decide whether j preserves the conjunction of the two.",
+      "book_section": "7.4.5",
+      "book_page": "251",
+      "pdf_pages": [
+        263
+      ],
+      "cross_refs": [
+        "7sketches:7.4.5:def7.69",
+        "7sketches:7.4.3:def-predicate",
+        "7sketches:1.4.4:example123"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.4.6:eq7.73",
+      "kind": "equation",
+      "number": "7.73",
+      "name": "the internal-language sentence expressing surjectivity",
+      "statement_summary": "A display exhibiting a sentence of the formal internal language of a topos: for all t of type T there exists s of type S with f of s equal to t. The surrounding prose separates the LOGICAL side (linguistic expressions built by strict rules, proofs being deductions) from the SEMANTIC side (statements about the sheaves themselves), and defines what it means to provide semantics, namely a compiler turning each formal statement into a mathematical statement about sheaves, called sound when every formal proof compiles to a true fact. Every topos is asserted to carry such an internal language with a sound semantics, known as categorical or Kripke-Joyal semantics. The display is back-referenced by number four times.",
+      "book_section": "7.4.6",
+      "book_page": "251",
+      "pdf_pages": [
+        263
+      ],
+      "cross_refs": [
+        "7sketches:7.4.6:example7.74",
+        "7sketches:7.4.4:def-universal-quantification",
+        "7sketches:7.4.4:def-existential-quantification"
+      ],
+      "flags": [
+        "back-referenced-by-number",
+        "distinct-claim",
+        "number-consumed-by-display"
+      ]
+    },
+    {
+      "id": "7sketches:7.4.6:example7.74",
+      "kind": "example",
+      "number": "7.74",
+      "name": "the internal sentence for epimorphism, compiled in two toposes",
+      "statement_summary": "CLAIM: in every topos and for every morphism f from S to T, f is an epimorphism if and only if the sentence of the preceding display holds internally. Two compilations are then exhibited. For the topos of instances on a database schema (e.g. a schema with 100 tables and 500 foreign-key columns), Kripke-Joyal semantics compiles the sentence into a row-level surjectivity condition table by table, which is exactly surjectivity of the natural transformation. For sheaves on a topological space it compiles into: for every open U and every section over U, there is an open cover of U and local sections over the cover pieces mapping to the corresponding restrictions -- i.e. LOCAL rather than global surjectivity. The moral drawn is that in any topos the sentence always compiles into the appropriate notion of surjectivity. CAVEAT: as printed, the roles of S and T (and the quantifier order) in both compiled boxes do not line up with the direction of f in the display; see problems[].",
+      "book_section": "7.4.6",
+      "book_page": "251",
+      "pdf_pages": [
+        263,
+        264
+      ],
+      "cross_refs": [
+        "7sketches:7.4.6:eq7.73",
+        "7sketches:7.3.1:example7.23"
+      ],
+      "flags": [
+        "apparent-typo-in-source",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.5:remark7.75",
+      "kind": "remark",
+      "number": "7.75",
+      "name": "the change of viewpoint on time is harmless",
+      "statement_summary": "PURE PROSE, recorded for completeness because it is a numbered environment drawing from the chapter counter. It tells the reader that the intuitive treatment of time in the preceding examples (people worried about the news) will now be replaced by a different, more careful treatment, but that no earlier answer needs revising and the earlier intuition remains valid. No mathematical content.",
+      "book_section": "7.5",
+      "book_page": "252",
+      "pdf_pages": [
+        264
+      ],
+      "cross_refs": [
+        "7sketches:7.4.4:example7.65"
+      ],
+      "flags": [
+        "no-mathematical-content",
+        "pure-prose"
+      ]
+    },
+    {
+      "id": "7sketches:7.5.1:def-interval-domain",
+      "kind": "definition",
+      "number": null,
+      "name": "the interval domain as a topological space",
+      "statement_summary": "Unnumbered definition in running prose with two unnumbered displays. The point set of the interval domain is the set of finite CLOSED intervals of the real line, i.e. pairs d at most u regarded as the interval they span (degenerate intervals allowed). For reals a strictly less than b, the basic open indexed by the pair consists of those closed intervals whose lower endpoint is strictly greater than a and whose upper endpoint is strictly less than b. The topology is generated by these: a subset is open exactly when it is a union of basic opens. The text warns with a worked instance that the basic opens are not closed under union in the naive way: the interval from 2 to 6 belongs to the basic open indexed by (0,8) but to neither of those indexed by (0,5) and (4,8), so the union of the latter two is a proper subset of the former.",
+      "book_section": "7.5.1",
+      "book_page": "252",
+      "pdf_pages": [
+        264
+      ],
+      "cross_refs": [
+        "7sketches:7.3.2:def7.25",
+        "7sketches:7.5.1:ex7.76",
+        "7sketches:7.5.1:construction-behavior-types"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.5.1:ex7.76",
+      "kind": "exercise",
+      "number": "7.76",
+      "name": "membership in basic opens of the interval domain",
+      "statement_summary": "Two parts, both about the closed interval from 2 to 6. (1) Explain why it belongs to the basic open indexed by the pair (0,8). (2) Explain why it does NOT belong to the union of the basic opens indexed by (0,5) and (4,8). The exercise header appears at the foot of the printed page with the two parts overleaf.",
+      "book_section": "7.5.1",
+      "book_page": "252",
+      "pdf_pages": [
+        264,
+        265
+      ],
+      "cross_refs": [
+        "7sketches:7.5.1:def-interval-domain"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.5.1:construction-behavior-types",
+      "kind": "construction",
+      "number": null,
+      "name": "the topos of behavior types, and the real line inside the interval domain",
+      "statement_summary": "Unnumbered construction in running prose with one unnumbered display. Writing Op for the topology on the interval domain just defined, the topos of behavior types is defined to be the category of sheaves on that space. The construction then identifies an important subspace: the real line is isomorphic to the set of DEGENERATE intervals, those whose lower and upper endpoints coincide, and it is claimed that the subspace topology inherited from the interval domain agrees with the usual topology on the real line introduced earlier in the chapter (the reader is invited to check).",
+      "book_section": "7.5.1",
+      "book_page": "253",
+      "pdf_pages": [
+        265
+      ],
+      "cross_refs": [
+        "7sketches:7.5.1:def-interval-domain",
+        "7sketches:7.5.1:ex7.77",
+        "7sketches:7.3.2:example7.26",
+        "7sketches:7.3.2:ex7.32"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.5.1:ex7.77",
+      "kind": "exercise",
+      "number": "7.77",
+      "name": "the subspace topology on the real line inside the interval domain",
+      "statement_summary": "Show that a subset U of the real line is open in the subspace topology it inherits as the degenerate-interval subspace of the interval domain if and only if the intersection of U with the real line is open in the usual topology on the real line defined earlier in the chapter.",
+      "book_section": "7.5.1",
+      "book_page": "253",
+      "pdf_pages": [
+        265
+      ],
+      "cross_refs": [
+        "7sketches:7.5.1:construction-behavior-types",
+        "7sketches:7.3.2:example7.26"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.5.2:remark-basic-open-continuity",
+      "kind": "remark",
+      "number": null,
+      "name": "sheaves on the interval domain are determined continuously by their values on basic opens",
+      "statement_summary": "Unnumbered paragraph with an unnumbered display, carrying real content. First, the intended reading: a sheaf on the interval domain sends an open U to the set of events taking place throughout the interval U; restriction along an inclusion of opens views the same event over a shorter interval; and the sheaf condition says a matching family of local events over a cover glues to a unique event over the whole. Second, the CLAIM: since every open is a union of basic opens, a sheaf is determined by its values on the basic opens, and the sheaf condition further forces these values to vary continuously, expressed as the value on the basic open indexed by (a,b) being isomorphic to the limit, over shrinking positive epsilon, of the values on the basic opens indexed by (a-epsilon, b+epsilon). The text explicitly declines to go into the details.",
+      "book_section": "7.5.2",
+      "book_page": "253",
+      "pdf_pages": [
+        265
+      ],
+      "cross_refs": [
+        "7sketches:7.5.1:def-interval-domain",
+        "7sketches:7.3.3:def7.35",
+        "7sketches:7.5.1:construction-behavior-types"
+      ],
+      "flags": [
+        "claim-stated-without-proof",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.5.2:example7.78",
+      "kind": "example",
+      "number": "7.78",
+      "name": "the constant sheaf on a set as a behavior type",
+      "statement_summary": "For any set A there is a sheaf on the interval domain assigning to every open U the same set A, with identity restriction maps; it is called the constant sheaf on A. It lets one treat integers, reals, or letters of an alphabet as behavior types: an element of A is read as a behavior that never changes over any interval, e.g. the natural number seven is the behavior that is always seven.",
+      "book_section": "7.5.2",
+      "book_page": "253",
+      "pdf_pages": [
+        265,
+        266
+      ],
+      "cross_refs": [
+        "7sketches:7.5.1:construction-behavior-types",
+        "7sketches:7.5.2:ex7.80"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:7.5.2:example7.79",
+      "kind": "example",
+      "number": "7.79",
+      "name": "sheaves of locally defined continuous functions into a space",
+      "statement_summary": "Fix any topological space X. Then there is a sheaf on the interval domain of 'local functions from the interval domain to X', assigning to each open U of the interval domain the set of continuous maps from U to X. There is likewise a sheaf of local functions defined only on the real-line subspace, assigning to each open U of the interval domain the set of continuous maps from the intersection of U with the degenerate-interval copy of the real line into X.",
+      "book_section": "7.5.2",
+      "book_page": "254",
+      "pdf_pages": [
+        266
+      ],
+      "cross_refs": [
+        "7sketches:7.5.1:construction-behavior-types",
+        "7sketches:7.5.2:ex7.80"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:7.5.2:ex7.80",
+      "kind": "exercise",
+      "number": "7.80",
+      "name": "is the restricted-domain assignment a presheaf, and a sheaf?",
+      "statement_summary": "Fix a topological space X and an ARBITRARY subset R of the interval domain, and define an assignment sending each open U to the set of continuous maps from the intersection of U with R into X. Two parts: (1) decide whether this is a presheaf, and if so exhibit its restriction maps; (2) decide whether it is a sheaf, with reasons. (The exercise text says it checks Example 7.78, evidently intending Example 7.79, which is the one it generalises.)",
+      "book_section": "7.5.2",
+      "book_page": "254",
+      "pdf_pages": [
+        266
+      ],
+      "cross_refs": [
+        "7sketches:7.5.2:example7.79",
+        "7sketches:7.5.2:example7.78",
+        "7sketches:7.3.3:def7.35"
+      ],
+      "flags": [
+        "apparent-typo-in-source"
+      ]
+    },
+    {
+      "id": "7sketches:7.5.2:example7.81",
+      "kind": "example",
+      "number": "7.81",
+      "name": "open hybrid dynamical systems as behavior types",
+      "statement_summary": "Recorded for completeness though it is expository and gives no construction. Open hybrid dynamical systems are machines whose behavior mixes continuous motion, imagined as trajectories of a vector field, with discrete jumps triggered by spontaneously arriving signals; over any time interval such a system can do certain things and not others. The example ASSERTS that there is a construction turning any hybrid system into a sheaf on the interval domain, but explicitly declines to make it precise and defers to the further-reading section.",
+      "book_section": "7.5.2",
+      "book_page": "254",
+      "pdf_pages": [
+        266
+      ],
+      "cross_refs": [
+        "7sketches:7.5.1:construction-behavior-types"
+      ],
+      "flags": [
+        "claim-stated-without-proof",
+        "construction-deferred-to-references"
+      ]
+    },
+    {
+      "id": "7sketches:7.5.2:remark-truth-values-interval-domain",
+      "kind": "remark",
+      "number": null,
+      "name": "why temporal truth values need the interval domain rather than the real line",
+      "statement_summary": "Unnumbered paragraph block (introduced by a bold run-in lead) carrying real content. In the topos of behavior types the subobject classifier is again a sheaf assigning to each open U the set of opens contained in U, so applying a predicate to sections returns the open time-region over which the statement holds. The substantive claim is that such truth values are NOT determined pointwise in time: two counterexamples are given of statements true over the interval (0,5) and over (4,8) but not over (0,8) -- 'a single pair of eyes has remained watching a position', which can fail through a change of shift, and 'the market did not fall by more than ten points', which can fail cumulatively -- whereas an ordinary property like liking the weather does glue. The conclusion drawn is that capturing the semantics of statements that take time to evaluate requires the interval domain rather than the real line as the underlying space.",
+      "book_section": "7.5.2",
+      "book_page": "254",
+      "pdf_pages": [
+        266,
+        267
+      ],
+      "cross_refs": [
+        "7sketches:7.4.1:construction-omega-classifier",
+        "7sketches:7.5.1:construction-behavior-types",
+        "7sketches:7.5.1:def-interval-domain"
+      ],
+      "flags": [
+        "spans-page-break",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "7sketches:7.5.3:eq7.82",
+      "kind": "equation",
+      "number": "7.82",
+      "name": "a behavior contract as a formula of the internal temporal logic",
+      "statement_summary": "A display giving a sample safety guarantee as a sentence of the internal language of the topos of behavior types, for a predicate on the product of a dials behavior type and a thrusters behavior type: for every real time t, if the modal operator at t holds of the proposition that the dials D read a bad position, then there exists a real r strictly between 0 and 1 such that for every real r' between 0 and 5 the modal operator at t+r+r' holds of the proposition that the thrusters T are engaged. Read informally: within one second of the dials signalling a bad position the thrusters engage, and stay engaged for five seconds. The surrounding prose states that the at-t operator is a MODALITY in the sense of the earlier definition, in fact of type (c) of the earlier proposition, and that for a proposition q the operator at t says q holds on some small enough neighborhood of t; and that evaluating the formula against an actual pair of sections over a time period U returns the open sub-region of U on which the contract holds, so contract violations are recorded in the classifier. Back-referenced by number three times.",
+      "book_section": "7.5.3",
+      "book_page": "256",
+      "pdf_pages": [
+        268
+      ],
+      "cross_refs": [
+        "7sketches:7.4.5:def7.69",
+        "7sketches:7.4.5:prop7.71",
+        "7sketches:7.5.1:construction-behavior-types",
+        "7sketches:7.4.6:eq7.73"
+      ],
+      "flags": [
+        "back-referenced-by-number",
+        "distinct-claim",
+        "last-number-of-chapter",
+        "number-consumed-by-display"
+      ]
+    }
+  ]
+}

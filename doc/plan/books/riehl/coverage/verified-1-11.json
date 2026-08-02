@@ -1,0 +1,415 @@
+[
+  {
+    "id": "riehl:1.6:lem20",
+    "classification": "PARTIAL",
+    "aliases": [
+      "faithful functor reflects commutativity of diagrams",
+      "Faithful / fmap_inj (injectivity of the hom-map fmap[F])",
+      "U f ≈ U g → f ≈ g for parallel composites; reflects equations between morphisms",
+      "conservative on equations / 'U is injective on hom-sets'",
+      "concrete category: check commutativity elementwise on underlying sets"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 342,
+        "symbol": "Faithful (fmap_inj)",
+        "intree_statement": "Class Faithful `(F : C ⟶ D) := { fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g }."
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 106,
+        "symbol": "Functor (fmap_comp)",
+        "intree_statement": "fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) : fmap (f ∘ g) ≈ fmap f ∘ fmap g   (field of Class Functor, Theory/Functor.v:96)."
+      }
+    ],
+    "statement_record": {
+      "book": "If U : C ⟶ D is faithful, then any diagram in C whose U-image commutes in D already commutes in C: from U f_n ∘ ⋯ ∘ U f_1 = U g_m ∘ ⋯ ∘ U g_1 one concludes f_n ∘ ⋯ ∘ f_1 = g_m ∘ ⋯ ∘ g_1, by functoriality and faithfulness. Consequence: in a concrete category, commutativity of a diagram may be verified elementwise on underlying sets.",
+      "intree": "`fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g` — the defining field of [Faithful] — together with the functor law `fmap_comp : fmap (f ∘ g) ≈ fmap f ∘ fmap g`. Since the library has no separate type of paths (a composable string IS a morphism), instantiating fmap_inj at the two composites and normalising the hypothesis with fmap_comp is the whole proof.",
+      "strength_comparison": "intree-weaker: only the PARALLEL-PAIR form is asserted, and only as the defining field of the class. The book's hypothesis is given in already-distributed form (U f_n ∘ ⋯ ∘ U f_1 ≈ U g_m ∘ ⋯ ∘ U g_1), which needs an fmap_comp normalisation that is never packaged as a lemma; and the second clause of the item — the concrete-category consequence — has no home at all, since the tree contains no notion of concrete category."
+    },
+    "gap": "Two things are missing. (1) The composite/diagram-level restatement is never written: no lemma of the form `Faithful U → fmap[U] f ∘ fmap[U] g ≈ fmap[U] h ∘ fmap[U] k → f ∘ g ≈ h ∘ k` (or any n-fold version) exists; the tree only ever applies `fmap_inj` inline (e.g. Construction/ColouredPROP/LNL.v:251 `apply (@fmap_inj _ _ _ (@Comon_Forget_Faithful …))` inside LNL_lift_unique). (2) The stated consequence for CONCRETE categories cannot even be phrased: `rg -i 'concrete categor|ConcreteCategory'` over *.v returns no definition — the library has faithful forgetful functors (Mon_Forget_Faithful, Comon_Forget_Faithful, ev1_Faithful, Karoubi_Embed_Faithful) but never packages 'category equipped with a faithful functor to Sets' as a notion, so 'check the diagram elementwise on underlying sets' is not stated for any of them.",
+    "negative_search_log": [
+      "rg -n 'eflect' --glob '*.v' -- reflection results in tree are ff_reflects_isos / ff_reflects_limit / equivalence_reflects_* (Theory/Equivalence/Limit.v) and ReflectsIsos; nothing about reflecting commutativity/equations",
+      "rg -n -i 'concrete categor|ConcreteCategory|Concrete ' --glob '*.v' -- 0 definitions (only prose uses of the English word 'concrete')"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass (run before opening coverage-1-11.json) reached the same PARTIAL, on the same evidence and independently: `rg -n 'Class Faithful|Faithful\\b'` -> Theory/Functor.v:342 `Class Faithful ... fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g` (line VERIFIED, quote exact); `rg -i 'concrete'` over *.v -> 30 hits, ALL prose ('concretely', 'concrete instance'), zero definitions, so the item's second clause is genuinely unstatable in-tree. Line audit: Theory/Functor.v:105 fmap_id / :106 fmap_comp are indeed fields of `Class Functor` opened at :96, so the record's parenthetical '(field of Class Functor, Theory/Functor.v:96)' is accurate. Gap citation Construction/ColouredPROP/LNL.v:251 VERIFIED verbatim: `apply (@fmap_inj _ _ _ (@Comon_Forget_Faithful (cprop_cat P) (MBc P)) _ _).` inside LNL_lift_unique -- i.e. the tree really does only ever use fmap_inj inline. Both cited files are in _CoqProject. Boundary note (label, not fact): fmap_inj IS a restricted form of the item's own conclusion (parallel pair rather than composite string), so PARTIAL is the correct side of the PRESENT/PARTIAL line; a reader who wanted PRESENT would have to ignore the missing concrete-category clause, which the record does not do."
+    }
+  },
+  {
+    "id": "riehl:1.6:remark21",
+    "classification": "PARTIAL",
+    "aliases": [
+      "pasting/composition of adjacent commutative squares gives the commutative rectangle",
+      "horizontal pasting of squares (dsq_hcomp) in the double category of commuting squares Sq C",
+      "converse fails: commuting exterior rectangle does not force the inner squares",
+      "counterexample in Ab: Z =id=> Z -> 0 over 0 -> Z =id=> Z",
+      "left/right cancelability, Monic / Epic as the obstruction to cancelling a common factor"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Sq.v",
+        "line": 47,
+        "symbol": "Sq",
+        "intree_statement": "Program Definition Sq (C : Category) : DoubleCategory := {| dcat := C; dhor := fun a b => a ~{C}~> b; dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h; … |}  — squares ARE commuting-square proofs, so the class's dsq_hcomp field is discharged here with goal `(k' ∘ k) ∘ u ≈ w ∘ (h' ∘ h)` (Construction/Sq.v:68-72): two horizontally adjacent commuting squares paste to a commuting exterior rectangle."
+      },
+      {
+        "file": "Theory/DoubleCategory.v",
+        "line": 243,
+        "symbol": "DoubleCategory (dsq_hcomp)",
+        "intree_statement": "dsq_hcomp {a b c a' b' c'} {h : dhor a b} {h' : dhor b c} {u : a ~{dcat}~> a'} {v : b ~{dcat}~> b'} {w : c ~{dcat}~> c'} {k : dhor a' b'} {k' : dhor b' c'} : dsq h u v k → dsq h' v w k' → dsq (dhcomp h' h) u w (dhcomp k' k)."
+      }
+    ],
+    "statement_record": {
+      "book": "Commutativity of a pair of adjacent squares implies commutativity of the exterior rectangle, but the converse fails — the 2×3 diagram in Ab with rows Z =id=> Z → 0 and 0 → Z =id=> Z has a commuting outer rectangle though neither square commutes; likewise one square plus the rectangle does not in general give the other. The obstruction: a relation g ∘ h_n ∘ ⋯ ∘ h_1 = g ∘ k_m ∘ ⋯ ∘ k_1 may not be cancelled unless g is left-cancelable (a monomorphism), dually for a common right factor and epimorphisms.",
+      "intree": "The POSITIVE half is in-tree, as the horizontal-pasting field of [DoubleCategory] instantiated at [Sq C], where a square over (h, u, v, k) is literally the proposition `k ∘ u ≈ v ∘ h`: from `k ∘ u ≈ v ∘ h` and `k' ∘ v ≈ w ∘ h'` one gets `(k' ∘ k) ∘ u ≈ w ∘ (h' ∘ h)`. (Vertical pasting, dsq_vcomp, is the transposed reading.) The cancellation vocabulary the remark blames exists as `Monic`/`Epic` (Theory/Morphisms.v:116, :104).",
+      "strength_comparison": "intree-weaker: only the forward pasting is asserted. Nothing negative is stated — no in-tree proposition of the form 'the exterior rectangle commutes while a constituent square does not', and no counterexample category in which to state it."
+    },
+    "gap": "Missing: (a) the failure of the converse, and (b) the failure of one-square-plus-rectangle to give the other square. Both are negative statements and the tree contains no negative statement about commuting squares at all (`rg 'False' | grep -i 'commut|square'` finds nothing; the only in-tree counterexample-style result of any kind about diagrams is Construction/Funny/Comparison.v:155 `Faithful (FunnyToProduct _2 _2) → False`). (c) The counterexample's ambient category Ab does not exist: `rg -i 'abelian group'` finds only prose in Structure/Abelian.v and Structure/Preadditive.v; the concrete additive witness in the tree is CMon (commutative MONOIDS, Instance/CMon.v), which has no negatives, so the Z/0 diagram cannot be written. (d) The remark's diagnosis — that cancellation requires a mono (resp. epi) — is exactly Lemma 1.6.22 and is not stated in rectangle form either; see riehl:1.6:lem22.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Independent search agreed the positive half is in-tree and the negative half is not. Evidence audit: Construction/Sq.v:47 `Program Definition Sq (C : Category) : DoubleCategory := {| dcat := C; dhor := fun a b => a ~{C}~> b; dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h; ... |}` VERIFIED at the cited line, and the dsq_hcomp obligation is at Construction/Sq.v:69-72 with the goal comment `(* dsq_hcomp : (k' ∘ k) ∘ u ≈ w ∘ (h' ∘ h) *)` and proof `rewrite <- comp_assoc, X, comp_assoc, X0, <- comp_assoc` -- exactly the adjacent-squares-paste-to-rectangle step the remark opens with, so the cited half really is PROVED, not merely axiomatized as a class field. Theory/DoubleCategory.v:243 `dsq_hcomp` VERIFIED at that line. The negative half: my own `rg` for any in-tree proposition of the form 'rectangle commutes but a square does not' found nothing, and Instance/CMon.v (commutative MONOIDS) really is the only additive concrete witness, so the Ab counterexample has no ambient category -- the record's (c) is accurate. Both files _CoqProject-registered. Note: `negative_search_log` is null on a PARTIAL, which the schema permits (it is required only for ABSENT), and the gap text carries the searches inline."
+    }
+  },
+  {
+    "id": "riehl:1.6:lem22",
+    "classification": "PARTIAL",
+    "aliases": [
+      "cancellation criterion for a commutative rectangle",
+      "outer rectangle + right square + m monic ⇒ left square commutes",
+      "outer rectangle + left square + f epic ⇒ right square commutes (dual)",
+      "Monic / monic (left cancellation f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2)",
+      "Epic / epic (right cancellation g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2)",
+      "diagram chase: cancel a monomorphism from a commuting rectangle"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 116,
+        "symbol": "Monic (monic)",
+        "intree_statement": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }  — the left-cancellation used by clause (i)."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 104,
+        "symbol": "Epic (epic)",
+        "intree_statement": "Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }  — the right-cancellation used by the dual clause (ii)."
+      }
+    ],
+    "statement_record": {
+      "book": "Given a --f--> b --j--> c above a' --k--> b' --m--> c' with verticals g, h, l, and supposing the outer rectangle commutes (l ∘ j ∘ f ≈ m ∘ k ∘ g), the data forms a COMMUTATIVE RECTANGLE (both squares commute) if either (i) the right-hand square commutes and m is a monomorphism, or (ii) the left-hand square commutes and f is an epimorphism.",
+      "intree": "Only the underlying cancellation principles are stated, as the defining fields of the two classes: `monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2` and `epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2`. The lemma's two-line derivation (m ∘ k ∘ g ≈ l ∘ j ∘ f ≈ m ∘ h ∘ f, then cancel m) is performed INLINE in several proofs but never abstracted.",
+      "strength_comparison": "intree-weaker: the rectangle-shaped statement — outer rectangle + one square + a mono/epi hypothesis ⇒ the other square — is nowhere asserted, in either orientation. What exists is the raw cancellation law with no diagram configuration attached."
+    },
+    "gap": "No lemma with the rectangle hypotheses exists. The closest in-tree assertions are shape-specific specialisations: Theory/Subobject.v:78 `sub_le_unique (u v : SubObj x) (k k' : sub_dom u ~> sub_dom v) : sub_mono v ∘ k ≈ sub_mono u → sub_mono v ∘ k' ≈ sub_mono u → k ≈ k'` (the TRIANGLE version, cancelling one mono), and Theory/Morphisms/Stability.v:226 `monic_pullback_stable`, whose proof (lines 234-240) executes precisely the lem22 step — deriving `snd ∘ g1 ≈ snd ∘ g2` from a commuting outer configuration by `apply mono` — but only as an internal `assert`. Neither clause (i) nor the dual clause (ii) is available for reuse, and the pasting counterpart (adjacent squares ⇒ rectangle) lives in a different formalism entirely, as the `dsq_hcomp` field of `Sq C` (Construction/Sq.v:47), so the two halves of the pasting/cancellation pair are not stated in a common vocabulary.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED, at the PARTIAL/ABSENT boundary and honestly labelled as such by the record itself ('the rectangle-shaped statement ... is nowhere asserted, in either orientation'). Evidence audit: Theory/Morphisms.v:104 `Class Epic` and :116 `Class Monic` VERIFIED at exactly those lines with the quoted cancellation fields. Gap citations independently checked: Theory/Subobject.v:78 `Lemma sub_le_unique (u v : SubObj x) (k k' : sub_dom u ~> sub_dom v) : sub_mono v ∘ k ≈ sub_mono u → sub_mono v ∘ k' ≈ sub_mono u → k ≈ k'` EXISTS at line 78 and is proved `apply (monic (Monic:=sub_is_monic v))` -- this is a genuine triangle-shaped special case of clause (i), which is what keeps the record on the PARTIAL side rather than ABSENT; Theory/Morphisms/Stability.v:226 `monic_pullback_stable` VERIFIED. My blind pass separately confirmed there is no rectangle-cancellation lemma: Theory/Morphisms/Stability.v's Pasting section (pullback_paste :106, pullback_unpaste :160) is about PULLBACK squares, not bare commutativity, and pullback_unpaste even takes the left square's commutativity as the hypothesis `Hcomm` with the in-file comment 'The left square's commutativity is data the outer rectangle cannot recover' -- i.e. the library states Riehl's Remark 1.6.21 obstruction in passing but never Lemma 1.6.22's mono/epi remedy."
+    }
+  },
+  {
+    "id": "riehl:1.6:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "a morphism from a terminal object to an initial object is an isomorphism",
+      "map 1 ~> 0 forces a zero object (null object)",
+      "ZeroObject / zero_coincide : initial_obj ≅ terminal_obj",
+      "Initial C = Terminal (C^op); one / one_unique, zero / zero_unique",
+      "0 ≅ 1 ⇒ both are zero objects"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'terminal_obj ~|~> initial_obj|1 ~> 0' --glob '*.v' -- 0 assertion hits; the only matches are prose comments (Structure/ZeroObject.v:27 describing the tunnelled zero morphism x ~> 1 ~> 0 ~> y, Structure/Preadditive.v:83, Tools/Represented.v:27)",
+      "rg -n -i 'Isomorphism.*(terminal|initial)|(terminal|initial).*Isomorphism' --glob '*.v' -- only prose (Theory/Isomorphism.v:83, Structure/ZeroObject.v:19, Theory/Lambek.v:20 about initial ALGEBRAS)",
+      "rg -n 'ZeroObject|Build_ZeroObject' --glob '*.v' -- the class is declared at Structure/ZeroObject.v:35 and takes the coincidence `zero_coincide : initial_obj ≅ terminal_obj` as DATA, i.e. as a field to be supplied, never derived from a morphism 1 ~> 0; the sole instance is Instance/CMon/Biproduct.v:161 `@Build_ZeroObject CMon CMon_Terminal CMon_Initial iso_id`, which supplies `iso_id` because the two chosen objects are literally the same record",
+      "rg -n 'one_unique|zero_unique' --glob '*.v' -- ~30 uses, all discharging uniqueness obligations of other constructions (Adamek, Recursion, Cones/Limit, Cospan/Hypergraph, SubobjectClassifier); none combines the two to build an isomorphism",
+      "rg -n -i 'terminal to initial|both initial and terminal|zero object' --glob '*.v' -- only header prose (Structure/Initial.v:17, Instance/Rel.v:41/85 which notes the empty set 'is in fact a zero object … only the initial half is' formalized, Instance/CMon/Biproduct.v)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind search found nothing the classifier missed and independently reproduced its central observation. `rg -n 'ZeroObject'` over *.v gives 25 hits: the class at Structure/ZeroObject.v:35 takes `zero_coincide : initial_obj ≅ terminal_obj` as a FIELD (data), the file's own header (:18-22) justifying this by an appeal to uniqueness-up-to-unique-iso that is itself not formalized anywhere in-tree; the only inhabitant is Instance/CMon/Biproduct.v:161 `@Build_ZeroObject CMon CMon_Terminal CMon_Initial iso_id`, which supplies `iso_id` because the chosen objects are literally the same term -- so no in-tree construction ever DERIVES the coincidence, let alone from a morphism 1 ~> 0. I also checked the whole additive spine (Structure/{Biproduct,Preadditive,Semiadditive,Additive,Kernel,Abelian}.v): every one of them takes `ZeroObject` as a context hypothesis, none builds one. Structure/ZeroObject.v is only 96 lines and contains exactly zero_obj, zero_mor, zero_mor_left, zero_mor_right, zero_mor_unique -- nothing about 1 ~> 0."
+    }
+  },
+  {
+    "id": "riehl:1.6:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "initial/terminal objects are not evil (invariant under isomorphism)",
+      "an object isomorphic to a terminal object is terminal",
+      "transport a Terminal/Initial structure along an isomorphism of objects",
+      "equivalent categories have the same terminal/initial objects",
+      "equivalences preserve limits; terminal object = limit of the empty diagram",
+      "replete / isomorphism-closed property of objects"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Terminal.v",
+        "line": 33,
+        "symbol": "Terminal_Limit",
+        "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C.   (`0` is the empty category, Instance/Zero.v; both directions proved.)"
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 421,
+        "symbol": "equivalence_preserves_limits",
+        "intree_statement": "Definition equivalence_preserves_limits : PreservesAllLimits F := right_adjoint_preserves_limits (AdjointEquivalence_swap_adjunction (Equivalence_to_AdjointEquivalence E)).   (E : @EquivalenceOfCategories C D F; PreservesLimit G F := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }, Structure/Limit/Preservation.v:48.)"
+      }
+    ],
+    "statement_record": {
+      "book": "(i) Any object isomorphic to an initial (resp. terminal) object is again initial (resp. terminal). (ii) For a pair of EQUIVALENT categories, if either one has an initial or a terminal object then so does the other.",
+      "intree": "Neither clause is stated. What is in-tree is the pair of ingredients that yields (ii): terminality is characterised as a limit of the empty diagram in both directions (`Terminal_Limit : Limit F ↔ @Terminal C` for F : 0 ⟶ C), and an equivalence preserves all limits (`equivalence_preserves_limits : PreservesAllLimits F`, obtained from RAPL through the adjoint equivalence). Chaining them — Terminal C ⇒ Limit (0 ⟶ C) ⇒ IsALimit (F ◯ (0 ⟶ C)) ⇒ Limit (0 ⟶ D) ⇒ Terminal D — is a few lines, but is never carried out; the dual route for Initial via colimits (equivalence_preserves_colimits, :432) is likewise available and likewise unused.",
+      "strength_comparison": "intree-weaker: the item's two conclusions are absent. Clause (ii) is a short corollary of two in-tree theorems; clause (i) has no ingredient at all, since nothing in the tree transports a limit (let alone a Terminal/Initial structure) along an isomorphism of the APEX — the transport results of Theory/Equivalence/Limit.v (cone_transport, isalimit_transport, limit_transport, :127-:253) all move along a natural isomorphism of DIAGRAMS and keep `vertex_obj[N]` fixed."
+    },
+    "gap": "(i) No iso-invariance: there is no `Terminal C → x ≅ terminal_obj → Terminal C` (with the new object as terminal_obj), nor the initial dual, nor an apex-transport for `IsALimit`. `rg -n 'Terminal|Initial' | grep -iE 'iso|transport|transfer'` over *.v returns exactly two hits, both irrelevant (Theory/Isomorphism.v:83 prose, Instance/CMon/Biproduct.v:161). The only repleteness-style statement in the tree is Theory/Sheaf/Category.v:119 `sheaf_iso_closed`, about the sheaf predicate, and `Replete` (Construction/Subcategory.v:87) is a property of subcategories, never applied to terminality. (ii) No transfer along an equivalence: `rg -n 'Terminal|Initial' Theory/Equivalence*` returns nothing; Theory/Equivalence/Limit.v transports limits, colimits and isomorphism-reflection but never specialises any of them to the empty diagram, and Theory/Equivalence/{Adjunction,Monoidal,Bundled}.v transport adjunctions and monoidal structure only.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED, but this is the WEAKEST PARTIAL in the batch and Phase E should treat it as a from-scratch item, not a completion item. Evidence audit: Structure/Limit/Terminal.v:33 `Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C` VERIFIED at that line, both directions proved; Theory/Equivalence/Limit.v:421 `Definition equivalence_preserves_limits : PreservesAllLimits F` VERIFIED, with the colimit dual at :432. Strength claim is honest -- the record states in its own statement_record that 'Neither clause is stated', which is exactly what my blind pass found. Under a strict reading of the frozen definition ('PARTIAL = some of the item exists') this record would be ABSENT, since what is in-tree are INGREDIENTS for clause (ii) rather than any part of the item's assertions; I am not overturning because the record's own text is accurate and non-misleading and the chaining it describes really is a few lines, but the boundary is recorded here so the label is not read as 'half-built'. Additional blind-search confirmation of the gap: Theory/Isomorphism.v (412 lines) contains iso_id/iso_sym/iso_compose/iso_to_monic/iso_from_monic/iso_to_epic/iso_from_epic/Monic_Retraction_Iso/Epic_Section_Iso and NO transport of any structure along an iso of objects; there is no `limit_unique` anywhere in the tree (the only hit for 'uniqueness up to unique isomorphism' is prose at Structure/Limit.v:70)."
+    }
+  },
+  {
+    "id": "riehl:1.6:exiii",
+    "classification": "PRESENT",
+    "aliases": [
+      "zero object of Set_partial (the empty set)",
+      "Par / Part / Pfn — sets and partial functions, Kleisli category of the maybe monad",
+      "empty set is both initial and terminal in Par",
+      "ZeroObject Par; initial_obj ≅ terminal_obj",
+      "in the pointed-set picture, the one-point set"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 229,
+        "symbol": "Par_Initial",
+        "intree_statement": "#[export] Program Instance Par_Initial : Initial Par := { terminal_obj := False; one := λ _ _, False_rect _ _ }.   (`Initial Par` is notation for `Terminal (Par^op)`, so this asserts that the EMPTY type is the initial object of Par, whose objects are `Type` and whose homs are `A ~> option B`, Instance/Coq/Par.v:53.)"
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 213,
+        "symbol": "Par_Terminal",
+        "intree_statement": "#[export] Instance Par_Terminal : @Terminal Par := @SemicartesianMonoidal_Terminal _ Par_Monoidal Par_SemicartesianMonoidal.   Its terminal_obj is `I` (Structure/Monoidal/Semicartesian.v:70: `terminal_obj := I; one := eliminate; one_unique := unit_terminal`), and `Par_Monoidal` sets `I := False` (Instance/Coq/Par.v:89-90) with `eliminate := λ _ _, None` (:202) — so the terminal object of Par is the SAME empty type."
+      }
+    ],
+    "statement_record": {
+      "book": "Identify the zero object in the category Set_partial of sets and partial functions. (Answer: the empty set, which is simultaneously initial — the empty partial function out of it — and terminal — the nowhere-defined partial function into it.)",
+      "intree": "In `Par` (Coq types with `hom A B := A ~> option B`, Kleisli composition of the maybe monad — the tree's model of Set_partial, per the coverage of riehl:1.3:construction-set-partial) the empty type `False` is proved BOTH initial (`Par_Initial`, terminal_obj := False in Par^op) and terminal (`Par_Terminal`, terminal_obj := I = False, the unique map being the everywhere-undefined `eliminate := λ _ _, None`). The two chosen objects are literally the same term, so the identification the exercise asks for is on the nose.",
+      "strength_comparison": "same. Presentation differences only: Par is over Coq `Type` rather than setoids (the partiality is encoded as a total map into `option`, so 'nowhere defined' is the constant `None` rather than an empty domain of definition), and the terminality is routed through the semicartesian monoidal unit rather than stated directly. Neither weakens the claim; the two instances pin the same object."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'ZeroObject' --glob '*.v' -- no `ZeroObject Par` instance is assembled anywhere (the sole instance is Instance/CMon/Biproduct.v:161); the one-line bundling `@Build_ZeroObject Par Par_Terminal Par_Initial iso_id` is not written, though both of its arguments exist and the coincidence iso is `iso_id`. Noted for completeness — the exercise asks only for the identification, which both instances make.",
+      "rg -n 'Terminal|Initial|Zero' Instance/Sets/Par.v -- the setoid-based partial-map category `Part` (Instance/Sets/Par.v:27) carries only `Part_Cartesian` (:115); its initial/terminal objects are not built"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT -- and this is a record my own blind pass MISSED (I searched `Instance/*.v` non-recursively for 'partial' and so never reached Instance/Coq/Par.v; I had provisionally called it ABSENT). Full audit of the classifier's claim, all of it holds: Instance/Coq/Par.v:52 `Program Definition Par : Category := {| obj := Type; hom := fun A B => A ~> option B; homset := ... equiv := fun f g => ∀ x, f x = g x; id := λ _, Some; compose := fun x y z f g => option_bind f ∘ g |}` (Kleisli of maybe = sets and partial functions); :229 `#[export] Program Instance Par_Initial : Initial Par := { terminal_obj := False; one := λ _ _, False_rect _ _ }` VERIFIED at the cited line; :213 `#[export] Instance Par_Terminal : @Terminal Par := @SemicartesianMonoidal_Terminal _ Par_Monoidal Par_SemicartesianMonoidal` VERIFIED. I chased the terminal object to a definitional `False`: Structure/Monoidal/Semicartesian.v:69-74 sets `terminal_obj := I`, Instance/Coq/Par.v:90 sets `I := False` in Par_Monoidal, and :202 `eliminate := λ _ _, None` is the nowhere-defined map. So initial_obj and terminal_obj are the SAME term, on the nose, and both universal properties are proved -- the exercise's identification is fully formalized. Instance/Coq/Par.v is _CoqProject-registered (line 189). Disclosure the record already makes and I confirm: no `ZeroObject Par` instance is assembled (`rg 'ZeroObject'` -> the sole instance in the tree is CMon), so the one-line bundling `@Build_ZeroObject Par Par_Terminal Par_Initial iso_id` is unwritten; since the exercise asks only for the identification, PRESENT stands. Secondary citation Instance/Sets/Par.v:27 `Part` / :115 `Part_Cartesian` also VERIFIED (the setoid-based partial-map category has no initial/terminal built)."
+    }
+  },
+  {
+    "id": "riehl:1.6:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "faithful functors reflect monomorphisms",
+      "faithful functors reflect epimorphisms (by duality)",
+      "Monic (fmap[F] f) → Monic f; Epic (fmap[F] f) → Epic f",
+      "concrete category: injective underlying function ⇒ mono, surjective ⇒ epi",
+      "reflects monos / ReflectsMonos; conservative-style reflection"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Monic|Epic' --glob '*.v' | grep -iE 'fmap|Faithful|functor|forget' -- 9 hits, all POSITIVE and all going the other way or unrelated: Theory/Adjunction.v:312 `adj_monic … Faithful F → Monic f -> ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h → g ≈ h` (monicity of the adjunct, not reflection of monicity), Monad/Monadicity/{Crude,BeckObjects,Beck}.v `Epic (fmap[T] …)` (epicness of an IMAGE, derived from a split, i.e. preservation not reflection), Theory/Equivalence/FullFaithful.v:209-210 (cancelling iso-induced monos/epis)",
+      "rg -n 'Monic\\b' --glob '*.v' | grep -E 'Lemma|Theorem|Corollary|Definition|Instance|Program' -- the complete list of monomorphism assertions in the tree: Bimorphic, id_monic, sections_are_monic, monic_compose, injectivity_is_monic (Sets), FinSet monic-iff-injective, point_true_monic, truth_monic, abelian_monic_is_kernel, abelian_image_monic, image_comparison_monic, Sets_Image_mono_monic, monic_pullback_stable. None has a functor in its statement",
+      "rg -n -i 'concrete categor|ConcreteCategory' --glob '*.v' -- no definition; the tree has faithful forgetful functors (Theory/Algebra/Monoid/Hom.v:101 Mon_Forget_Faithful, Theory/Algebra/Comonoid/Hom.v:224 Comon_Forget_Faithful, Theory/Lawvere/Sets.v ev1_Faithful, Construction/Karoubi.v:214 Karoubi_Embed_Faithful) but never states the concrete-category corollary for any of them",
+      "NEAREST NEIGHBOURS, deliberately NOT cited as evidence: Instance/Sets.v:370 `injectivity_is_monic : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f` and :431 `surjectivity_is_epic : (∀ b, ∃ a, h a ≈ b) ↔ Epic h`. These characterise monos/epis INSIDE Sets and do not assert reflection along any functor — the exercise's degenerate case U = Id on C = Sets, which carries none of its content"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; blind pass reached the same conclusion by a different route. I enumerated every file containing BOTH `Faithful` and `Monic|Epic` (a 2-file list: Theory/Adjunction.v and Theory/Equivalence/FullFaithful.v) and read the hits: Theory/Adjunction.v:311-334 `Theorem adj_monic {x y} (f : F x ~> y) c (g h : c ~> x) : Faithful F → Monic f -> ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h → g ≈ h` is monicity OF THE ADJUNCT under a faithfulness hypothesis, not reflection of monicity along a functor -- correctly excluded by the record; Theory/Equivalence/FullFaithful.v:209-210 cancels iso-induced monos/epis. Nothing states `Monic (fmap[F] f) → Monic f`. The record's 'NEAREST NEIGHBOURS, deliberately NOT cited' discipline is right and its two citations are VERIFIED at the stated lines: Instance/Sets.v:370 `(∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f` and :431 `(∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h` -- both are internal characterisations in Sets, carrying none of the exercise's content. (Instance/FinSet/Classifier.v:335 `finset_monic_iff_injective` is the same shape for FinSet.) No `Concrete`/`ConcreteCategory` definition exists in the tree; I confirmed all 30 hits for 'concrete' are prose."
+    }
+  },
+  {
+    "id": "riehl:1.6:exv",
+    "classification": "ABSENT",
+    "aliases": [
+      "faithful functors need not preserve epimorphisms",
+      "faithful functors need not preserve monomorphisms",
+      "epimorphism whose underlying function is not surjective (Z ↪ Q in Ring, dense inclusion in Haus)",
+      "monomorphism whose underlying function is not injective (Div, torsion quotient)",
+      "counterexample to preservation of monos/epis by a forgetful functor"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n '→ False|-> False' --glob '*.v' | grep -iE 'monic|epic|faithful|full|preserve' -- exactly ONE hit in the whole tree: Construction/Funny/Comparison.v:155 `Corollary FunnyToProduct_not_faithful : Faithful (@FunnyToProduct _2 _2) → False`. That is a failure of FAITHFULNESS, not a failure to preserve monos or epis, and it is the tree's only negative statement about a functor",
+      "rg -n 'Monic|Epic' --glob '*.v' Instance/ -- monos/epis are discussed in only two concrete categories, Sets (Instance/Sets.v:370, :431) and FinSet (Instance/FinSet/Classifier.v:336), and in BOTH the characterisation proved is monic ⟺ injective / epic ⟺ surjective, i.e. the cases where NO counterexample exists",
+      "rg -n -i 'not surjective|non-surjective|not injective|ring' --glob '*.v' -- no hits bearing on the item; there is no category of rings, of groups (only `GroupObject`, Structure/Group.v:109), of abelian groups, or of topological/Hausdorff spaces in the tree, so none of the standard counterexamples has an ambient category to live in",
+      "rg -n 'Faithful' --glob '*.v' -- every Faithful witness in the tree (Mon_Forget_Faithful, Comon_Forget_Faithful, Yoneda_Faithful, Cat_Iso_to/from_Faithful, Karoubi_Embed_Faithful, Equivalence_Faithful, ev1_Faithful, RoundTrip_Comparison) is used positively; none is paired with a preservation-failure statement",
+      "rg -n 'Preserves' --glob '*.v' -- the preservation vocabulary (Structure/Limit/Preservation.v: PreservesLimit, PreservesAllLimits, PreservesColimit, ReflectsIsos, PreservesImageLimit) has no monomorphism/epimorphism analogue at all, so 'preserves monos' cannot even be stated, let alone refuted"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. My blind pass independently found no counterexample machinery: `rg -i 'not injective|not surjective'` over *.v returns nothing bearing on the item, and monos/epis are characterised in exactly two concrete categories (Sets, FinSet), in BOTH cases as monic ⟺ injective / epic ⟺ surjective, i.e. precisely the categories where the counterexample cannot live. I verified the record's single strongest claim -- that Construction/Funny/Comparison.v:155 `Corollary FunnyToProduct_not_faithful : Faithful (@FunnyToProduct _2 _2) → False` is the tree's ONLY negative statement about a functor -- and it is at exactly that line and is about failure of faithfulness, not failure of preservation, so it is correctly not cited as evidence. Also confirmed the ambient-category obstruction: there is no Ring, Grp, Ab, Top or Haus in the tree (Instance/ holds AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX), so none of the standard counterexamples (Z ↪ Q in Ring, dense inclusion in Haus, Div) has a home."
+    }
+  },
+  {
+    "id": "riehl:1.6:exvi",
+    "classification": "ABSENT",
+    "aliases": [
+      "every small category is concrete",
+      "faithful functor C ⟶ Set by generalized elements c ↦ {f ∈ mor C : cod f = c}",
+      "c ↦ ∐_{x ∈ ob C} C(x, c) (coproduct of hom-sets over all objects)",
+      "universal generalized element id_c witnessing faithfulness",
+      "Cayley / Yoneda embedding as the many-object regular representation"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n '⟶ Sets' --glob '*.v' | grep -E 'Definition|Program|Instance' -- the complete list of Sets-valued functors built in the tree: Hom / CoHom / CoHom_Alt (Functor/Hom.v, two-variable), Profunctor (Theory/Profunctor.v:122), InnerIntegrand / Inner / YoI / YoE (Coend files), Sub (Theory/Subobject/Functor.v:180), ev1 (Theory/Lawvere/Sets.v:83), _2_as_Set (Instance/Two.v:174), Trie_Functor, CMon_Forget, Presheaf_Graph, StreamF. NONE is a functor out of an arbitrary category sending an object to its set of generalized elements, and none is proved faithful for an arbitrary C",
+      "rg -n -i 'generalized element|generalised element' --glob '*.v' -- 2 hits, both prose in header essays (Structure/Terminal.v:61, Structure/Constant.v:15); no definition",
+      "rg -n -i 'faithful.*Sets|Sets.*faithful' --glob '*.v' -- Functor/Hom.v:85 `#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C)`. NOT cited as evidence: `Curried_Hom C : C^op ⟶ [C, Sets]` lands in a FUNCTOR CATEGORY of presheaves, not in Sets, so it asserts a different statement (C embeds in its presheaf category) than the exercise's (C embeds in Set). Theory/Lawvere/Sets.v ev1_Faithful is Sets-valued but only for T-models and only under an explicit reachability hypothesis",
+      "rg -n 'Faithful|To_Cayley|From_Cayley' Construction/Cayley.v -- the Cayley representation builds a standalone category `Cayley` of Yoneda-style handler families and a split-faithful round trip `From_Cayley (To_Cayley f) ≈ f`, explicitly 'without naming Sets or a functor category' (header, :25); it is not a Set-valued functor and carries no `Faithful` instance",
+      "rg -n 'Cocartesian|coproduct' Instance/Sets.v Instance/Sets/*.v -- Sets has only BINARY coproducts (Instance/Sets/Cocartesian.v:28 `Sets_Cocartesian`, disjoint union of two setoids); there is no object-indexed coproduct of setoids in the tree, so the carrier ∐_{x ∈ ob C} C(x,c) of the generalized-elements functor cannot even be formed as an obj[Sets] without new machinery"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass converged on the same near-miss and the same reason for rejecting it. Functor/Hom.v:85 `#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C)` VERIFIED at that line, and it is correctly NOT cited: `Curried_Hom C : C^op ⟶ [C, Sets]` lands in a presheaf CATEGORY, so it asserts 'C embeds in its presheaf category', a different statement from the exercise's 'C admits a faithful functor to Set'. Construction/Cayley.v likewise VERIFIED as not a Set-valued functor -- its header (:24-25) says in so many words that it builds the image 'without naming Sets or a functor category', and grepping the file finds no `Faithful` instance, only the split round trip `From_Cayley (To_Cayley f) ≈ f`. No definition of 'generalized element' exists (2 hits, both header prose). ONE OVERSTATEMENT in the record's negative log, which does NOT change the verdict: the last bullet says the carrier ∐_{x ∈ ob C} C(x,c) 'cannot even be formed as an obj[Sets] without new machinery' on the grounds that Sets has only binary coproducts (Instance/Sets/Cocartesian.v:28 VERIFIED). But an object of Sets is a bare SetoidObject (carrier Type + setoid), so the sigma setoid `{x : obj C & x ~> c}` can be written directly without any colimit machinery -- the real obstruction is universe placement (the sigma over objects sits above the hom universe), which this library's universe polymorphism can accommodate. The item remains ABSENT either way: nothing of the sort is built."
+    }
+  },
+  {
+    "id": "riehl:1.7:construction-functor-category",
+    "classification": "PRESENT",
+    "aliases": [
+      "functor category D^C / [C, D]",
+      "objects are functors, morphisms are natural transformations",
+      "identity natural transformation id_F with components id_{Fc}",
+      "presheaf category [C^op, Sets]",
+      "Fun / nat_id / nat_compose"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}.   (Notation `[ C , D ]`, Instance/Fun.v:119.)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 220,
+        "symbol": "nat_id",
+        "intree_statement": "Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {| transform := λ X, fmap (@id C X) |}.   (The component at X is fmap[F] id, equal to id[F X] by fmap_id.)"
+      }
+    ],
+    "statement_record": {
+      "book": "For any pair of categories C and D there is a functor category D^C whose objects are the functors C ⟶ D and whose morphisms are the natural transformations between them; the identity on F is the natural transformation id_F : F ⇒ F with components (id_F)_c := id_{Fc}. Composition is supplied by Lemma 1.7.1 and the axioms verified in Corollary 1.7.2.",
+      "intree": "`Fun : Category` with `obj := C ⟶ D`, `hom := @Transform C D`, `id := nat_id`, `compose := nat_compose`, written `[C, D]`. The identity transformation `nat_id` has component `fmap (@id C X)` at X.",
+      "strength_comparison": "same. One presentation detail: the identity transformation's component is written `fmap[F] id` rather than `id[F X]` (they agree by the functor law fmap_id, which is a class field, Theory/Functor.v:105); the hom-setoid is componentwise `∀ x, transform N0 x ≈ transform N1 x` (Transform_Setoid, Theory/Natural/Transformation.v:139), the faithful setoid reading of equality of natural transformations."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT; blind pass found the same evidence first. Instance/Fun.v:108 `Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}` VERIFIED verbatim at line 108, with the `[ C , D ]` notation at :119 as claimed. Theory/Natural/Transformation.v:220 `Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {| transform := λ X, fmap (@id C X) |}` VERIFIED at line 220; the record's presentation caveat (component written `fmap[F] id` rather than `id[F X]`, reconciled by the `fmap_id` field at Theory/Functor.v:105) is exact and is the only divergence from the book. Transform_Setoid at :139 confirmed as the componentwise hom-setoid. Both files _CoqProject-registered (lines 200, and Theory/Natural/Transformation.v). I additionally audited every cross-reference in Instance/Fun.v's own header essay for stale pointers, since a PRESENT record files no issue and such rot would otherwise be invisible: [Functor_Setoid_Nat_Iso] (:255), [iso_equiv] (:305), [equiv_iso] (:308), [Pointed] (:230), [WellPointed] (:240) all exist where the header says, and Instance/Fun/Cartesian.v is registered. No defects."
+    }
+  },
+  {
+    "id": "riehl:1.7:lem1",
+    "classification": "PRESENT",
+    "aliases": [
+      "vertical composition of natural transformations",
+      "(β · α)_c := β_c ∘ α_c is natural",
+      "nat_compose / the `∙` notation",
+      "pasting two naturality squares into a commuting rectangle",
+      "composition in the functor category [C, D]"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 231,
+        "symbol": "nat_compose",
+        "intree_statement": "Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {| transform := λ X, transform[f] X ∘ transform[g] X |}.   Its naturality obligation (:235-242) is discharged exactly by pasting the two naturality squares: `rewrite comp_assoc; rewrite naturality; rewrite <- comp_assoc; rewrite naturality; rewrite comp_assoc`."
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 113,
+        "symbol": "Transform (naturality)",
+        "intree_statement": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f; naturality_sym {x y} (f : x ~> y) : transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform }."
+      }
+    ],
+    "statement_record": {
+      "book": "For natural transformations α : F ⇒ G and β : G ⇒ H between parallel functors F, G, H : C ⟶ D, there is a natural transformation β · α : F ⇒ H with components (β · α)_c := β_c ∘ α_c. Proof: naturality of α and of β makes two adjacent squares commute for any f : c → c', hence so does the composite rectangle. This is VERTICAL composition.",
+      "intree": "`nat_compose (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K` with `transform := λ X, transform[f] X ∘ transform[g] X`, notation `f ∙ g`; the returned Transform's `naturality` field is proved by the two-square paste. The header (:226-229) names it 'Vertical composition of natural transformations … the composition of the functor category [C, D]'.",
+      "strength_comparison": "same. Argument order is the composition convention (outer first), and the record carries the extra `naturality_sym` field, which is derivable (Build_Transform', :129) and kept only so that duality holds definitionally — no extra hypothesis on the caller."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT; found independently in the blind pass. Theory/Natural/Transformation.v:231 `Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {| transform := λ X, transform[f] X ∘ transform[g] X |}` VERIFIED verbatim at line 231, and the record's claim about the proof is literally right: the naturality obligation at :235-242 is `rewrite comp_assoc. rewrite naturality. rewrite <- comp_assoc. rewrite naturality. rewrite comp_assoc.` -- i.e. Riehl's two-adjacent-squares paste, step for step. The `∙` notation is at :250 and `nat_compose_respects` at :252. `Class Transform` VERIFIED at :113 with both `naturality` and `naturality_sym`; the record's honesty about the extra `naturality_sym` field being derivable via `Build_Transform'` is confirmed at :129 and imposes nothing on the caller. Strength claim 'same' is accurate."
+    }
+  },
+  {
+    "id": "riehl:1.7:cor2",
+    "classification": "PRESENT",
+    "aliases": [
+      "the functor category is a category",
+      "D^C / [C, D] satisfies the category axioms",
+      "vertical composition is associative and unital componentwise",
+      "nat_id_left / nat_id_right / nat_comp_assoc",
+      "Fun : Category"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}  — inhabiting `Category` IS the corollary: the remaining unit and associativity obligations are discharged by Program."
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 137,
+        "symbol": "nat_comp_assoc",
+        "intree_statement": "Corollary nat_comp_assoc C D (F G H J : C ⟶ D) (M : H ⟹ J) (N : G ⟹ H) (O : F ⟹ G) : M ∙ (N ∙ O) ≈[Fun] (M ∙ N) ∙ O.   Proof: `unfold nat_compose; simpl; intros; cat.` — i.e. componentwise from associativity in D."
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 129,
+        "symbol": "nat_id_left / nat_id_right",
+        "intree_statement": "Corollary nat_id_left C D (F G : C ⟶ D) (N : F ⟹ G) : nat_id ∙ N ≈[Fun] N.  … Corollary nat_id_right (:133) : N ∙ nat_id ≈[Fun] N.   Both proved componentwise from the unit laws of D."
+      }
+    ],
+    "statement_record": {
+      "book": "For any pair of categories C and D, the functors C ⟶ D together with the natural transformations between them form a category D^C; it remains only to check that the vertical composition of Lemma 1.7.1 is associative and unital, which holds componentwise because composition in D is.",
+      "intree": "`Fun : Category` (notation `[C, D]`), with the three laws additionally restated in the book's own componentwise form as `nat_id_left`, `nat_id_right` and `nat_comp_assoc`, each proved by `simpl; intros; cat`, i.e. pointwise in D.",
+      "strength_comparison": "same. The library's `Category` record additionally demands `compose_respects` (composition is Proper for ≈) and the symmetric `comp_assoc_sym`; these are setoid/duality bookkeeping absent from the book's axioms, and both are supplied here (`nat_compose_respects`, Theory/Natural/Transformation.v:252), so the in-tree statement is if anything slightly stronger, not weaker."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT; found independently. All three citations VERIFIED at the exact cited lines: Instance/Fun.v:108 `Fun : Category` (inhabiting the record IS the corollary, with the unit/assoc obligations discharged by Program), :129 `Corollary nat_id_left C D (F G : C ⟶ D) (N : F ⟹ G) : nat_id ∙ N ≈[Fun] N`, :133 `nat_id_right`, :137 `Corollary nat_comp_assoc ... M ∙ (N ∙ O) ≈[Fun] (M ∙ N) ∙ O` with proof `unfold nat_compose; simpl; intros; cat` -- so the book's own componentwise phrasing really is restated separately, not merely implied by the Program obligations. The strength_comparison's claim that the in-tree statement is 'if anything slightly stronger' (extra `compose_respects` and `comp_assoc_sym`) is correct and not inflated: `nat_compose_respects` is supplied at Theory/Natural/Transformation.v:252 and `comp_assoc_sym` is a genuine Category field in this library's duality design. No same-name-weaker-statement, no missing API."
+    }
+  }
+]

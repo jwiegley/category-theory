@@ -1,0 +1,499 @@
+[
+ {
+  "id": "7sketches:1.2.3:prop78",
+  "classification": "PARTIAL",
+  "aliases": [
+   "B classifies upper sets; subobject classifier Ω with truth : 1 ~> Ω (SubobjectClassifier, classifier_classifies)",
+   "characteristic / indicator function χ_U : P → B; char m; char_setoid; fibre f⁻¹(true) as the pullback of truth",
+   "upper set / up-set / upward-closed subset U(P); monotone maps into the two-element order = functors Proset P ⟶ _2 = objects of [P, 2]",
+   "power object Pow a := Ω ^ a; relations_iso : SubObj (a × b) ≅ (a ~> Pow b)",
+   "dual form: down-sets / sieves classified by maps into 2; Ω := 2 in skeletal FinSet"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/SubobjectClassifier.v",
+    "line": 187,
+    "symbol": "classifier_classifies",
+    "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}. — the proposition's shape one categorical level up: the 'subsets' of x correspond bijectively to the maps x ~> Ω, with `to` given by char (the characteristic morphism) and `from` by pulling `truth` back along h (sub_reindex h truth_subobject), and BOTH round trips proven (classifier_char_roundtrip, line 159: char (sub_mono (sub_reindex h truth_subobject)) ... ≈ h; classifier_pullback_roundtrip, line 174: sub_reindex (char (sub_mono s) ...) truth_subobject ≈ s) — exactly the two mutually inverse constructions f ↦ f⁻¹(true) and U ↦ χ_U that the book's proof exhibits."
+   },
+   {
+    "file": "Instance/FinSet/Classifier.v",
+    "line": 353,
+    "symbol": "FinSet_Classifier",
+    "intree_statement": "#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; truth := fun _ => fin_true; char := fun u x (m : u ~{FinSet}~> x) (_ : Monic m) (b : Fin.t x) => fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |} — the classifying object IS the two-element object (the book's B), truth is its distinguished point, and the characteristic morphism sends b to true exactly when b lies in the image of m (decidable membership). The obligations discharge char_pullback and char_unique, so `2` is proven to classify subsets."
+   },
+   {
+    "file": "Instance/Sets/Classifier.v",
+    "line": 224,
+    "symbol": "sets_char_pullback",
+    "intree_statement": "Theorem sets_char_pullback {A B : SetoidObject} (m : A ~{Sets}~> B) (Hm : Monic m) : @IsPullback Sets (Setoid_Lift B) unit_setoid_object PropSetoid (char_setoid m) sets_true (Setoid_Lift A) (SetoidMorphism_Lift m) sets_to_unit. — the element-level half of the proposition in Sets: with char_setoid m := λ b, ∃ a, m a ≈ b (line 186, 'b is in the image of m', i.e. the characteristic predicate χ_U), the subset m is recovered as the fibre of χ_U over `true` (the pullback square), and sets_char_unique (line 283) makes χ_U the only such map — the f ↦ f⁻¹(true) / U ↦ χ_U correspondence at the level of setoid elements."
+   }
+  ],
+  "statement_record": {
+   "book": "For any preorder P the monotone maps P → B are in one-to-one correspondence with the upper sets of P: a monotone f gives the upper set f⁻¹(true) (upward closure follows from monotonicity, since p ≤ q and f(p) = true force f(q) = true), an upper set U gives the monotone characteristic map f_U, and the two constructions are mutually inverse. So B is a classifier for upper sets.",
+   "intree": "classifier_classifies : SubObj x ≅ (x ~> Ω) in Sets, both directions with both round trips, in any category with a terminal object, chosen pullbacks and a SubobjectClassifier; witnessed concretely by FinSet_Classifier with Ω := 2 and char by decidable membership, and at element level by sets_char_pullback / sets_char_unique with char_setoid m := λ b, ∃ a, m a ≈ b.",
+   "strength_comparison": "intree-stronger on the classification theorem itself (arbitrary ambient category, proof-relevant round trips, a computing finite model in which the classifier literally is the two-element object) but intree-weaker on the item's distinctive content in three ways. (a) It classifies SUBOBJECTS of an object x, not UPPER sets of a preorder: the in-tree correspondence is order-free on both sides, whereas the whole point of Prop 1.78 is that MONOTONICITY of f corresponds to UPWARD CLOSURE of f⁻¹(true) — that clause has no in-tree counterpart. (b) Extra hypotheses: Terminal + HasPullbacks + SubobjectClassifier (and, in the Sets version, a universe lift), none of which the book's bare preorder statement needs. (c) `_2` (Instance/Two.v:134), the in-tree B, is a CATEGORY, not an object of a category carrying a classifier, so 'monotone maps P → B' would have to be read as Fun (Proset P) _2, and nothing relates that functor category to a collection of upper sets."
+  },
+  "gap": "Four precise shortfalls. (1) UPPER SETS DO NOT EXIST: grep -i 'upper set|up-set|upset|upward|up_closed|down.set|downset|lower set|order ideal|sieve' over all *.v returns no definition (only prose: Construction/Slice.v:81 calls a slice 'the principal down-set', Theory/Sheaf.v:80 mentions sieves), so the left-hand side of the proposition is unstatable. (2) The monotonicity ⟺ upward-closure equivalence — the mathematical content of the proof — is nowhere: no lemma relates `MonotoneMap` (Construction/Enriched/Two.v:175, which has no inhabitant anywhere) to a subset of the domain, and no map into `_2` is ever built from a predicate. (3) The in-tree bijection is not natural in x: classifier_classifies is a per-object isomorphism of setoids and there is no natural iso `Sub ≅ [Hom ─,Ω]` (grep 'Sub ≅|natural.*classifi': 0 hits), so 'B is a classifier' in the functorial sense the book's follow-up exercise 1.79 needs is not proven. (4) The two sides carry no order in-tree: SubObj has a preorder `sub_le` (Theory/Subobject.v:59) but the isomorphism of classifier_classifies is order-forgetting, and `x ~> Ω` is never ordered.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'upper set|up-set|upset|upward|up_closed|upclosed|down.set|downset|lower set|order ideal|sieve' . -- 4 prose hits only (Theory/Sheaf.v:80, Construction/Localization.v:101, Construction/Slice.v:81, Structure/Monoid.v:89); no definition",
+   "grep -rn --include='*.v' -i 'characteristic|classifying map|indicator' . -- Instance/FinSet/Classifier.v:36/349, Instance/Sets/Classifier.v:49/178/180, Instance/Sets.v:420, Structure/SubobjectClassifier.v: all about the subobject classifier, none about a preorder",
+   "grep -rn --include='*.v' 'MonotoneMap' . -- 2 hits only (Construction/Enriched/Two.v:175 record, :183 theorem); no instance, so no monotone map into a two-element order is exhibited",
+   "grep -rn --include='*.v' 'Sub ≅|Sub ≈|natural.*classifi|classifi.*natural' . -- 0 hits: the classification isomorphism is never made natural",
+   "NEAR MISS rejected: `Fun (Proset P) _2` would BE the poset of upper sets of P (a functor into the walking arrow is a monotone characteristic map), but no in-tree statement identifies functors into `_2` with subsets of any kind, and `_2` is not an object of a category with a classifier"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL, at the PARTIAL/ABSENT boundary and with the boundary stated so Phase E is not misled. All three citations verified exactly: Structure/SubobjectClassifier.v:187-188 `Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}` (quote exact; both round trips at :159 and :174 exist as claimed); Instance/FinSet/Classifier.v:353-355 `#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; ...` (Ω literally the two-element object; fin_true/fin_false at :310-311); Instance/Sets/Classifier.v:224 `sets_char_pullback`, :186 `char_setoid`, :283 `sets_char_unique` all at the cited lines. All cited files are registered in _CoqProject. Negative log reproduced independently: no upper-set/up-set/upward/sieve definition (prose only); `MonotoneMap` has exactly 2 hits (record + theorem, no inhabitant); `Sub ≅|natural.*classifi` = 0 hits, so the classifier iso is genuinely per-object with no naturality. MY DISSENT, recorded rather than acted on: the in-tree theorem is NOT an instantiable generalization of the item — for a preorder P read as `Proset P` (Instance/Proset.v:33) every arrow is monic and `SubObj x` is the set of u ≤ x up to iso, which is NOT U(P); upper sets are subobjects of the terminal PRESHEAF (sieves), and no presheaf/sieve machinery exists. So neither side of the book's bijection exists in-tree (consistent with example54 = ABSENT, peer-CONFIRMED) and the credited evidence is a structurally analogous theorem one categorical level up. I confirm PARTIAL because the record's own strength_comparison and 4-part gap say all of this explicitly and the classification theorem is a genuine (if non-instantiable) counterpart of the item's CLAIM shape; Phase E must treat the order-level content as entirely unformalized (issue scope = define U(P), define monotone maps into `_2`, prove the bijection and its naturality), not as a small delta on classifier_classifies."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:ex79",
+  "classification": "PARTIAL",
+  "aliases": [
+   "pullback / preimage map f* = f⁻¹ on upper sets; U ↦ f⁻¹(U) monotone U(Q) → U(P)",
+   "reindexing of subobjects along a morphism (sub_reindex), the subobject presheaf Sub : C^op ⟶ Sets",
+   "f* as precomposition with f: χ_{f⁻¹ U} = χ_U ∘ f (naturality of the classifier)",
+   "base change / substitution functor of a hyperdoctrine; inverse image f^{-1} of a Galois connection",
+   "contravariant functoriality (g ∘ f)* ≈ f* ∘ g*, id* ≈ id"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 180,
+    "symbol": "Sub",
+    "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x ; is_setoid := @SubObj_Setoid C x |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f) ; proper_morphism := sub_reindex_respects (unop f) |} |}. — the exercise's f* as a well-defined map on 'subsets', in the exact contravariant direction the exercise asks for (a C-arrow f : y ~> x induces f* : Sub x → Sub y), where sub_reindex f u (line 35) is the pullback of u's mono along f, i.e. the preimage f⁻¹(U); the functor obligations assert well-definedness (respect for ≈) plus both functor laws."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 152,
+    "symbol": "sub_reindex_comp",
+    "intree_statement": "Lemma sub_reindex_comp {x y z : C} (g : y ~> x) (f : z ~> y) (u : SubObj x) : sub_reindex (g ∘ f) u ≈ sub_reindex f (sub_reindex g u). — with sub_reindex_id (line 143: sub_reindex id u ≈ u), the compatibility of preimage with composition, which is the closest in-tree form of the exercise's second clause (f* is 'precomposition with f'): reindexing along a composite is reindexing along the factors in turn."
+   }
+  ],
+  "statement_record": {
+   "book": "For preorders P, Q and a monotone f : P → Q, show that U ↦ f⁻¹(U) is a well-defined MONOTONE map f* : U(Q) → U(P) on upper sets; and, viewing upper sets as monotone maps into B via Prop 1.78, show that f* is precomposition with f, i.e. it sends u : Q → B to f ; u : P → B.",
+   "intree": "Sub : C^op ⟶ Sets, sending x to the setoid of subobjects of x and a morphism f to sub_reindex f (the pullback of a mono along f), with sub_reindex_respects (well-definedness on the subobject setoid), sub_reindex_id and sub_reindex_comp (the functor laws).",
+   "strength_comparison": "intree-weaker in exactly the two places the exercise is aimed at, and different in kind elsewhere. (a) MONOTONICITY IS NOT PROVEN: sub_reindex_respects (line 60) gives only `Proper (equiv ==> equiv) (@sub_reindex x y f)` — respect for the subobject EQUIVALENCE — and no lemma anywhere states `sub_le u v → sub_le (sub_reindex f u) (sub_reindex f v)`; this is the same-name-but-weaker trap, since 'well-defined' is proven while 'monotone', the exercise's actual deliverable, is not. (b) The 'f* = precomposition with f' clause needs naturality of the classifier correspondence (char (sub_reindex f u) ≈ char u ∘ f), which is not stated: Structure/SubobjectClassifier.v proves only the per-object iso and its two round trips. Elsewhere in-tree is stronger/more general: reindexing is defined for arbitrary monos in any category with chosen pullbacks, not for subsets of a preorder — but that generality costs the extra hypothesis `HasPullbacks`, which the book's f⁻¹ does not need."
+  },
+  "gap": "Three precise pieces. (1) The exercise's domain and codomain do not exist: upper sets are absent from the tree (grep -i 'upper set|up-set|upward|down.set': prose only), so f* : U(Q) → U(P) can only be approximated by Sub, whose fibres are subobject setoids of an ambient object and which requires chosen pullbacks. (2) MONOTONICITY of f* is unproven: `sub_le` (Theory/Subobject.v:59) has exactly five consumers, all inside Theory/Subobject.v (sub_le_refl, sub_le_trans, sub_le_unique, sub_equiv_iff_mutual), and nothing transports it along sub_reindex — the statement `sub_le u v → sub_le (sub_reindex f u) (sub_reindex f v)` appears nowhere. (3) The identification of f* with precomposition is absent: it would be naturality of classifier_classifies in x, i.e. an equation char (sub_reindex f u) ≈ char u ∘ f or a natural isomorphism Sub ≅ [Hom ─,Ω]; grep 'Sub ≅|natural.*classifi' gives 0 hits, and Prop 1.78's in-tree stand-in (classifier_classifies) is stated per object only.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' 'sub_le' . -- Theory/Subobject.v only (definition at 59 plus sub_le_refl/sub_le_trans/sub_le_unique/sub_equiv_iff_mutual); no lemma relates it to sub_reindex",
+   "grep -rn --include='*.v' -i 'upper set|up-set|upward|down.set|downset' . -- prose only (see the prop78 record)",
+   "grep -rn --include='*.v' 'Sub ≅|Sub ≈|natural.*classifi|classifi.*natural' . -- 0 hits",
+   "grep -rn --include='*.v' 'preimage|inverse image|base change|substitution functor' . -- Structure/Pullback.v:92 prose ('Pulling a monomorphism back along f computes the preimage of the subobject it names'), Construction/ColouredPROP base change (unrelated, colour relabelling); no preimage operator on subsets"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL. Citations verified verbatim: Theory/Subobject/Functor.v:180-186 `Program Definition Sub : C^op ⟶ Sets` with `fmap ... := sub_reindex (unop f)` (exact), :152-155 `sub_reindex_comp : sub_reindex (g ∘ f) u ≈ sub_reindex f (sub_reindex g u)` (exact), :143-144 `sub_reindex_id`, :60-61 `sub_reindex_respects : Proper (equiv ==> equiv) (@sub_reindex x y f)`. File registered in _CoqProject. The record's own same-name-weaker warning is CORRECT and I verified it independently: `rg 'sub_le'` returns hits in Theory/Subobject.v ONLY (7 occurrences: the definition at :59 plus sub_le_refl/sub_le_trans/sub_le_unique/sub_equiv_iff_mutual), so nothing transports `sub_le` along `sub_reindex` — monotonicity of f*, the exercise's actual deliverable, is unproven while the weaker properness is proven. `Sub ≅|natural.*classifi` = 0 hits confirms the 'f* = precomposition' half is absent (it is naturality of classifier_classifies). One near miss the Phase C log did not record (it does not change the verdict): Instance/Ens.v:44-66 builds `Ens` and `EnsT T`, whose hom condition is literally `∀ x, x ∈ A ↔ f x ∈ B`, i.e. `A = f⁻¹(B)` (stated as such in the header at :50-53) — the only place in the tree where a preimage of a subset appears at all. It is a CONSTRAINT on morphisms, not an operator U ↦ f⁻¹(U), the objects are unordered, and no monotonicity is available, so PARTIAL stands."
+  }
+ },
+ {
+  "id": "7sketches:1.3.1:ex80",
+  "classification": "ABSENT",
+  "aliases": [
+   "0 is the greatest lower bound (infimum, meet) of {1/(n+1) | n ∈ ℕ} in ℝ",
+   "ℝ with its usual order as a preorder (Coq.Reals, Rle, Rle_refl/Rle_trans, Rdefinitions)",
+   "lower bound of a subset; greatest lower bound / glb / infimum",
+   "limit of a decreasing sequence; Archimedean property (for all ε > 0 some 1/(n+1) < ε)",
+   "meet of an infinite family in a total order; harmonic sequence 1, 1/2, 1/3, ..."
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'Rdefinitions|Coq.Reals|Rle|Rplus|Rmult|sqrt|real number' . -- 0 hits for the reals; the only 'real' is Instance/ZX.v:178, a comment about a phase being 'a real number modulo 2π' (phases are not modelled as reals)",
+   "grep -rn --include='*.v' -i 'QArith|Qle|Qplus|rational' . -- 0 hits for ℚ ('rationale'/'operational' are the only textual matches), so 1/(n+1) cannot even be written",
+   "grep -rn --include='*.v' -i 'infimum|supremum|greatest lower|least upper|glb|lub|lower bound|upper bound' . -- 0 statements; the only hit is Instance/Poset.v:51, a PROSE remark that 'the limit over a subset is its greatest lower bound'",
+   "grep -rn --include='*.v' -i 'sequence|converge|epsilon|Archimedean|monotone decreasing' . -- no analytic vocabulary; 'sequence' occurs only for lists/telescopes",
+   "grep -rn --include='*.v' 'Nat.le|le_t|Proset|Poset' . -- the ONLY ordered numeric carriers in the tree are (ℕ, Nat.le) via Instance/Proset.v:47 and Instance/Poset.v:120, the Type-valued le_t of Instance/Omega.v, and the bespoke two-element `two` of Test/Poset.v:117",
+   "NEAR MISS rejected: IsIndexedProduct (Structure/Limit/Product.v:51) is the general greatest-lower-bound universal property for an arbitrary indexed family and would apply verbatim to (ℝ, ≤) — but that is the content of Definition 1.81, filed separately; this exercise's own content is the computation over a specific real subset, and neither the carrier, nor the sequence, nor any concrete meet of any concrete subset of any concrete order exists in the tree (no `iprod`/`Limit` is ever instantiated at a Proset)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; my blind pass reached ABSENT independently and reproduces every count. `rg -i 'Reals|Rdefinitions|Rle|Rplus|Rmult|sqrt'` = 0 formalization hits (the sole 'real' is Instance/ZX.v:178, verified: prose 'a phase is a real number modulo 2π'); `rg -i 'QArith|Qle|rational'` = 0 (only 'operational'/'rationale'); `rg -i 'infimum|supremum|greatest lower|least upper|glb|lub'` = 0 statements (only Instance/Poset.v:51 prose 'the limit over a subset is its greatest lower bound'). The only ordered carriers in the tree are (ℕ, Nat.le) via Instance/Proset.v:47-48 / Instance/Poset.v:120-122, Instance/Omega.v's Type-valued le_t, and the bespoke `two` of Test/Poset.v:117 — verified. The NEAR MISS rejection (IsIndexedProduct is Definition 1.81's content, filed separately) is exactly right and is the same reasoning the peer verifier used to overturn example47 to ABSENT; it is also why I overturned example89 in this batch. Consistent with ex46/ex48/example47 (all ABSENT)."
+  }
+ },
+ {
+  "id": "7sketches:1.3.1:def81",
+  "classification": "PRESENT",
+  "aliases": [
+   "meet = greatest lower bound = infimum = product/limit of a subset; join = least upper bound = supremum = coproduct/colimit",
+   "IsIndexedProduct / iprod / iprod_ump (limit of a discrete diagram over an arbitrary index Type)",
+   "binary meet a ∧ b = product a × b (Cartesian, ump_products); binary join a ∨ b = coproduct a + b (Cocartesian, merge_inv)",
+   "IsALimit / ump_limit and IsAColimit / ump_colimit (cone and cocone universal properties)",
+   "top/bottom as the empty meet/join (Terminal_Limit); dual: the join is the meet in C^op"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Product.v",
+    "line": 51,
+    "symbol": "IsIndexedProduct",
+    "intree_statement": "Record IsIndexedProduct {C : Category} {A : Type} (f : A → C) (p : C) (proj : ∀ a : A, p ~> f a) := { iprod_desc {c : C} (pi : ∀ a, c ~> f a) : ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a }. — Definition 1.81's meet, verbatim, for an arbitrary A-indexed family: `proj a : p ~> f a` is clause (a) (p ≤ a for every a ∈ A) and iprod_desc is clause (b) (any c that is below every member of the family is below p), with the mediator's uniqueness on top. iprod_ump (line 105) proves exactly this statement for the apex of `Limit (DiscreteCat_Functor f)`, and limit_is_indexed_product (line 119) packages it; the header states 'No finiteness is assumed: [A] is an arbitrary [Type]'."
+   },
+   {
+    "file": "Structure/Limit/Preservation.v",
+    "line": 147,
+    "symbol": "ump_colimit",
+    "intree_statement": "Definition ump_colimit `(H : @IsAColimit J C F c) (N : Cocone F) : ∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x. — the dual half of Definition 1.81, stated covariantly: with colimit_inj H x : F x ~> c (line 135) as clause (a) (a ≤ p for every a in the family) this asserts clause (b) (for every q above the whole family, p ≤ q), uniquely. Instantiated at F := DiscreteCat_Functor f it is precisely the join of a subset."
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 136,
+    "symbol": "ump_products",
+    "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g) — the binary case A = {a, b} that the book singles out with its a ∧ b notation, as a biconditional: read right-to-left it is clause (b) (anything below both factors factors through the meet), read left-to-right clause (a) via exl/exr. The dual, a ∨ b, is `Cocartesian C := @Cartesian (C^op)` (Structure/Cocartesian.v:116) with the derived join API inl_merge (175), inr_merge (182) and the uniqueness biconditional merge_inv (196: f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i))."
+   }
+  ],
+  "statement_record": {
+   "book": "For a preorder (P, ≤) and a subset A ⊆ P: p is a MEET of A if (a) p ≤ a for all a ∈ A and (b) every q with q ≤ a for all a ∈ A satisfies q ≤ p; dually p is a JOIN of A if (a) a ≤ p for all a ∈ A and (b) every q with a ≤ q for all a ∈ A satisfies p ≤ q. Written ⋀A / ⋁A, or a ∧ b / a ∨ b for A = {a, b}. Stated over a preorder, so meets/joins are pinned only up to the induced equivalence, and existence is not asserted.",
+   "intree": "IsIndexedProduct f p proj := { iprod_desc : ∀ (pi : ∀ a, c ~> f a), ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a } for an arbitrary index Type A (with iprod_ump deriving it from a limit of the discrete diagram), and dually ump_colimit with colimit_inj; the binary cases are ump_products and its opposite reading in Cocartesian.",
+   "strength_comparison": "intree-stronger, with one presentational and one packaging note. Stronger: the universal property is stated for arbitrary CATEGORIES rather than preorders, so the legs `proj a` are morphisms rather than mere entailments and the mediator's uniqueness is a genuine extra assertion (in a thin category it is automatic, which is exactly the collapse Instance/Poset.v:50 describes); the index is an arbitrary Type with no smallness or finiteness hypothesis. Presentational: a subset A ⊆ P becomes a family f : A → C (equivalently a diagram), and ≤ becomes hom with equality of witnesses replaced by ≈ — faithful under the setoid convention. Packaging: existence is not asserted anywhere (Limit, Cartesian, HasIndexedProducts are classes, i.e. hypotheses), matching the book's care; and while the MEET of an arbitrary family has a dedicated elementary API (IsIndexedProduct/iprod/HasIndexedProducts), the JOIN of an arbitrary family has no `IsIndexedCoproduct` name — it is obtained either from ump_colimit at a discrete diagram or by reading IsIndexedProduct in C^op (`Colimit F := Limit (F^op)`, Structure/Limit.v:158), which is definitional but unnamed."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'meet|join' . -- no order-theoretic meet/join operator is defined anywhere; the words occur as prose (Instance/Poset.v:50-51, Instance/Two/Monoidal.v:15) and as the monad multiplication `join`; the concepts live entirely under product/limit and coproduct/colimit",
+   "grep -rn --include='*.v' 'IsIndexedCoproduct|icoprod|HasIndexedCoproducts' . -- 0 hits: the indexed-join API is unnamed (available only via ump_colimit or C^op)",
+   "grep -rn --include='*.v' -i 'lattice|semilattice|complete lattice' . -- prose only (Instance/Poset.v:60/90/93, Theory/Lawvere.v:87); no lattice structure is axiomatized, so meets/joins exist only in the categorical form cited"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PRESENT (my blind pass said PARTIAL; on review PRESENT is right, and I checked the decisive unfolding myself rather than taking it on trust). Structure/Limit/Product.v:51-58 `Record IsIndexedProduct {C}{A : Type} (f : A → C) (p : C) (proj : ∀ a, p ~> f a) := { iprod_desc {c} (pi : ∀ a, c ~> f a) : ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a }` — quote exact, line exact; iprod_ump at :105 and limit_is_indexed_product at :119 as claimed; the header's 'No finiteness is assumed: [A] is an arbitrary [Type]' is at :36. Instantiated at C := `Proset P` (Instance/Proset.v:33, hom := R, trivial hom-setoid), `proj a : p ~> f a` IS clause (a) p ≤ a, `pi` IS 'q below every member', and `∃!` (Lib/Setoid.v:97-101, uniqueness up to ≈) collapses to nothing since all parallel arrows are equal — so Definition 1.81's meet is the DEFINITIONAL specialization of the in-tree record, which is what PRESENT means under the frozen rule. Dual half verified: Structure/Limit/Preservation.v:147-149 `ump_colimit` and :135-136 `colimit_inj` at the cited lines; Structure/Limit.v:158 `Definition Colimit `(F : J ⟶ C) := Limit (F^op)`; binary cases Structure/Cartesian.v:136-138 `ump_products` (a field of Class Cartesian, biconditional as quoted) and Structure/Cocartesian.v:116 (Cocartesian C := @Cartesian (C^op)), :175 inl_merge, :182 inr_merge, :196 merge_inv. All files registered. Two boundaries I verified and consider adequately disclosed: (i) `IsIndexedCoproduct|icoprod|HasIndexedCoproducts` = 0 hits, so the indexed JOIN has no named elementary API (record says so); (ii) NO Cartesian/Limit/iprod instance is ever built on a Proset or Poset — the specialization is definitional but never performed in-tree, which is precisely why the neighbouring items (86, 87, 89, 90) are correctly ABSENT. Phase E should not read def81's PRESENT as covering any concrete meet computation."
+  }
+ },
+ {
+  "id": "7sketches:1.3.1:remark82",
+  "classification": "PRESENT",
+  "aliases": [
+   "uniqueness up to (unique) isomorphism from a universal property (univ_property_unique_up_to_unique_iso)",
+   "two meets of the same subset are isomorphic; limits/products unique up to canonical iso",
+   "mutual factorization / mutual ≤ implies isomorphic (sub_equiv_iff_mutual, the induced equivalence of a preorder)",
+   "isomorphic objects are indistinguishable by their homs (Yoneda embedding, fobj_iso)",
+   "abuse of the notation ⋀A; skeletality / poset vs preorder"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/UniversalProperty.v",
+    "line": 175,
+    "symbol": "univ_property_unique_up_to_unique_iso",
+    "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s). — the remark's general principle, in the strong form the remark itself states parenthetically: for any predicate P that IS a universal property (IsUniversalProperty, line 41: P c is equivalent to representing a fixed functor), any two objects satisfying it are connected by an isomorphism, and that isomorphism is UNIQUE among those carrying t to s. univ_property_unique (line 112) is the plain uniqueness-up-to-iso form."
+   },
+   {
+    "file": "Structure/UniversalProperty/Limit.v",
+    "line": 141,
+    "symbol": "LimitIsUniversalProperty",
+    "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c). — what makes the previous entry apply to MEETS specifically: being a limit of F (hence, at a discrete diagram, being a meet of a subset) is a universal property in the technical sense, so any two meets of the same subset are isomorphic by a unique isomorphism. CartesianProductIsUniversalProperty (Structure/UniversalProperty/Cartesian.v:60) does the same for the binary meet a ∧ b."
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 93,
+    "symbol": "sub_equiv_iff_mutual",
+    "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u). — the remark's first move made precise in the library's one concrete preorder: two elements each below the other are isomorphic (here the equivalence IS the isomorphism of domains commuting over x, and by sub_le_unique, line 78, the witnesses are unique), i.e. the induced equivalence of a preorder is exactly mutual ≤."
+   },
+   {
+    "file": "Functor/Hom/Yoneda.v",
+    "line": 231,
+    "symbol": "Yoneda_Embedding",
+    "intree_statement": "Program Instance Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B. — the remark's closing clause, that p and q are indistinguishable by their relationships to other elements: the maps A ~> B (in a preorder, A ≤ B) are the same data as the natural families relating x ~> A to x ~> B (x ≤ A to x ≤ B), so p ≅ q holds exactly when the two are interchangeable in every such relationship; the object-level transport is fobj_iso (Theory/Functor.v:227, Proper (Isomorphism ==> Isomorphism) fobj[F])."
+   }
+  ],
+  "statement_record": {
+   "book": "The notation ⋀A of Def 1.81 is an abuse: a subset A can have two distinct meets p and q. But any two meets satisfy p ≤ q and q ≤ p by the defining universal property, hence are isomorphic; consequently for every x, p ≤ x iff q ≤ x and x ≤ p iff x ≤ q, so p and q are indistinguishable by their relationships to other elements. General principle: anything determined by a universal property is unique up to (unique) isomorphism, so treating such elements as equal causes no trouble.",
+   "intree": "univ_property_unique_up_to_unique_iso : Unique (fun p : c ≅ d => univ_property_respects_iso c d p t ≈ s) for any IsUniversalProperty; LimitIsUniversalProperty and CartesianProductIsUniversalProperty put limits and products (hence meets) under it; sub_equiv_iff_mutual : (u ≈ v) ↔ (sub_le u v * sub_le v u); Yoneda_Embedding : Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.",
+   "strength_comparison": "same claim, proved in a stronger form: the library establishes the remark's 'general principle' as a THEOREM (via representability and the Yoneda embedding) rather than an observation, and gets uniqueness of the mediating isomorphism, which the remark only mentions parenthetically. Two honest notes. (a) The remark's instance 'any two MEETS of A are isomorphic' is never stated at the elementary meet API: there is no lemma comparing two IsIndexedProduct witnesses at different apexes, nor two Limit apexes; the conclusion has to be routed through LimitIsUniversalProperty + univ_property_unique_up_to_unique_iso, which are stated over the representability packaging (IsALimit at a pinned apex, and its LimitSetoid). (b) The remark's premise that distinct elements can BOTH be meets is not witnessed in-tree — see the example84 record: there is no `Skeletal` predicate and no non-skeletal preorder instance, so 'p and q distinct but isomorphic' is possible in the setting but never exhibited."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' 'unique_up_to|unique_iso|terminal_unique|initial_unique' . -- the only general uniqueness-up-to-iso results are Structure/UniversalProperty.v:112/175 and Construction/Karoubi/Universal.v:376 (splitting objects); notably there is NO lemma that two terminal objects are isomorphic (Structure/Terminal.v carries only one_unique, line 111), so the elementary form of the remark is thinner than the representability form",
+   "grep -rn --include='*.v' -i 'skeletal' . -- Instance/Poset.v:19-20 prose ('a poset is exactly a skeletal thin category'), Test/Poset.v:87-105 (poset_nat_skeletal), Test/Poset.v:150 (poset_two_skeletal); no Skeletal predicate exists"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PRESENT; blind pass agreed. Citations verified: Structure/UniversalProperty.v:175-178 `Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s)` (exact), with `univ_property_unique` at :112 typed `@Unique obj[C] (ob_setoid) P` — and I checked the load-bearing detail the record leans on: Theory/Isomorphism.v:195-197 `#[export] Instance ob_setoid : Setoid C := {| equiv := Isomorphism ; ... |}`, so `Unique` over `ob_setoid` literally reads 'unique up to isomorphism'. Structure/UniversalProperty/Limit.v:141-143 `LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c)` (exact) and Structure/UniversalProperty/Cartesian.v:60-62 `CartesianProductIsUniversalProperty` (exact) do make the principle apply to meets; Theory/Subobject.v:93 `sub_equiv_iff_mutual` and Functor/Hom/Yoneda.v:231-232 `Yoneda_Embedding` and Theory/Functor.v:227 `fobj_iso` all at the cited lines. All files registered. One citation slip inside the NEGATIVE log (not in the evidence, so the verdict is unaffected): it credits 'Construction/Karoubi/Universal.v:376 (splitting objects)' — line 376 is `extend_unique_iso`; the splitting-object uniqueness is `split_idem_unique` at Construction/Karoubi/Universal.v:76. The log's substantive claim is otherwise correct and I re-verified the sharpest part of it: there is NO lemma anywhere that two terminal objects are isomorphic (Structure/Terminal.v carries only `one_unique` at :111), so the elementary form of the remark really is thinner than the representability form."
+  }
+ },
+ {
+  "id": "7sketches:1.3.1:example83",
+  "classification": "PARTIAL",
+  "aliases": [
+   "meets and joins need not exist; a preorder that is not a lattice",
+   "discrete preorder / discrete category (DiscreteCat, Structure/Discrete.v's Discrete predicate, Two_Discrete)",
+   "a category without binary coproducts; failure of the join {p, q}",
+   "no upper bound for two incomparable elements; antichain",
+   "x ≤ y only when x = y (equality as order)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Discrete.v",
+    "line": 65,
+    "symbol": "DiscreteCat_Discrete",
+    "intree_statement": "Lemma DiscreteCat_Discrete@{o h p} (A : Type@{o}) : Discrete (DiscreteCat@{o h p} A). — with `Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id` (Structure/Discrete.v:28) and `DiscreteCat A` having hom x y := (x = y) (line 39): in the discrete preorder on any carrier, x ≤ y forces x = y and there are no other arrows. This is the whole content of the example's witness — an element above both p and q would have to equal both, so for distinct p, q no upper bound exists and the join of {p, q} cannot be formed."
+   },
+   {
+    "file": "Instance/Two/Discrete.v",
+    "line": 44,
+    "symbol": "TwoDHom_X_Y_absurd",
+    "intree_statement": "Lemma TwoDHom_X_Y_absurd : TwoDHom TwoDX TwoDY → False. (with TwoDHom_Y_X_absurd, line 49) — the same fact for the concrete finite discrete preorder `Two_Discrete` (line 58), which the library builds precisely as the shape whose limits are binary products: the two objects are provably unrelated in both directions, so the pair {TwoDX, TwoDY} has no upper bound inside Two_Discrete itself."
+   }
+  ],
+  "statement_record": {
+   "book": "In an arbitrary preorder a subset need have neither a meet nor a join. Witness: P = {p, q, r} with the discrete ordering; A = {p, q} has no join, since a join x would need p ≤ x and q ≤ x and no such element exists.",
+   "intree": "DiscreteCat A (hom x y := x = y) with DiscreteCat_Discrete asserting that every arrow forces its endpoints equal, and TwoDHom_X_Y_absurd / TwoDHom_Y_X_absurd asserting the two objects of Two_Discrete are unrelated in both directions.",
+   "strength_comparison": "intree-weaker: the witness and the property that makes the example work are both asserted in-tree, and in greater generality (any carrier A, not just a three-element set), but the NEGATIVE conclusion is never drawn. Nothing in the tree says 'this category has no coproduct of these two objects' or 'not every preorder has meets'; the example's punchline is one modus ponens away from DiscreteCat_Discrete but is not taken."
+  },
+  "gap": "The non-existence claim itself is absent, in two respects. (1) No non-existence result about limits or colimits exists anywhere: Cartesian, Cocartesian, Limit, Colimit, HasIndexedProducts are all CLASSES, i.e. hypotheses, so a category's failure to satisfy one is never witnessed; grep for '→ False' among product/limit/coproduct/terminal statements returns exactly one negative categorical result in the whole tree, Construction/Funny/Comparison.v:154 `FunnyToProduct_not_faithful`, which is about faithfulness, not about missing (co)limits. In particular there is no lemma `@Cocartesian Two_Discrete → False` or `IsIndexedProduct ... → False`. (2) The example's own three-element discrete preorder is not instantiated: `DiscreteCat` is applied to a concrete carrier nowhere (its uses are all generic, as the shape of an indexed product in Structure/Limit/Product.v), and the only concrete discrete preorder is the two-element Two_Discrete — enough to witness the example (the pair {TwoDX, TwoDY} already has no join) but not exhibited as such.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' '→ False|-> False' . | grep -i 'product|limit|coproduct|terminal|initial|colimit|join|meet' -- 1 hit only, Construction/Funny/Comparison.v:155 (faithfulness of FunnyToProduct), i.e. no missing-(co)limit result",
+   "grep -rn --include='*.v' 'there_is_no|no_product|not_cartesian|not_cocartesian' . -- only Test/Poset.v:26/52, prose about the retired `there_is_no_poset`",
+   "grep -rn --include='*.v' -i 'antichain|incomparable|no upper bound' . -- 0 hits",
+   "grep -rn --include='*.v' 'DiscreteCat ' . -- all uses are generic (Structure/Limit/Product.v, Structure/Limit/Preservation.v); no concrete carrier is ever supplied"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL (my blind pass said ABSENT; the peer-CONFIRMED ex44 precedent decides it, and I follow it for batch consistency). Citations verified: Instance/Discrete.v:65-66 `Lemma DiscreteCat_Discrete@{o h p} (A : Type@{o}) : Discrete (DiscreteCat@{o h p} A)`, with Structure/Discrete.v:28-30 `Definition Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id` and Instance/Discrete.v:39 `hom := fun x y => x = y` — all exact; Instance/Two/Discrete.v:44 `TwoDHom_X_Y_absurd`, :49 `TwoDHom_Y_X_absurd`, :58 `Two_Discrete` exact. Files registered. Why PARTIAL rather than ABSENT: verified-1-3's ex44 was CONFIRMED PARTIAL on the SAME evidence line (Instance/Discrete.v:65) under the rule 'the facts the exercise turns on are in-tree AND about the exercise's own subject matter' — here the fact is discreteness forcing x ≤ y → x = y, and the subject matter is the discrete preorder. Evidence reuse across items is established practice in this campaign (Instance/Discrete.v:65 is also example45's evidence). The record's gap is precise and I confirmed its sharpest claim: no non-existence result about (co)limits exists anywhere — the only negative categorical result in the tree is Construction/Funny/Comparison.v:154-155 `FunnyToProduct_not_faithful : Faithful (@FunnyToProduct _2 _2) → False` (verified at that line), about faithfulness, not missing colimits. Minor log incompleteness: `DiscreteCat_Functor` also has uses in Adjunction/SAFT.v:146/186 and Adjunction/GAFT.v:249/251, which the log did not list; they are over abstract index types, so 'no concrete carrier is ever supplied' still holds."
+  }
+ },
+ {
+  "id": "7sketches:1.3.1:example84",
+  "classification": "PARTIAL",
+  "aliases": [
+   "a subset with two distinct meets; non-uniqueness of the meet in a preorder (non-skeletality)",
+   "two objects both satisfying IsCartesianProduct x y ·, canonically isomorphic (prod_comm, CartesianProductStructuresEquiv)",
+   "isomorphic but unequal objects: c ≤ d and d ≤ c with c ≠ d (Proset without antisymmetry)",
+   "any two products/limits of the same data are isomorphic (univ_property_unique_up_to_unique_iso)",
+   "four-element Hasse diagram with a two-element equivalence class at the bottom"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/UniversalProperty.v",
+    "line": 175,
+    "symbol": "univ_property_unique_up_to_unique_iso",
+    "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s). — the example's own closing sentence ('c is isomorphic to d, as Remark 1.82 predicts. In general any two meets of the same subset are isomorphic'), proven in the general form: any two objects satisfying the same universal property are isomorphic by a unique isomorphism, applied to meets through LimitIsUniversalProperty (Structure/UniversalProperty/Limit.v:141) and to binary meets through CartesianProductIsUniversalProperty (Structure/UniversalProperty/Cartesian.v:60)."
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 479,
+    "symbol": "prod_comm",
+    "intree_statement": "#[export] Program Instance prod_comm {x y : C} : x × y ≅ y × x := { to := swap; from := swap }. — the nearest in-tree instance of the example's phenomenon: the unordered pair {x, y} has the two DISTINCT meet objects x × y and y × x, which are canonically isomorphic rather than equal. CAVEAT recorded honestly: nothing in-tree asserts `IsCartesianProduct x y (y × x)`, so 'both are meets of the same subset' is inferred from the symmetry of the pair rather than stated; and the isomorphism is between products of two lists of the same two elements, not between two elements of one preorder."
+   }
+  ],
+  "statement_record": {
+   "book": "A subset can have more than one meet. Witness: a four-element preorder with a, b on top and c, d below both, with c ≤ d and d ≤ c. For A = {a, b}, both c and d are meets of A, and c is isomorphic to d as Remark 1.82 predicts; in general any two meets of the same subset are isomorphic.",
+   "intree": "univ_property_unique_up_to_unique_iso (any two witnesses of a universal property are uniquely isomorphic), instantiated at limits and at binary products; prod_comm : x × y ≅ y × x as the in-tree instance of two distinct objects serving as the meet of the same pair.",
+   "strength_comparison": "split. The example's CONCLUSION (any two meets are isomorphic) is intree-stronger: proven for arbitrary universal properties with uniqueness of the isomorphism, not merely observed. The example's DEMONSTRATION (a concrete preorder in which two distinct elements are both meets of one subset) is intree-absent: the library's design deliberately keeps antisymmetry optional — Instance/Proset.v:33 builds a category from a bare PreOrder with the trivial hom-setoid, and Instance/Poset.v:117 adds `@Antisymmetric` as an extra hypothesis — so the situation is expressible, but no non-skeletal preorder is ever instantiated and no two distinct objects are ever shown to be isomorphic in one."
+  },
+  "gap": "The witness half is missing entirely. (1) No non-skeletal preorder instance exists: the only Proset/Poset instantiations in the tree are (ℕ, ≤) (Instance/Proset.v:47, Instance/Poset.v:120, Test/Poset.v:54) and the bespoke two-element `two` (Test/Poset.v:139), both POSETS (antisymmetry supplied and, at Test/Poset.v:102/150, proven), so no in-tree preorder has c ≤ d ≤ c with c ≠ d. (2) No four-element preorder, and no Hasse diagram apparatus (grep -i hasse: 0 hits). (3) Nothing exhibits two distinct objects both satisfying one product/limit predicate: grep IsCartesianProduct returns 6 hits, all generic (Structure/Cartesian.v:145/159/519/526/533, Structure/UniversalProperty/Cartesian.v:61), and `CartesianProductStructuresEquiv` (Structure/Cartesian.v:159) compares two product STRUCTURES on a FIXED object z, not two candidate objects. (4) There is no `Skeletal` predicate to state the contrast the example draws (see the remark35 record).",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'skeletal' . -- Instance/Poset.v:19/20 prose, Test/Poset.v:87/102/150 (two per-instance antisymmetry lemmas); no predicate, no non-skeletal witness",
+   "grep -rn --include='*.v' 'IsCartesianProduct' . -- 6 hits, all generic; no two distinct objects are ever both asserted to be a product of the same pair",
+   "grep -rn --include='*.v' -i 'hasse' . -- 0 hits",
+   "grep -rn --include='*.v' 'Proset|Poset' . -- Instance/Proset.v, Instance/Poset.v, Test/Poset.v only; every instantiation is antisymmetric"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL, with the crediting made explicit. Citations verified: Structure/UniversalProperty.v:175 `univ_property_unique_up_to_unique_iso` (exact, see the remark82 verification) and Structure/Cartesian.v:479-481 `#[export] Program Instance prod_comm {x y : C} : x × y ≅ y × x := { to := swap; from := swap }` (exact). The PARTIAL rests entirely on the item's CLOSING sentence ('in general any two meets of the same subset are isomorphic'), which is a genuine claim of the item and is proven in-tree in stronger form. The prod_comm entry is illustrative only and the record says so in its own CAVEAT; I confirm the caveat's factual basis: `rg 'IsCartesianProduct'` returns 6 code sites (Structure/Cartesian.v:145,160,519,526,533 and Structure/UniversalProperty/Cartesian.v:61), all generic, and nothing anywhere asserts `IsCartesianProduct x y (y × x)`, so 'both are meets of the same subset' is indeed not stated. Note for Phase E: the evidence is the same as remark82's, i.e. this item is credited for a fact already credited there; the item's DISTINCTIVE content (a concrete preorder in which two distinct elements are both meets of one subset) is fully absent — I re-verified that every Proset/Poset instantiation in the tree is antisymmetric (Instance/Proset.v:47, Instance/Poset.v:120, Test/Poset.v:54 and :139 with skeletality proven at :102 and :150), so no non-skeletal preorder exists to witness it, and `rg -i hasse` = 0."
+  }
+ },
+ {
+  "id": "7sketches:1.3.1:ex85",
+  "classification": "PARTIAL",
+  "aliases": [
+   "meet of a singleton: ⋀{p} ≅ p; join of a singleton: ⋁{p} ≅ p",
+   "limit of a one-object diagram; [1, C] ≃ C; product of a one-element family (iprod over a unit index)",
+   "unit laws for the meet: 1 × x ≅ x, x × 1 ≅ x (prod_one_l/prod_one_r); 0 + x ≅ x",
+   "in a partial order isomorphic elements are equal (antisymmetry / skeletality)",
+   "idempotent/trivial limit; terminal object as the empty meet (Terminal_Limit)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 465,
+    "symbol": "prod_one_r",
+    "intree_statement": "#[export] Program Instance prod_one_r {x : C} : x × 1 ≅ x := { to := exl; from := id △ one }. (with prod_one_l {x : C} : 1 × x ≅ x, line 451) — the nearest in-tree assertion of part (1): a meet whose family contributes only x together with the top element is x itself, up to isomorphism, with the projection and the pairing ⟨id, !⟩ as the two directions. Note precisely what it is NOT: it needs a Terminal object (`Context `{@Terminal C}`, line 449) and it computes the meet of the TWO-element family {x, 1}, not of the singleton {x}."
+   },
+   {
+    "file": "Test/Poset.v",
+    "line": 102,
+    "symbol": "poset_nat_skeletal",
+    "intree_statement": "Lemma poset_nat_skeletal : forall x y : obj[Poset_nat], (x ~{Poset_nat}~> y)%nat -> (y ~{Poset_nat}~> x)%nat -> x = y. (and poset_two_skeletal, line 150, for the bespoke two-element poset) — the mechanism of part (2), asserted at an instance: in a PARTIAL order two mutually related elements are equal on the nose, which is exactly what upgrades part (1)'s isomorphism to part (2)'s equality."
+   }
+  ],
+  "statement_record": {
+   "book": "For a preorder (P, ≤), p ∈ P and A = {p}: (1) show ⋀A ≅ p; (2) show that if P is a partial order then ⋀A = p on the nose; (3) decide whether the analogous statements hold for the join.",
+   "intree": "prod_one_r : x × 1 ≅ x and prod_one_l : 1 × x ≅ x (the meet of a family consisting of x and the top is x, up to iso, in any cartesian category with a terminal object); poset_nat_skeletal / poset_two_skeletal (in a partial order, mutual ≤ gives equality).",
+   "strength_comparison": "intree-weaker on all three parts, and the closest hit carries an extra hypothesis. The literal singleton meet is never formed: no limit is taken over the point category (Instance/One.v; '[1, C] ≃ C' appears only as prose at Instance/One.v:22 and Instance/One/Diagonal.v:30), and `iprod` is never instantiated at a unit index. What IS proven, prod_one_l/prod_one_r, is the unit law for the binary meet — an essentially-singleton family padded with the top — which requires a Terminal object the exercise's statement does not, and so is a different (strictly stronger-hypothesis, differently-indexed) statement. Part (2)'s ingredient is present only per instance: 'a poset is skeletal' is proven for Poset_nat and Poset_two but not in general (Instance/Poset.v:117 is a bare Definition `Poset := Proset P` and proves nothing), and no in-tree statement combines it with a meet."
+  },
+  "gap": "Three pieces. (1) NO SINGLETON MEET ANYWHERE: there is no `Limit` or `IsALimit` over a one-object shape, no `iprod`/`IsIndexedProduct` at a unit index type (grep 'DiscreteCat unit|unit →' : no such instantiation), and no lemma of the shape `IsIndexedProduct (fun _ : unit => x) x proj`; the cited prod_one_r is about the family {x, 1} and needs a terminal object. (2) PART (2) IS UNSTATED IN GENERAL: the passage from ≅ to = is available only as the two per-instance antisymmetry lemmas of Test/Poset.v (lines 102 and 150); there is no `Skeletal` predicate (grep -i skeletal: prose plus those two lemmas) and no lemma of the form 'in a skeletal category isomorphic objects are equal'. (3) PART (3) HAS NO COUNTERPART: nothing states the dual for joins; the dual near-miss is coprod_zero_l / coprod_zero_r (Structure/Cocartesian.v:375/384, 0 + x ≅ x and x + 0 ≅ x), which again pads the family with the bottom element instead of taking a singleton.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' 'Fun _1|\\[1, C\\]|One_Fun|Fun_One' . -- 2 prose hits only (Instance/One.v:22, Instance/One/Diagonal.v:30); the equivalence [1, C] ≃ C is never proven",
+   "grep -rn --include='*.v' -i 'singleton' . -- Theory/Multicategory (singleton context), Theory/Coq/Map.v:271 (map singleton), Theory/Coq/List.v (ret = singleton list); nothing about a one-element index or subset",
+   "grep -rn --include='*.v' -i 'skeletal' . -- Instance/Poset.v:19/20 prose, Test/Poset.v:87/102/150; no general statement",
+   "grep -rn --include='*.v' 'Limit|IsALimit' Instance/One.v Instance/One/Diagonal.v -- 0 hits: the point category is never used as a limit shape"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL, but only just, and the support is narrower than the evidence list suggests. Citations verified: Structure/Cartesian.v:465-467 `#[export] Program Instance prod_one_r {x : C} : x × 1 ≅ x := { to := exl; ... }` (with prod_one_l at :451 and the `Context `{@Terminal C}` at :449) and Test/Poset.v:102-105 `poset_nat_skeletal` / :150-153 `poset_two_skeletal` — all exact, files registered. Assessment: prod_one_r is NOT a counterpart of part (1) — it is the unit law for the BINARY meet of the family {x, 1} and needs a terminal object the exercise does not, exactly as the record's own 'Note precisely what it is NOT' concedes. The genuine support for PARTIAL is part (2)'s mechanism: antisymmetry is literally the extra hypothesis of `Poset` (Instance/Poset.v:116-117 `Definition Poset {C} `{R : relation C} `(P : PreOrder R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P`) and is discharged and used at both in-tree instances. I re-verified the three absences: no limit over a one-object shape (Instance/One.v has only `_1`, `Erase`, `Cat_Terminal`; '[1, C] ≃ C' is prose at :22), no `iprod`/`IsIndexedProduct` at a unit index, and no `Skeletal` predicate. So Phase E should scope the issue as: parts (1) and (3) fully absent, part (2) available only as a per-instance ingredient. I did not overturn because a fact the exercise turns on is in-tree and is about the exercise's own subject matter (the poset/preorder distinction), the same test that carried ex44 and example83."
+  }
+ },
+ {
+  "id": "7sketches:1.3.1:example86",
+  "classification": "ABSENT",
+  "aliases": [
+   "idempotence of meet and join: p ∧ p = p and p ∨ p = p in a partial order",
+   "x × x ≅ x / x + x ≅ x in a thin (posetal) category; idempotent product object",
+   "the lattice laws for categorical products (prod_comm, prod_assoc, prod_one_l/r) plus idempotence",
+   "and P P ↔ P, or P P ↔ P in the entailment preorder; two_meet x x = x in the walking arrow",
+   "codiagonal ∇ : x + x ~> x and copy id △ id : x ~> x × x as the non-invertible general forms"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' 'x × x|a × a|x + x|a + a' . -- Functor/Coproduct.v:26 (prose about the codiagonal ∇ : x + x ~> x), Structure/Cartesian.v:493 (`toggle : (x × y) × (x × y) ~> (x × x) × (y × y)`), Structure/Monoid.v:177, Structure/Semiadditive.v:368, Monad/Thunkable.v:107; NONE asserts x × x ≅ x or x + x ≅ x",
+   "grep -rn --include='*.v' -i 'idempot' . -- Theory/Morphisms.v:78 (split idempotent morphisms), Construction/Karoubi*, Construction/Reflective/Idempotent.v (idempotent monads), Theory/Monad.v:69 prose; all about idempotent MORPHISMS or monads, never about an object absorbing its own meet",
+   "grep -rn --include='*.v' 'prod_comm|prod_assoc|prod_one_l|prod_one_r|coprod_comm|coprod_assoc|coprod_zero' . -- Structure/Cartesian.v:451/465/479/485 and Structure/Cocartesian.v:375/384/393/400: the commutativity, associativity and unit laws of meet and join ARE in-tree as isomorphisms — idempotence is precisely the one lattice law missing, and necessarily so at that generality, since x × x ≅ x is FALSE for general categorical products; it holds only in thin categories, and nothing in the tree specializes products to a thin or skeletal category",
+   "grep -rn --include='*.v' 'two_meet' . -- Instance/Two/Monoidal.v:37/44/54/67/81 only; `two_meet x x = x` holds by computation but is never stated as a lemma, and there is no analogous statement for `and P P` / `or P P` in Instance/Props.v",
+   "grep -rn --include='*.v' -i 'Proset|Poset' . -- no meet, product, limit or Cartesian structure is ever built on a Proset or Poset, so the thin case where idempotence holds is never entered"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; blind pass agreed independently. I reproduced the decisive counts: `rg 'two_meet'` returns hits in Instance/Two/Monoidal.v ONLY (:37 definition, :44/:54 projections, :67 fork, :71/:81 uses), so `two_meet x x = x` — which does hold by computation — is indeed never stated; `rg -i idempot` is about idempotent MORPHISMS (Theory/Morphisms.v, Construction/Karoubi*) and idempotent MONADS (Construction/Reflective/Idempotent.v), never an object absorbing its own meet; `rg 'x × x|x + x'` finds only Structure/Cartesian.v:493 `toggle`, Structure/Monoid.v:177, Structure/Semiadditive.v:368, Monad/Thunkable.v:107, Functor/Coproduct.v:26 prose — none asserting x × x ≅ x. The record's mathematical point is correct and important: the commutativity, associativity and unit laws of meet/join ARE in-tree as isomorphisms (Structure/Cartesian.v:451/465/479, Structure/Cocartesian.v:375/384/393/400) and idempotence is the one lattice law necessarily missing at that generality, since x × x ≅ x is false for general products and holds only in thin categories — and no product/Cartesian structure is ever built on a Proset (I re-verified this). Consistent with the ABSENT calls for example87 and ex90."
+  }
+ },
+ {
+  "id": "7sketches:1.3.1:example87",
+  "classification": "ABSENT",
+  "aliases": [
+   "meets and joins in the power set (P(X), ⊆) are intersection and union",
+   "intersection of subobjects as a pullback of monos; meet in the subobject preorder (sub_le)",
+   "union / join of subobjects; unions of Ensembles (Coq.Sets.Ensembles: Intersection, Union, Included)",
+   "the power object Pow a := Ω ^ a with an internal order; relations_iso",
+   "arbitrary intersection ⋂ of a family of subsets as an indexed meet"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' 'Included|Intersection|Union|Setminus|Complement' . -- 1 hit, Instance/FinSet/Pushout.v:37, a bibliography line ('Good But Not Linear Set Union'); although Coq.Sets.Ensembles is imported by Instance/Ens.v and Instance/Rel.v, no set operation and no inclusion relation is ever used",
+   "grep -rn --include='*.v' -i 'intersection' . -- prose only; the material hit is Structure/Pullback.v:94, 'the pullback of two monomorphisms is the intersection of subobjects', which is a comment: no lemma states that the pullback of two monos is their meet in `sub_le`, and grep 'sub_le' shows its only consumers are inside Theory/Subobject.v",
+   "grep -rn --include='*.v' -i 'union' . -- every hit is about the DISJOINT union (coproduct) of sets/categories (Instance/Coq.v:193, Instance/Sets/Cocartesian.v, Construction/Coproduct.v) or union-find (Instance/FinSet/Pushout.v); the union of two subsets of a common ambient set does not exist (matching the def-setops record)",
+   "grep -rn --include='*.v' -i 'power set|powerset' . -- prose only (Structure/Topos.v:75, Instance/Poset.v:95); `Pow a := Ω ^ a` (Structure/Topos.v:129) carries no order, and no internal ⊆ : Pow a × Pow a ~> Ω is defined",
+   "grep -rn --include='*.v' -i 'lattice|semilattice' . -- prose only (Instance/Poset.v:60/90/93, Theory/Lawvere.v:87, Instance/Props.v Heyting header); the subobject preorder is never shown to have meets or joins",
+   "NEAR MISS rejected: FinSet_Pullbacks (Instance/FinSet/Classifier.v:264) COMPUTES the intersection of two subsets of a finite set as the pullback of their monos, and Theory/Subobject.v:59-67 gives the inclusion preorder on subobjects; but nothing joins the two — no lemma says the pullback of two monos is their greatest lower bound in sub_le, and there is no construction at all on the union side"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; blind pass agreed. Reproduced: `rg 'Included|Intersection|Union|Setminus|Complement'` over all *.v yields exactly ONE hit, Instance/FinSet/Pushout.v:37, a bibliography line ('Good But Not Linear Set Union') — so although Coq.Sets.Ensembles is imported by Instance/Ens.v and Instance/Rel.v, no set operation and no inclusion relation is ever used; `rg -i 'power set|powerset'` is prose only, and Structure/Topos.v:129 `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a` carries no order (verified at that line). The near-miss rejection is right: Instance/FinSet/Classifier.v:264 `FinSet_Pullbacks` does compute intersections of subsets of a finite set, and Theory/Subobject.v:59 gives `sub_le`, but nothing states that the pullback of two monos is their greatest lower bound in `sub_le` (`sub_le` has no consumer outside Theory/Subobject.v). One candidate Phase C did not consider (it does not disturb ABSENT, and the peer verifier of example64 reached the same conclusion): Instance/Ens.v:56-63 `EnsT (T : Type) : Category` is the one in-tree category whose OBJECTS are exactly the subsets of a fixed type — but its homs are membership-preserving-and-reflecting endofunctions of T (`∃ f : T → T, ∀ x, x ∈ A ↔ x ∈ B ∘ f`), not inclusions, so it is not (P(X), ⊆) and carries no meet or join."
+  }
+ },
+ {
+  "id": "7sketches:1.3.1:example88",
+  "classification": "PARTIAL",
+  "aliases": [
+   "meet in B is AND, join in B is OR (the two-element boolean order as a lattice)",
+   "the walking arrow _2 with two_meet as its product (Two_Cartesian), TwoY terminal (Two_Terminal)",
+   "the entailment preorder of propositions: P × Q = P ∧ Q (Props_Cartesian), P + Q = P ∨ Q (Props_Cocartesian)",
+   "andb / orb on bool; Ω := 2 with truth in FinSet",
+   "Heyting/boolean algebra as a thin bicartesian closed category"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Two/Monoidal.v",
+    "line": 80,
+    "symbol": "Two_Cartesian",
+    "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |} — the meet half of the example at the book's own B: `two_meet x y := match x with TwoX => TwoX | TwoY => y end` (line 37) is boolean conjunction with TwoX (= false) absorbing and TwoY (= true) neutral, and the instance discharges the product universal property (obligation closed by two_thin), so this two_meet is PROVEN to be the meet of the two-element order `_2` (Instance/Two.v:134). Two_Terminal (line 98) adds that TwoY is the top."
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 80,
+    "symbol": "Props_Cocartesian",
+    "intree_statement": "#[export] Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p } — the join half, in the thin category `Props` of propositions ordered by implication (Instance/Props.v:39, hom := Basics.impl with the trivial hom-setoid): the join is DISJUNCTION. Paired with Props_Cartesian (line 69, product_obj := and, exl := proj1, exr := proj2), both clauses of the example hold in the preorder of truth values: meet = AND, join = OR."
+   }
+  ],
+  "statement_record": {
+   "book": "In the boolean preorder B = {false ≤ true}, the meet of any two elements is their logical AND and the join is their logical OR.",
+   "intree": "Two_Cartesian : @Cartesian _2 with product_obj := two_meet (boolean conjunction on {TwoX, TwoY}), so the meet of the two-element order is AND; and Props_Cartesian / Props_Cocartesian giving product = and and coproduct = or in the entailment preorder of propositions.",
+   "strength_comparison": "split by clause. The AND clause is present at the book's own object and is intree-stronger in that two_meet is not merely named the meet but proven to satisfy the product universal property. The OR clause is present only at a DIFFERENT preorder: `Props` is the thin category of ALL propositions under implication (a Heyting prealgebra, as its header says), which constructively has many elements up to isomorphism, not two — nothing in-tree identifies Props with `_2` (that identification would need excluded middle plus propositional extensionality, neither of which occurs). A further presentational weakness: nothing names TwoX/TwoY as false/true or two_meet as `andb`, so the identification with the boolean operations is by inspection of the definition rather than by an in-tree statement."
+  },
+  "gap": "The join on B itself is missing. (1) There is no `Cocartesian _2`, no `Initial _2` and no `two_join`: grep 'two_join|Cocartesian _2|Initial _2' returns 0 hits, so 'the join of two elements of B is their OR' is unstated at `_2`, even though the bottom element TwoX is available and the proof would be one two_thin obligation (Instance/Two/Monoidal.v carries only the Cartesian and Terminal halves, per its header 'it has all finite meets, hence finite products, and the top element TwoY is terminal'). (2) The boolean reading is never made explicit: no lemma relates TwoX/TwoY to `false`/`true` or two_meet to `andb`/`orb` (grep andb/orb: only Theory/Metacategory.v:468ff and Theory/Coq/List/Proofs.v, both unrelated), and `Fin.t 2` with `fin_true`/`fin_false` (Instance/FinSet/Classifier.v:310) — the other two-element truth-value object in the tree — carries no order or lattice structure at all. (3) The substitute that does carry both operations, Props, is a different preorder from B and is never compared to it.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' 'two_join|Cocartesian _2|@Initial _2|Initial _2' . -- 0 hits",
+   "grep -rn --include='*.v' 'andb|orb\\b|implb|Bool.le' . -- Theory/Metacategory.v:468/474/483/502 and Theory/Coq/List/Proofs.v only; no boolean algebra or boolean order",
+   "grep -rn --include='*.v' -i 'Boolean algebra|Heyting' . -- prose only (Instance/Two.v:86, Instance/Props.v:15-27, Theory/Sheaf.v:85, Theory/Lawvere.v:87); no such structure is axiomatized",
+   "grep -rn --include='*.v' 'fin_true|fin_false' Instance/FinSet/Classifier.v -- lines 310-321 define the two truth values of Ω := 2 for the classifier, with no order and no meet/join"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL. This is the one item in the batch with an object-level witness, which is exactly why it is PARTIAL where its neighbours 86/87/89/90 are ABSENT. Verified: Instance/Two/Monoidal.v:80-85 `Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |}` with the single obligation closed by `two_thin` (:86-88), and `two_meet x y := match x with TwoX => TwoX | TwoY => y end` at :37-41 — which IS boolean conjunction on the book's own B (`_2` at Instance/Two.v:134), so the meet clause is proven, not merely named; `Two_Terminal` at :98-101 gives the top. Instance/Props.v:80-89 `Props_Cocartesian` with `product_obj := or` and :69-74 `Props_Cartesian` with `product_obj := and` exact. Files registered. Gap independently confirmed: `rg 'two_join|Cocartesian _2|@Initial _2'` = 0 hits, so the JOIN on B is genuinely unbuilt even though TwoX is available and the proof would be one `two_thin` obligation; `rg 'andb|orb|implb'` finds only Theory/Metacategory.v and Theory/Coq/List/Proofs.v, so nothing identifies TwoX/TwoY with false/true. The substitute carrying both operations (Props, a Heyting prealgebra of ALL propositions) is a different preorder from B and is never compared to it — correct, and constructively it could not be without EM + propext."
+  }
+ },
+ {
+  "id": "7sketches:1.3.1:example89",
+  "classification": "ABSENT",
+  "aliases": [
+   "in a total order the meet is the infimum and the join is the supremum",
+   "greatest lower bound / least upper bound of a subset (IsIndexedProduct, ump_colimit)",
+   "total / linear / chain order: for all x y, x ≤ y or y ≤ x (comparability)",
+   "min / max as binary meet and join in a totally ordered set",
+   "B and (ℕ, ≤) as total orders"
+  ],
+  "evidence": [],
+  "statement_record": {
+   "book": "In a total order the meet of a subset is its infimum and the join is its supremum; since B is a total order, this generalises Example 1.88.",
+   "intree": "no counterpart. Totality does not exist in the library in any form (no `∀ x y, (x ≤ y) + (y ≤ x)`, no comparability, no linear order, and no order is ever shown total — leb/le_dec/Nat.min/Nat.max/Nat.compare/le_total all return 0 hits), and the analytic vocabulary the example identifies the meet with (infimum/supremum, greatest lower bound, least upper bound, min/max) is defined nowhere; the only trace is the PROSE of Instance/Poset.v:51. The generic greatest-lower-bound / least-upper-bound universal properties do exist (IsIndexedProduct, ump_colimit) but they are Definition 1.81's content, credited at def81, and are never instantiated at any total order — indeed at any Proset at all.",
+   "strength_comparison": "n/a"
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'total order|totally ordered|linear order|comparab|trichotom' . -- 0 statements (Structure/Monoidal/Commutative.v:43 mentions 'totally ordered' in prose about a choice-dependent argument)",
+   "grep -rn --include='*.v' -i 'infimum|supremum|greatest lower|least upper|glb|lub|lower bound|upper bound' . -- 0 statements; only Instance/Poset.v:51 prose",
+   "grep -rn --include='*.v' 'le_total|le_ge_cases|le_dec|le_lt_dec|leb|Nat.compare|Nat.min|Nat.max' . -- 0 hits",
+   "grep -rn --include='*.v' 'Nat.le' . -- Instance/Proset.v:48, Instance/Poset.v:121, Test/Poset.v:99-100, Lib/Datatypes.v:285 only; no totality, no min/max",
+   "NEAR MISS demoted from Phase C evidence by the Phase D pass: Structure/Limit/Product.v:51 `IsIndexedProduct` (the greatest-lower-bound universal property for an arbitrary indexed family) — verified present and exact, but it is Definition 1.81's content, already credited in full at the def81 record (PRESENT); it says nothing about totality and nothing about infima.",
+   "NEAR MISS demoted from Phase C evidence: Structure/Limit/Preservation.v:147 `ump_colimit` with `colimit_inj` at :135 (the dual least-upper-bound property) — likewise def81's content, credited there.",
+   "Consistency check run during Phase D: the SAME generic meet/join apparatus was correctly rejected as a NEAR MISS in this batch's own ex90 record ('that is Definition 1.81's content, filed separately') and in the ex80 record, and both were classified ABSENT; example86 and example87 were classified ABSENT on identical grounds. Crediting it here alone was an intra-batch inconsistency."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:ABSENT",
+   "notes": "OVERTURNED PARTIAL -> ABSENT. Both halves of the example are absent and the record's own strength_comparison concedes the decisive point verbatim: 'TOTALITY is not a notion in the library ... and \"infimum\"/\"supremum\" occur nowhere in the tree, so the example's actual content ... has no second side to be identified with, AND CANNOT BE STATED.' Under the frozen definition 'cannot be stated / no in-tree counterpart' is ABSENT, not PARTIAL — this is the same self-concession that decided the peer overturn of example47 (verified-1-3). The two cited evidence entries are not counterparts of THIS item: Structure/Limit/Product.v:51 `IsIndexedProduct` and Structure/Limit/Preservation.v:147 `ump_colimit` are verbatim def81's evidence (I verified both lines and quotes; they are exact), i.e. the generic meet/join apparatus, which the SAME batch correctly rejected as a NEAR MISS for ex90 ('that is Definition 1.81's content, filed separately') and for ex80, both classified ABSENT. example86 and example87 — also 'meets/joins in a specific setting' — are ABSENT too. Treating the generic universal property as 'some of the item' would make PARTIAL vacuous for every meet/join example in §1.3.1, exactly the objection the peer verifier raised for the order examples of §1.2.2. I re-ran the negative searches myself and every claim holds: `rg 'Nat.leb|le_dec|leb|Nat.min|Nat.max|Nat.compare|le_total|le_ge_cases'` = 0 hits across all *.v; `rg -i 'infimum|supremum|greatest lower|least upper|glb|lub'` = 0 statements (only Instance/Poset.v:51 prose); `rg -i 'total order|totally ordered|linear order|comparab|trichotom'` = 0 statements. Consistent with ex46 and ex48 (both ABSENT on totality) and with example47. Issue framing is unaffected in kind — the work is still 'add totality, then identify meet with inf' — but it is a fresh addition, not a delta on existing code. Evidence moved to the negative log as demoted near misses; gap cleared (PARTIAL-only field); phase_c_classification preserved."
+  },
+  "phase_c_classification": "PARTIAL"
+ },
+ {
+  "id": "7sketches:1.3.1:ex90",
+  "classification": "ABSENT",
+  "aliases": [
+   "in the divisibility preorder on ℕ the meet is the gcd and the join is the lcm",
+   "divisibility order n | m (Nat.divide, dvd); the arithmetic lattice of the naturals",
+   "greatest common divisor / least common multiple as glb / lub",
+   "the divisor lattice; coprimality (gcd = 1) as a meet at the bottom",
+   "N ordered by divisibility as a Proset / thin category"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'gcd|lcm|Nat.divide|divides|divisib|dvd|coprime|prime factor' . -- 0 hits in the whole tree: neither the divisibility relation nor gcd/lcm exists in any form",
+   "grep -rn --include='*.v' -i 'modulo|Nat.modulo|Nat.div|arithmetic' . -- no arithmetic beyond addition/successor on nat (Lib/Datatypes.v), Fin.t index juggling and the skeletal-FinSet cardinality codecs; no division",
+   "grep -rn --include='*.v' 'Proset|Poset' . -- the only orders ever instantiated are (ℕ, Nat.le) (Instance/Proset.v:47, Instance/Poset.v:120, Test/Poset.v:54) and the bespoke two-element `two` (Test/Poset.v:139); the divisibility order on ℕ is absent, as already recorded for example45",
+   "grep -rn --include='*.v' -i 'lattice|semilattice|meet|join' . -- no order-theoretic meet or join operator is defined anywhere (the words are prose or the monad multiplication), so even given the order the exercise's answer could not be phrased as an in-tree equation",
+   "NEAR MISS rejected: the general binary meet/join universal properties (Structure/Cartesian.v:136 ump_products, Structure/Cocartesian.v:196 merge_inv) would identify gcd and lcm as the meet and join once (ℕ, |) were built as a Proset — but that is Definition 1.81's content, filed separately, and this exercise's entire content is the arithmetic identification, of which nothing exists in the tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; blind pass agreed independently. Reproduced with my own greps: `rg -i 'gcd|lcm|Nat.divide|divides|divisib|dvd|coprime'` = 0 hits in the whole tree — neither the divisibility relation nor gcd/lcm exists in any form — and there is no division/modulo arithmetic at all. The only orders ever instantiated are (ℕ, Nat.le) (Instance/Proset.v:47, Instance/Poset.v:120, Test/Poset.v:54) and the bespoke two-element `two` (Test/Poset.v:139), verified. The NEAR MISS rejection is exactly the right standard and is what I used to overturn example89 in this batch: the generic binary meet/join universal properties (Structure/Cartesian.v:136 `ump_products`, Structure/Cocartesian.v:196 `merge_inv`, both verified at those lines) would identify gcd and lcm once (ℕ, |) were built as a Proset, but that is Definition 1.81's content, filed separately. Consistent with ex46 (the divisibility order, ABSENT)."
+  }
+ }
+]

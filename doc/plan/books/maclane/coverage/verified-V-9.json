@@ -1,0 +1,431 @@
+[
+  {
+    "id": "maclane:V.9:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "Top / the category of (small) topological spaces and continuous maps",
+      "underlying-set or forgetful functor G : Top ⟶ Sets (Top_Forget, Space_Forget, Underlying, U : Top ⟶ Set)",
+      "discrete-topology functor D : Sets ⟶ Top, the free space on a set (left adjoint to the forgetful functor)",
+      "indiscrete / codiscrete / trivial / chaotic-topology functor D' : Sets ⟶ Top, the cofree space (right adjoint)",
+      "adjoint triple / adjoint string D ⊣ G ⊣ D'; a forgetful functor that is simultaneously continuous and cocontinuous",
+      "analogue in Cat: Discrete ⊣ Obj ⊣ Indiscrete for the objects functor Cat ⟶ Set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'topolog' --include='*.v' . -- 52 hits, EVERY one inside a header comment or bibliographic citation (Theory/Sheaf.v on Grothendieck topologies, Theory/Multicategory.v on algebraic topology, Structure/Topos.v on Lawvere–Tierney topologies, Construction/Enriched.v 'K = Top gives topological categories', Structure/Group.v 'topological groups in Top', Theory/Universal/Arrow.v on free topological groups). Zero code.",
+      "grep -rnwE 'Top|Topology|Space|Spaces' --include='*.v' . -- 42 hits; every occurrence of the bare word [Top] is the Solver/Shapes constructor (Solver/Expr.v:74 `| Top`, Solver/Normal.v:363, Solver/Denote.v:108, Instance/Shapes.v:135), not a category of spaces. No `Definition Top`, no `Program Definition Top : Category`.",
+      "ls Instance/*.v Instance/*/*.v -- the full instance layer is Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX. There is no topological-spaces instance anywhere in the tree.",
+      "grep -rniE 'discrete topolog|indiscrete|codiscrete|chaotic topolog' --include='*.v' . -- 7 hits, all comments: Theory/Bicategory/Lax.v uses 'codiscrete' for a setoid on unit; Instance/StrictCat/Funny.v and Construction/Funny.v say 'chaotic groupoid'; Structure/Discrete.v:23-24 is the only conceptually relevant one and is prose only — 'the image of a set under the left adjoint `Set ⟶ Cat`; the dual (codiscrete / indiscrete) construction is the further right adjoint' — no such functor or adjunction is constructed (Structure/Discrete.v contains exactly one definition, `Discrete (C : Category) := ...`, a predicate on categories).",
+      "grep -rniE 'continuous map|open set|OpenSet|Opens' --include='*.v' . -- 0 code hits ('opens' matches only the English verb in five prose headers).",
+      "grep -rniE 'adjoint triple|adjoint string' --include='*.v' . -- 6 hits, all comments naming triples that are NOT built in-tree (Comonad/Coalgebra.v f_! ⊣ f^* ⊣ f_*, Theory/Adjunction.v ∃ ⊣ subst ⊣ ∀, Instance/Poset.v, Construction/Arrow.v:61-62 'cod ⊣ ids ⊣ dom (nLab, adjoint string)' — Construction/Arrow.v defines only `Arrow := (Id[C] ↓ Id[C])` and its notation, no dom/cod/ids functors and no adjunctions).",
+      "note (ambient engine, not the item): the two CONSEQUENCES Mac Lane draws are available in general form — Adjunction/Continuity.v:198 `right_adjoint_preserves_limit`, :202 `right_adjoint_preserves_limits : PreservesAllLimits U`, :217 `left_adjoint_preserves_colimit`, :223 `left_adjoint_preserves_colimits : PreservesAllColimits F`. What is missing is any concrete forgetful functor with both adjoints to instantiate them at; no in-tree functor is exhibited as the middle of an adjoint triple."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: blind search for the adjoint triple found only Structure/Discrete.v:23-24, prose naming 'the left adjoint Set -> Cat' and 'the dual (codiscrete / indiscrete) construction is the further right adjoint' -- Structure/Discrete.v contains exactly one definition, the predicate `Discrete (C : Category)`; no functor and no adjunction.  I independently confirmed the record's 'ambient engine' note: Adjunction/Continuity.v:198/202/217/223 (right_adjoint_preserves_limit(s), left_adjoint_preserves_colimit(s)) all exist at the cited lines, and the record correctly files them as engine rather than as the item.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "subspace topology / relative topology / initial (weak) topology along a single map",
+      "the induced sliced functor (G ↓ X) : (Top ↓ X) ⟶ (Set ↓ GX); functor between slice/comma categories induced by a functor G (as opposed to by a morphism)",
+      "right-adjoint-right-inverse (RARI); adjoint that is also a section; coreflection of a slice category",
+      "cartesian lift / cleaving presented in slice form: L t is the cartesian lift of t : S ⟶ GX at X",
+      "the transposition hom(Gf, t) ≅ hom(f, Lt) and the counit-identity (G ↓ X) ∘ L = Id",
+      "dual form: quotient/identification topology as a left-adjoint-right-inverse"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'subspace|initial topolog|weak topolog|weakest topolog' --include='*.v' . -- 0 hits.",
+      "grep -rniE 'right[- ]adjoint[- ]right[- ]inverse|left[- ]adjoint[- ]right[- ]inverse|adjoint right inverse|\\bRARI\\b|\\bLARI\\b' --include='*.v' . -- 0 hits. The library has no name for, and no lemma about, an adjoint that is simultaneously a one-sided inverse.",
+      "grep -rniE 'concrete category|topological functor|amnestic|initial lift|final lift' --include='*.v' . -- 5 hits, all the English phrase 'concrete category' in comments (Instance/FinSet/Pushout.v:50, Construction/Quotient.v:16, Construction/Cospan/Hypergraph.v:79/82/294). No topological-functor notion.",
+      "grep -rn 'Slice|Coslice' --include='*.v' . -- slices exist (Construction/Slice.v:123 `Program Definition Slice `(C : Category) `(c : C) : Category`, :169 `Coslice`, :140 `Comma_Slice : C ̸ c ≅ (Id ↓ =(c))`) but are USED nowhere outside Construction/Slice.v and Construction/Slice/Pullback.v.",
+      "grep -nE '^(Program |Definition|Instance)' Construction/Slice/Pullback.v -- the only functors between slices in the whole tree are `Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b` (:50, post-composition along a MORPHISM of one fixed category) and `Star_Functor `(f : c ~> a)` (:67, pullback). Neither is a functor (C ↓ c) ⟶ (D ↓ Gc) induced by a FUNCTOR G : C ⟶ D, which is what this item needs.",
+      "grep -rniE 'induced functor|comma_functor|Comma_Map|between comma' --include='*.v' . -- the only `Comma_Functor` (Construction/Comma/Natural/Transformation.v:42) is Huq's correspondence `(F : S ⟹ T) : D ⟶ (S ↓ T)`, a section of the two projections, not a comparison between two comma categories; Construction/Comma/Adjunction.v:835/848 build `Comma_Functor_F_Id_Id_G : (F ↓ Id) ⟶ (Id ↓ G)` from an adjunction, again a different shape.",
+      "grep -rn 'Cleaving|ClovenFibration|CartesianLift' --include='*.v' . -- Theory/Fibration.v:85 `Cleaving`, :107 `CartesianLift`, :123 `ClovenFibration` exist (the nearest structural relative of a sliced RARI), but nothing connects them to slice categories, to a sliced adjunction, or to a strict right-inverse condition."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: verified every structural claim of the negative log at the cited lines -- Construction/Slice.v:123 Slice, :140 Comma_Slice, :169 Coslice; Construction/Slice/Pullback.v:50 `Bang_Functor `(f : a ~> b) : @Slice C a - > @Slice C b` and :67 Star_Functor (both induced by a MORPHISM inside one category, not by a functor G : C -> D); Construction/Comma/Natural/Transformation.v:42 Comma_Functor (Huq's section D -> (S | T)); Construction/Comma/Adjunction.v:835/848 Comma_Functor_F_Id_Id_G / _Id_G_F_Id.  None is a comparison (C | c) -> (D | Gc).  Theory/Fibration.v:85 Cleaving, :107 CartesianLift, :123 ClovenFibration exist and are unconnected to slices.  'right-adjoint-right-inverse' / RARI has zero in-tree occurrences (my own grep agrees).  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:prop1",
+    "classification": "ABSENT",
+    "aliases": [
+      "equalizers lifted/created along a faithful functor",
+      "HasEqualizers C from HasEqualizers D + Faithful G + a right-adjoint-right-inverse for each (G ↓ c)",
+      "topological/concrete functor with initial lifts creates equalizers",
+      "fibration (Cleaving / ClovenFibration) whose base has equalizers ⟹ total category has equalizers",
+      "equalizer computed as the cartesian lift of the base equalizer (element-free subspace construction)",
+      "dual: coequalizers from a faithful functor with sliced left-adjoint-right-inverses"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'HasEqualizers' --include='*.v' . -- 6 hits. The class is Structure/Equalizer/Fork.v:68 `Class HasEqualizers (C : Category) := { equalizer {x y : C} (f g : x ~> y) : ∃ (q : C) (e : q ~> x), IsEqualizer f g q e }`. The ONLY in-tree way to obtain it is Adjunction/GAFT.v:193 `Complete_HasEqualizers {A : Category} (HA : @Complete A) : HasEqualizers A` (from completeness, at the walking parallel pair). No construction of equalizers from a functor of any kind.",
+      "grep -rniE 'Creates|creation of (limits|equalizers)' --include='*.v' . -- Theory/Equivalence/Limit.v:486 `equivalence_creates_limits` (hypothesis: F is an EQUIVALENCE), :582 `equivalence_creates_colimits`, and Monad/Monadicity/Beck.v:164 `Class CreatesUSplitCoequalizers` / :911 `monadic_creates` (hypothesis: a U-split pair). Neither hypothesis is Mac Lane's (faithful + a sliced right-adjoint-right-inverse), and neither concludes plain equalizers.",
+      "grep -rn 'Class Faithful' --include='*.v' . -- Theory/Functor.v:342 `Class Faithful `(F : C ⟶ D)`. It is used only for Yoneda, the subcategory/sheaf inclusions, Mon_Forget/Comon_Forget and the Lawvere ev1; no theorem in the tree derives a limit or colimit from faithfulness.",
+      "grep -rniE 'right[- ]adjoint[- ]right[- ]inverse|adjoint right inverse|\\bRARI\\b' --include='*.v' . -- 0 hits (the hypothesis has no in-tree vocabulary).",
+      "grep -rniE 'topological functor|initial lift|amnestic' --include='*.v' . -- 0 hits.",
+      "grep -rn 'Cleaving|ClovenFibration' --include='*.v' . then grep -rniE 'limit|equalizer|complete' Theory/Fibration.v Theory/Displayed.v Construction/Displayed/ Construction/Grothendieck*.v -- the fibration development contains no limit or equalizer statement at all (the only matches are the words 'creation of limits' in a Theory/Displayed.v:91 prose list and 'homotopy colimit' in a Grothendieck header)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: I ran an independent cross-search -- for every file containing `Faithful`, test whether it also mentions `equalizer`.  Exactly ONE file matches, Monad/Lifting.v, and I read it: it is the Dubuc adjoint triangle theorem, where HasReflexiveCoequalizers is a HYPOTHESIS (:107, :495-501) and Full/Faithful (:505/:508) are properties of the EM comparison used to build a left adjoint (:456 adjoint_triangle, :516 adjoint_lifting).  It derives no equalizer from faithfulness, so it is not a hidden counterpart.  Cited anchors verified: Structure/Equalizer/Fork.v:52 IsEqualizer / :68 HasEqualizers, Adjunction/GAFT.v:193 Complete_HasEqualizers (the only producer of HasEqualizers in-tree), Theory/Functor.v:342 Class Faithful, Monad/Monadicity/Beck.v:164 CreatesUSplitCoequalizers / :911 monadic_creates, Theory/Equivalence/Limit.v:486/:582.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "Top is complete",
+      "completeness from products + equalizers (Mac Lane CWM Theorem V.2.1; Riehl 3.4.12); limit as an equalizer of two products",
+      "product topology = initial/weakest topology making all projections continuous; Tychonoff topology",
+      "universal (initial) topology for a J-indexed family of functions t_i : S ⟶ GX_i",
+      "HasIndexedProducts + HasEqualizers ⟹ Complete"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'topolog' / grep -rnwE 'Top' --include='*.v' . -- as logged for maclane:V.9:construction1: no category of spaces exists, so 'Top is complete' has no subject in-tree.",
+      "grep -rniE 'initial topolog|weakest topolog|weak topolog|product topolog|Tychonoff' --include='*.v' . -- 0 hits.",
+      "grep -rniE 'complete.*(product|equalizer)|products and equalizers|limits from products' --include='*.v' . -- 10 hits, ALL prose. Structure/Complete.v:50-54 states the reduction only as a citation ('a category with all small products and equalizers of parallel pairs has all small limits, each limit arising as an equalizer between two products (Mac Lane ... Theorem V.2.1 ...)') and immediately says what is actually in-tree: 'The products half of the reduction lives in-tree as [iprod] in Structure/Limit/Product.v, limits of discrete diagrams.' Structure/Limit.v:71 likewise lists 'construction from products and equalizers' among things that WOULD specialize, without proving it.",
+      "read Structure/Complete.v in full -- the file contains exactly two definitions, :115 `Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F` and :119 `Cocomplete`. There is no theorem producing `Complete` from any supply of products and equalizers; every in-tree `Complete` is a hypothesis, or is transported (Construction/Comma/Limit.v:245 `Comma_Complete`).",
+      "grep -rn 'HasIndexedProducts|iprod' --include='*.v' . -- Structure/Limit/Product.v:93 `iprod`, :128 `Class HasIndexedProducts` exist, and Structure/Equalizer/Fork.v:68 `HasEqualizers` exists, but no lemma combines them into `Complete`.",
+      "note: the general fact behind the initial topology that Mac Lane flags as 'admitting a categorical formulation (Exercise 3)' is likewise absent — see the log for maclane:V.9:ex3."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: I read Structure/Complete.v in full and confirm it contains exactly two definitions, :115 `Complete` and :119 `Cocomplete`, with no theorem producing Complete from products + equalizers.  The quoted passage is verbatim but spans :50-54 rather than sitting on :50 alone (the record's own gap text cites the range correctly).  Structure/Limit/Product.v:93 iprod and :128 HasIndexedProducts verified; no lemma combines them with Structure/Equalizer/Fork.v:68.  Zero hits for initial/weakest/product topology or Tychonoff.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:construction3",
+    "classification": "ABSENT",
+    "aliases": [
+      "quotient topology / identification topology / final (strongest) topology along a map",
+      "the induced coslice functor (X ↓ G) : (X ↓ Top) ⟶ (GX ↓ Set) induced by a functor G",
+      "left-adjoint-right-inverse (LARI) M; adjoint section of a coslice functor; opcartesian/cocartesian lift in coslice form",
+      "the transposition (X ↓ Top)(Mt, f) ≅ (GX ↓ Set)(t, Gf) with identity unit",
+      "dual of the subspace construction; opfibration lift of a function along a forgetful functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'quotient topolog|identification topolog|final topolog|strongest topolog' --include='*.v' . -- 0 hits.",
+      "grep -rniE 'left[- ]adjoint[- ]right[- ]inverse|adjoint right inverse|\\bLARI\\b' --include='*.v' . -- 0 hits.",
+      "grep -rn 'Coslice' --include='*.v' . -- Construction/Slice.v:169 `Program Definition Coslice `(C : Category) `(c : C) : Category` and :181 `Comma_Coslice` exist, but there is no functor between coslices induced by a functor, and no adjunction involving a coslice anywhere in the tree (the only coslice occurrences outside Construction/Slice.v are prose mentions in Construction/Slice.v's own header and Comonad/Coalgebra.v).",
+      "grep -rn 'OpCleaving|Displayed_op|opfibration' --include='*.v' . -- Theory/Fibration.v:223 `Displayed_op`, :272 `OpCleaving` exist as the dual of the cleaving vocabulary; nothing links them to coslice categories, adjunctions or strict right-inverses.",
+      "grep -rn 'Quotient' --include='*.v' . -- Construction/Quotient.v is a HOM-congruence quotient (same objects, hom-setoids quotiented by a congruence), explicitly 'fully general — it never mentions any concrete category' (:16); it is not a quotient OBJECT construction and carries no adjointness statement.",
+      "grep -rniE 'topolog' --include='*.v' . -- no category of spaces to carry the construction (see maclane:V.9:construction1)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: verified Construction/Slice.v:169 Coslice and :181 Comma_Coslice exist and are consumed nowhere -- no functor between coslices induced by a functor, no adjunction touching a coslice.  Theory/Fibration.v:223 Displayed_op and :272 OpCleaving verified as the dual cleaving vocabulary, unlinked to coslices.  Construction/Quotient.v:16 verified as the hom-congruence quotient ('fully general -- it never mentions any concrete category'), not a quotient object.  LARI has zero in-tree occurrences.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "dual of Proposition 1: coequalizers from a faithful functor with sliced left-adjoint-right-inverses",
+      "HasCoequalizers C from HasCoequalizers D + Faithful G + LARI on each (c ↓ G)",
+      "Top has coequalizers; Top is cocomplete",
+      "coproduct of spaces = disjoint union with the final topology",
+      "Cocomplete / Colimit of every diagram in a concrete category over Set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'HasCoequalizers' --include='*.v' . -- the class is Structure/Coequalizer.v:68 `Class HasCoequalizers (C : Category)`; the only derivation in the tree is Structure/Coequalizer/Reflexive.v:75 `HasCoequalizers_HasReflexiveCoequalizers` (weakening it to reflexive pairs). Nothing produces coequalizers from a functor, faithful or otherwise.",
+      "grep -rn 'Cocomplete' --include='*.v' . -- Structure/Complete.v:119 `Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F`; its only consumer is Theory/Adamek/Corollaries.v (`adamek_cocomplete`, applied at ω). No category is PROVED cocomplete in-tree by this route.",
+      "grep -rniE 'left[- ]adjoint[- ]right[- ]inverse|\\bLARI\\b|adjoint right inverse' --include='*.v' . -- 0 hits (the dual hypothesis has no in-tree vocabulary, exactly as for Proposition 1).",
+      "grep -rniE 'disjoint union|coproduct of spaces|topolog' --include='*.v' . -- no space category; Structure/Cocartesian.v:69 mentions the 'wedge sum of pointed spaces' only as a motivating example in prose.",
+      "note: Mac Lane's remark is a duality argument ('Proposition 1 was proved purely from the axioms, so its dual holds'). The library does support that style of argument mechanically (Construction/Opposite.v with C^op^op = C by reflexivity, and e.g. Adjunction/Continuity.v:217 derives LAPC from RAPL by duality), but since Proposition 1 itself is absent there is nothing to dualize."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: verified Structure/Coequalizer.v:52 IsCoequalizer / :68 HasCoequalizers and Structure/Coequalizer/Reflexive.v:75 HasCoequalizers_HasReflexiveCoequalizers (an `#[export] Instance`, the only in-tree derivation, and it WEAKENS rather than produces coequalizers).  Structure/Complete.v:119 Cocomplete verified; no category is proved cocomplete in-tree.  The record's closing observation is fair: the duality machinery exists (C^op^op = C by reflexivity; Adjunction/Continuity.v:217 derives LAPC from RAPL) but Proposition 1 is itself absent, so there is nothing to dualize.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:construction4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "gluing lemma for an open cover; the sheaf/descent condition for Top",
+      "sheaf condition in equalizer form: F(X) ⟶ ∏ F(U_i) ⇉ ∏ F(U_i ∩ U_j) is an equalizer",
+      "matching family / compatible family and unique amalgamation; separation + gluing axioms",
+      "Site / coverage / covering family; presheaf on the poset of opens",
+      "X as the colimit of the cover diagram (Čech nerve truncated at level 1; the category J' of indices ⟨i⟩ and pairs ⟨i,j⟩)",
+      "descent along a cover; the hom-presheaf Top(−, Y) is a sheaf"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Sheaf.v",
+        "line": 192,
+        "symbol": "Sheaf",
+        "intree_statement": "Class Sheaf `{@Site C} (X : Presheaf C Sets) := { restriction : ∀ u : C, let '(i; f) := coverage u in ForallT (A := ∃ uᵢ, uᵢ ~> u) (λ '(uᵢ; fᵢ), ∀ xᵢ : X uᵢ, (∀ (v : C) (g : v ~> uᵢ), ForallT (A := ∃ uⱼ, uⱼ ~> u) (λ '(uⱼ; fⱼ), ∀ h : v ~> uⱼ, fᵢ ∘ g ≈ fⱼ ∘ h → ∀ xⱼ : X uⱼ, fmap[X] g xᵢ ≈ fmap[X] h xⱼ) f) → ∃! x : X u, fmap[X] fᵢ x ≈ xᵢ) f }."
+      },
+      {
+        "file": "Theory/Sheaf.v",
+        "line": 159,
+        "symbol": "Site",
+        "intree_statement": "Class Site (C : Category) := { covering_family (u : C) := sigT (Vector.t (∃ uᵢ, uᵢ ~> u)); coverage (u : C) : covering_family u; coverage_condition (u : C) (fs : covering_family u) (v : C) (g : v ~> u) : ∃ hs : covering_family v, ForallT (λ '(vⱼ; hⱼ), ExistsT (λ '(uᵢ; fᵢ), ∃ k : vⱼ ~> uᵢ, fᵢ ∘ k ≈ g ∘ hⱼ) (`2 fs)) (`2 hs) }."
+      },
+      {
+        "file": "Theory/Sheaf/Category.v",
+        "line": 81,
+        "symbol": "Sheaves",
+        "intree_statement": "Definition Sheaves : Category := Sub (@Presheaves C Sets) Sheaves_sub."
+      },
+      {
+        "file": "Theory/Sheaf/Category.v",
+        "line": 33,
+        "symbol": "SCOPE NOTE (header)",
+        "intree_statement": "\"the inherited [Sheaf] predicate is NOT the textbook unique-gluing condition even for that one family.  Its gluing clause is per-leg (a single section over one [u_i], not a simultaneous matching family), and its compatibility antecedent quantifies over ALL sections of the other leg — instantiating [v := u_i], [g := h := id] and the SAME leg [j := i] makes the antecedent force [x_i ≈ x_j] for every [x_j : X u_i], so the hypothesis is satisfiable only when [X u_i] is a subsingleton, and the condition is vacuous at any covered object with two inequivalent sections.\""
+      }
+    ],
+    "statement_record": {
+      "book": "For an open cover {U_i} of a space X: a family of continuous f_i : U_i → Y agreeing on all pairwise intersections glues to a unique continuous f on X. Equivalently, for every Y the diagram Top(X,Y) → ∏_i Top(U_i,Y) ⇉ ∏_{i,j} Top(U_i ∩ U_j, Y) (the two arrows being restriction) is an equalizer in Set; equivalently again, X is the colimit in Top of the cover diagram U : J' → Top, where J' has objects ⟨i⟩ and ⟨i,j⟩ with arrows ⟨i,j⟩ → ⟨i⟩, ⟨i,j⟩ → ⟨j⟩, U⟨i⟩ = U_i, U⟨i,j⟩ = U_i ∩ U_j, and the colimiting cocone is the family of inclusions U_i → X.",
+      "intree": "Class Sheaf `{@Site C} (X : Presheaf C Sets) := { restriction : ∀ u : C, ... ∀ xᵢ : X uᵢ, (compatibility antecedent over all v, g, and every other leg) → ∃! x : X u, fmap[X] fᵢ x ≈ xᵢ }, over Class Site (C : Category) := { coverage (u : C) : covering_family u; coverage_condition ... }.",
+      "strength_comparison": "intree-weaker, on four counts. (1) Different generality of subject: the in-tree condition is stated for an arbitrary presheaf on an abstract site, never for Top, never for the poset of opens of a space, and never for a hom-presheaf Top(−,Y); since the library has no category of spaces (grep 'topolog' finds only comments), the item's actual assertion cannot even be phrased. (2) Element form, not equalizer form: the unique-amalgamation clause is written with ∃! on elements of X u, not as `IsEqualizer` (Structure/Equalizer/Fork.v:52) for a diagram F(X) → ∏F(U_i) ⇉ ∏F(U_i∩U_j); no product-of-restrictions diagram is ever formed, so the item's headline formulation is absent. (3) Defective as a gluing condition: the file's own SCOPE NOTE proves the in-tree clause is per-leg rather than a simultaneous matching family, and that its antecedent is unsatisfiable unless the sections over each U_i form a subsingleton — so it is VACUOUS exactly in the cases the gluing lemma is about; Site also fixes a single covering family per object rather than a coverage. (4) The colimit half of the item — the cover-indexing category J', the diagram U : J' ⟶ Top, and 'X is its colimit with the inclusions as colimiting cocone' — has no in-tree counterpart at all."
+    },
+    "gap": "Present only as the abstract gluing predicate for a presheaf on a site (Theory/Sheaf.v:192 `Sheaf`, over Theory/Sheaf.v:159 `Site`) plus the sheaf category (Theory/Sheaf/Category.v:81). MISSING: (a) any category of topological spaces, hence the item's subject; (b) the site of open subsets of a space and the covering families given by open covers; (c) the equalizer formulation — the diagram F(X) → ∏_i F(U_i) ⇉ ∏_{i,j} F(U_i ∩ U_j) is never formed, and `IsEqualizer` is never applied to a restriction fork; (d) the statement that the representable Top(−,Y) satisfies it (no representable is ever shown to be a sheaf); (e) the entire colimit half — the two-level index category J' of singletons and pairs, the diagram of opens and intersections, and the theorem that X is its colimit; (f) even for the abstract predicate, the in-tree gluing clause is disclosed (Theory/Sheaf/Category.v:33-42) to be per-leg rather than a matching-family condition and vacuous beyond subsingleton fibres, and re-founding it is a named deferral (ledger entry 1).",
+    "negative_search_log": [
+      "grep -rniE 'open cover|covering of a space|gluing lemma|glue.*continuous' --include='*.v' . -- 1 hit, Theory/Sheaf.v:77 prose ('Grothendieck replaced open covers by covering families').",
+      "grep -rniE 'matching famil|amalgamat|descent' --include='*.v' . -- descent appears only in headers (Comonad/Coalgebra.v, Theory/Sheaf.v, Functor/Hom/Yoneda.v, Theory/Multicategory.v:89 which explicitly says 'the descent lemmas themselves are not stated in-tree'); 'matching family' occurs only in Theory/Sheaf/Category.v's scope note as the thing NOT implemented.",
+      "grep -rn 'IsEqualizer' --include='*.v' . -- Structure/Equalizer/Fork.v:52 and its consumers; never applied to a restriction map or to a product of hom-sets.",
+      "grep -rniE 'Čech|nerve|cover diagram' --include='*.v' . -- 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC / PARTIAL SCRUTINY.  All four evidence anchors verified at the cited lines: Theory/Sheaf.v:192 `Class Sheaf`, Theory/Sheaf.v:159 `Class Site`, Theory/Sheaf/Category.v:81 `Definition Sheaves : Category := Sub (@Presheaves C Sets) Sheaves_sub.`, and the SCOPE NOTE, whose quotation I checked word-for-word against the file (the quoted sentence runs :32-41; the record's :33 anchor sits inside it, and the gap field cites the range :33-42 correctly).  I also re-read the `Sheaf` class body myself and independently reproduce the vacuity argument: the `ForallT` wrapper quantifies the section `x_i` and the conclusion `exists! x, fmap[X] f_i x ~ x_i` PER LEG, and the compatibility antecedent binds `forall x_j : X u_j` universally, so at v := u_i, g := h := id, j := i it forces x_i ~ x_j for every x_j.  Both files are registered in _CoqProject (:473 Theory/Sheaf.v, :474 Theory/Sheaf/Category.v).  The strength_comparison is honest and if anything harder on the library than required.  DISSENT ON RECORD, NOT AN OVERTURN: my blind pass had this at ABSENT, because the only surviving in-tree content is a predicate the library itself proves vacuous outside subsingleton fibres, and none of the item's three formulations (the restriction equalizer, the representable Top(-,Y), the colimit of the cover diagram) exists.  PARTIAL is the generous reading of 'some of the item exists' (Site is a genuine coverage notion and Sheaves is a genuine category), the gap statement is precise and complete, and both readings route to the same Phase-E outcome, so I confirm rather than overturn."
+    }
+  },
+  {
+    "id": "maclane:V.9:construction5",
+    "classification": "ABSENT",
+    "aliases": [
+      "X/A: collapsing a subset (subspace) to a point",
+      "coequalizer of a large/wide parallel family of arrows out of the terminal object; wide coequalizer; multi-coequalizer",
+      "joint coequalizer of a family; colimit of a family of parallel arrows 1 ⇉ X",
+      "cofibre / mapping cone; pushout of 1 ← A → X (X/A = X ⊔_A 1)",
+      "quotient of an object by a subobject; quotient by an equivalence relation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'wide (co)?equalizer|multicoequalizer|coequalizer of a family|joint coequalizer' --include='*.v' . -- 1 hit, Theory/WeaklyInitial.v:39, and it is prose describing the opposite move: 'the wide equalizer of the endomorphism family reduces to one *binary* equalizer' inside `initial_from_weakly_initial` (Theory/WeaklyInitial.v:89). There is no wide-coequalizer notion, and the equalizer analogue is not exposed as a construction.",
+      "grep -rn 'Class HasCoequalizers|Record IsCoequalizer' --include='*.v' . -- Structure/Coequalizer.v:52/68 give only the BINARY (parallel-pair) notion; a family indexed by the points of A cannot be stated with them.",
+      "grep -rniE 'collapse|quotient object|quotient by' --include='*.v' . -- 'collapse' appears only in coherence/unitor proofs and comonad prose; Construction/Quotient.v quotients HOM-SETS by a congruence, not objects.",
+      "ls Structure/Pushout.v; grep -rn 'IsPushout' --include='*.v' . -- general pushouts DO exist (Structure/Pushout.v, Theory/Morphisms/Stability.v:401, Construction/Cospan/, Instance/Sets/Pushout.v, Instance/FinSet/Pushout.v), so the modern rephrasing X/A = X ⊔_A 1 has ambient machinery; but no in-tree construction forms the quotient of an object by a subobject, and none is identified with a coequalizer of a point-indexed family.",
+      "grep -rniE 'topolog|homotopy' --include='*.v' . -- no space category and no homotopy-theoretic development in which X/A could live (the word 'homotopy' occurs only in bibliographic prose)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: independently confirmed that Structure/Coequalizer.v offers only the BINARY notion (:52 IsCoequalizer over `f g : x ~> y`, :68 HasCoequalizers), so a coequalizer of an A-indexed family of arrows 1 => X cannot even be stated; grep for wide/multi/joint coequalizer returns one hit, Theory/WeaklyInitial.v:39, verified as prose about reducing a wide EQUALIZER to a binary one inside :89 initial_from_weakly_initial.  Pushouts do exist (Structure/Pushout.v and the Sets/FinSet/Cospan witnesses), which the record correctly flags as ambient machinery for the modern X/A = X +_A 1 rephrasing without claiming it as the item.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:construction6",
+    "classification": "ABSENT",
+    "aliases": [
+      "Top^(2): the category of pairs ⟨X, A⟩ (space with a distinguished subset) and maps carrying A into A'",
+      "category of pairs / category of objects-with-a-subobject; full subcategory of the arrow category on monos",
+      "pointed spaces Top_*; category of pointed objects; coslice 1 ↓ C",
+      "the adjunction ⟨X,A⟩ ↦ X/A left adjoint to Y ↦ ⟨Y, *⟩; free pointed object on a pair",
+      "Top_*(X/A, Y) ≅ Top^(2)(⟨X,A⟩, ⟨Y,*⟩) hom-set bijection"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bpointed\\b' --include='*.v' . -- 14 hits: Instance/Fun.v:230 `Class Pointed {C : Category} (F : C ⟶ C)` and :240 `WellPointed` are POINTED ENDOFUNCTORS (a natural transformation Id ⟹ F), not pointed objects; the rest are prose (Instance/Coq/Par.v 'equivalent ... to the category of pointed sets', Theory/Displayed.v:104 'pointed objects over objects', Theory/Coq/Maybe.v:29). No category of pointed objects is constructed, and `Coslice` (Construction/Slice.v:169) is never instantiated at a terminal object to produce one.",
+      "grep -rniE 'category of pairs|pair category|Top\\^|relative category of pairs' --include='*.v' . -- 0 hits.",
+      "grep -rn 'Arrow' --include='*.v' Construction/Arrow.v -- the file defines only `Arrow {C : Category} : Category := (Id[C] ↓ Id[C])` (:110) and its notation; there is no subcategory of monic arrows, and Theory/Subobject.v's `SubObj` is a setoid of monos into a fixed object, never assembled into a category of pairs.",
+      "grep -rniE 'basepoint' --include='*.v' . -- 6 hits, all inside Instance/Coq/Par.v and Instance/Coq/ParE.v prose about `option A` as a pointed-set realization for partial maps; no basepoint-preserving-map category, no functor Y ↦ ⟨Y, *⟩.",
+      "grep -rniE 'topolog' --include='*.v' . -- no category of spaces (see maclane:V.9:construction1), so neither Top^(2) nor Top_* has a base to be built over; and the left adjoint X/A does not exist in-tree either (see maclane:V.9:construction5)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: verified Instance/Fun.v:230 `Class Pointed {C : Category} (F : C -> C)` and :240 WellPointed are POINTED ENDOFUNCTORS, not pointed objects -- the record's disambiguation is correct and is the trap this item invites.  Construction/Arrow.v verified to contain exactly two top-level items, :110 `Definition Arrow {C : Category} : Category := (Id[C] | Id[C])` and :112 its notation, so there is no subcategory of monos and no category of pairs.  Coslice is never instantiated at a terminal object.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:prop2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Haus: the full subcategory of Hausdorff spaces; T2 spaces; separated objects",
+      "Hausdorff reflection H; largest Hausdorff quotient; reflector onto a full subcategory",
+      "reflective subcategory (left adjoint to a full inclusion) that is also a left-adjoint-LEFT-inverse (idempotent reflection)",
+      "application of Freyd's adjoint functor theorem (GAFT) with a solution set of quotient objects to a full inclusion",
+      "Haus complete and cocomplete; colimits in a reflective subcategory computed by reflecting the ambient colimit",
+      "forgetful Haus ⟶ Set has a left adjoint (free Hausdorff space)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'hausdorff|separation axiom|T_?2 space|regular space|normal space' --include='*.v' . -- 5 hits, all bibliographic prose (Theory/Monad.v:66 'compact Hausdorff spaces (Manes ...)', Theory/Equivalence.v:122 'commutative C*-algebras against compact Hausdorff'). No Hausdorff predicate, no Haus category.",
+      "grep -rniE 'topolog' --include='*.v' . -- no ambient Top for Haus to be a full subcategory of (see maclane:V.9:construction1).",
+      "note (ambient engine, not the item): every ingredient of Mac Lane's PROOF exists in general form and is simply never applied here — Adjunction/GAFT.v:159 `Record SolutionSet`, :241 `Theorem GAFT {C D} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : ∀ d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }`; Construction/Subcategory.v:31 `Subcategory`, :50 `Sub`, :59 `Incl`, :69 `Full`; Construction/Reflective.v:60 `Record Reflective {C} (S : Subcategory C) := { reflective_full; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }` and :92 `reflective_counit_iso` (the counit of a FULL reflective subcategory is an isomorphism — the abstract form of 'if X is already Hausdorff then HX = X'); Adjunction/Continuity.v:223 `left_adjoint_preserves_colimits` (the abstract form of 'since H is a left adjoint it preserves colimits, so Haus has all small colimits').",
+      "grep -rn 'Reflective' --include='*.v' . -- the only inhabitants of `Reflective` produced in-tree come from Construction/Reflective/Idempotent.v (`Reflective_IdempotentMonad`, `idem_reflector`) and Construction/Localization.v (orthogonality localization). No topological example, and no reflector obtained via GAFT — Adjunction/GAFT/Examples.v's single worked instantiation is Δ ⊣ (×).",
+      "grep -rniE 'largest quotient|quotient object|surjective quotient' --include='*.v' . -- 0 hits; the solution-set argument of the proof (only a small set of Hausdorff quotients of X) has no in-tree analogue."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: no Hausdorff predicate and no Haus category (my grep agrees: 2 bibliographic hits).  I verified the record's 'ambient engine' inventory line by line -- Adjunction/GAFT.v:159 SolutionSet, :241 GAFT; Construction/Subcategory.v:31/50/59/69; Construction/Reflective.v:60 Reflective, :85 Coreflective, :92 reflective_counit_iso; Adjunction/Continuity.v:223.  I also checked the claim that no reflector is obtained via GAFT: Adjunction/GAFT/Examples.v contains only diagonal_UA (:97), diagonal_product_via_gaft (:108) and diagonal_product_via_gaft_is_diagonal (:121), i.e. Delta -| (x) alone -- confirmed.  The two symbols the log names for Reflective inhabitants both exist (Construction/Reflective/Idempotent.v:198 Reflective_IdempotentMonad, :253ff idem_reflector_*), though the actual `: Reflective ...` inhabitant is :345 Idempotent_Reflective; the log's point (the only inhabitants are abstract, from an idempotent monad or from Localization) is correct.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "connected-components functor π₀ / Π₀ / C : Top ⟶ Set",
+      "locally connected spaces LConn as a full subcategory of Top; locally connected topos",
+      "π₀ ⊣ Discrete (components left adjoint to the discrete-space functor)",
+      "a functor with no left adjoint; failure to preserve equalizers/limits as the obstruction",
+      "connectedness predicate; connected object"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bconnected\\b' --include='*.v' . -- 21 hits. Only Instance/FinSet/Pushout.v:30/35/265/398/405 is mathematical, and it is a union-find style CONNECTED-COMPONENTS COMPUTATION on a finite graph used to build the FinSet pushout carrier — a decidable equivalence-closure algorithm, not a functor π₀ : Top ⟶ Set and not a left adjoint. The rest are the English word in prose (Frobenius, ZX, DoubleCategory companions).",
+      "grep -rniE 'π₀|pi0|components functor|locally connected' --include='*.v' . -- 0 hits.",
+      "grep -rniE 'discrete topolog|indiscrete' --include='*.v' . -- 7 comment-only hits (see maclane:V.9:construction1); the functor D : Set ⟶ Top of the exercise does not exist.",
+      "grep -rniE 'no (left|right) adjoint|has no adjoint|does not preserve' --include='*.v' . -- 4 hits; only Construction/ColouredPROP/LNL.v:53 makes an actual non-existence remark ('Theory/Algebra/Comonoid/Hom.v has no right adjoint in-tree'), and it is a statement about what has not been BUILT, not a proof of non-existence. The library proves no negative adjointness result anywhere.",
+      "grep -rniE 'topolog' --include='*.v' . -- no Top and no LConn (see maclane:V.9:construction1)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: my own 'connected' sweep reproduces the record's result -- the only mathematical hits are Instance/FinSet/Pushout.v:30/35/265/398/405, a decidable connected-components computation on a finite graph used to build the FinSet pushout carrier, not a functor pi_0 : Top -> Set and not an adjoint.  Zero hits for pi0 / locally connected.  I also confirm the log's broader claim independently: the library proves no non-existence-of-adjoint result anywhere, so the second half of the exercise ('C can have no left adjoint') has no in-tree genre either.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "indiscrete / codiscrete / trivial-topology functor D' : Set ⟶ Top has no right adjoint",
+      "non-existence of an adjoint proved by exhibiting failure to preserve colimits (coproducts)",
+      "contrapositive of LAPC: a functor that does not preserve coproducts cannot be a left adjoint",
+      "obstruction to adjointness; a functor with no adjoint on one side"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'indiscrete|codiscrete|chaotic topolog' --include='*.v' . -- 7 hits, all prose; the closest is Structure/Discrete.v:23-24 naming the codiscrete construction as 'the further right adjoint' without constructing it. Structure/Discrete.v defines only the predicate `Discrete (C : Category)`.",
+      "grep -rniE 'no (left|right) adjoint|has no adjoint|fails to preserve|does not preserve' --include='*.v' . -- 4 hits, none a theorem; the library contains no non-existence-of-adjoint result of any kind, for any functor.",
+      "grep -rn 'left_adjoint_preserves_colimits' --include='*.v' . -- Adjunction/Continuity.v:223 supplies the positive direction (`PreservesAllColimits F` from `F ⊣ U`) that the exercise contraposes, but no in-tree lemma states the contrapositive and no counterexample apparatus (a functor plus a colimit it demonstrably breaks) exists.",
+      "grep -rniE 'counterexample|countermodel' --include='*.v' . -- 6 hits; the two genuine in-tree countermodels are Construction/Indexed.v:59 (a central-automorphism twist breaking the cocycle) and Construction/Funny/Bifunctor.v:26 — neither concerns adjoints, and both are prose sketches rather than formalized non-existence proofs.",
+      "grep -rniE 'topolog' --include='*.v' . -- no Top (see maclane:V.9:construction1)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: verified Structure/Discrete.v:23-24 is the only conceptually relevant hit and is prose ('the dual (codiscrete / indiscrete) construction is the further right adjoint'); the file defines only the predicate `Discrete (C : Category)`.  Adjunction/Continuity.v:223 supplies the positive LAPC the exercise contraposes; no contrapositive lemma and no counterexample apparatus exists.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "cone category as the comma (Δ ↓ T); category of cones over a diagram",
+      "the induced functor on cone categories G_* : (Δ ↓ T) ⟶ (Δ' ↓ GT), ⟨τ : c → T⟩ ↦ ⟨Gτ : Gc → GT⟩",
+      "transfer / creation of limits along a functor whose cone-comma functor has an adjoint (right-adjoint-right-inverse)",
+      "limit as a terminal object of the cone category; universal arrow from Δ to T",
+      "initial (weakest) topology for a J-indexed family of functions; product topology in Top",
+      "products in Top via the categorical construction"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Cones_Comma|Cones_to_Comma|Limit_Cones' --include='*.v' . -- the two SCAFFOLDING facts the exercise builds on DO exist: Instance/Cones/Comma.v:73 `Theorem Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F))` and Instance/Cones/Limit.v:37 `Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} : Limit F`. Neither is the exercise: no functor between two cone-comma categories is ever formed, and `Limit_Cones` has no converse (Limit F ⟶ Terminal (Cones F)) in the tree.",
+      "grep -rniE 'induced functor|G_\\*|functor between cone|comma_functor' --include='*.v' . -- the only `Comma_Functor` is Huq's section functor (Construction/Comma/Natural/Transformation.v:42) and the only comma comparisons are Construction/Comma/Isomorphism.v (transport along natural isos of S/T) and Construction/Comma/Adjunction.v:835/848 ((F ↓ Id) ⟶ (Id ↓ G) from an adjunction). None sends a cone to its G-image.",
+      "grep -rniE 'creates limits|limit transfer|limit_transport' --include='*.v' . -- the nearest in-tree transfer theorem is Theory/Equivalence/Limit.v:486 `Definition equivalence_creates_limits {J : Category} (G : J ⟶ C) (L : Limit (F ◯ G)) : Limit G`, whose hypothesis is that F is an EQUIVALENCE — strictly stronger than 'the induced cone functor has an adjoint' and never satisfied by a forgetful functor such as G : Top ⟶ Set. Construction/Comma/Limit.v:245 `Comma_Complete` transfers completeness INTO a comma category from the ambient one, the opposite direction and a different hypothesis (`PreservesImageLimit`).",
+      "grep -rniE 'initial topolog|weakest topolog|product topolog' --include='*.v' . -- 0 hits; parts (b) and (c) of the exercise (constructing that adjoint for the forgetful functor Top ⟶ Set with J discrete, and concluding that Top has products) have no subject in-tree — there is no Top (see maclane:V.9:construction1).",
+      "grep -rniE 'right[- ]adjoint[- ]right[- ]inverse|\\bRARI\\b' --include='*.v' . -- 0 hits.",
+      "note on the item statement: the inventory paraphrase says 'if G_* has a LEFT adjoint'; for the argument to run (terminal object of (Δ' ↓ GT) transported to a terminal object of (Δ ↓ T)) the adjoint must sit on the right of G_*, matching the right-adjoint-right-inverse pattern of Proposition 1 — and indeed the topology described in part (b), the weakest topology making the f_j continuous, is characterized by maps INTO it, i.e. G_* ⊣ L. The handedness does not affect this classification: neither form, nor the induced functor G_*, is in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC, WITH AN ADDITION.  My blind pass independently found the same scaffolding the record credits -- Instance/Cones/Comma.v:73 `Theorem Cones_Comma `(F : [J, C]) : Cones F ~=[Cat] (D | =(F))` (registered at _CoqProject:179) and Instance/Cones/Limit.v:37 Limit_Cones -- and I confirm the record's negative claim that `Terminal (Cones ...)` occurs exactly once in the tree, so Limit_Cones has no converse.  ONE ITEM THE PHASE-C LOG DOES NOT MENTION: Theory/Equivalence/Limit.v:282 `Definition fmap_cone (N : Cone G) : Cone (F o G)` (with :271 fmap_cone_leg, :275 fmap_cone_coherence) is precisely the OBJECT ACTION of Mac Lane's G_*, pushing a cone over G to a cone over F o G by applying fmap[F] to every leg; Construction/Comma/Limit.v:103 image_acone is the same construction specialized to a limit.  This does not change the verdict: neither is packaged as a functor (D | T) -> (D' | GT), no adjoint to such a functor is ever hypothesized, and the transfer theorem of part (a) -- an adjoint to G_* plus a limit of GT yields a limit of T -- is nowhere in the tree (the nearest transfer, Theory/Equivalence/Limit.v:486 equivalence_creates_limits, assumes F is an equivalence, which no forgetful functor is).  Parts (b) and (c) have no subject.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "separation axioms T0/T1/T2/T3/T4; Top_n as a full subcategory of Top; Kolmogorov / Hausdorff / regular / normal spaces",
+      "left adjoint to a full inclusion; reflector; reflective subcategory (Kolmogorov quotient, Hausdorff reflection, complete regularization, Stone–Čech-style reflections)",
+      "a tower of nested full subcategories each reflective in the previous",
+      "idempotent monad corresponding to each reflection"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'hausdorff|separation axiom|regular space|normal space|T_?[0-4] space|Kolmogorov' --include='*.v' . -- 7 hits, all bibliographic prose (Theory/Monad.v:66, Theory/Equivalence.v:122, Structure/Monoidal/Markov.v:60/96 on Chapman–Kolmogorov integration). No separation-axiom predicate anywhere; no Top_n.",
+      "grep -rniE 'topolog' --include='*.v' . -- no ambient Top (see maclane:V.9:construction1), so none of the four inclusions Top_{n+1} ⟶ Top_n can be written.",
+      "grep -rn 'Reflective|reflector' --include='*.v' . -- the general vocabulary exists (Construction/Reflective.v:60 `Record Reflective {C} (S : Subcategory C) := { reflective_full; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }`, :85 `Coreflective`, :92 `reflective_counit_iso`, and the both-ways idempotent-monad correspondence in Construction/Reflective/Idempotent.v), but every in-tree inhabitant is abstract (from an idempotent monad, or the orthogonality localization of Construction/Localization.v). No concrete reflective subcategory of any concrete category is exhibited, topological or otherwise.",
+      "grep -rniE 'Stone|Čech|compactification|complete regular' --include='*.v' . -- 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: zero hits for any separation-axiom vocabulary or for Stone / Cech / compactification / complete regular.  Verified the reflective vocabulary the log credits as 'general but never concretely inhabited': Construction/Reflective.v:60/:85/:92 plus the both-ways idempotent-monad correspondence; the only `: Reflective ...` inhabitant in the tree is Construction/Reflective/Idempotent.v:345 Idempotent_Reflective, i.e. abstract.  No concrete reflective subcategory of any concrete category exists, topological or otherwise, so the tower Top_{n+1} -> Top_n has neither its objects nor an instance of its pattern.  ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.9:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "the inclusion Haus ⟶ Top has no right adjoint",
+      "a coequalizer in Top of Hausdorff spaces need not be Hausdorff; a full subcategory not closed under ambient colimits",
+      "the forgetful functor Haus ⟶ Set has no right adjoint",
+      "non-existence of an adjoint via failure to preserve colimits (contrapositive of LAPC); a coreflective-subcategory obstruction",
+      "counterexample space: a non-Hausdorff quotient of a Hausdorff space (line with two origins)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'hausdorff' --include='*.v' . -- 2 hits, both bibliographic prose; there is no Haus and no Top (see maclane:V.9:prop2 and maclane:V.9:construction1).",
+      "grep -rniE 'no (left|right) adjoint|has no adjoint|fails to preserve' --include='*.v' . -- 4 hits, none a theorem; the library proves no non-existence-of-adjoint statement for any functor (the single remark, Construction/ColouredPROP/LNL.v:53, records only that a right adjoint 'has not been built in-tree').",
+      "grep -rn 'Coreflective' --include='*.v' . -- Construction/Reflective.v:85 `Definition Coreflective {C : Category} (S : Subcategory C) : Type := @Reflective (C^op) (op_subcategory S)` exists as the notion whose FAILURE the exercise asks for; no instance and no non-instance is ever established.",
+      "grep -rniE 'not closed under|need not be|counterexample' --include='*.v' . -- 6 counterexample hits, all about monoidal/indexed-category coherence (Construction/Indexed.v:59, Construction/Funny/Bifunctor.v:26, Structure/Terminal.v:79, Structure/Monoidal.v:74, Adjunction/GAFT.v:121); none concerns closure of a subcategory under colimits.",
+      "grep -rn 'Sheaves_Incl|Incl' --include='*.v' . -- full-subcategory inclusions in the tree (Construction/Subcategory.v:59 `Incl`, Theory/Sheaf/Category.v:84 `Sheaves_Incl`, Theory/Lawvere/Model.v) carry fullness/faithfulness and repleteness results only; no colimit-closure or adjoint-nonexistence analysis accompanies any of them."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-V-9.json).  Alias expansion per item, then whole-tree searches: rg -il 'topolog' -g '*.v' -> 23 files, EVERY hit inside a header essay or bibliography (Theory/Sheaf.v Grothendieck topologies, Structure/Topos.v Lawvere-Tierney, Structure/Group.v 'topological groups in Top', Construction/Enriched.v 'K = Top', Theory/Universal/Arrow.v free topological groups); zero code.  rg -i 'TopologicalSpace|Topological_Space|open set|is_open|Continuous.*map' -g '*.v' -> 5 hits, all the English verb 'opens' in prose.  ls Instance/ -> Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX -- no spaces instance.  rg -i 'Instance\\.Top|Category\\.Instance\\.Top' -g '*.v' -> 0.  Targeted zero-hit greps: subspace, quotient topolog, identification topolog, initial topolog, final topolog, weakest topolog, discrete topolog, indiscrete topolog, gluing lemma, X/A.  'open cover' -> 1 hit, Theory/Sheaf.v:77 prose.  'hausdorff|separation axiom|regular space|normal space' -> 2 code-free hits (Theory/Monad.v:66, Theory/Equivalence.v:122).  My independent preliminary verdict for the whole batch was ABSENT x15 (with construction4 flagged ABSENT-or-PARTIAL pending a judgement call on Theory/Sheaf.v).  That matches Phase C on 14 items and is one notch stricter on construction4.  ITEM-SPECIFIC: verified Construction/Reflective.v:85 `Definition Coreflective {C} (S : Subcategory C) : Type := @Reflective (C^op) (op_subcategory S)` exists as the notion whose FAILURE the exercise asks for, with no instance and no non-instance established.  I confirm independently that the tree contains no proof that any functor lacks an adjoint, and no colimit-closure analysis accompanies any full-subcategory inclusion (Construction/Subcategory.v:59 Incl, Theory/Sheaf/Category.v:84 Sheaves_Incl carry fullness/faithfulness/repleteness only).  ABSENT confirmed."
+    }
+  }
+]

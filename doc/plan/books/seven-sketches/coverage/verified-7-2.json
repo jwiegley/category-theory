@@ -1,0 +1,308 @@
+[
+  {
+    "id": "7sketches:7.3.2:def7.25",
+    "classification": "ABSENT",
+    "aliases": [
+      "topology on a set X (Op ⊆ P(X) closed under finite meets and arbitrary joins)",
+      "topological space (X, Op); Top, the category of topological spaces",
+      "open set / open subset / the frame of opens; point-free topology: frame, locale, complete Heyting algebra",
+      "continuous function (preimage of an open is open); continuous map, inverse image f^{-1}(U)",
+      "cover of an open set U = ∪ U_i; covering family; Grothendieck topology / coverage / site (the categorical generalization)"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'topolog' over all 487 .v files (find . -name '*.v' | xargs grep) → 23 files, EVERY hit a prose/citation line: bibliography entries (Cahiers de Topologie, 'Topologie algébrique et théorie des faisceaux'), and header discussions of Grothendieck/Lawvere–Tierney topologies in Theory/Sheaf.v and Structure/Topos.v. No Definition/Class/Record of a topology on a set anywhere.",
+      "grep -rn -i 'open set' → 0 files. grep -rn -i 'powerset' → 0 files. grep -rn -i 'arbitrary union' → 0 hits; -i 'binary intersection' → 0 hits.",
+      "grep -rn -i 'topological space' → 0 hits (the 11 files matching 'topological' are all prose: 'topological groups', 'topological quantum field theory', 'topological K-theory').",
+      "grep -rn -i 'continuous' → 9 files, ALL in the limit-preservation sense (Structure/Limit/Preservation.v, Adjunction/Continuity.v: 'a right adjoint is continuous, i.e. commutes with limits'). No preimage-of-open notion; grep -rn -i 'preimage' → only Theory/Functor.v's [prefmap] chosen preimage for full functors.",
+      "grep -rn -i 'locale' → 0 files; -i 'frame' → only Instance/Lambda/Full.v's evaluation-context [Frame] inductive, unrelated; -i 'Heyting' → 5 files, all prose comments, no Heyting-algebra structure defined.",
+      "The nearest in-tree neighbour is Theory/Sheaf.v's Class Site (line 159), a Grothendieck-style coverage on an ARBITRARY category: it picks one covering family (a vector of morphisms u_i ~> u) per object plus the pullback-stability axiom. It is a generalization of 'cover', not of 'topology on a set': it has no underlying set, no opens, no subset order, no continuous maps. grep -rn 'Site' → the class in Theory/Sheaf.v and a Context in Theory/Sheaf/Category.v only — there is NO Site instance anywhere in the tree, so not even the abstract notion is inhabited."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-7-2.json) reached the same verdict independently. My own searches: rg -i 'topolog' --glob '*.v' -> 23 files, per-file counts topping out at Theory/Sheaf.v:9 and all of them prose/bibliography; rg -i 'topological space|topology on' -> 0; rg -i 'open set|opens of|open subset' -> 0; rg -n 'OpenSets|Opens|open_sets' -> 0; rg -i 'continuous' -> only Adjunction/Continuity.v + Structure/Limit/Preservation.v (limit-preserving sense); rg -n 'Definition Top|Category Top|Instance Top' -> 0. I independently examined Theory/Sheaf.v in full: Class Site (line 159) is a coverage on an ARBITRARY category (covering_family u := sigT (Vector.t (exists ui, ui ~> u)) at 162, coverage at 167, coverage_condition at 170) with no underlying set, no opens, no continuous maps -- correctly rejected as evidence. I also independently confirmed the classifier's 'NO Site instance anywhere': rg -n '@Site|: Site|Site ' returns only Theory/Sheaf.v:159, Theory/Sheaf.v:192 and Theory/Sheaf/Category.v:68 (a Context). ABSENT stands. Two library defects surfaced while auditing Theory/Sheaf.v as the nearest neighbour; see problems[]."
+    }
+  },
+  {
+    "id": "7sketches:7.3.2:example7.26",
+    "classification": "ABSENT",
+    "aliases": [
+      "metric topology / topology induced by a metric; usual (Euclidean) topology on R^2",
+      "epsilon-ball B(p; ε) = {p' | d(p,p') < ε}; open ball, basis of a topology",
+      "metric space (X, d); Lawvere metric space = category enriched in ([0,∞], ≥, +)",
+      "Cost-enriched category / Cost-category (Seven Sketches §2.3.3)",
+      "every metric space is a topological space; forgetful functor Met → Top"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'metric space' over all .v files → 12 line-hits, EVERY one prose in a background essay citing Lawvere's 'Metric spaces, generalized logic and closed categories' (Theory/Profunctor.v:100, Instance/Poset.v:75-77, Instance/Two.v:71, Construction/Enriched.v:49/75-78, Construction/Karoubi.v:86). grep -rn 'MetricSpace' → 0 hits: no metric-space structure is ever defined, and no Cost / [0,∞] enrichment base is instantiated (the only enrichment bases built in-tree are Sets and the walking arrow _2).",
+      "grep -rn -i 'euclidean' → 0 hits; -i 'epsilon-ball' → 0 hits; -i 'ball' → hits only inside unrelated identifiers; the 28 files matching 'epsilon' are all the comonoid counit field [epsilon] of Theory/Algebra/Comonoid.v and its users.",
+      "grep -rn 'Reals\\|Rdefinitions\\|QArith\\|Coq.Reals' → 0 hits: the library never imports the reals or the rationals, so R and R^2 have no in-tree carrier at all (nat is the only numeric carrier used, in Instance/FinSet.v and Instance/Omega.v).",
+      "grep -rn -i 'triangle inequality' → 3 hits, all prose explaining that ecompose WOULD be the triangle inequality under a [0,∞] enrichment; no such enrichment exists.",
+      "grep -rn -i 'topolog' → 23 files, all prose (see def7.25 log): with no notion of topology in-tree, 'the ε-balls generate a topology' has nothing to land in."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. My searches: rg -i 'metric' --glob '*.v' -> every hit is either a prose citation of Lawvere's 'Metric spaces, generalized logic and closed categories' or an unrelated identifier containing 'symmetric'; rg -n 'MetricSpace' -> 0; rg -n 'Reals|R_scope|Rdefinitions' -> 0 (the reals are never imported, so R^2 has no carrier); rg -i 'ball|epsilon' -> only the comonoid counit field [epsilon] and HypergraphFunctor's hf_preserves_epsilon; rg -i 'triangle inequality' -> 3 prose hits (Construction/Enriched.v:76, Instance/Poset.v:76, Instance/Two.v:69), each explicitly hypothetical about a [0,infinity] base that is never built. The only enrichment bases instantiated in-tree are Sets (Construction/Enriched.v:163) and the walking arrow _2 (Construction/Enriched/Two.v) -- verified directly. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:7.3.2:ex7.27",
+    "classification": "ABSENT",
+    "aliases": [
+      "metric topology on R with d(x1,x2) = |x1 - x2|; standard topology on the real line",
+      "open interval (x-ε, x+ε); one-dimensional ε-ball B(x, ε)",
+      "open subset of R; U open iff every point has an ε-neighbourhood inside U",
+      "finite and infinite covers of an open set: U = ∪_{i∈I} U_i",
+      "absolute value metric; Lawvere metric space on R"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Reals\\|Rdefinitions\\|QArith' over all .v files → 0 hits. The real numbers are never imported, so d(x1,x2) = |x1-x2| cannot even be stated in-tree.",
+      "grep -rn -i 'interval' → no order-interval or open-interval definition (only prose 'the interval [0,∞]' in Instance/Two.v:71 and the 'interval category' nickname for the walking arrow).",
+      "grep -rn -i 'open set' → 0 files; -i 'topolog' → 23 files, all prose (see def7.25 log). No definition of open subset, hence no instance of one.",
+      "grep -rn -i 'cover' → 157 files, but every genuine code hit is Theory/Sheaf.v's [covering_family]/[coverage] fields of Class Site (abstract morphism families in an arbitrary category, with no union, no index-set-indexed family of subsets); the rest are the English word 'covers'/'recover' in prose. No 'covering family covers U' statement about subsets of a set exists.",
+      "grep -rn 'Site' → the Class in Theory/Sheaf.v plus one Context in Theory/Sheaf/Category.v; NO instance, so there is no concrete example of a covering to serve parts (3) and (4)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. rg -n 'Reals|Rdefinitions|QArith' -> 0 hits, so d(x1,x2) = |x1-x2| is not statable; rg -i 'open set' -> 0; rg -i 'interval' -> only the 'interval category' nickname for _2 (Instance/Two.v:7) and prose '[0,infinity]'. I re-checked the classifier's claim that the only code-level 'cover' is Theory/Sheaf.v's covering_family/coverage: confirmed by reading the file, and confirmed there is no Site instance (rg '@Site|: Site' -> class + one Context only), so parts (3) and (4) have no witness either. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:7.3.2:example7.28",
+    "classification": "ABSENT",
+    "aliases": [
+      "coarsest / indiscrete / trivial topology {∅, X}; finest topology = powerset P(X)",
+      "discrete space (X, P(X)); discrete topology",
+      "coarser/finer comparison of topologies; the lattice of topologies on a set",
+      "discrete category DiscreteCat A / Structure/Discrete.v's Discrete predicate (the Cat-level analogue)",
+      "codiscrete / indiscrete object; free and cofree functors Set → Top"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'coarsest' → 0 hits; -i 'finest' → 3 hits, all about the finest CONGRUENCE on a setoid quotient (Instance/Sets/Coend.v:26,72 and Instance/Sets/Pushout.v:26) — nothing to do with topologies; -i 'finer' → 1 prose hit in Instance/Coq/ParE.v about an error-compatibility relation.",
+      "grep -rn -i 'discrete topology' → 0 hits; -i 'indiscrete' → 1 hit, the prose line Structure/Discrete.v:24 mentioning that the indiscrete construction is a right adjoint at the level of CATEGORIES.",
+      "grep -rn -i 'powerset' → 0 files; -i 'power set' → only Structure/Topos.v:75's prose gloss on Pow a := Ω ^ a (the categorical power OBJECT, which classifies subobjects, not a topology on a set).",
+      "Nearest neighbour, checked and rejected: Instance/Discrete.v's DiscreteCat A (line 37) is the discrete CATEGORY on a type (hom x y := x = y), and Structure/Discrete.v's Discrete (line 28) is the predicate saying a category is such. These are the Cat-analogue of a discrete space, not a topology: no opens, no powerset, and no statement that {∅,X} and P(X) are the extreme topologies.",
+      "grep -rn -i 'topolog' → 23 files, all prose (see def7.25 log): with no topology class, 'coarsest' and 'finest' topologies have no counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. Independent re-runs of the classifier's negative log all reproduce exactly: rg -i 'coarsest' -> 0 hits; rg -i 'finest' -> exactly 3 hits, Instance/Sets/Coend.v:26, Instance/Sets/Coend.v:72, Instance/Sets/Pushout.v:26, all about the finest CONGRUENCE on a setoid quotient; rg -i 'powerset' -> 0, rg -i 'power set' -> only Structure/Topos.v:75 (the power OBJECT Pow a := Omega^a); rg -i 'indiscrete' -> only Structure/Discrete.v:24, and that line is about the Cat-level indiscrete right adjoint. I opened Instance/Discrete.v myself: DiscreteCat at line 37 is the discrete CATEGORY on a type (hom := equality), not a topology. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:7.3.2:ex7.29",
+    "classification": "ABSENT",
+    "aliases": [
+      "{∅, X} is a topology; P(X) is a topology (verification of axioms (a)-(c))",
+      "every function out of a discrete space is continuous",
+      "the discrete-space functor is left adjoint to the underlying-set functor Top → Set",
+      "universal property of the discrete topology; free topological space on a set",
+      "DiscreteCat_Functor: every function A → C induces a functor out of the discrete category (the Cat-level analogue)"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'topolog' over all .v files → 23 files, all prose/citations (see def7.25 log). There is no topology class, so 'verify Op_crse and Op_fine satisfy (a)-(c)' has no statement to instantiate.",
+      "grep -rn -i 'continuous' → 9 files, ALL the limit-preserving sense (Structure/Limit/Preservation.v, Adjunction/Continuity.v). No preimage-of-open continuity is defined, so 'every function out of a discrete space is continuous' cannot be stated.",
+      "grep -rn -i 'discrete topology' → 0 hits; -i 'indiscrete' → 1 prose hit (Structure/Discrete.v:24).",
+      "Nearest neighbour, checked and rejected as evidence: Instance/Discrete.v:52 Program Definition DiscreteCat_Functor {A : Type} {C : Category} (f : A → C) : DiscreteCat A ⟶ C — i.e. EVERY function out of a discrete category extends to a functor. That is the exact structural analogue of part (3) but in Cat, about categories and functors; the book's claim is about Top, about spaces and continuous maps, and Top is entirely absent from the tree.",
+      "grep -rn 'Adjunction' + 'Discrete' → no Set ⊣ Top or Set ⊣ Cat adjunction is built (Instance/Discrete.v's header calls DiscreteCat_Functor 'the left adjoint Set ⟶ Cat at the level of a single functor', i.e. the adjunction itself is not formalized)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. rg -i 'continuous' -> 0 hits in the preimage-of-open sense; rg -i 'discrete topology' -> 0. I verified the nearest neighbour the classifier names and rejects: Instance/Discrete.v:52 Program Definition DiscreteCat_Functor {A : Type} {C : Category} (f : A -> C) : DiscreteCat A --> C exists exactly at the cited line, and the file header at lines 29-32 does say 'This is the left adjoint `Set --> Cat` at the level of a single functor' -- i.e. the adjunction itself is NOT built, so the rejection and the quotation are both accurate. The book's claim is about Top, which does not exist in-tree. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:7.3.2:example7.30",
+    "classification": "ABSENT",
+    "aliases": [
+      "Sierpinski space; Sierpinski topology {∅, {1}, X}",
+      "the four topologies on a two-element set; enumeration/classification of topologies on {1,2}",
+      "walking arrow / interval category 2 / _2 (Instance/Two.v) — the specialization order of the Sierpinski space",
+      "the subobject classifier of Top / the Sierpinski space as the classifying space of opens",
+      "homeomorphism of the two non-extreme topologies (isomorphic spaces)"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'sierpinski' over all 487 .v files → 0 files. The name appears nowhere in the tree.",
+      "grep -rn -i 'topolog' → 23 files, all prose/citations (see def7.25 log); no topology class exists, so 'there are exactly four topologies on {1,2}' has no in-tree statement, and the enumeration claim in particular has no counterpart (no lattice-of-topologies development, grep -i 'lattice' → 2 prose hits only).",
+      "Nearest neighbour, checked and rejected: Instance/Two.v's _2 (the walking arrow, two objects and one non-identity morphism, with Two_Cartesian/Two_Terminal/Two_Monoidal in Instance/Two/Monoidal.v) is the SPECIALIZATION PREORDER of the Sierpinski space, and Instance/Two/Discrete.v is the two-object discrete category. Neither is a topological space, and no in-tree assertion connects either to a topology; the open-set preorder of the Sierpinski space would instead be the 3-element chain ∅ ⊂ {1} ⊂ X, which is not built either.",
+      "grep -rn -i 'homeomorph' → 0 hits: 'the two spaces are isomorphic' has no counterpart either (Isomorphism exists in Theory/Isomorphism.v but only for objects of an in-tree category, and Top is not one)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. rg -i 'sierpinski' --glob '*.v' -> 0 files (verified myself, whole tree); rg -i 'homeomorph' -> 0 files; rg -i 'lattice' -> 10 hits, every one a prose citation (Birkhoff, Knaster-Tarski, Scott's continuous lattices, ZX lattice surgery), so there is no lattice-of-topologies development to host the 'exactly four' enumeration. The classifier's nearest-neighbour analysis is sound and its erratum-style correction is right: Instance/Two.v's _2 is the walking arrow, and the open-set preorder of the Sierpinski space is the 3-element chain, which is not built either (Instance/Shapes.v and Instance/Roof.v contain no such shape). ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:7.3.2:construction-opens-preorder",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the open sets of a space ordered by inclusion form a preorder (Op, ⊆)",
+      "preorder as a thin category: hom(U,V) empty if U ⊄ V, a singleton if U ⊆ V (Proset / thin / (0,1)-category)",
+      "the category of opens Op(X); the poset/frame of opens as a site",
+      "subset inclusion is reflexive and transitive; subobject/factorization preorder",
+      "posetal category, skeletal thin category (Poset)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => @reflexivity A R (@PreOrder_Reflexive A R P) x; compose := fun x y z f g => @transitivity A R (@PreOrder_Transitive A R P) x y z g f |}."
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 62,
+        "symbol": "sub_le_refl (with sub_le_trans at line 67, over sub_le at line 59)",
+        "intree_statement": "Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }.  Lemma sub_le_refl (u : SubObj x) : sub_le u u.  Lemma sub_le_trans (u v w : SubObj x) : sub_le u v → sub_le v w → sub_le u w."
+      }
+    ],
+    "statement_record": {
+      "book": "For a topological space (X, Op), inclusion makes (Op, ⊆) a preorder — reflexive since U ⊆ U, transitive since U ⊆ V ⊆ W gives U ⊆ W — and hence, by the preorder-as-category passage of §3.2.3, a category Op whose objects are the open sets of X and whose hom-set Op(U,V) is empty when U ⊄ V and a singleton when U ⊆ V. This category is the site over which presheaves and sheaves on X are later defined.",
+      "intree": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => @reflexivity ... ; compose := fun x y z f g => @transitivity ... |}.",
+      "strength_comparison": "intree-weaker: only the GENERIC half is in force. Proset is exactly the passage the book invokes and is in fact more general than needed (any Type with a PreOrder, not just a subset order), and its trivial hom-setoid (equiv := fun _ _ => True) realizes thinness — 'at most one morphism', the hom being the proof of R x y — which matches the book's empty-or-singleton hom-set up to the usual proof-relevant/setoid rephrasing. What is missing is the SUBJECT: there is no topology, no set of opens, and hence no instantiation Proset (⊆ on Op). The closest in-tree inclusion-preorder is Theory/Subobject.v's factorization order on subobjects — sub_le_refl/sub_le_trans prove exactly 'the subobjects of an object form a preorder', which in Sets is the inclusion order on subsets — but it ranges over ALL subobjects, not over a distinguished family of opens, and it is never fed to Proset to produce a category."
+    },
+    "gap": "Missing: (a) topological spaces themselves (no topology/open-set structure anywhere in-tree — see def7.25), hence (b) no preorder (Op, ⊆) and no proof that inclusion of opens is reflexive and transitive (only the analogous sub_le_refl/sub_le_trans for subobjects), and (c) no resulting category Op(X) := Proset(⊆) and no Site instance on it (Theory/Sheaf.v's Class Site has NO instances in-tree), so the site over which Ch. 7's presheaves and sheaves are defined does not exist. Present: the generic preorder ⇒ thin category passage (Proset), with Poset adding antisymmetry.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on PARTIAL with the same split (generic preorder-as-category present, the opens absent). Evidence audited at source: Instance/Proset.v:33 is exactly 'Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category' with hom := R, homset equiv := fun _ _ => True, id from reflexivity, compose from transitivity -- the quoted intree_statement is verbatim-accurate including the trivial hom-setoid that realizes thinness. Theory/Subobject.v:59/62/67 are exactly Definition sub_le / Lemma sub_le_refl / Lemma sub_le_trans as quoted (both lemmas end in Defined., so they are Type-level data as the quote implies). Both files are registered in _CoqProject (Instance/Proset.v at line 224, Theory/Subobject.v at line 465) and both have .vo artifacts. strength_comparison is honest: it does not oversell Proset, and it correctly flags that Proset is never instantiated at an inclusion order. I additionally checked two further candidates the classifier did not name and confirm neither changes the verdict: Instance/Props.v:39 (Props, the thin category of propositions under implication) and Instance/Ens.v:56 (EnsT T, objects := Ensemble T) -- I read EnsT's hom and it is 'exists f : T -> T, forall x, In A x <-> In B (f x)', i.e. preimage-style FUNCTIONS, not inclusions, so EnsT is not the subset order and cannot supply (Op, subset-of). PARTIAL confirmed. One stale pointer found in the cited file; see problems[]."
+    }
+  },
+  {
+    "id": "7sketches:7.3.2:ex7.31",
+    "classification": "ABSENT",
+    "aliases": [
+      "Hasse diagram of a preorder / poset diagram of the opens of the Sierpinski space",
+      "covering relation / covers in a poset; the covers (U = ∪ U_i) of each open of the Sierpinski space",
+      "Sierpinski space {∅, {1}, X}",
+      "3-element chain ∅ ⊂ {1} ⊂ X as a thin category",
+      "enumeration of covering families for a finite topology"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'hasse' over all .v files → 0 files. The library has no diagram/graph presentation of a preorder (Instance/Shapes.v and Instance/Roof.v give hand-built finite shape categories, none of them a Hasse-diagram construction from an order).",
+      "grep -rn -i 'sierpinski' → 0 files (see example7.30 log).",
+      "grep -rn -i 'topolog' → 23 files, all prose (see def7.25 log): with no topology and no Op, neither the Hasse diagram of its opens nor its covers can be written down.",
+      "grep -rn -i 'cover' → the only code occurrences are Theory/Sheaf.v's [covering_family]/[coverage] fields of Class Site, which has NO instance in the tree (grep -rn 'Site' → class + one Context only), so no concrete list of covers exists for any object."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. rg -i 'hasse' --glob '*.v' -> 0 files (verified myself); rg -i 'sierpinski' -> 0 files. I confirmed there is no order-to-diagram construction anywhere: Instance/Shapes.v and Instance/Roof.v are hand-built finite shape categories, not Hasse-diagram builders. The classifier's supporting claim that no concrete list of covers exists is verified by the same 'no Site instance' check as def7.25. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:7.3.2:ex7.32",
+    "classification": "ABSENT",
+    "aliases": [
+      "subspace topology / relative topology / induced topology on Y ⊆ X",
+      "A open in Y iff A = B ∩ Y for some B open in X",
+      "the inclusion map Y ↪ X is continuous; initial topology along an injection",
+      "restriction of a topology; pullback of a topology along a map",
+      "full subcategory / subobject inclusion (the categorical analogue)"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'subspace' over all 487 .v files → 0 files. The word never appears.",
+      "grep -rn -i 'topolog' → 23 files, all prose (see def7.25 log): no topology structure exists, so 'A = B ∩ Y defines a topology on Y' has nothing to be an instance of, and parts (1)-(2) (Y = X ∩ Y; verification of axioms (a)-(c)) cannot be stated.",
+      "grep -rn -i 'continuous' → 9 files, all limit-preservation (see ex7.29 log), so part (3) — the inclusion Y → X is continuous — has no counterpart.",
+      "Nearest neighbours, checked and rejected: Construction/Subcategory.v (full/wide subcategories of a CATEGORY) and Theory/Subobject.v (subobjects as monos up to iso) give the categorical analogue of 'a sub-thing with an inclusion', but neither carries a topology or an induced-open-set construction; Instance/Ens.v's EnsT T is a category of Ensembles whose morphisms are membership-preserving-and-reflecting FUNCTIONS, not inclusions, so it is not the subset order either."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. rg -i 'subspace' --glob '*.v' -> 0 files, verified over the whole tree; rg -i 'continuous' -> limit-preservation only. I audited the nearest neighbours the classifier rejects and agree with each rejection, having read them: Construction/Subcategory.v:31 Record Subcategory has fields sobj/shom selecting objects and morphisms of an ambient CATEGORY (no opens, no induced structure), and Instance/Ens.v:56 EnsT T has homs 'exists f : T -> T, forall x, In A x <-> In B (f x)' -- membership preservation AND reflection along a function, so it is neither the inclusion order nor the continuity condition. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:7.3.2:remark7.33",
+    "classification": "ABSENT",
+    "aliases": [
+      "the preorder of opens (Op, ⊆, X, ∩) is a (unital commutative) quantale",
+      "quantale = symmetric monoidal preorder with all joins (Seven Sketches Def 2.79); monoidal poset, residuated lattice",
+      "frame / locale / complete Heyting algebra (the standard name for Op(X))",
+      "monoidal structure from finite meets: a cartesian category with a terminal object is monoidal (Cartesian_Monoidal / CC_Monoidal)",
+      "thin monoidal category; enrichment base V"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'quantale' over all 487 .v files → 1 file, and it is a COMMENT only: Construction/Enriched.v:78 ('preorder- and quantale-enriched categories'). No Class/Record/Definition of a quantale exists (this matches the peer finding on 7sketches:7.2.1:ex7.11).",
+      "grep -rn -i 'locale' → 0 files; -i 'frame' → only Instance/Lambda/Full.v's unrelated evaluation-context [Frame]; -i 'Heyting' → 5 files, all prose comments (Instance/Props.v, Instance/Two.v, Structure/Topos.v, Theory/Lawvere.v, Theory/Sheaf.v), none defining a Heyting algebra or a frame.",
+      "grep -rn -i 'complete lattice' → 2 prose hits (Instance/Poset.v:93, Structure/Complete.v:71); -i 'sup'/'join-semilattice'/'residuat' → no order-theoretic join/residuation structure. Joins would have to come from Structure/Cocartesian.v/Colimit in a Proset, which is nowhere instantiated on a preorder.",
+      "grep -rn -i 'topolog' → 23 files, all prose (see def7.25 log), and grep -i 'open set' → 0: the SUBJECT (Op of a space) is absent as well as the predicate.",
+      "Nearest neighbour machinery, checked and rejected as evidence: Structure/Monoidal/Cartesian.v:49 Definition Cartesian_Monoidal : @Monoidal C := CC_Monoidal (a bare alias for the cartesian-monoidal instance) and Instance/Two/Monoidal.v:105 Definition Two_Monoidal : @Monoidal _2 — the latter IS the two-element Boolean quantale realized as a monoidal thin category, and the former is the generic 'finite meets + top ⇒ monoidal' passage that would make (Op, ∩, X) monoidal once Op existed. But neither asserts anything about opens or about quantales (no joins, no closure/residuation is required of them), so neither is a counterpart to this remark's claim."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. rg -i 'quantale' --glob '*.v' -> exactly 1 hit and it is a comment, Construction/Enriched.v:78 ('preorder- and quantale-enriched categories'); I verified there is no Class/Record/Definition of a quantale, and no frame/locale/Heyting structure either (rg 'Class Frame|Record Frame|Class Heyting|Record Heyting' -> 0; the only 'Frame' in the tree is Instance/Lambda/Full.v:73's evaluation-context Inductive, unrelated). rg -i 'complete lattice' -> 2 prose hits (Instance/Poset.v:93, Structure/Complete.v:71). The two machinery pieces the classifier names and rejects both exist at the cited lines -- Structure/Monoidal/Cartesian.v:49 'Definition Cartesian_Monoidal : @Monoidal C := CC_Monoidal' and Instance/Two/Monoidal.v:105 'Definition Two_Monoidal : @Monoidal _2' -- and the rejection is right: neither requires joins or residuation, and neither mentions opens. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:7.3.2:ex7.34",
+    "classification": "PARTIAL",
+    "aliases": [
+      "V-category / enriched category over a quantale V; Enriched class",
+      "Bool-categories are preorders (V = 2 / Two_Monoidal); Cost-categories are Lawvere metric spaces",
+      "categories enriched in the quantale Op(X) of opens of a space ('a preorder that holds only on part of X')",
+      "change of enrichment base; quantale-enriched category / generalized metric space",
+      "Set-enrichment recovers ordinary categories"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 165,
+        "symbol": "Enriched_Two_preorder",
+        "intree_statement": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder.  (with Record TwoPreorder := { tpre_carrier : Type; tpre_le : tpre_carrier → tpre_carrier → Type; tpre_refl x : tpre_le x x; tpre_trans x y z : tpre_le y z → tpre_le x y → tpre_le x z; tpre_dec x y : tpre_le x y + (tpre_le x y → False) } at line 60.)"
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 111,
+        "symbol": "Enriched",
+        "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K where \"a ⟿ b\" := (ehom a b); eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left {x y} : ecompose ∘ eid ⨂ id << I ⨂ (x ⟿ y) ~~> (x ⟿ y) >> unit_left; eid_right {x y} : ...; ecompose_assoc {x y z w} : ecompose ∘ ecompose ⨂ id << ... >> ecompose ∘ id ⨂ ecompose ∘ tensor_assoc }."
+      }
+    ],
+    "statement_record": {
+      "book": "Recalling that Bool-categories are preorders (§2.3.2) and Cost-categories are Lawvere metric spaces (§2.3.3), and the readings of V-categories for other quantales V (§2.3.4): for a topological space (X, Op) and the quantale V = (Op, ⊆, X, ∩) of Remark 7.33, describe what a V-category should be imagined to be.",
+      "intree": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K; eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left; eid_right; ecompose_assoc }.  Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder.",
+      "strength_comparison": "intree-weaker: the FRAMEWORK and one of the two recalled base cases are in force, the exercise's actual base is not. Enriched is exactly the V-category notion for an arbitrary monoidal base K, so 'V-category' is a real in-tree concept; and the recalled fact 'Bool-categories are preorders' is proven in-tree at full strength, as a two-way correspondence Enriched _2 ↔ TwoPreorder (both directions Defined), with the morphism leg EnrichedFunctor_Two_monotone (line 183) showing enriched functors are exactly the monotone maps. Two caveats on that direction: TwoPreorder carries an extra decidability field tpre_dec (needed to compute the hom truth value), and the base _2 is the walking arrow with its cartesian monoidal structure rather than a quantale in the book's sense (no joins are required of it). The exercise's own content — V = the quantale of opens — is unreachable: no topology, no Op, no quantale class exists (see remark7.33), so the enrichment base cannot be formed and no description of Op-categories is given anywhere. The other recalled base, Cost, is likewise prose-only: no [0,∞] enrichment base and no Lawvere metric space is built."
+    },
+    "gap": "Missing: (a) the base itself — the quantale V = (Op, ⊆, X, ∩) of a topological space cannot be constructed, since neither topologies/opens nor a quantale notion exist in-tree (see def7.25 and remark7.33); (b) consequently no instance @Enriched V of the enrichment class over such a V, and no description/characterization of what an Op-enriched category is (the intended answer: a set with, for each pair, the open subset of X on which x ≤ y holds); (c) the second recalled base case, Cost-categories = Lawvere metric spaces, is prose-only — no [0,∞] monoidal base is instantiated. Present: the general V-enrichment class (Enriched, with enriched functors), and the Bool case proven both ways (Enriched_Two_preorder, EnrichedFunctor_Two_monotone) plus V = Sets recovering ordinary categories (Category_is_Enriched_over_Set, Construction/Enriched.v:163).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on PARTIAL (I had it as PARTIAL-or-ABSENT and, on reading the evidence, agree PARTIAL is the honest call: the exercise's recalled premise 'Bool-categories are preorders' is a genuine in-tree theorem, so part of the item does exist). Evidence audited at source, all four line numbers exact: Construction/Enriched.v:111 Class Enriched (K : Category) `{@Monoidal K} with fields eobj/ehom/eid/ecompose/eid_left/eid_right/ecompose_assoc exactly as quoted; Construction/Enriched.v:163 Theorem Category_is_Enriched_over_Set : Enriched Sets <-> Category (cited in the gap field, verified); Construction/Enriched/Two.v:60 Record TwoPreorder with the five fields quoted INCLUDING tpre_dec, :165 Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal <-> TwoPreorder closed with 'Defined.' (so both legs are transparent, as claimed), :183 Theorem EnrichedFunctor_Two_monotone. Both files are in _CoqProject (Construction/Enriched.v line 30, Construction/Enriched/Two.v line 35). The strength_comparison is not just honest but self-critical in the right places: it volunteers the tpre_dec decidability strengthening (the file's own comment at lines 52-58 confirms direction (a) supplies it free, so the correspondence is with DECIDABLE preorders -- weaker than the book's unqualified 'Bool-categories are preorders') and volunteers that _2 is a cartesian monoidal thin category, not a quantale (no joins required). The gap is precise and correctly cross-references remark7.33 for why the base cannot be formed. PARTIAL confirmed."
+    }
+  }
+]

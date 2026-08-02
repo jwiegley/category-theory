@@ -1,0 +1,256 @@
+[
+  {
+    "id": "riehl:2.2:cor11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Cayley's theorem: every group is isomorphic to a subgroup of a permutation (symmetric) group",
+      "left/right regular representation; G acting on itself by multiplication; G-equivariant endomorphisms of the right G-set G",
+      "delooping BG (a group as a one-object category/groupoid); G-set = functor BG ⟶ Set; Aut of the regular representation",
+      "Cayley representation of a monoid or category (the difference-list / endofunction trick) — Construction/Cayley.v, To_Cayley / From_Cayley",
+      "full faithfulness of the covariant Yoneda embedding specialised to a one-object category (Covariant_Yoneda_Embedding, Yoneda_Full/Yoneda_Faithful)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 253,
+        "symbol": "Covariant_Yoneda_Embedding",
+        "intree_statement": "Program Instance Covariant_Yoneda_Embedding `(C : Category) : ∀ A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B.   (≊ = isomorphism of setoids in Sets; the left side is the setoid of natural transformations C(B,─) ⟹ C(A,─), so this is exactly the full-faithfulness statement Riehl instantiates at BG to get Cayley's theorem)"
+      },
+      {
+        "file": "Construction/Cayley.v",
+        "line": 114,
+        "symbol": "Cayley",
+        "intree_statement": "Program Instance Cayley : Category := { obj := C; hom := fun x y => { f : ∀ r, (y ~> r) → (x ~> r) & Proper (forall_relation (fun _ => respectful equiv equiv)) f ∧ ∀ (r : C) (k : y ~> r), f r k ≈ k ∘ f _ id }; homset := fun x y => {| equiv := fun f g => ∀ r k, `1 f r k ≈ `1 g r k |}; id := fun _ => (fun _ => Datatypes.id; _); compose := fun x y z f g => (fun r k => `1 g r (`1 f r k); _) }   (the image of the covariant Yoneda embedding built as a standalone category: the many-object Cayley representation, morphisms = post-composition actions)"
+      },
+      {
+        "file": "Construction/Cayley.v",
+        "line": 158,
+        "symbol": "To_Cayley",
+        "intree_statement": "Program Instance To_Cayley : C ⟶ Cayley := { fobj := fun x => x; fmap := fun _ _ f => (fun _ k => k ∘ f; _) }   (the embedding itself: f ↦ its post-composition action; the retraction From_Cayley : Cayley ⟶ C at line 169 sends a Cayley-morphism f to `1 f y id)"
+      }
+    ],
+    "statement_record": {
+      "book": "Cayley's theorem: any group is isomorphic to a subgroup of a permutation group. Proof: regard G as a one-object category BG; the covariant Yoneda embedding carries its object to the right regular G-set G, and full faithfulness identifies G with the monoid of G-equivariant endomorphisms of that G-set, each of which is invertible, so G ≅ Aut(G_G); composing with the faithful forgetful functor to Set exhibits G as a subgroup of Sym(G).",
+      "intree": "Covariant_Yoneda_Embedding `(C : Category) : ∀ A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B, together with Construction/Cayley.v's Cayley : Category (the image of that embedding as a standalone category) and the pair To_Cayley : C ⟶ Cayley, From_Cayley : Cayley ⟶ C.",
+      "strength_comparison": "intree-stronger on the general theorem the corollary is an instance of — full faithfulness holds for EVERY category C, hence a fortiori for a one-object one; intree-weaker on everything specific to the corollary. Same-name-but-weaker trap flagged: the file named Construction/Cayley.v does NOT prove Cayley's theorem for groups. It states no group, no permutation group, no subgroup and no group isomorphism, and it never asserts that To_Cayley is faithful — there is no `Faithful To_Cayley` instance; the split-faithfulness claim From_Cayley (To_Cayley f) ≈ f appears only in the header comment (line 39), and the file's only lemmas, Cayley_Right/Cayley_Left (lines 179, 191), state the round trip in Leibniz `=` under the extra strict-unit hypothesis (∀ a b (k : a ~{C}~> b), id[b] ∘ k = k), which is a reassociation/difference-list fact, not an embedding theorem."
+    },
+    "gap": "The corollary's own statement is not expressible from anything in-tree. (i) No delooping: nothing turns a group or monoid into a one-object CATEGORY — grep 'deloop|one-object|one object|single object' finds only Theory/Bicategory/OneObject.v (a monoidal category as a one-object BICATEGORY) and Theory/Multicategory/Operad.v (operad = one-object multicategory), plus header prose. (ii) No group theory: the only group notion is Structure/Group.v:109's internal `Class GroupObject (grp : C)` in a cartesian monoidal category (monoid object + inverse with the two antipode laws); there is no category of groups, no group homomorphism, no subgroup, no Aut, and no symmetric/permutation group anywhere (grep 'symmetric group|permutation group|subgroup' returns only Construction/Cayley.v's header prose at lines 18, 53, 59). (iii) No G-sets: no category of G-sets, no equivariant maps outside multicategory symmetry (see the sibling record for riehl:2.2:example2). (iv) Even the many-object analogue that IS built is incomplete as an embedding theorem: faithfulness of To_Cayley is never asserted, and the automatic-invertibility step of Riehl's proof (every G-equivariant endomorphism of the regular G-set is an automorphism) has no counterpart at all.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'permutation group|symmetric group|cayley|regular representation' .  ->  Functor/Hom/Yoneda.v:85-86 (prose citing Riehl 2.2.11), Construction/Cayley.v:18,53,59 (prose), Theory/Multicategory.v:79 (symmetric-group action on multicategory composition), Theory/Algebra/Frobenius.v:52 (prose); NO assertion about groups",
+      "grep -rn --include='*.v' -i 'subgroup|Aut\\b|Automorphism|Sym(' .  ->  no subgroup, no Aut construction; 'automorphism' hits are all prose or the balanced-monoidal twist",
+      "grep -n 'Class|Definition|Program|Lemma|Theorem|Instance|Record' Structure/Group.v  ->  only Class GroupObject (line 109) and its coercion; no group category, no Sym, no instance in Sets",
+      "grep -rn --include='*.v' 'To_Cayley|From_Cayley|Cayley' . | grep -v Construction/Cayley.v  ->  only prose in Functor/Hom/Yoneda.v:85-86,120 and Structure/Monoid.v:108; nothing consumes the construction",
+      "grep -rn --include='*.v' -i 'Faithful' Construction/Cayley.v  ->  only the header comment at line 39 ('is (split) faithful'); no Faithful instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on the same three sites (Construction/Cayley.v:114/158/169 and Functor/Hom/Yoneda.v:253) and on PARTIAL before the coverage file was opened. Line numbers all verified verbatim. Confirmed the same-name-weaker trap the record flags: Construction/Cayley.v carries no `Faithful To_Cayley` instance, and its only lemmas Cayley_Right/Cayley_Left (179, 191) are Leibniz-`=` reassociation facts gated on the extra strict-unit hypothesis. Independently re-ran the load-bearing negatives: `rg -i 'deloop|one-object|one object'` returns only Theory/Bicategory/OneObject.v (monoidal cat as one-object BIcategory), Theory/Multicategory/Operad.v and header prose — nothing deloops a group/monoid into a category; `rg -i 'permutation group|symmetric group|Sym\\b|subgroup|Aut\\b'` finds no construction; Structure/Group.v:109 is `Class GroupObject` inside a CartesianMonoidal C (verified), not a concrete group, and there is no category of groups. Both evidence files are registered in _CoqProject (lines 19 and 141)."
+    }
+  },
+  {
+    "id": "riehl:2.2:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "dual (contravariant) Yoneda lemma: Nat(C(−,c), F) ≅ Fc for F : C^op ⟶ Set",
+      "presheaf form of the Yoneda lemma; evaluation of the component at c on id_c",
+      "in-library name: Yoneda_Lemma (the C^op ⟶ Sets version), with Covariant_Yoneda_Lemma the C ⟶ Sets version",
+      "obtaining the dual by instantiating Theorem 2.2.4 at C^op (op_invol, Construction/Opposite.v)",
+      "naturality of the dual bijection in c and in F"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 133,
+        "symbol": "Yoneda_Lemma",
+        "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; from := {| morphism := fun y : F A => {| transform := fun x : C => {| morphism := fun phi : A ~{ C^op }~> x => @fmap (C^op) Sets F A x phi y |} |} |} }"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 2.2.i: state and prove the dual of the Yoneda lemma — for a contravariant F : C^op → Set and c ∈ C, evaluating the component at c on id_c is a bijection Nat(C(−,c), F) ≅ Fc, natural in both c and F, whose inverse sends x ∈ Fc to the transformation carrying f : d → c to (Ff)(x).",
+      "intree": "Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A, with to := fun x => transform[x] A id (evaluation of the component at A on the identity) and from := fun y => (fun x phi => fmap[F] phi y).",
+      "strength_comparison": "intree-weaker: the exercise's bijection is proved outright, in exactly the dual shape, with the same forward map (evaluation at id) and the same inverse, as an isomorphism of setoids in Sets (setoid rephrasing with hom-setoids and ≈ is faithful; local smallness is carried by universe polymorphism rather than a size hypothesis). What is missing is the second clause of the statement being dualised — naturality in c and in F — which is asserted nowhere in the tree, only recorded as the comment 'natural in both A and F' at Functor/Hom/Yoneda.v:22."
+    },
+    "gap": "Two precise gaps. (1) Naturality: exactly as for Theorem 2.2.4 (riehl:2.2:thm4), Yoneda_Lemma quantifies over A INSIDE the statement and takes F as a section parameter, yielding an unrelated family of Sets-isomorphisms; there is no statement that A ↦ (evaluation at id) is natural, nor that F ↦ (evaluation at id) is, and no packaging as an isomorphism in a functor category or of bifunctors. (2) The exercise's 'state the dual' content — deriving the contravariant form from the covariant one by the duality principle — has no in-tree counterpart: Yoneda_Lemma (line 133) and Covariant_Yoneda_Lemma (line 182) are two independent Program Instances with separately discharged obligations, neither obtained from the other by instantiating at C^op, even though Construction/Opposite.v:126's op_invol : (C^op)^op = C would license it.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'yoneda' .  ->  assertion sites are Functor/Hom.v:{85,96,109}, Functor/Hom/Yoneda.v:{133,182,231,253}, Theory/Coend/Yoneda.v:{146,174,273,297}, Structure/UniversalProperty.v; none asserts naturality of the (dual) Yoneda bijection",
+      "sed -n '55,80p;180,200p' Theory/Coend/Yoneda.v  ->  its Section fixes (F : C ⟶ Sets) COVARIANT, so yoneda_iso/yoneda_reduction (∫_x [C(c,x), F x] ≅ F c) are the covariant end form, not the dual statement of this exercise",
+      "grep -rn --include='*.v' 'natural in both|naturally in both|in both variables' .  ->  the only Yoneda hit is the comment Functor/Hom/Yoneda.v:22"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT on the bijection alone, then downgraded to PARTIAL after confirming the naturality clause is unformalized: `rg -i 'natural in' --glob '*.v' Functor/ Theory/ Structure/` yields exactly one Yoneda hit, the comment at Functor/Hom/Yoneda.v:22. Yoneda_Lemma (line 133, verified) is verbatim the dual the exercise asks for — F : C^op ⟶ Sets, forward map `transform[x] A id`, inverse `fun x phi => fmap[F] phi y` — so the bijection half is fully present; Riehl states naturality in c and F as part of the theorem being dualized, so PARTIAL with the gap named is the honest call. Also consistent with the sibling record riehl:2.2:thm4 (coverage-2-1.json), PARTIAL for the identical naturality gap. Verified gap clause (2): lines 133 and 182 are two independent Program Instances with separately discharged obligations, neither derived from the other through Construction/Opposite.v:126 `op_invol` (verified at that line). Also verified the record's disambiguation of Theory/Coend/Yoneda.v: its Section fixes `Context (F : C ⟶ Sets)` (covariant), and coyoneda_iso/coyoneda_reduction/yoneda_iso/yoneda_reduction sit at 146/174/273/297 as cited."
+    }
+  },
+  {
+    "id": "riehl:2.2:exii",
+    "classification": "OUT_OF_SCOPE",
+    "aliases": [
+      "why the Yoneda lemma does not dualise to classify maps INTO a represented functor",
+      "duality principle: dualise the generic category C, not the fixed target Set",
+      "Nat(F, C(c,−)) has no Yoneda-style classification",
+      "co-representable target vs co-representable source; op of the domain vs op of the codomain",
+      "op_invol / Construction/Opposite.v as the in-tree duality mechanism"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'duality principle|op_invol|C^op^op' .  ->  Construction/Opposite.v:126 Lemma op_invol {C : Category} : (C^op)^op = C, plus prose in Theory/Category.v:105 and Theory/Monad.v:141 — the duality MECHANISM exists, but nothing states which parameters of a statement it dualises",
+      "grep -rn --include='*.v' -i 'natural transformation into a represent|maps into a represent|Nat(F' .  ->  0 hits; no in-tree statement about transformations INTO a representable"
+    ],
+    "out_of_scope_reason": "The exercise asks for a metamathematical EXPLANATION of how the duality principle applies to the Yoneda lemma — that dualising replaces the generic domain C by C^op but must leave the fixed target Set alone, so the dual still classifies transformations OUT of a representable — rather than for a proposition; a Coq counterpart would have to quantify over statements, not over categories, and there is no theorem here to prove or refute (the library's duality machinery, op_invol at Construction/Opposite.v:126, is the mechanism the exercise discusses, not the claim it makes).",
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached OUT_OF_SCOPE. The justification is legitimate under the frozen definition: the exercise asks for a prose explanation of why a dualization does NOT yield a classification of maps INTO a representable — it states no proposition, so there is nothing to formalize or refute. This is not a size/foundations question that universe polymorphism would rescue. Verified the record's honest caveat that the duality MECHANISM is in-tree (Construction/Opposite.v:126 `op_invol : (C^op)^op = C`, checked at that line) while nothing states which parameter of a statement dualization acts on."
+    }
+  },
+  {
+    "id": "riehl:2.2:exiii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Yoneda embedding of the ordinal category ω, ω ⟶ [ω^op, Set], proved full and faithful directly",
+      "ω = (nat, ≤) as a thin category — in-library Instance/Omega.v's Omega with hom := le_t",
+      "presheaves on ω = towers of sets F_0 ← F_1 ← … ; the representable ω(−,k)",
+      "full and faithful embedding; Nat(ω(−,j), ω(−,k)) ≅ ω(j,k)",
+      "direct proof of full faithfulness not routed through the Yoneda lemma"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 231,
+        "symbol": "Yoneda_Embedding",
+        "intree_statement": "Program Instance Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.   (natural transformations between the contravariant representables correspond bijectively to morphisms of the representing objects: full faithfulness of the embedding C ⟶ [C^op, Sets], for an ARBITRARY C, hence for C := Omega)"
+      },
+      {
+        "file": "Instance/Omega.v",
+        "line": 72,
+        "symbol": "Omega",
+        "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; homset := Morphism_equality@{o h p}; id := fun _ => le_t_n@{h}; compose := fun _ _ _ f g => le_t_trans@{h} g f |}   (the shape ω, with omega_step (n : nat) : @hom Omega n (S n) at line 85 as the generating morphism)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 2.2.iii: since a diagram of shape ω is a countable family of objects together with a countable sequence of morphisms, describe the Yoneda embedding of ω into Set^{ω^op} concretely, as ω^op-indexed functors and natural transformations, and prove DIRECTLY — without appealing to the Yoneda lemma — that it is full and faithful.",
+      "intree": "Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B, instantiable at C := Omega (Instance/Omega.v:72, the category ω with hom := le_t on nat).",
+      "strength_comparison": "intree-stronger on the conclusion — full faithfulness is proved for an arbitrary category, so instantiating at Omega yields the exercise's conclusion as a free consequence; intree-weaker on the exercise's actual content, which is the CONCRETE description at ω and a DIRECT proof: the general instance is precisely the Yoneda argument the exercise forbids, and nothing in the tree carries it out at Omega."
+    },
+    "gap": "Three missing pieces. (1) The embedding is never instantiated at Omega: the only files mentioning Omega are Theory/Adamek.v, Theory/Adamek/Corollaries.v, Construction/Chain.v and Construction/FAlg.v, all about the initial-algebra chain (Chain F : Omega ⟶ C and Omega^op cones), none about representables, presheaves or hom-functors on Omega. (2) The concrete description is absent: no lemma computes the representable ω(−,k) — that le_t j k is inhabited exactly when j ≤ k and is a subsingleton, i.e. that Omega is thin — so 'the ω^op-indexed family of sets' the exercise asks to write down does not exist in-tree (the thinness of Omega appears only as header prose, Instance/Omega.v:6). (3) The direct proof is by construction unmet: the only in-tree route to full faithfulness at ω is the general Yoneda_Embedding, i.e. exactly the appeal the exercise rules out.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Omega' . | grep -v '^Instance/Omega.v'  ->  Theory/Adamek.v, Theory/Adamek/Corollaries.v, Construction/Chain.v, Construction/FAlg.v only; no representable, presheaf or Yoneda use of Omega",
+      "grep -rn --include='*.v' -i 'thin categ|is thin|le_t.*unique|subsingleton' .  ->  prose only (Instance/Omega.v:6, Instance/Two.v, Instance/Poset.v); no thinness/proof-uniqueness lemma for le_t"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL on the same footing (Instance/Omega.v exists; Yoneda_Full/Yoneda_Faithful and Yoneda_Embedding are stated for an arbitrary C, hence instantiable at Omega; the exercise's concrete description and Yoneda-free direct proof are absent). Re-ran the load-bearing negative myself: `rg '\\bOmega\\b' --glob '*.v' . | grep -v Instance/Omega.v` returns exactly Construction/Chain.v, Construction/FAlg.v, Theory/Adamek.v and Theory/Adamek/Corollaries.v — every hit is the initial-algebra chain; Omega is never fed to a hom-functor, representable or presheaf. Cited lines verified: Instance/Omega.v:72 (`Program Definition Omega`), :85 (`omega_step`), Functor/Hom/Yoneda.v:231 (`Yoneda_Embedding`). Instance/Omega.v is registered in _CoqProject:218."
+    }
+  },
+  {
+    "id": "riehl:2.2:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "the isomorphisms functor iso : Cat ⟶ Set as a subfunctor of the morphisms functor mor : Cat ⟶ Set",
+      "walking arrow 𝟚 (representing mor) and walking isomorphism 𝕀 (representing iso), the chaotic/contractible groupoid on two objects",
+      "the functor 𝟚 ⟶ 𝕀 that Yoneda turns into the inclusion iso ↪ mor",
+      "subfunctor / monic natural transformation / pointwise-injective natural transformation between represented functors",
+      "core (maximal subgroupoid) of a category, Iso(C) as a set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Cat ⟶ Sets|Cat ⟶ Set\\b' .  ->  0 hits; neither the morphisms functor nor the isomorphisms functor on Cat exists (independently confirmed by the sibling record for riehl:2.2:example9)",
+      "grep -rn --include='*.v' -i 'subfunctor' .  ->  2 hits, both the bracketing 'Section SubFunctor' / 'End SubFunctor' in Theory/Subobject/Functor.v (the subobject presheaf); there is no notion of a subfunctor of a Set-valued functor in the library",
+      "grep -rn --include='*.v' -i 'monic natural|natural mono|Monic (.*⟹' .  ->  0 hits; Theory/Morphisms.v's Monic is never applied to a natural transformation or in a functor category",
+      "grep -rn --include='*.v' -i 'walking iso|chaotic|indiscrete|codiscrete|contractible groupoid' .  ->  prose only: Construction/Funny.v:41 and Instance/StrictCat/Funny.v:39 name 'the walking isomorphism I' in a header, Structure/Discrete.v:23-24 mentions the codiscrete construction as prose, Theory/Bicategory/Lax.v uses 'codiscrete' for a 2-cell SETOID; no walking-isomorphism category is constructed",
+      "grep -rn --include='*.v' -i 'Definition Core|core groupoid|maximal subgroupoid|Isos\\b' .  ->  prose only (Theory/Isomorphism.v:89,186); no core/groupoid-of-isomorphisms construction",
+      "find Instance -name '*.v' | sort  ->  full enumeration of the concrete instance layer; the representing object for mor DOES exist (Instance/Two.v:134, Program Definition _2 : Category, the walking arrow) but there is no functor for it to represent, and no walking isomorphism"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. I briefly considered PARTIAL on the strength of the walking arrow existing, and rejected it: the item's claim is the subfunctor relation between two Cat ⟶ Set functors, and neither functor exists, so no part of the claim is in-tree. Re-verified every negative myself: `rg 'Cat ⟶ Sets|Cat ⟶ Set\\b'` → 0 hits; `rg -i 'subfunctor'` → only the `Section SubFunctor`/`End SubFunctor` bracket in Theory/Subobject/Functor.v; `rg 'Monic'` over Instance/Fun.v, Instance/Fun/*.v and Theory/Natural/*.v → 0 hits, confirming Monic is never applied in a functor category; the walking isomorphism appears only as header prose (Construction/Funny.v:41, Instance/StrictCat/Funny.v:39-42) and is never constructed. Instance/Two.v:134 `Program Definition _2` verified at the cited line."
+    }
+  },
+  {
+    "id": "riehl:2.2:exv",
+    "classification": "ABSENT",
+    "aliases": [
+      "contravariant power set functor P : Set^op ⟶ Set, X ↦ P(X), represented by 2 = {⊥,⊤}",
+      "covariant power set functor (direct image) and which natural endomorphisms lift to it",
+      "natural endomorphisms of P correspond to the four self-maps of 2 (identity, complement, constant ∅, constant everything)",
+      "characteristic functions; the subobject classifier Ω = 2; Sub : C^op ⟶ Sets",
+      "Nat(F, F) ≅ (representing object ~> itself) for a represented F (Yoneda corollary)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'powerset|power set|characteristic function' .  ->  2 hits, both header prose in Structure/Topos.v (lines 69, 75); the associated Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a (Structure/Topos.v:129) is a per-object exponential inside an abstract topos, NOT a Set-valued functor and not defined on Sets",
+      "grep -rn --include='*.v' -i 'natural endomorphism' .  ->  0 hits",
+      "grep -n 'Definition|Program|Theorem|Lemma' Instance/Sets/Classifier.v  ->  PropSetoid, char_setoid, sets_char_pullback, sets_char_unique, sets_char_subobject — all CROSS-UNIVERSE theorems (the truth-value setoid lives one level up); there is no Ω : Sets object, no SubobjectClassifier instance for Sets, hence no representable power-set functor on Sets to take natural endomorphisms of",
+      "grep -n 'Program Definition Sub' Theory/Subobject/Functor.v  ->  line 180, Program Definition Sub : C^op ⟶ Sets (the subobject presheaf by chosen-pullback reindexing) — the nearest analogue of the contravariant power set functor, but it is never instantiated at Sets, is never shown NATURALLY isomorphic to a representable (Structure/SubobjectClassifier.v:187's Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |} is pointwise in x), and nothing computes its endomorphisms",
+      "grep -n 'Definition|Program|Theorem|Lemma' Instance/Sets/Image.v  ->  Sets_Image / Sets_Image_epi / Sets_Image_mono / Sets_Image_Factorization: the image of a SINGLE morphism, not a direct-image (covariant power set) functor Sets ⟶ Sets",
+      "NOTE: none of the exercise's three clauses (the bijection Nat(P,P) ≅ Set(2,2), the description of the four transformations, the covariant lifting question) has any in-tree assertion; the general Yoneda machinery that would give the first clause exists (Yoneda_Embedding, Functor/Hom/Yoneda.v:231) but has no power-set functor to be applied to."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass initially leaned PARTIAL, on evidence the Phase-C log only half-covers: the subobject presheaf `Sub : C^op ⟶ Sets` (Theory/Subobject/Functor.v:180, verified) together with `classifier_classifies` (Structure/SubobjectClassifier.v:187, verified) and — not mentioned in the Phase-C log — a CONCRETE two-element truth object, Instance/FinSet/Classifier.v:353 `FinSet_Classifier` with `Ω := 2%nat; truth := fun _ => fin_true`, assembled into FinSet_Topos. That is a genuine in-tree analogue of the exercise's setup (subsets of a finite set correspond to maps into the 2-element set of truth values). ABSENT nevertheless stands, for a reason that survives the extra evidence: that representability content is booked against the cross-referenced item riehl:2.1:example6, which coverage-2-0.json already classifies PARTIAL citing exactly Sub/classifier_classifies — crediting it here would double-count the same in-tree material. None of THIS item's three deliverables (the bijection Nat(P,P) ≅ Set(2,2), the description of the four transformations, the covariant-lifting question) has any in-tree assertion; `rg -i 'natural endomorphism'` → 0 hits. Recommendation for Phase E: cite Instance/FinSet/Classifier.v:353 as the nearest concrete truth object when drafting, since the Phase-C log's 'no Ω anywhere in a Sets-like category' framing understates what exists."
+    }
+  },
+  {
+    "id": "riehl:2.2:exvi",
+    "classification": "ABSENT",
+    "aliases": [
+      "path functor Top ⟶ Set, X ↦ Top([0,1], X), represented by the unit interval",
+      "self-homeomorphisms of the closed unit interval I",
+      "reparameterisation of paths as a natural automorphism of the path functor",
+      "natural automorphisms of a represented functor ≅ automorphisms of the representing object (Yoneda)",
+      "the category Top of topological spaces and continuous maps"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'topological space|homeomorph|category Top|continuous map|unit interval|\\[0,1\\]' .  ->  0 hits; there is no category of topological spaces in the library",
+      "grep -rn --include='*.v' 'Top\\b' .  ->  the only hits are the Shape constructor Top in Instance/Shapes.v:135 and Solver/* tokens; nothing topological",
+      "grep -rn --include='*.v' -i 'path functor|reparam|loop space|fundamental group' .  ->  0 assertions; Construction/Groupoid.v:58 and Theory/Multicategory.v:134-138 mention the fundamental groupoid and iterated loop spaces in header prose only",
+      "grep -rn --include='*.v' -i 'metric space|real number' .  ->  prose only (Theory/Profunctor.v:46,100, Instance/Poset.v:39,75, Instance/Two.v:28,71 — Lawvere's enrichment over [0,∞]); no reals, no interval object",
+      "find Instance -name '*.v' | sort  ->  full enumeration of the concrete categories (Sets, FinSet, Coq, Cat, StrictCat, Fun, Poset, Proset, Props, Rel, Omega, Two, One, Zero, Parallel, Roof, Ens, Fact, Comp, Cones, Discrete, CMon, Lambda, Shapes/Tries/Vectors, ZX, Adj, Adjoints, AST); no Top",
+      "NOTE: the general fact the exercise instantiates — automorphisms of a represented functor correspond to automorphisms of the representing object — exists in-tree only as the hom-set bijection Covariant_Yoneda_Embedding (Functor/Hom/Yoneda.v:253), never specialised to automorphisms, and there is no Top over which to state it."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. Re-verified: `rg -i 'topolog|homeomorph|continuous map|unit interval|reparameteriz'` returns header prose only — no category of topological spaces, no interval object outside Instance/Two.v:81's remark that 2 is the interval object of Cat, no path functor; the only `Top` tokens are the Shape constructor at Instance/Shapes.v:135 (verified) and Solver/Expr.v:74. Deliberately NOT OUT_OF_SCOPE, and the record agrees: Top is perfectly formalizable in this setting (the library already carries Sets, FinSet, CMon, Poset, Proset, Rel), it simply is not built — so ABSENT, not a foundations exclusion."
+    }
+  },
+  {
+    "id": "riehl:2.2:exvii",
+    "classification": "ABSENT",
+    "aliases": [
+      "natural endomorphisms of the forgetful functor U : Top ⟶ Set (represented by the one-point space)",
+      "natural endomorphisms of the identity functor on Top; the centre End(Id_C) of a category",
+      "natural endomorphisms of U : Vect_k ⟶ Set (represented by k) and of Id on Vect_k; scalar multiplication as a natural endomorphism",
+      "a natural family of continuous / linear self-maps not all identities",
+      "representability of a forgetful functor + Yoneda: Nat(U,U) ≅ U(representing object)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'topological space|homeomorph|category Top|continuous map' .  ->  0 hits; part (i) has no ambient category (see the exvi log; the only 'Top' tokens are the Shape constructor in Instance/Shapes.v:135)",
+      "grep -rn --include='*.v' -i 'vector space|linear map|k-vector|module over' .  ->  hits are ALL header prose (Theory/Functor.v:68, Theory/Equivalence.v:86, Theory/Natural/Transformation.v:45,51, Theory/Kan/Extension.v:89, Theory/Algebra/Frobenius.v:64, Instance/ZX.v); there is no category of vector spaces, no field, no linear map — and Instance/Shapes.v:404's Program Definition Vectors (a : Type) : Category is the category of LENGTH-INDEXED VECTORS (obj := nat, hom := Vector.t a x → Vector.t a y), not vector spaces",
+      "grep -rn --include='*.v' -i 'natural endomorphism|centre of a category|center of a category|Id ⟹ Id' .  ->  0 hits; no file computes Nat(U,U) or Nat(Id,Id) for ANY functor (the in-tree 'centre' notions — Binoidal/Central.v, Premonoidal/Centre.v, Structure/Monoidal/Drinfeld.v — are the premonoidal and Drinfeld centres, unrelated to End(Id))",
+      "grep -rn --include='*.v' -i 'forgetful' . | grep -i 'definition|instance|program'  ->  the forgetful functors that DO exist are Instance/CMon.v:166 (CMon ⟶ Sets), Construction/Free/Quiver.v:412 (StrictCat ⟶ Quiv), EM_Forget, Drinfeld_Forget, Sheaves_Incl; none is shown representable and none has its natural endomorphisms computed",
+      "NOTE: both parts are absent for the same two reasons — the ambient categories (Top, Vect_k) do not exist, and the exercise's shared method (represent the forgetful functor, then apply Yoneda) is available only as the general Covariant_Yoneda_Embedding/Covariant_Yoneda_Lemma, with no representability result for any in-tree forgetful functor to feed it."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT for both parts. Re-verified the three independent negatives: no Top (see the exvi note); no Vect — `rg -i 'vector space|linear map'` returns header prose only, and Instance/Shapes.v:404 `Program Definition Vectors (a : Type)` is the length-indexed-vector category (obj := nat), verified at the cited line; and no computation of Nat(U,U) or Nat(Id,Id) for any functor — `rg 'Id ⟹|⟹ Id'` returns only adjunction units/counits, and the in-tree 'centre' notions (Binoidal/Central.v, Premonoidal/Centre.v, Monoidal/Drinfeld.v) are premonoidal/Drinfeld centres, unrelated to End(Id). One immaterial Phase-C citation slip, not affecting the verdict: `CMon_Forget : CMon ⟶ Sets` is at Instance/CMon.v:169, not :166 (166 begins its comment block); Construction/Free/Quiver.v:412 `Definition Forgetful` is correct as cited."
+    }
+  }
+]

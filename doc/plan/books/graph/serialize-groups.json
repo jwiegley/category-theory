@@ -1,0 +1,390 @@
+[
+ {
+  "module": "Instance/Fun/Closed.v",
+  "issues": [
+   392,
+   718
+  ],
+  "creator": 392,
+  "reason": "SERIALIZE_ONLY: genuine peers, each adds an independent piece to one new file. No logical precedence exists, so NO dependency edge is asserted — but they must not be dispatched in the same parallel wave.",
+  "rationale": "Both issues genuinely create Instance/Fun/Closed.v (verified absent: Instance/Fun/ holds only Cartesian.v; no @Terminal (@Fun _ _) and no @Closed (@Fun _ _) exist in-tree), but they add disjoint, complementary artifacts and neither can be shown to require the other's.\n\n#392 adds a negative theorem (functor_category_not_closed): cartesian closure of the target does not transfer to [C, D] for arbitrary shape, exhibited as a countermodel on a small explicit shape, plus the Awodey remark that the pointwise exponential assignment is not functorial. It declares no dependencies and needs nothing from"
+ },
+ {
+  "module": "Structure/BooleanAlgebra.v",
+  "issues": [
+   639,
+   653
+  ],
+  "creator": 653,
+  "reason": "SERIALIZE_ONLY: genuine peers, each adds an independent piece to one new file. No logical precedence exists, so NO dependency edge is asserted — but they must not be dispatched in the same parallel wave.",
+  "rationale": "The two issues put artifacts at two DIFFERENT levels into the same suggested path, and neither artifact is expressible in terms of the other.\n\n#653 (Awodey 2.2, `awodey:2.2:def-boolean-algebra`) is the external/set-level structure: `Class BooleanAlgebra` over a Coq carrier with `0`, `1`, `∨`, `∧`, `¬` and Awodey's laws (bounds, join/meet universal inequalities, `a ≤ ¬b ⟺ a ∧ b = 0`, `¬¬a = a`), plus Boolean homomorphisms and the category **Bool** (`Instance/Bool.v`), the powerset algebra `P(X)`, and the two-element algebra `2`. `Structure/BooleanAlgebra.v` is its primary, named deliverable — t"
+ },
+ {
+  "module": "Structure/Lattice.v",
+  "issues": [
+   340,
+   389,
+   422,
+   1003
+  ],
+  "creator": 340,
+  "reason": "SERIALIZE_ONLY: genuine peers, each adds an independent piece to one new file. No logical precedence exists, so NO dependency edge is asserted — but they must not be dispatched in the same parallel wave.",
+  "rationale": "All three can write Structure/Lattice.v (it does not exist in-tree; grep confirms no Lattice/BooleanAlgebra/HeytingAlgebra class and no meet/join/glb operation anywhere — every hit is header-essay prose in Instance/Poset.v:51,60, Theory/Lawvere.v:87, Construction/Opposite.v:39, Structure/Complete.v:71). But their contributions are three logically independent pieces, and no one of them can be named as supplying an artifact another needs.\n\n#340 is the only firm creator: its Work-to-be-done requires \"Define ... LatticeObject (two commutative idempotent monoid structures + absorption) over a carte"
+ },
+ {
+  "module": "Structure/Limit/Interchange.v",
+  "issues": [
+   563,
+   564
+  ],
+  "creator": 563,
+  "reason": "SERIALIZE_ONLY: genuine peers, each adds an independent piece to one new file. No logical precedence exists, so NO dependency edge is asserted — but they must not be dispatched in the same parallel wave.",
+  "rationale": "Both issues target the same new file but contribute mathematically independent artifacts, with no logical precedence.\n\n#563 (maclane:IX.2:construction1/thm1/ex1) introduces the MIXED interchange: the canonical arrow κ : Colim_j Lim_p F(p,j) ⟶ Lim_p Colim_j F(p,j) for F : P × J ⟶ X (Mac Lane diagram 4), naturality of κ in F (Ex. 1), and the Set theorem finite_limits_commute_filtered_colimits (P finite, J filtered ⟹ κ iso) with an explicit two-sided inverse from the filtered finite-cocone lemma. Upstream deps: #559 (filtered categories), #425 (pointwise limits in a functor category).\n\n#564 (macl"
+ },
+ {
+  "module": "Theory/Algebra/Monoid/Free.v",
+  "issues": [
+   296,
+   502
+  ],
+  "creator": 502,
+  "reason": "SERIALIZE_ONLY: genuine peers, each adds an independent piece to one new file. No logical precedence exists, so NO dependency edge is asserted — but they must not be dispatched in the same parallel wave.",
+  "rationale": "#502 is the sole unambiguous claimant of Theory/Algebra/Monoid/Free.v: its \"Suggested module\" line and its Verification block both name that exact path (coqc -R . Category Theory/Algebra/Monoid/Free.v; Print Assumptions Free_Monoid_Adjunction). Its artifact is the general Mac Lane VII.3 Thm 2 construction over an arbitrary monoidal base B — Free a := coproduct over n of tensor powers a^n (a^0 = I, a^(n+1) = a (x) a^n), juxtaposition multiplication from a^m (x) a^n =~ a^(m+n), the unit as the a^0 injection, the monoid-object laws, and Free -| Mon_Forget under explicit \"countable coproducts pres"
+ },
+ {
+  "module": "Instance/Mod/Tensor.v",
+  "issues": [
+   388,
+   449
+  ],
+  "creator": null,
+  "reason": "UNRESOLVED: the adversarial verifier REFUTED the proposed prerequisite and offered no replacement. No edge asserted (an invented edge is worse than a known hazard). Serialize these and have a human decide.",
+  "problems": [
+   "MISATTRIBUTED PRECEDENCE (fatal to the edge). The edge's core evidence is that '#388 itself' asserts the ordering, quoting Work item 2: 'the universal-element formulation is already a filed obligation, so reuse it rather than re-deriving'. That filed obligation is #306, not #449. #306's title is verbatim 'MacLane III.1: The tensor product as a universal element of the bilinear-maps functor', and #",
+   "PREREQUISITE IS NOT REAL -- the claimed unique supplier is redundant. The 'why' states 'Without #449's tensor bifunctor and its bilinear UMP there is no ⨂ for #388'. False: #306 supplies bilinear maps, the functor Bilin(V,V';-), and the universal element <V ⊗ V', ⊗>, and #306:13 explicitly scopes itself to modules -- 'Note the commutative-ring/module generality in the header; formalize at whatever",
+   "FACTUAL OVERCLAIM ABOUT #449's PAYLOAD. The 'why' credits #449 with 'the tensor bifunctor'. #449's Work items promise only: bilinear/balanced maps, the functor Bilin(A,B;-) : Mod ⟶ Sets, the tensor as a universal element via AFT, spanning by elementary tensors, and base change along a ring map. No bifunctor, no ⨂, no monoidal data. Functoriality of ⊗ is derived from the UMP inside #388's own item "
+  ]
+ },
+ {
+  "module": "Instance/Rng/Free.v",
+  "issues": [
+   312,
+   443
+  ],
+  "creator": 400,
+  "reason": "SERIALIZE_ONLY (residual peers). Residual peer conflict UNDER a common creator: both are now ordered behind #400, which creates the file, but they have NO logical precedence relative to each other while both still edit it. The cluster resolver called this out explicitly. Cleanest real fix: have #312 defer its single free-ring row to #400 entirely, after which it stops touching this file and the conflict disappears."
+ },
+ {
+  "module": "Instance/Sets/Pointed.v",
+  "issues": [
+   261,
+   312,
+   529,
+   708
+  ],
+  "creator": 261,
+  "reason": "SERIALIZE_ONLY (residual peers). Residual peer conflict under creator #261: both consume the pointed-setoid category it defines, neither supplies the other.",
+  "rationale": " EXTENDED (QA sweep): #261 and #529 also create this module (#529 gained an explicit module path during the QA remediation), making four claimants. All state different results about pointed sets and none is derivable from another, so no edge is asserted."
+ },
+ {
+  "module": "Instance/Sets/Powerset.v",
+  "issues": [
+   227,
+   466,
+   704,
+   750,
+   871,
+   1005
+  ],
+  "creator": 227,
+  "reason": "SERIALIZE_ONLY (residual peers under a common creator). #227 CREATES Instance/Sets/Powerset.v; #466 (power-set monad), #704 (contravariant/double powerset), #750 (no initial algebra) and #871 (lax symmetric monoidal) all add to it and have NO precedence among them. They must not share a parallel wave. NOTE: #871 originally carried hard blocked-by edges on #466/#704/#750 because a peer note was written INSIDE a 'Depends on:' line and the resolver extracted the numbers as dependencies — the graph then asserted precisely the precedence the prose denied. Edges removed; the constraint lives here, which is the only correct home for it.",
+  "rationale": " EXTENDED (Riehl Ch5): #1005 (Pare's theorem -- the CONTRAVARIANT power set functor is monadic) also creates this module, and #227 (the covariant power-set functor) was named as `creator` but was absent from `issues`, so pairs involving it were never acknowledged. Both added. All claimants state DIFFERENT results about the same two functors and none is derivable from another, so no edge is asserted -- but this module now has six claimants and is the campaign's densest parallel hazard. CORRECTION (Ch5 audit): the blanket phrase 'no edge is asserted' was too strong. It holds for the PEER pairs, and #1005's fabricated edges to #466/#704 have been removed accordingly (its own Work item 1 builds the contravariant functor, and Pare's theorem does not use the covariant monad). It does NOT hold for #750, whose blocked_by [704, 466, 227] includes a GENUINE CONSUMER edge: 'the covariant powerset functor has no initial algebra' cannot be stated until that functor exists, which #466 builds. Those edges are left in place deliberately. A serialize-group records the absence of PRECEDENCE, not the absence of all edges -- a claimant that consumes another claimant's construction is a real dependency."
+ },
+ {
+  "module": "Instance/Sets/Pullback.v",
+  "issues": [
+   402,
+   730
+  ],
+  "creator": 333,
+  "reason": "SERIALIZE_ONLY (residual peers). Residual peer conflict under creator #333: both consume `HasPullbacks Sets` and add to the same file; the adversarial verifier confirmed neither is a prerequisite of the other."
+ },
+ {
+  "module": "Construction/Pointed.v",
+  "issues": [
+   526,
+   943
+  ],
+  "creator": 526,
+  "reason": "SERIALIZE_ONLY: genuine peers, each builds a DIFFERENT construction under the same name C_* in one new file. No logical precedence exists, so NO dependency edge is asserted -- but they must not be dispatched in the same parallel wave.",
+  "rationale": "#526 (Mac Lane VII.9) packages pointed objects as the COSLICE UNDER THE TERMINAL, en route to the pointed function space on CGHaus; #943 (Riehl 2.4.4) builds them as the CATEGORY OF ELEMENTS of an underlying-set functor. The two agree over Sets and NOT in general -- the elements category of U : Grp -> Set has objects (G, g in G), whereas 1/Grp is equivalent to Grp because the trivial group is a zero object. Neither construction is derivable from the other and their dependency sets are disjoint (#526 waits on #259 Top/CGHaus; #943 waits on #345 elements and #708 pointed sets), so an edge in either direction would be fabricated. Whichever lands first owns the file; the second extends it and the header must record both constructions plus the Grp counterexample separating them."
+ },
+ {
+  "module": "Construction/Elements/Slice.v",
+  "issues": [
+   716,
+   945
+  ],
+  "creator": 716,
+  "reason": "SERIALIZE_ONLY: genuine peers, each proves an independent equivalence into one new file. No logical precedence exists, so NO dependency edge is asserted -- but they must not be dispatched in the same parallel wave.",
+  "rationale": "#716 (Awodey 8.6) proves el(P) is equivalent to the Yoneda slice y/P for an ARBITRARY presheaf P; #945 (Riehl 2.4.6) proves the REPRESENTABLE case, c/C iso to the elements of [Hom c,-] and C/c iso to the elements of [Hom -,c], together with compatibility with the projections to C. Neither is derived from the other in tree -- deriving #945 from #716 would still require the Yoneda identification y/y(c) ~ C/c, which no in-tree lemma supplies -- and both depend only on #345, so there is no precedence between them."
+ },
+ {
+  "module": "Instance/Sets/Choice.v",
+  "issues": [
+   657,
+   981
+  ],
+  "creator": 657,
+  "reason": "SERIALIZE_ONLY: genuine peers stating two DIFFERENT axioms of choice in one new file. No logical precedence exists, so NO dependency edge is asserted -- but they must not be dispatched in the same parallel wave.",
+  "rationale": "#657 (Awodey 2.4) states the CATEGORICAL axiom of choice -- every epi in Sets splits -- together with projective objects. #981 (Riehl 4.5) states the TYPE-THEORETIC axiom of choice, as distributivity of the dependent product over the dependent sum in a locally cartesian closed category. Neither is derived from the other in tree: #657 needs only Sets and the projective-object class (#429), while #981 needs the slice adjoint triple and local cartesian closure (#732, #730). Dependency sets are disjoint, so an edge in either direction would be fabricated."
+ },
+ {
+  "module": "Instance/Grpd.v",
+  "issues": [
+   707,
+   972
+  ],
+  "creator": 707,
+  "reason": "SERIALIZE_ONLY: both issues independently define Grpd in one new file. No logical precedence exists, so NO dependency edge is asserted -- but they must not be dispatched in the same parallel wave.",
+  "rationale": "#707 (Awodey 7.7) defines Grpd as a full subcategory of Cat en route to proving it cartesian closed; #972 (Riehl 4.1) defines it independently -- its own Work item 1 offers either a full subcategory of StrictCat or a bundled record -- en route to core -| Incl -| fractions. NEITHER supplies anything the other cannot build: #707's only blocker is #248, which #972 already declares directly. An edge was briefly asserted here (#972 <- #707) on the reasoning that #707 'builds the file'; that was FABRICATED and has been removed -- #972 is self-sufficient, and the edge parked a flagship issue behind a cartesian-closure result it explicitly does not need."
+ },
+ {
+  "module": "Instance/RQuiver.v",
+  "issues": [
+   979,
+   993
+  ],
+  "creator": 979,
+  "reason": "SERIALIZE_ONLY: both list this module, neither precedes the other. No dependency edge is asserted -- but they must not be dispatched in the same parallel wave.",
+  "rationale": "#979 (Riehl 4.5) lists Instance/RQuiver.v among its suggested modules for the slice/pushforward development; #993 (Riehl 5.5) needs a reflexive-quiver carrier for the monadic factorization Cat -> rQuiver. NEITHER builds the notion: that is #906 (Riehl 1.1, reflexive quivers and the underlying reflexive quiver of a category), which #993 depends on directly and which proposes Construction/Free/ReflexiveQuiver.v. An edge #993 <- #979 was briefly asserted because a coordination note was written INSIDE a 'Depends on:' line -- the FOURTH occurrence of that error in this campaign -- and it parked #993 behind an entire locally-cartesian-closed development (#979 is itself blocked by 962/906/734/730) that none of #993's Work items touch. Edge removed."
+ },
+ {
+  "module": "Instance/Top/Interval.v",
+  "issues": [
+   901,
+   1012
+  ],
+  "creator": 901,
+  "reason": "SERIALIZE_ONLY: two different spaces built in one new module. No logical precedence; no dependency edge asserted.",
+  "rationale": "#901 (Seven Sketches 7.5.1) builds the interval DOMAIN -- the space whose points are closed intervals [d,u] -- for the topos of behavior types. #1012 (Riehl Epilogue E.3) builds the unit interval itself as a bipointed space characterized by a universal property (terminal coalgebra). Different objects, neither derivable from the other. They DO share one real decision -- the numeric substrate, which #901's Work item 1 discloses options for (Coq.Reals with axioms enumerated, or a rational/abstract dense-linear-order substrate) -- so whichever lands first fixes that choice for the other. That is a coordination constraint, not a precedence."
+ },
+ {
+  "module": "Construction/Elements.v",
+  "issues": [
+   345,
+   809,
+   1021
+  ],
+  "creator": 345,
+  "reason": "SERIALIZE_ONLY: two issues independently define the category of elements in one new module. #345 is the canonical builder; #809 offers to build it only as a prerequisite for its own pullback result.",
+  "rationale": "#345 (Mac Lane III.7) IS the category-of-elements issue. #809 (Seven Sketches 3.5.3, restriction along a functor is a pullback of categories of elements) has Work item 1 defining the same construction in the same file, because it needs it downstream. The Riehl 6.2 comma-category issue filed in this chapter also targets the module and depends on #345 directly. CORRECTION (Ch6 audit): an earlier version of this rationale said 'no precedence exists between #345 and #809'. That is WRONG about the live graph -- #809 IS natively blocked_by #345, correctly, since #809 consumes the construction. check_graph.py confirms it by omitting that pair from its serialize listing while listing #809 + #1021. What this group records is the absence of precedence among the REMAINING pairs -- but whichever lands first must own the definition, and #809 should consume rather than redefine it. Flagged by check_collisions.py during Riehl Ch6 filing. EXTENDED: #1021 (Riehl 6.2, the comma category K-down-d as indexing data for Kan extensions) also targets this module; it depends on #345 directly and carries a Related (NOT blocking) note for #809."
+ },
+ {
+  "module": "Structure/Limit/Finite.v",
+  "issues": [
+   417,
+   1013
+  ],
+  "creator": 417,
+  "reason": "SERIALIZE_ONLY: both target this new module. No precedence; no dependency edge asserted.",
+  "rationale": "#417 (Mac Lane V.2) defines finiteness for an index category and FinitelyComplete. #1013 (Riehl Epilogue E.4) names PreservesFiniteLimits for the Grothendieck-topos definition, and its Work item 1 EXPLICITLY declines a rival finite-shape notion, assembling the predicate from TerminalFunctor, CartesianFunctor and cospan-PreservesLimit, all of which already exist. An edge #1013 <- #417 was briefly asserted on the reasoning that finite-limit preservation cannot be stated without #417 vocabulary; that reasoning is the pre-correction Phase-C position which #1013 own Current-state section overturns, and the edge parked the entire Grothendieck/Giraud spine (#1013, #1014, #1016) behind a products-and-equalizers chain (#416/#326/#335/#427) none of them consumes. Edge removed. The two still share the file, hence this group."
+ },
+ {
+  "module": "Construction/Fractions.v",
+  "issues": [
+   972,
+   1028
+  ],
+  "creator": 972,
+  "reason": "SERIALIZE_ONLY: the SAME zig-zag localization built under two different module paths. No precedence; no dependency edge asserted. NOTE this pair is invisible to check_collisions.py, which matches paths.",
+  "rationale": "#972 Work item 4 builds C[C-inverse] in Construction/Fractions.v; #1028 Work item 1 builds C[W-inverse] in Construction/Localization/Fractions.v. Both take the free category on a glued quiver (Construction/Free/Quiver.v) and quotient by a hom-congruence (Construction/Quotient.v). C[C-inverse] is literally the W = all morphisms case of C[W-inverse]. Because the two proposed PATHS differ, neither check_collisions.py (path matching) nor check_graph.py (conflict-free over proposed new files) can see this; it was found by reading. Whichever lands first owns the construction and the other instantiates it."
+ },
+ {
+  "module": "Structure/Thin.v",
+  "issues": [
+   223,
+   683
+  ],
+  "creator": 223,
+  "reason": "SERIALIZE_ONLY: genuine peers, each adds an independent piece to one new file. No logical precedence exists, so NO dependency edge is asserted -- but they must not be dispatched in the same parallel wave.",
+  "rationale": "#223 (Mac Lane I.2) introduces Thin C := forall x y (f g : x ~> y), f = g alongside the preorder/thin-category round trip; #683 (Awodey 6.3) introduces the same one-line predicate plus the thin+products+transposition => Closed constructor for Heyting algebras. An edge #683 <- #223 was asserted from a hedged Depends-on line and removed on QA audit."
+ },
+ {
+  "module": "Instance/Rel.v",
+  "issues": [
+   262,
+   830,
+   854
+  ],
+  "creator": null,
+  "reason": "SERIALIZE_ONLY: three issues edit one existing file with no supply/consume relation between them. No dependency edge is asserted.",
+  "rationale": "#262 adds the converse R† and Faithful Relation_Functor; #830 fixes the composition-order comment at :33 and resolves the dead block at :96-157 while building a separate Instance/FinRel.v; #854 (Rel_R, the prop of relations over a rig) also edits this file's header."
+ },
+ {
+  "module": "Graph (construction, not a path: Instance/Parallel/Graphs.v vs Instance/Graph.v)",
+  "issues": [
+   705,
+   926
+  ],
+  "creator": 705,
+  "reason": "SAME IDENTIFIER under two paths — invisible to check_collisions.py, which matches paths. #705 Work item 1 names its category `Graph` in Instance/Parallel/Graphs.v; #926 names a different category `Graph` in Instance/Graph.v. No dependency edge is asserted (#926 builds its simple-graph variant itself).",
+  "rationale": "The two cannot be imported together; #926 must rename (e.g. SimpleGraph)."
+ },
+ {
+  "module": "Powerset_Quantale (construction, not a path: Instance/Powerset/Quantale.v vs Instance/Quantale/Examples.v)",
+  "issues": [
+   780,
+   791
+  ],
+  "creator": 780,
+  "reason": "Ordered, not merely serialized: #791 is already blocked_by #780, which creates the symbol. Recorded because the two propose different paths for a literally identically-named artifact.",
+  "rationale": "#780's Verification prints Powerset_MonoidalPreorder and Powerset_Quantale; #791's Verification prints Powerset_Quantale and Bottleneck_Quantale. #791 Work item 1 itself attributes both halves to #780 (7sketches:2.2.4:ex35 + 7sketches:2.5.2:ex94, both in #780's trailer ids)."
+ },
+ {
+  "module": "⊗-word / canonical-map apparatus (construction, not a path: Construction/FreeMonoidal.v + Structure/Monoidal/Coherence.v vs Structure/Monoidal/Symmetric/Coherence.v)",
+  "issues": [
+   496,
+   497,
+   520
+  ],
+  "creator": 497,
+  "reason": "Ordered after remediation: #520 gains blocked_by 497, which transitively supplies #496. Recorded because #520's own XI.1 append claims the apparatus is 'subsumed in this issue's scope' under a third path.",
+  "rationale": "Precedent: #608's Work says 'Reusing the inductive type of ⊗-words from the free-monoidal-category development (issue #496)' and its blocked_by is exactly [496]."
+ },
+ {
+  "module": "Instance/Poset/Numeric.v",
+  "issues": [
+   759,
+   967,
+   1022
+  ],
+  "creator": 759,
+  "reason": "SAME NUMERIC SUBSTRATE under three paths \u2014 invisible to check_collisions.py, which matches paths. #759 proposes Instance/Poset/Numeric.v (\u2124 and \u211d as ordered carriers), #967 proposes Instance/ExtReal.v (the extended real line as a bicomplete poset), #1022 proposes Instance/Poset/Reals.v (\u211a and the positive reals as thin categories). All three build a real-number carrier over Instance/Proset.v, and all three make the SAME Coq.Reals-vs-constructive-Dedekind choice. Carrier path nominated by QA decision 3.7: Instance/Poset/Numeric.v, with #759 as creator; #967 and #1022 consume that carrier rather than opening rival ones. No dependency edge is asserted \u2014 they must not be dispatched in the same parallel wave.",
+  "rationale": "All three commit to extending docs/AXIOMS.md for the axiom cost of the chosen real-number development (#759 Work item and DoD, #967 DoD, #1022 DoD). WHICHEVER LANDS FIRST OWNS THE docs/AXIOMS.md ENTRY; the other two reconcile against it and add nothing new, so the enumeration is written once. The issue bodies still name their own paths (#967 Instance/ExtReal.v, #1022 Instance/Poset/Reals.v); retargeting those bodies was NOT part of decision 3.7 and is left to the operator."
+ },
+ {
+  "module": "numeric monoidal-preorder bases (Instance/Nat/Monoidal.v + Instance/Reals/Order.v vs Instance/Poset/Numeric/Monoidal.v)",
+  "issues": [
+   774,
+   775,
+   783
+  ],
+  "creator": null,
+  "reason": "Ordered, not merely serialized: #783 is already blocked_by both 774 and 775. Recorded because #783's Verification prints Nat_Add_MonoidalPreorder — the SAME symbol #775's Verification prints — under a third path.",
+  "rationale": "#775 owns (ℕ,≤,0,+) in Instance/Nat/Monoidal.v; #774 owns (ℝ,≤,0,+) in Instance/Reals/Order.v; #783 must import both."
+ },
+ {
+  "module": "Structure/Biproduct/Finite.v",
+  "issues": [
+   336,
+   536
+  ],
+  "creator": 536,
+  "reason": "SERIALIZE_ONLY: the finite matrix calculus is scoped on both, under `Structure/Bicartesian/Matrix.v` (#336) and `Structure/Biproduct/Finite.v` (#536). Hypotheses differ (#336 bicartesian + ZeroObject; #536 HasBiproducts + zero object), so no precedence edge is asserted."
+ },
+ {
+  "module": "Construction/FreeAb.v",
+  "issues": [
+   430,
+   540
+  ],
+  "creator": 540,
+  "reason": "SERIALIZE_ONLY: the free abelian group on a set and its universal property are scoped on both, under `Construction/FreeAb.v` (#540) and `Instance/Ab/FreeNotContinuous.v` (#430)."
+ },
+ {
+  "module": "Instance/Top/Opens.v",
+  "issues": [
+   268,
+   685
+  ],
+  "creator": 685,
+  "reason": "SERIALIZE_ONLY: the poset of opens of a space is built twice under two paths — #268 as the inclusion-ordered thin category `Open X` in `Instance/Top/Presheaf.v`, #685 as the lattice/frame of opens in `Instance/Top/Opens.v`. Invisible to check_collisions.py, which matches paths. Whichever lands first owns the carrier; #727 consumes it.",
+  "rationale": "#727 declares both as blockers and never says which owns O(X)."
+ },
+ {
+  "module": "Instance/FinSet/Groupoid.v",
+  "issues": [
+   956,
+   963
+  ],
+  "creator": 956,
+  "reason": "SERIALIZE_ONLY: both build Fin_iso, the groupoid of finite sets and bijections, under different proposed paths (#956 Instance/FinSet/Groupoid.v; #963 offers to build it inside Instance/Top/Configuration.v). Invisible to check_collisions.py, which matches paths. #956 is the canonical builder; no precedence edge is asserted because #963 needs only Fin_mono for its own deliverables."
+ },
+ {
+  "module": "Instance/Field.v",
+  "issues": [
+   307,
+   971
+  ],
+  "creator": 971,
+  "reason": "SERIALIZE_ONLY: the SAME category of fields and the SAME characteristic-obstruction non-existence argument under two different module paths (#971 Instance/Field.v; #307 Instance/Dom/Fractions.v \"if not already present\"). Invisible to check_collisions.py, which matches paths. No precedence edge is asserted; #971 is the canonical builder (#1038 already cites it as such)."
+ },
+ {
+  "module": "Structure/Limit/Reflection.v",
+  "issues": [
+   481,
+   1002
+  ],
+  "creator": 481,
+  "reason": "SERIALIZE_ONLY: #481 creates the file for coequalizer reflection; #1002 would add two ReflectsIsos lemmas to it if it exists. No precedence; edge removed on audit."
+ },
+ {
+  "module": "Instance/Grp.v",
+  "issues": [
+   255,
+   440
+  ],
+  "creator": 255,
+  "reason": "SERIALIZE_ONLY: the same category built two ways under two paths (Instance/Grp.v vs Instance/Variety.v) — invisible to check_collisions.py, which matches paths. #255 owns the name; #440 builds its variety presentation under a different name and the comparison equivalence falls to whichever lands second. No dependency edge is asserted."
+ },
+ {
+  "module": "Instance/Rng/MonoidRing.v",
+  "issues": [
+   310,
+   518
+  ],
+  "creator": 518,
+  "reason": "SERIALIZE_ONLY: same-file peers; no dependency edge is asserted, but they must not be dispatched in the same parallel wave. QA decision 3.5 confirms exactly this shape and adds the path unification: #518's body is retargeted from Instance/GroupRing.v to this module (Work + Verification), so both issues now name one path and NO edge is asserted in either direction.",
+  "rationale": "#518 builds ℤ[M] and the adjunction ℤ ⊣ U; #310's monoid-ring clause is the universal-arrow presentation of the same object and is derivable from it. #518's own Riehl §2.3 checkbox (Ring(ℤ[G],R) ≅ Grp(G,Rˣ)) already discharges #310's group-ring-as-universal-arrow-to-units clause."
+ },
+ {
+  "module": "EssentialImage (construction, not a path: Construction/Subcategory/EssentialImage.v vs Theory/EssentialImage.v)",
+  "issues": [
+   918,
+   985
+  ],
+  "creator": 918,
+  "reason": "Ordered, not merely serialized: #985 is blocked_by #918, which creates the notion. Recorded because the two propose different paths, so check_collisions.py cannot see the pair.",
+  "rationale": "#985's Suggested-modules line offers `Theory/EssentialImage.v` for the notion 'if the Riehl §1.5 issue has not already landed it' — a live invitation to define it twice."
+ },
+ {
+  "module": "monoid object in (Cat, ×, 1) (construction, not a path: Instance/StrictCat/Monoid.v vs Instance/StrictCat/MonoidObject.v)",
+  "issues": [
+   500,
+   851
+  ],
+  "creator": 500,
+  "reason": "SERIALIZE_ONLY: same identification under two proposed paths, invisible to the path-keyed collision check.",
+  "rationale": "#500's Work says 'with the `Cat`-monoid identification perhaps in `Instance/StrictCat/Monoid.v`'; #851 proposes `Instance/StrictCat/MonoidObject.v`. One path must win; state it in the header of whichever lands first."
+ },
+ {
+  "module": "site of opens of a space (construction, not a path: Theory/Sheaf/Space.v vs Instance/Top/Cover.v)",
+  "issues": [
+   890,
+   460
+  ],
+  "creator": 890,
+  "reason": "SERIALIZE_ONLY: both construct the site of opens/covers; no edge is asserted in this direction (precedence runs #890 -> #460).",
+  "rationale": "#890 re-founds the Sheaf predicate and builds Theory/Sheaf/Space.v; #460 builds the concrete sheaf of continuous functions over Instance/Top/Cover.v and consumes #890's predicate."
+ },
+ {
+  "module": "Structure/Abelian/Homology.v",
+  "issues": [
+   516,
+   557
+  ],
+  "creator": 557,
+  "reason": "SERIALIZE_ONLY: same construction under two paths (`Structure/Homology.v` vs `Structure/Abelian/Homology.v`)."
+ }
+]

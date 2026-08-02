@@ -1,0 +1,517 @@
+[
+  {
+    "id": "7sketches:2.5.2:ex92",
+    "classification": "PARTIAL",
+    "aliases": [
+      "⋁∅ = the bottom element 0 of a join-complete preorder = the initial object of the preorder read as a thin category",
+      "binary join x ∨ y = least upper bound = binary coproduct in a thin category",
+      "Bool = (B, ≤, true, ∧): ⋁∅ = false, x ∨ y = x OR y (disjunction)",
+      "Cost = ([0,∞], ≥, 0, +): ⋁∅ = ∞, x ∨ y = min(x,y) (the order is reversed, so joins are infima of numbers)",
+      "bottom/top, least element, sup of the empty family, empty coproduct"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or;  fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end;  exl := fun _ _ p => or_introl p;  exr := fun _ _ p => or_intror p } — in the preorder of propositions ordered by entailment (Props, Instance/Props.v:39, hom := Basics.impl with a trivial hom-setoid, hence thin), P ∨ Q is the coproduct, i.e. the binary join of P and Q: clause (2a) of the exercise."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 61,
+        "symbol": "Props_Initial",
+        "intree_statement": "Program Instance Props_Initial : @Initial Props := { terminal_obj := False; one := fun _ _ => False_rect _ _ } — False is initial in the entailment preorder, i.e. the empty join ⋁∅ = false, the bottom element: clause (1a) of the exercise."
+      }
+    ],
+    "statement_record": {
+      "book": "(1) Identify ⋁∅ (generally written 0) in (a) V = Bool = (B,≤,true,∧) and (b) V = Cost = ([0,∞],≥,0,+). (2) Identify the binary join x ∨ y in (a) Bool and (b) Cost. Intended answers: false and ∞; disjunction and min.",
+      "intree": "Props_Initial : @Initial Props with terminal_obj := False (the empty join in the entailment preorder) and Props_Cocartesian : @Cocartesian Props with product_obj := or (the binary join).",
+      "strength_comparison": "intree-weaker: only the Bool half exists, and it is instantiated at Coq's Prop ordered by implication (a large Heyting prealgebra) rather than at the two-element B — so the identification is faithful up to the choice of truth-value object, but the two-element quantale itself is never given joins: the genuinely two-element base _2 (Instance/Two.v:134) carries only Two_Cartesian (meet) and Two_Terminal (top true) in Instance/Two/Monoidal.v:80,98, with no Initial and no Cocartesian instance. The Cost half (⋁∅ = ∞, x ∨ y = min) has no in-tree counterpart whatsoever: [0,∞] is nowhere formalized."
+    },
+    "gap": "Clauses (1b) and (2b) — the Cost quantale ([0,∞], ≥, 0, +) — are entirely absent: no interval [0,∞] type, no ∞, no reversed numeric order, so neither ⋁∅ = ∞ nor x ∨ y = min(x,y) can even be stated. Clauses (1a)/(2a) exist only in the Prop model (Instance/Props.v); the two-element Bool object _2 has no initial object or coproduct instance, so at the base the book actually names, both joins are missing.",
+    "negative_search_log": [
+      "rg -n -g '*.v' '\\bCost\\b|\\[0, ?∞\\]|infty|infinity' . -- 3 hits, all prose background essays mentioning Lawvere's ([0,∞], ≥, +) (Theory/Profunctor.v:100, Instance/Poset.v:75, Instance/Two.v:71); no type, no ∞ value, no order",
+      "rg -n -g '*.v' 'Two_Initial|Two_Cocartesian|Two_Closed' . -- 0 hits: the two-element base has meet and top only",
+      "rg -n -i -g '*.v' 'lower bound|upper bound|supremum|infimum|complete lattice' . -- prose only (Instance/Poset.v:51,93 essay text); no least-upper-bound machinery"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same shape but MISSED Instance/Props.v entirely (my searches for joins/bottoms hit only Instance/Two/Monoidal.v and prose); the classifier's find is the better evidence and it checks out. Verified at the cited locations: Props_Initial at Instance/Props.v:61 (terminal_obj := False, i.e. the bottom of the entailment preorder = the empty join) and Props_Cocartesian at :80 (product_obj := or = the binary join); Props is thin by construction (homset equiv := True, Instance/Props.v:45), so it genuinely is a preorder and initial/coproduct genuinely are bottom/join. Instance/Props.v IS registered in _CoqProject. Independently reconfirmed the two negatives: rg 'Two_Initial|Two_Cocartesian|Two_Closed' -> 0 hits (the two-element base _2 carries only Two_Cartesian:80, Two_Terminal:98, Two_Monoidal:105), and rg '\\bCost\\b|infty|infinity' -> code-free, the three surviving hits being prose at Theory/Profunctor.v:100, Instance/Poset.v:75, Instance/Two.v:71 (all three read and confirmed to be background essays about Lawvere's ([0,∞],≥,+)). The Prop-for-B substitution is disclosed, not hidden, so strength_comparison is honest and PARTIAL stands."
+    }
+  },
+  {
+    "id": "7sketches:2.5.2:ex93",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Bool is a unital commutative quantale: (B, ≤, true, ∧) is monoidal closed and has all joins",
+      "the two-element Boolean algebra as an enrichment base; thin bicartesian closed category; Heyting/Boolean prealgebra",
+      "⊗ = ∧ has a right adjoint ⊸ = implication (the deduction theorem / currying)",
+      "join-complete (cocomplete) thin category; all disjunctions, with ⋁∅ = false",
+      "Props / _2 / Two_Monoidal as the in-tree truth-value base"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl;  exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} } — the monoidal-closed clause of the exercise at ⊗ = ∧: the tensor-hom bijection Hom(R ∧ P, Q) ≅ Hom(R, P → Q), i.e. ∧ has the right adjoint ⊸ = implication."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; ... } — binary joins (disjunctions) exist in the truth-value preorder."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 61,
+        "symbol": "Props_Initial",
+        "intree_statement": "Program Instance Props_Initial : @Initial Props := { terminal_obj := False; ... } — the empty join ⋁∅ = false, the clause the exercise singles out."
+      },
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 80,
+        "symbol": "Two_Cartesian",
+        "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |} (with Two_Terminal : @Terminal _2 := {| terminal_obj := TwoY; one := two_one |} at line 98, and Two_Monoidal : @Monoidal _2 := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal at line 105) — the (B, ≤, true, ∧) symmetric monoidal preorder itself, at the genuinely two-element base: tensor := the meet, unit := the top TwoY = true."
+      }
+    ],
+    "statement_record": {
+      "book": "Show that Bool = (B, ≤, true, ∧) is a unital commutative quantale: it is monoidal closed (Exercise 2.84) and it has all joins, the empty join being ⋁∅ = false.",
+      "intree": "Props_Closed : @Closed Props _ (exponent_obj := Basics.impl, exp_iso the currying bijection), Props_Cocartesian : @Cocartesian Props (product_obj := or), Props_Initial : @Initial Props (terminal_obj := False), and Two_Cartesian : @Cartesian _2 (product_obj := two_meet) with Two_Terminal (terminal_obj := TwoY).",
+      "strength_comparison": "intree-weaker in two respects. (i) There is no Quantale class anywhere in the library (the word occurs once, in a prose essay, Construction/Enriched.v:78), so nothing bundles 'monoidal closed + all joins' and the exercise's conclusion cannot be stated as such. (ii) 'All joins' is instantiated only as BINARY joins plus the empty join: arbitrary (infinite) joins would be Cocomplete Props, and Structure/Complete.v:119 defines Cocomplete as a hypothesis with no instance anywhere in the tree, while the indexed-limit toolkit Structure/Limit/Product.v provides only indexed PRODUCTS (iprod), with no indexed-coproduct dual. The closedness clause is faithful (∧ ⊣ →, the deduction theorem), and the tensor is genuinely the meet as the book requires; the base is Coq's Prop rather than the two-element B, while the two-element base _2 has the monoidal structure but neither joins nor exponentials."
+    },
+    "gap": "The 'has all joins' half is only finitary in-tree: binary joins (Props_Cocartesian) and the empty join (Props_Initial), never arbitrary subset-indexed joins. Cocompleteness of the truth-value preorder is not instantiated (Structure/Complete.v's Cocomplete has no instance in the library) and there is no indexed-coproduct construction dual to Structure/Limit/Product.v's iprod. There is also no Quantale class, so the exercise's actual conclusion ('Bool is a unital commutative quantale') is unstatable; and at the two-element base _2 that the book uses, only the monoidal (meet/top) structure exists — the exponential and the joins live only in the Prop model.",
+    "negative_search_log": [
+      "rg -n -i -g '*.v' 'quantale|residuated' . -- exactly 1 hit, prose: Construction/Enriched.v:78 'preorder- and quantale-enriched categories'; no class, no instance",
+      "rg -n -g '*.v' 'Complete|Cocomplete' . | grep -E ':(Definition|Program|Instance|Class|Theorem)' -- only Structure/Complete.v:115,119 (the two hypothesis definitions) and consumers in Adjunction/{GAFT,SAFT}.v, Construction/Comma/Limit.v; no category is ever proved (co)complete",
+      "ls Structure/Limit/ -- Cartesian.v Kan Preservation.v Product.v Terminal.v Weighted.v: an indexed-PRODUCT file exists (iprod/iprod_proj/iprod_ump) with no coproduct/join dual",
+      "rg -n -i -g '*.v' 'lattice|heyting|boolean algebra|semilattice' . -- prose only (Instance/Two.v:85-87 remarks that a Heyting algebra is a skeletal thin finitely-cocomplete cartesian-closed category — an essay claim, not an assertion)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL agrees with my blind verdict, reached from Two_Monoidal alone; the classifier's extra evidence is stronger and accurate. Verified Props_Closed at Instance/Props.v:94 (exponent_obj := Basics.impl, exp_iso the currying bijection — this is @Closed of Structure/Cartesian/Closed.v, so the tensor really is the meet ∧ as the book's Bool requires) and Two_Cartesian/Two_Terminal/Two_Monoidal at Instance/Two/Monoidal.v:80/98/105 (Two_Monoidal := @Cartesian_Monoidal, unit = TwoY = top = true, tensor = two_meet = AND — a faithful (B,≤,true,∧)). The two load-bearing negatives hold: rg -i 'quantale' over all .v returns EXACTLY ONE hit, Construction/Enriched.v:78, and it is prose inside a background essay; and Cocomplete has no instance anywhere — rg 'Cocomplete' yields only Structure/Complete.v:119 (the Definition) plus prose and one hypothesis use at Theory/Adamek/Corollaries.v:61. I also independently confirmed there is no indexed-coproduct dual to Structure/Limit/Product.v's iprod (its declarations stop at HasIndexedProducts:128), so the 'joins only finitary in-tree' gap is exactly right. Instance/Two.v:85-88, cited as an essay claim, is indeed Wikipedia-attributed prose, not an assertion."
+    }
+  },
+  {
+    "id": "7sketches:2.5.2:ex94",
+    "classification": "ABSENT",
+    "aliases": [
+      "the power-set monoidal preorder (P(S), ⊆, S, ∩) — is it a unital commutative quantale?",
+      "powerset lattice / Boolean algebra of subsets ordered by inclusion, with intersection as tensor and unions as joins",
+      "closed structure A ⊸ B = (S \\ A) ∪ B; residuation in a powerset quantale",
+      "subobject lattice Sub(x) of a topos / power object Pow a = Ω^a as the internal powerset",
+      "Ensemble-valued preorder: Coq.Sets.Ensembles with Included as the order and Intersection as the tensor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i -g '*.v' 'power.?set|Pow ' . -- the only hits are Structure/Topos.v:129 'Definition Pow (a : C) : C := Ω ^ a' (the internal power OBJECT of a topos, an exponential, not the external inclusion preorder) and Structure/Topos.v:144 relations_iso : SubObj (a × b) ≅ (a ~> Pow b); neither carries ⊆ as a hom, ∩ as a tensor, or unions as joins",
+      "rg -n -g '*.v' 'Ensemble' . -- Ensembles are used in exactly two places: Instance/Rel.v:47 (hom := fun A B => A ~> Ensemble B, i.e. relations, not inclusions) and Instance/Ens.v:34,56. I read Instance/Ens.v: in both Ens (obj := ∃ T, Ensemble T) and EnsT T (obj := Ensemble T) a morphism A ~> B is a FUNCTION f with (∀ x, x ∈ A ↔ f x ∈ B), so the hom is a preimage condition on functions, NOT the inclusion A ⊆ B — neither category is the poset (P(S), ⊆)",
+      "rg -n -i -g '*.v' 'Included|Intersection|inclusion order|subset order' . -- 0 order-theoretic hits; Coq.Sets.Ensembles' Included and Intersection are never used, so the ∩ tensor and the ⊆ hom do not exist",
+      "rg -n -i -g '*.v' 'sub_meet|intersect|meet' . -- no meet/intersection of subobjects; Structure/Pullback.v:94 only remarks in prose that a pullback of monos is an intersection of subobjects. Theory/Subobject.v:59-93 does give the subobject PREORDER (sub_le with sub_le_refl, sub_le_trans, sub_equiv_iff_mutual) — the categorical stand-in for (P(S), ⊆) — but it carries no tensor, no joins and no residuation, so none of the quantale structure the exercise asks about is present",
+      "rg -n -i -g '*.v' 'quantale|residuated' . -- 1 prose hit (Construction/Enriched.v:78); there is no Quantale class to instantiate and hence no way to state the exercise's question",
+      "rg -n -g '*.v' ': @Monoidal|Definition .*_Monoidal' . -- the complete list of monoidal bases contains no powerset/lattice base; the only preorder base is Two_Monoidal on the two-element _2 (Instance/Two/Monoidal.v:105)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass independently reached ABSENT and found no counterpart the classifier missed. rg -i 'power.?set|powerset' over all .v gives only Structure/Topos.v:75/129 (Pow a := Ω ^ a, an internal exponential — verified at line 129, with relations_iso just below at 146) and two prose lines in Instance/Poset.v; there is no (P(S), ⊆) preorder, no ∩ tensor and no ∪ joins. The classifier's extra diligence checks out: Instance/Ens.v really does make a morphism a FUNCTION with a preimage condition rather than an inclusion, and Theory/Subobject.v's sub_le preorder really does carry no tensor/join/residuation. With no Quantale class (single prose hit, Construction/Enriched.v:78) the exercise's question is not even statable, so ABSENT rather than PARTIAL is the right call."
+    }
+  },
+  {
+    "id": "7sketches:2.5.2:prop96",
+    "classification": "ABSENT",
+    "aliases": [
+      "a preorder has all joins iff it has all meets (a join-complete preorder is meet-complete)",
+      "complete lattice: sups determine infs, ⋀A = ⋁{p : p is a lower bound of A}",
+      "cocomplete thin category ⇒ complete thin category; Complete ↔ Cocomplete for posets",
+      "duality step: joins in P are meets in P^op (Cocartesian := Cartesian in the opposite, Colimit F := Limit (F^op))",
+      "corollary: a quantale has all meets although Definition 2.90 demands only joins"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -g '*.v' 'Complete|Cocomplete' . | grep -E ':(Definition|Lemma|Theorem|Corollary|Program|Instance|Class)' -- the ONLY declarations are Structure/Complete.v:115 'Definition Complete {C} := ∀ D (F : D ⟶ C), Limit F' and :119 'Definition Cocomplete {C} := ∀ D (F : D ⟶ C), Colimit F', plus consumers (Adjunction/GAFT.v:193 Complete_HasEqualizers, Adjunction/SAFT.v, Construction/Comma/Limit.v:245 Comma_Complete). There is no lemma of the form Cocomplete → Complete or Complete ↔ Cocomplete, in general or under thinness",
+      "rg -n -i -g '*.v' 'lower bound|upper bound|supremum|infimum|complete lattice|Knaster|Tarski' . -- prose only (Instance/Poset.v:51,93 essay); the set of lower bounds M_A and its join m_A, the whole content of the proof, has no in-tree counterpart",
+      "rg -n -g '*.v' 'Definition (join|meet|sup|inf)' . -- 0 hits (the only 'join' is the monad multiplication Theory/Coq/Monad.v:48); the only meet is Instance/Two/Monoidal.v:37 two_meet on the two-element order",
+      "the two duality facts the book's proof uses ARE in-tree, but only as naming aliases, which cannot serve as evidence for the theorem: Structure/Cocartesian.v:117 'Notation \"@Cocartesian C\" := (@Cartesian (C^op))' and Structure/Limit.v:158 'Definition Colimit (F : J ⟶ C) := Limit (F^op)'. They discharge the book's 'it suffices to prove one direction' remark, not its claim",
+      "rg -n -i -g '*.v' 'lattice|Heyting|Boolean algebra|semilattice' . -- prose only; there is no lattice-theoretic layer in which the proposition could be stated",
+      "nearest structural relative, and it does NOT prove this: Theory/WeaklyInitial.v:89 initial_from_weakly_initial builds an initial object (an empty MEET) from a weakly initial family using indexed products and equalizers — i.e. limits from limits, Freyd's construction — not meets from joins; nothing in the tree derives a limit from colimits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind verdict was also ABSENT. Independently reconfirmed the decisive negative: the ONLY declarations in the completeness layer are Structure/Complete.v:115 'Definition Complete {C} := ∀ D (F : D ⟶ C), Limit F' and :119 the Cocomplete dual — read both, and there is no lemma Cocomplete → Complete, in general or under thinness, anywhere in the tree. rg 'Definition (join|meet|sup|inf)' -> the only meet is Instance/Two/Monoidal.v:37 two_meet on the two-element order, so the proof's set of lower bounds M_A and its join m_A have no in-tree counterpart. The record is careful in the right place: it correctly refuses to count the duality ALIASES (Cocartesian := Cartesian in C^op, Colimit F := Limit F^op) as evidence, since those discharge the book's 'it suffices to prove one direction' remark and not its claim. Its 'nearest structural relative' note on Theory/WeaklyInitial.v is apt and correctly disclaimed (limits from limits, not meets from joins)."
+    }
+  },
+  {
+    "id": "7sketches:2.5.2:remark97",
+    "classification": "ABSENT",
+    "aliases": [
+      "Hausdorff distance between subsets, generalized to an arbitrary quantale: X(U,V) := ⋀_{u∈U} ⋁_{v∈V} X(u,v)",
+      "sup-inf distance d(U,V) = sup_{u∈U} inf_{v∈V} d(u,v) on subsets of a metric space",
+      "the subset (power) V-category on the objects of a V-category; V-powerset construction",
+      "Bool case: U ≤ V iff ∀ u ∈ U, ∃ v ∈ V with u ≤ v (the 'from every u you can get into V' relation); the down-set/lower-set order",
+      "V-modules / V-profunctors as generalized subsets (Isbell / Cauchy completion of a Lawvere metric space)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i -g '*.v' 'hausdorff' . -- 2 hits, both unrelated prose (Theory/Monad.v:66 'compact Hausdorff spaces' in the ultrafilter-monad essay; Theory/Equivalence.v:122 Gelfand duality); no distance-between-subsets construction",
+      "rg -n -i -g '*.v' 'quantale|residuated' . -- 1 prose hit (Construction/Enriched.v:78). Without a quantale there is neither the ⋀ nor the ⋁ used by the formula: rg -n 'Definition (join|meet|sup|inf)' -- 0 hits",
+      "read Construction/Enriched.v: the V-category API is Class Enriched (K : Category) `{@Monoidal K} with fields eobj, ehom : eobj → eobj → K, eid, ecompose and the three coherence laws (lines 111-131). It provides hom-objects between OBJECTS only; there is no construction forming a hom-object between two SUBSETS of eobj, and the base K is a bare Monoidal category with no meets or joins available to write ⋀⋁",
+      "rg -n -g '*.v' 'Ensemble' . -- only Instance/Rel.v:47 and Instance/Ens.v:34,56 (see the ex94 log); no subsets-of-objects-of-a-category construction. Construction/Subcategory.v selects objects by a predicate but assigns homs between OBJECTS of the subcategory, never between two predicates/subsets",
+      "rg -n -g '*.v' '\\bCost\\b|infty|infinity' . -- 0 code hits, so the motivating metric instance (sup inf d) cannot be written either",
+      "rg -n -i -g '*.v' 'down.?set|lower set|upset|Cauchy completion|Isbell' . -- the only 'Cauchy' hits are Construction/Karoubi/Universal.v:416 'Definition CauchyComplete (C) := IdempotentsSplit C' (idempotent splitting, an unrelated sense of the word) -- no presheaf/module model of subsets"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind verdict was also ABSENT. Reconfirmed: rg -i 'hausdorff' over all .v gives exactly two hits, Theory/Equivalence.v:122 and Theory/Monad.v:66, both the phrase 'compact Hausdorff spaces' in background essays (Gelfand duality, the ultrafilter monad) — nothing about distance between subsets. The structural argument is also right: I read Construction/Enriched.v and the Enriched class (fields eobj, ehom : eobj → eobj → K, eid, ecompose, three coherence laws) provides hom-objects between OBJECTS only, over a bare Monoidal base that supplies neither ⋀ nor ⋁, so X(U,V) := ⋀_{u∈U} ⋁_{v∈V} X(u,v) cannot be written. Construction/Subcategory.v selects objects by a predicate but never assigns a hom between two predicates, as the record says."
+    }
+  },
+  {
+    "id": "7sketches:2.5.2:prop98",
+    "classification": "PARTIAL",
+    "aliases": [
+      "a join-complete symmetric monoidal preorder is closed iff ⊗ distributes over joins: v ⊗ ⋁A = ⋁_{a∈A} (v ⊗ a)",
+      "distributivity of tensor over colimits; x × (y + z) ≅ x×y + x×z and x × 0 ≅ 0 (distributive category)",
+      "left adjoints preserve colimits (the forward direction); tensor is cocontinuous because − ⊗ v ⊣ v ⊸ −",
+      "adjoint functor theorem for posets: a join-preserving monotone map has a right adjoint, v ⊸ w := ⋁{a : a ⊗ v ≤ w}",
+      "closed monoidal / cartesian closed structure as an adjunction; Galois connection from a sup-preserving map"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 90,
+        "symbol": "prod_coprod_r",
+        "intree_statement": "Program Instance prod_coprod_r {x y z : C} : x × (y + z) ≅ x × y + x × z := { to := uncurry (curry (inl ∘ swap) ▽ curry (inr ∘ swap)) ∘ swap; from := second inl ▽ second inr } — proved in the section Context `{@Cartesian C} `{@Cocartesian C} `{@Closed C _} (lines 41-44): closedness of the (cartesian) tensor forces distributivity over binary joins, the forward direction of the proposition."
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 223,
+        "symbol": "left_adjoint_preserves_colimits",
+        "intree_statement": "Definition left_adjoint_preserves_colimits {C D} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G — the general principle behind the forward direction: a functor with a right adjoint (here − ⊗ v ⊣ v ⊸ −) preserves all colimits, i.e. all joins."
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 221,
+        "symbol": "prod_zero_r",
+        "intree_statement": "Program Instance prod_zero_r {x : C} : x × 0 ≅ 0 := { to := uncurry zero ∘ swap; from := zero } — the empty-join case of distributivity (v ⊗ ⋁∅ = ⋁∅), again derived from closedness; packaged with prod_coprod_r as BiCCC_Distributive : @Distributive C _ _ _ at line 257."
+      }
+    ],
+    "statement_record": {
+      "book": "Let V = (V, ≤, I, ⊗) be a symmetric monoidal preorder with all joins. Then V is closed (has ⊸, hence is a quantale) if and only if ⊗ distributes over joins: v ⊗ ⋁A = ⋁_{a∈A}(v ⊗ a) for every v and every subset A. Forward by Prop 2.87(b); conversely distributivity makes − ⊗ v join-preserving, so the Chapter-1 adjoint functor theorem for preorders gives a right adjoint, explicitly v ⊸ w := ⋁{a : a ⊗ v ≤ w}.",
+      "intree": "prod_coprod_r : x × (y + z) ≅ x × y + x × z and prod_zero_r : x × 0 ≅ 0, both proved under `{@Cartesian C} `{@Cocartesian C} `{@Closed C _}` and packaged as BiCCC_Distributive : @Distributive C _ _ _; left_adjoint_preserves_colimits (A : F ⊣ U) : PreservesAllColimits F.",
+      "strength_comparison": "intree-weaker: only the FORWARD implication, and only in a restricted form. (i) One direction: nothing in the tree derives closedness from distributivity — the converse needs an adjoint functor theorem, and the in-tree AFT (Adjunction/GAFT.v:241 GAFT) carries strictly more hypotheses than the preorder case needs (a Complete C, PreservesImageLimit and a SolutionSet at every object) and is stated only in the 'limit-preserving U ⇒ U has a LEFT adjoint' direction, never dualized to 'colimit-preserving ⇒ has a right adjoint' and never applied to − ⊗ v. (ii) Finite only: distributivity is proved for binary coproducts and the initial object, not for arbitrary joins ⋁A. (iii) Cartesian tensor only: prod_coprod_r lives over @Cartesian + @Closed, and the general closed-monoidal class Structure/Monoidal/Closed.v:46 ClosedMonoidal itself bundles closed_is_cartesian : @CartesianMonoidal C, so even the general closed base is cartesian; the genuinely general base Structure/Monoidal/StarAutonomous.v:109 SymMonClosed carries no colimit or distributivity statement. (iv) No quantale: there is no join-complete monoidal preorder in the tree, so the biconditional cannot be stated, and the explicit residuation formula v ⊸ w := ⋁{a : a ⊗ v ≤ w} appears nowhere."
+    },
+    "gap": "Missing: (a) the converse implication (⊗ distributes over joins ⇒ closed) and with it the residuum construction v ⊸ w := ⋁{a : a ⊗ v ≤ w}; the only in-tree adjoint functor theorem (GAFT) has extra hypotheses (completeness, image-limit preservation, solution sets), is oriented to produce a LEFT adjoint, and is never instantiated at a tensor functor. (b) The biconditional itself, and the setting it is stated in — a symmetric monoidal preorder with all joins (no quantale, no Cocomplete instance). (c) Arbitrary-join distributivity: only binary (prod_coprod_r) and empty (prod_zero_r) joins are covered. (d) A general (non-cartesian) monoidal tensor: the in-tree distributivity results assume a cartesian tensor, and ClosedMonoidal bundles CartesianMonoidal.",
+    "negative_search_log": [
+      "rg -n -i -g '*.v' 'distribut' . -- Structure/Distributive.v:44 Class Distributive (fields distr_prod_coprod, distr_zero) is finitary and cartesian; no statement of tensor-vs-arbitrary-colimit distributivity, and no converse",
+      "rg -n -g '*.v' '⊣' Structure/Monoidal/Closed.v Structure/Cartesian/Closed.v -- the tensor-hom adjunction is described in comments (lines 33 and 34 respectively) but never packaged as an Adjunction value, so left_adjoint_preserves_colimits is never actually applied to − ⊗ v anywhere in the tree",
+      "rg -n -i -g '*.v' 'quantale|residuated|Galois' . -- quantale: 1 prose hit; Galois: prose only (Instance/Poset.v:37-100, Theory/Adjunction.v:78, Adjunction/GAFT.v:136 'preorders, the Galois-connection setting') -- no preorder-level adjoint functor theorem is proved"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind verdict was also PARTIAL on the same evidence (BiCCC + Distributive). Every cited line verified: prod_coprod_r at Structure/BiCCC.v:90 and prod_zero_r at :221, both inside the section whose Context is `{@Cartesian C} `{@Cocartesian C} `{@Closed C _}`, packaged as BiCCC_Distributive at :257; left_adjoint_preserves_colimits at Adjunction/Continuity.v:223 (: PreservesAllColimits F, derived from right_adjoint_preserves_limits through the opposite adjunction); GAFT at Adjunction/GAFT.v:241 with exactly the hypotheses named (Complete C, PreservesImageLimit, a SolutionSet at every d) and producing a LEFT adjoint, never dualized. The sharpest claim in the record is also true and load-bearing: Structure/Monoidal/Closed.v:46 Class ClosedMonoidal really does open with 'closed_is_cartesian : @CartesianMonoidal C', so even the library's general closed MONOIDAL base is cartesian, and the genuinely general SymMonClosed (StarAutonomous.v:109) carries no colimit statement. Four-way gap (converse / biconditional / arbitrary joins / non-cartesian tensor) is precisely stated."
+    }
+  },
+  {
+    "id": "7sketches:2.5.3:def100",
+    "classification": "PARTIAL",
+    "aliases": [
+      "V-matrix over a quantale: a function M : X × Y → V, entries M(x,y) in V",
+      "Bool-matrix = binary relation R ⊆ X × Y, curried as X → Y → Prop / X → Ensemble Y",
+      "Set-matrix = profunctor / bimodule / distributor: (C^op ∏ D) ⟶ Sets ('a matrix of sets')",
+      "V-valued hom-matrix of a V-category (ehom : eobj → eobj → K)",
+      "weight/adjacency matrix indexed by two sets; Cost-matrix over the tropical (min-plus) quantale"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; homset := fun P Q => {| equiv := fun f g => ∀ x y, f x y ↔ g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |} — for V = Bool this IS the definition: a morphism A ~> B is a curried V-matrix A → Ensemble B = A → B → Prop with (x,y)-entry f x y, and the record asserts that these matrices form a category over the composition of Eq. (2.101) (its obligations discharge id_left, id_right, comp_assoc, comp_assoc_sym at lines 66-81)."
+      },
+      {
+        "file": "Construction/Profunctor/Compose.v",
+        "line": 267,
+        "symbol": "prof_compose",
+        "intree_statement": "Program Definition prof_compose : C ⇸ E := {| fobj := fun ce => coend_obj (SetsCoend (prof_integrand (fst ce) (snd ce))); fmap := ... |} (Context (P : C ⇸ D) (Q : D ⇸ E)) — the Sets-valued matrix type C ⇸ D := (C^op ∏ D) ⟶ Sets is asserted closed under the coend composition ∫^d P(c,d) × Q(d,e), the V = Sets analogue of a V-matrix and its product; prof_integrand (line 95) is '(d′,d) ↦ P(c,d) × Q(d′,e)'."
+      }
+    ],
+    "statement_record": {
+      "book": "Let V = (V, ≤, ⊗, I) be a quantale. For sets X and Y, a V-matrix is a function M : X × Y → V; M(x,y) is the (x,y)-entry.",
+      "intree": "Rel : Category with hom := fun A B => A ~> Ensemble B (i.e. A → B → Prop) and Profunctor C D := (C^op ∏ D) ⟶ Sets, the latter shown closed under coend composition by prof_compose : C ⇸ E.",
+      "strength_comparison": "intree-weaker: the V-matrix type is not parameterized by a quantale. It exists at exactly two hard-coded bases — V = Prop (Rel's hom, the Bool case, faithful to the book up to using Prop for the two-element B) and V = Sets (Profunctor, the categorified base, additionally required to be FUNCTORIAL in C^op ∏ D rather than a bare function on a product of sets, though functoriality is vacuous on discrete categories, where profunctors are exactly Set-matrices). There is no `VMatrix (V : Quantale) (X Y : Type) := X → Y → V` type, hence no Cost-matrices, no ℕ-matrices, and nothing to instantiate at a general V."
+    },
+    "gap": "No quantale-parameterized matrix type: the definition exists only at the two fixed bases V = Prop (Instance/Rel.v's hom) and V = Sets (Theory/Profunctor.v's Profunctor). Since no Quantale class exists, 'M : X × Y → V for a quantale V' cannot be written, and in particular the book's running Cost-matrix (and ℕ-matrix) cases are unavailable. The Sets case is also stated over arbitrary categories with a functoriality requirement rather than over bare sets.",
+    "negative_search_log": [
+      "rg -n -i -g '*.v' 'matrix|matrices' . -- no matrix TYPE anywhere: hits are background prose (Theory/Profunctor.v:54,64-69 'a profunctor is a matrix of sets', 'generalised matrix multiplication'; Functor/Hom/Yoneda.v:90; Instance/ZX.v) or the biproduct matrix CALCULUS on morphisms (Structure/Semiadditive.v:99,287-298, Structure/Bicartesian.v:34-36, Structure/Abelian.v:120)",
+      "rg -n -i -g '*.v' 'quantale' . -- 1 prose hit (Construction/Enriched.v:78); no base to index a matrix by",
+      "rg -n -g '*.v' '\\bCost\\b' . -- 0 code hits, so no Cost-matrix entries exist"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind verdict was also PARTIAL, on Instance/Rel.v alone; the profunctor leg is a correct addition. Verified Rel at Instance/Rel.v:45 — hom := fun A B => A ~> Ensemble B is literally a curried Bool-matrix, homset is the entrywise ↔, and the obligations at 54-81 discharge the category laws (I checked: 54 setoid, 61 compose Proper, 66 id_left, 73 id_right, 80/81 comp_assoc(_sym)); no axioms are used, and the commented-out Rel_Cartesian/Rel_Cocartesian/Rel_Closed block (lines 96-157, which WOULD have needed proof_irrelevance) is correctly not cited. Verified prof_compose at Construction/Profunctor/Compose.v:267 and prof_integrand at :95 with exactly the quoted '(d′,d) ↦ P(c,d) × Q(d′,e)'. The gap is right: rg -i 'matrix|matrices' finds no matrix TYPE at all (only prose and the biproduct matrix calculus on morphisms), so there is no `X → Y → V` indexed by a quantale."
+    }
+  },
+  {
+    "id": "7sketches:2.5.3:construction-matrix-powers",
+    "classification": "ABSENT",
+    "aliases": [
+      "matrix powers M_G^n compute best values over paths of ≤ n edges; powers stabilize on a finite vertex set and the stable matrix is the hom-matrix d_G",
+      "all-pairs shortest paths by repeated (min,+) matrix multiplication; Floyd-Warshall / matrix-power algorithm; tropical matrix powers",
+      "transitive-closure / reachability matrix as the join of all Boolean matrix powers ⋁_n M^n",
+      "free (presented) V-category on a V-weighted graph computed by iterating Eq. (2.101)",
+      "least fixed point of X ↦ I ∨ (M ⊗ X); reflexive-transitive closure of a relation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i -g '*.v' 'iterat|nat_iter|compose_n|\\bpowers?\\b' . -- no iterated-composition operator of any kind; the surviving 'power' hits are Adjunction/SAFT.v:152-165 (a hom-indexed PRODUCT of a cogenerating family) and Theory/Multicategory/Endomorphism.v's pow (an object power), none of them an n-fold composite of an endomorphism",
+      "rg -n -i -g '*.v' 'stabiliz|fixpoint|fixed point|Knaster|Tarski' . -- no stabilization or fixed-point statement (the Fixpoint hits are Coq's recursive-definition keyword in Solver/*.v); the claim 'once M^n = M^{n+1} the powers are stable' has no counterpart",
+      "rg -n -i -g '*.v' 'shortest path|all.pairs|floyd|warshall|dijkstra|distance matrix' . -- 0 hits",
+      "rg -n -g '*.v' '\\bCost\\b|infty|infinity' . -- 0 code hits: the base in which the powers are computed (0 on the diagonal, ∞ off-edge) does not exist",
+      "rg -n -i -g '*.v' 'transitive closure|reflexive.transitive|clos_refl' . -- the only closure in the tree is Instance/Lambda/Multi.v:46 'Inductive multi (R : crelation X) := multi_refl | multi_step' with multi_PreOrder at :74. This is the Bool-case ANSWER object (⋁_n R^n as an inductive relation, proved to be a preorder), but it is not presented as a matrix power, there is no lemma bounding path length by n, no stabilization claim, and nothing connects it to matrix multiplication",
+      "rg -n -i -g '*.v' 'weighted graph|edge weight|adjacency' . -- 1 comment hit (Construction/PROP.v:270); no M_G to raise to a power. The composition needed to form powers DOES exist at V = Bool (Instance/Rel.v:45 compose, the ⋁_y M ∧ N formula) and a colimit-of-an-ω-chain pattern exists (Construction/Chain.v, Theory/Adamek.v — but it iterates an endoFUNCTOR on an object, F^n 0, not an endomorphism under matrix multiplication); no in-tree statement relates either to the presented V-category's hom-matrix"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind verdict was also ABSENT. Reconfirmed the two negatives that matter: no n-fold composition operator for morphisms exists anywhere (so M², M³ cannot be formed), and rg -i 'shortest path|distance matrix|floyd|warshall|adjacency|weighted graph' is empty apart from one unrelated comment at Construction/PROP.v:270. The record's most interesting move is honest: it identifies Instance/Lambda/Multi.v:46 'Inductive multi (R : crelation X) := multi_refl | multi_step' with multi_PreOrder at :74 — both verified at those lines — as the Bool-case ANSWER object (⋁_n Rⁿ) and then correctly declines to count it, since nothing bounds path length by n, nothing states stabilization, and nothing connects it to matrix multiplication. Likewise its note that Construction/Chain.v / Theory/Adamek.v iterate an endoFUNCTOR on an object, not an endomorphism under matrix product, is the right disqualification."
+    }
+  },
+  {
+    "id": "7sketches:2.5.3:def-identity-matrix",
+    "classification": "PARTIAL",
+    "aliases": [
+      "identity V-matrix I_X : X × X → V, I on the diagonal and 0 = ⋁∅ off it",
+      "Kronecker delta / diagonal matrix; unit for the matrix multiplication of Eq. (2.101)",
+      "identity relation = the diagonal Δ_X (Bool case: true on the diagonal, false off it)",
+      "identity profunctor / unit bimodule prof_id := Hom C (Set-valued case); hom of a discrete category (x = y)",
+      "V-category unit: eid : I ~> (x ⟿ x)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| ... id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |} — at V = Bool the identity V-matrix is exactly 'id := Singleton', i.e. I_X(x,y) = (y = x): true (the monoidal unit) on the diagonal, false (= ⋁∅) off it. The record's id_left/id_right obligations (Instance/Rel.v:66-79, proved by destructing the Singleton witness) assert precisely Exercise 2.104(1) at V = Bool: I_X is the unit for the composition of Eq. (2.101)."
+      },
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 236,
+        "symbol": "prof_unit_left_iso",
+        "intree_statement": "Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P (with prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P at line 395), where prof_id := Hom C — the V = Sets analogue: the representable/hom matrix is the two-sided unit for coend matrix multiplication, up to natural isomorphism."
+      }
+    ],
+    "statement_record": {
+      "book": "For a set X and quantale V, the identity V-matrix is I_X : X × X → V with I_X(x,y) := I if x = y and := 0 = ⋁∅ otherwise; it is the unit for the multiplication of Eq. (2.101).",
+      "intree": "Rel's id := Singleton (so I_X(x,y) = (y = x)) together with the id_left/id_right laws of Program Definition Rel : Category; and prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P, prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P for prof_id := Hom C.",
+      "strength_comparison": "intree-weaker: only two fixed bases. At V = Bool (Rel) the identity matrix and its unit law hold on the nose, as equalities of morphisms in the hom-setoid — faithful to the book modulo Prop standing in for the two-element B. At V = Sets the unit is the hom functor and unitality holds only up to natural ISOMORPHISM, not equality (as it must, the composition being a coend). There is no I_X defined for a general quantale V, so the diagonal-versus-⋁∅ definition itself is never written; Instance/Discrete.v:37's DiscreteCat A (hom x y := x = y) is the same delta pattern but is a category, not a matrix."
+    },
+    "gap": "No general-V identity matrix: the definition 'I on the diagonal, ⋁∅ off it' cannot be stated because there is no Quantale class and no V-matrix type. In-tree it exists only at V = Bool (Rel's Singleton, with the unit law as an equality) and V = Sets (prof_id := Hom C, with unitality only up to natural iso). The ℕ and Cost instances the book immediately asks for (Exercise 2.103) are unavailable.",
+    "negative_search_log": [
+      "rg -n -i -g '*.v' 'identity matrix|Kronecker|delta' . -- the single hit is a comment, Structure/Semiadditive.v:287 'the \"identity matrix\" ((id, 0), (0, id))', about biproduct matrix calculus on morphisms, not a V-matrix",
+      "rg -n -i -g '*.v' 'quantale' . -- 1 prose hit; no V to place on the diagonal",
+      "rg -n -g '*.v' '\\bCost\\b' . -- 0 code hits (so no 0-on-the-diagonal/∞-off-diagonal Cost identity)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind verdict was also PARTIAL. Verified Rel's id := Singleton at Instance/Rel.v:45 (so I_X(x,y) = (y = x): the unit true on the diagonal, false = ⋁∅ off it) together with the id_left/id_right obligations at 66-79 that make it the unit for the Eq. (2.101) product — the record is right that this is Exercise 2.104(1) at V = Bool. Verified prof_unit_left_iso at Construction/Profunctor/Laws.v:236 and prof_unit_right_iso at :395, both stated as ≅[Fun] (up to natural isomorphism, exactly as the record discloses, not as equality). The DiscreteCat disclaimer is also accurate: Instance/Discrete.v:37 does use hom x y := x = y (the same delta pattern) but is a category, not a matrix. Gap statement (no general-V I_X; ℕ and Cost clauses unavailable) is exact."
+    }
+  },
+  {
+    "id": "7sketches:2.5.3:equation101",
+    "classification": "PARTIAL",
+    "aliases": [
+      "V-matrix multiplication (M * N)(x,z) := ⋁_{y∈Y} M(x,y) ⊗ N(y,z) — joins for Σ, ⊗ for ·",
+      "Boolean matrix product = relational composition: (M*N)(x,z) = ∃ y, M(x,y) ∧ N(y,z)",
+      "profunctor composition by coend ∫^d P(c,d) × Q(d,e) ('generalised matrix multiplication')",
+      "min-plus / tropical matrix product: min_y (M(x,y) + N(y,z)) in Cost",
+      "composition of V-modules / bimodules; span composition by pullback-then-quotient"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; ...; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |} — at V = Bool the composition field IS Eq. (2.101): the (a,b)-entry of the product is the join (∃) over the middle index e of the tensor (∧) of the two entries; the record asserts this operation is associative and unital (obligations at lines 66-81) and respects the entrywise equivalence (obligation 2, line 61)."
+      },
+      {
+        "file": "Construction/Profunctor/Compose.v",
+        "line": 267,
+        "symbol": "prof_compose",
+        "intree_statement": "Program Definition prof_compose : C ⇸ E := {| fobj := fun ce => coend_obj (SetsCoend (prof_integrand (fst ce) (snd ce))); ... |}, where prof_integrand c e : (D^op ∏ D) ⟶ Sets is '(d′,d) ↦ P(c,d) × Q(d′,e)' (line 95) — the V = Sets instance of Eq. (2.101), the coend ∫^d P(c,d) × Q(d,e) replacing ⋁_y M(x,y) ⊗ N(y,z)."
+      }
+    ],
+    "statement_record": {
+      "book": "For V-matrices M : X × Y → V and N : Y × Z → V over a quantale V, the product M * N : X × Z → V is defined by (M*N)(x,z) := ⋁_{y∈Y} M(x,y) ⊗ N(y,z), joins replacing the summation and ⊗ the product of the classical formula (2.99). (Works for noncommutative quantales too.)",
+      "intree": "Rel's compose := fun x y z f g a b => exists e : y, In y (g a) e ∧ In z (f e) b, asserted associative/unital/Proper by Program Definition Rel : Category; and prof_compose : C ⇸ E, the coend ∫^d P(c,d) × Q(d,e) over prof_integrand '(d′,d) ↦ P(c,d) × Q(d′,e)'.",
+      "strength_comparison": "intree-weaker in generality, equal in substance at its two bases. V = Bool: Rel's compose is literally the formula (∃ for ⋁, ∧ for ⊗) with the entrywise setoid ↔ for equality of matrices — faithful. V = Sets: prof_compose is the coend form, i.e. the formula with the join replaced by a colimit-with-dinaturality — the correct categorification, but it composes FUNCTORS on categories rather than functions on sets and its laws hold up to iso. Neither is parameterized by a quantale V, so the single displayed definition the book gives (for arbitrary V, commutative or not) is not in the tree; there is in particular no Cost/tropical matrix product."
+    },
+    "gap": "The formula is instantiated, never stated in general: there is no quantale-parameterized V-matrix multiplication, so nothing covers the book's arbitrary V (in particular Cost's min-plus product, or the noncommutative case the footnote mentions). In-tree it appears only as Rel's relational composition (V = Bool) and as coend profunctor composition (V = Sets, over categories, with laws only up to isomorphism).",
+    "negative_search_log": [
+      "rg -n -i -g '*.v' 'matrix|matrices' . -- no matrix multiplication operator; hits are prose or the biproduct matrix calculus (see the def100 log)",
+      "rg -n -i -g '*.v' 'tropical|min.plus|semiring' . -- 0 hits",
+      "rg -n -i -g '*.v' 'quantale' . -- 1 prose hit (Construction/Enriched.v:78): no ⋁/⊗ pair to sum over"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind verdict was also PARTIAL. Rel's compose field at Instance/Rel.v:45 is literally the (2.101) formula — ∃ e for ⋁_y, ∧ for ⊗ — and its Proper obligation (line 61) makes the product respect the entrywise ↔, which the record correctly counts. prof_compose/prof_integrand verified at Construction/Profunctor/Compose.v:267/95. Reconfirmed rg -i 'tropical|min.plus|semiring' -> 0 hits, so the Cost/min-plus product genuinely has no counterpart, and the noncommutative case of the footnote likewise. The strength_comparison distinction (faithful at V=Bool; a correct but coend-shaped categorification at V=Sets whose laws hold only up to iso) is honest."
+    }
+  },
+  {
+    "id": "7sketches:2.5.3:example102",
+    "classification": "PRESENT",
+    "aliases": [
+      "Boolean matrix multiplication (M*N)(x,z) = OR_y (M(x,y) AND N(y,z))",
+      "relational composition: (S ∘ R) a c = ∃ b, R a b ∧ S b c; the category Rel",
+      "Bool-matrix = binary relation; composition of relations as matrix product",
+      "matrix product over the two-element quantale / Boolean semiring",
+      "Rel as the Bool-enriched matrix category (V = Bool instance of Eq. 2.101)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B (i.e. A → B → Prop, a Boolean matrix); homset := fun P Q => {| equiv := fun f g => ∀ x y, f x y ↔ g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |} — Boolean matrix multiplication, i.e. relational composition, exactly as the example computes it: the (a,b)-entry of the product is ∃ e, g a e ∧ f e b. The obligations at lines 61-81 prove it is Proper for the entrywise ↔ and satisfies id_left, id_right, comp_assoc and comp_assoc_sym."
+      }
+    ],
+    "statement_record": {
+      "book": "Worked instance of Eq. (2.101) at V = Bool: with X = {1,2,3}, Y = {1,2}, Z = {1,2,3}, a 3×2 boolean matrix M and a 2×3 boolean matrix N multiply entrywise by (M*N)(x,z) = OR_y (M(x,y) AND N(y,z)); the product is displayed. This is boolean matrix multiplication, i.e. relational composition.",
+      "intree": "Rel : Category with hom A B := A ~> Ensemble B and compose f g a b := exists e, In y (g a) e ∧ In z (f e) b; the file's own header states 'Composition of R : A ~> B then S : B ~> C is (S ∘ R) a c = ∃ b, R a b ∧ S b c, the standard existential-witness relational composite'.",
+      "strength_comparison": "same (up to presentation, and in fact stronger in generality): the in-tree composition is the OR-of-ANDs formula on arbitrary index types rather than the three fixed finite sets, and it comes with proofs of the Proper/unit/associativity laws that the book's example does not state. Two presentational differences, both faithful: entries are Coq Props rather than elements of a two-element B (the library's standard truth-value stand-in, cf. Instance/Props.v), and equality of matrices is the entrywise ↔ of the hom-setoid rather than strict equality. The specific 3×2 · 2×3 numeric product of the example is not reproduced as an in-tree computation, which is presentation, not content."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i -g '*.v' 'boolean matrix' . -- 0 hits by name; the content is present under the name 'relational composition' (Instance/Rel.v:31-34, 45-53)",
+      "rg -n -g '*.v' 'Instance.Rel' . -- Rel is standalone (only Instance/Poset.v:108 refers to it in prose); no worked finite computation accompanies it"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "This is the batch's only PRESENT and therefore the one I pressed hardest, since a PRESENT record files no issue. It survives. Instance/Rel.v:45's compose IS Boolean matrix multiplication — (f ∘ g) a b := ∃ e, g a e ∧ f e b, i.e. OR-of-ANDs over the middle index — at arbitrary index types rather than the example's three finite sets, and the file proves what the example does not (Proper for the entrywise ↔ at line 61, id_left/id_right at 66/73, comp_assoc/comp_assoc_sym at 80/81, all axiom-free). The header's own words at Instance/Rel.v:31-34 match the quote in the record verbatim. Two disclosed presentational deltas, both genuinely presentational under the frozen definition: entries are Coq Props rather than a two-element B (the library's standard truth-value stand-in, cf. Instance/Props.v), and matrix equality is the hom-setoid's entrywise ↔ rather than strict equality — the schema explicitly rules setoid rephrasing faithful. The un-reproduced 3×2·2×3 numeric product is the example's illustration, not its content; classifying it PARTIAL would manufacture a coverage issue whose only work item is computing a table. Consistent with the sibling records: equation101 is PARTIAL because the GENERAL-V formula is missing, while this item is exactly the V=Bool instance."
+    }
+  },
+  {
+    "id": "7sketches:2.5.3:ex103",
+    "classification": "PARTIAL",
+    "aliases": [
+      "write the 2×2 identity V-matrix for V = (ℕ,≤,1,·), Bool = (B,≤,true,∧), Cost = ([0,∞],≥,0,+)",
+      "identity matrix = I on the diagonal, ⋁∅ off it: [[1,0],[0,1]] in ℕ, [[true,false],[false,true]] in Bool, [[0,∞],[∞,0]] in Cost",
+      "diagonal / Kronecker delta matrix at three concrete quantales",
+      "identity relation on a two-element set (the diagonal Δ)",
+      "unit of matrix multiplication instantiated at a finite index set"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| ...; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |} — the Bool clause of the exercise: for any index type (in particular a two-element one) the identity V-matrix is Singleton, with entries true (= the unit I) on the diagonal and false (= ⋁∅) off it, and the id_left/id_right obligations (lines 66-79) certify that this is the identity for the Eq. (2.101) product."
+      }
+    ],
+    "statement_record": {
+      "book": "Write down the 2×2 identity V-matrix I_X for each of the quantales (ℕ,≤,1,·), Bool = (B,≤,true,∧) and Cost = ([0,∞],≥,0,+) — i.e. put I on the diagonal and 0 = ⋁∅ off it.",
+      "intree": "Rel's id := Singleton (I_X(x,y) = (y = x)), certified as the unit for relational composition by the id_left/id_right obligations of Program Definition Rel : Category.",
+      "strength_comparison": "intree-weaker: one of the three clauses. The Bool clause holds in generality (any index type, not just a 2-element one), modulo Prop standing in for B; the ℕ and Cost clauses are unstatable — neither (ℕ,≤,1,·) nor ([0,∞],≥,0,+) exists as a monoidal preorder in the tree (Instance/Proset.v:47 LessThanEqualTo_Category is the ℕ ≤ preorder as a bare category, with no monoidal structure), and there is no V-matrix type indexed by a quantale in which to write the entries."
+    },
+    "gap": "Only the Bool clause has an in-tree counterpart (Rel's Singleton identity). The ℕ clause and the Cost clause are absent: the numeric monoidal preorders (ℕ,≤,1,·) and ([0,∞],≥,0,+) are not formalized — Instance/Proset.v:47 and Instance/Omega.v:72 give ℕ under ≤ as a plain category with no tensor or unit — and with no Quantale class and no V-matrix type there is nothing to instantiate at a general V.",
+    "negative_search_log": [
+      "rg -n -g '*.v' '\\bCost\\b|infty|infinity' . -- 0 code hits: the Cost identity matrix's entries (0 and ∞) do not exist",
+      "rg -n -g '*.v' ': @Monoidal|Definition .*_Monoidal|@CartesianMonoidal' . -- no monoidal structure on any numeric order; the only preorder base is Two_Monoidal on the two-element _2 (Instance/Two/Monoidal.v:105). Instance/Proset.v:47 LessThanEqualTo_Category := @Proset nat Nat.le Nat.le_preorder is ℕ under ≤ with no tensor",
+      "rg -n -i -g '*.v' 'identity matrix' . -- 1 comment hit (Structure/Semiadditive.v:287), about biproduct matrix calculus, not V-matrices"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind verdict was ABSENT; I now accept PARTIAL. The Bool clause really does have an in-tree counterpart — Rel's id := Singleton (Instance/Rel.v:45) is 'I on the diagonal, ⋁∅ off it' at any index type including a two-element one, certified as the unit by the id_left/id_right obligations at 66-79 — so 'some of the item exists' holds and the gap is precisely the other two clauses. Verified the disqualifications for those: Instance/Proset.v:47 LessThanEqualTo_Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder is ℕ under ≤ as a bare category with no tensor or unit, and Instance/Omega.v:72 Omega is the same for le_t; rg '\\bCost\\b|infty|infinity' is code-free. The one 'identity matrix' hit in the tree, Structure/Semiadditive.v:287, is indeed a comment on the biproduct comparison morphism can_comparison (verified at :288) and not a V-matrix."
+    }
+  },
+  {
+    "id": "7sketches:2.5.3:ex104",
+    "classification": "PARTIAL",
+    "aliases": [
+      "identity law I_X * M = M and associativity (M*N)*P = M*(N*P) for V-matrix multiplication",
+      "V-matrices form a category with sets as objects (the category V-Mat / Mat(V))",
+      "Rel is a category: relational composition is associative and unital (Bool case)",
+      "profunctor unitors and associator: prof_unit_left_iso, prof_unit_right_iso, prof_assoc_iso (Sets case, up to iso — the bicategory Prof)",
+      "bicategory of V-matrices / V-modules; span or bimodule composition laws"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |} — being a Category, this asserts exactly both laws of the exercise at V = Bool, on the nose: the id_left and id_right obligations (lines 66-79) are I_X * M = M and M * I_Y = M, and the comp_assoc/comp_assoc_sym obligations (lines 80-81, by firstorder) are (M*N)*P = M*(N*P), with sets as objects and V-matrices as morphisms."
+      },
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 722,
+        "symbol": "prof_assoc_iso",
+        "intree_statement": "Definition prof_assoc_iso : prof_compose (prof_compose P Q) R ≅[Fun] prof_compose P (prof_compose Q R) — the associativity law at V = Sets, up to natural isomorphism."
+      },
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 236,
+        "symbol": "prof_unit_left_iso",
+        "intree_statement": "Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P (and prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P at line 395) — the identity law at V = Sets, up to natural isomorphism."
+      }
+    ],
+    "statement_record": {
+      "book": "Let V = (V,≤,I,⊗,⊸) be a quantale. Using Eq. (2.101) and Proposition 2.87 prove (1) the identity law I_X * M = M for every V-matrix M : X × Y → V, and (2) the associative law (M*N)*P = M*(N*P). Together these make V-matrices the morphisms of a category with sets as objects.",
+      "intree": "Program Definition Rel : Category (id := Singleton, compose the ∃-of-∧ product) — the unit and associativity laws at V = Bool, as equalities in the hom-setoid, with sets as objects; and prof_assoc_iso / prof_unit_left_iso / prof_unit_right_iso for V = Sets, up to natural isomorphism.",
+      "strength_comparison": "intree-weaker: the laws are proved at two fixed bases rather than for an arbitrary quantale V. At V = Bool the conclusion is exactly the book's — a genuine Category whose objects are sets and whose morphisms are V-matrices. At V = Sets only the coherence CELLS exist: Construction/Profunctor/Compose.v:64-65 states outright that 'no category of all profunctors is formed', and unitality/associativity hold up to natural iso (necessarily so, composition being a coend), so that layer is a bicategory-shaped weakening rather than the book's strict category. Nothing is proved for a general V, and the book's route through Prop 2.87 (distributivity of ⊗ over joins) is nowhere instantiated."
+    },
+    "gap": "No proof for an arbitrary quantale V, and no category Mat(V) of V-matrices: the laws exist only (i) at V = Bool, as the category laws of Rel, and (ii) at V = Sets, only up to natural isomorphism and explicitly NOT assembled into a category ('no category of all profunctors is formed', Construction/Profunctor/Compose.v:65). Consequently the Cost case — the one the book goes on to use for shortest paths — has no unit or associativity statement.",
+    "negative_search_log": [
+      "rg -n -i -g '*.v' 'quantale' . -- 1 prose hit; no V to quantify over, hence no general statement of either law",
+      "rg -n -i -g '*.v' 'matrix|matrices' . -- no V-matrix type and no category of them (see the def100 log)",
+      "rg -n -g '*.v' 'Prof.*Category|Bicategory.*Prof|Prof_Setoid' . -- Theory/Profunctor.v:165 defines only Prof_Setoid (a setoid of profunctors); Instance/Cat/Bicategory.v is the bicategory of CATEGORIES, not of profunctors/matrices"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind verdict was also PARTIAL, and the V=Bool half is exactly right: Rel being a Category IS both laws on the nose, with sets as objects and Bool-matrices as morphisms (id_left/id_right at Instance/Rel.v:66/73 = I_X * M = M and M * I_Y = M; comp_assoc/comp_assoc_sym at 80/81 = (M*N)*P = M*(N*P)). prof_assoc_iso verified at Construction/Profunctor/Laws.v:722 and the two unitors at :236/:395, all three as ≅[Fun]; the quoted 'no category of all profunctors is formed' is verbatim at Construction/Profunctor/Compose.v:65. Classification unaffected, but ONE PIECE OF EVIDENCE WAS MISSED and the strength_comparison is correspondingly overstated: 'At V = Sets only the coherence CELLS exist' ignores Construction/Span/Category.v:522 'Program Definition SpanCat : Category' over Context (HP : HasPullbacks C), a STRICT category whose homs are spans modulo apex-isomorphism (span_equiv at :64) with span_id_left/:285, span_id_right/:315, span_compose_assoc/:343 and span_compose_assoc_sym/:501 all proved — and at C = Sets spans-up-to-iso ARE Set-matrices under Σ_y M(x,y) × N(y,z), so the V=Sets 'matrices form a category' content does exist strictly, just not via profunctors. Two caveats keep this from changing the verdict: SpanCat is conditional on HasPullbacks, whose only in-tree instance is FinSet_Pullbacks (Instance/FinSet/Classifier.v:264), so there is no Sets instantiation; and Sets/spans are a semiring-style base (Σ, ×), not a quantale, so the book's general V is still absent. PARTIAL stands; Phase E should use SpanCat as prior art when scoping a Mat(V) issue."
+    }
+  },
+  {
+    "id": "7sketches:2.5.3:ex105",
+    "classification": "ABSENT",
+    "aliases": [
+      "compute the Cost-matrix powers M_X^2, M_X^3, M_X^4 of a weighted graph and check M_X^4 equals the distance matrix",
+      "min-plus (tropical) matrix powers; all-pairs shortest paths by iterated matrix multiplication",
+      "n-fold composite of an endo-V-matrix; iterated relational composition (n-step reachability)",
+      "shortest-path distance matrix d_X of a Cost-weighted graph on four vertices",
+      "verifying stabilization of matrix powers on a finite vertex set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -g '*.v' '\\bCost\\b|\\[0, ?∞\\]|infty|infinity' . -- 0 code hits (only three prose mentions of Lawvere's ([0,∞],≥,+) in background essays); the exercise's base quantale, and the ∞ entries of M_X, do not exist",
+      "rg -n -i -g '*.v' 'matrix|matrices' . -- no matrix type and no matrix product to iterate; every hit is prose or the biproduct matrix calculus on morphisms",
+      "rg -n -i -g '*.v' 'iterat|compose_n|\\bpowers?\\b' . -- no n-fold composition operator for morphisms anywhere, so M^2, M^3, M^4 cannot be formed even at a base that did exist",
+      "rg -n -i -g '*.v' 'shortest path|distance matrix|floyd|warshall|weighted graph|edge weight' . -- 0 hits beyond one comment (Construction/PROP.v:270); the distance matrix of Exercise 2.58 that this exercise checks against is itself absent (already recorded ABSENT in this campaign)",
+      "rg -n -i -g '*.v' 'eq_refl' Instance/FinSet/Topos.v -- the library does have computable finite instances that could host such a table (FinSet examples computing by eq_refl), but nothing weighted and no Cost base to compute in"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind verdict was also ABSENT, on the same three grounds: no Cost base (rg '\\bCost\\b|infty|infinity' code-free), no matrix type or product to iterate, and no n-fold composition operator for morphisms, so M_X², M_X³, M_X⁴ cannot be formed even in principle. The record's closing observation is fair — the tree does have computable finite instances that could host such a table (the FinSet Topos examples that reduce by eq_refl) — and correctly notes that the Exercise 2.58 distance matrix this exercise checks against is itself already recorded ABSENT, so the two should be scoped together."
+    }
+  }
+]

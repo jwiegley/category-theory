@@ -1,0 +1,382 @@
+[
+ {
+  "id": "riehl:2.4:remark-every-category-is-elements",
+  "classification": "ABSENT",
+  "aliases": [
+   "category of elements of the constant singleton functor",
+   "el(Δ_*) ≅ E",
+   "constant functor Δ(1) : E ⟶ Sets / Diagonal 1 / =(c)",
+   "representation of the terminal-valued functor = initial object",
+   "Hom(a,─) ≅ Δ(1) iff a is initial",
+   "every category is a category of elements (Grothendieck construction of a point-valued family)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -il 'category of elements' --glob '*.v' — 1 hit, Construction/Grothendieck.v:108, and it is a PROSE COMMENT ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)') with no construction behind it; no in-tree ∫F / el(F) exists",
+   "rg -in 'category of elements|elements of a (functor|presheaf)|el\\(F\\)|∫ ?F|\\bEls\\b' --glob '*.v' — same single comment hit",
+   "rg -l 'Elements' --glob '*.v' — Instance/FinSet/Pushout.v, Instance/Sets/Coend.v only; both are about elements of a setoid/quotient, unrelated",
+   "rg -c -i 'element' --glob '*.v' | sort — highest-count files are Instance/FinSet/Classifier.v, Theory/Metacategory.v, Structure/Topos.v; inspection shows all are 'element of a set/setoid', never the category ∫F",
+   "Constant functor side: Functor/Diagonal.v:33 Diagonal, :50-55 the notations Δ[J](c), Δ(c), =(c) := Diagonal 1 c DO exist, so the constant singleton-valued functor Δ[E](1) is expressible; but nothing asserts E ≅ ∫(Δ[E](1))",
+   "Second clause ('a representation for Δ_* amounts to an initial object of E'): rg over Structure/Initial.v and Structure/Terminal.v — the only assertions are the Initial/Terminal classes and one_comp/const; no lemma relates 'Hom(a,─) ≅ constant-singleton functor' to initiality",
+   "rg -n 'Terminal|Initial' --glob '*.v' | grep -i 'Instance|Definition|Lemma|Theorem' — no statement of the form 'a is initial iff a represents the constant functor'"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT.  Blind pass ran before opening coverage-2-5.json and reached the same verdict independently.  Alias expansion: 'category of elements', 'el(F)', 'Elements', '∫F', 'constant singleton functor', 'Delta 1', '=(c)', 'representable constant functor', 'initial object iff represents'.  Searches: grep -rn --include='*.v' -i 'Elements|category of elements' (no construction anywhere; only prose); grep over Structure/Initial.v + Structure/Terminal.v for any representability characterisation of initiality (none — Structure/Initial.v carries only initial_obj:106, zero:109, zero_unique:112, zero_comp:124); grep -rn 'Representable' (Functor/Representable.v:46 is the only class, with no instance relating it to Initial).  Both clauses of the remark are missing: (1) no E ≅ ∫(Δ₁) statement, and no ∫ at all; (2) no lemma 'a is initial iff [Hom a,─] ≅ constant-singleton'.  I independently confirmed the constant functor IS expressible — Functor/Diagonal.v:55 Notation '=( c )' := (Diagonal 1 c) — so the missing content is the two assertions, not the vocabulary.  Nearest relative I checked and rejected on my own: Theory/Universal/Arrow.v:127 UniversalArrow c F := @Initial (=(c) ↓ F) is initiality of a COMMA category, a different claim (it does not say E itself is a category of elements, and its F is arbitrary, not the constant singleton)."
+  }
+ },
+ {
+  "id": "riehl:2.4:def13",
+  "classification": "ABSENT",
+  "aliases": [
+   "discrete left fibration",
+   "discrete right fibration / discrete opfibration",
+   "unique lifting of arrows along a functor",
+   "DiscreteFibration class / Cleaving with unique lifts",
+   "orthogonality of Π against the functor 1 ⟶ 2 in Cat",
+   "presheaf-as-fibration projection"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -in 'discrete_?(left|right|op)?_?fibration|DiscreteFib|discrete opfibration' --glob '*.v' — 1 hit, Construction/Grothendieck.v:109, a prose comment only",
+   "rg -in 'unique lift|uniquely lift|unique(ly)? lifts' --glob '*.v' — 2 hits: Structure/Regular/Factorization.v:112 and Theory/Orthogonality.v:8, both about the unique lifting property of MORPHISMS in a category, not of arrows along a functor",
+   "Read Theory/Fibration.v in full: the fibration vocabulary in-tree is DCartesian (:75), Cleaving (:85), CartesianMorphism (:96), CartesianLift (:107), ClovenFibration (:123), SplitCleaving (:139), Displayed_op (:223), OpCleaving (:272). Every one of these asks for lifts that are CARTESIAN (unique factorization through the lift), never for lifts that are themselves UNIQUE — which is exactly the extra demand of a discrete fibration. Cleaving is therefore strictly weaker and not a rephrasing",
+   "Ingredients for Riehl's alternative lifting-diagram form exist but are never combined: Theory/Orthogonality.v:43 Class Orthogonal (e ⫫ m) in an arbitrary category, Instance/Two.v:134 _2 (the walking arrow), Instance/Cat.v (Cat); no file instantiates Orthogonal in Cat at the functor 1 ⟶ 2",
+   "rg -in 'fibres? are discrete|discrete fibre|discrete fiber' --glob '*.v' — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT.  Blind pass independently read Theory/Fibration.v end to end and enumerated the same vocabulary at the same lines — DCartesian:75, Cleaving:85, CartesianMorphism:96, CartesianLift:107, ClovenFibration:123, SplitCleaving:139, Displayed_op:223, OpCleaving:272 — and reached the classifier's key point unprompted: every in-tree lift is required to be CARTESIAN (unique factorisation THROUGH the lift, DCartesian's dcart_factor / CartesianMorphism's cart_factor), never UNIQUE ITSELF, which is exactly the extra demand of a discrete fibration.  Cleaving is therefore not a rephrasing but a genuinely different (weaker) condition, so PARTIAL would have been dishonest.  ONE CORRECTION to the negative_search_log, which does not move the verdict: the phrase 'discrete fibration' occurs in TWO prose sites, not one — Construction/Grothendieck.v:109 (cited) AND Structure/Factorization.v:98, which mentions the '(fully faithful functor, discrete fibration)' orthogonal factorisation system on Cat.  Neither defines anything; the second is worth knowing for Phase E, since Structure/Factorization.v is a plausible second home for the notion.  Also verified the classifier's 'ingredients exist but are never combined' claim at its cited lines: Theory/Orthogonality.v:43 Class Orthogonal, Instance/Two.v:134 Program Definition _2 — both real, and no file instantiates Orthogonal in Cat."
+  }
+ },
+ {
+  "id": "riehl:2.4:prop14",
+  "classification": "ABSENT",
+  "aliases": [
+   "categories of elements are the discrete fibrations",
+   "∫ : Set^C ⟶ CAT/C fully faithful",
+   "Grothendieck correspondence for Set-valued functors",
+   "essential image = discrete left/right fibrations",
+   "presheaves ≃ discrete fibrations over C",
+   "Grothendieck construction round trip"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -il 'category of elements' --glob '*.v' — only the Construction/Grothendieck.v:108 comment; the functor ∫(−) whose full faithfulness the proposition asserts does not exist in-tree",
+   "rg -in 'discrete_?(left|right|op)?_?fibration' --glob '*.v' — only the Construction/Grothendieck.v:109 comment, so the essential-image clause has no vocabulary to be stated in",
+   "Slice of Cat: Construction/Slice.v:123 Slice and Instance/Cat.v both exist, so CAT/C is expressible, but rg -n 'Slice' over the Grothendieck/, Theory/Fibration.v and Functor/ trees finds no functor into a slice of Cat",
+   "Nearest in-tree relative, examined and rejected as evidence: the CAT-level Grothendieck correspondence in Construction/Grothendieck/RoundTrip.v — IndexedCat_of_SplitCleaving (:1601), RoundTrip_Comparison (:1608), RoundTrip_Full (:1624), RoundTrip_Faithful (:1631), RoundTrip_Equivalence (:1638), plus Construction/Grothendieck/Fibration.v:223 Grothendieck_Split. These are a DIFFERENT theorem: the indexing is by IndexedCat B (Cat-valued pseudofunctor-lite), not Set^C; the fibred side is a cloven/split OPfibration, not a discrete fibration; and full/faithful there qualify the comparison functor Grothendieck(RT_Indexed) ⟶ E, not a functor Set^C ⟶ CAT/C. None of the proposition's three clauses (projection is a discrete left fibration; ∫ is fully faithful into CAT/C; essential image is exactly the discrete left fibrations) is asserted anywhere",
+   "rg -n 'Full|Faithful' --glob '*.v' over Functor/Hom/Yoneda.v and Construction/Grothendieck/*.v — the only fully-faithful statements are Yoneda_Embedding (Functor/Hom/Yoneda.v:231) and the RoundTrip comparison, neither of which is ∫"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT.  Blind pass reached the same verdict and independently identified Construction/Grothendieck/RoundTrip.v as the one tempting near-miss, then rejected it for the same three reasons.  I re-verified every line number in the classifier's rejection and they are EXACT: IndexedCat_of_SplitCleaving:1601, RoundTrip_Comparison:1608, RoundTrip_Full:1624, RoundTrip_Faithful:1631, RoundTrip_Equivalence:1638 (file is 1669 lines), plus Construction/Grothendieck/Fibration.v:223 Theorem Grothendieck_Split.  The mismatch is real and not cosmetic: (a) the in-tree indexing is `IndexedCat B` (Cat-valued coherent pseudofunctor data), not Set^C — Construction/Grothendieck.v and Construction/Indexed.v contain the string 'Sets' zero times; (b) the fibred side is a cloven/split OPfibration, never a DISCRETE fibration (which does not exist in-tree, see riehl:2.4:def13); (c) RoundTrip_Full/Faithful qualify a comparison functor between two fixed categories built from ONE cleaving, not a functor Set^C ⟶ CAT/C.  None of the proposition's three clauses is asserted.  CAT/C itself is expressible (Construction/Slice.v:123 Slice + Instance/Cat.v) but is never formed."
+  }
+ },
+ {
+  "id": "riehl:2.4:exi",
+  "classification": "ABSENT",
+  "aliases": [
+   "category of elements as a comma category over the Yoneda embedding",
+   "∫F ≅ y ↓ F",
+   "comma category of the Yoneda embedding",
+   "y ↓ F / F ↓ y (covariant dual of Lemma 2.4.7)",
+   "Yoneda_Embedding comma description"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -il 'category of elements' --glob '*.v' — only the Construction/Grothendieck.v:108 comment; the left-hand side of the asserted isomorphism does not exist in-tree",
+   "Right-hand side ingredients DO exist but are never combined: Construction/Comma.v:127 Program Definition Comma (notation S ↓ T), Functor/Hom/Yoneda.v:231 Yoneda_Embedding and :253 Covariant_Yoneda_Embedding",
+   "rg -n 'Yoneda' --glob '*.v' | grep -i 'comma|↓' — 0 hits: no file forms a comma category over either Yoneda embedding",
+   "rg -n '↓' --glob '*.v' — the comma categories actually formed in-tree are =(c) ↓ F (Theory/Universal/Arrow.v:128), Id ↓ =(c) and =(c) ↓ Id (Construction/Slice.v:141,182), Id ↓ Id (Construction/Arrow.v:110), F ↓ Δ / Δ ↓ F (Instance/Cones/Comma.v), and =(d) ↓ U (Adjunction/GAFT.v); none is a comma over a Yoneda embedding"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT.  Blind pass agreed.  I enumerated every comma category actually formed in the tree independently of the classifier — =(c) ↓ F (Theory/Universal/Arrow.v:128), Id ↓ =(c) / =(c) ↓ Id (Construction/Slice.v:140 Comma_Slice, :181 Comma_Coslice), Id ↓ Id (Construction/Arrow.v:110), Δ ↓ F (Instance/Cones/Comma.v:15,23), =(d) ↓ U (Adjunction/GAFT.v:181) — and NONE has a Yoneda embedding as a leg, confirming the classifier's enumeration.  Both sides of the asserted isomorphism would have to be built: ∫F does not exist, and y ↓ F is never formed even though Functor/Hom/Yoneda.v:231 Yoneda_Embedding and :253 Covariant_Yoneda_Embedding are real Program Instances.  Note for Phase E: this exercise is the covariant dual of riehl:2.4:lem7, already verified ABSENT in batch 2-4, so the two should share an issue."
+  }
+ },
+ {
+  "id": "riehl:2.4:exii",
+  "classification": "ABSENT",
+  "aliases": [
+   "∫F ≅ * ↓ F",
+   "category of elements as comma over the singleton",
+   "comma category of the point 1 ⟶ Sets",
+   "=(1) ↓ F where 1 is the terminal setoid",
+   "elements of a presheaf as a slice of Sets"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -il 'category of elements' --glob '*.v' — only the Construction/Grothendieck.v:108 comment; ∫F, the left-hand side of the exercise's isomorphism, is not constructed anywhere",
+   "The right-hand side is directly expressible in-tree — Theory/Universal/Arrow.v:128 uses exactly the comma =(c) ↓ F built from Functor/Diagonal.v:55's =(c) := Diagonal 1 c, and Instance/Sets.v:248 Sets_Terminal supplies the singleton setoid — but no file instantiates c := 1 in Sets, and there is no isomorphism statement to prove against, since ∫F is missing",
+   "rg -n 'Comma_Slice|Comma_Coslice' Construction/Slice.v — the only comma-vs-concrete-construction isomorphisms in-tree are Comma_Slice (C ̸ c ≅[Cat] (Id ↓ =(c)), :140) and Comma_Coslice (:181); neither concerns a Sets-valued functor",
+   "rg -in 'singleton|terminal setoid' --glob '*.v' | grep -i comma — 0 hits",
+   "Contravariant half of the exercise ('state and prove a similar result for contravariant functors'): searched the same aliases over C^op forms — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT, with a scoping note Phase E should carry.  Blind pass agreed: no file instantiates the comma at the singleton of Sets, and no isomorphism is stated.  BUT there is a real tension with batch 2-4, which classified riehl:2.4:def1 and :def2 PARTIAL precisely because ∫F is a zero-obligation instance of Construction/Comma.v:127 at S := =(1) : 1 ⟶ Sets (Functor/Diagonal.v:55 supplies =(c); Instance/Sets.v:248 Sets_Terminal supplies the singleton).  That is exactly the identification THIS exercise asks one to prove.  So the honest reading is: the exercise is not merely uncovered, it is the very statement that would become definitional the moment def1's gap is closed by defining ∫F as (=(1) ↓ F).  ABSENT stands (nothing in-tree asserts it, and the left-hand side does not exist), but the Phase-E issue for this item should be folded into the def1/def2 issue rather than filed as independent work.  I also verified the classifier's claim that no Hom_Sets(1,X) ≅ X lemma exists: grep over Instance/Sets.v finds only Sets_Terminal:248, no global-elements isomorphism."
+  }
+ },
+ {
+  "id": "riehl:2.4:exiii",
+  "classification": "ABSENT",
+  "aliases": [
+   "terminal object of the slice category C/c",
+   "initial object of the coslice category c/C",
+   "identity is terminal in C/c",
+   "terminal objects of C/c are the isomorphisms into c",
+   "Slice / Coslice Terminal / Initial instance"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n 'Terminal.*Slice|Slice.*Terminal|Initial.*Coslice|Coslice.*Initial' --glob '*.v' — 0 hits",
+   "rg -n '^(Class|Record|Definition|Program Definition|Lemma|Theorem|Corollary|Instance|Program Instance)' Construction/Slice.v — the file contains EXACTLY four items: Slice (:123), Comma_Slice (:140), Coslice (:169), Comma_Coslice (:181). No terminal/initial object of either is stated, and the file has no other lemmas",
+   "rg -n 'Terminal' --glob '*.v' | grep -i 'Instance|Definition|Lemma|Theorem' — every in-tree Terminal instance is for a concrete category (Coq_Terminal, Sets_Terminal, Par_Terminal, ParE_Terminal, Algs_Terminal, Lambda_Terminal, Cat_Terminal, SemicartesianMonoidal_Terminal) or for a limit/algebra category (Structure/Limit/Terminal.v:33 Terminal_Limit, Theory/Lambek.v:78); none is a slice or coslice",
+   "rg -ln 'Slice|Coslice' --glob '*.v' — Structure/Topos.v, Structure/Pullback.v, Construction/Arrow.v, Construction/Comma.v, Construction/Slice/Pullback.v, Construction/Slice.v, Construction/Displayed/Codomain.v; read the slice-bearing ones — Construction/Slice/Pullback.v only builds Bang_Functor (:50) and Star_Functor (:68) and their adjunction, nothing about initial/terminal objects",
+   "The characterization the exercise wants (terminal objects of C/c are exactly the isomorphisms into c) needs 'iso' + 'slice' together: rg -n 'Isomorphism' Construction/Slice.v — the only hits are the ≅[Cat] comparisons Comma_Slice/Comma_Coslice"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT.  Blind pass independently enumerated Construction/Slice.v and found EXACTLY the four items the classifier lists — Slice:123, Comma_Slice:140, Coslice:169, Comma_Coslice:181 — with no lemmas of any kind after them, and independently searched every in-tree Terminal/Initial instance: all are for concrete categories (Sets_Terminal Instance/Sets.v:248, Coq, FinSet, Lambda, Cat, …) or for algebra/limit categories (Theory/Lambek.v:78, Theory/Adamek.v:286, Theory/WeaklyInitial.v:136), never a slice or coslice.  Construction/Slice/Pullback.v contains only Bang_Functor:50 and Star_Functor:68.  Worth recording for Phase E: the exercise's answer is one step from two things that ARE in-tree — Comma_Coslice (c ̸co C ≅[Cat] (=(c) ↓ Id)) plus Theory/Universal/Arrow.v:127 UniversalArrow c Id := @Initial (=(c) ↓ Id) — so an initial object of the coslice is literally a universal arrow to the identity functor; nobody instantiates F := Id, and the characterisation (initial objects of c/C are exactly the isomorphisms out of c) is nowhere stated.  ABSENT confirmed."
+  }
+ },
+ {
+  "id": "riehl:2.4:exiv",
+  "classification": "PARTIAL",
+  "aliases": [
+   "contravariant functor representable iff its category of elements has a terminal object",
+   "dual of Proposition 2.4.8",
+   "universal arrow from F to c = terminal object of F ↓ =(c)",
+   "UniversalArrow / AUniversalArrow",
+   "representability ⟺ initial object of a comma category",
+   "universal element / terminal element of ∫F"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/UniversalProperty/Universal/Arrow.v",
+    "line": 61,
+    "symbol": "UniversalArrowIsUniversalProperty",
+    "intree_statement": "Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _.  (* proof term, Defined, fixes repr_functor := (Curried_Hom C c) ◯ U, i.e. d ↦ Hom_C(c, U d); so AUniversalArrow c U a ≅ { natural isos [Hom a,─] ≅ Hom_C(c, U ─) } as setoids — the representability half of the criterion, in both directions *)"
+   },
+   {
+    "file": "Theory/Universal/Arrow.v",
+    "line": 127,
+    "symbol": "UniversalArrow",
+    "intree_statement": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); arrow_obj := snd (`1 (@initial_obj _ arrow_initial)); arrow : c ~> F arrow_obj := `2 (@initial_obj _ arrow_initial) }.  (* the universal property IS initiality of the comma category =(c) ↓ F *)"
+   },
+   {
+    "file": "Theory/Universal/Arrow.v",
+    "line": 158,
+    "symbol": "universal_arrow_from_UMP",
+    "intree_statement": "Definition universal_arrow_from_UMP (c : C) (F : D ⟶ C) (d : D) (η : c ~> fobj[F] d) (u : ∀ (d' : D) (f : c ~> fobj[F] d'), ∃! g : d ~> d', f ≈ fmap[F] g ∘ η) : UniversalArrow c F.  (* converse: the universal mapping property reconstructs the initial object of the comma category; with ump_universal_arrows (:139) this makes the correspondence a biconditional *)"
+   }
+  ],
+  "statement_record": {
+   "book": "By duality, a CONTRAVARIANT functor F : C^op ⟶ Set is representable if and only if its category of elements ∫F has a TERMINAL object; the exercise asks to obtain this by dualizing the covariant proof (Proposition 2.4.8, representable ⟺ ∫F has an initial object).",
+   "intree": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); ... } together with Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _ (repr_functor = d ↦ Hom_C(c, U d)) and Definition universal_arrow_from_UMP ... : UniversalArrow c F.",
+   "strength_comparison": "intree-weaker: three ways. (1) The category of elements ∫F is not in the library at all; the stand-in is the comma category =(c) ↓ F, which is never identified with ∫F. (2) The functor whose representability is characterized is not an arbitrary Sets-valued functor but one of the shape Hom_C(c, U ─); recovering an arbitrary F : C ⟶ Sets needs Hom_Sets(1, F ─) ≅ F, which is NOT proven in-tree (searched Instance/Sets.v and Structure/Constant.v — only Sets_Terminal and the 'global element' vocabulary exist). (3) The orientation is the covariant/INITIAL one; the terminal/contravariant form the exercise actually asks for appears in-tree only as a prose remark (Theory/Universal/Arrow.v:23-24, 'The dual notion, a universal arrow from F to c, is a terminal object of F ↓ =(c)'), which is a comment, not an assertion. It is obtainable by instantiating the above at opposite categories (the library's standard duality idiom), but no file does so."
+  },
+  "gap": "The contravariant/terminal statement itself is nowhere asserted — it exists only as a prose remark at Theory/Universal/Arrow.v:23-24. What IS proven is the covariant/initial correspondence 'a represents Hom_C(c, U ─) ⟺ (a, u) is an initial object of the comma =(c) ↓ U'. To close the gap one needs: the category of elements ∫F as a construction; its identification with =(1) ↓ F (via Hom_Sets(1, X) ≅ X, also missing); and the dualized statement 'F : C^op ⟶ Sets representable ⟺ ∫F has a terminal object' as an actual in-tree theorem.",
+  "negative_search_log": [
+   "rg -il 'category of elements' --glob '*.v' — only the Construction/Grothendieck.v:108 comment",
+   "rg -in 'global element|points functor|from the terminal object' --glob '*.v' — Tools/Represented.v:18, Tools/Abstraction.v:33, Structure/Constant.v:7 use 'global element' informally; no lemma Hom_Sets(1, X) ≅ X",
+   "rg -n 'Hom 1|Curried_Hom.*Terminal|\\[Hom 1' --glob '*.v' — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL.  Every cited location is accurate and I re-read each: Structure/UniversalProperty/Universal/Arrow.v:61 is exactly 'Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _.' and its first proof step is `exists ((Curried_Hom C c) ◯ U)`, so repr_functor really is d ↦ Hom_C(c, U d) as the record says; Theory/Universal/Arrow.v:127 UniversalArrow and :158 universal_arrow_from_UMP are verbatim as quoted; and the prose the gap relies on is at Theory/Universal/Arrow.v:23-24 exactly — 'The dual notion, a universal arrow from F to c, is a terminal object of F ↓ =(c)' — a COMMENT, not an assertion, as claimed.  All cited files are registered in _CoqProject (Theory/Universal/Arrow.v:475, Structure/UniversalProperty/Universal/Arrow.v:381).  I independently confirmed the third leg of the strength_comparison: there is no Hom_Sets(1,X) ≅ X lemma in Instance/Sets.v (only Sets_Terminal:248), so an arbitrary F : C ⟶ Sets cannot yet be put in the shape Hom_C(c, U ─).  The strength_comparison is honest — it does not claim the terminal/contravariant form is proven.  PARTIAL is also CONSISTENT with batch 2-4, where riehl:2.4:prop8 (the statement this exercise dualises) was classified PARTIAL on the same evidence and Phase D confirmed it; an exercise asking only to dualise a PARTIAL result cannot honestly rate higher."
+  }
+ },
+ {
+  "id": "riehl:2.4:exv",
+  "classification": "ABSENT",
+  "aliases": [
+   "Sierpinski space",
+   "universal space with an open subset",
+   "category Top of topological spaces",
+   "open-set functor Top^op ⟶ Set is representable",
+   "subobject classifier in Top / classifying space for opens"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -in 'sierpinski' --glob '*.v' — 0 hits",
+   "rg -in '\\bTop\\b|open set|topology|Sierp' --glob '*.v' — every hit is either Solver/*.v's propositional constructor `Top`, the phrase 'top-level', or a bibliographic mention (Structure/Group.v:46 'topological groups in Top', Structure/Topos.v:34 Lawvere–Tierney URL). There is no category of topological spaces in-tree",
+   "ls Instance/*.v — the concrete categories in-tree are Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX; no Top",
+   "rg -in 'open subset|opens of|frame|locale' --glob '*.v' — 0 hits for the point-set vocabulary the exercise needs",
+   "Nearest relative checked and rejected: Structure/SubobjectClassifier.v and Instance/FinSet/Classifier.v give Ω classifying SUBOBJECTS in a topos; the Sierpinski space classifies OPEN subsets in Top, a category that does not exist here"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT, and ABSENT rather than OUT_OF_SCOPE is the right call.  Blind pass: grep -ril 'sierpinski' --include='*.v' → 0 hits; independent `ls Instance/` gives Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX — no Top, matching the record exactly.  The only 'topolog*' hits in the tree are bibliographic prose (e.g. Theory/Universal/Arrow.v's Samuel citation, Structure/Group.v).  Under the frozen definitions this is ABSENT, not OUT_OF_SCOPE: a category of topological spaces and the representability of the opens functor are perfectly formalizable in a setoid library (the classifier correctly did NOT reach for OUT_OF_SCOPE), the library simply has no point-set layer.  The Structure/SubobjectClassifier.v near-miss was examined and correctly rejected: Ω classifies subobjects in a topos, the Sierpinski space classifies opens in Top."
+  }
+ },
+ {
+  "id": "riehl:2.4:exvi",
+  "classification": "ABSENT",
+  "aliases": [
+   "functor sending a set to its set of preorders",
+   "preorders on a set as a presheaf Set^op ⟶ Set",
+   "category of elements of the preorder functor",
+   "category of preordered sets / Ord / Proset",
+   "power set functor / relations functor Set^op ⟶ Set"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ln 'Preorder|Proset' --glob '*.v' — Test/Poset.v, Instance/Poset.v, Instance/Props.v, Instance/Proset.v, Construction/Enriched/Two.v. Instance/Proset.v:34 builds the thin CATEGORY of a single preorder (Program Definition Proset {A R} (P : PreOrder R) : Category); nothing assembles preorders on a set into a Sets-valued (co)presheaf",
+   "ls Instance/*.v — there is no Ord instance (the category of preordered sets and monotone maps), despite Instance/Proset.v's comment 'See also [Ord]' — that cross-reference is dangling",
+   "rg -in 'power ?set|powerset' --glob '*.v' — 1 hit, Structure/Topos.v:75, describing the internal power object Pow a := Ω ^ a in a topos; not the Set^op ⟶ Set power-set functor and not preorders",
+   "rg -il 'category of elements' --glob '*.v' — only the Construction/Grothendieck.v:108 comment, so the second clause ('describe its category of elements') has no in-tree counterpart either",
+   "Third clause ('is F representable?'): Functor/Representable.v:46 Class Representable exists, but there is no instance or non-instance proof for any structure-on-a-set functor. rg -n 'Representable' --glob '*.v' -l — Structure/UniversalProperty.v, Theory/Multicategory*.v, Theory/Profunctor*.v, Functor/Hom.v, Functor/Representable.v, Instance/Shapes.v; none concerns preorders"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT.  Blind pass agreed on all three clauses.  Instance/Proset.v builds the thin category of ONE preorder (Program Definition Proset at line 33 — the record says 34, a one-line slip that changes nothing), i.e. it turns a preorder into a category; the exercise needs the opposite direction, a Sets-valued functor assembling the preorders ON a set, and nothing in-tree does that.  Independently confirmed there is no power-set or relations functor Set^op ⟶ Set either (the only 'power' hit is Structure/Topos.v's internal Pow a := Ω ^ a).  The record's observation that Instance/Proset.v's 'See also [Ord]' is dangling is CORRECT and I verified it independently: grep -rn '\\bOrd\\b' --include='*.v' over the whole tree returns exactly that one comment line and no definition.  Filed to problems[] as a library defect."
+  }
+ },
+ {
+  "id": "riehl:2.4:exvii",
+  "classification": "ABSENT",
+  "aliases": [
+   "twisted arrow category Tw(C)",
+   "category of elements of Hom(─,─) : C^op × C ⟶ Set",
+   "two-sided represented functor / hom bifunctor elements",
+   "factorization category Fact(f)",
+   "arrow category (Id ↓ Id)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -in 'twisted' --glob '*.v' — 2 hits, both COMMENTS: Construction/Grothendieck.v:117 ('a rule twisted by the action') and Instance/Fact.v:10, a bare Wikipedia URL 'https://en.wikipedia.org/wiki/Twisted_arrow_category'. No construction",
+   "rg -n '\\bTw\\b|TwistedArrow|Tw\\(' --glob '*.v' — 0 hits",
+   "Nearest relative examined and rejected: Instance/Fact.v:43 Program Definition Fact `(f : x ~{C}~> y) : Category with obj := ∃ d (p1 : x ~> d) (p2 : d ~> y), f ≈ p2 ∘ p1 — this is the factorization category of a FIXED morphism f (objects are factorizations of one arrow), not Tw(C) (whose objects are ALL arrows of C and whose morphisms are pairs (u : c ~> a, v : b ~> d) with v ∘ f ∘ u ≈ g). The Wikipedia link at :10 is the only twisted-arrow content and is a comment, so it cannot serve as evidence",
+   "Second nearest relative rejected: Construction/Arrow.v:110 Definition Arrow {C} : Category := (Id[C] ↓ Id[C]) — the ARROW category, whose morphisms are commuting squares COVARIANT in both legs; the twisted arrow category is contravariant in the domain leg, so this is a different category, not a presentation of Tw(C)",
+   "rg -il 'category of elements' --glob '*.v' — only the Construction/Grothendieck.v:108 comment, so the exercise's defining phrase ('the category of elements of Hom') has no in-tree construction to instantiate",
+   "rg -n 'Hom.*∏.*Sets|two-sided' --glob '*.v' — Functor/Hom.v does define the hom bifunctor C^op ∏ C ⟶ Sets, but nothing forms its elements"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT.  Blind pass independently landed on Instance/Fact.v as the only thing in the tree with any twisted-arrow flavour, and independently rejected it for the same reason: Instance/Fact.v:43 Fact `(f : x ~{C}~> y) fixes ONE morphism and takes its factorizations as objects (obj := ∃ d (p1 : x ~> d) (p2 : d ~> y), f ≈ p2 ∘ p1), whereas Tw(C) = ∫Hom has ALL arrows of C as objects and morphisms (u : x' ~> x, v : y ~> y') with v ∘ f ∘ u ≈ g — contravariant in the domain leg.  Fact(f) is not even a fibre of Tw(C) (the fibres of Tw(C) ⟶ C^op ∏ C are discrete).  Construction/Arrow.v:110 Arrow := (Id ↓ Id) was likewise correctly rejected: covariant in both legs.  The hom bifunctor C^op ∏ C ⟶ Sets does exist (Functor/Hom.v), so only the elements construction is missing — which is the riehl:2.4:def1 gap again, so Phase E should make this exercise depend on that item.  Separately filed to problems[]: the Wikipedia pointer at Instance/Fact.v:10 names the twisted arrow category for a file that constructs something else."
+  }
+ },
+ {
+  "id": "riehl:2.4:exviii",
+  "classification": "ABSENT",
+  "aliases": [
+   "full faithfulness of the category-of-elements construction",
+   "∫(−) : Set^C ⟶ CAT/C is fully faithful",
+   "F ≅ G iff ∫F ≅ ∫G over C",
+   "natural transformations = functors over C between elements categories",
+   "Grothendieck construction is fully faithful / 2-equivalence"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -il 'category of elements' --glob '*.v' — only the Construction/Grothendieck.v:108 comment; there is no ∫(−) whose functoriality, let alone full faithfulness, could be stated",
+   "rg -n 'Full|Faithful' --glob '*.v' | grep -i 'Definition|Lemma|Theorem|Instance' — the fully-faithful assertions in-tree are Functor/Hom/Yoneda.v:231 Yoneda_Embedding / :253 Covariant_Yoneda_Embedding, Construction/Karoubi.v's embedding, Theory/Lawvere/Model.v's model inclusion, and Construction/Grothendieck/RoundTrip.v:1624 RoundTrip_Full / :1631 RoundTrip_Faithful; none is the elements construction",
+   "Nearest relative examined and rejected: RoundTrip_Full/RoundTrip_Faithful qualify RoundTrip_Comparison : Grothendieck (IndexedCat_of_SplitCleaving P Sp) ⟶ E — a comparison functor between two fixed categories arising from ONE cloven fibration, not a functor Set^C ⟶ CAT/C; and the indexing is Cat-valued (IndexedCat B), not Set-valued. It cannot supply the exercise's conclusion 'F ≅ G iff ∫F ≅ ∫G over C'",
+   "rg -n 'Slice' --glob '*.v' over Construction/Grothendieck/ and Instance/Cat.v — nothing builds CAT/C or a functor into it",
+   "rg -in 'naturally isomorphic iff|iso over C' --glob '*.v' — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT.  Blind pass agreed.  This is the deferred half of prop14 and fails for the same reason: with no ∫(─) there is nothing whose full faithfulness could be asserted, and CAT/C is never formed.  I independently checked every fully-faithful assertion in the tree — Functor/Hom/Yoneda.v:231 Yoneda_Embedding, :253 Covariant_Yoneda_Embedding, Functor/Hom.v:85/96 Yoneda_Full / Yoneda_Faithful, Construction/Karoubi.v's embedding, Theory/Lawvere/Model.v's model inclusion, and Construction/Grothendieck/RoundTrip.v:1624/1631 — and none is the elements construction; the RoundTrip pair qualifies a comparison functor out of ONE cleaving, so it cannot deliver 'F ≅ G iff ∫F ≅ ∫G over C'.  Phase E: file with prop14."
+  }
+ },
+ {
+  "id": "riehl:2.4:exix",
+  "classification": "ABSENT",
+  "aliases": [
+   "fibers of a discrete fibration are discrete categories",
+   "fibre category E_c of a functor",
+   "Discrete predicate (only identity morphisms)",
+   "discrete opfibration has discrete fibres",
+   "vertical morphisms of a discrete fibration are identities"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -in 'discrete_?(left|right|op)?_?fibration|DiscreteFib|discrete opfibration' --glob '*.v' — 1 hit, the Construction/Grothendieck.v:109 comment; the hypothesis of the exercise has no in-tree definition (see riehl:2.4:def13)",
+   "rg -in 'fibres? are discrete|discrete fibre|discrete fiber' --glob '*.v' — 0 hits",
+   "Both halves of the vocabulary exist separately but are never combined: Structure/Discrete.v:28 Definition Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id (the 'only identity morphisms' predicate) and Construction/Grothendieck/Fiber.v:95 Program Definition Fiber : Category (the fibre of a displayed/Grothendieck category over an object x). rg -n 'Discrete' Construction/Grothendieck/Fiber.v — 0 hits",
+   "rg -n 'Discrete ' --glob '*.v' | grep -v DiscreteCat — the only uses of the Discrete predicate are Structure/Discrete.v:28 itself, Instance/Discrete.v:65 DiscreteCat_Discrete (every DiscreteCat A satisfies it), and the Two_Discrete diagram shape in Structure/Limit/Cartesian.v and Functor/Diagonal.v; none concerns fibres of a functor",
+   "rg -n 'StrictFiber' Construction/Grothendieck/RoundTrip.v — :131 builds the strict fibre { e : E & P e = x } of a functor P, but only for a cloven fibration and with no discreteness claim"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT.  Blind pass agreed.  The exercise's hypothesis (discrete fibration) has no in-tree definition at all — see riehl:2.4:def13, which I confirmed independently — so the statement cannot even be formed.  Both halves of the vocabulary do exist separately and I verified each at its cited line: Structure/Discrete.v:28 Definition Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id; Construction/Grothendieck/Fiber.v:95 Program Definition Fiber : Category; Construction/Grothendieck/RoundTrip.v:131 StrictFiber.  grep -n 'Discrete' Construction/Grothendieck/Fiber.v → 0 hits, confirming they are never combined.  One caveat Phase E should record when writing the issue: Structure/Discrete.v:28 is the discrete-AND-SKELETAL predicate (it demands x = y, and its own header flags this as violating the principle of equivalence), so it is not automatically the right target for 'the fibres are discrete categories' — the setoid-faithful statement may need the iso-based variant."
+  }
+ },
+ {
+  "id": "riehl:2.4:exx",
+  "classification": "PRESENT",
+  "aliases": [
+   "C(A,─) × C(B,─) is representable",
+   "coproduct A + B as representing object",
+   "Hom(A + B, X) ≅ Hom(A, X) × Hom(B, X)",
+   "Cocartesian / merge / copairing UMP",
+   "product of two covariant hom-functors",
+   "universal property of the coproduct as representability"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/UniversalProperty/Cartesian.v",
+    "line": 60,
+    "symbol": "CartesianProductIsUniversalProperty",
+    "intree_statement": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) (fun z => CartesianProductStructuresEquiv x y z).  (* proof is Defined and fixes repr_functor := [Hom ─ , x ] × [Hom ─ , y ]; unfolding IsUniversalProperty, for each z the setoid of witnesses 'z is a product of x and y' is isomorphic in Sets to the setoid of natural isos [Hom z,─] ≅ [Hom ─,x] × [Hom ─,y]. Instantiated at C := C^op (the library's own idiom, since Notation Cocartesian C := @Cartesian (C^op) and C^op^op = C by reflexivity) this reads: z is a COPRODUCT of x and y in C iff Hom_C(z,─) ≅ Hom_C(x,─) × Hom_C(y,─) — i.e. C(x,─) × C(y,─) is representable exactly by x + y *)"
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 145,
+    "symbol": "IsCartesianProduct / ump_product",
+    "intree_statement": "Class IsCartesianProduct (x y z : C) := { fork' {a} (f : a ~> x) (g : a ~> y) : a ~> z; exl' : z ~> x; exr' : z ~> y; fork'_respects : ∀ a, Proper (equiv ==> equiv ==> equiv) (@fork' a); ump_product {a} (f : a ~> x) (g : a ~> y) (h : a ~> z) : h ≈ fork' f g ↔ (exl' ∘ h ≈ f) * (exr' ∘ h ≈ g) }.  (* the predicate the proposition above characterizes; read in C^op its data is inl : x ~> z, inr : y ~> z and the copairing, and ump_product becomes h ≈ f ▽ g ↔ (h ∘ inl ≈ f) * (h ∘ inr ≈ g) — the elementwise form of the bijection Hom(x + y, a) ≅ Hom(x, a) × Hom(y, a) *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For fixed objects A, B of a locally small category C, consider C(A,─) × C(B,─) : C ⟶ Set, X ↦ C(A,X) × C(B,X). What would it mean for this functor to be representable? (Answer: a representing object is precisely a coproduct A ⊔ B, its universal element the pair of coproduct injections.)",
+   "intree": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) (fun z => CartesianProductStructuresEquiv x y z), with repr_functor = [Hom ─ , x ] × [Hom ─ , y ] and IsUniversalProperty C P eqP := { repr_functor : C ⟶ Sets; repr_equivalence : ∀ c, P c ≅ (Isomorphism [Hom c,─] repr_functor) in Sets }.",
+   "strength_comparison": "same, with two presentational caveats. (a) The theorem is stated for PRODUCTS and delivers the exercise's coproduct/covariant reading by instantiating its universally quantified C at C^op — legitimate and free here, because the library defines coproducts exactly that way (Notation Cocartesian C := @Cartesian (C^op), Structure/Cocartesian.v:115) and C^op^op = C holds by reflexivity; but no in-tree file spells out the coproduct-named corollary, so the reader must perform the instantiation. (b) The representing functor [Hom ─,x] × [Hom ─,y] appears in the (transparent, Defined) proof term rather than in the type; the type alone asserts only that SOME representing functor makes the equivalence hold. The pointwise product of Sets-valued functors the exercise needs is the in-tree × of Instance/Fun/Cartesian.v, exactly the one used here. Strength is otherwise identical: an isomorphism of setoids in both directions, not merely one implication."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "rg -in 'coprod.*hom|hom.*coprod' --glob '*.v' — no separately named coproduct hom-iso; Structure/Cocartesian.v:26 states in a comment that the coproduct UMP 'is inherited from Cartesian's [ump_products]', confirming the dualization is the intended route",
+   "rg -n 'Cocartesian|Coprod' Structure/UniversalProperty*.v Structure/UniversalProperty/*.v — 0 hits, i.e. the coproduct instance of the representability packaging is not written out"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PRESENT — and I upgraded the confirmation from reading to MACHINE CHECKING, because the record's claim rests on an instantiation no in-tree file performs.  I compiled a probe against the tree's own .vo files (coqc 9.1.1 + the matching stdlib/Equations store paths, probe at scratchpad/probe_exx2.v, EXIT=0):\n  Check (fun C : Category => eq_refl : (C^op)^op = C).                          (* accepted *)\n  Definition CoproductIsUniversalProperty (C : Category) (x y : C) :\n    IsUniversalProperty C (fun z => @IsCartesianProduct (C^op) x y z)\n                          (fun z => @CartesianProductStructuresEquiv (C^op) x y z)\n    := CartesianProductIsUniversalProperty (C^op) x y.                          (* typechecks *)\n  Goal forall (C : Category) (x y z : C),\n    Sets.carrier (repr_functor (CoproductIsUniversalProperty C x y) z)\n      = ((x ~{C}~> z) * (y ~{C}~> z))%type.  Proof. reflexivity. Qed.           (* closes *)\nSo the instantiation at C^op is free (C^op^op = C by eq_refl, as the library's duality architecture promises), it yields a statement ABOUT C, and its representing functor computes DEFINITIONALLY to z ↦ C(x,z) × C(y,z) — exactly the functor of the exercise, with @IsCartesianProduct (C^op) x y z being the library's own reading of 'z is a coproduct of x and y' (Notation Cocartesian C := @Cartesian (C^op)).  Caveat (b) of the strength_comparison is therefore not just honest but better than stated: repr_functor lives in the proof term, yet the term is Defined and the identification holds by reflexivity, so no re-proof is needed.  Cited lines verified: Structure/UniversalProperty/Cartesian.v:60 (Proposition), Structure/Cartesian.v:145 (Class IsCartesianProduct, fields quoted verbatim, ump_product included), and both files are registered in _CoqProject (:379, :299).  ONE line-number correction, applied to the strength_comparison text: the Cocartesian notation is at Structure/Cocartesian.v:115, not :116."
+  }
+ }
+]

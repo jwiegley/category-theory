@@ -1,0 +1,454 @@
+[
+ {
+  "id": "awodey:6.3:construction-boolean-exponential",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Boolean algebra as a cartesian closed poset",
+   "complemented distributive lattice",
+   "material implication b^a = (not a) or b",
+   "exponential object in a thin/posetal category",
+   "the two-element Boolean algebra _2 (walking arrow) as a CCC",
+   "Props_Closed / Basics.impl as the poset exponential"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Two/Monoidal.v",
+    "line": 80,
+    "symbol": "Two_Cartesian",
+    "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; ... |}   (with Definition two_meet (x y : TwoObj) : TwoObj at line 37 and Program Instance Two_Terminal : @Terminal _2 := {| terminal_obj := TwoY ... |} at line 98)"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 94,
+    "symbol": "Props_Closed",
+    "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }"
+   },
+   {
+    "file": "Instance/Two.v",
+    "line": 85,
+    "symbol": "(header prose)",
+    "intree_statement": "\"thin categories are exactly those enriched over the Boolean algebra [_2] as a cartesian monoidal category, a Heyting algebra is a skeletal thin finitely-cocomplete cartesian-closed category, and a Boolean algebra a skeletal thin finitely-cocomplete star-autonomous one (Wikipedia, \"Posetal category\").\""
+   }
+  ],
+  "statement_record": {
+   "book": "Any Boolean algebra B, read as a poset category, has finite products (top 1, binary meet) and exponentials given by b^a := (not a) or b; the evaluation inequality ((not a) or b) and a <= b and the transposition a and b <= c => a <= b => c are verified by Boolean computation. Hence 'Boolean algebra' generalizes to 'cartesian closed poset'.",
+   "intree": "Instance/Two/Monoidal.v:80 `Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; ... |}` together with `Two_Terminal` (line 98); Instance/Props.v:94 `Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := ... }`.",
+   "strength_comparison": "intree-weaker: the target framework (a thin category carrying Cartesian + Terminal + Closed) exists and is instantiated, but no Boolean algebra is ever formalized. The library's only two-element order [_2] carries products and a terminal object but NO Cocartesian, Initial or Closed instance, so it is not shown to be cartesian closed; and the only thin cartesian-CLOSED instance, Props, is explicitly a HEYTING prealgebra (Instance/Props.v:27) whose exponential is Basics.impl, not (not a) or b -- Coq's Prop is intuitionistic, so it is the same-name-but-weaker trap for this item."
+  },
+  "gap": "There is no `BooleanAlgebra` class, no complement/negation operation, and no theorem 'a Boolean algebra is cartesian closed'. Specifically missing: (i) the Boolean-algebra axioms (complemented distributive lattice); (ii) the exponential formula b^a = (not a) or b and its two verifications (the evaluation inequality and the transposition); (iii) even for the canonical Boolean algebra [_2] the library supplies only `Two_Cartesian` + `Two_Terminal`, with no `Cocartesian _2`, `Initial _2`, or `Closed _2` instance. The generalization statement (Boolean algebra => cartesian closed poset) appears only as prose in Instance/Two.v:85-89.",
+  "negative_search_log": [
+   "grep -rn -i 'boolean' --include='*.v' . -- 20 hits, all prose comments (Theory/Lawvere.v:87, Theory/Equivalence.v:120, Instance/Two.v:85-88, Instance/FinSet/*, Structure/Cocartesian.v:100) plus uses of the Coq type `bool`; no algebraic structure",
+   "grep -rniI --include='*.v' 'BooleanAlgebra' . -- 0 hits",
+   "grep -rniI --include='*.v' 'relative complement' . -- 0 hits; 'pseudo-complement'/'pseudocomplement' -- 0 hits",
+   "grep -n 'Closed\\|Cocartesian\\|Initial' Instance/Two/Monoidal.v -- only Terminal/Cartesian/Monoidal.Cartesian imported; ls Instance/Two/ shows only Discrete.v and Monoidal.v"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass (before opening coverage-6-1.json) independently reached ABSENT: `rg -i heyting` = 7 hits, all prose; `rg -in boolean` = comments + the Coq `bool` type only; no BooleanAlgebra/complement anywhere. On reading the record I accept PARTIAL as the boundary call rather than overturning: `Two_Cartesian` (Instance/Two/Monoidal.v:80, product_obj := two_meet) together with `Two_Terminal` (line 98, terminal_obj := TwoY) IS clause (1) of the construction -- 'the poset 2 has finite products, the top and binary meets' -- formalized at the canonical Boolean algebra, even though _2 is never named as one. All three cited line numbers verified exact. Verified independently that Instance/Two/Monoidal.v imports only Terminal/Cartesian/Monoidal.Cartesian (no Cocartesian/Initial/Closed) and that Instance/Two/ contains only Discrete.v and Monoidal.v, so the record's 'no Closed _2' claim holds. The gap text is honest and is itself ABSENT-grade; downstream (issue filing) the two classifications are equivalent, so I let the more informative pointer stand. Both cited files are registered in _CoqProject (lines 240, 241, 223)."
+  }
+ },
+ {
+  "id": "awodey:6.3:def7",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Heyting algebra",
+   "pseudo-Boolean algebra",
+   "bicartesian closed poset / bicartesian closed thin category",
+   "relatively pseudo-complemented lattice",
+   "Heyting prealgebra (preorder version)",
+   "Cartesian + Cocartesian + Closed + Terminal + Initial on a Proset"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Props.v",
+    "line": 39,
+    "symbol": "Props",
+    "intree_statement": "Program Definition Props : Category := {| obj := Prop; hom := Basics.impl; homset := fun P Q => {| equiv := fun f g => True |}; id := fun _ x => x; compose := fun _ _ _ g f x => g (f x) |}  (* thin: at most one arrow, so this is the preorder of propositions ordered by implication *)"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 27,
+    "symbol": "(header prose)",
+    "intree_statement": "\"Equipped with the logical connectives below it is a bicartesian closed thin category — a Heyting prealgebra — modelling intuitionistic propositional logic: 1 = True (terminal), 0 = False (initial), P x Q = P /\\ Q (product), P + Q = P \\/ Q (coproduct), Q ^ P = P -> Q (exponent).\""
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 53,
+    "symbol": "Props_Terminal / Props_Initial / Props_Cartesian / Props_Cocartesian / Props_Closed",
+    "intree_statement": "Program Instance Props_Terminal : @Terminal Props := { terminal_obj := True; one := fun _ _ => I }  (line 53); Props_Initial (61) with terminal_obj := False; Props_Cartesian (69) with product_obj := and; Props_Cocartesian (80) with product_obj := or; Props_Closed (94) with exponent_obj := Basics.impl"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 51,
+    "symbol": "Closed.exp_iso",
+    "intree_statement": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;   (* the product-exponential adjunction (- × y) ⊣ (- ^ y) *)"
+   },
+   {
+    "file": "Instance/Poset.v",
+    "line": 116,
+    "symbol": "Poset",
+    "intree_statement": "Definition Poset {C : Type} `{R : relation C} `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P."
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 6.7: a Heyting algebra is a poset with (1) finite meets (top 1 and binary p and q), (2) finite joins (bottom 0 and binary p or q), and (3) exponentials: for each a, b an element a => b satisfying a and b <= c iff a <= b => c.",
+   "intree": "No `HeytingAlgebra` definition exists. The structure is available only unbundled -- `@Terminal C`, `@Initial C`, `@Cartesian C`, `@Cocartesian C`, `@Closed C _` assumed simultaneously (the pattern Structure/BiCCC.v:39-44 and Structure/Bicartesian.v:23-31 both adopt deliberately, each header saying 'This file does not introduce a class') -- and instantiated once at a thin category, Instance/Props.v:39-99.",
+   "strength_comparison": "intree-weaker: every component of Awodey's clauses (1)-(3) exists as a separate typeclass and all five are simultaneously instantiated on a thin category, so a Heyting PREalgebra is formalized in substance; but there is no named definition, and the poset (antisymmetry) clause is never imposed on the bicartesian-closed structure. Instance/Poset.v:116 defines `Poset` but nothing connects it to Cartesian/Cocartesian/Closed."
+  },
+  "gap": "Missing: (i) a `HeytingAlgebra` class -- the notion exists only as an ad-hoc conjunction of five unrelated typeclasses plus one concrete instance; (ii) the poset side of the definition -- Props is a PREorder (Instance/Props.v uses the trivial hom-setoid, not antisymmetry), so what is formalized is a Heyting prealgebra; no in-tree object combines `Poset` (Instance/Poset.v:116) with the bicartesian closed structure; (iii) the order-theoretic surface syntax (<=, /\\, \\/, =>, 0, 1) and any element-level statement of the adjunction condition `a and b <= c iff a <= b => c` -- in-tree it appears only as the hom-setoid isomorphism `exp_iso : x × y ~> z ≊ x ~> z^y`, which is the correct categorification but is never specialized to a poset.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL for the same reason: no `HeytingAlgebra` class exists (`rg -i heyting` finds only prose in Structure/Topos.v:81, Theory/Sheaf.v:85, Theory/Lawvere.v:87, Instance/Two.v:86 and the Instance/Props.v header), but Instance/Props.v instantiates Terminal/Initial/Cartesian/Cocartesian/Closed simultaneously on a thin category and its own header calls the result a 'Heyting prealgebra'. All five cited locations verified exact (Props.v:39/27/53, Closed.v:51, Poset.v:116 `Definition Poset {C : Type} ...`). Verified the record's supporting claim that the library deliberately declines to bundle such conjunctions: Structure/Bicartesian.v:24 'This file does not introduce a [Bicartesian] class' and Structure/BiCCC.v:26 'This file does not introduce a `BiCCC` class'. Also confirmed independently that nothing in-tree connects `Poset`/`Proset` to Cartesian/Cocartesian/Closed: Instance/Poset.v requires only Lib, Theory.Category and Instance.Proset. Files registered in _CoqProject (222, 223, 300)."
+  }
+ },
+ {
+  "id": "awodey:6.3:remark-ha-ump-equivalence",
+  "classification": "PARTIAL",
+  "aliases": [
+   "exponential universal mapping property",
+   "currying bijection Hom(x × y, z) ≅ Hom(x, z^y)",
+   "exp_iso / curry / uncurry / eval",
+   "transposition; adjunction (- × b) ⊣ (-)^b",
+   "uniqueness of transposes is automatic in a thin category"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 43,
+    "symbol": "Class Closed",
+    "intree_statement": "Class Closed := { exponent_obj : obj → obj → obj where \"y ^ x\" := (exponent_obj x y); exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' {x y z} : x × y ~> z → x ~> z^y := to (@exp_iso x y z); uncurry' {x y z} : x ~> z^y → x × y ~> z := from (@exp_iso x y z); eval' {x y} : y^x × x ~> y := @uncurry' _ _ _ id; ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (@curry' _ _ _ f) ≈ f }"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 30,
+    "symbol": "(header prose)",
+    "intree_statement": "\"Packaged as an adjunction, the universal property is the bijection Hom(x × y, z) ≅ Hom(x, z^y) ([exp_iso]) ... This is the exponential UMP in packaged form: the iso bundles existence and uniqueness of the transpose\" (lines 30-34 and 47-50)"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 101,
+    "symbol": "curry_uncurry / uncurry_curry",
+    "intree_statement": "Corollary curry_uncurry {x y z} (f : x ~> z^y) : curry (uncurry f) ≈ f.  (line 101)   Corollary uncurry_curry {x y z} (f : x × y ~> z) : uncurry (curry f) ≈ f.  (line 107)"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 94,
+    "symbol": "Props_Closed",
+    "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }   (* no Next Obligation follows: on a thin category, where `equiv f g := True`, the iso laws AND ump_exponents' are discharged automatically *)"
+   }
+  ],
+  "statement_record": {
+   "book": "In the poset case, the two-sided condition `a and b <= c iff a <= b => c` is equivalent to the universal mapping property of an exponential: the transpose of a and b <= c is a <= b => c; the evaluation inequality (a => b) and a <= b follows from the reflexivity instance a => b <= a => b; the converse is equally immediate; and uniqueness of transposes is automatic since hom-sets in a poset are subsingletons.",
+   "intree": "The `Closed` class encodes exactly this pairing: `exp_iso {x y z} : x × y ~> z ≊ x ~> z^y` (the two-sided condition) together with `eval' {x y} : y^x × x ~> y := uncurry' id` (evaluation as the transpose of the identity -- the categorification of Awodey's 'reflexivity instance a => b <= a => b') and `ump_exponents' (f : x × y ~> z) : eval' ∘ first (curry' f) ≈ f`. The thin case is witnessed at Instance/Props.v:94, where supplying only the two directions of the entailment produces a full `Closed` instance with zero remaining obligations.",
+   "strength_comparison": "intree-weaker: the two formulations are set up side by side and the thin-case collapse is exercised concretely, but the equivalence is not proved as a lemma. In general (non-thin) categories the library must ASSERT `ump_exponents'` as a class field rather than derive it from `exp_iso`, precisely because naturality of exp_iso is not required; Awodey's remark concerns exactly the case (posets) where that extra field is free."
+  },
+  "gap": "There is no in-tree lemma of the form 'in a thin/posetal category, a family of two-sided entailments a ∧ b ≤ c ⟺ a ≤ b ⇒ c yields a `Closed` instance'. Thinness is never available as a hypothesis one could build a `Closed` instance from: it exists only (a) as a per-instance lemma for the walking arrow, `Lemma two_thin {x y : TwoObj} (f g : TwoHom x y) : f = g` at Instance/Two/Monoidal.v:26 (used at :87, :102) -- but _2 carries no Cocartesian, Initial or Closed structure, so it cannot host the item -- and (b) definitionally, as the trivial hom-setoids `equiv _ _ := True` of Instance/Proset.v:38 and Instance/Props.v:45. There is no `Thin` class, predicate, or subsingleton-homset hypothesis anywhere in the tree. Consequently the collapse is re-done ad hoc, once, inside `Props_Closed` (Instance/Props.v:94), where it is invisible: supplying only the two directions of the entailment discharges every obligation silently through that trivial setoid. Also missing: the observation that evaluation is the transpose of `id` is present as a definition (`eval' := uncurry' id`, Structure/Cartesian/Closed.v:57) but is never related back to reflexivity of the order, which is how Awodey obtains the evaluation inequality.",
+  "negative_search_log": [
+   "PHASE-D CORRECTION: the earlier claim \"grep -rn -i 'thin' returns only prose\" is false -- Instance/Two/Monoidal.v:26 defines `Lemma two_thin`. Re-run: rg -n 'thin' -i -g'*.v' . -- code hits are Instance/Two/Monoidal.v:26,87,102 (two_thin and its two uses); every other hit is prose. Classification is unaffected: two_thin is specific to _2, which has no exponentials.",
+   "rg -n \"Definition .*[Tt]hin|Class .*Thin\" -g'*.v' . -- 0 hits: no general thinness predicate exists."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Verdict PARTIAL confirmed; one FIELD CORRECTED. The record's `gap` asserted 'no `Thin` predicate or subsingleton-homset hypothesis exists anywhere in the tree (grep -rn -i thin returns only prose)'. That negative is FALSE: `Lemma two_thin {x y : TwoObj} (f g : TwoHom x y) : f = g` is real code at Instance/Two/Monoidal.v:26 and is used at lines 87 and 102. I rewrote the gap to say what is actually true (thinness exists only as a per-instance lemma for _2, which carries no Closed structure, and as the definitional `equiv _ _ := True` hom-setoids of Proset/Props -- never as a hypothesis a Closed instance could be built from). Classification is unaffected: _2 has no exponentials, so `two_thin` cannot supply the item. Everything else verified: Structure/Cartesian/Closed.v:43 `Class Closed`, :51 `exp_iso {x y z} : x × y ~> z ≊ x ~> z^y`, :65 the ASSERTED field `ump_exponents'`, :101 `curry_uncurry`. The strength_comparison's key claim -- that ump_exponents' must be asserted rather than derived because exp_iso carries no naturality -- is accurate: I read the class in full and traced curry_comp_l (line 164), curry_comp (177) and uncurry_comp (192), all of which go through `ump_exponents`, never through a naturality field (there is none). See problems[] for the related comment defect in that file."
+  }
+ },
+ {
+  "id": "awodey:6.3:prop-heyting-distributive",
+  "classification": "PRESENT",
+  "aliases": [
+   "every Heyting algebra is a distributive lattice",
+   "(a or b) and c = (a and c) or (b and c)",
+   "distributive category / Distributive class",
+   "prod_coprod_l, prod_coprod_r, BiCCC_Distributive",
+   "the product functor is a left adjoint hence preserves coproducts"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/BiCCC.v",
+    "line": 90,
+    "symbol": "prod_coprod_r",
+    "intree_statement": "#[export] Program Instance prod_coprod_r {x y z : C} : (* Left distributivity: `x × _` preserves the coproduct y + z *) x × (y + z) ≅ x × y + x × z := { to := uncurry (curry (inl ∘ swap) ▽ curry (inr ∘ swap)) ∘ swap; from := second inl ▽ second inr }.   (* under Context {C : Category}, `{@Cartesian C}, `{@Cocartesian C}, `{@Closed C _} at lines 41-44 *)"
+   },
+   {
+    "file": "Structure/BiCCC.v",
+    "line": 46,
+    "symbol": "prod_coprod_l",
+    "intree_statement": "#[export] Program Instance prod_coprod_l {x y z : C} : (y + z) × x ≅ y × x + z × x := { to := uncurry (curry inl ▽ curry inr); from := first inl ▽ first inr }."
+   },
+   {
+    "file": "Structure/BiCCC.v",
+    "line": 257,
+    "symbol": "BiCCC_Distributive",
+    "intree_statement": "#[export] Program Instance BiCCC_Distributive {C : Category} `{@Cartesian C} `{@Cocartesian C} `{@Closed C _} `{@Initial C} : @Distributive C _ _ _.   (* the two Distributive fields are exactly prod_coprod_r and prod_zero_r, found by instance resolution with no further obligations *)"
+   },
+   {
+    "file": "Structure/Distributive.v",
+    "line": 44,
+    "symbol": "Class Distributive",
+    "intree_statement": "Class Distributive := { distr_prod_coprod {x y z} : @Isomorphism C (x × (y + z)) (x × y + x × z); distr_zero {x} : x × 0 ≅ 0 }."
+   }
+  ],
+  "statement_record": {
+   "book": "Unnumbered proposition (Awodey p.137): in any Heyting algebra the distributive law (a or b) and c = (a and c) or (b and c) holds, proved by the chain of equivalences (a or b) and c <= z iff a or b <= c => z iff (a <= c => z and b <= c => z) iff (a and c <= z and b and c <= z) iff (a and c) or (b and c) <= z, then instantiating z at each side.",
+   "intree": "Structure/BiCCC.v:90 `prod_coprod_r {x y z : C} : x × (y + z) ≅ x × y + x × z`, proved from `Cartesian`, `Cocartesian`, `Closed` alone (the section Context, lines 41-44; `Initial` is only introduced later at line 205 and is not used here), together with the mirror form `prod_coprod_l` at line 46; packaged as `BiCCC_Distributive : @Distributive C _ _ _` at line 257. The file header (lines 29-37) states the argument: 'Distributivity is not an extra axiom: because the category is closed, each functor `_ × x` has a right adjoint `_ ^ x`, hence preserves all colimits, in particular finite coproducts and the initial object.'",
+   "strength_comparison": "intree-stronger: proved for an arbitrary bicartesian closed CATEGORY, of which a Heyting algebra is the skeletal thin special case; the in-tree result produces a chosen isomorphism with explicit `to`/`from` arrows rather than a mere equality of elements, and both the left and the right distributivity laws are given. Awodey's hypotheses (meets, joins, exponentials) are matched exactly -- the in-tree proof does not use 0 or 1 for the binary law. The only presentational gap: since no Heyting-algebra class exists in-tree, the specialization (in which ≅ becomes = by antisymmetry) is not written down."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed as an honest generalization claim, not an over-claim. Verified each cited location: Structure/BiCCC.v:46 `prod_coprod_l {x y z} : (y + z) × x ≅ y × x + z × x` -- literally Awodey's (a ∨ b) ∧ c = (a ∧ c) ∨ (b ∧ c) -- and :90 `prod_coprod_r : x × (y + z) ≅ x × y + x × z`, both inside Section BiCCC whose Context is exactly Cartesian (line 42), Cocartesian (43), Closed (44); `Context `{@Initial C}` does not appear until line 206 and `Context `{@Terminal C}` until 234, so the record's 'Initial is not used here' is correct (its stated line 205 is off by one -- immaterial). `BiCCC_Distributive` at :257 and `Class Distributive` at Structure/Distributive.v:44 both verified. The specialization is genuinely available at an in-tree object: Instance/Props.v carries Cartesian + Cocartesian + Closed, so BiCCC_Distributive applies to the library's own Heyting prealgebra. Remaining honest gap (already disclosed in strength_comparison): the ≅-to-= step needs antisymmetry, which no in-tree thin category asserts. Structure/BiCCC.v is registered in _CoqProject at line 289."
+  }
+ },
+ {
+  "id": "awodey:6.3:def8",
+  "classification": "PRESENT",
+  "aliases": [
+   "complete poset / cocomplete poset",
+   "complete lattice",
+   "set-indexed meets and joins",
+   "Complete / Cocomplete (all small limits / colimits)",
+   "limit over a discrete diagram = greatest lower bound (iprod)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Complete.v",
+    "line": 115,
+    "symbol": "Complete",
+    "intree_statement": "(* C is complete: every diagram F : D ⟶ C has a limit (terminal cone) in C. *)  Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F."
+   },
+   {
+    "file": "Structure/Complete.v",
+    "line": 119,
+    "symbol": "Cocomplete",
+    "intree_statement": "Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F."
+   },
+   {
+    "file": "Instance/Poset.v",
+    "line": 116,
+    "symbol": "Poset",
+    "intree_statement": "Definition Poset {C : Type} `{R : relation C} `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P.   (* Instance/Proset.v:33 Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; ... |} *)"
+   },
+   {
+    "file": "Instance/Poset.v",
+    "line": 50,
+    "symbol": "(header prose: the collapse dictionary)",
+    "intree_statement": "\"a product is a meet, and more generally the limit over a subset is its greatest lower bound (nLab, \"meet\"); a coproduct is a join (Structure/Cocartesian.v).\""
+   },
+   {
+    "file": "Structure/Complete.v",
+    "line": 70,
+    "symbol": "(header prose)",
+    "intree_statement": "\"It follows that complete small categories are preorders — up to equivalence, complete lattices (Adámek–Herrlich–Strecker, Abstract and Concrete Categories, Theorem 12.7; Shulman, \"Set theory for category theory\", arXiv:0810.1279, Theorem 2.1).\""
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 6.8: a poset is complete (resp. cocomplete) if it is so as a category, i.e. if it has all set-indexed meets /\\_{i in I} a_i (resp. all set-indexed joins \\/_{i in I} a_i). A lattice, Heyting algebra, Boolean algebra, etc. is called complete if it is complete as a poset.",
+   "intree": "`Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.` and `Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F.` (Structure/Complete.v:115,119), applicable to the thin categories `Proset P` (Instance/Proset.v:33) and `Poset P` (Instance/Poset.v:116); the meet/join reading of limits/colimits in a thin category is recorded at Instance/Poset.v:50-52.",
+   "strength_comparison": "same: Awodey's definition IS the reduction 'complete as a category', which is verbatim the in-tree `Complete`, and the thin categories it is to be applied to are in-tree. Two presentational differences to disclose: (a) `Complete` quantifies over all `D : Category` with the smallness discipline carried by universe polymorphism rather than an explicit set-indexing (Structure/Complete.v:28-37 states this explicitly), which matches Awodey's set-indexed meets up to the library's size convention; (b) the second sentence of Def 6.8 (naming a lattice / Heyting algebra / Boolean algebra 'complete') has no in-tree referent, since none of those algebraic classes is defined -- but that clause is pure naming. No in-tree file actually instantiates `Complete` at a `Proset`/`Poset`; the existing consumers are Comma/Limit.v, GAFT.v and SAFT.v."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed. Awodey's Def 6.8 IS the reduction 'complete/cocomplete as a category', and Structure/Complete.v:115/:119 are that definition verbatim (`Complete := ∀ (D : Category) (F : D ⟶ C), Limit F`, `Cocomplete := ... Colimit F`); the thin categories to apply it to are in-tree (`Proset` at Instance/Proset.v:33 -- line verified exact -- and `Poset` at Instance/Poset.v:116). Size: Structure/Complete.v:28-37 explicitly discusses the smallness discipline being carried by universe polymorphism, so per the frozen rule this is PRESENT rather than an OUT_OF_SCOPE foundations matter. The record honestly discloses the two shortfalls (limits-as-meets is prose only at Instance/Poset.v:50-52; no file instantiates Complete at a Proset/Poset; the 'complete lattice/HA/BA' naming has no referent). I additionally checked Structure/Limit/Product.v:93-108 (`iprod`/`iprod_proj`/`iprod_ump`, set-indexed products over DiscreteCat) which supplies the set-indexed-meet reading Awodey names; it strengthens, not weakens, the PRESENT verdict. Files registered in _CoqProject (309, 224, 222)."
+  }
+ },
+ {
+  "id": "awodey:6.3:remark-complete-iff-cocomplete",
+  "classification": "ABSENT",
+  "aliases": [
+   "a poset has all meets iff it has all joins",
+   "complete iff cocomplete (for posets / thin categories)",
+   "a complete lattice is cocomplete",
+   "join as the meet of all upper bounds",
+   "Complete -> Cocomplete; colimits from limits",
+   "adjoint functor theorem for posets"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'Cocomplete' --include='*.v' . -- 6 hits total: Structure/Complete.v:22,32,99,119 (the definition and its header) and Theory/Adamek/Corollaries.v:51,61 (a hypothesis consumed at the ordinal omega). No lemma or definition relates `Complete` to `Cocomplete` in either direction.",
+   "grep -rn '@Complete\\|: Complete\\|Complete C\\|Complete_' --include='*.v' . -- all consumers are Construction/Comma/Limit.v:124,246,271, Adjunction/GAFT.v:193,242 (`Complete_HasEqualizers`) and Adjunction/SAFT.v:145,184,198; none produces colimits from limits.",
+   "grep -rniI 'upper bound\\|lower bound' --include='*.v' . -- 1 hit, Instance/Poset.v:51, prose only ('the limit over a subset is its greatest lower bound'); no construction of a join as a meet of upper bounds.",
+   "grep -rniI --include='*.v' 'complete lattice' . -- 2 hits, both prose (Instance/Poset.v:93, Structure/Complete.v:71).",
+   "grep -rniI --include='*.v' 'CompleteLattice' . -- 0 hits; 'semilattice' -- 0 hits; 'supremum'/'infimum' -- 0 hits.",
+   "grep -rniI --include='*.v' 'Galois connection' . -- 8 hits, all prose in Instance/Poset.v and Theory/Adjunction.v; no poset-level adjoint construction that would supply the standard proof."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed by independent blind search before reading the record. `rg -n Cocomplete -g'*.v' .` returns exactly 6 hits -- Structure/Complete.v:22,32,99,119 (definition + header) and Theory/Adamek/Corollaries.v:51,61 (a consumed hypothesis) -- and none relates Complete to Cocomplete in either direction; Structure/Complete.v:22-25 only records the trivial duality Cocomplete C = Complete C^op, which is not the item (Awodey's remark is the non-dual poset fact that all meets yield all joins). No 'upper bound'/'complete lattice'/'supremum'/'infimum' code hits. The record's six-line negative_search_log reproduced exactly what I found."
+  }
+ },
+ {
+  "id": "awodey:6.3:prop9",
+  "classification": "ABSENT",
+  "aliases": [
+   "complete lattice is a Heyting algebra iff the infinite distributive law holds",
+   "frame / locale / complete Heyting algebra",
+   "a and (\\/_i b_i) = \\/_i (a and b_i)",
+   "a => b := \\/ { x : x and a <= b }",
+   "adjoint functor theorem for posets (join-preserving map has a right adjoint)",
+   "left adjoint preserves colimits (LAPC) specialized to - and a"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniI --include='*.v' 'infinite distributive' . -- 0 hits; 'distributive law of meet' -- 0 hits.",
+   "grep -rniI --include='*.v' 'Heyting' . -- 7 hits, ALL prose comments (Theory/Sheaf.v:85, Theory/Lawvere.v:87, Instance/Two.v:86, Instance/Props.v:15,17,27, Structure/Topos.v:81); no 'complete Heyting' anywhere.",
+   "grep -rniI --include='*.v' 'locale' . -- 0 hits; 'frame' -- 34 hits, all either Instance/Lambda/Full.v's evaluation-context `Frame`/`Ctxt` datatype or the English word ('in the same frame'); no frame/locale in the order-theoretic sense.",
+   "grep -rniI --include='*.v' 'join-preserving' . -- 0 hits; 'meet-preserving' -- 1 hit (Structure/Topos.v prose on Lawvere-Tierney topologies, unrelated).",
+   "grep -rn 'Adjunction' --include='*.v' Structure/ -- no adjunction is ever CONSTRUCTED from a `Closed` instance; `Closed` (Structure/Cartesian/Closed.v:43) packages only the hom-setoid isomorphism `exp_iso`, with the adjunction (- × y) ⊣ (- ^ y) stated in prose at line 34 but never built, so the forward direction is not even available as an instance of `left_adjoint_preserves_colimits` (Adjunction/Continuity.v:223).",
+   "grep -rn 'prod_coprod\\|distr_' --include='*.v' . -- the only distributivity in-tree is the FINITE law (Structure/BiCCC.v:46,90; Structure/Distributive.v:46), never an infinitary one over a general colimit.",
+   "Near-miss recorded, not counted: the finite shadow of the forward direction is proved (BiCCC => Distributive, Structure/BiCCC.v:257), and Instance/Poset.v:79-83 states in prose that 'between small preorders, a functor that preserves all small meets from a complete domain has a left adjoint outright' -- but the infinitary distributive law, the converse construction a => b := \\/{x : x and a <= b}, and the biconditional itself are all unformalized."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed independently. No infinitary distributive law anywhere: the only distributivity in-tree is finite (Structure/BiCCC.v:46,90 and the two fields of Structure/Distributive.v:44-49, `distr_prod_coprod` binary and `distr_zero` nullary). No frame/locale/complete-Heyting notion (`rg -ci locale` = 0 files; all 'frame' hits are Instance/Lambda evaluation contexts or the English word). I independently verified the record's sharpest supporting claim -- that the forward direction is not even available as an instance of `left_adjoint_preserves_colimits` -- by grepping for an adjunction built from a `Closed` instance: `rg -n 'Curry_Adjunction|exp_adjunction|Closed_Adjunction'` = 0 hits, and Structure/Cartesian/Closed.v mentions (- × y) ⊣ (- ^ y) only in prose at lines 34 and 47. `left_adjoint_preserves_colimits` is at Adjunction/Continuity.v:222 (record says 223 -- off by one, immaterial). The converse construction a ⇒ b := ⋁{x : x ∧ a ≤ b} has no in-tree counterpart."
+  }
+ },
+ {
+  "id": "awodey:6.3:example10",
+  "classification": "ABSENT",
+  "aliases": [
+   "the powerset P(A) is a complete Heyting algebra",
+   "subsets of A ordered by inclusion; the powerset lattice",
+   "the lattice of open sets of a topological space; frame of opens",
+   "Ensemble / EnsT (subsets of a carrier)",
+   "the lattice of subobjects SubObj x",
+   "power object Pow a := Omega ^ a"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i 'powerset\\|power set' --include='*.v' . -- the only hits are Structure/Topos.v:75 'the power object [Pow] a := Omega ^ a, the categorical power set' and Instance/FinSet/Topos.v; that is the internal power OBJECT of a topos, not the powerset as an ordered structure, and no meet/join/exponential order structure is put on it.",
+   "grep -rn -i 'subset' --include='*.v' . -- Instance/Ens.v is the closest candidate and is a same-name-but-different trap: `EnsT (T : Type)` (line 56) has objects `Ensemble T` but hom A B := { f : T -> T | forall x, x in A <-> f x in B }, i.e. endofunctions with A = f^-1(B), NOT inclusions; it is neither thin nor the powerset poset.",
+   "grep -rn -i 'open set\\|open subset\\|topolog' --include='*.v' . -- 'open subset' 0 hits; all 'topolog' hits are Grothendieck-topology / algebraic-topology prose (Theory/Sheaf.v, Theory/Multicategory.v, Theory/Universal/Arrow.v); no topological space is ever defined.",
+   "grep -n 'Definition\\|Lemma\\|Theorem\\|Class\\|Record' Theory/Subobject.v -- `SubObj x` (line 15) carries only the setoid (line 33) and the factorization PREORDER `sub_le` (line 59) with `sub_le_refl`/`sub_le_trans`; there are no meets, joins, top/bottom or exponentials on subobjects, so the 'subobjects form a Heyting algebra' claim of Structure/Topos.v:81 is prose only.",
+   "grep -rniI --include='*.v' 'complete lattice' . -- 2 hits, both prose; no complete-lattice instance of any kind.",
+   "Note: Instance/Props.v does prove that propositions ordered by implication form a bicartesian closed thin category, which is P(1) up to prop-extensionality, but it is not presented as a powerset, is not shown complete, and does not cover P(A) for general A or any open-set lattice."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed independently. No powerset-as-lattice and no open-set lattice: `rg -in 'open set|topolog'` yields only Grothendieck-topology/algebraic-topology prose, and no topological space is ever defined. I checked the record's two named traps myself and both hold: (a) Instance/Ens.v `EnsT T` has objects `Ensemble T` but hom A B := ∃ f : T → T, ∀ x, x ∈ A ↔ f x ∈ B (line 56-59) -- endofunctions with A = f⁻¹(B), not inclusions, so it is not the powerset poset and is not thin; (b) Theory/Subobject.v carries only `SubObj_Setoid` (:33) and the factorization preorder `sub_le` (:59) with refl/trans/`sub_equiv_iff_mutual` -- `rg -n 'meet|join|lattice|Heyting' Theory/Subobject.v` returns 0 hits, so the 'subobjects form a Heyting algebra' sentence at Structure/Topos.v:81 is background prose about topos theory, not an in-tree construction. Structure/Topos.v's `Pow a := Ω ^ a` (line 129) is the internal power OBJECT, carrying no order structure."
+  }
+ },
+ {
+  "id": "awodey:6.3:def-heyting-negation",
+  "classification": "ABSENT",
+  "aliases": [
+   "negation in a Heyting algebra: not a := a => 0",
+   "pseudo-complement",
+   "the exponential into the initial object, 0 ^ a",
+   "exponent_obj a 0 / Zero_ ^ a",
+   "P -> False as the exponential in Props"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn '0\\^\\|\\^ 0\\|zero_exp\\|exp_zero' --include='*.v' . -- the only relevant symbol is `exp_zero` (Structure/BiCCC.v:236), and it is the WRONG direction: `#[export] Program Instance exp_zero {x : C} : x^0 ≅ 1` is the exponential OUT OF the initial object (maps 0 ~> x), i.e. `exponent_obj 0 x`. The object Awodey names, `exponent_obj a 0` (= 0^a), is never formed, named, or reasoned about anywhere in the tree.",
+   "grep -rn -i 'negation\\|\\bneg\\b' --include='*.v' . -- all hits are either `pneg`, the ADDITIVE inverse on hom commutative monoids (Structure/Additive.v:41,44,46), or prose ('the \"negation\" subset-of-truth-values' in Instance/FinSet/Topos.v:84, an English gloss on a FinSet code, not a Heyting operation).",
+   "grep -rniI --include='*.v' 'pseudo-complement\\|pseudocomplement\\|relative complement' . -- 0 hits.",
+   "Note on expressibility: given `@Closed C _` and `@Initial C`, the object `0 ^ a` is expressible and, at Instance/Props.v:94 (`exponent_obj := Basics.impl`), `exponent_obj P False` is definitionally `P -> False` = `~P`. But no definition, notation, or lemma introduces negation as an operation, so there is no in-tree counterpart to the item."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed independently. I verified the record's decisive observation myself: the only exponential-with-0 symbol in the tree is `exp_zero` at Structure/BiCCC.v:236, and it is `x^0 ≅ 1` -- the exponential OUT OF the initial object -- not the object 0^a Awodey names; `rg -n '0\\^'` finds nothing categorical. All 'negation' hits are `pneg`, the additive inverse on hom commutative monoids (Structure/Additive.v), or English prose. Even though 0^a is expressible wherever Closed and Initial are both in scope (and is definitionally `~P` at Instance/Props.v:95's `exponent_obj := Basics.impl`), no definition, notation or lemma introduces it, so there is no in-tree counterpart to this definition."
+  }
+ },
+ {
+  "id": "awodey:6.3:remark-ha-not-boolean",
+  "classification": "ABSENT",
+  "aliases": [
+   "a <= not not a in every Heyting algebra",
+   "double-negation elimination not not a <= a can fail",
+   "law of excluded middle 1 <= a or not a can fail",
+   "negation of an open set is the interior of its complement",
+   "Boolean algebras are Heyting but not conversely",
+   "Heyting algebra = algebra of intuitionistic propositional calculus"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniI --include='*.v' 'double negation' . -- 0 hits; 'not not' -- 0 hits; 'tertium' -- 0 hits.",
+   "grep -rniI --include='*.v' 'excluded middle' . -- 1 hit, Structure/Topos.v:82, prose only: 'the subobjects of any object form a Heyting algebra rather than a Boolean one, so the law of excluded middle and the axiom of choice need not hold internally'. No formal statement, no independence witness, no counterexample.",
+   "grep -rniI --include='*.v' 'interior' . -- 2 hits, both unrelated (Test/ProbeFunnyPoly.v:19 'rigid interior [Set] level'; Theory/Lawvere.v:90 'telling as the interior'). No topological interior operator.",
+   "grep -rniI --include='*.v' 'Boolean algebra' . -- 5 hits, all prose (Theory/Lawvere.v:87, Instance/Two.v:85,87, Structure/Cocartesian.v:100, Structure/Topos.v:81); no Boolean-algebra class against which the non-implication could even be stated.",
+   "Prerequisite check: negation itself is absent (see awodey:6.3:def-heyting-negation), so none of a <= not not a, not not a <= a, or 1 <= a or not a is expressible in-tree without first defining 0 ^ a."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed independently. No 'double negation', 'not not' or excluded-middle statement in code; the single 'excluded middle' hit is Structure/Topos.v:82, background prose inside the file's essay ('the law of excluded middle and the axiom of choice need not hold internally'), with no formal statement, independence witness or counterexample. No topological interior operator, no Boolean-algebra class against which the non-implication could even be phrased. The record's prerequisite observation is right and load-bearing: negation itself is absent (see awodey:6.3:def-heyting-negation), so none of a ≤ ¬¬a, ¬¬a ≤ a or 1 ≤ a ∨ ¬a is currently expressible."
+  }
+ },
+ {
+  "id": "awodey:6.3:def-ipc",
+  "classification": "PARTIAL",
+  "aliases": [
+   "intuitionistic propositional calculus (IPC) as an entailment system",
+   "deductive system / natural deduction / sequent presentation p |- q",
+   "free bicartesian closed category on the propositional formers",
+   "Curry-Howard-Lambek; internal language of a bicartesian closed category",
+   "Instance/AST.v (the syntactic BiCCC), Instance/Lambda.v (STLC as a CCC)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/AST.v",
+    "line": 45,
+    "symbol": "Obj",
+    "intree_statement": "Inductive Obj : Set := | One_ : Obj (* terminal object 1 *) | Prod_ : Obj → Obj → Obj (* product x × y *) | Exp_ : Obj → Obj → Obj (* exponential, [Exp_ x y] = y ^ x *) | Zero_ : Obj (* initial object 0 *) | Coprod_ : Obj → Obj → Obj.   (* i.e. exactly the IPC formula formers top, and, implies, bottom, or *)"
+   },
+   {
+    "file": "Instance/AST.v",
+    "line": 72,
+    "symbol": "Hom",
+    "intree_statement": "Inductive Hom : Obj → Obj → Set := | Id : ∀ {a}, Hom a a | Compose : ∀ {a b c}, Hom b c → Hom a b → Hom a c | One' : ∀ {a}, Hom a One_ | Exl | Exr | Fork : ∀ {a c d}, Hom a c → Hom a d → Hom a (Prod_ c d) | Curry : ∀ {a b c}, Hom (Prod_ a b) c → Hom a (Exp_ b c) | Uncurry : ∀ {a b c}, Hom a (Exp_ b c) → Hom (Prod_ a b) c | Zero' : ∀ {a}, Hom Zero_ a | Inl | Inr | Merge : ∀ {a c d}, Hom c a → Hom d a → Hom (Coprod_ c d) a."
+   },
+   {
+    "file": "Instance/AST.v",
+    "line": 127,
+    "symbol": "AST",
+    "intree_statement": "Program Instance AST : Category := { obj := Obj; hom := Hom; id := @Id; compose := @Compose; homset := fun _ _ => {| equiv := fun f g => ∀ (C : Category) (A : @Cartesian C) `(@Closed C A) `(@Cocartesian C) `(@Terminal C) `(@Initial C), interp f ≈ interp g |} }"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 26,
+    "symbol": "(header prose) + Props_* instances",
+    "intree_statement": "\"Equipped with the logical connectives below it is a bicartesian closed thin category — a Heyting prealgebra — modelling intuitionistic propositional logic\" ... \"The exponential is implication because cartesian closure is exactly the adjunction (R /\\ P) |- Q  <->  R |- (P -> Q), the deduction theorem.\""
+   }
+  ],
+  "statement_record": {
+   "book": "A deductive system for IPC on entailments p |- q: (1) |- is reflexive and transitive; (2) p |- top; (3) bottom |- p; (4) p |- q and p |- r iff p |- q and r; (5) p |- r and q |- r iff (p or q) |- r; (6) (p and q) |- r iff p |- (q => r). The text asserts the system is complete for IPC and equivalent to the Hilbert-style presentations, then derives modus ponens and the usual product/implication axioms from it.",
+   "intree": "Instance/AST.v realizes exactly this rule list as the constructors of a typed term GADT over the formula formers `One_ / Prod_ / Exp_ / Zero_ / Coprod_`: `Id`+`Compose` are rule (1); `One'` is rule (2); `Zero'` is rule (3); `Fork`/`Exl`/`Exr` are rule (4); `Merge`/`Inl`/`Inr` are rule (5); `Curry`/`Uncurry` are rule (6). `AST : Category` (line 127) assembles them, and Instance/Props.v supplies a model.",
+   "strength_comparison": "intree-weaker in three respects: (a) PROOF RELEVANCE -- `Hom : Obj → Obj → Set` is a term calculus, whereas Awodey's |- is a relation between formulas, so what is in-tree is the Curry-Howard proof-term version rather than the entailment system itself; (b) the equational theory is not the rules -- `AST`'s hom-setoid is defined SEMANTICALLY, as 'equal under every interpretation into a bicartesian closed category' (line 127 onwards), so the freeness/initiality claimed in the file header (lines 31-37) is asserted, not proved; (c) the meta-claims of the item -- completeness for IPC and equivalence with the Hilbert-style axiomatization, plus the derivation of modus ponens and the implication axioms -- are entirely absent."
+  },
+  "gap": "Missing: (i) any proof-irrelevant entailment relation `p |- q` on propositional formulas -- the six rules exist only as constructors of the proof-relevant `Hom` GADT (Instance/AST.v:72), never as a deductive system in Awodey's sense; (ii) the completeness of this rule system for IPC and its equivalence to a Hilbert-style presentation, both of which the book asserts (no 'Hilbert', 'modus ponens', 'IPC' or 'sequent' hit in-tree); (iii) the derivations the book runs off the rules -- evaluation/modus ponens, the product axioms, the implication axioms; (iv) the initiality of `AST` among bicartesian closed categories, which the header advertises but does not prove (its hom-setoid is defined by quantifying over all interpretations rather than by the rules). Also note Instance/Lambda.v is the STLC syntactic CCC, covering only the top/and/implies fragment (no or, no bottom), and its own header (lines 92-97) records that its standard model identifies more terms than beta-eta, so it is not the free CCC either.",
+  "negative_search_log": [
+   "grep -rniI --include='*.v' 'IPC' . -- 0 hits; 'turnstile' -- 0 hits; 'modus ponens' -- 0 hits.",
+   "grep -rniI --include='*.v' 'propositional calculus' . -- 1 hit, Instance/Coq.v:57, prose ('Part III pairing cartesian closed categories with intuitionist propositional calculus and combinatory logic').",
+   "grep -rniI --include='*.v' 'entailment' . -- 2 hits, both prose (Instance/Poset.v:104,107).",
+   "grep -rniI --include='*.v' 'Hilbert' . -- 3 hits, all Hilbert SPACES (Theory/Adjunction.v:38, Theory/Algebra/Frobenius.v:95, Structure/Monoidal/Symmetric.v:92)."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed, and this record caught something my blind pass missed: I searched for 'entail|sequent|propositional calculus|IPC|Hilbert|modus ponens' and reached ABSENT, because Instance/AST.v uses none of those words. The record's evidence is sound. I read Instance/AST.v in full (227 lines) and the rule-to-constructor mapping is exact: `Id`/`Compose` (line 73-74) = rule (1) reflexivity/transitivity; `One'` (76) = p ⊢ ⊤; `Zero'` (85) = ⊥ ⊢ p; `Fork`/`Exl`/`Exr` (78-80) = rule (4); `Merge`/`Inl`/`Inr` (87-89) = rule (5); `Curry`/`Uncurry` (82-83) = rule (6); `AST : Category` at :127. The three disclosed weakenings are all verified: `Hom : Obj → Obj → Set` is proof-relevant; the hom-setoid at :131-141 is `∀ C ..., interp f ≈ interp g`, i.e. semantic rather than rule-generated; and the file's declarations stop at `interp_proper` (:221) with no initiality theorem. See problems[] -- the header's freeness claim is a library defect independent of this coverage verdict. Instance/AST.v is registered in _CoqProject at line 161."
+  }
+ }
+]

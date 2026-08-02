@@ -1,0 +1,522 @@
+[
+ {
+  "id": "awodey:10.1:construction-triangle-identities",
+  "classification": "PRESENT",
+  "aliases": [
+   "triangle identities",
+   "zig-zag identities",
+   "unit and counit of an adjunction (eta, epsilon)",
+   "counit_fmap_unit / fmap_counit_unit",
+   "transpose formulas phi(f) = U f o eta, phi^-1(g) = eps o F g",
+   "snake equations"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 280,
+    "symbol": "counit_fmap_unit",
+    "intree_statement": "Corollary counit_fmap_unit {x} : \u03b5 \u2218 fmap[F] \u03b7 \u2248 id[F x]."
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 288,
+    "symbol": "fmap_counit_unit",
+    "intree_statement": "Corollary fmap_counit_unit {x} : fmap[U] \u03b5 \u2218 \u03b7 \u2248 id[U x]."
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 264,
+    "symbol": "to_adj_unit",
+    "intree_statement": "Corollary to_adj_unit {x y} (f : F x ~> y) : \u230af\u230b \u2248 fmap[U] f \u2218 \u03b7.   (* \u03c6(f) = U(f) \u2218 \u03b7_C *)"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 272,
+    "symbol": "from_adj_counit",
+    "intree_statement": "Corollary from_adj_counit {x y} (f : x ~> U y) : \u2308f\u2309 \u2248 \u03b5 \u2218 fmap[F] f.   (* \u03c6\u207b\u00b9(g) = \u03b5_D \u2218 F(g) *)"
+   }
+  ],
+  "statement_record": {
+   "book": "From a hom-set adjunction \u03c6 : Hom_D(FC,D) \u2245 Hom_C(C,UD) with \u03c6(f) = U(f)\u2218\u03b7_C and \u03c6\u207b\u00b9(g) = \u03b5_D\u2218F(g), instantiating at identities yields the two triangle identities U\u03b5 \u2218 \u03b7_U = 1_U (10.1) and \u03b5_F \u2218 F\u03b7 = 1_F (10.2).",
+   "intree": "unit := \u230aid\u230b, counit := \u2308id\u2309 (Theory/Adjunction.v:214-215); to_adj_unit : \u230af\u230b \u2248 fmap[U] f \u2218 \u03b7; from_adj_counit : \u2308f\u2309 \u2248 \u03b5 \u2218 fmap[F] f; counit_fmap_unit : \u03b5 \u2218 fmap[F] \u03b7 \u2248 id[F x]; fmap_counit_unit : fmap[U] \u03b5 \u2218 \u03b7 \u2248 id[U x].",
+   "strength_comparison": "same \u2014 the library's primitive adjunction IS Kan's hom-set form (a natural iso of hom-setoids), \u03b7 and \u03b5 are defined exactly as the transposes of the identities, and both triangle identities are proved as corollaries by the identical instantiate-at-identity argument. Setoid \u2248 replaces =, which is faithful."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same evidence independently (read Theory/Adjunction.v in full before opening coverage). Verified all four cited lines: unit/counit at 214-215 are literally \u230aid\u230b/\u2308id\u2309; to_adj_unit:264 is Awodey's \u03c6(f)=U(f)\u2218\u03b7_C; from_adj_counit:272 is \u03c6\u207b\u00b9(g)=\u03b5_D\u2218F(g); counit_fmap_unit:280 and fmap_counit_unit:288 are the two triangles, each proved by the instantiate-at-identity argument Awodey uses (rewrite the naturality field, then iso_from_to/iso_to_from at the identity). Quotes accurate. File registered in _CoqProject. Adversarial checks: no same-name-weaker variant (these are the ONLY counit_fmap_unit/fmap_counit_unit in-tree apart from the identically-stated fields of Adjunction/Natural/Transformation.v:39-42); not special-case-only; the required downstream API (to_adj_unit/from_adj_counit, counit_comp/unit_comp) is present and used by Monad/Adjunction.v and Monad/Comparison.v."
+  }
+ },
+ {
+  "id": "awodey:10.1:prop1",
+  "classification": "PRESENT",
+  "aliases": [
+   "adjunction from unit and counit",
+   "equational characterization of adjointness",
+   "Adjunction_Transform / F \u2239 U",
+   "Adjunction_from_Transform, Adjunction_to_Transform",
+   "hom-set form \u21d4 unit/counit form",
+   "zig-zag identities characterize adjunctions"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 42,
+    "symbol": "Adjunction_from_Transform",
+    "intree_statement": "Program Definition Adjunction_from_Transform (A : F \u2239 U) : F \u22a3 U := {| adj := fun a b => {| to := {| morphism := fun f => fmap f \u2218 transform[unit[A]] a |} ; from := {| morphism := fun f => transform[counit[A]] b \u2218 fmap f |} |} |}.   (* the nontrivial direction: \u03c6(f) = U f \u2218 \u03b7, \u03b8(g) = \u03b5 \u2218 F g, mutually inverse and natural *)"
+   },
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 84,
+    "symbol": "Adjunction_to_Transform",
+    "intree_statement": "Program Definition Adjunction_to_Transform {A : F \u22a3 U} : F \u2239 U := {| Transformation.unit := {| transform := fun _ => unit |}; Transformation.counit := {| transform := fun _ => counit |} |}."
+   },
+   {
+    "file": "Adjunction/Natural/Transformation.v",
+    "line": 35,
+    "symbol": "Adjunction_Transform",
+    "intree_statement": "Class Adjunction_Transform := { unit : Id \u27f9 U \u25ef F; counit : F \u25ef U \u27f9 Id; counit_fmap_unit {X} : transform[counit] (F X) \u2218 fmap[F] (transform[unit] X) \u2248 id; fmap_counit_unit {X} : fmap[U] (transform[counit] X) \u2218 transform[unit] (U X) \u2248 id }."
+   }
+  ],
+  "statement_record": {
+   "book": "Given F : C \u2192 D, U : D \u2192 C and natural transformations \u03b7 : 1_C \u2192 UF, \u03b5 : FU \u2192 1_D, one has F \u22a3 U with unit \u03b7 and counit \u03b5 if and only if the two triangle identities hold; the hard direction builds the natural bijection \u03c6(f) = U(f)\u2218\u03b7_C with inverse \u03b8(g) = \u03b5_D\u2218F(g).",
+   "intree": "Adjunction_from_Transform : (F \u2239 U) \u2192 (F \u22a3 U) and Adjunction_to_Transform : (F \u22a3 U) \u2192 (F \u2239 U), where F \u2239 U is exactly the class carrying \u03b7 : Id \u27f9 U \u25ef F, \u03b5 : F \u25ef U \u27f9 Id and the two triangle identities, and F \u22a3 U is the natural hom-setoid isomorphism.",
+   "strength_comparison": "same \u2014 both directions are in-tree, and the forward map is literally Awodey's \u03c6/\u03b8 pair (the two Program obligations at Universal.v:47-62 discharge \u03c6\u2218\u03b8 = id and \u03b8\u2218\u03c6 = id from naturality plus the triangle identities). The library states the two directions as separate definitions rather than one packaged \u2194; nothing is weakened. (Note: no round-trip lemma asserting the two constructions are mutually inverse is proved, but Awodey does not claim one either.)"
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found the same two definitions. Verified Adjunction/Natural/Transformation/Universal.v:42 (Adjunction_from_Transform, the nontrivial direction \u2014 the two obligations at 49-62 discharge \u03c6\u2218\u03b8=id and \u03b8\u2218\u03c6=id from naturality of \u03b7/\u03b5 plus the triangle identities, exactly Awodey's argument) and :84 (Adjunction_to_Transform); Adjunction/Natural/Transformation.v:35 carries \u03b7 : Id \u27f9 U \u25ef F, \u03b5 : F \u25ef U \u27f9 Id and both triangles as fields. Both files registered in _CoqProject. ONE HONEST QUALIFICATION the classifier did not surface: Awodey's statement is 'F \u22a3 U WITH UNIT \u03b7 AND COUNIT \u03b5'; Adjunction_from_Transform yields F \u22a3 U, but no in-tree lemma asserts that the resulting adjunction's derived unit (\u230aid\u230b = fmap[U] id \u2218 \u03b7) is \u2248 \u03b7, nor that its counit is \u2248 \u03b5. The identification is one fmap_id + id_left away and nothing is mathematically at risk, so this does not move the classification, but the round-trip API is genuinely absent (grep for a unit/counit-agreement lemma over Adjunction_from_Transform returns nothing; compare EM_unit_agrees/EM_counit_agrees, which the Eilenberg-Moore file does provide). Recorded in problems[]."
+  }
+ },
+ {
+  "id": "awodey:10.2:prop3",
+  "classification": "PRESENT",
+  "aliases": [
+   "adjunction induces a monad",
+   "Huber's theorem",
+   "T = U\u2218F, mu = U eps F",
+   "Adjunction_Monad",
+   "Adjunction_Induced_Monad",
+   "monad from adjoint pair"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Comparison.v",
+    "line": 123,
+    "symbol": "Adjunction_Induced_Monad",
+    "intree_statement": "Definition Adjunction_Induced_Monad : @Monad D (U \u25ef F) := @Build_Monad D (U \u25ef F) (fun x => @unit _ _ _ _ A x) (* ret = \u03b7 *) (fun x => fmap[U] (@counit _ _ _ _ A (F x))) (* join = U \u03b5 F *) (fun x y f => adj_unit_natural f) (fun x => Induced_Monad_join_fmap_join x) (fun x => Induced_Monad_join_fmap_ret x) (fun x => @fmap_counit_unit _ _ _ _ A (F x)) (fun x y f => Induced_Monad_join_fmap_fmap f)."
+   },
+   {
+    "file": "Monad/Adjunction.v",
+    "line": 48,
+    "symbol": "Adjunction_Monad",
+    "intree_statement": "Theorem Adjunction_Monad : F \u22a3 U \u2192 @Monad D (U \u25ef F)."
+   },
+   {
+    "file": "Monad/Adjunction.v",
+    "line": 84,
+    "symbol": "Adjunction_Nat_Monad",
+    "intree_statement": "Theorem Adjunction_Nat_Monad : F \u2239 U \u2192 @Monad D (U \u25ef F)."
+   }
+  ],
+  "statement_record": {
+   "book": "Every adjoint pair F \u22a3 U (U : D \u2192 C) with unit \u03b7 and counit \u03b5 gives a monad (T, \u03b7, \u03bc) on C with T = U\u2218F and \u03bc = U\u03b5_F; associativity comes from naturality of \u03b5 and the unit laws are the two triangle identities.",
+   "intree": "Adjunction_Induced_Monad : @Monad D (U \u25ef F) with ret = \u03b7 and join = fmap[U] (\u03b5 (F x)); its unit-law field is literally @fmap_counit_unit (a triangle identity) and its associativity field Induced_Monad_join_fmap_join is derived from adj_counit_natural.",
+   "strength_comparison": "same \u2014 the transparent construction fixes ret = \u03b7 and join = U \u03b5 F exactly as Awodey does, and the proofs use the same ingredients (counit naturality for associativity, the triangle identities for the unit laws). Two further proofs (Adjunction_Monad from the hom-set form, Adjunction_Nat_Monad from the unit/counit form) cover both in-tree presentations of an adjunction."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found Monad/Adjunction.v:48/:84 independently and Monad/Comparison.v:123 on re-read. All three lines and quotes verified verbatim. Adjunction_Induced_Monad is the transparent construction and its fields are literally Awodey's proof: ret = \u03b7, join = fmap[U] (\u03b5 (F x)) = U \u03b5 F, the right unit law field is @fmap_counit_unit at F x (a triangle identity), associativity is Induced_Monad_join_fmap_join via adj_counit_natural (naturality of \u03b5), and Induced_Monad_join_fmap_ret (Comparison.v:101-108) is fmap_comp + counit_fmap_unit + fmap_id \u2014 the second triangle pushed through U. Awodey's inventory flag 'statement-typo-in-source' concerns the book, not the library. All three files registered. No weaker same-name variant; Adjunction_Monad (Qed-sealed) and Adjunction_Nat_Monad cover the hom-set and unit/counit presentations respectively."
+  }
+ },
+ {
+  "id": "awodey:10.2:def2",
+  "classification": "PRESENT",
+  "aliases": [
+   "monad",
+   "triple",
+   "standard construction",
+   "Class Monad (ret/join)",
+   "endofunctor with unit and multiplication",
+   "monoid in the category of endofunctors"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Monad.v",
+    "line": 92,
+    "symbol": "Monad",
+    "intree_statement": "Class Monad := { ret {x} : x ~> M x; join {x} : M (M x) ~> M x; fmap_ret {x y} (f : x ~> y) : ret \u2218 f \u2248 fmap f \u2218 ret; join_fmap_join {x} : join \u2218 fmap (@join x) \u2248 join \u2218 join; join_fmap_ret {x} : join \u2218 fmap (@ret x) \u2248 id; join_ret {x} : join \u2218 @ret (M x) \u2248 id; join_fmap_fmap {x y} (f : x ~> y) : join \u2218 fmap (fmap f) \u2248 fmap f \u2218 join }."
+   }
+  ],
+  "statement_record": {
+   "book": "A monad on C is an endofunctor T : C \u2192 C with natural transformations \u03b7 : 1_C \u2192 T and \u03bc : T\u00b2 \u2192 T satisfying \u03bc \u2218 \u03bc_T = \u03bc \u2218 T\u03bc and \u03bc \u2218 \u03b7_T = 1_T = \u03bc \u2218 T\u03b7.",
+   "intree": "Class Monad over a fixed endofunctor M : C \u27f6 C, with ret (\u03b7), join (\u03bc), the associativity law join_fmap_join, the two unit laws join_fmap_ret and join_ret, and the naturality squares fmap_ret (for \u03b7) and join_fmap_fmap (for \u03bc) as explicit fields.",
+   "strength_comparison": "same \u2014 Awodey packages \u03b7 and \u03bc as natural transformations, so their naturality is built into his definition; the library states naturality as two extra explicit fields over a bare endofunctor, which is the same data. The dual (comonad) is definitional: Comonad := @Monad (C^op) (M^op) (Theory/Monad.v:144)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass read Theory/Monad.v:88-111 before opening coverage; quote at :92 is verbatim and complete (all seven fields). Setoid \u2248 for =; the endofunctor is a section Context variable rather than a class field, which is the usual in-tree packaging and loses nothing. strength_comparison is honest: Awodey bundles naturality of \u03b7 and \u03bc into 'natural transformation', the library states it as the two extra fields fmap_ret and join_fmap_fmap over a bare Functor \u2014 same data. Awodey's 'triple'/'standard construction' synonyms and the monoid analogy are both recorded in the file's essay (lines 15-16, 36-57), with the monoid analogy actually PROVED elsewhere as Monoid_Monad (Monad/Monoid.v), which is stronger than Awodey's remark. Comonad := @Monad (C^op) (M^op) at :144 verified. Registered in _CoqProject."
+  }
+ },
+ {
+  "id": "awodey:10.2:example4",
+  "classification": "ABSENT",
+  "aliases": [
+   "closure operation / closure operator",
+   "monad on a poset",
+   "inflationary idempotent monotone endomap",
+   "consequence operator (Tarski)",
+   "topological closure operator",
+   "monad on a thin category is idempotent",
+   "modal possibility operator \u25c7"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -i 'closure oper' -- 4 hits, ALL in Instance/Poset.v (lines 48, 64, 66, 68), all header prose; no lemma states the monad=closure-operator collapse. [CORRECTED: the log previously mis-cited Structure/Factorization.v:69, which contains 'closed pairs'/'Galois connection' and NO occurrence of 'closure oper'.]",
+   "grep -rn --include='*.v' -ci 'closure_operator|ClosureOperator|closure_op' . \u2014 0 hits.",
+   "grep -rn --include='*.v' -i 'inflationary|deflationary|extensive.*monad' . \u2014 0 hits.",
+   "grep -rn --include='*.v' 'Monad.*Poset|Poset.*Monad|Proset.*Monad' . \u2014 0 hits.",
+   "grep -rn --include='*.v' -i 'interior' . \u2014 2 hits, both unrelated prose (Test/ProbeFunnyPoly.v, Theory/Lawvere.v).",
+   "grep -rn --include='*.v' -i 'thin' . \u2014 hits only in prose headers (Theory/Category.v:279, Instance/Poset.v, Instance/Proset.v, Instance/Two.v, Instance/Omega.v); no theorem about monads on thin categories.",
+   "grep -rn --include='*.v' -i 'idempotent' . \u2014 the only monad-level notion is Construction/Reflective/Idempotent.v's Class IdempotentMonad (join is an iso), which is a HYPOTHESIS class; there is no lemma deriving idempotency of a monad on a poset/thin category.",
+   "Inspected Instance/Poset.v in full (129 lines): it defines only `Definition Poset ... : Category := Proset P` plus `LessThanEqualTo_Category`; no monad, closure, or fixed-point content."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My independent blind pass reached ABSENT for the same reason and found no counterpart the classifier missed. I re-ran the decisive greps myself: -i 'closure operator|closure operation' hits only Instance/Poset.v (prose); Instance/Poset.v read in full (123 lines) contains exactly `Lemma eq_equiv`, `Definition Poset ... := Proset P` (line 116) and `LessThanEqualTo_Category` \u2014 no monad, closure or fixed-point content; Instance/Proset.v likewise defines only the category. The one monad-level idempotency notion in-tree is Construction/Reflective/Idempotent.v's Class IdempotentMonad (line 81), which TAKES join-invertibility as data and derives nothing from thinness. So the two halves of Awodey's example \u2014 that a monad on a poset is automatically idempotent, and that such a T is precisely a closure operation \u2014 are both unstated. ONE CORRECTION to the classifier's negative_search_log: it reports the four 'closure oper' hits as Instance/Poset.v:48,64,68 plus Structure/Factorization.v:69; the actual four are Instance/Poset.v:48,64,66,68 \u2014 Structure/Factorization.v:69 contains 'closed pairs'/'Galois connection', not 'closure oper'. The conclusion is unaffected. See problems[] for the related essay overclaim at Instance/Poset.v:46-54."
+  }
+ },
+ {
+  "id": "awodey:10.2:construction-poset-monad-adjunction",
+  "classification": "PARTIAL",
+  "aliases": [
+   "fixed points of a closure operator",
+   "im(T) as a reflective sub-poset",
+   "t \u22a3 i from a monad on a poset",
+   "reflective subcategory of local objects",
+   "idempotent monad yields a reflective subcategory",
+   "Galois connection from a closure operator",
+   "algebras of a closure operator"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Reflective/Idempotent.v",
+    "line": 335,
+    "symbol": "idem_reflective_adj",
+    "intree_statement": "Definition idem_reflective_adj : idem_reflector \u22a3 Incl C MLocal_Subcategory := Adjunction_from_Transform idem_reflection_transform.   (* over Context `{IM : @IdempotentMonad C M MM}; MLocal_Subcategory := {| sobj := fun x => IsIsomorphism (@ret C M MM x) |} *)"
+   },
+   {
+    "file": "Construction/Reflective/Idempotent.v",
+    "line": 464,
+    "symbol": "Idempotent_EM_Equivalence",
+    "intree_statement": "Definition Idempotent_EM_Equivalence : EquivalenceOfCategories idem_G := FF_ESO_Equivalence idem_G.   (* the Eilenberg\u2013Moore category of an idempotent monad is equivalent to its subcategory of M-local ('fixed point') objects *)"
+   },
+   {
+    "file": "Construction/Reflective/Idempotent.v",
+    "line": 345,
+    "symbol": "Idempotent_Reflective",
+    "intree_statement": "Definition Idempotent_Reflective : Reflective MLocal_Subcategory := @Build_Reflective C MLocal_Subcategory MLocal_Full idem_reflector idem_reflective_adj."
+   }
+  ],
+  "statement_record": {
+   "book": "For a monad (closure operation) T on a poset P, let K = im(T) be the sub-poset of fixed points with inclusion i : K \u2192 P and factorization t : P \u2192 K (T = i\u2218t); then t \u22a3 i, an adjunction of posets whose induced monad is T \u2014 a concrete instance of 'every monad arises from an adjunction'.",
+   "intree": "For an idempotent monad M on any category C, the full subcategory MLocal_Subcategory of objects x where ret x is invertible (the 'fixed points' of M) is reflective: idem_reflective_adj : idem_reflector \u22a3 Incl C MLocal_Subcategory, and Idempotent_EM_Equivalence identifies EM(M) with that subcategory.",
+   "strength_comparison": "intree-stronger in generality (arbitrary C, not just a poset) but intree-weaker in hypotheses and conclusion: (i) it takes IdempotentMonad (join invertible) as an explicit HYPOTHESIS, whereas Awodey gets idempotency for free from thinness of P \u2014 the in-tree tree contains no lemma that a monad on a poset/thin category is idempotent; (ii) no in-tree lemma asserts that the monad induced by idem_reflective_adj is the original M, which is the punchline of Awodey's construction ('whose induced monad is T')."
+  },
+  "gap": "Three things are missing. (1) No poset/thin-category instantiation: Instance/Poset.v defines only the category, and nothing connects it to Theory/Monad.v. (2) No proof that a monad on a poset (thin category) is automatically idempotent, which is what makes Awodey's construction unconditional; the in-tree analogue must be handed an IdempotentMonad instance. (3) No statement that the monad induced by idem_reflective_adj is M \u2014 the in-tree file proves only the converse direction (Reflective_Monad / Reflective_IdempotentMonad, lines 194 and 198) and the EM equivalence, not the round trip Awodey asserts. The general 'every monad arises from an adjunction' fact IS in-tree (EM_Adjunction / Kleisli_Adjunction) but via a different, non-fixed-point construction.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass independently landed on Construction/Reflective/Idempotent.v as the only candidate and reached PARTIAL for the same reasons. Verified every cited line: idem_reflective_adj:335, Idempotent_Reflective:345, Idempotent_EM_Equivalence:464, and the MLocal_Subcategory definition at :224 (sobj := fun x => IsIsomorphism (ret x)) \u2014 the 'fixed points' reading is accurate. The gap field is precise and I confirmed each of its three clauses by direct search: (1) grep 'Poset|Proset' across Monad/ and Construction/Reflective/ \u2014 0 hits, no poset instantiation; (2) no lemma anywhere deriving IdempotentMonad from thinness (the class is only ever supplied as a Context hypothesis, Idempotent.v:219); (3) grep 'Adjunction_Induced_Monad' in Idempotent.v returns exactly one hit, line 195, inside Reflective_Monad \u2014 i.e. only the reflective \u21d2 monad direction, never `Adjunction_Induced_Monad (idem_reflective_adj) \u2248 M`. So Awodey's punchline 'whose induced monad is T' is genuinely unstated for the reflective adjunction. File registered in _CoqProject. strength_comparison ('stronger in generality, weaker in hypotheses and conclusion') is honest."
+  }
+ },
+ {
+  "id": "awodey:10.2:example5",
+  "classification": "ABSENT",
+  "aliases": [
+   "covariant powerset monad",
+   "P : Sets \u2192 Sets with image map",
+   "singleton unit and union multiplication",
+   "power set functor",
+   "Ensemble / subset monad",
+   "Rel as the Kleisli category of the powerset monad",
+   "non-deterministic choice monad"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'powerset|power_set|PowerSet|power set|power-set' . \u2014 only prose hits: Instance/Poset.v:61,95 (Birkhoff/Ganter\u2013Wille history) and Structure/Topos.v:75 (the topos POWER OBJECT Pow a := \u03a9 ^ a, an object-level naming alias at Structure/Topos.v:129, not a functor and not a monad).",
+   "grep -rn --include='*.v' 'Ensemble' . \u2014 Instance/Rel.v (hom of Rel is A \u2192 Ensemble B) and Instance/Ens.v (the category of ensembles). Neither builds a powerset ENDOFUNCTOR on Sets/Coq; Instance/Ens.v:35 obj := \u2203 T : Type, Ensemble T is a category of subsets, not P applied to a set.",
+   "grep -rn --include='*.v' 'Singleton' . \u2014 Instance/Rel.v uses Singleton as the IDENTITY relation of Rel and in Rel's fmap of the Coq embedding; no \u03b7_X : X \u2192 P(X) as a monad unit.",
+   "grep -rn --include='*.v' -i 'Union\\b' . \u2014 only disjoint-union/coproduct and union-find hits; no \u03bc_X : PP(X) \u2192 P(X).",
+   "grep -rn --include='*.v' 'im(f)|image map|direct image' . \u2014 1 unrelated hit in Monad/Monadicity/Crude.v; Instance/Sets/Image.v builds the epi-mono image FACTORIZATION of a single map, not a covariant powerset functor.",
+   "Enumerated every categorical monad instance in-tree (grep '@Monad|: Monad'): Id_Monad, IdentityT_Monad, ConstT_Monad, Adjunction_Induced_Monad, Reflective_Monad, Lawvere_Monad, Exc_GradedMonad, plus the law-free FP-layer instances (list, Either, Tuple, Maybe, arrow, Yoneda). None is a powerset monad.",
+   "grep -rn --include='*.v' 'Kleisli.*Rel|Rel.*Kleisli' . \u2014 0 hits; Rel is not identified as the Kleisli category of any monad."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. I re-ran the key searches: -i 'powerset|power set' hits only Instance/Poset.v prose (Birkhoff/Ganter-Wille history) and Structure/Topos.v, where Pow a := \u03a9 ^ a (line 129) is the topos POWER OBJECT \u2014 an object-level abbreviation with no functorial action and no monad structure, and contravariantly flavoured via the exponential, not Awodey's covariant image functor. 'Ensemble' hits Instance/Ens.v (a category whose OBJECTS are subsets) and Instance/Rel.v (hom of Rel is A \u2192 Ensemble B), neither an endofunctor on Sets. I independently enumerated the categorical Monad instances in-tree (grep '@Monad|: Monad' over all .v) and confirm the classifier's list: Id_Monad, IdentityT_Monad, ConstT_Monad, Adjunction_Induced_Monad, Reflective_Monad, Lawvere_Monad, GradedMonad_Monad/Exc_GradedMonad, plus the law-free Theory/Coq layer \u2014 no powerset monad, and no \u03b7 = singleton / \u03bc = \u22c3 pair anywhere. Instance/Rel.v is not identified as a Kleisli category of anything (0 hits). ABSENT stands."
+  }
+ },
+ {
+  "id": "awodey:10.2:remark-endofunctor-monad",
+  "classification": "PRESENT",
+  "aliases": [
+   "T = U\u2218F iff T is a monad",
+   "every monad arises from an adjunction",
+   "resolution of a monad",
+   "Kleisli / Eilenberg\u2013Moore resolutions",
+   "EM_Monad_agrees, Kleisli_Monad_agrees",
+   "Adjunction_Monad (converse)"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Adjunction.v",
+    "line": 48,
+    "symbol": "Adjunction_Monad",
+    "intree_statement": "Theorem Adjunction_Monad : F \u22a3 U \u2192 @Monad D (U \u25ef F).   (* necessity: if T = U \u25ef F for an adjunction, T carries a monad structure *)"
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 219,
+    "symbol": "EM_Monad_agrees",
+    "intree_statement": "Theorem EM_Monad_agrees : EM_Forget \u25ef EM_Free \u2248 T.   (* sufficiency: with EM_Adjunction : EM_Free \u22a3 EM_Forget, any monad T is the composite of an adjoint pair *)"
+   },
+   {
+    "file": "Monad/Kleisli/Adjunction.v",
+    "line": 157,
+    "symbol": "Kleisli_Monad_agrees",
+    "intree_statement": "Theorem Kleisli_Monad_agrees : Kleisli_Forget \u25ef Kleisli_Free \u2248 M.   (* a SECOND, generally different, adjunction inducing the same monad \u2014 the remark's non-uniqueness clause *)"
+   }
+  ],
+  "statement_record": {
+   "book": "An endofunctor T : C \u2192 C is of the form U\u2218F for some adjunction F \u22a3 U into some D exactly when T is the functor part of a monad on C (necessity = Prop 10.3, sufficiency = Prop 10.6); moreover the recovering adjunction is not determined by T. [ATTRIBUTION CORRECTED (fess-aw10 M2): the non-uniqueness clause belongs to the SEPARATE \u00a710.3 remark (printed p.277), not to this \u00a710.2 closing remark, which says only that monads often arise without evident adjunctions and that an endofunctor so arises just if it is the functor part of a monad. The verifier's note already walked this back; the book field had not been corrected.]",
+   "intree": "Adjunction_Monad : F \u22a3 U \u2192 @Monad D (U \u25ef F) (\u21d2); EM_Adjunction : EM_Free \u22a3 EM_Forget with EM_Monad_agrees : EM_Forget \u25ef EM_Free \u2248 T (\u21d0); Kleisli_Adjunction with Kleisli_Monad_agrees : Kleisli_Forget \u25ef Kleisli_Free \u2248 M (two distinct resolutions of the same monad).",
+   "strength_comparison": "same \u2014 both halves of the biconditional are in-tree theorems, and the non-uniqueness clause is witnessed by the two independent resolutions. Presentational differences only: the library states the halves separately rather than as one \u2194, and 'T = U\u2218F' becomes the natural isomorphism \u2248 in Cat (with identity components, per the EM_Monad_agrees proof), which is the honest categorical reading."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Both halves verified independently: Adjunction_Monad (Monad/Adjunction.v:48) for necessity, EM_Adjunction + EM_Monad_agrees (Monad/Eilenberg/Moore/Adjunction.v:183/:219) for sufficiency, Kleisli_Adjunction + Kleisli_Monad_agrees (Monad/Kleisli/Adjunction.v:157, quote verified verbatim, proof `exists (fun x => iso_id)`) as the second resolution. All files registered. The mathematical content of the remark is fully in-tree, so PRESENT stands. TWO CALIBRATION NOTES on the strength_comparison, neither sufficient to overturn: (a) the remark's non-uniqueness clause is witnessed only by CONSTRUCTING two resolutions \u2014 nothing in-tree proves the Kleisli and Eilenberg-Moore categories are inequivalent for some monad, so 'witnessed' overstates 'proved'; (b) the initiality/terminality that would make the two resolutions the extremes of the family is likewise unproved in-tree (there is no category of resolutions), despite being asserted declaratively in several headers \u2014 see problems[]. Awodey's remark itself claims neither, so the record's classification is right."
+  }
+ },
+ {
+  "id": "awodey:10.3:prop6",
+  "classification": "PRESENT",
+  "aliases": [
+   "every monad arises from an adjunction",
+   "Eilenberg\u2013Moore resolution",
+   "C^T free/forgetful adjunction",
+   "EM_Adjunction, EM_Monad_agrees",
+   "F^T \u22a3 U^T",
+   "terminal resolution of a monad"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 183,
+    "symbol": "EM_Adjunction",
+    "intree_statement": "Program Definition EM_Adjunction : EM_Free \u22a3 EM_Forget := @Build_Adjunction' (EilenbergMoore T) C EM_Free EM_Forget EM_adj_iso _ _."
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 219,
+    "symbol": "EM_Monad_agrees",
+    "intree_statement": "Theorem EM_Monad_agrees : EM_Forget \u25ef EM_Free \u2248 T."
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 208,
+    "symbol": "EM_join_agrees",
+    "intree_statement": "Lemma EM_join_agrees {x : C} : fmap[EM_Forget] (@counit _ _ _ _ EM_Adjunction (EM_Free x)) \u2248 join[T].   (* \u03bc-bar = U \u03b5 F = \u03bc *)"
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 190,
+    "symbol": "EM_unit_agrees",
+    "intree_statement": "Lemma EM_unit_agrees {x : C} : @unit _ _ _ _ EM_Adjunction x \u2248 ret[T].   (* the adjunction unit IS the monad unit \u03b7 *)"
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 197,
+    "symbol": "EM_counit_agrees",
+    "intree_statement": "Lemma EM_counit_agrees {y : EilenbergMoore T} : t_alg_hom[@counit _ _ _ _ EM_Adjunction y] \u2248 t_alg[`2 y].   (* \u03b5_(A,\u03b1) = \u03b1 *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Given a monad (T, \u03b7, \u03bc) on C there are a category D and an adjunction F \u22a3 U with U : D \u2192 C such that T = U\u2218F, the adjunction unit is \u03b7, and \u03bc = U\u03b5_F; the proof takes D = C^T, F C = (TC, \u03bc_C), U(A,\u03b1) = A, \u03b5_(A,\u03b1) = \u03b1.",
+   "intree": "EM_Adjunction : EM_Free \u22a3 EM_Forget over D := EilenbergMoore T (whose objects are \u2203 a, TAlgebra T a), together with EM_Monad_agrees (U^T \u25ef F^T \u2248 T), EM_unit_agrees (unit \u2248 ret[T]), EM_counit_agrees (counit at (A,\u03b1) is \u03b1) and EM_join_agrees (U^T \u03b5 F^T \u2248 join[T]).",
+   "strength_comparison": "same \u2014 every clause of the proposition has its own in-tree assertion, with the same witnesses Awodey uses (F^T x = (T x, join), U^T (a,\u03bd) = a, \u03b5 = the structure map). 'T = U\u2218F' is the natural isomorphism \u2248 with identity components (the strongest available in a setoid library, since functor equality is not available); the triangle identities are discharged inside Build_Adjunction' via the transposition iso EM_adj_iso."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass read Monad/Eilenberg/Moore/Adjunction.v in full before opening coverage and found every cited artifact. All five line numbers verified exactly (EM_Adjunction:183, EM_unit_agrees:190, EM_counit_agrees:197, EM_join_agrees:208, EM_Monad_agrees:219) and all quotes are verbatim. Clause-by-clause against the book: D = EilenbergMoore T; U(A,\u03b1)=A is EM_Forget:65; FC=(TC,\u03bc_C) is EM_Free:79 with the algebra laws discharged by join_ret and join_fmap_join and Fh=Th's homomorphism square by join_fmap_fmap \u2014 exactly Awodey's 'using naturality of \u03bc'; \u03b5_(A,\u03b1)=\u03b1 is EM_counit_agrees; \u03bc-bar_C = U \u03b5_{(TC,\u03bc_C)} = \u03bc_C is EM_join_agrees. The triangles are discharged inside Build_Adjunction' via the transposition iso EM_adj_iso (:157) whose two obligations are EM_extend_ret and EM_restrict_extend \u2014 the equivalent hom-set route, and Theory/Adjunction.v:280/288 then hand the triangles back as corollaries. strength_comparison's caveat that 'T = U\u2218F' is the natural iso \u2248 with identity components rather than functor equality is honest and is the strongest available statement in a setoid library. Registered in _CoqProject."
+  }
+ },
+ {
+  "id": "awodey:10.3:def-t-algebra",
+  "classification": "PRESENT",
+  "aliases": [
+   "T-algebra",
+   "Eilenberg\u2013Moore algebra",
+   "algebra over a monad",
+   "TAlgebra / t_alg / t_id / t_action",
+   "morphism of T-algebras / algebra homomorphism",
+   "TAlgebraHom"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Algebra.v",
+    "line": 24,
+    "symbol": "TAlgebra",
+    "intree_statement": "Class TAlgebra `(T : C \u27f6 C) `{@Monad C T} (a : C) := { t_alg : T a ~> a; t_id : t_alg \u2218 ret \u2248 id; t_action : t_alg \u2218 fmap t_alg \u2248 t_alg \u2218 join }."
+   },
+   {
+    "file": "Monad/Algebra.v",
+    "line": 44,
+    "symbol": "TAlgebraHom",
+    "intree_statement": "Class TAlgebraHom `(T : C \u27f6 C) `{@Monad C T} (a b : C) (F : TAlgebra T a) (G : TAlgebra T b) := { t_alg_hom : a ~> b; t_alg_hom_commutes : t_alg_hom \u2218 t_alg[F] \u2248 t_alg[G] \u2218 fmap[T] t_alg_hom }."
+   },
+   {
+    "file": "Monad/Eilenberg/Moore.v",
+    "line": 44,
+    "symbol": "EilenbergMoore",
+    "intree_statement": "Program Definition EilenbergMoore `(T : C \u27f6 C) `{H : @Monad C T} : Category := {| obj := \u2203 a : C, @TAlgebra C T H a; hom := fun x y => TAlgebraHom T ``x ``y (projT2 x) (projT2 y); id := fun _ => {| t_alg_hom := id |}; compose := fun _ _ _ f g => {| t_alg_hom := t_alg_hom[f] \u2218 t_alg_hom[g] |} |}.   (* the obligations prove identities and composites are again algebra maps *)"
+   }
+  ],
+  "statement_record": {
+   "book": "A T-algebra is (A, \u03b1) with \u03b1 : TA \u2192 A satisfying 1_A = \u03b1 \u2218 \u03b7_A and \u03b1 \u2218 \u03bc_A = \u03b1 \u2218 T\u03b1 (eq. 10.5); a morphism h : (A,\u03b1) \u2192 (B,\u03b2) is h : A \u2192 B with h \u2218 \u03b1 = \u03b2 \u2218 T(h); identities and composites are inherited from C, so these form a category.",
+   "intree": "TAlgebra: t_alg : T a ~> a with t_id : t_alg \u2218 ret \u2248 id and t_action : t_alg \u2218 fmap t_alg \u2248 t_alg \u2218 join. TAlgebraHom: t_alg_hom with t_alg_hom_commutes : t_alg_hom \u2218 t_alg[F] \u2248 t_alg[G] \u2218 fmap[T] t_alg_hom. EilenbergMoore assembles them into a Category with identities and composites inherited from C.",
+   "strength_comparison": "same \u2014 the two algebra laws and the homomorphism square match exactly (t_action is Awodey's \u03b1\u2218\u03bc_A = \u03b1\u2218T\u03b1 with the two sides swapped, an equation, so no loss), and the categoricity clause is discharged by the EilenbergMoore Program obligation using fmap_comp exactly as Awodey indicates."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found Monad/Algebra.v independently. Lines 24 and 44 verified, quotes verbatim and complete. t_id : t_alg \u2218 ret \u2248 id is Awodey's 1_A = \u03b1 \u2218 \u03b7_A; t_action : t_alg \u2218 fmap t_alg \u2248 t_alg \u2218 join is his \u03b1 \u2218 \u03bc_A = \u03b1 \u2218 T\u03b1 with the sides transposed (an equation \u2014 no loss). t_alg_hom_commutes is h \u2218 \u03b1 = \u03b2 \u2218 T(h) verbatim. The 'these form a category' clause is EilenbergMoore (Monad/Eilenberg/Moore.v:44) with the composite-is-a-homomorphism obligation at :51-58 pasting the two squares via fmap_comp, exactly as Awodey indicates; identities and composition are inherited from C on carriers and hom-equivalence is equivalence of underlying arrows. No same-name-weaker variant (grep 'TAlgebra' shows Monad/Algebra.v is the sole definition site; Structure/Coalgebra and Construction/FAlg are ENDOFUNCTOR algebras, a different notion Awodey himself separates in 10.5). Both files registered."
+  }
+ },
+ {
+  "id": "awodey:10.3:construction-eilenberg-moore",
+  "classification": "PRESENT",
+  "aliases": [
+   "Eilenberg\u2013Moore category C^T",
+   "free algebra functor F^T",
+   "forgetful functor U^T",
+   "EM_Free / EM_Forget / EM_Adjunction",
+   "free-forgetful adjunction of a monad",
+   "terminal resolution"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 183,
+    "symbol": "EM_Adjunction",
+    "intree_statement": "Program Definition EM_Adjunction : EM_Free \u22a3 EM_Forget := @Build_Adjunction' (EilenbergMoore T) C EM_Free EM_Forget EM_adj_iso _ _."
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 79,
+    "symbol": "EM_Free",
+    "intree_statement": "Program Definition EM_Free : C \u27f6 EilenbergMoore T := {| fobj := fun a => (T a; {| t_alg := @join C T H a |}); fmap := fun x y f => {| t_alg_hom := fmap[T] f |} |}.   (* obligations: join_ret and join_fmap_join give the algebra laws of (T a, \u03bc_a); join_fmap_fmap gives the homomorphism square for F h = T h *)"
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 65,
+    "symbol": "EM_Forget",
+    "intree_statement": "Program Definition EM_Forget : EilenbergMoore T \u27f6 C := {| fobj := fun a => `1 a; fmap := fun _ _ f => t_alg_hom[f] |}.   (* U(A,\u03b1) = A, U(h) = h *)"
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 219,
+    "symbol": "EM_Monad_agrees",
+    "intree_statement": "Theorem EM_Monad_agrees : EM_Forget \u25ef EM_Free \u2248 T."
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 208,
+    "symbol": "EM_join_agrees",
+    "intree_statement": "Lemma EM_join_agrees {x : C} : fmap[EM_Forget] (@counit _ _ _ _ EM_Adjunction (EM_Free x)) \u2248 join[T].   (* U \u03b5 F = \u03bc: the induced monad is the original one *)"
+   }
+  ],
+  "statement_record": {
+   "book": "C^T has T-algebras as objects and their morphisms as arrows, with U^T(A,\u03b1) = A, F^T C = (TC, \u03bc_C), F^T h = Th; the unit is \u03b7, the counit is \u03b5_(A,\u03b1) = \u03b1, both triangle identities hold, so F^T \u22a3 U^T with U^T \u2218 F^T = T and U\u03b5 F = \u03bc.",
+   "intree": "EilenbergMoore T (the category, Monad/Eilenberg/Moore.v:44), EM_Forget, EM_Free, EM_Adjunction : EM_Free \u22a3 EM_Forget, with EM_unit_agrees, EM_counit_agrees, EM_join_agrees and EM_Monad_agrees.",
+   "strength_comparison": "same \u2014 every component of the construction is a separate in-tree definition or lemma with the same formulas. The adjunction is built through the hom-setoid transposition isomorphism EM_adj_iso (restriction along \u03b7 / extension by \u03b1 \u2218 T f) rather than by verifying the two triangles directly; that is the equivalent hom-set presentation, and the triangle identities are then available as the derived corollaries of Theory/Adjunction.v."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Same evidence found blind. All five cited lines verified verbatim (EM_Forget:65, EM_Free:79, EM_Adjunction:183, EM_join_agrees:208, EM_Monad_agrees:219), plus EilenbergMoore at Monad/Eilenberg/Moore.v:44. The construction's supporting API is genuinely present, not merely the definitions: EM_extend_is_alg_hom:98, EM_extend_ret:110, EM_extend_unique:120, EM_restrict_extend:145, EM_adj_iso:157, EM_transpose_nat_l:175 \u2014 this is a definition WITH the required universal-property API, so the 'definition-without-API' failure mode does not apply. strength_comparison honestly discloses that the adjunction is built through the hom-setoid transposition rather than by checking the two triangles directly. Registered in _CoqProject. NOTE (recorded in problems[]): the file's own header at lines 48-50, and Monad/Eilenberg/Moore.v:34-35, assert initiality of the Kleisli resolution and the existence of 'its comparison into C^T' \u2014 neither is backed by an in-tree artifact. That does not touch this record's classification, since Awodey's construction says nothing about initiality."
+  }
+ },
+ {
+  "id": "awodey:10.3:example7",
+  "classification": "PARTIAL",
+  "aliases": [
+   "free-monoid monad",
+   "list monad",
+   "T(X) = strings over X, \u03b7 = singleton, \u03bc = concatenation",
+   "algebras for the list monad are monoids",
+   "Sets^T \u2243 Mon",
+   "free \u22a3 forgetful Sets \u21c4 Mon",
+   "Mon_Forget / category of monoids"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Coq/List.v",
+    "line": 113,
+    "symbol": "list_Monad",
+    "intree_statement": "Instance list_Monad : Monad list := { ret := \u03bb _ x, [x]; bind := \u03bb _ _ x f, flatten (map f x) }.   (* \u03b7 = singleton, join = flatten = concatenation of a list of lists *)"
+   },
+   {
+    "file": "Theory/Algebra/Monoid/Hom.v",
+    "line": 83,
+    "symbol": "Mon",
+    "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; ... |}.   (* with Mon_Forget : Mon \u27f6 C at line 93 and Mon_Forget_Faithful at line 101 *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For the free-monoid adjunction F : Sets \u21c4 Mon : U, the induced monad on Sets is T(X) = lists over X with \u03b7 the singleton and \u03bc the concatenation of a list of lists; a T-algebra is exactly a monoid structure on its carrier, every monoid gives one and every T-algebra arises from a unique monoid, so Sets^T is (equivalent to) Mon.",
+   "intree": "list_Monad supplies the list monad's OPERATIONS over Coq types (ret = singleton, bind = flatten \u2218 map, so join = flatten = concatenation); Mon is the category of internal monoids in a monoidal C with its faithful forgetful functor Mon_Forget : Mon \u27f6 C.",
+   "strength_comparison": "intree-weaker on every clause. (a) list_Monad instantiates Theory/Coq/Monad.v's Class Monad, which the file's own header states carries ONLY the operations \u2014 'the laws are NOT recorded as fields here' \u2014 so the monad laws for list are nowhere proved (Theory/Coq/Monad/Proofs.v proves IsMonad only for Identity, arrow, and composites, not list). (b) It lives over Coq/Type, not Sets, and is not an instance of the categorical Theory/Monad.v Monad. (c) The Mon side exists only as a category with a forgetful functor \u2014 no left adjoint."
+  },
+  "gap": "Missing: (1) the free-monoid adjunction Sets \u21c4 Mon (an exhaustive scan of every in-tree `\u22a3` construction turns up no free/forgetful adjunction into an algebraic category); (2) the list monad as a lawful categorical monad on Sets (or on Coq) \u2014 the only in-tree list monad is against the deliberately law-free Theory/Coq/Monad.v class; (3) the correspondence T-algebra \u21c4 monoid in either direction; (4) the conclusion Sets^T \u2243 Mon. The nearest in-tree analogue is Theory/Multicategory/Algebra.v's Comm_algebra_CMon (Comm-OPERAD algebras in Sets \u21c4 commutative monoids, both directions, lines 523/673/686), which is a different theorem: operad rather than monad, and commutative monoids rather than monoids. Instance/Coq/Lists.v's list_initial shows list A is the initial ListF-ALGEBRA (endofunctor algebra), which Awodey himself flags in 10.5 as a distinct notion.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'free monoid|FreeMonoid|category of monoids' . \u2014 all hits are prose (Theory/Coq/List.v:25,28; Theory/Coq/Foldable.v:30-41; Construction/Cayley.v:91-95; Construction/Free.v:92); no construction.",
+   "grep -rn --include='*.v' 'Mon_Free|free.*Mon\\b' . \u2014 0 constructions; only Mon_Forget and Mon_Forget_Faithful exist.",
+   "grep -rn --include='*.v' '\u22a3' . filtered to definitions/theorems \u2014 full enumeration of in-tree adjunctions: adj_id, adj_comp, EM_Adjunction, Kleisli_Adjunction, CoKleisli_Adjunction, CoEM_Adjunction, Cardinality \u22a3 Canonicity, exp_iso (CCC), idem_reflective_adj, adjoint_triangle/adjoint_lifting, Adjunction_Compose, the Comma/Lawvere pair, Diagonal_Product_Adjunction. None is Sets \u21c4 Mon.",
+   "grep -rn --include='*.v' 'list_Monad|MonadLaws|Monad_Laws' . \u2014 list_Monad appears only at its definition site; no lawfulness proof anywhere."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "MY BLIND PASS REACHED ABSENT AND WAS WRONG \u2014 I truncated an `rg ... | head -20` and missed Theory/Algebra/Monoid/Hom.v; the classifier's find is real. Verified: `Program Definition Mon : Category` at Theory/Algebra/Monoid/Hom.v:83 (cited line exact), Mon_Forget at :93, Mon_Forget_Faithful at :101, file registered in _CoqProject line 390. Also verified Theory/Coq/List.v:113 `Instance list_Monad : Monad list := { ret := \u03bb _ x, [x]; bind := \u03bb _ _ x f, flatten (map f x) }` \u2014 quote verbatim. PARTIAL is defensible and the strength_comparison is scrupulously honest about the three ways it is weaker; I independently confirmed each: (a) this `Monad` is Theory/Coq/Monad.v:32's law-free class whose own header says 'the laws are NOT recorded as fields here', and Theory/Coq/Monad/Proofs.v establishes IsMonad only for Identity, arrow and Compose \u2014 I grepped, list is not among them; (b) it lives over Coq/Type, not Sets, and is not a Theory/Monad.v Monad; (c) `Mon C {M}` is internal monoids in a MONOIDAL C (never instantiated at Sets in-tree), and the only functor is the forgetful one \u2014 grep for a left adjoint / free-monoid functor returns nothing, and Instance/CMon.v likewise has only CMon_Forget:169 with no free functor. So all four of Awodey's clauses (the adjunction, the lawful list monad, the algebra\u21c4monoid correspondence, Sets^T \u2243 Mon) are missing and the gap field says so. This sits at the ABSENT/PARTIAL boundary; PARTIAL is the fairer call because the two ingredient objects Awodey names \u2014 the list monad's operations (\u03b7 = singleton, \u03bc = flatten, matching literally) and the category Mon with its forgetful functor \u2014 do exist in-tree."
+  }
+ }
+]

@@ -1,0 +1,398 @@
+[
+  {
+    "id": "7sketches:6.4.1:def6.68",
+    "classification": "PRESENT",
+    "aliases": [
+      "lax monoidal functor (the direction F c1 ⊗ F c2 → F(c1 ⊗ c2))",
+      "LaxMonoidalFunctor / lax_pure (φ_I) / lax_ap (φ_{c1,c2}) / laxator",
+      "symmetric monoidal functor = BraidedLaxMonoidalFunctor over symmetric bases, SymmetricLaxMonoidalFunctor",
+      "strong monoidal functor = MonoidalFunctor (pure_iso, ap_iso invertible)",
+      "monoidal-functor coherence: unitality + associativity squares; dual form oplax/colax monoidal functor"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Monoidal.v",
+        "line": 110,
+        "symbol": "LaxMonoidalFunctor",
+        "intree_statement": "Class LaxMonoidalFunctor := { lax_pure : I ~> F I; ap_functor_nat : ((⨂) ◯ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ◯ (⨂)); lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y) := transform[ap_functor_nat] (x, y); pure_left {x} : I ⨂ F x ≅ F (I ⨂ x); pure_right {x} : F x ⨂ I ≅ F (x ⨂ I); ap_assoc {x y z} : (F x ⨂ F y) ⨂ F z ≅ F (x ⨂ (y ⨂ z)); lax_monoidal_unit_left {x} : to unit_left ≈ fmap[F] (to unit_left) ∘ lax_ap ∘ bimap lax_pure (id[F x]); lax_monoidal_unit_right {x} : to unit_right ≈ fmap[F] (to unit_right) ∘ lax_ap ∘ bimap (id[F x]) lax_pure; lax_monoidal_assoc {x y z} : fmap[F] (to (@tensor_assoc _ _ x y z)) ∘ lax_ap ∘ bimap lax_ap id ≈ lax_ap ∘ bimap id lax_ap ∘ to tensor_assoc }   — under `Context {C D : Category}` `{@Monoidal C}` `{@Monoidal D}` `{F : C ⟶ D}`."
+      },
+      {
+        "file": "Functor/Structure/Monoidal/Braided.v",
+        "line": 54,
+        "symbol": "BraidedLaxMonoidalFunctor",
+        "intree_statement": "Class BraidedLaxMonoidalFunctor : Type := { braided_is_lax : @LaxMonoidalFunctor C D _ _ F; lax_braid_compat {x y : C} : fmap[F] (@braid C _ x y) ∘ lax_ap ≈ lax_ap ∘ @braid D _ (F x) (F y) }   — the symmetry-compatibility clause of the book's φ axioms; `SymmetricLaxMonoidalFunctor` (line 103) is this class selected at symmetric bases via `symmetric_is_braided`."
+      },
+      {
+        "file": "Functor/Structure/Monoidal.v",
+        "line": 77,
+        "symbol": "MonoidalFunctor",
+        "intree_statement": "Class MonoidalFunctor := { pure_iso : I ≅ F I; ap_functor_iso : (⨂) ◯ F ∏⟶ F ≅[[C ∏ C, D]] F ◯ (⨂); ap_iso {x y} : F x ⨂ F y ≅ F (x ⨂ y) := ...; monoidal_unit_left ...; monoidal_unit_right ...; monoidal_assoc ... }   — the book's 'strong' case, i.e. φ_I and every φ_{c1,c2} invertible; `MonoidalFunctor_Is_Lax` (line 138) exhibits it as a special case of the lax class."
+      }
+    ],
+    "statement_record": {
+      "book": "Rough Definition 6.68.  For symmetric monoidal categories (C, I_C, ⊗_C) and (D, I_D, ⊗_D), a symmetric monoidal functor (F, φ) : C → D is (i) a functor F : C → D, (ii) a morphism φ_I : I_D → F(I_C), (iii) for every pair c1, c2 a morphism φ_{c1,c2} : F(c1) ⊗_D F(c2) → F(c1 ⊗_C c2) natural in c1 and c2, subject to unstated ('bookkeeping') axioms making φ compatible with the associators, unitors and symmetries.  If φ_I and all φ_{c1,c2} are isomorphisms, (F, φ) is strong.",
+      "intree": "`LaxMonoidalFunctor` supplies exactly (i)–(iii) with `lax_pure : I ~> F I` for φ_I and `lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y)` for φ_{c1,c2}, the latter defined as a component of the natural transformation `ap_functor_nat : ((⨂) ◯ F ∏⟶ F) ~> (F ◯ (⨂))` in the functor category `[C ∏ C, D]`; the three coherence equations `lax_monoidal_unit_left`, `lax_monoidal_unit_right`, `lax_monoidal_assoc` are the unitor/associator axioms.  `BraidedLaxMonoidalFunctor` adds the symmetry axiom `fmap[F] braid ∘ lax_ap ≈ lax_ap ∘ braid`.  `MonoidalFunctor` is the same data with both comparisons invertible (`pure_iso : I ≅ F I`, `ap_functor_iso`), which is the book's 'strong'.",
+      "strength_comparison": "intree-stronger: the book declines to state the coherence axioms at all ('Rough Definition', axioms called bookkeeping), while the library writes all three out and, additionally, makes naturality of φ structural rather than a side condition — φ is the component of a morphism in `[C ∏ C, D]`, so naturality in c1 and c2 holds by construction instead of needing separate checking.  Direction matches the book (into F of the tensor, i.e. lax, not oplax).  The only presentational difference is that the library keeps the derived isos `pure_left`/`pure_right`/`ap_assoc` as fields."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently, landing on the same three symbols. Verified verbatim at the cited lines: Functor/Structure/Monoidal.v:110 `Class LaxMonoidalFunctor` (lax_pure : I ~> F I = the book's phi_I; ap_functor_nat : ((#) o F ##-> F) ~{[C ## C, D]}~> (F o (#)) with lax_ap {x y} : F x # F y ~> F (x # y) = phi_{c1,c2}; the three coherences lax_monoidal_unit_left / _right / lax_monoidal_assoc), Functor/Structure/Monoidal.v:77 `Class MonoidalFunctor` (the book's 'strong': pure_iso : I ~= F I and ap_functor_iso invertible, with MonoidalFunctor_Is_Lax at line 138), and Functor/Structure/Monoidal/Braided.v:54 `Class BraidedLaxMonoidalFunctor` (lax_braid_compat : fmap[F] braid o lax_ap ~~ lax_ap o braid). Also verified the record's aside: Braided.v:99 `Definition SymmetricMonoidalFunctor ... := @BraidedMonoidalFunctor` and Braided.v:103 `Definition SymmetricLaxMonoidalFunctor ... := @BraidedLaxMonoidalFunctor` are exactly aliases at symmetric bases, with the file's own comment (lines 92-98) explaining the selection through symmetric_is_braided -- so the record's phrasing is accurate and not a same-name-weaker-statement. Direction is lax (comparisons point INTO F of the tensor), matching the book; the oplax variant is explicitly declared not formalized (header lines 34-36), which is honest and irrelevant here. Naturality in c1, c2 is structural (a morphism of [C ## C, D]), which is what makes strength_comparison's 'intree-stronger' fair. Both files are registered in _CoqProject (lines 151, 152). No same-name-weaker, no definition-without-API: Id/Compose instances (Functor/Structure/Monoidal/Id.v:46,73 and Compose.v:60,292) exercise the class."
+    }
+  },
+  {
+    "id": "7sketches:6.4.1:example6.69",
+    "classification": "ABSENT",
+    "aliases": [
+      "power set functor P : Set → Set, R ↦ {R ⊆ S}",
+      "covariant powerset / direct-image functor im_f",
+      "powerset as a lax (non-strong) symmetric monoidal functor with φ_{S,T}(A,B) = A × B",
+      "Ensemble-valued endofunctor on Sets/Coq/Ens",
+      "nondeterminism monad / free suplattice monad (the powerset monad's underlying functor)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i \"power set|powerset|PowerSet|Pow_Functor|Sub_Functor\" . — a single hit, Structure/Topos.v:75, and it is a COMMENT introducing the categorical power OBJECT; the only definition behind it is `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a` (Structure/Topos.v:129), an internal exponential in a topos, not a functor Set → Set and carrying no monoidal comparison maps",
+      "grep -rn --include='*.v' \"Sets ⟶ Sets|Coq ⟶ Coq|Ens ⟶ Ens\" . — every endofunctor on the set-like categories is enumerated: StreamF (Instance/Sets/Streams.v:146), TracedF, StoreF, EnvF, ListF, NatF, option_Functor, ExcT.  No powerset functor",
+      "grep -rn --include='*.v' -i \"Ensemble\" . — Instance/Ens.v (the CATEGORY of ensembles) and Instance/Rel.v (relations as `A ~> Ensemble B`); neither defines an endofunctor sending a set to its set of subsets",
+      "grep -rn --include='*.v' -iE \"im_f|image map|direct image|subsets of\" . — 1 hit, Monad/Monadicity/Crude.v:99, a comment about kernel-pair image factorisation; unrelated",
+      "grep -rn --include='*.v' \"LaxMonoidalFunctor|MonoidalFunctor\" . | grep -i 'instance|program definition' — the ONLY inhabited lax/strong monoidal functors in the tree are Id_MonoidalFunctor / Id_LaxMonoidalFunctor (Functor/Structure/Monoidal/Id.v) and their Compose_* counterparts; Instance/Coq/Applicative.v:174-180 sketches an Applicative ⇒ LaxMonoidalFunctor bridge but it is COMMENTED OUT.  So no concrete non-trivial lax monoidal functor exists at all, let alone the powerset one",
+      "grep -rn --include='*.v' \"S -> Prop|A -> Prop|X -> Prop|a -> Prop\" Instance/ Theory/ Construction/ — no functor whose object action is the subset/predicate space"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass independently found no covariant powerset functor. I re-ran the alias set from scratch: -i 'power.?set|powerset|Ensemble', 'Sets |-> Sets' / 'Coq |-> Coq' endofunctor enumeration, 'im_f|image map|direct image', and a scan of Instance/ for a subset-valued object action. The only near-misses are Instance/Ens.v (the CATEGORY of ensembles, obj := exists T, Ensemble T -- not an endofunctor), Instance/Rel.v (relations curried as A ~> Ensemble B -- the hom type, not a functor), Theory/Subobject/Functor.v's Sub : C^op |-> Sets (CONTRAvariant reindexing, and its object action is the subobject setoid, not the powerset with image maps), and Structure/Topos.v:129 `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Omega ^ a` (an internal power OBJECT, no monoidal comparison maps). Instance/Sets/Image.v gives Sets_Image, the image of a single morphism, not the functorial direct-image action. So ABSENT stands. CORRECTION to the log (does not change the verdict): the line asserting that \"the ONLY inhabited lax/strong monoidal functors in the tree are Id_* and Compose_*\" is false. Concrete non-trivial strong (symmetric) monoidal functors ARE built in-tree: BaseChangeF_Monoidal / BaseChangeF_Braided / BaseChangeF_Symmetric (Construction/ColouredPROP/BaseChange.v:352), the Relabel functor (Construction/ColouredPROP/Relabel.v:388), Lawvere_PROP_interp_Symmetric (Theory/Lawvere/PROP.v:242) and the PROP InterpF_* tower (Construction/PROP/Universal.v). None of them is a powerset or a constant functor, so the ABSENT/PARTIAL verdict is untouched, but the log overstates the emptiness."
+    }
+  },
+  {
+    "id": "7sketches:6.4.1:ex6.70",
+    "classification": "ABSENT",
+    "aliases": [
+      "naturality of the powerset coherence map φ_{S,T}(A,B) = A × B",
+      "im_{f × g} ∘ φ_{S,T} = φ_{S',T'} ∘ (im_f × im_g)",
+      "laxator naturality square for the power set functor",
+      "ap_functor_nat / lax_ap naturality at P",
+      "P preserves images of products (direct image commutes with cartesian product)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The exercise's content is a naturality check FOR THE POWERSET INSTANCE of Example 6.69; since that instance does not exist in-tree (see the negative log of 7sketches:6.4.1:example6.69 — no powerset functor under any of powerset / Ensemble-endofunctor / direct-image / `Sets ⟶ Sets` searches), the square the exercise asks to verify cannot even be stated",
+      "grep -rn --include='*.v' \"ap_functor_nat\" . — naturality of the laxator IS available generically, but only as a STRUCTURAL FIELD of `LaxMonoidalFunctor` (`ap_functor_nat : ((⨂) ◯ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ◯ (⨂))`, Functor/Structure/Monoidal.v:114): it is the obligation any instantiator must discharge, not a proved fact about a particular F.  There is no in-tree discharge of it for any non-identity, non-composite F",
+      "grep -rn --include='*.v' \"LaxMonoidalFunctor|MonoidalFunctor\" . | grep -i instance — only Id_* and Compose_* instances exist, so no naturality obligation for a concrete F is ever discharged"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: the exercise is a naturality check for the (absent) powerset instance of 6.69, so it cannot even be stated in-tree. Verified the record's correct observation that laxator naturality is available only STRUCTURALLY, as the field ap_functor_nat : ((#) o F ##-> F) ~{[C ## C, D]}~> (F o (#)) at Functor/Structure/Monoidal.v:114 -- an obligation on the instantiator, not a proved fact about a particular F. CORRECTION to the log (does not change the verdict): the line asserting that \"the ONLY inhabited lax/strong monoidal functors in the tree are Id_* and Compose_*\" is false. Concrete non-trivial strong (symmetric) monoidal functors ARE built in-tree: BaseChangeF_Monoidal / BaseChangeF_Braided / BaseChangeF_Symmetric (Construction/ColouredPROP/BaseChange.v:352), the Relabel functor (Construction/ColouredPROP/Relabel.v:388), Lawvere_PROP_interp_Symmetric (Theory/Lawvere/PROP.v:242) and the PROP InterpF_* tower (Construction/PROP/Universal.v). None of them is a powerset or a constant functor, so the ABSENT/PARTIAL verdict is untouched, but the log overstates the emptiness. Even so, none of those concrete functors is P, so ABSENT is correct."
+    }
+  },
+  {
+    "id": "7sketches:6.4.2:def6.75",
+    "classification": "PRESENT",
+    "aliases": [
+      "F-decorated cospan (Fong, arXiv:1502.00872, Definition 3.1)",
+      "DecoratedCospanArrow / dc_cospan / dc_decoration",
+      "decoration functor (F, φ) : (C, +) → (Set, ×); decoration s ∈ F(N)",
+      "global element of F(apex): I_D ~> F N",
+      "equivalence classes of decorated cospans (footnote 5) = dec_cospan_equiv"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/DecoratedCospan.v",
+        "line": 120,
+        "symbol": "DecoratedCospanArrow",
+        "intree_statement": "Record DecoratedCospanArrow (X Y : C) : Type := { dc_cospan : CospanArrow X Y; dc_decoration : @I D _ ~{D}~> F (cospan_apex dc_cospan) }   — under `Context {C : Category}` `(HP : HasPushouts C)` `{MC : @Monoidal C}` `{D : Category}` `{MD : @Monoidal D}` `{F : C ⟶ D}` `(LM : @LaxMonoidalFunctor C D MC MD F)`."
+      },
+      {
+        "file": "Construction/DecoratedCospan.v",
+        "line": 139,
+        "symbol": "dec_cospan_equiv",
+        "intree_statement": "Record dec_cospan_equiv {X Y : C} (f g : DecoratedCospanArrow X Y) : Type := { dce_cospan_eq : cospan_equiv (dc_cospan f) (dc_cospan g); dce_dec_eq : fmap[F] (to (projT1 dce_cospan_eq)) ∘ dc_decoration f ≈ dc_decoration g }   — with `DecoratedCospanArrow_Setoid` (line 192) proving it an equivalence via `dec_cospan_equiv_refl/_sym/_trans` (lines 149, 157, 174).  This is the footnote-5 quotient the book elides."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 6.75.  Let C have finite colimits and let (F, φ) : (C, +) → (Set, ×) be a symmetric monoidal functor.  An F-decorated cospan is a pair: a cospan A →i N ←o B in C together with an element s ∈ F(N).  (F, φ) is the decoration functor and s the decoration.  Footnote 5: strictly one should use equivalence classes of cospans, as in Definition 6.45.",
+      "intree": "`DecoratedCospanArrow X Y` is a record pairing a `CospanArrow X Y` (the cospan `X → apex ← Y` of Construction/Cospan/Category.v) with `dc_decoration : I_D ~> F (cospan_apex …)`, a global element of the decorating object; the quotient is `dec_cospan_equiv`, requiring an apex iso φ of the underlying cospans together with `fmap[F] (to φ) ∘ d_f ≈ d_g`, proved reflexive/symmetric/transitive and installed as the hom-setoid.",
+      "strength_comparison": "intree-stronger (a genuine generalisation, faithful at the book's instance): the decorating codomain is an arbitrary monoidal (D, ⊗) rather than (Set, ×), and 'element of F(N)' is rendered as the global element `I_D ~> F N`, which recovers the book's notion exactly at D = Sets (`Sets_Product_Monoidal`, Instance/Sets.v:283, whose unit is the terminal setoid).  Likewise the source monoidal structure on C is an abstract `MC` rather than being forced to be `+`, which is why composition later needs the bridging map `cospan_merge` (identity in the book's setting).  The footnote-5 quotient is stronger in-tree than in the book, since the book explicitly declines to carry it while the library makes it the hom-setoid."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Construction/DecoratedCospan.v and reached PRESENT. Line numbers and quotes verified verbatim: :120 `Record DecoratedCospanArrow (X Y : C) := { dc_cospan : CospanArrow X Y; dc_decoration : @I D _ ~{D}~> F (cospan_apex dc_cospan) }`; :139 `Record dec_cospan_equiv` with fields dce_cospan_eq and dce_dec_eq : fmap[F] (to (projT1 dce_cospan_eq)) o dc_decoration f ~~ dc_decoration g; :149/:157/:174 the refl/sym/trans lemmas; :192 DecoratedCospanArrow_Setoid installing it as the hom-setoid. The section Context at :108-114 is exactly (C, HP : HasPushouts C, MC : Monoidal C, D, MD : Monoidal D, F : C |-> D, LM : LaxMonoidalFunctor F) as the record states. The cross-check cited for the D = Sets specialisation, Instance/Sets.v:283 `Program Instance Sets_Product_Monoidal : @Monoidal Sets`, exists at that line. File registered in _CoqProject:124. strength_comparison is honest about both generalisations (monoidal codomain via global elements; abstract MC on C forcing the later cospan_merge bridge) and about the footnote-5 quotient being carried in-tree where the book declines it. No definition-without-API concern: the record is consumed by the composition and by the whole DecoratedCospan/ tower."
+    }
+  },
+  {
+    "id": "7sketches:6.4.2:eq6.76",
+    "classification": "PRESENT",
+    "aliases": [
+      "composition of decorated cospans: F([ι_N, ι_P])(φ_{N,P}(s, t))",
+      "dec_compose_decoration / dec_cospan_compose",
+      "push decorations forward along the copairing of the pushout injections",
+      "laxator-then-copairing decoration transport (Fong 3.2 Proposition)",
+      "pushout composition of cospans with decoration merge"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/DecoratedCospan.v",
+        "line": 291,
+        "symbol": "dec_compose_decoration",
+        "intree_statement": "Definition dec_compose_decoration {X Y Z : C} (g : DecoratedCospanArrow Y Z) (f : DecoratedCospanArrow X Y) : @I D _ ~{D}~> F (cospan_apex (cospan_compose HP (dc_cospan g) (dc_cospan f))) := let N := cospan_apex (dc_cospan f) in let M := cospan_apex (dc_cospan g) in let P := pushout (cospan_in2 (dc_cospan f)) (cospan_in1 (dc_cospan g)) in fmap[F] (pushout_in1 P ▽ pushout_in2 P) ∘ fmap[F] (cospan_merge N M) ∘ lax_ap[F] ∘ bimap (dc_decoration f) (dc_decoration g) ∘ from (@unit_left D _ (@I D _))."
+      },
+      {
+        "file": "Construction/DecoratedCospan.v",
+        "line": 303,
+        "symbol": "dec_cospan_compose",
+        "intree_statement": "Definition dec_cospan_compose {X Y Z : C} (g : DecoratedCospanArrow Y Z) (f : DecoratedCospanArrow X Y) : DecoratedCospanArrow X Z := {| dc_cospan := cospan_compose HP (dc_cospan g) (dc_cospan f); dc_decoration := dec_compose_decoration g f |}   — pairing the Definition-6.45 pushout cospan with the transported decoration, exactly the two halves of display (6.76)."
+      }
+    ],
+    "statement_record": {
+      "book": "Equation (6.76).  Given F-decorated cospans (A →f N ←g B, s) and (B →h P ←k C, t), the composite is the pushout-composed cospan A → N +_B P ← C of Definition 6.45, decorated by F([ι_N, ι_P])(φ_{N,P}(s, t)) ∈ F(N +_B P): first merge the two decorations with the coherence map φ_{N,P} : F(N) × F(P) → F(N + P), then push forward along F of the copairing [ι_N, ι_P] : N + P → N +_B P of the pushout inclusions.",
+      "intree": "`dec_compose_decoration` is literally that composite read right-to-left: `from unit_left` produces I ≅ I ⊗ I, `bimap d_f d_g` gives F N ⊗ F M, `lax_ap[F]` is φ_{N,M}, `fmap[F] (cospan_merge N M)` bridges the source tensor to the source coproduct, and `fmap[F] (pushout_in1 P ▽ pushout_in2 P)` is F of the copairing [ι_N, ι_P] into the pushout apex.  `dec_cospan_compose` packages it with `cospan_compose HP`, the Definition-6.45 pushout composition.",
+      "strength_comparison": "same, modulo one generalisation: the in-tree formula inserts the extra factor `fmap[F] (cospan_merge N M)` because the source monoidal product ⊗_C is left abstract; in the book's setting ⊗_C IS the coproduct +, so `cospan_merge = id` and the formula collapses to F([ι_N, ι_P]) ∘ φ_{N,M} ∘ (s ⊗ t) verbatim (the file's own comment at lines 275-282 records this).  Rendering 'the element φ_{N,P}(s,t)' as the composite of global elements is the same Set-level content once D = Sets."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT on the same symbol. Verified verbatim: Construction/DecoratedCospan.v:291 `Definition dec_compose_decoration ... := fmap[F] (pushout_in1 P |> pushout_in2 P) o fmap[F] (cospan_merge N M) o lax_ap[F] o bimap (dc_decoration f) (dc_decoration g) o from (@unit_left D _ (@I D _))` and :303 `Definition dec_cospan_compose ... := {| dc_cospan := cospan_compose HP ...; dc_decoration := dec_compose_decoration g f |}`. Read right-to-left this is exactly (6.76): I ~= I # I, then s # t, then the laxator phi_{N,M}, then F of the copairing [iota_N, iota_P] into the pushout apex. The one honest deviation -- the extra fmap[F] (cospan_merge N M) factor -- is disclosed in strength_comparison and is corroborated by the file's own comment block (lines 275-287), which states that in Fong's setting tensor_C = + so cospan_merge = id. I checked the alternative reading (that cospan_merge might be smuggling in the pushout mediator): it is not -- its type is (N #_MC M) ~> (N + M) and the pushout comediator is applied separately, exactly as the comment says."
+    }
+  },
+  {
+    "id": "7sketches:6.4.2:thm6.77",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Cospan_F is a hypergraph category (Fong, Decorated Cospans, Theorem 3.5)",
+      "DecoratedCospanCat + DecoratedCospan_Monoidal + DecoratedCospan_SymmetricMonoidal + DecoratedCospan_Hypergraph",
+      "decorated cospans form a category (Fong 3.2 Proposition)",
+      "hypergraph category = SMC with coherent SCFA on every object (Structure/Monoidal/Hypergraph.v)",
+      "symmetric monoidal / Frobenius structure induced from Cospan_C"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/DecoratedCospan/Hypergraph.v",
+        "line": 205,
+        "symbol": "DecoratedCospan_Hypergraph",
+        "intree_statement": "Program Definition DecoratedCospan_Hypergraph : @Hypergraph DC DCSMC := {| scfa := dec_cospan_scfa; scfa_tensor_mu := dec_scfa_tensor_mu; scfa_tensor_eta := dec_scfa_tensor_eta; scfa_tensor_delta := dec_scfa_tensor_delta; scfa_tensor_epsilon := dec_scfa_tensor_epsilon; scfa_unit_mu := dec_scfa_unit_mu; scfa_unit_eta := dec_scfa_unit_eta; scfa_unit_delta := dec_scfa_unit_delta; scfa_unit_epsilon := dec_scfa_unit_epsilon |}   — where `DC := DecoratedCospanCat HP LM id_decoration cospan_merge`, but EVERY field is projected from the assumed `Context {DCHGC : DecCospan_Hypergraph_Coherent}` (line 199) rather than proved."
+      },
+      {
+        "file": "Construction/DecoratedCospan/Category.v",
+        "line": 264,
+        "symbol": "DecoratedCospanCat",
+        "intree_statement": "Program Definition DecoratedCospanCat : Category := {| obj := @obj C; hom := fun X Y => DecoratedCospanArrow X Y; homset := fun X Y => DecoratedCospanArrow_Setoid; id := fun X => dec_cospan_id id_decoration X; compose := fun X Y Z g f => dec_cospan_compose HP LM cospan_merge g f; compose_respects := ...; id_left := fun X Y f => dec_cospan_id_left f; id_right := fun X Y f => dec_cospan_id_right f; comp_assoc := ...; comp_assoc_sym := ... |}   — objects are the objects of C and morphisms the decorated cospans modulo `dec_cospan_equiv`, composed by (6.76); the four laws pair a Cospan.Category lemma with a field of the assumed `DecCospan_Coherent` (Context at line 179)."
+      },
+      {
+        "file": "Construction/DecoratedCospan/Braided.v",
+        "line": 246,
+        "symbol": "DecoratedCospan_SymmetricMonoidal",
+        "intree_statement": "Program Definition DecoratedCospan_SymmetricMonoidal : @SymmetricMonoidal DC := {| symmetric_is_braided := DecoratedCospan_BraidedMonoidal |}   — over `DecoratedCospan_Monoidal : @Monoidal DC` (Monoidal.v:237, with `I := initial_obj` and `tensor := DecoratedCospan_Bifunctor`) and `DecoratedCospan_BraidedMonoidal` (line 165, `braid := fun X Y => Dlift (@paws C H_Coc X Y)`); this is the book's clause that the symmetric monoidal structure is induced by that of Cospan_C."
+      }
+    ],
+    "statement_record": {
+      "book": "Theorem 6.77.  Given a category C with finite colimits and a symmetric monoidal functor (F, φ) : (C, +) → (Set, ×), there is a hypergraph category Cospan_F whose objects are the objects of C and whose morphisms A → B are the equivalence classes of F-decorated cospans, composed by (6.76); its symmetric monoidal and hypergraph (Frobenius) structure are induced by those of Cospan_C.",
+      "intree": "The whole tower is constructed — `DecoratedCospanCat` (Category), `DecoratedCospan_Bifunctor`, `DecoratedCospan_Monoidal`, `DecoratedCospan_BraidedMonoidal`, `DecoratedCospan_SymmetricMonoidal`, `DecoratedCospan_Hypergraph : @Hypergraph DC DCSMC` — but every layer is built inside a Section whose Context assumes a decoration-coherence class (`DecCospan_Coherent`, `DecCospan_Bifunctor_Coherent`, `DecCospan_Monoidal_Coherent`, `DecCospan_Braided_Coherent`, `DecCospan_Symmetric_Coherent`, `DecCospan_Hypergraph_Coherent`) supplying exactly the equations the theorem asserts.  The file's own status note (Hypergraph.v lines 91-105) states it: \"NONE of these classes is instantiated anywhere in the library: only the [Class] declarations and the [Context] assumptions exist, with no [Instance]/[Build_] witnesses.  This construction is therefore a CONDITIONAL result … Even the 'trivial decoration' ([F = Δ I_D]) witness is NOT supplied here.\"",
+      "strength_comparison": "intree-weaker: the book DERIVES the category/SMC/hypergraph laws from the single hypothesis that (F, φ) is symmetric monoidal; in-tree those laws are ASSUMED, one coherence class per layer, so the implication proved is 'coherences ⇒ hypergraph category', not 'symmetric monoidal F ⇒ hypergraph category'.  The hypotheses also differ: the library needs a chosen `HasPushouts C` plus `Cocartesian C` and `Initial C` (rather than 'finite colimits'), an abstract `MC : @Monoidal C` with a `cospan_merge : N ⊗ M ~> N + M` bridge, and — for the hypergraph layer — the lax-SYMMETRIC strengthening of F, which the book's Definition 6.68 supplies but which the library encodes only indirectly through the Braided/Symmetric coherence classes.  What IS in-tree at full strength is the target notion: `Hypergraph` (Structure/Monoidal/Hypergraph.v:144) with per-object SCFA plus the 8 tensor/unit coherences."
+    },
+    "gap": "The decoration-side coherences are hypotheses, not theorems.  Specifically: (1) no in-tree lemma derives any of `DecCospan_Coherent` (Category.v:113, 4 fields), `DecCospan_Bifunctor_Coherent`, `DecCospan_Monoidal_Coherent` (Monoidal.v:118), `DecCospan_Braided_Coherent` (Braided.v:110), `DecCospan_Symmetric_Coherent` (Braided.v:233) or `DecCospan_Hypergraph_Coherent` (Hypergraph.v:155) from `LaxMonoidalFunctor`/`BraidedLaxMonoidalFunctor` data — `grep -rn --include='*.v' 'DecCospan_.*Coherent' .` returns only the Class declarations, the Context assumptions, and prose; (2) consequently no instance of any of them exists, so `DecoratedCospan_Hypergraph` is never applied to a concrete F, not even the trivial decoration F = Δ I_D; (3) the SCFA on each object (`dec_cospan_scfa`) is supplied as DATA by the coherence class rather than constructed from `Cospan_Hypergraph`'s SCFA, so the book's clause 'the hypergraph structure is induced by that of Cospan_C' is stated but not proved; (4) the lax-symmetry hypothesis on F is not connected to the machinery — `BraidedLaxMonoidalFunctor` exists (Functor/Structure/Monoidal/Braided.v:54) but is never assumed by the DecoratedCospan files, which take a bare `LaxMonoidalFunctor` plus the braided coherence classes instead.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same grounds. Every cited line verified: Construction/DecoratedCospan/Hypergraph.v:205 `Program Definition DecoratedCospan_Hypergraph : @Hypergraph DC DCSMC` with all nine fields projected from the assumed Context `{DCHGC : DecCospan_Hypergraph_Coherent}` at :199; Category.v:264 DecoratedCospanCat with its four laws pairing a Cospan.Category lemma with a DecCospan_Coherent field (Class at :113, Context at :179); Braided.v:246 DecoratedCospan_SymmetricMonoidal over :165 DecoratedCospan_BraidedMonoidal (braid := fun X Y => Dlift (@paws C H_Coc X Y)); Monoidal.v:237 DecoratedCospan_Monoidal (I := @initial_obj C H_Ini, tensor := DecoratedCospan_Bifunctor). I re-ran the decisive negative check myself: `grep -rn --include='*.v' 'DecCospan_.*Coherent' .` returns 66 hits across 7 files, and every one is a Class declaration (Category.v:113, Symmetric.v:143, Monoidal.v:118, Braided.v:110 and :233, Hypergraph.v:155), a Context assumption, or prose -- there is NO Instance, Build_, or := witness anywhere in the tree. The status note quoted from Hypergraph.v:91-105 is verbatim accurate. Two independent in-tree corroborations the record did not cite: docs/AXIOMS.md:93-105 makes exactly this point ('a Program Definition living under a section Context {DCHGC : DecCospan_Hypergraph_Coherent} whose coherence class is NEVER instantiated anywhere in the library'), and Makefile:211 audits DecoratedCospan_Hypergraph precisely because the parametric print is known to certify nothing concrete. The gap's four clauses each check out, including clause (4): the DecoratedCospan files take a bare `LM : @LaxMonoidalFunctor C D MC MD F` (Category.v:88, Monoidal.v:83, Braided.v:78, Hypergraph.v:117, Symmetric.v:80) and never assume BraidedLaxMonoidalFunctor. Target notion verified inhabited-as-a-class at Structure/Monoidal/Hypergraph.v:144. All files registered in _CoqProject (lines 124-129)."
+    }
+  },
+  {
+    "id": "7sketches:6.4.2:ex6.78",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Cospan_C as the special case of Cospan_F at the constant functor F(c) := {*}",
+      "trivial / constant decoration, F = Δ I_D, no-decoration case",
+      "forget_decoration : DecoratedCospanCat ⟶ CospanCat",
+      "constant functor is (symmetric) lax monoidal; terminal-valued decoration functor",
+      "isomorphism (or equivalence) Cospan_F ≅ Cospan_C"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Cospan/BlackBox.v",
+        "line": 178,
+        "symbol": "forget_decoration",
+        "intree_statement": "Program Definition forget_decoration : (DecoratedCospanCat HP LM id_decoration cospan_merge) ⟶ (CospanCat C HP) := {| fobj := fun X => X; fmap := fun X Y f => @forget_decoration_morphism C D MD F X Y f |}   — the identity-on-objects comparison functor from decorated cospans to plain cospans, whose functor laws are `forget_decoration_correct_id` (line 127) and `forget_decoration_correct_compose` (line 133), both by reflexivity of the cospan setoid.  This is the map that the exercise claims is invertible when the decoration functor is constant."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 6.78.  Explain the sense in which Cospan_C (cospans in C) and Cospan_F (F-decorated cospans) are not really different notations: taking the constant functor F(c) := {*} makes every apex carry exactly one decoration, so Cospan_F is isomorphic to Cospan_C and Theorem 6.77 specialises to Example 6.61.",
+      "intree": "Only the forgetful half is present: `forget_decoration : DecoratedCospanCat HP LM id_decoration cospan_merge ⟶ CospanCat C HP`, identity on objects, discarding the decoration, proved functorial for an ARBITRARY lax monoidal F.  Nothing asserts that it is an isomorphism (or equivalence) for the constant F, and the constant decoration functor is nowhere constructed.  The file headers name the case repeatedly as intended future work: Category.v:368 \"A concrete instance — for the trivial decoration [F = const(I_D)] — is the canonical 'no-decoration' case\", Hypergraph.v:103 \"Even the 'trivial decoration' ([F = Δ I_D]) witness is NOT supplied here\".",
+      "strength_comparison": "intree-weaker: the exercise's content is an EQUIVALENCE Cospan_F ≃ Cospan_C at the constant decoration; in-tree there is a one-directional comparison functor at an arbitrary decoration and no statement about its invertibility in any case."
+    },
+    "gap": "Three pieces are missing.  (1) No constant lax monoidal functor: `Diagonal` (Functor/Diagonal.v:33) supplies the constant functor Δ(d) : J ⟶ D, but `grep -rn --include='*.v' 'LaxMonoidalFunctor|MonoidalFunctor' . | grep -i instance` shows the only lax/strong monoidal functor instances in the tree are `Id_MonoidalFunctor`/`Id_LaxMonoidalFunctor` (Functor/Structure/Monoidal/Id.v:46,73) and `Compose_*`, so Δ(I_D) carries no `LaxMonoidalFunctor` structure.  (2) Even with it, `DecoratedCospanCat` cannot be formed, since `DecCospan_Coherent` has no instance (see 7sketches:6.4.2:thm6.77).  (3) No in-tree statement of the form `DecoratedCospanCat (Δ I_D) … ≅[Cat] CospanCat C HP` or an equivalence — searching `grep -rn --include='*.v' 'CospanCat.*⟶|⟶.*DecoratedCospanCat|DecoratedCospanCat.*⟶' .` finds only `forget_decoration` and the internal Bifunctor, i.e. no inverse or unit/counit in the other direction, and no lemma that `forget_decoration` is full/faithful/essentially surjective.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT; on inspection PARTIAL is the better call and I confirm it. forget_decoration is real and is precisely the exercise's comparison map in one direction: verified at Construction/Cospan/BlackBox.v:178, `Program Definition forget_decoration : (DecoratedCospanCat HP LM id_decoration cospan_merge) |-> (CospanCat C HP) := {| fobj := fun X => X; fmap := ... forget_decoration_morphism ... |}`, with obligations discharged from forget_decoration_morphism_respects, forget_decoration_correct_id (:127) and forget_decoration_correct_compose (:133) -- all at the cited lines. So 'some of the item exists' holds and the gap is stated precisely, which is what PARTIAL requires. I independently verified all three gap clauses: (1) there is no constant functor C |-> D in the tree at all -- `grep 'Definition Constant|Constant_Functor|constant_functor'` returns only Construction/Grothendieck/Strict.v:264 Constant_IndexedCat, and Functor/Diagonal.v:33 is `Program Instance Diagonal {C} (J : Category) : C |-> [J, C]`, whose object action gives the constant diagram but which carries no LaxMonoidalFunctor structure; (2) no DecCospan_Coherent instance exists (re-verified, see thm6.77); (3) no iso/equivalence statement between DecoratedCospanCat and CospanCat -- forget_decoration is never shown full, faithful, or essentially surjective, and no functor goes the other way. Minor correction to the gap's parenthetical, not affecting the verdict: it repeats the false 'only Id_*/Compose_* monoidal functor instances' claim; concrete strong symmetric monoidal functors do exist (BaseChangeF_Symmetric, Relabel, Lawvere_PROP_interp_Symmetric, InterpF_*). The surviving and correct point is that none of them is a constant functor, so F(c) := {*} still has no in-tree carrier. Cited headers verified: Category.v:368 and Hypergraph.v:103 say what the record quotes."
+    }
+  },
+  {
+    "id": "7sketches:6.4.3:def-c-circuit",
+    "classification": "PARTIAL",
+    "aliases": [
+      "C-circuit = graph (V, A, s, t) plus labelling l : A → C",
+      "labelled directed multigraph / edge-labelled quiver",
+      "Quiver (nodes, edges indexed by source and target)",
+      "component set C = {light, switch, battery} ∪ {x Ω | x ∈ R+}",
+      "circuit signature / generator set (PROP Signature : nat -> nat -> Type)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 54,
+        "symbol": "Quiver",
+        "intree_statement": "Class Quiver@{o h p} := { nodes : Type@{o}; uedges := Type@{h} : Type@{h+1}; edges : nodes → nodes → uedges; edgeset : ∀ X Y, Setoid@{h p} (edges X Y) }   — the file's header (line 21) calls this \"a quiver (directed multigraph) … a set of nodes (vertices) together with, for each ordered pair of nodes, a set of edges (arrows) between them\", i.e. the book's (V, A, s, t) in source/target-indexed form (line 57: \"arrows, indexed by source and target\")."
+      }
+    ],
+    "statement_record": {
+      "book": "Unnumbered, in running prose.  Fix the component set C := {light, switch, battery} ∪ {x Ω | x ∈ R+}.  For any set C, a C-circuit is a graph (V, A, s, t) — vertices V, edges A, source and target functions s, t : A → V — together with a labelling l : A → C assigning a component to each edge; so a C-circuit is a 5-tuple (V, A, s, t, l).  Distinct tuples can denote the same physical circuit (reversing an edge).",
+      "intree": "`Quiver` gives the graph half in indexed form: `nodes : Type` for V and `edges : nodes → nodes → Type` for the fibres of (s, t) : A → V × V, with each fibre a setoid.  Nothing carries a labelling, and no record named for a circuit (or any C-tuple) exists.",
+      "strength_comparison": "intree-weaker on two counts.  Presentationally, the quiver's indexed form `edges : V → V → Type` and the book's span form (A, s, t : A → V) are interchangeable (A = Σ_{x,y} edges x y), so this is a faithful rephrasing of the graph clause and if anything stronger, since each edge set is a setoid.  Mathematically, however, the item's DISTINCTIVE content — the labelling l : A → C, hence the C-circuit itself and the component set C — has no counterpart."
+    },
+    "gap": "The labelling is absent: there is no in-tree notion of an edge-labelled graph, and hence no `Circuit`/`C-circuit` type.  `grep -rn --include='*.v' -iE 'labelled graph|labeled graph|labelling|labeling|edge label|vertex|vertices|C-circuit' .` returns ZERO hits.  Nor is the component set available: `grep -rn --include='*.v' 'Coq.Reals|Rdefinitions|R0\\b' .` returns zero hits, so R+ (and therefore {x Ω}) cannot be written; the closest in-tree analogue of 'a set of components' is `Definition Signature : Type := nat -> nat -> Type` (Construction/PROP/Signature.v:50), but that is an ARITY-GRADED generator set for string diagrams — its comment at lines 39-41 sketches battery/resistor/Y-junction as `Sig 0 1`/`Sig 1 1`/`Sig 2 1` — and is not the book's ungraded label set, nor is any labelling of a graph by it defined.  Finally there is no in-tree remark that distinct tuples may denote the same circuit (no quotient by edge reversal).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT; PARTIAL is defensible and I confirm it, because the item's first clause IS the graph (V, A, s, t) and that is genuinely in-tree. Verified Construction/Free/Quiver.v:54 `Class Quiver@{o h p} := { nodes : Type@{o}; uedges := Type@{h} : Type@{h+1}; edges : nodes -> nodes -> uedges; edgeset : forall X Y, Setoid@{h p} (edges X Y) }`, with the header gloss at :21 ('a quiver (directed multigraph)') and :57 ('arrows, indexed by source and target') exactly as quoted; registered in _CoqProject:72. The indexed-vs-span rephrasing argument in strength_comparison is correct (A = Sigma_{x,y} edges x y) and the record is explicit that the item's DISTINCTIVE content -- the labelling l : A -> C -- has no counterpart, which is the right gap. Verified supporting facts: Construction/PROP/Signature.v:50 `Definition Signature : Type := nat -> nat -> Type` exists with the battery/resistor comment at :39-41, and the Reals search really is empty. CORRECTION to the log (does not change the verdict): the claim that grep -iE 'labelled graph|labeled graph|labelling|labeling|edge label|vertex|vertices|C-circuit' returns ZERO hits is false. I ran it: 'vertex_obj' occurs 27x in Theory/Equivalence/Limit.v and across Instance/Cones*.v, Structure/Limit/*.v, Construction/Comma/Limit.v; 'labeling' occurs 13x in Instance/FinSet/Pushout.v (the union-find labeling); 'labelled' occurs in Instance/ZX.v:172, Instance/Shapes.v:29, Instance/Coq/Comonad/Env.v:69, Construction/PROP/Signature.v:45. NONE of these is an edge-labelled graph or a vertex/edge set of a graph (vertex_obj is a cone apex), so the classification is unaffected -- but the log's absoluteness is wrong. The companion Reals claim IS correct: grep -E 'Coq.Reals|Rdefinitions|R0\\b' returns zero hits."
+    }
+  },
+  {
+    "id": "7sketches:6.4.3:ex6.79",
+    "classification": "ABSENT",
+    "aliases": [
+      "encode the Eq. (6.71) bridge circuit as a tuple (V, A, s, t, l)",
+      "worked example of a C-circuit / labelled graph instance",
+      "four-node resistor-capacitor-inductor network as data",
+      "concrete quiver with edge labels",
+      "circuit term in a PROP presentation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'resistor|battery|switch|lightbulb|ohm|inductor|capacitor|open circuit' . — every hit is prose: Construction/PROP/Signature.v:39-41 (a comment sketching an electrical signature), Construction/DecoratedCospan/Hypergraph.v:152,243-245 (comments naming Fong's circuits as intended future instances), Instance/Lambda.v:117, Instance/FinSet.v:72, Instance/ZX.v:120-171, Structure/Monoidal/Symmetric.v:22 ('switching twice').  No definition",
+      "grep -rn --include='*.v' -iE 'labelling|labeling|vertex|vertices|edge label|C-circuit' . — zero hits; there is no labelled-graph type to instantiate",
+      "grep -rn --include='*.v' -i 'circuit' . — the only non-comment occurrences are 'short-circuits' in Theory/Coq/Either.v and Theory/Coq/Maybe.v (monadic control flow), unrelated",
+      "The exercise asks for a specific 5-tuple in the sense of the (also absent) C-circuit definition; with no `Circuit` type and no R+ for the component labels (grep -rn --include='*.v' 'Coq.Reals|Rdefinitions' . — zero hits), the instance cannot be written"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. There is no C-circuit type to instantiate and no real numbers in the tree, so the requested 5-tuple cannot be written. I re-ran -i 'circuit' myself: every hit is prose (Construction/PROP/Signature.v:39-41, Construction/DecoratedCospan/Hypergraph.v:152,243-245, Construction/Cospan/BlackBox.v:19,64, Instance/ZX.v:120-171, Instance/FinSet.v:72, Instance/Lambda.v:117) or the unrelated 'short-circuits' in Theory/Coq/Either.v and Theory/Coq/Maybe.v. CORRECTION to the log (does not change the verdict): the claim that grep -iE 'labelled graph|labeled graph|labelling|labeling|edge label|vertex|vertices|C-circuit' returns ZERO hits is false. I ran it: 'vertex_obj' occurs 27x in Theory/Equivalence/Limit.v and across Instance/Cones*.v, Structure/Limit/*.v, Construction/Comma/Limit.v; 'labeling' occurs 13x in Instance/FinSet/Pushout.v (the union-find labeling); 'labelled' occurs in Instance/ZX.v:172, Instance/Shapes.v:29, Instance/Coq/Comonad/Env.v:69, Construction/PROP/Signature.v:45. NONE of these is an edge-labelled graph or a vertex/edge set of a graph (vertex_obj is a cone apex), so the classification is unaffected -- but the log's absoluteness is wrong. The companion Reals claim IS correct: grep -E 'Coq.Reals|Rdefinitions|R0\\b' returns zero hits."
+    }
+  },
+  {
+    "id": "7sketches:6.4.3:construction-circ",
+    "classification": "ABSENT",
+    "aliases": [
+      "Circ : FinSet → Set, V ↦ {C-circuits with vertex set V}",
+      "circuit decoration functor (Circ, ψ)",
+      "Circ(f)(V, A, s, t, l) = (V', A, s;f, t;f, l) — relabel endpoints along f",
+      "ψ_{V,V'} : Circ(V) × Circ(V') → Circ(V + V') (display 6.81), side-by-side circuits",
+      "lax symmetric monoidal functor (FinSet, +) → (Set, ×)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'circuit' . — 26 hits, all comments or the unrelated 'short-circuits'; no `Circ` definition.  The two closest, Construction/Cospan/BlackBox.v:19,64, merely CITE Baez–Fong's ♭ : Circ → LagRel in the header prose",
+      "grep -rn --include='*.v' -iE 'labelling|labeling|vertex|vertices|edge label' . — zero hits, so the object action V ↦ {(V, A, s, t, l)} has nothing to range over",
+      "grep -rn --include='*.v' 'Sets ⟶ Sets|Coq ⟶ Coq|Ens ⟶ Ens' . plus a scan of Instance/FinSet*.v — there is no functor out of FinSet into Sets of any kind; FinSet's own structure (FinSet_Initial:223, FinSet_Cocartesian:250, FinSet_HasPushouts in Instance/FinSet/Pushout.v:513) is present, so the SOURCE (FinSet, +) of the decoration functor exists, but the functor itself does not",
+      "grep -rn --include='*.v' 'LaxMonoidalFunctor|MonoidalFunctor' . | grep -i instance — the only lax/strong monoidal functor instances in the tree are Id_* and Compose_*; no concrete decoration functor of any kind (circuits, Markov processes, graphs) is constructed, which the DecoratedCospan headers themselves record (Construction/DecoratedCospan/Hypergraph.v:66-67, \"this library does not yet provide any such instance\")"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. No Circ functor of any kind. I independently enumerated Instance/FinSet/ (Classifier.v, Closed.v, Lawvere.v, Product.v, Pushout.v, Topos.v) -- none defines a functor out of FinSet into Sets, so the record's claim that the SOURCE (FinSet, +) exists while the functor does not is right; FinSet_Initial:223, FinSet_Cocartesian:250 and FinSet_HasPushouts (Instance/FinSet/Pushout.v:513) are all at the cited lines. The Hypergraph.v:66-67 quotation ('this library does not yet provide any such instance') is verbatim accurate. CORRECTION to the log (does not change the verdict): the line asserting that \"the ONLY inhabited lax/strong monoidal functors in the tree are Id_* and Compose_*\" is false. Concrete non-trivial strong (symmetric) monoidal functors ARE built in-tree: BaseChangeF_Monoidal / BaseChangeF_Braided / BaseChangeF_Symmetric (Construction/ColouredPROP/BaseChange.v:352), the Relabel functor (Construction/ColouredPROP/Relabel.v:388), Lawvere_PROP_interp_Symmetric (Theory/Lawvere/PROP.v:242) and the PROP InterpF_* tower (Construction/PROP/Universal.v). None of them is a powerset or a constant functor, so the ABSENT/PARTIAL verdict is untouched, but the log overstates the emptiness. CORRECTION to the log (does not change the verdict): the claim that grep -iE 'labelled graph|labeled graph|labelling|labeling|edge label|vertex|vertices|C-circuit' returns ZERO hits is false. I ran it: 'vertex_obj' occurs 27x in Theory/Equivalence/Limit.v and across Instance/Cones*.v, Structure/Limit/*.v, Construction/Comma/Limit.v; 'labeling' occurs 13x in Instance/FinSet/Pushout.v (the union-find labeling); 'labelled' occurs in Instance/ZX.v:172, Instance/Shapes.v:29, Instance/Coq/Comonad/Env.v:69, Construction/PROP/Signature.v:45. NONE of these is an edge-labelled graph or a vertex/edge set of a graph (vertex_obj is a cone apex), so the classification is unaffected -- but the log's absoluteness is wrong. The companion Reals claim IS correct: grep -E 'Coq.Reals|Rdefinitions|R0\\b' returns zero hits."
+    }
+  },
+  {
+    "id": "7sketches:6.4.3:ex6.80",
+    "classification": "ABSENT",
+    "aliases": [
+      "compute Circ(f)(c) for f : 4 → 3 merging nodes 2 and 3",
+      "morphism action of the circuit decoration functor",
+      "pushforward / relabelling of a labelled graph along a vertex map",
+      "image of a quiver under a node map",
+      "node merging in an electrical circuit"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The computation is an application of `Circ`'s morphism part, and `Circ` does not exist: grep -rn --include='*.v' -i 'circuit' . yields only comments and 'short-circuits'; grep -rn --include='*.v' -iE 'labelling|labeling|vertex|vertices' . yields zero hits",
+      "grep -rn --include='*.v' 'QuiverHomomorphism' Construction/Free/Quiver.v — the nearest in-tree operation is `QuiverHomomorphism` (line 205: `fnodes : @nodes G -> @nodes G'`, `fedgemap : ∀ x y, edges x y -> edges (fnodes x) (fnodes y)`), a MAP BETWEEN quivers; it is not a pushforward of one quiver along a bare function on nodes (which is what Circ(f) is), and it carries no labels",
+      "grep -rn --include='*.v' 'Sets ⟶ Sets|Coq ⟶ Coq' . — no endofunctor or FinSet-indexed functor whose action relabels graph endpoints"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. Verified the record's nearest-analogue citation: Construction/Free/Quiver.v:205 `Class QuiverHomomorphism` really is a map BETWEEN quivers (fnodes plus a fibrewise fedgemap), not a pushforward of one quiver along a bare function on nodes, and it carries no labels -- so the record's reason for rejecting it as a counterpart to Circ(f) is correct. CORRECTION to the log (does not change the verdict): the claim that grep -iE 'labelled graph|labeled graph|labelling|labeling|edge label|vertex|vertices|C-circuit' returns ZERO hits is false. I ran it: 'vertex_obj' occurs 27x in Theory/Equivalence/Limit.v and across Instance/Cones*.v, Structure/Limit/*.v, Construction/Comma/Limit.v; 'labeling' occurs 13x in Instance/FinSet/Pushout.v (the union-find labeling); 'labelled' occurs in Instance/ZX.v:172, Instance/Shapes.v:29, Instance/Coq/Comonad/Env.v:69, Construction/PROP/Signature.v:45. NONE of these is an edge-labelled graph or a vertex/edge set of a graph (vertex_obj is a cone apex), so the classification is unaffected -- but the log's absoluteness is wrong. The companion Reals claim IS correct: grep -E 'Coq.Reals|Rdefinitions|R0\\b' returns zero hits."
+    }
+  },
+  {
+    "id": "7sketches:6.4.3:ex6.82",
+    "classification": "ABSENT",
+    "aliases": [
+      "compute ψ_{2,2}(b, s) for a battery circuit and a switch circuit",
+      "coherence map of the circuit decoration functor, display (6.81)",
+      "disjoint union of two labelled graphs on the coproduct of vertex sets",
+      "side-by-side / parallel composition of circuits",
+      "laxator φ_{S,T} instance"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The computation applies ψ, the coherence map of the absent `Circ` functor: grep -rn --include='*.v' -i 'circuit' . gives only comments; grep -rn --include='*.v' -iE 'battery|switch|labelling|vertices' . gives only the Construction/PROP/Signature.v:39-41 comment and Structure/Monoidal/Symmetric.v:22's 'switching twice'",
+      "grep -rn --include='*.v' 'LaxMonoidalFunctor|MonoidalFunctor' . | grep -i instance — no concrete laxator exists in the tree beyond Id_* and Compose_*, so no instance of the coherence map can be evaluated",
+      "grep -rn --include='*.v' 'lax_ap' . — `lax_ap` occurs only as the abstract field of `LaxMonoidalFunctor` and in the DecoratedCospan composition formula; never computed at a concrete functor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. The computation applies the laxator of the absent Circ. Verified the record's lax_ap observation: outside Functor/Structure/Monoidal.v (the field), Functor/Structure/Monoidal/Braided.v (the compat square) and Construction/DecoratedCospan.v:295 (the composition formula), lax_ap is never applied to a concrete functor. CORRECTION to the log (does not change the verdict): the line asserting that \"the ONLY inhabited lax/strong monoidal functors in the tree are Id_* and Compose_*\" is false. Concrete non-trivial strong (symmetric) monoidal functors ARE built in-tree: BaseChangeF_Monoidal / BaseChangeF_Braided / BaseChangeF_Symmetric (Construction/ColouredPROP/BaseChange.v:352), the Relabel functor (Construction/ColouredPROP/Relabel.v:388), Lawvere_PROP_interp_Symmetric (Theory/Lawvere/PROP.v:242) and the PROP InterpF_* tower (Construction/PROP/Universal.v). None of them is a powerset or a constant functor, so the ABSENT/PARTIAL verdict is untouched, but the log overstates the emptiness."
+    }
+  },
+  {
+    "id": "7sketches:6.4.3:construction-cospan-circ",
+    "classification": "ABSENT",
+    "aliases": [
+      "Cospan_Circ, the hypergraph category of open electric circuits",
+      "open circuits as Circ-decorated cospans of finite sets",
+      "Baez–Fong category Circ of open circuits (arXiv:1504.05625)",
+      "composition of open circuits by pushout of interfaces + ψ-merge of decorations",
+      "monoidal product = disjoint union of interfaces, stacking circuits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'circuit' . — no `Cospan_Circ`, no `Circ`, no open-circuit category anywhere; Construction/Cospan/BlackBox.v:19,64 only CITE Baez–Fong's ♭ : Circ → LagRel in header prose, and BlackBox.v:233-235 lists ⬛ : DecoratedCospanCat F ⟶ Cospan(FinSet) / Vect_R / ZX_Cat as un-built variants",
+      "The generic apparatus this construction instantiates IS in-tree but only conditionally, and the instantiating datum is exactly what is missing: `DecoratedCospanCat` / `DecoratedCospan_Hypergraph` (see 7sketches:6.4.2:thm6.77) require a decoration functor plus six uninstantiated coherence classes, and `grep -rn --include='*.v' 'DecCospan_.*Coherent' .` shows no instance of any of them",
+      "grep -rn --include='*.v' 'CospanCat FinSet|Cospan.*FinSet' . — even the UNDECORATED Cospan(FinSet) is never instantiated in the tree: the only hits are comments (Theory/Algebra/Frobenius.v:75,100; Construction/Cospan/SCFA.v:50; Construction/Cospan/Hypergraph.v:294).  docs/INHABITATION.md:73-78 does record that `Cospan_Hypergraph` and the spider results instantiate over skeletal FinSet via `FinSet_HasPushouts`, so the base is reachable — but no named `Cospan_Circ`-style object exists",
+      "grep -rn --include='*.v' -iE 'open circuit|interface|black.?box' . — `forget_decoration` (Construction/Cospan/BlackBox.v:178) is the only black-boxing map, and it is the generic decoration-forgetting functor, not a circuit semantics"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. No Cospan_Circ, no Circ, no open-circuit category; Construction/Cospan/BlackBox.v:19,64,233-235 only cite Baez-Fong's Circ -> LagRel and list un-built black-box variants. The record's third bullet -- that even the UNDECORATED Cospan(FinSet) is never instantiated -- is CORRECT as an in-tree-term matter, and I verified it independently: `grep -rn FinSet_HasPushouts .` returns only Instance/FinSet/Pushout.v:51 (a comment) and :513 (the instance itself), so no term anywhere feeds it to Cospan_Hypergraph, and `grep -rn 'CospanCat' . | grep -i FinSet` returns only two comments (Construction/Cospan/BlackBox.v:233, Construction/Cospan/Hypergraph.v:294). The record is right to flag the tension with docs/INHABITATION.md; I have escalated that as a library defect (see problems[]). Verdict unaffected either way: the missing object is the circuit decoration functor, not the cospan base."
+    }
+  }
+]

@@ -1,0 +1,349 @@
+[
+ {
+  "id": "awodey:4.3:remark-functor-group-hom",
+  "classification": "ABSENT",
+  "aliases": [
+   "functor between groups = group homomorphism",
+   "group as one-object category / groupoid (delooping BG)",
+   "monoid/group internal to Cat as a single-object category",
+   "functor out of a group",
+   "one-object groupoid"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE 'one.object|delooping|Deloop|BG |group as a categor|group as categor' --include='*.v' . -> hits are all comments/prose (Theory/Functor.v:68 'a functor from a one-object category BG to vector spaces is precisely a linear representation of the group G' is a background-essay remark, not a definition; Theory/Bicategory/OneObject.v deloops a MONOIDAL category to a one-object BICATEGORY, unrelated to a group as a one-object 1-category)",
+   "grep -rniE 'Definition.*Group|group object|GroupObject|is a group|every arrow.*iso' --include='*.v' . -> no Group type or group-as-category construction; Instance/*.v 'Group|Monoid' hits are the substrings 'Semigroupoid'/'CoMonoid'/'Comparison', not a groups instance",
+   "Construction/Groupoid.v is the CORE groupoid (maximal sub-groupoid) of a category, not a group presented as a one-object groupoid",
+   "grep -rniE 'group homomorphism|hom.*group' --include='*.v' . -> none; the library has no groups layer, so the identification 'functor between groups = group hom' is not formalized"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.3:def-representation",
+  "classification": "ABSENT",
+  "aliases": [
+   "representation of a group in a category",
+   "functor R : G -> C (G a one-object category)",
+   "linear representation (functor into Vect)",
+   "G-action / group action as a functor",
+   "Cayley/regular representation"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE 'representation|linear representation' --include='*.v' . -> Functor/Representable.v and Functor/Hom/Yoneda.v are about REPRESENTABLE functors (Hom-functors), not group representations; Theory/Functor.v:68 mentions 'linear representation of the group G' only in a prose essay",
+   "Construction/Cayley.v is the 'Cayley representation of a CATEGORY' = the Yoneda embedding C -> [C,Set] (full+faithful); it is not a group represented as a functor G -> C, and takes an arbitrary category, not a group",
+   "grep -rniE 'Definition.*Group' --include='*.v' . -> no group object / group-as-category, hence no notion of a functor OUT of a group as a representation",
+   "no G-action-as-functor or Vect-valued representation anywhere in the tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.3:def6",
+  "classification": "PRESENT",
+  "aliases": [
+   "congruence on a category",
+   "hom-congruence / HomCongruence",
+   "equivalence relation on arrows compatible with composition",
+   "categorical congruence relation",
+   "compatible equivalence on hom-sets"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Quotient.v",
+    "line": 226,
+    "symbol": "HomCongruence",
+    "intree_statement": "Class HomCongruence {C : Category} (R : HomRel C) : Type := { cong_incl {x y}{f g : x ~> y} : f \u2248 g \u2192 R x y f g; cong_sym : R x y f g \u2192 R x y g f; cong_trans : R x y f g \u2192 R x y g h \u2192 R x y f h; cong_comp {x y z}{f f' : y ~> z}{g g' : x ~> y} : R y z f f' \u2192 R x y g g' \u2192 R x z (f \u2218 g) (f' \u2218 g') }  (HomRel C := \u2200 x y : C, (x ~> y) \u2192 (x ~> y) \u2192 Prop)"
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 236,
+    "symbol": "cong_refl",
+    "intree_statement": "Lemma cong_refl ... {x y}(f : x ~> y) : R x y f f  (reflexivity derived from cong_incl of \u2248), giving Quotient_equivalence : Equivalence (R x y)."
+   }
+  ],
+  "statement_record": {
+   "book": "A congruence on a category C is an equivalence relation f ~ g on arrows with (1) f~g implies dom(f)=dom(g), cod(f)=cod(g), and (2) f~g implies b.f.a ~ b.g.a for all pre/post-composable a,b.",
+   "intree": "HomCongruence R: R is a Prop-valued relation on parallel homs (x~>y), containing \u2248 (cong_incl), symmetric (cong_sym), transitive (cong_trans), and closed under two-sided composition (cong_comp: R f f' \u2192 R g g' \u2192 R (f\u2218g)(f'\u2218g')).",
+   "strength_comparison": "same (faithful setoid rephrasing). The typing R x y : (x~>y)\u2192(x~>y)\u2192Prop makes Awodey's condition (1) automatic (only parallel arrows are related). cong_comp is the full two-sided composition compatibility of condition (2). Difference: the in-tree class additionally requires \u2248 \u2286 R (cong_incl) instead of plain-equality reflexivity \u2014 this is the necessary setoid-library rephrasing (a congruence must respect the ambient hom-equivalence to descend), not a genuine strengthening; reflexivity is recovered from it."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.3:construction-congruence-category",
+  "classification": "ABSENT",
+  "aliases": [
+   "congruence category C^~",
+   "category of ~-related pairs <f,g>",
+   "kernel-pair category with projections p1,p2",
+   "double/pair category of a congruence",
+   "C^~ \u21d2 C two projection functors"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE 'congruence categor|C\\^~|pair.*f.*g|two projection' --include='*.v' . -> no construction whose arrows are pairs <f,g> with f ~ g",
+   "Construction/Quotient.v builds the quotient Quotient C R DIRECTLY (same objects/arrows, coarsened \u2248) and never forms the congruence category C^~ nor its two projections p1,p2",
+   "grep -rniE 'p1.*p2|projection functor' Construction/Quotient.v -> only QuotientProj (a single projection C -> C/R); no pair of projections C^~ \u21d2 C exists",
+   "no Cat-level kernel-pair / pair-category-of-a-relation construction anywhere in the tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.3:construction-quotient-category",
+  "classification": "PARTIAL",
+  "aliases": [
+   "quotient category C/~",
+   "Quotient / QuotientProj",
+   "identity-on-objects projection functor",
+   "quotient functor pi : C -> C/~",
+   "coequalizer of categories C^~ \u21d2 C -> C/~"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Quotient.v",
+    "line": 254,
+    "symbol": "Quotient",
+    "intree_statement": "Definition Quotient (C : Category)(R : HomRel C) `{HomCongruence C R} : Category := {| obj := @obj C; hom := @hom C; homset x y := {| equiv := R x y ; setoid_equiv := Quotient_equivalence x y |}; id := @id C; compose := @compose C; ... |}  (same objects and arrows as C, hom-equivalence coarsened from \u2248 to R)."
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 294,
+    "symbol": "QuotientProj",
+    "intree_statement": "Definition QuotientProj : C \u27f6 Quotient C R := Build_Functor C (Quotient C R) (fun x => x)(fun x y f => f) (fun x y f g Hfg => cong_incl Hfg) ...  \u2014 identity on objects and on morphisms, only the equivalence coarsens."
+   }
+  ],
+  "statement_record": {
+   "book": "Given a congruence ~ on C, the quotient category C/~ has objects C_0 and arrows the ~-classes [f], with 1_[C]=[1_C] and [g]\u2218[f]=[g.f]; there is a quotient functor \u03c0 : C \u2192 C/~, and the diagram C^~ \u21d2 C \u2192 C/~ is a coequalizer of categories.",
+   "intree": "Quotient C R is the category with the same objects and the same arrows as C but with hom-equivalence R x y in place of \u2248; QuotientProj : C \u27f6 Quotient C R is the identity-on-objects-and-arrows projection.",
+   "strength_comparison": "intree-weaker: the quotient category and its projection functor are present (with arrows kept as C-arrows compared up to R, rather than literal ~-classes \u2014 an equivalent setoid presentation). BUT the characterization of \u03c0 as the COEQUALIZER of categories C^~ \u21d2 C \u2192 C/~ is absent: neither the congruence category C^~ (see construction-congruence-category, ABSENT) nor any coequalizer in Cat is constructed in-tree."
+  },
+  "gap": "The quotient category C/~ and the projection functor \u03c0 are present (Quotient / QuotientProj). Missing: the statement/proof that C^~ \u21d2 C \u2192 C/~ is a coequalizer of categories \u2014 C^~ is not built (ABSENT) and Cat has no coequalizer construction in the tree (grep -rniE 'coequalizer' Instance/Cat*.v Construction/ -> none).",
+  "negative_search_log": [
+   "grep -rniE 'coequalizer' --include='*.v' Instance/Cat* Construction/ -> no coequalizer of categories/functors"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.3:def-kernel-congruence",
+  "classification": "ABSENT",
+  "aliases": [
+   "kernel congruence ~_F of a functor",
+   "f ~_F g iff F(f) = F(g)",
+   "congruence induced by a functor",
+   "equalizing congruence of F",
+   "ker(F) as a HomCongruence instance"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE 'kernel congru|~_F|induced congruence|F.*f.*=.*F.*g' --include='*.v' . -> no named congruence defined as 'f ~ g iff fmap F f \u2248 fmap F g'",
+   "Construction/Quotient.v QuotientLift takes an ARBITRARY congruence R with a hypothesis HF : R x y f g \u2192 fmap F f \u2248 fmap F g (i.e. R \u2286 ker F); it never constructs the maximal such R (the kernel congruence) as a HomRel / HomCongruence instance",
+   "grep -rniE 'HomCongruence' --include='*.v' . -> the only HomCongruence instances are Quotient's own and PROP/ColouredPROP term congruences; none is a functor kernel"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.3:def-kernel-category",
+  "classification": "ABSENT",
+  "aliases": [
+   "kernel category ker(F)",
+   "C^{~_F} \u21d2 C",
+   "congruence category of the kernel congruence",
+   "kernel pair of a functor in Cat",
+   "ker(F)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "ker(F) = the congruence category of the kernel congruence ~_F; both ingredients are absent: the congruence category C^~ (awodey:4.3:construction-congruence-category, ABSENT) and the kernel congruence ~_F (awodey:4.3:def-kernel-congruence, ABSENT)",
+   "grep -rniE 'ker\\(|kernel categor|kernel pair.*functor' --include='*.v' . -> no in-tree kernel category of a functor"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.3:thm7",
+  "classification": "PARTIAL",
+  "aliases": [
+   "UMP of the quotient / kernel category",
+   "homomorphism theorem for categories",
+   "functor factors through quotient iff congruence refines kernel",
+   "QuotientLift / QuotientLift_unique",
+   "universal property of C/~"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Quotient.v",
+    "line": 313,
+    "symbol": "QuotientLift",
+    "intree_statement": "Context (F : C \u27f6 D)(HF : \u2200 x y (f g : x ~> y), R x y f g \u2192 fmap[F] f \u2248 fmap[F] g). Definition QuotientLift : Quotient C R \u27f6 D := Build_Functor (Quotient C R) D (fun x => F x)(fun x y f => fmap[F] f) HF ...  \u2014 a functor identifying R-related morphisms lifts through the quotient."
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 322,
+    "symbol": "QuotientLift_proj",
+    "intree_statement": "Lemma QuotientLift_proj (f : x ~> y) : fmap[QuotientLift] (fmap[QuotientProj] f) = fmap[F] f. Proof. reflexivity. Qed.  (factorization F = QuotientLift \u2218 QuotientProj, definitional)"
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 334,
+    "symbol": "QuotientLift_unique",
+    "intree_statement": "Lemma QuotientLift_unique (G : Quotient C R \u27f6 D)(Hobj : \u2200 x, fobj[G] x = fobj[F] x)(HG : \u2200 x y f, hom_cast (Hobj x)(Hobj y)(fmap[G](fmap[QuotientProj] f)) \u2248 fmap[F] f) : \u2200 x y f, hom_cast (Hobj x)(Hobj y)(fmap[G] f) \u2248 fmap[QuotientLift] f."
+   }
+  ],
+  "statement_record": {
+   "book": "Every functor F : C \u2192 D has a kernel category ker(F) determined by a congruence ~_F; and for any congruence ~ on C, (f~g \u27f9 f~_F g) iff there is a factorization F~ : C/~ \u2192 D with F~ \u2218 \u03c0 = F.",
+   "intree": "Given a congruence R on C and a functor F with R x y f g \u2192 fmap F f \u2248 fmap F g (i.e. R \u2286 ker F), QuotientLift : C/R \u2192 D satisfies QuotientLift \u2218 QuotientProj = F (QuotientLift_proj) and is unique (QuotientLift_unique).",
+   "strength_comparison": "intree-weaker: the operative content \u2014 the universal property that a functor killing the congruence factors uniquely through the quotient \u2014 is fully present (existence via QuotientLift, factorization via QuotientLift_proj, uniqueness via QuotientLift_unique). The hypothesis 'R x y f g \u2192 fmap F f \u2248 fmap F g' IS exactly 'R refines ker F'. What is NOT packaged: the kernel congruence ~_F as a named object (ABSENT), the kernel category ker(F) (ABSENT), and the explicit biconditional (only the direction 'R \u2286 ker F \u27f9 \u2203! factorization' is stated; the trivial converse 'factorization exists \u27f9 R \u2286 ker F' is not)."
+  },
+  "gap": "The quotient universal property (existence + factorization + uniqueness of the lift) is present as QuotientLift / QuotientLift_proj / QuotientLift_unique for an arbitrary congruence R with R \u2286 ker F. Missing: the named kernel congruence ~_F and kernel category ker(F) (both ABSENT), and the explicit iff biconditional of Theorem 4.7 (the converse direction is not separately stated).",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.3:cor8",
+  "classification": "ABSENT",
+  "aliases": [
+   "full-faithful factorization of a functor",
+   "F = F~ \u2218 \u03c0 with \u03c0 full identity-on-objects, F~ faithful",
+   "surjective-on-homs then injective-on-homs factorization",
+   "(bijective-on-objects, full) + faithful orthogonal factorization in Cat",
+   "image of a functor / bo-ff factorization"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE 'full.*faithful.*factor|faithful.*factor|surject.*hom|bijective.on.obj' --include='*.v' . -> no factorization of an arbitrary functor into a full (identity-on-objects) functor followed by a faithful one",
+   "The ingredients exist but are not assembled: Full and Faithful classes (Theory/Functor.v:331,342), QuotientProj which is identity-on-objects and surjective-on-homs (Construction/Quotient.v:294). But building the factorization requires quotienting by the kernel congruence ker(F) (ABSENT) and proving the induced F~ faithful \u2014 neither is done in-tree",
+   "grep -rniE 'factoriz' --include='*.v' Structure/Factorization.v Structure/Regular/Factorization.v -> these are (epi,mono)/(strong-epi,mono) orthogonal factorization systems on MORPHISMS of a category, not the (identity-on-objects-full, faithful) factorization of a FUNCTOR in Cat"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.4:def-finitely-presented",
+  "classification": "PARTIAL",
+  "aliases": [
+   "finitely presented category C(G,Sigma)",
+   "category presented by generators and relations",
+   "free category on a graph quotiented by path equations",
+   "least congruence generated by relations",
+   "C(G)/~_Sigma with UMP"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Free.v",
+    "line": 118,
+    "symbol": "Free",
+    "intree_statement": "Program Definition Free : Category := {| obj := C; hom := tlist hom; homset _ _ := {| equiv := eq |}; id _ := tnil; compose _ _ _ f g := g +++ f |}  \u2014 the free/path category on the underlying quiver of C (vertices = objects, morphisms = finite composable paths)."
+   },
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 507,
+    "symbol": "UnitQuiverCatAdjunction / FreeForgetfulAdjunction",
+    "intree_statement": "Free \u22a3 Forgetful over StrictCat: UniversalArrowQuiverCat / FreeForgetfulAdjunction package the universal property of the free category on a quiver (the relation-free case of a presentation)."
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 254,
+    "symbol": "Quotient",
+    "intree_statement": "Quotient C R : Category \u2014 the quotient of a category by an arbitrary hom-congruence R (the relation-imposing half of a presentation)."
+   }
+  ],
+  "statement_record": {
+   "book": "From the free category C(G) on a finite graph G and a finite set \u03a3 of path relations, form the least congruence ~_\u03a3 identifying the two sides of each relation; C(G,\u03a3) := C(G)/~_\u03a3, with a UMP: any type-G diagram h : G \u2192 |D| respecting \u03a3 extends uniquely to h\u0304 : C(G,\u03a3) \u2192 D.",
+   "intree": "The two halves exist as reusable kits: Free (path category on a quiver) with its free-forgetful adjunction over StrictCat, and Quotient (quotient of a category by a hom-congruence) with its lifting UMP. There is no in-tree assembly forming the least congruence generated by a finite relation set, nor a packaged C(G,\u03a3) with its combined UMP.",
+   "strength_comparison": "intree-weaker: the free-category half and the quotient-by-a-congruence half are each present with their universal properties, but they are not composed into a finitely-presented-category construction; crucially the least congruence ~_\u03a3 GENERATED by a set of relations (Awodey's 'intersection of all congruences containing the relations') is not constructed for general categories. The analogous full presentation machinery exists only one level down, for PROPs (Construction/PROP/Presentation.v), not for general categories."
+  },
+  "gap": "Present: Free (path category, Construction/Free.v) and its free-forgetful adjunction (Construction/Free/Quiver.v), and Quotient by a hom-congruence with lifting UMP (Construction/Quotient.v). Missing: (i) the least/generated congruence ~_\u03a3 from a finite set of path relations (no closure/intersection-of-congruences construction \u2014 grep 'least/smallest/generated congruence' -> none); (ii) the packaged finitely presented category C(G,\u03a3) := C(G)/~_\u03a3; (iii) its combined generators-and-relations UMP. (The PROP-level analogue in Construction/PROP/Presentation.v does all three, but for PROPs, not general categories.)",
+  "negative_search_log": [
+   "grep -rniE 'least congru|smallest congru|generated.*congru|congru.*generat|intersection.*congru' --include='*.v' . -> none",
+   "grep -rniE 'finitely presented|presented categor|generators and relations' --include='*.v' . | grep -v PROP -> only comments in Construction/Free.v and Instance/FinSet.v; no general-category presentation construction"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.4:construction-fp-coequalizer",
+  "classification": "ABSENT",
+  "aliases": [
+   "presented category as coequalizer of functors",
+   "coequalizer of f, f' : C(2) \u21d2 C in Cat",
+   "walking-arrow selecting functors and their coequalizer",
+   "quotient by a single relation via the homomorphism theorem",
+   "q : C \u2192 C/~ is a coequalizer of two functors"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE 'coequalizer' --include='*.v' Instance/Cat* Construction/ -> no coequalizer of categories/functors anywhere in the tree",
+   "The walking arrow C(2) exists (Instance/Two.v, 'the interval category 2 / walking arrow'), but there is no construction of the coequalizer of two functors C(2) \u21d2 C selecting a pair f,f', nor the least congruence generated by a single relation f ~ f' (generated congruence ABSENT, see awodey:4.4:def-finitely-presented)",
+   "grep -rniE 'coequalizer.*functor|q.*coequalizer|least congru' --include='*.v' . -> none in Cat"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ },
+ {
+  "id": "awodey:4.4:example9",
+  "classification": "ABSENT",
+  "aliases": [
+   "walking isomorphism category (two uniquely isomorphic objects)",
+   "Z/2Z as a one-object category / presented category",
+   "idempotent monoid (f\u2218f = f) as a category",
+   "cyclic group Z_n presented by f^n = 1",
+   "finite non-free categories with cycles"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE 'walking|Z/2|cyclic|Z_n|Zmod|isomorphism categor|idempotent.*categor' --include='*.v' . -> Instance/Two.v is the walking ARROW (0\u21921, no inverse), NOT the walking ISOMORPHISM; no walking-iso instance exists",
+   "grep -rniE 'Definition.*Group|cyclic|Z/2|Z_n' --include='*.v' . -> no Z/2Z, no cyclic-group-as-category, no idempotent monoid presented as a category",
+   "None of Example 4.9's presented categories (walking iso; Z/2Z; f\u2218f=f idempotent; Z_n by f^n=1) is constructed in-tree; and the finitely-presented-category machinery to build them from generators/relations is itself absent (see awodey:4.4:def-finitely-presented, PARTIAL)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED"
+  }
+ }
+]

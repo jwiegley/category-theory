@@ -1,0 +1,428 @@
+[
+ {
+  "id": "riehl:5.2:construction-adjT",
+  "classification": "ABSENT",
+  "aliases": [
+   "Adj_T / category of adjunctions inducing a fixed monad",
+   "resolutions of a monad (category of)",
+   "morphism of adjunctions: functor K with K F = F' and U' K = U",
+   "strict map of adjunctions / conjugate (mate) pair",
+   "K commutes with the counits, K commutes with adjoint transposition"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'Adj_T' --include='*.v' . -> 0 hits; grep -rn 'AdjT' -> 0 hits",
+   "grep -rni 'category of adjunction|adjunctions inducing|inducing a (fixed )?monad' --include='*.v' . -> only prose: Comonad/Duality.v:74-79 and Theory/Monad.v:49 SAY that the Kleisli/EM resolutions are initial/terminal 'in the category of adjunctions inducing T', but no such category is constructed anywhere",
+   "grep -rn 'morphism of adjunction|AdjunctionMorphism|Adjunction_Morphism|map of adjunctions|strict morphism|conjugate pair|commutes with both adjoints' --include='*.v' . -> 0 hits each",
+   "grep -rn 'Resolution' --include='*.v' . -> 3 hits, all in Test/HypergraphPROPResolution.v (typeclass resolution, unrelated)",
+   "read Instance/Adj.v (near miss): 'Adj (C D : Category) : Category := {| obj := exists (F : D -> C) (U : C -> D), F -| U; hom := fun x y => (F x ==> F y) * (U x ==> U y) |}' -- adjunctions between two FIXED categories, morphisms are bare PAIRS OF NATURAL TRANSFORMATIONS (the file's own CAVEAT admits it does not even impose the mate condition), and objects are not constrained to induce a given monad; this is Adj(C,D), not Riehl's Adj_T",
+   "read Instance/Adjoints.v (near miss): 'Adjoints : Category' has categories as objects and adjunctions as arrows -- again not Adj_T",
+   "grep -rn 'Kleisli ⟶|⟶ Kleisli' --include='*.v' . -> only Kleisli_Free, Kleisli_Forget, Kleisli_Pure; no functor from a Kleisli category into an arbitrary D, so not even an object of Adj_T's hom is expressible",
+   "grep -rn 'EM_Comparison' --include='*.v' . -> the only comparison functor in the tree (Monad/Comparison.v) is built directly from an adjunction; nothing organizes adjunctions over a fixed monad into a category"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. My searches: rg 'Adj_T|AdjT' -> 0 hits; rg '\\bResolution\\b' (identifier) -> 0 hits; rg -i 'morphism of adjunction|adjunction morphism|MorphismOfAdjunction' -> 0 hits. I read the two near misses myself and agree neither is Adj_T: Instance/Adj.v:44 'Adj (C D : Category)' fixes the two CATEGORIES (not a monad) and its hom is the bare product setoid of natural-transformation pairs -- the file's own CAVEAT at lines 33-42 discloses that it does not even impose the mate/conjugate condition, so its obligations discharge trivially; Instance/Adjoints.v has categories as objects and adjunctions as arrows. Riehl's Adj_T needs (a) objects constrained to induce a FIXED monad and (b) morphisms that are FUNCTORS K : D -> D' with K F = F' and U' K = U -- neither is expressible from what exists. Also confirmed the Exercise-4.2.v clauses the construction imports (strict morphism, K eps = eps' K, K commutes with transposition) have no in-tree counterpart. Both cited files are registered in _CoqProject (lines 162-163)."
+  }
+ },
+ {
+  "id": "riehl:5.2:prop13",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Kleisli adjunction is initial, Eilenberg-Moore adjunction is terminal",
+   "comparison functor K : D -> C^T, K d = (U d, U eps_d)",
+   "EM_Comparison",
+   "unique functor commuting with both adjoints (K F = F^T, U^T K = U)",
+   "J : C_T -> D, J f = eps_{F Y} . F f"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Comparison.v",
+    "line": 198,
+    "symbol": "EM_Comparison_Forget",
+    "intree_statement": "Theorem EM_Comparison_Forget : @EM_Forget D (U ◯ F) Adjunction_Induced_Monad ◯ EM_Comparison ≈ U.  (proof: exists (fun c => iso_id); ... cat.)"
+   },
+   {
+    "file": "Monad/Comparison.v",
+    "line": 260,
+    "symbol": "EM_Comparison_Free",
+    "intree_statement": "Theorem EM_Comparison_Free : EM_Comparison ◯ F ≈ @EM_Free D (U ◯ F) Adjunction_Induced_Monad.  (proof: exists EM_Comparison_Free_iso; ... cat.)"
+   },
+   {
+    "file": "Monad/Comparison.v",
+    "line": 186,
+    "symbol": "EM_Comparison",
+    "intree_statement": "Definition EM_Comparison : C ⟶ @EilenbergMoore D (U ◯ F) Adjunction_Induced_Monad := @Build_Functor C (@EilenbergMoore D (U ◯ F) Adjunction_Induced_Monad) (fun c => (U c; EM_Comparison_Algebra c)) (fun c c' h => EM_Comparison_fmap h) ... — where EM_Comparison_Algebra c has structure map fmap[U] (counit A c)"
+   }
+  ],
+  "statement_record": {
+   "book": "In the category Adj_T of adjunctions inducing a fixed monad (T, eta, mu) on C, the Kleisli adjunction F_T -| U_T is INITIAL and the Eilenberg-Moore adjunction F^T -| U^T is TERMINAL: for every adjunction F -| U : D -> C inducing T there exist UNIQUE functors J : C_T -> D and K : D -> C^T commuting with the left and right adjoints (J F_T = F, U J = U_T; K F = F^T, U^T K = U), forced to be J X = F X / J f = eps_{FY} . F f and K D = (U D, U eps_D) / K f = U f.",
+   "intree": "Definition EM_Comparison : C ⟶ EilenbergMoore (Adjunction_Induced_Monad A) := ... (fun c => (U c; EM_Comparison_Algebra c)) ...; Theorem EM_Comparison_Forget : EM_Forget ◯ EM_Comparison ≈ U; Theorem EM_Comparison_Free : EM_Comparison ◯ F ≈ EM_Free.",
+   "strength_comparison": "intree-weaker: only the EXISTENCE half of the terminality clause is formalized. The comparison K is constructed with exactly the book's formula (carrier U c, structure map U eps_c, action fmap[U] h) and both commuting conditions are proved — as natural isomorphisms with identity components (the library's standard reading of equality of functors) rather than on-the-nose equalities, which is faithful. Missing: (a) uniqueness of K, (b) the category Adj_T in which 'initial'/'terminal' are stated (see riehl:5.2:construction-adjT — ABSENT), (c) the entire Kleisli half: no functor J : C_T ⟶ D out of a Kleisli category into an arbitrary D exists in the tree (grep '⟶ Kleisli|Kleisli ⟶' finds only Kleisli_Free/Kleisli_Forget/Kleisli_Pure), hence no initiality."
+  },
+  "gap": "Uniqueness of the comparison functor is never stated (grep 'unique' over Monad/ finds only EM_extend_unique, lift_factor_unique, created_algebra_unique — all about algebra maps, not about K), the ambient category Adj_T is not constructed, and the initiality half (the mediating functor J : C_T ⟶ D from the Kleisli category to an arbitrary resolution, and its uniqueness) is entirely absent. What exists is the terminal-side comparison functor plus the two commuting-with-the-adjoints identities.",
+  "negative_search_log": [
+   "grep -rni 'unique' --include='*.v' Monad/ -> EM_extend_unique, EM_restrict_extend, lift_factor_unique, created_algebra_unique, coequalizer_unique; none is a uniqueness statement about a comparison functor",
+   "grep -rn 'Kleisli ⟶|⟶ Kleisli' --include='*.v' . -> only Kleisli_Free / Kleisli_Forget / Kleisli_Pure",
+   "grep -rn 'EM_Comparison' --include='*.v' . -> all uses are Full/Faithful/EquivalenceOfCategories hypotheses in Monad/Lifting.v, Monad/Monadicity/{Crude,Beck,Examples}.v and Theory/Lawvere/Monad.v; none asserts uniqueness or initiality/terminality"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL with the same split. Verified every citation by opening Monad/Comparison.v: EM_Comparison at line 186 (fobj c = (U c; EM_Comparison_Algebra c), structure map fmap[U] (counit A c) at 151-156 -- exactly Riehl's K d = (U d, U eps_d)); EM_Comparison_Forget at 198 proved with 'exists (fun c => iso_id)'; EM_Comparison_Free at 260 via EM_Comparison_Free_iso whose components are id[U (F d)] (the header at 205-211 honestly explains why the two TAlgebra records are not literally equal). Quotes are accurate and strength_comparison is honest. I independently confirmed the three gaps: (a) no uniqueness -- rg -i 'uniq' over Monad/ returns only EM_extend_unique / EM_restrict_extend / lift_factor_unique / created_algebra_unique, none about a functor; (b) no ambient Adj_T (see the sibling record); (c) no J : C_T -> D for arbitrary D -- the only functors out of Kleisli in the tree are Kleisli_Forget : Kleisli -> C (Monad/Kleisli/Adjunction.v:75) and Kleisli_Pure : C -> Kleisli (Monad/Kleisli/Premonoidal.v:377), i.e. the two canonical ones, never a mediating functor into a resolution. No Admitted/admit anywhere in Monad/ or Comonad/. Monad/Comparison.v is registered (_CoqProject:257)."
+  }
+ },
+ {
+  "id": "riehl:5.2:lem14",
+  "classification": "ABSENT",
+  "aliases": [
+   "the comparison C_T -> C^T is full and faithful",
+   "Kleisli category = full subcategory of free algebras",
+   "Kleisli embeds into Eilenberg-Moore",
+   "image of K consists of the free T-algebras (K c = (Tc, mu_c))",
+   "Kleisli and EM equivalent iff every algebra is free"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'Kleisli' --include='*.v' . | xargs-cross-check: the only files mentioning both 'Kleisli' and 'EilenbergMoore' are Comonad/Duality.v, Monad/Eilenberg/Moore.v and Monad/Eilenberg/Moore/Adjunction.v — and in all three the connection is made ONLY in comments (Monad/Kleisli.v:29 'C_T is the full subcategory of free algebras inside the Eilenberg–Moore category'; Monad/Eilenberg/Moore.v:35 'sitting inside C^T as the full subcategory of free algebras'; Moore/Adjunction.v:49-50 'whose comparison into C^T lands in the free algebras'). No such functor or lemma is defined.",
+   "grep -rn 'Kleisli_Comparison|Kleisli_to_EM' --include='*.v' . -> 0 hits",
+   "grep -rn 'Kleisli ⟶|⟶ Kleisli' --include='*.v' . -> only Kleisli_Free, Kleisli_Forget, Kleisli_Pure: no functor from Kleisli into any category of algebras",
+   "grep -rn 'Full|Faithful' --include='*.v' Monad/ Comonad/ -> only Monad/Lifting.v, where Full/Faithful of EM_Comparison are HYPOTHESES (lines 102-103) or consequences of crude monadicity (lines 505-509); nothing about a Kleisli comparison",
+   "grep -rn 'essential image|image of the comparison|free algebras' --include='*.v' . -> 'free algebras' occurs 9 times, all in prose comments or in EM_Free/EM_extend docs; no statement identifying an image with the free algebras",
+   "NEAR MISS (not evidence for this item): Monad/Eilenberg/Moore/Adjunction.v:157 EM_adj_iso gives the hom-setoid bijection C^T(F^T x, y) ≅ C(x, U^T y), which at y := F^T y' is exactly the bijection that WOULD prove full-and-faithfulness of the missing comparison; but it is stated as the EM adjunction transposition, about F^T, not about any functor out of the Kleisli category, and neither fullness/faithfulness nor the image characterization is stated."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently, and I re-ran the classifier's decisive greps: rg -i 'kleisli.*comparison|comparison.*kleisli|Kleisli_Comparison' -> 0 code hits; the only places where Kleisli and EilenbergMoore meet are COMMENTS (Monad/Kleisli.v:29, Monad/Eilenberg/Moore.v:33-35, Monad/Eilenberg/Moore/Adjunction.v:48-50). No functor C_T -> C^T is defined, so neither its fullness/faithfulness nor the free-algebra image characterization can be stated. The classifier's NEAR MISS is accurate: EM_adj_iso (Monad/Eilenberg/Moore/Adjunction.v:157) is the transposition C^T(F^T x, y) ~= C(x, U^T y), the bijection that WOULD supply full-and-faithfulness, but it is about F^T, not about a Kleisli comparison. Note the unformalized-but-asserted prose is recorded as a library defect in problems[]."
+  }
+ },
+ {
+  "id": "riehl:5.2:exi",
+  "classification": "ABSENT",
+  "aliases": [
+   "algebras for the free monoid monad are monoids",
+   "free-forgetful adjunction for a variety of algebraic structures on Set",
+   "Eilenberg-Moore category of an algebraic monad = category of that structure",
+   "T-algebra homomorphism = homomorphism of the algebraic structure",
+   "Monoid / Group / Ring as a category over Sets"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "ls Instance/ -> no Monoid, Group, Ring, Ab or Mod category exists; the only algebraic-structure category is Instance/CMon.v (commutative monoids over setoids)",
+   "grep -rn 'CMon_Forget|Free' --include='*.v' Instance/CMon.v Instance/CMon/ -> only 'CMon_Forget : CMon ⟶ Sets' (Instance/CMon.v:169); there is NO free functor and NO free-forgetful adjunction, so no algebraic monad on Sets is available to take algebras of",
+   "grep -rn 'TAlgebra|EilenbergMoore' --include='*.v' . outside Monad/ and Comonad/ -> only Theory/Lawvere/Monad.v (hypothesis-scoped Lawvere comparison) and Construction/Reflective/Idempotent.v (idempotent monads); no concrete variety",
+   "grep -rni 'category of monoids|category of groups|free monoid|free group' --include='*.v' . -> all hits are prose (Theory/Coq/Foldable.v, Construction/PROP*, Construction/Cayley.v) about free monoids as data structures, never a monad-algebra identification",
+   "grep -rn '⊣' --include='*.v' Instance/ -> the only concrete adjunctions instantiated are cartesian-closed transposes and Cardinality ⊣ Canonicity (Instance/Shapes.v); no free-forgetful adjunction over Sets",
+   "NEAR MISS (different formalism, not evidence): Theory/Multicategory/Algebra.v:523 Comm_algebra_to_CMon / :673 CMon_to_Comm_algebra identify algebras of the terminal OPERAD in Sets with commutative monoid OBJECTS in both directions — operad algebras, not monad algebras, and the correspondence is at the level of objects, not of homomorphisms"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Confirmed: no Monoid/Group/Ring/Ab/Mod category in Instance/; Instance/CMon.v carries only CMon_Forget : CMon -> Sets (verified at line 169) with no left adjoint. CORRECTION TO THE NEGATIVE LOG (does not change the verdict): the classifier's line \"grep '-|' over Instance/ ... no free-forgetful adjunction\" scopes the search to Instance/ and therefore MISSES a genuine in-tree free-forgetful adjunction, Construction/Free/Quiver.v:550 'Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful' (Quiv <-> StrictCat, built from universal arrows). It is still not evidence for this exercise: the induced monad lives on Quiv, not on Set; categories are not a single-sorted variety borne by sets; and nothing in-tree identifies the algebras of that monad, let alone its algebra homomorphisms, with categories/functors. I also checked the other near miss the classifier flagged (Theory/Multicategory/Algebra.v Comm_algebra_to_CMon at ~523 / CMon_to_Comm_algebra at ~673) -- operad algebras, object-level only. A third near miss neither of us should count: Instance/Comp.v develops universal algebra (OpSignature/OpAlgebra/AlgHom, the category Algs at line 151, varieties 'Algebra S E' at 268, Group at 382) -- it has the VARIETY side of the exercise but no functor to Sets, no free functor, no adjunction and no monad, so the algebras-of-a-monad identification the exercise asks for is still entirely absent."
+  }
+ },
+ {
+  "id": "riehl:5.2:exii",
+  "classification": "PRESENT",
+  "aliases": [
+   "Eilenberg-Moore adjunction F^T -| U^T",
+   "free algebra functor left adjoint to the forgetful functor",
+   "triangle identities for the EM adjunction",
+   "EM_Adjunction / EM_Monad_agrees",
+   "the EM adjunction induces the monad T back"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 183,
+    "symbol": "EM_Adjunction",
+    "intree_statement": "Program Definition EM_Adjunction : EM_Free ⊣ EM_Forget := @Build_Adjunction' (EilenbergMoore T) C EM_Free EM_Forget EM_adj_iso _ _.  (obligations: EM_transpose_nat_l, comp_assoc_sym)"
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 219,
+    "symbol": "EM_Monad_agrees",
+    "intree_statement": "Theorem EM_Monad_agrees : EM_Forget ◯ EM_Free ≈ T.  (proof: exists (fun x => iso_id); ... cat.)"
+   },
+   {
+    "file": "Monad/Eilenberg/Moore/Adjunction.v",
+    "line": 208,
+    "symbol": "EM_join_agrees",
+    "intree_statement": "Lemma EM_join_agrees {x : C} : fmap[EM_Forget] (@counit _ _ _ _ EM_Adjunction (EM_Free x)) ≈ join[T]."
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise 5.2.ii: complete the proof of Lemma 5.2.9 — show that the free and forgetful functors F^T -| U^T relating C to the category C^T of T-algebras are adjoint (verify the triangle identities) and that this adjunction induces the given monad T.",
+   "intree": "Program Definition EM_Adjunction : EM_Free ⊣ EM_Forget := Build_Adjunction' ... EM_adj_iso ...; Theorem EM_Monad_agrees : EM_Forget ◯ EM_Free ≈ T; Lemma EM_unit_agrees : unit EM_Adjunction x ≈ ret[T]; Lemma EM_join_agrees : fmap[EM_Forget] (counit EM_Adjunction (EM_Free x)) ≈ join[T].",
+   "strength_comparison": "same (setoid/hom-set rephrasing). The adjunction is packaged hom-set-wise from the transposition iso EM_adj_iso (restriction along η vs. the universal extension ν ∘ fmap[T] f, mutually inverse by EM_extend_ret / EM_restrict_extend) plus its naturality, so the triangle identities are the class's derived corollaries counit_fmap_unit / fmap_counit_unit (Theory/Adjunction.v:280,288) rather than a separately named obligation — Riehl's Lemma 5.2.9 likewise builds the adjunction and defers the triangles. 'Induces T' is split into all three data: the endofunctor (EM_Monad_agrees, a natural isomorphism with identity components rather than a strict equality), the unit (EM_unit_agrees, line 190) and the multiplication (EM_join_agrees). The counit at an algebra is its structure map (EM_counit_agrees, line 197), matching the book."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Opened Monad/Eilenberg/Moore/Adjunction.v and confirmed every citation at the stated line: EM_Adjunction:183 (Build_Adjunction' from EM_adj_iso:157, obligations EM_transpose_nat_l:175 and comp_assoc_sym), EM_join_agrees:208, EM_Monad_agrees:219; also EM_unit_agrees:190 and EM_counit_agrees:197 as the strength note says. The transposition really is mutually inverse (EM_extend_ret:110, EM_extend_unique:120, EM_restrict_extend:145), and the derived triangle identities the note points to exist at the cited lines: Theory/Adjunction.v:280 counit_fmap_unit and :288 fmap_counit_unit -- both Corollary, both Qed. No Admitted in the file. Registered at _CoqProject:261. Adversarial check for 'definition-without-API': the adjunction is a real inhabitant, not a Class hypothesis, and it is consumed downstream (Comonad/Duality.v:324 dualizes it)."
+  }
+ },
+ {
+  "id": "riehl:5.2:exiii",
+  "classification": "PRESENT",
+  "aliases": [
+   "coalgebras for a comonad",
+   "co-Eilenberg-Moore category C_W",
+   "cofree coalgebra functor, forgetful -| cofree",
+   "WCoalgebra / CoEM_Adjunction",
+   "the cofree adjunction induces the given comonad"
+  ],
+  "evidence": [
+   {
+    "file": "Comonad/Duality.v",
+    "line": 324,
+    "symbol": "CoEM_Adjunction",
+    "intree_statement": "Definition CoEM_Adjunction : CoEM_Forget ⊣ CoEM_Cofree := Opposite_Adjunction _ _ (@EM_Adjunction (C^op) (W^op) H).  (with CoEM_Forget : CoEilenbergMoore ⟶ C and CoEM_Cofree : C ⟶ CoEilenbergMoore)"
+   },
+   {
+    "file": "Comonad/Duality.v",
+    "line": 362,
+    "symbol": "CoEM_Comonad_agrees",
+    "intree_statement": "Theorem CoEM_Comonad_agrees : CoEM_Forget ◯ CoEM_Cofree ≈ W."
+   },
+   {
+    "file": "Comonad/Coalgebra.v",
+    "line": 116,
+    "symbol": "WCoalgebra",
+    "intree_statement": "Class WCoalgebra {C} (W : C ⟶ C) {H : @Comonad C W} (a : C) := { w_coalg : a ~> W a; w_counit_law : @extract C W H a ∘ w_coalg ≈ id; w_coaction : fmap[W] w_coalg ∘ w_coalg ≈ @duplicate C W H a ∘ w_coalg }."
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise 5.2.iii: dualize Definition 5.2.4 and Lemma 5.2.9 — define the category of coalgebras for a comonad together with its forgetful-cofree adjunction (the forgetful functor from coalgebras being LEFT adjoint to the cofree coalgebra functor), and show the induced comonad is the given one.",
+   "intree": "Class WCoalgebra ... { w_coalg : a ~> W a; w_counit_law : extract ∘ w_coalg ≈ id; w_coaction : fmap[W] w_coalg ∘ w_coalg ≈ duplicate ∘ w_coalg }; Program Definition WCoalgebras : Category := {| obj := ∃ a : C, WCoalgebra W a; hom := WCoalgebraHom ... |}; Definition CoEM_Adjunction : CoEM_Forget ⊣ CoEM_Cofree; Theorem CoEM_Comonad_agrees : CoEM_Forget ◯ CoEM_Cofree ≈ W.",
+   "strength_comparison": "same. Both presentations of the category of coalgebras are given — the definitional dual CoEilenbergMoore := (EilenbergMoore (C^op) (W^op))^op (Comonad/Coalgebra.v:204) and the covariant category WCoalgebras (Comonad/Coalgebra.v:224) — together with an isomorphism between them in Cat (WCoalgebras_CoEilenbergMoore_Iso, line 303). The adjunction has the orientation the exercise asks for (forgetful on the LEFT). 'Induces the given comonad' is covered componentwise: the endofunctor by CoEM_Comonad_agrees (natural iso with identity components), the counit by CoEM_counit_agrees (line 329, ≈ extract) and the comultiplication by CoEM_duplicate_agrees (line 350, ≈ duplicate). The co-Kleisli (initial) resolution is present as well (CoKleisli_Adjunction, line 233), which the exercise does not require."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Verified: Comonad/Coalgebra.v:116 Class WCoalgebra with fields w_coalg / w_counit_law / w_coaction as quoted; the definitional dual CoEilenbergMoore:204 AND the covariant category WCoalgebras:224, with the Cat-isomorphism WCoalgebras_CoEilenbergMoore_Iso:303. Comonad/Duality.v:324 reads exactly 'Definition CoEM_Adjunction : CoEM_Forget -| CoEM_Cofree := Opposite_Adjunction _ _ (@EM_Adjunction (C^op) (W^op) H).' -- the orientation the exercise asks for (forgetful on the LEFT), obtained by duality, not re-proved. CoEM_counit_agrees:329 (= extract), CoEM_duplicate_agrees:350 (= duplicate), CoEM_Comonad_agrees:362 all confirmed, so 'induces the given comonad' is covered componentwise. Also present but not required: CoKleisli_Adjunction:233 with CoKleisli_Comonad_agrees:265. Registered at _CoqProject:16-17. Dual-assumed-but-absent check passes: the dual side is genuinely constructed, not assumed."
+  }
+ },
+ {
+  "id": "riehl:5.2:exiv",
+  "classification": "PRESENT",
+  "aliases": [
+   "the Kleisli category is a category",
+   "Kleisli composition is associative and unital",
+   "mu_C . Tg . f associativity, eta as identity",
+   "kleisli_compose / fish operator >=>",
+   "monad laws give the category laws"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Kleisli.v",
+    "line": 38,
+    "symbol": "Kleisli",
+    "intree_statement": "Program Definition Kleisli : Category := {| obj := C; hom := fun x y => x ~> M y; homset := fun x y => @homset C x (M y); id := @ret C M _; compose := fun x y z f g => join ∘ fmap[M] f ∘ g |}.  (obligations at lines 45-68 discharge Proper, id_left via join_fmap_ret, id_right via fmap_ret/join_ret, and both associativity laws via join_fmap_join + join_fmap_fmap)"
+   },
+   {
+    "file": "Monad/Kleisli.v",
+    "line": 87,
+    "symbol": "monad_comp_assoc",
+    "intree_statement": "Corollary monad_comp_assoc `(f : z ~> M w) `(g : y ~> M z) `(h : x ~> M y) : f <=< (g <=< h) ≈ (f <=< g) <=< h."
+   },
+   {
+    "file": "Monad/Kleisli.v",
+    "line": 81,
+    "symbol": "monad_id_left",
+    "intree_statement": "Corollary monad_id_left `(f : x ~{C}~> M y) : ret <=< f ≈ f.  (with monad_id_right at line 84 : f <=< ret ≈ f)"
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise 5.2.iv: verify that the Kleisli category is indeed a category — that the composition mu_C . Tg . f of Definition 5.2.10 is associative and unital with respect to the identities eta_A.",
+   "intree": "Program Definition Kleisli : Category := {| obj := C; hom := fun x y => x ~> M y; id := ret; compose := fun x y z f g => join ∘ fmap[M] f ∘ g |} with all category-law obligations proved; Corollary monad_id_left : ret <=< f ≈ f; Corollary monad_id_right : f <=< ret ≈ f; Corollary monad_comp_assoc : f <=< (g <=< h) ≈ (f <=< g) <=< h.",
+   "strength_comparison": "same. The object/hom/id/compose data are literally Riehl's (hom A B = A ~> M B, id = ret = eta, compose = join ∘ fmap f ∘ g = mu . Tf . g), and the four category obligations (respectfulness of composition plus the unit and both associativity laws) are discharged from the monad laws exactly as the exercise asks; the three corollaries restate the unit and associativity laws in Kleisli notation. Setoid rephrasing only (≈ for =, plus the extra Proper obligation a setoid library needs)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Read Monad/Kleisli.v end to end: the Category record at 38 has obj := C, hom x y := x ~> M y, id := ret, compose := join . fmap[M] f . g -- Riehl's mu_C . Tg . f verbatim -- and the five obligations at 45-68 discharge Proper, id_left (join_fmap_ret), id_right (fmap_ret + join_ret) and BOTH associativity directions (join_fmap_join + join_fmap_fmap), all Qed. monad_id_left:81, monad_id_right:84, monad_comp_assoc:87 confirmed with the quoted statements. This is exactly the verification the exercise asks for. Registered at _CoqProject:263."
+  }
+ },
+ {
+  "id": "riehl:5.2:exv",
+  "classification": "PRESENT",
+  "aliases": [
+   "functoriality of F_T and U_T",
+   "Kleisli free and forgetful functors",
+   "U_T F_T = T",
+   "Kleisli_Free / Kleisli_Forget / Kleisli_Monad_agrees",
+   "the Kleisli adjunction recovers the monad"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Kleisli/Adjunction.v",
+    "line": 157,
+    "symbol": "Kleisli_Monad_agrees",
+    "intree_statement": "Theorem Kleisli_Monad_agrees : Kleisli_Forget ◯ Kleisli_Free ≈ M.  (proof: exists (fun x => iso_id); ... rewrite fmap_comp, comp_assoc, join_fmap_ret; cat.)"
+   },
+   {
+    "file": "Monad/Kleisli/Adjunction.v",
+    "line": 52,
+    "symbol": "Kleisli_Free",
+    "intree_statement": "Program Definition Kleisli_Free : C ⟶ Kleisli := {| fobj := fun x => x; fmap := fun x y f => ret ∘ f |}.  (obligations 56-67: Proper, identity preservation, and functoriality from fmap_ret + join_fmap_ret)"
+   },
+   {
+    "file": "Monad/Kleisli/Adjunction.v",
+    "line": 75,
+    "symbol": "Kleisli_Forget",
+    "intree_statement": "Program Definition Kleisli_Forget : Kleisli ⟶ C := {| fobj := fun x => M x; fmap := fun x y f => join ∘ fmap[M] f |}.  (obligations 79-90: Proper, fmap_id from join_fmap_ret, fmap_comp from join_fmap_join + join_fmap_fmap)"
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise 5.2.v: verify that the assignments F_T and U_T defined in the proof of Lemma 5.2.12 are functorial and that U_T F_T = T. (F_T is the identity on objects and sends f to eta_B . f; U_T sends A to TA and a Kleisli map g : A -> TB to mu_B . Tg.)",
+   "intree": "Program Definition Kleisli_Free : C ⟶ Kleisli := {| fobj := fun x => x; fmap := fun x y f => ret ∘ f |}; Program Definition Kleisli_Forget : Kleisli ⟶ C := {| fobj := fun x => M x; fmap := fun x y f => join ∘ fmap[M] f |}; Theorem Kleisli_Monad_agrees : Kleisli_Forget ◯ Kleisli_Free ≈ M.",
+   "strength_comparison": "same up to the library's reading of equality of functors. Both assignments are exactly the book's (F_T identity on objects, f ↦ ret ∘ f; U_T x ↦ M x, g ↦ join ∘ fmap g), and being Program Definitions of type C ⟶ Kleisli / Kleisli ⟶ C their functoriality obligations (respectfulness, fmap_id, fmap_comp) are discharged. U_T F_T = T is proved as a natural isomorphism with IDENTITY components (Functor_Setoid equality is natural isomorphism in this library; on objects U_T (F_T x) = M x holds definitionally), the standard faithful rephrasing of the book's strict equality."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Confirmed Kleisli_Free:52 (fobj = identity, fmap f = ret . f) with obligations 56-67, Kleisli_Forget:75 (fobj x = M x, fmap f = join . fmap[M] f) with obligations 79-90, and Kleisli_Monad_agrees:157 'Kleisli_Forget o Kleisli_Free ~= M' proved by 'exists (fun x => iso_id)'. Being Program Definitions at functor type, functoriality IS the discharged obligation set, so the exercise's first half is fully met. The strength note's caveat is honest: U_T F_T = T is a natural isomorphism with identity components rather than a strict equality, which is this library's standard (and faithful) reading -- on objects U_T (F_T x) = M x holds definitionally. Registered at _CoqProject:264."
+  }
+ },
+ {
+  "id": "riehl:5.2:exvi",
+  "classification": "ABSENT",
+  "aliases": [
+   "restricted Yoneda functor C^T -> Set^{C_T^op}",
+   "nerve of the comparison functor",
+   "presheaves on the Kleisli category",
+   "C^T(K-, (A,a)) as a presheaf",
+   "algebras = presheaves whose restriction along F_T is representable"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'restricted Yoneda' --include='*.v' . -> 0 hits",
+   "grep -rn 'nerve|Nerve' --include='*.v' . -> only prose in Theory/Kan/Extension.v (nerve and realization) and Construction/Grothendieck.v (Thomason); no nerve functor is defined",
+   "grep -rn 'Presheaf' --include='*.v' . -> Theory/Sheaf.v:124 'Definition Presheaf (U C : Category) := U^op ⟶ C' and the Presheaves category; never applied to a Kleisli category",
+   "grep -rn 'TAlgebra|EilenbergMoore' --include='*.v' . outside Monad/ -> Theory/Lawvere/Monad.v and Construction/Reflective/Idempotent.v only; no functor out of an Eilenberg-Moore category into a presheaf category exists",
+   "grep -rn 'Kleisli_Comparison|Kleisli ⟶|⟶ Kleisli' --include='*.v' . -> the comparison K : C_T ⟶ C^T that this exercise restricts along does not exist in-tree (see riehl:5.2:lem14, ABSENT), so neither does the restricted-Yoneda functor built from it",
+   "grep -rn 'representable' --include='*.v' . | grep -i 'presheaf' -> only Structure/UniversalProperty.v:51 (transformations out of a representable presheaf) and Theory/Profunctor.v representables; nothing about representability of a restriction along a free functor"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-ran the decisive searches: rg -i 'restricted yoneda' -> 0; rg -i 'presheaves on the kleisli' -> 0; Presheaf/Presheaves exist only generically (Theory/Sheaf.v:124 and :127, verified verbatim) and are never applied to a Kleisli category. The construction is doubly blocked: the comparison K : C_T -> C^T it restricts along is itself absent (riehl:5.2:lem14), and no functor out of an Eilenberg-Moore category into a presheaf category exists anywhere. Nothing in the tree states representability of a restriction along a free functor."
+  }
+ },
+ {
+  "id": "riehl:5.3:construction-ab-monadic",
+  "classification": "ABSENT",
+  "aliases": [
+   "free abelian group monad Z[-] on Set",
+   "category Ab of abelian groups",
+   "Ab is (strictly) monadic over Set",
+   "comparison Ab -> Set^{Z[-]} is an isomorphism of categories",
+   "Z-linear combinations, evaluation map ev_A : Z[A] -> A"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rEn '\\bAb\\b' --include='*.v' . -> 37 hits: most are the bicategorical-adjunction variable name 'Ab' in Theory/Bicategory/Adjunction.v, the rest are PROSE mentions of the category Ab as motivation (Structure/Abelian.v:68, Structure/Complete.v:55, Structure/Preadditive.v:22, Construction/Enriched.v:28,67,107); no category of abelian groups is defined anywhere",
+   "grep -rn 'AbGroup' -> 0 hits; grep -rn 'Z\\[' -> 0 hits; grep -rni 'free abelian' -> 0 hits",
+   "grep -rni 'abelian group' --include='*.v' . -> 7 hits, all prose (Theory/Adjunction.v:37, Structure/Closed.v:61, Structure/Group.v:72, Structure/Preadditive.v:15, Structure/Additive.v:22 …) describing hom-group enrichment or group OBJECTS, never a category of abelian groups over Sets",
+   "ls Instance/ -> the only algebraic-structure category is Instance/CMon.v (commutative monoids), which has only CMon_Forget : CMon ⟶ Sets (line 169) and no free functor, hence no induced monad on Sets",
+   "grep -rn 'monadic over' --include='*.v' . -> 2 hits, both in the Lawvere development (Theory/Lawvere.v:93, Theory/Lawvere/Monad.v:57), and both hypothesis-scoped over an assumed left adjoint L ⊣ ev1 — no concrete category is shown monadic over Sets",
+   "grep -rn 'Monadic' --include='*.v' . -> the only inhabited witness of the Monadic predicate in the tree is Identity_Monadic (Monad/Monadicity/Examples.v:155), the identity adjunction"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Confirmed there is no category of abelian groups: rg 'AbGroup' -> 0, rg -i 'free abelian' -> 0, and every 'Ab' hit is either a bound variable in Theory/Bicategory/Adjunction.v or motivational prose (Structure/Abelian.v, Structure/Preadditive.v, Construction/Enriched.v). Instance/CMon.v is the closest algebraic-structure category and has only CMon_Forget (line 169, verified) with no left adjoint, so no Z[-]-like monad on Sets exists to compare against. Verified the classifier's strongest claim myself: the ONLY inhabited witness of the Monadic predicate in the whole tree is Identity_Monadic (Monad/Monadicity/Examples.v:155); the monadicity engines produce EquivalenceOfCategories (EM_Comparison A) only under hypotheses (Crude.v:601 crude_monadicity, Beck.v:739 beck_monadicity), never for a concrete category. So neither the comparison Ab -> Set^{Z[-]} nor its isomorphism (strict monadicity) has any in-tree counterpart. Not OUT_OF_SCOPE: the library has universe polymorphism and a setoid Sets, so a free-abelian-group monad is perfectly formalizable here -- it simply is not built."
+  }
+ },
+ {
+  "id": "riehl:5.3:def1",
+  "classification": "PRESENT",
+  "aliases": [
+   "monadic adjunction",
+   "monadic functor",
+   "the comparison functor is an equivalence",
+   "Monadic U",
+   "of descent type / tripleable"
+  ],
+  "evidence": [
+   {
+    "file": "Monad/Comparison.v",
+    "line": 273,
+    "symbol": "Monadic",
+    "intree_statement": "Definition Monadic {C D : Category} (U : C ⟶ D) : Type := ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A)."
+   },
+   {
+    "file": "Monad/Monadicity/Crude.v",
+    "line": 601,
+    "symbol": "crude_monadicity",
+    "intree_statement": "Definition crude_monadicity : EquivalenceOfCategories (EM_Comparison A) := {| quasi_inverse := Crude_Inverse; equivalence_counit := crude_equivalence_counit; equivalence_unit := crude_equivalence_unit |}.  (the adjunction-level form of monadicity, in force throughout Monad/Monadicity/ and Monad/Lifting.v)"
+   },
+   {
+    "file": "Monad/Comparison.v",
+    "line": 186,
+    "symbol": "EM_Comparison",
+    "intree_statement": "Definition EM_Comparison : C ⟶ @EilenbergMoore D (U ◯ F) Adjunction_Induced_Monad := ... (fun c => (U c; EM_Comparison_Algebra c)) ... — the canonical comparison into the algebras of the induced monad T = U ◯ F"
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 5.3.1: an adjunction F -| U : D -> C is MONADIC if the canonical comparison functor K : D -> C^T of Proposition 5.2.13, into the category of algebras for the induced monad T = UF, is an EQUIVALENCE of categories; a functor U : D -> C is monadic if it admits a left adjoint whose adjunction is monadic.",
+   "intree": "Definition Monadic {C D : Category} (U : C ⟶ D) : Type := ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A).",
+   "strength_comparison": "same. Riehl's two clauses are both in force: the functor clause is named ([Monadic U], existentially quantifying a left adjoint exactly as the book does), and the adjunction clause is the unnamed proposition [EquivalenceOfCategories (EM_Comparison A)] that the monadicity theorems produce and Monad/Lifting.v consumes (crude_monadicity, Monad/Monadicity/Beck.v). The comparison used is the one of Prop 5.2.13 with the book's formula K d = (U d, U eps_d), landing in the algebras of Adjunction_Induced_Monad, the transparent packaging of T = U ◯ F with ret = eta and join = U eps F. EquivalenceOfCategories is the quasi-inverse-with-natural-isomorphisms notion (Theory/Equivalence.v), the standard reading of 'equivalence of categories'. Note: the book's stronger unnumbered variant 'strictly monadic' (comparison an ISOMORPHISM of categories) is a separate inventory item and is not defined in-tree."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently and found the same symbol. Verified Monad/Comparison.v:273-274 verbatim: 'Definition Monadic {C D : Category} (U : C -> D) : Type := exists (F : D -> C) (A : F -| U), EquivalenceOfCategories (EM_Comparison A).' This is Riehl's functor clause exactly (left adjoint existentially quantified), and the adjunction clause is the body. Checked the two supporting citations: Crude.v:601 crude_monadicity and (not cited but stronger) Beck.v:739 beck_monadicity both inhabit EquivalenceOfCategories (EM_Comparison A); Monad/Lifting.v:470 consumes it as a Context. EquivalenceOfCategories is the quasi-inverse notion (Theory/Equivalence.v:151-155: quasi_inverse + counit/unit cells), the right reading of 'equivalence of categories'. Adversarial checks all pass: the comparison used is the canonical one with the book's formula, the definition is not a same-name weakening, and the API is real (Monadic is inhabited by Identity_Monadic and consumed by Monad/Lifting.v:529). Honest disclosure in the note that 'strictly monadic' is not in-tree is correct -- rg -i 'strictly monadic' returns 0 hits."
+  }
+ },
+ {
+  "id": "riehl:5.3:example2",
+  "classification": "ABSENT",
+  "aliases": [
+   "the Kleisli adjunction for the maybe monad is monadic",
+   "maybe / option monad (-)_+ on Set",
+   "Set_partial (sets and partial functions) ≃ Set_* (pointed sets)",
+   "Par / Part as the Kleisli category of option",
+   "algebras for the maybe monad are pointed sets"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'maybe monad' --include='*.v' . -> 2 hits, both COMMENTS in Instance/Sets/Par.v (lines 17, 108) noting that Part 'is the Kleisli category of the maybe monad [option] on [Sets]'; the category Part (line 27) is defined directly, not as Kleisli of a monad, and no such identification is proved",
+   "read Instance/Coq/Par.v: 'Program Definition Par : Category' (line 53) is likewise defined directly; line 34 says in a COMMENT 'This is equivalent (not isomorphic) to the category of pointed sets and basepoint-preserving maps' — no theorem",
+   "grep -rni 'pointed set|pointed object' --include='*.v' . -> 3+3 hits, every one a comment (Theory/Coq/Maybe.v:29 'its algebras are the pointed objects'; Construction/Slice.v:82 'pointed sets are the coslice of Set under…'; Instance/Coq/ParE.v:180); no category of pointed sets is constructed",
+   "grep -rn 'Set_\\*' --include='*.v' . -> 0 hits",
+   "grep -rn 'Monadic' --include='*.v' . -> the only inhabited monadicity witness is Identity_Monadic (Monad/Monadicity/Examples.v:155); nothing about the maybe monad, and no Kleisli adjunction is ever shown monadic",
+   "grep -rn 'EquivalenceOfCategories|Isomorphism_FullyFaithful|≅[Cat]' --include='*.v' Instance/Coq/Par.v Instance/Sets/Par.v Theory/Coq/Maybe.v -> 0 hits: neither Par file states any equivalence or isomorphism with another category, so the Set_partial ≃ Set_* half of the example is unformalized too"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Verified each negative: Instance/Sets/Par.v defines Part directly at line 27 (NOT as Kleisli of the option monad), and the identification lives only in comments at 16-19 and 108; Instance/Coq/Par.v defines Par directly at line 53 with the pointed-set claim only in the comment at 34 ('This is equivalent (not isomorphic) to the category of pointed sets and basepoint-preserving maps'); Theory/Coq/Maybe.v:29 likewise says 'its algebras are the pointed objects' in prose. No category of pointed sets is constructed anywhere (rg -i 'pointed set' -> comments only), so neither half of the example -- the monadicity of the Kleisli adjunction nor the equivalence Set_partial ~= Set_* -- is formalized. Consistent with the tree-wide fact that Identity_Monadic is the only inhabited Monadic witness. Not OUT_OF_SCOPE: both Part and the maybe monad exist, so this is a real, buildable gap."
+  }
+ }
+]

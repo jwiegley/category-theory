@@ -1,0 +1,397 @@
+[
+  {
+    "id": "riehl:1.4:example8",
+    "classification": "ABSENT",
+    "aliases": [
+      "Riesz representation theorem",
+      "Sigma : cHaus -> Ban, the signed-Baire-measure functor; pushforward of measures",
+      "C* : cHaus -> Ban, the continuous-dual-of-C(X) functor",
+      "integration as a natural transformation eta : Sigma => C*",
+      "Banach space / normed vector space / compact Hausdorff space as a category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'riesz' . -- 0 hits anywhere in the 487 .v files",
+      "rg -in --glob '*.v' 'banach' . -- 1 hit, Structure/Closed.v:67, a prose aside in a background essay ('the projective tensor product of Banach spaces were originally defined as ...'); no Banach-space category, object or functor",
+      "rg -in --glob '*.v' 'measure' . -- 7 hits, all either prose in background essays (Structure/Monoidal/Markov.v:93,112 on measure-theoretic models; Theory/Equivalence.v:92 'skeletons measure the cost') or Coq's `{measure ...}` well-founded-recursion annotation (Lib/MapDecide.v:436, Theory/Coq/List.v:370); no measure theory",
+      "rg -in --glob '*.v' 'hausdorff|cHaus|Baire' . -- 0 hits",
+      "rg -in --glob '*.v' 'topological space|category Top\\b|Instance Top|Definition Top ' . -- no category of spaces; the only 'Top' hits are Structure/Topos.v field names (topos_terminal, topos_cartesian, ...)",
+      "rg -in --glob '*.v' 'integral|continuous dual|dual space' . -- no functional analysis",
+      "ls Instance/ -- the concrete-instance layer is Sets, Coq, Cat, Fun, FinSet, Poset, Proset, Rel, Ens, Lambda, ZX, CMon, Omega, Two, One, Zero, Discrete, Parallel, Roof, Shapes, StrictCat, Adj/Adjoints, Comp, Cones, Fact, AST, Props; no analysis, no topology, no Banach/measure instance",
+      "VERIFIER CORRECTION (Phase D): the log line claiming \"rg -in 'hausdorff|cHaus|Baire' -- 0 hits\" is wrong. `rg -in 'hausdorff|cHaus|Baire' -g '*.v' .` returns 2 hits: Theory/Monad.v:66 (compact Hausdorff spaces as ultrafilter-monad algebras, Manes) and Theory/Equivalence.v:122 (Gelfand duality prose). Both are background-essay prose constructing nothing; no cHaus category, object or functor exists. Classification ABSENT unaffected."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-1-6.json) reached ABSENT independently. Aliases expanded: Riesz representation theorem / signed Baire measure / pushforward of measures / Banach space / normed space / continuous dual / C(X) / compact Hausdorff / cHaus / Top / integration as natural transformation. Commands run: `rg -i 'riesz|banach|measure|compact.hausdorff|cHaus' -g '*.v' .` (0 substantive), `rg -i 'riesz' -g '*.v' .` = 0, `rg -i 'banach' -g '*.v' .` = 1 (Structure/Closed.v:67, prose), `rg -i 'measure' -g '*.v' .` = 7 (all prose or Coq's `{measure ...}` recursion annotation), `ls Instance/*.v`. No category of topological spaces, no normed/Banach objects, no measures anywhere. ABSENT is right and is not OUT_OF_SCOPE: the obstruction is missing analysis, not the library's foundations. LOG ERROR (does not affect the verdict, corrective line appended to negative_search_log): the Phase-C log line \"rg -in 'hausdorff|cHaus|Baire' -- 0 hits\" is WRONG; there are 2 hits, Theory/Monad.v:66 (compact Hausdorff spaces as ultrafilter-monad algebras, Manes) and Theory/Equivalence.v:122 (Gelfand duality, commutative C*-algebras vs compact Hausdorff spaces). Both are background-essay prose that construct nothing, so the classification stands. All other cited line numbers re-checked and correct."
+    }
+  },
+  {
+    "id": "riehl:1.4:example9",
+    "classification": "PRESENT",
+    "aliases": [
+      "represented / representable functor C(-,y), C(x,-)",
+      "postcomposition natural transformation h_* : C(-,y) => C(-,z) (Curried_CoHom, [Hom -,A])",
+      "precomposition natural transformation f^* : C(x,-) => C(w,-) (Curried_Hom, [Hom A,-])",
+      "Yoneda embedding / hom-functor / covariant and contravariant hom",
+      "Hom bifunctor C^op x C -> Set, bifunctoriality square = associativity of composition"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y ; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}"
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 231,
+        "symbol": "Yoneda_Embedding",
+        "intree_statement": "Program Instance Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.   (* the `from` leg is built as `transform ... exact (X ∘ X0)`, i.e. postcomposition *)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p) ; is_setoid := @homset (C) (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}. Next Obligation. now rewrite !comp_assoc. Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "In a locally small C, h : y -> z induces a natural transformation h_* : C(-,y) => C(-,z) of contravariant represented functors by postcomposition, and f : w -> x induces f^* : C(x,-) => C(w,-) of covariant represented functors by precomposition; in both cases the naturality square C(x,y) -> C(x,z), C(w,y) -> C(w,z) commutes because the two routes send g : x -> y to the same composite hgf, i.e. by associativity.",
+      "intree": "Curried_Hom C : C^op ⟶ [C, Sets] has, on f : x ~{C^op}~> y, the transformation with components `fun g => g ∘ op f` (the precomposition clause, with functoriality in f); Yoneda_Embedding C : ∀ A B, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B identifies the postcomposition transformations C(−,A) ⟹ C(−,B) with the morphisms A ~> B; and Hom C : C^op ∏ C ⟶ Sets is the two-variable hom-bifunctor whose fmap is `fun g => snd f ∘ g ∘ fst f`, its functor law discharged by `now rewrite !comp_assoc` — literally the book's 'commutativity is associativity of composition'.",
+      "strength_comparison": "same (setoid rephrasing: hom-sets are hom-setoids and the naturality square is stated up to ≈). If anything intree-stronger for the postcomposition clause: Yoneda_Embedding gives a bijection with A ~> B, not merely that postcomposition is natural. Riehl's local-smallness hypothesis is not needed here: the library's hom-setoids are objects of Sets by construction."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached PRESENT independently, via `rg -n 'Yoneda' -g '*.v' -l .` then reading Functor/Hom.v in full. Evidence re-opened and quotes verified byte-for-byte: Functor/Hom.v:49 `Hom` (fmap := fun g => snd f o g o fst f, obligation `now rewrite !comp_assoc` -- literally the book's 'commutativity is associativity'), Functor/Hom.v:60 `Curried_Hom C : C^op -> [C, Sets]` with transform `fun g => g o op f` (= Riehl's f^*), Functor/Hom/Yoneda.v:231 `Yoneda_Embedding` whose `from` leg is built by `exact (X o X0)` at Yoneda.v:240 (= postcomposition, Riehl's h_*). ADDITIONAL EVIDENCE the classifier did not cite, which makes the postcomposition clause direct rather than inferred from the embedding: Functor/Hom.v:146 `Definition Curried_CoHom `(C : Category) : C -> [C^op, Sets] := Curried_Hom C^op` with notation `[Hom -,A]` (Functor/Hom.v:149) -- its fmap on h : y ~> z IS the postcomposition natural transformation C(-,y) ==> C(-,z), by duality. Strength_comparison is honest (the local-smallness remark is fair: the library gets it from universe polymorphism, hom-setoids being objects of Sets by construction). No same-name-weaker-statement, no special-case-only, no unregistered file (Functor/Hom.v and Functor/Hom/Yoneda.v are both in _CoqProject)."
+    }
+  },
+  {
+    "id": "riehl:1.4:example11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "distributivity A x (B + C) ≅ (A x B) + (A x C) (prod_coprod_r, distr_prod_coprod)",
+      "exponential laws A^(B+C) ≅ A^B x A^C (exp_coprod), (A x B)^C ≅ A^C x B^C (exp_prod_r), (A^B)^C ≅ A^(B x C) (exp_prod_l)",
+      "bicartesian closed category / rig category / categorified high-school algebra",
+      "decategorification; cardinality functor |-| : Fin_iso -> N; Fin_iso, finite sets and bijections",
+      "discrete category of naturals; skeletal FinSet"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 90,
+        "symbol": "prod_coprod_r",
+        "intree_statement": "#[export] Program Instance prod_coprod_r {x y z : C} : x × (y + z) ≅ x × y + x × z := { to := uncurry (curry (inl ∘ swap) ▽ curry (inr ∘ swap)) ∘ swap; from := second inl ▽ second inr }"
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 134,
+        "symbol": "exp_coprod",
+        "intree_statement": "#[export] Program Instance exp_coprod {x y z : C} : x^(y + z) ≅ x^y × x^z := { to := curry (eval ∘ second inl) △ curry (eval ∘ second inr); from := curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r) }"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 310,
+        "symbol": "exp_prod_r",
+        "intree_statement": "#[export] Program Instance exp_prod_r {x y z : C} : (y × z)^x ≅ y^x × z^x := { to := curry (exl ∘ eval) △ curry (exr ∘ eval); from := curry (uncurry exl △ uncurry exr) }"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 257,
+        "symbol": "exp_prod_l",
+        "intree_statement": "#[export] Program Instance exp_prod_l {x y z : C} : z^(x × y) ≅ (z^y)^x := { to := curry (curry (eval ∘ to prod_assoc)); from := curry (uncurry eval ∘ from prod_assoc) }"
+      }
+    ],
+    "statement_record": {
+      "book": "In Set the four isomorphisms A x (B + C) ≅ (A x B) + (A x C), A^(B+C) ≅ A^B x A^C, (A x B)^C ≅ A^C x B^C, (A^B)^C ≅ A^(B x C) are NATURAL — the first a natural isomorphism of functors Set x Set x Set -> Set, the exponential ones contravariant in the exponent variable and arising from the two-sided represented bifunctor Set^op x Set -> Set. Restricting along the groupoid Fin_iso of finite sets and bijections and applying the cardinality functor |-| : Fin_iso -> N (into the discrete category of naturals) DECATEGORIFIES them into a x (b+c) = ab + ac, a^(b+c) = a^b a^c, (ab)^c = a^c b^c, (a^b)^c = a^(bc); conversely Fin_iso categorifies N.",
+      "intree": "All four isomorphisms are proved as object-indexed families in an arbitrary Cartesian + Cocartesian + Closed category (`Section BiCCC`, `Context {C : Category}` with `@Cartesian C`, `@Cocartesian C`, `@Closed C _`), hence hold in Coq (Coq_Cartesian/Coq_Closed/Coq_Cocartesian/Coq_Initial, Instance/Coq.v:141,167,187,199) and in Sets (Instance/Sets/Cartesian.v, Instance/Sets/Cocartesian.v, Instance/Sets/Cartesian/Closed.v). Theory/Algebra.v:68-88 is a `Goal ... auto. Qed.` index restating exactly these as the rig laws, with the file header calling the section 'categorified high-school algebra'.",
+      "strength_comparison": "intree-weaker on two counts: (1) each isomorphism is an object-indexed FAMILY of isomorphisms, not a natural isomorphism — no naturality square in x, y, z (nor the contravariance in the exponent) is stated or proved for prod_coprod_r, exp_coprod, exp_prod_r or exp_prod_l anywhere in the tree; (2) the decategorification half is entirely absent."
+    },
+    "gap": "Two precise gaps. (a) NATURALITY IS NEVER ASSERTED. `prod_coprod_r`, `exp_coprod`, `exp_prod_r`, `exp_prod_l` are `Program Instance`s of type `_ ≅ _` implicitly generalized over the objects x y z; the tree contains no lemma that the `to` (or `from`) components commute with the functorial actions, i.e. no statement that these are isomorphisms of functors C ∏ C ∏ C ⟶ C (contravariant in the exponent argument for the last three). Searched: `rg -n 'prod_coprod_r|exp_coprod|exp_prod_r|exp_prod_l' --glob '*.v'` -- the only uses outside their defining files are the four `#[local] Hint Resolve` lines in Theory/Algebra.v; `rg -n 'natural|Natural' Structure/Cartesian/Closed.v Structure/BiCCC.v` -- only prose about the (- × y) ⊣ (- ^ y) transpose, no naturality lemma for these isos. (b) THE DECATEGORIFICATION IS ABSENT. `rg -in --glob '*.v' 'Fin_iso|cardinal|categorif|decategorif'` finds no groupoid of finite sets and bijections and no cardinality functor; Instance/FinSet.v is the SKELETAL FinSet (all functions, not just bijections) and carries no functor to a discrete category of naturals, so the arithmetic identities a^(b+c) = a^b a^c etc. are nowhere derived from the categorical ones. (Instance/FinSet/Topos.v's `Pow 2 = 4` by eq_refl is a single numeric sanity check, not the decategorification functor.)",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached PARTIAL independently with the same two gaps. Search path: `rg -n 'exp_add|exp_prod|exp_coprod' -g '*.v' .`, `rg -il 'distributiv' -g '*.v' .`, then `rg -i 'categorif|decategorif|cardinal|Fin_iso'` which surfaced Theory/Algebra.v ('Categorified high-school algebra in a bicartesian closed category'). All four cited isomorphisms re-opened and the quoted `to`/`from` bodies match EXACTLY: Structure/BiCCC.v:90/94 prod_coprod_r `x x (y + z) ~= x x y + x x z`; Structure/BiCCC.v:134/135 exp_coprod `x^(y + z) ~= x^y x x^z`; Structure/Cartesian/Closed.v:310/311 exp_prod_r `(y x z)^x ~= y^x x z^x`; Structure/Cartesian/Closed.v:257/258 exp_prod_l `z^(x x y) ~= (z^y)^x`. Theory/Algebra.v:68-88 confirmed as an index of anonymous `Goal ... auto. Qed.` restatements (its own header: 'this section asserts no new content'), and Theory/Algebra.v IS registered (_CoqProject:388). Both gap claims independently re-verified: (a) `rg -n 'prod_coprod_r|exp_coprod|exp_prod_r|exp_prod_l' -g '*.v' .` outside the two defining files returns EXACTLY the four `#[local] Hint Resolve` lines Theory/Algebra.v:60,62,63,64 -- nothing states naturality; `rg -in 'natural' Structure/Distributive.v Structure/BiCCC.v` = 0 hits, and the only naturality prose in Structure/Cartesian/Closed.v (line 34, 'natural in x, y and z') is about the adjunction transpose exp_iso, whose equational naturality IS in-tree as curry_comp_l/curry_comp/uncurry_comp_r/uncurry_comp -- but that is the (- x y) -| (- ^ y) transpose, not any of the four structural isos. (b) `rg -in 'Fin_iso|cardinal|decategorif'` finds no groupoid of finite sets and bijections and no cardinality functor; Instance/FinSet.v is skeletal FinSet with all functions. The instantiation claim also checks out: Coq_Cartesian/Coq_Closed/Coq_Initial/Coq_Cocartesian at Instance/Coq.v:141,167,187,199 and Sets_Cartesian/Sets_Cocartesian/Sets_Closed at Instance/Sets/Cartesian.v:32, Instance/Sets/Cocartesian.v:28, Instance/Sets/Cartesian/Closed.v:38, so the isos do hold in the book's Set."
+    }
+  },
+  {
+    "id": "riehl:1.4:exi",
+    "classification": "PRESENT",
+    "aliases": [
+      "inverse of a natural isomorphism is natural",
+      "natural isomorphism = isomorphism in the functor category [C, D] (≅[Fun])",
+      "componentwise / pointwise invertible natural transformation",
+      "Functor_Setoid_Nat_Iso, equiv_iso, iso_equiv",
+      "nat_iso_inverse / alpha^{-1} : G => F"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 255,
+        "symbol": "Functor_Setoid_Nat_Iso",
+        "intree_statement": "Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) : F ≅[Fun] G  ↔  F ≈ G.   (* where `F ≈ G` is Functor_Setoid, Theory/Functor.v:148: `{ iso : ∀ x : C, F x ≅ G x & ∀ (x y : C) (f : x ~> y), fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) }` — a componentwise-invertible natural family *)"
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 308,
+        "symbol": "equiv_iso",
+        "intree_statement": "Definition equiv_iso {C D : Category} {f g : C ⟶ D} : f ≈ g → f ≅[Fun] g := snd (Functor_Setoid_Nat_Iso _ _)."
+      }
+    ],
+    "statement_record": {
+      "book": "If alpha : F => G is a natural isomorphism (a natural transformation each of whose components is an isomorphism), then the inverses of its components are themselves the components of a natural transformation alpha^{-1} : G => F, which is inverse to alpha.",
+      "intree": "`Functor_Setoid_Nat_Iso : F ≅[Fun] G ↔ F ≈ G`, whose right-to-left direction (packaged standalone as `equiv_iso : f ≈ g → f ≅[Fun] g`) takes a family of componentwise isomorphisms `∀ x, F x ≅ G x` satisfying the naturality condition and produces an isomorphism in the functor category [C, D] — i.e. it constructs the inverse natural transformation from the componentwise inverses and discharges its naturality square (the second `+ transform; simpl; intros. * apply x. * abstract (rewrite e; simpl; rewrite <- !comp_assoc; rewrite iso_to_from; cat)` block at Instance/Fun.v:284-293).",
+      "strength_comparison": "same. The in-tree hypothesis `F ≈ G` is the conjugated form `fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x)` of Riehl's naturality square, equivalent to it because each component is invertible; the conclusion `F ≅[Fun] G` is an isomorphism in [C, D], i.e. exactly a natural transformation back with both composites the identity. The library also gets the converse direction (invertible in [C, D] ⟹ componentwise invertible) in the same iff, which the exercise does not ask for."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached the same conclusion (I hesitated between PRESENT and PARTIAL and settled on PRESENT for the same reason the classifier gives). Evidence re-opened: Instance/Fun.v:255 `Theorem Functor_Setoid_Nat_Iso `(F G : C -> D) : F ~=[Fun] G <-> F ~~ G`; Instance/Fun.v:305/308 `iso_equiv`/`equiv_iso` as the two standalone legs; Theory/Functor.v:148-159 `Functor_Setoid` confirmed to be `{ iso : forall x, F x ~= G x & forall x y f, fmap[F] f ~~ from (iso y) o fmap[G] f o to (iso x) }`, quoted correctly. The cited proof block IS at Instance/Fun.v:284-293 (line-for-line: 284 `+ transform; simpl; intros.`, 285 `* apply x.`, 286-289 and 290-293 the two `abstract (rewrite e; simpl; rewrite <- !comp_assoc; rewrite iso_to_from; cat)` blocks) -- exactly as quoted, and it is the leg that builds the SECOND (inverse) natural transformation `G ==> F`. ADVERSARIAL CHECK ON PACKAGING, which I judge not to be a gap: the tree has no lemma of the literal shape 'given alpha : F ==> G with (forall x, IsIsomorphism (alpha x)), build alpha^-1 : G ==> F' -- I searched `rg -n 'IsIsomorphism.*transform|componentwise|pointwise.iso' -g '*.v' .` and Theory/Natural/Transformation.v (0 hits), and note Theory/Naturality.v:17-19 states that for iso families the library's `natural` predicate is the CONJUNCTION of the to- and from-squares rather than deriving one from the other. The content is nonetheless fully present: the in-tree hypothesis bundles a chosen inverse with each component and states the conjugated equation `fmap[F] f ~~ from(iso y) o fmap[G] f o to(iso x)`, which is one rewrite away from Riehl's naturality square, and equiv_iso then produces the inverse transformation with its naturality proved. strength_comparison ('same', plus the converse direction for free) is honest."
+    }
+  },
+  {
+    "id": "riehl:1.4:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "natural transformation between functors BG -> BH of one-object categories",
+      "delooping of a group/monoid; BG; the one-object groupoid of a group",
+      "conjugating element: h with h . F(g) = G(g) . h for all g",
+      "intertwiner between group homomorphisms / conjugacy of homomorphisms",
+      "group as a category with one object"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'delooping|Deloop' . -- 4 files, all about deloop*ing a MONOIDAL CATEGORY into a one-object BIcategory (Theory/Bicategory.v:68-74, Theory/Bicategory/OneObject.v:16, Structure/Monoidal.v:109, Monad/Graded.v:43-53). None deloops a group or monoid into an ordinary one-object category.",
+      "rg -in --glob '*.v' 'one-object' . -- 24 hits, all prose (a monoidal category is a one-object bicategory; an operad is a one-object multicategory; a monoid is the hom-set of a one-object category, Theory/Coq/Monoid.v:24). No `Definition`/`Instance` builds a Category from a group or monoid.",
+      "rg -n --glob '*.v' ': Category' . | rg -i 'monoid|group|Deloop|BG' -- 0 hits: no construction of a category out of a group/monoid exists in-tree.",
+      "rg -n --glob '*.v' 'Class Group|GroupObject|Definition Group' . -- groups appear only as GROUP OBJECTS in a cartesian category (Structure/Group.v:105) and as an equational algebra (Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq`); neither is presented as a one-object category, so functors between groups (= group homomorphisms) and natural transformations between them are not expressible.",
+      "rg -in --glob '*.v' 'conjugat' . -- 59 hits, all about conjugating a square/morphism by an isomorphism (Structure/Premonoidal.v:166, Monad/Monadicity/Beck.v:143, ...), or 'conjugate pair'/mate of adjunctions (Instance/Adj.v:30); none is the conjugating-element characterization of a natural transformation between group homomorphisms.",
+      "VERIFIER CORRECTION (Phase D): the log's conclusion \"no construction of a category out of a group/monoid exists in-tree\" is too strong. Construction/Funny/Comparison.v:81 defines `Program Definition ListMon : Category := {| obj := poly_unit; hom := fun _ _ => list bool; homset := ...; id := fun _ => nil; compose := fun _ _ _ u v => (v ++ u)%list |}` under the header 'The free monoid on [bool], as a one-object category' (the original grep misses it because the identifier is ListMon, not 'monoid'). It is a single ad-hoc monoid used as a discriminating interpretation for the funny tensor product: no general delooping, no group, and no natural transformation between functors out of it. Classification ABSENT unaffected; the blanket claim should read 'no GENERAL delooping of a group or monoid into a one-object category, and no group so presented'."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached ABSENT independently. Aliases expanded: delooping / BG / one-object category / group as a category / conjugating element / intertwiner. Commands run: `rg -in 'one-object|one object|delooping|Deloop|BG\\b' -g '*.v' .` (all hits are monoidal-category-as-one-object-BIcategory or operad-as-one-object-multicategory prose), `rg -n 'obj *:= *unit|obj *:= *poly_unit' -g '*.v' .`, `rg -n 'Group' -g '*.v' -l .`. Confirmed the two cited group notions: Structure/Group.v (Section GroupObject at :105, group OBJECTS in a cartesian monoidal category) and Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq` (equational algebra) -- neither presents a group as a one-object category, so 'functors between groups' and natural transformations between them are not expressible in-tree. LOG ERROR (verdict unaffected, corrective line appended): the Phase-C line \"`rg -n ': Category' . | rg -i 'monoid|group|Deloop|BG'` -- 0 hits: no construction of a category out of a group/monoid exists in-tree\" draws a conclusion its own grep cannot support and that is FALSE as stated. Construction/Funny/Comparison.v:81 defines `Program Definition ListMon : Category := {| obj := poly_unit; hom := fun _ _ => list bool; ... |}` under the header 'The free monoid on [bool], as a one-object category' (the grep misses it because the identifier is 'ListMon', not 'monoid'). This is a single ad-hoc monoid used as a discriminating interpretation for the funny tensor product -- no general delooping, no group, and nothing about natural transformations between functors out of it -- so ABSENT stands, but the log's blanket claim must be narrowed."
+    }
+  },
+  {
+    "id": "riehl:1.4:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "natural transformation between monotone maps of preorders",
+      "pointwise order F x <= G x; at most one natural transformation (thin codomain)",
+      "Proset / Poset as a thin category; [P, Q] functor category on preorders",
+      "monotone map = functor between preorders",
+      "2-category of posets; order-enriched hom"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'Proset|thin category' . -- Instance/Proset.v provides `Program Definition Proset {A} {R} (P : PreOrder R) : Category` with `homset := fun A B => {| Setoid.equiv := fun _ _ => True |}` (so parallel morphisms are equal), and Instance/Poset.v adds antisymmetry. The whole of Instance/Proset.v is 49 lines and contains NO statement about functors out of or into a Proset, hence none about natural transformations between them.",
+      "rg -in --glob '*.v' 'monotone' . -- 5 files. The only theorem-level hits are Construction/Enriched/Two.v:175 `Record MonotoneMap` and :183 `Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 ... ↔ MonotoneMap P Q` — this characterizes ENRICHED FUNCTORS as monotone maps, and stops there; there is no companion statement about (enriched or ordinary) natural transformations between two such functors.",
+      "rg -in --glob '*.v' 'pointwise order|pointwise ≤|pointwise le' . -- 0 hits",
+      "rg -n --glob '*.v' 'Proset.*⟹|⟹.*Proset|Poset.*⟹' . -- 0 hits: no natural transformation is ever formed between functors of preorder categories.",
+      "rg -n --glob '*.v' 'two_thin|thin' Instance/Two.v Construction/Enriched/Two.v -- thinness is used only to discharge enriched-functor obligations (`intros; apply two_thin`), never to conclude that a hom of natural transformations is a subsingleton.",
+      "VERIFIER CORRECTION (Phase D): Instance/Proset.v is 48 lines, not 49 (`wc -l`). Substance of the line is correct: the file contains only `Proset` and `LessThanEqualTo_Category` and no functor or transformation statement."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached ABSENT independently (I briefly weighed PARTIAL on the strength of Instance/Proset.v existing, and rejected it: the ambient setting is not 'some of the item' when the item IS the characterization). Commands run: `rg -in 'monotone' -g '*.v' -il .` (5 files), `sed` read of Instance/Proset.v and Instance/Poset.v in full, `rg -n 'Proset.*=>|=>.*Proset|Poset.*=>' -g '*.v' .` = 0, `rg -in 'pointwise order|pointwise <='` = 0. Re-verified every claim in the Phase-C log: Instance/Proset.v does carry `homset := fun A B => {| Setoid.equiv := fun _ _ => True |}` (all parallel morphisms equal) and contains no functor or transformation statement whatever; Construction/Enriched/Two.v:175 `Record MonotoneMap` and :183 `Theorem EnrichedFunctor_Two_monotone` are exactly where and what the log says, and both stop at the FUNCTOR level with no companion statement about transformations. Instance/Poset.v:36-112 carries a long 'order theory as category theory' collapse dictionary (adjunction = Galois connection, monad = closure operator, product = meet, coproduct = join) -- I checked it line by line and it has NO entry for natural transformations, which is precisely this exercise's content; that omission is the gap. Minor log inaccuracy: Instance/Proset.v is 48 lines, not 49."
+    }
+  },
+  {
+    "id": "riehl:1.4:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "natural transformations Id => (-)_+ on Set (add-a-disjoint-point functor)",
+      "maybe / option / partiality endofunctor X |-> X + 1; unit `Some`/`Just`",
+      "Pointed endofunctor, point : Id ⟹ F",
+      "no natural transformation (-)_+ => Id (empty-set obstruction)",
+      "unit of the maybe monad; pointed sets Set_*"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'Coq ⟶ Coq|Sets ⟶ Sets' . -- the add-a-point endofunctor DOES exist categorically, twice: Monad/Graded.v:287 `Program Definition option_Functor : Coq ⟶ Coq := {| fobj := option; fmap := fun _ _ f o => option_map f o |}` and Theory/Adamek/Corollaries.v:87 `Program Definition NatF : Coq ⟶ Coq` (the same option endofunctor). Neither file states ANY natural transformation into or out of it.",
+      "rg -n --glob '*.v' 'Id ⟹|Id\\[Coq\\] ⟹|Id\\[Sets\\] ⟹' . -- 20 hits, all adjunction units (Adjunction/*, Monad/*), the `Pointed` class field Instance/Fun.v:231 `point : Id ⟹ F`, and strength/pure naturality; there is NO instance `Pointed option_Functor` and no `Id ⟹ option_Functor` anywhere.",
+      "rg -n --glob '*.v' 'Maybe|option' . -- Theory/Coq/Maybe.v has `Instance Maybe_Functor`, `Maybe_Applicative` (pure := @Just) and `Maybe_Monad` (ret := @Just), but Theory/Coq/Functor.v:28 defines `Class Functor := { fmap : ... }` with the header note 'the laws are NOT recorded as fields here', so `Just` is never asserted to be natural. Instance/Coq/Par.v:55 uses option only as the Kleisli hom of the partiality monad.",
+      "rg -in --glob '*.v' 'add a point|adjoin a point|X_\\+' . -- 0 hits: the (-)_+ construction of Riehl 1.3 is not formalized under that reading either.",
+      "No characterization statement of any kind: rg -n --glob '*.v' 'exactly two natural|natural transformations from the identity' . -- 0 hits. The exercise's two answers (exactly two transformations Id => (-)_+ ; none in the reverse direction, blocked by the empty set) are nowhere stated."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached the same place (I wrote 'ABSENT, arguably PARTIAL since the endofunctor exists'; the classifier chose ABSENT and disclosed the endofunctor inside the negative log, which is the honest way to record it, since the item is a COUNTING/characterization claim and none of that claim is in-tree). Independently found and re-verified the same two categorical add-a-point endofunctors: Monad/Graded.v:287 `Program Definition option_Functor : Coq -> Coq := {| fobj := option; fmap := fun _ _ f o => option_map f o |}` and Theory/Adamek/Corollaries.v:87 `Program Definition NatF : Coq -> Coq := {| fobj := fun X => option X; ... |}` (read both -- NatF really is the option endofunctor, so the log's parenthetical is accurate). Also checked Theory/Coq/Maybe.v (Maybe_Functor/Maybe_Applicative/Maybe_Monad, all Coq/Haskell-style classes; Theory/Coq/Functor.v:28 confirms 'the laws are NOT recorded as fields here', so `Just` is never asserted natural) and Instance/Coq/Par.v (option only as the Kleisli hom of the partiality monad). Verified there is no `Pointed option_Functor`: `rg -n 'Pointed' -g '*.v' . | grep -i option` = 0 hits, against the `Pointed` class at Instance/Fun.v:230-232 whose field is `point : Id ==> F`. Neither answer of the exercise (exactly two transformations Id ==> (-)_+; none in the reverse direction) is stated anywhere."
+    }
+  },
+  {
+    "id": "riehl:1.4:exv",
+    "classification": "ABSENT",
+    "aliases": [
+      "torsion subgroup TA; torsion-free quotient A/TA",
+      "naturality of the short exact sequence 0 -> TA -> A -> A/TA -> 0",
+      "Ab, the category of abelian groups; endofunctors of Ab",
+      "inclusion iota : T => Id and quotient pi : Id => Q as natural transformations",
+      "torsion / torsion-free endofunctor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'torsion' . -- 0 hits anywhere in the tree",
+      "rg -in --glob '*.v' 'abelian group' . -- 8 hits, all prose in background essays (Structure/Abelian.v:68 'the common structure of the category Ab of abelian groups ...', Structure/Preadditive.v:15, Structure/Additive.v:22, Theory/Adjunction.v:37). The category Ab itself is NOT constructed: Structure/Abelian.v axiomatizes an ABSTRACT abelian category (`Class Abelian`), and the only concrete semiadditive witness in-tree is Instance/CMon.v (commutative monoids), which has no torsion theory.",
+      "rg -n --glob '*.v' 'Definition Ab|Program Instance Ab|Category Ab' . -- 1 hit, Structure/Abelian.v:441 `Definition Abelian_OFS : OFS (@EpiClass C) (@MonoClass C)` — an orthogonal factorization system on an abstract abelian category, not the category Ab.",
+      "rg -in --glob '*.v' 'exact sequence' . -- 2 hits, both bibliographic prose (Structure/Abelian.v:70, Structure/Coend.v:63 citing Yoneda's 'On Ext and exact sequences'); no exact-sequence machinery",
+      "rg -in --glob '*.v' 'divisible|quotient group|A/TA' . -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached ABSENT independently. `rg -in 'torsion' -g '*.v' .` = 0 hits across the whole tree (my run and the classifier's agree). Re-verified the supporting claims: `rg -in 'abelian group'` yields only background-essay prose; Structure/Abelian.v axiomatizes an ABSTRACT abelian category (`Class Abelian`, with Abelian_OFS at :441) and the only concrete semiadditive witness is Instance/CMon.v (commutative monoids), which has no torsion theory; there is no category Ab, no short-exact-sequence machinery, and hence no endofunctors A |-> TA, A |-> A/TA to be natural between. Not OUT_OF_SCOPE -- an Ab instance is perfectly formalizable here, it simply does not exist."
+    }
+  },
+  {
+    "id": "riehl:1.4:exvi",
+    "classification": "PRESENT",
+    "aliases": [
+      "faithfulness of the Yoneda embedding (Yoneda_Faithful)",
+      "distinct morphisms induce distinct postcomposition transformations f_* : C(-,c) => C(-,d)",
+      "distinct morphisms induce distinct precomposition transformations f^* : C(d,-) => C(c,-)",
+      "Yoneda_Embedding / Covariant_Yoneda_Embedding: Nat(C(-,A), C(-,B)) ≅ C(A,B)",
+      "injectivity of the represented-functor construction; the covariant/contravariant Yoneda embeddings are faithful"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 231,
+        "symbol": "Yoneda_Embedding",
+        "intree_statement": "Program Instance Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.   (* Presheaves P F = the hom-setoid of natural transformations P ⟹ F in [C^op, Sets]; ≊ is isomorphism in Sets, Instance/Sets.v:205 *)"
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 253,
+        "symbol": "Covariant_Yoneda_Embedding",
+        "intree_statement": "Program Instance Covariant_Yoneda_Embedding `(C : Category) : ∀ A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B."
+      }
+    ],
+    "statement_record": {
+      "book": "In the setting of Example 1.4.9, distinct parallel morphisms f, g : c -> d induce distinct natural transformations f_*, g_* : C(-,c) => C(-,d) by postcomposition, and distinct f^*, g^* : C(d,-) => C(c,-) by precomposition. (I.e. both represented-functor constructions are faithful.)",
+      "intree": "Yoneda_Embedding C : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B  (the postcomposition assignment A ~> B → Nat(C(−,A), C(−,B)) is an isomorphism of setoids, hence injective); Covariant_Yoneda_Embedding C : ∀ A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B  (the precomposition assignment is likewise an isomorphism). The bare injectivity of the precomposition clause is additionally isolated as `#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C)` (Functor/Hom.v:85), proved by evaluating the transformation at the identity — exactly the book's argument.",
+      "strength_comparison": "intree-stronger: the exercise asks only for injectivity (faithfulness) of the two assignments; the library proves each is a BIJECTION (full and faithful), in both the contravariant and covariant forms, so both clauses of the exercise are covered with strictly more. Setoid rephrasing: 'distinct' means ≉ in the hom-setoid, and injectivity is up to ≈ on both sides."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached PRESENT independently and found the SAME evidence plus one more the classifier also cites in prose. Verified at the cited locations: Functor/Hom/Yoneda.v:231 `Yoneda_Embedding `(C : Category) : forall A B : C, Presheaves [Hom -,A] [Hom -,B] ~~ A ~> B` and :253 `Covariant_Yoneda_Embedding ... Copresheaves [Hom B,-] [Hom A,-] ~~ A ~> B`, with the `~~` notation confirmed as Instance/Sets.v:205 `Notation \"x ~~ y\" := ({| carrier := x |} ~=[Sets] {| carrier := y |})`, and the postcomposition/precomposition legs visibly built as `exact (X o X0)` (Yoneda.v:240) and `exact (X0 o X)` (Yoneda.v:262) respectively -- so the two clauses of the exercise really are the two instances. The isolated faithfulness statement is also exactly as described: Functor/Hom.v:85 `#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C)`, proved by `specialize same_nat_iso with c id` then `now rewrite 2 id_left` -- evaluation at the identity, which is the book's argument verbatim. 'intree-stronger' is honest (bijection, not merely injection, in both variances). Bonus check of the sibling Functor/Hom.v:96 `Yoneda_Full` and :109 `Yoneda_Embedding'`, and of the cross-references at Yoneda.v:34,75 and Construction/Cayley.v:75 -- all three pointers resolve correctly, no stale pointer."
+    }
+  },
+  {
+    "id": "riehl:1.4:exvii",
+    "classification": "PRESENT",
+    "aliases": [
+      "canonical natural transformation on a comma category alpha : F.dom => G.cod",
+      "comma_proj_nat; comma category projections dom/cod",
+      "comma square / the 2-cell filling the comma cone in Cat",
+      "F ↓ G with projections to D and E",
+      "universal square of the comma object"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma.v",
+        "line": 214,
+        "symbol": "comma_proj_nat",
+        "intree_statement": "Program Instance comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2.   (* in Section Comma with Context {S : A ⟶ C} {T : B ⟶ C}, comma_proj1 : Comma ⟶ A (fobj := fun x => fst ``x), comma_proj2 : Comma ⟶ B (fobj := fun x => snd ``x); the component at the object (a, b, h) is h itself, and its naturality square is the commuting square h' ∘ S f ≈ T g ∘ h defining a morphism of S ↓ T *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For functors F : D -> C and G : E -> C, construct from the comma category F|G a canonical natural transformation alpha : F . dom => G . cod between the two composite functors F|G -> C formed from the projections dom : F|G -> D and cod : F|G -> E, filling the square whose other two sides are F and G.",
+      "intree": "`Program Instance comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2` in Construction/Comma.v (Section Comma, S : A ⟶ C, T : B ⟶ C), with the file header stating 'comma_proj_nat is the natural transformation S ◯ comma_proj1 ⟹ T ◯ comma_proj2 whose component at (a, b, h) is h'.",
+      "strength_comparison": "same, up to renaming (S/T for F/G, comma_proj1/comma_proj2 for dom/cod). The naturality obligation is discharged by the section's `Obligation Tactic := cat_simpl`, using precisely the commuting-square component of a comma morphism, which is the book's argument."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached PRESENT independently: `rg -n 'Definition|Program|Class|Lemma|Theorem' Construction/Comma.v` surfaced comma_proj_nat immediately. Verified at the cited line: Construction/Comma.v:214 `Program Instance comma_proj_nat : S o comma_proj1 ==> T o comma_proj2.` in Section Comma (Context S : A -> C, T : B -> C), with comma_proj1 at :196 (fobj := fun x => fst ``x) and comma_proj2 at :204 (fobj := fun x => snd ``x) -- i.e. Riehl's dom and cod. The header claim quoted by the classifier is real and at Construction/Comma.v:49-50: 'comma_proj_nat is the natural transformation S o comma_proj1 ==> T o comma_proj2 whose component at (a, b, h) is h'. ADVERSARIAL NOTE: the instance is stated with NO body -- every field (transform, naturality, naturality_sym) is left to the section's `#[local] Obligation Tactic := cat_simpl` (Lib/Tactics.v:212). I could not print the elaborated term (no compatible coqc: the tree's .vo files were built with OCaml 4.14.3 and the available nix Rocq 9.1.1 is 4.14.4, so loading Category.Lib fails), but the component's type is `S (fst ``x) ~> T (snd ``x)` and the only inhabitant available from a comma object ((a,b); h) is h itself, so the header claim is sound. The naturality square is the comma morphism's commuting square, as the classifier says. File is registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:1.4:exviii",
+    "classification": "PRESENT",
+    "aliases": [
+      "dinatural transformation; dinaturality hexagon",
+      "Dinatural class; ditransform; diagonal components F(c,c) -> G(c,c)",
+      "mixed-variance functors C^op x C -> D",
+      "wedge / cowedge condition (the constant-source dinatural)",
+      "G(id,f) . alpha_c . F(f,id) = G(f,id) . alpha_{c'} . F(id,f)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Dinatural.v",
+        "line": 51,
+        "symbol": "Dinatural",
+        "intree_statement": "Class Dinatural := { ditransform {x} : F (x, x) ~> G (x, x); dinaturality {x y} (f : x ~{C}~> y) : fmap[G] (op f ⋆⋆⋆ id) ∘ @ditransform y ∘ fmap[F] (id ⋆⋆⋆ f) ≈ fmap[G] (id ⋆⋆⋆ f) ∘ @ditransform x ∘ fmap[F] (op f ⋆⋆⋆ id) }   (* Context {F G : C^op ∏ C ⟶ D}; `f ⋆⋆⋆ g` = prod_split, packaging a C^op-component and a C-component *)"
+      },
+      {
+        "file": "Structure/Wedge.v",
+        "line": 38,
+        "symbol": "Wedge",
+        "intree_statement": "Class Wedge `(F : C^op ∏ C ⟶ D) := { wedge_obj : D; wedge_map {x : C} : wedge_obj ~{D}~> F (x, x); ump_wedges {x y : C} (f : x ~{C}~> y) : bimap[F] id f ∘ wedge_map ≈ bimap[F] (op f) id ∘ wedge_map }"
+      }
+    ],
+    "statement_record": {
+      "book": "For F, G : C^op x C -> D, a family alpha_c : F(c,c) -> G(c,c) indexed by objects c defines a DINATURAL transformation alpha : F => G if for every f : c -> c' the hexagon commutes: G(id,f) . alpha_c . F(f,id) = G(f,id) . alpha_{c'} . F(id,f) as maps F(c',c) -> G(c,c'). Then specialize this condition to the case where F and G arise by restricting a covariant H : C -> D and a contravariant K : C^op -> D along the projections pi_2 and pi_1.",
+      "intree": "`Class Dinatural` over `Context {F G : C^op ∏ C ⟶ D}` with the diagonal component `ditransform {x} : F (x, x) ~> G (x, x)` and the hexagon `dinaturality`, stated in the library's variance-explicit `⋆⋆⋆` notation with both sides typed F (y,x) ~> G (x,y). The file header spells the hexagon out as 'G f x ∘ α_x ∘ F f x ≈ G x f ∘ α_y ∘ F x f'.",
+      "strength_comparison": "same for the definitional content — same variance convention (contravariant first argument), same diagonal components, same six-edge condition, transcribed up to ≈. Two riders, neither of which is a weakening of the stated hexagon: (a) the library deliberately provides no identity/composition for Dinatural (header: 'dinatural transformations do NOT compose in general'), which the exercise does not need; (b) the exercise's SECOND clause — specializing the hexagon to F = H ◯ pi_2 and G = K ◯ pi_1 for a covariant H and contravariant K — is not separately recorded. A DIFFERENT specialization is: Structure/Wedge.v's `Wedge` is the constant-source case (`ump_wedges`, called 'the wedge (extranaturality / dinaturality) condition' in the header), which the file explicitly identifies as a dinatural transformation Δw ⇒ F."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached PRESENT independently (`ls Theory/` showed Dinatural.v before I opened anything else). Theory/Dinatural.v:51 `Class Dinatural` re-read in full and the quote is exact, including the `***` prod_split notation (defined at :22) and the hexagon `fmap[G] (op f *** id) o ditransform y o fmap[F] (id *** f) ~~ fmap[G] (id *** f) o ditransform x o fmap[F] (op f *** id)`. I checked the ORIENTATION against the book's `G(id,f) . alpha_c . F(f,id) = G(f,id) . alpha_{c'} . F(id,f)`: the two sides are simply written in the opposite order, the same equation, same variance convention (contravariant first argument), same diagonal components; both sides type as F(y,x) ~> G(x,y). Structure/Wedge.v:38 `Class Wedge` also verified verbatim. File is registered in _CoqProject. The classifier's two riders are both accurate and are disclosed rather than hidden: the deliberate absence of composition (correct mathematics -- dinaturals do not compose) and the exercise's second clause (specializing F = H o pi_2, G = K o pi_1) not being separately recorded. I weighed downgrading to PARTIAL on that second clause and did not: the formalizable content of 1.4.viii is the definition + hexagon, which is present verbatim, and the specialization is an instantiation that introduces no new statement. ORPHAN OBSERVATION (recorded in problems, not a downgrade): `rg -n 'Require.*Dinatural' -g '*.v' .` returns 0 -- no file in the tree imports Theory/Dinatural.v, so the Wedge/End/Coend development restates the condition independently rather than instantiating the class."
+    }
+  },
+  {
+    "id": "riehl:1.4:exix",
+    "classification": "ABSENT",
+    "aliases": [
+      "extranatural transformation",
+      "Extranatural class over F : A x B x B^op -> D, G : A x C x C^op -> D",
+      "the three squares: ordinary naturality in a, extranaturality in b and in c",
+      "extranaturality in a variable with a trivial covariant/contravariant leg",
+      "supernatural transformation; the common generalization of natural and dinatural transformations"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'extranatural' . -- exactly 2 hits, BOTH inside comments and neither a definition: Structure/Wedge.v:17 ('In place of a naturality square the legs satisfy the wedge (extranaturality / dinaturality) condition') and Structure/End.v:16 ('a family of legs constrained by the wedge (extranaturality) condition'). No `Class`/`Record`/`Definition Extranatural` exists.",
+      "rg -in --glob '*.v' 'extra-natural|supernatural' . -- 0 hits",
+      "rg -n --glob '*.v' 'B\\^op ⟶|∏ B ∏|A ∏ B ∏ B' . -- no three-variable mixed-variance functor of the shape A ∏ B ∏ B^op ⟶ D is ever formed; the tree's only mixed-variance shape is the two-variable C^op ∏ C ⟶ D used by Theory/Dinatural.v, Structure/Wedge.v, Structure/End.v, Structure/Coend.v and Theory/Profunctor.v.",
+      "Nearest in-tree structures, and why neither is the item: Theory/Dinatural.v:51 `Class Dinatural` is the two-variable hexagon (that is the SEPARATE item riehl:1.4:exviii, classified PRESENT there, and citing it here would double-count); Structure/Wedge.v:38 `Class Wedge`/`ump_wedges` is the constant-source dinatural, i.e. extranaturality in ONE variable only, with no A-parameter and no second extranatural variable. Neither states the general three-square definition nor exhibits ordinary and dinatural transformations as its special cases, which is what the exercise asks for.",
+      "rg -n --glob '*.v' 'Class Transform|Class Dinatural' . -- ordinary (Theory/Natural/Transformation.v:113) and dinatural (Theory/Dinatural.v:51) transformations both exist as independent classes, but no file relates them, so the exercise's 'Explain how ordinary and dinatural transformations are both special cases' has no in-tree counterpart either."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached ABSENT independently, by the identical route: `rg -in 'extranatural|extra-natural' -g '*.v' .` returns exactly 2 hits, both comments -- Structure/Wedge.v:17 and Structure/End.v:16 -- and `rg -n 'Class.*Extranatural'` returns nothing. No three-variable mixed-variance functor A x B x B^op -> D is ever formed; the tree's only mixed-variance shape is the two-variable C^op x C -> D. The classifier's discipline in NOT citing Theory/Dinatural.v here (that is the separate item exviii) is correct -- citing it would double-count, and the general three-square definition together with 'ordinary and dinatural transformations are both special cases' has no in-tree counterpart (I confirmed Theory/Natural/Transformation.v:113 `Class Transform` and Theory/Dinatural.v:51 `Class Dinatural` are independent classes with no file relating them). Structure/Wedge.v's `Wedge` is extranaturality in one variable with no A-parameter, so it is a strictly narrower special case, not the item. Not OUT_OF_SCOPE: the definition is entirely formalizable in this setting, it just is not there."
+    }
+  }
+]

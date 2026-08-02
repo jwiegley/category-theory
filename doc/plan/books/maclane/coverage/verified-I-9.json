@@ -1,0 +1,381 @@
+[
+  {
+    "id": "maclane:I.8:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "hom-set",
+      "hom",
+      "homset",
+      "hom-setoid",
+      "C(a,b) / hom(a,b) notation",
+      "~> morphism notation"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 115,
+        "symbol": "hom",
+        "intree_statement": "hom : obj → obj → uhom where \"a ~> b\" := (hom a b);  (* morphisms x ~> y *)"
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 116,
+        "symbol": "homset",
+        "intree_statement": "homset : ∀ X Y, Setoid@{h p} (X ~> Y);  (* hom is a setoid; equality is ≈ *)"
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 160,
+        "symbol": "hom[ C ] / x ~{ C }~> y notations",
+        "intree_statement": "Notation \"hom[ C ]\" := (@hom C%category) ... Notation \"x ~{ C }~> y\" := (@hom C%category x%object y%object)"
+      }
+    ],
+    "statement_record": {
+      "book": "For objects a, b of a category C, the hom-set hom_C(a,b) is the set of all arrows of C with domain a and codomain b; notation variants C(a,b), hom(a,b), (a,b), (a,b)_C.",
+      "intree": "hom : obj → obj → uhom; homset : ∀ X Y, Setoid (X ~> Y) — the hom of each ordered pair of objects is a primitive family, carrying a setoid structure, with notations x ~> y, x ~{C}~> y, hom[C].",
+      "strength_comparison": "same — up to the library's frozen-faithful setoid rephrasing: the hom-set is a hom-setoid (equality of arrows is ≈, not =), and it is the primitive datum of Category rather than a derived subset of a global arrow collection; the book's notation variants are mirrored by the notation suite."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same evidence: Theory/Category.v:115 hom, :116 homset, :160 hom[C] notation, all line-exact; file registered (_CoqProject:406). Setoid rephrasing is faithful per frozen definitions."
+    }
+  },
+  {
+    "id": "maclane:I.8:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "category defined by hom-sets",
+      "Class Category",
+      "hom-family presentation",
+      "compose/id with unit and associativity laws",
+      "disjointness of hom-sets (dependent typing)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} := { obj : Type@{o}; hom : obj → obj → uhom; homset : ∀ X Y, Setoid (X ~> Y); id {x} : x ~> x; compose {x y z} (f: y ~> z) (g : x ~> y) : x ~> z; compose_respects ...; id_left {x y} (f : x ~> y) : id ∘ f ≈ f; id_right ... : f ∘ id ≈ f; comp_assoc ... : f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h; comp_assoc_sym ... }"
+      }
+    ],
+    "statement_record": {
+      "book": "A (small) category given by hom-set data: (i) a set of objects; (ii) a set hom(a,b) per ordered pair; (iii) a composition function hom(b,c) x hom(a,b) -> hom(a,c) per ordered triple; (iv) an identity 1_b in hom(b,b) per object; satisfying associativity and unit axioms; plus disjointness axiom (v): distinct pairs <a,b> have disjoint hom-sets.",
+      "intree": "Class Category with obj : Type@{o}, hom : obj → obj → uhom, per-object id, per-triple compose : (y ~> z) → (x ~> y) → (x ~> z), id_left/id_right unit laws and comp_assoc — literally the hom-family presentation (i)-(iv).",
+      "strength_comparison": "same — the in-tree Category IS MacLane's hom-set definition, in setoid form (laws stated with ≈, plus the Proper obligation compose_respects and the content-free comp_assoc_sym for definitional duality). Disjointness axiom (v) holds by construction: each arrow's dependent type fixes its domain and codomain, which is exactly the purpose MacLane assigns to (v). Smallness is handled by universe polymorphism (obj : Type@{o}), covering small and large categories uniformly."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Class Category@{o h p | h <= p} at Theory/Category.v:111 with exactly the hom-family fields (i)-(iv) quoted; blind pass reached the same PRESENT independently. Disjointness-(v)-by-dependent-typing and smallness-by-universe-polymorphism claims are accurate."
+    }
+  },
+  {
+    "id": "maclane:I.8:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "arrows-only metacategory",
+      "single-sorted category axiomatization",
+      "object-free category",
+      "equivalence of category presentations",
+      "disjointness relabelling {a} x hom(a,b) x {b}"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 133,
+        "symbol": "Metacategory",
+        "intree_statement": "Record Metacategory := { arr := nat; pairs : M.t arr; composite (f g h : arr) := M.MapsTo (f, g) h pairs; identity (u : arr) := ...; composition_law ...; triple_composition ...; identity_law ... }"
+      },
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 261,
+        "symbol": "FromArrows",
+        "intree_statement": "Program Definition FromArrows (M : Metacategory) : Category := {| obj := ∃ i : arr M, identity M i; hom := fun x y => ∃ f : arr M, defined f ``x (pairs M) ∧ defined ``y f (pairs M); ... |}"
+      },
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 37,
+        "symbol": "Metacategory",
+        "intree_statement": "Record Metacategory := { arrow := N; pairs : M.t arrow; composite (f g h : arrow) := M.find (f, g) pairs = Some h; ... composite_correct ...; composition_law ...; is_identity (u : arrow) := (∀ f, defined f u → composite f u f) ∧ (∀ g, defined u g → composite u g g); identity_law ... }"
+      },
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 212,
+        "symbol": "Category_from_Metacategory",
+        "intree_statement": "Program Definition Category_from_Metacategory : Category := {| obj := object; hom := morphism; ... |} (objects are the identity arrows {i | is_identity i})"
+      }
+    ],
+    "statement_record": {
+      "book": "The hom-set definition of a category is equivalent to the original objects-and-arrows definition of I.2 (and the arrows-only form of I.1); the disjointness axiom (v) only ensures a definite domain/codomain, and if it fails it can be reinstated by relabelling each hom(a,b) as {a} x hom(a,b) x {b}.",
+      "intree": "FromArrows (Theory/Metacategory.v) and Category_from_Metacategory (Theory/Metacategory/ArrowsOnly.v) machine-check one direction: every arrows-only metacategory (Mac Lane's I.1 axioms, encoded over nat/N arrows with an FMap partial composition) yields a Category (the hom-set presentation), objects being the identity arrows. FromArrows' hom := arrows tagged with definedness proofs realizes the domain/codomain-tagging idea.",
+      "strength_comparison": "intree-weaker — only one direction of the equivalence is formalized, and only for metacategories whose arrows are natural numbers with a finite-map composition table, not for an arbitrary arrow collection; there is no converse construction (from a Category, an arrows-only or objects-and-arrows presentation with a round trip), and the disjointness-forcing relabelling {a} x hom(a,b) x {b} is not formalized as a construction (its effect is achieved structurally by dependent typing). Both files also carry an acknowledged TODO that their identity_law field as stated is vacuous (unused by the constructions, which take identity arrows as objects directly)."
+    },
+    "gap": "The converse direction (every hom-set Category gives an arrows-only/objects-and-arrows metacategory, with the two passages mutually inverse) is not formalized; the formalized direction is restricted to nat/N-indexed, finite-map-presented metacategories rather than a general single-sorted axiomatization; the relabelling construction restoring disjointness is absent as a theorem.",
+    "negative_search_log": [
+      "grep -rn 'ToArrows|to_arrows|Category.*Metacategory|Metacategory.*Category' Theory/ — only FromArrows / Category_from_Metacategory (arrows-only ⇒ Category); no converse",
+      "grep -rni 'arrows-only|arrows only|single-sorted|one-sorted' — hits only in Theory/Metacategory.v and Theory/Metacategory/ArrowsOnly.v"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Theory/Metacategory.v (Record:133, FromArrows:261) and Theory/Metacategory/ArrowsOnly.v (Record:37, Category_from_Metacategory:212), both in _CoqProject (458-459). Verified the vacuous-identity_law TODO in BOTH files as claimed (Metacategory.v:~184, ArrowsOnly.v:~75). One additional caveat consistent with PARTIAL: Metacategory.v drops MacLane's definedness guard in its identity predicate (unconditional, strictly stronger than the book's notion, disclosed in a comment at :148-157); ArrowsOnly.v keeps the conditional guard. Gap statement (one direction only, nat/N + finite-map restriction, no converse, no relabelling construction) is accurate."
+    }
+  },
+  {
+    "id": "maclane:I.8:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "functor via hom-sets",
+      "Class Functor",
+      "fobj/fmap",
+      "hom-wise action T_{c,c'}",
+      "fmap_id / fmap_comp"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 96,
+        "symbol": "Functor",
+        "intree_statement": "Class Functor {C D : Category} := { fobj : C → D; fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y; fmap_respects : ∀ x y, Proper (equiv ==> equiv) (@fmap x y); fmap_id {x : C} : fmap (@id C x) ≈ id; fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) : fmap (f ∘ g) ≈ fmap f ∘ fmap g }"
+      }
+    ],
+    "statement_record": {
+      "book": "A functor T : C -> B in hom-set terms: an object function T plus a collection of functions T_{c,c'} : C(c,c') -> B(Tc, Tc'), each T_{c,c} carrying 1_c to 1_{Tc}, and every square relating the composition functions of C and B to T_{c',c''} x T_{c,c'} and T_{c,c''} commuting.",
+      "intree": "Class Functor: fobj is the object function; fmap {x y} : (x ~> y) → (fobj x ~> fobj y) is exactly the hom-indexed family T_{c,c'}; fmap_id is the identity condition; fmap_comp (fmap (f ∘ g) ≈ fmap f ∘ fmap g) is precisely the commuting square with the composition functions.",
+      "strength_comparison": "same — the in-tree Functor is natively the hom-wise presentation, in setoid form: the laws use ≈ and the family additionally satisfies the setoid obligation fmap_respects (each T_{c,c'} is a setoid morphism), which is the faithful analogue of being a function on hom-sets."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Class Functor at Theory/Functor.v:96 with fobj/fmap/fmap_respects/fmap_id/fmap_comp exactly as quoted; blind pass identical."
+    }
+  },
+  {
+    "id": "maclane:I.8:remark2",
+    "classification": "PRESENT",
+    "aliases": [
+      "natural transformation via hom-sets",
+      "Class Transform",
+      "components in hom-sets",
+      "naturality square as hom-set equation",
+      "morphism of functors"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 113,
+        "symbol": "Transform",
+        "intree_statement": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f; naturality_sym ... }"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 129,
+        "symbol": "Build_Transform'",
+        "intree_statement": "Definition Build_Transform' (transform' : forall x, F x ~> G x) (natural : forall x y (f : x ~> y), fmap[G] f ∘ transform' x ≈ transform' y ∘ fmap[F] f) : Transform"
+      }
+    ],
+    "statement_record": {
+      "book": "Reader task: describe a natural transformation tau : S -> T in hom-set terms, i.e. as a family of assignments expressed through the hom-set functions C(c,c') -> B(Sc, Tc').",
+      "intree": "Class Transform: a family transform {x} : F x ~> G x of elements of the hom-setoids B(Sc, Tc), with naturality stated as the ≈-equation fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f between elements of B(Sc, Tc') — the hom-set-level description the book asks for, since hom-families are the library's primitives.",
+      "strength_comparison": "same — the in-tree definition is exactly the hom-set (hom-setoid) description of a natural transformation; the extra field naturality_sym is content-free (Build_Transform' derives it from the single square), present only for definitional duality."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Class Transform at Theory/Natural/Transformation.v:113 and Build_Transform' at :129 (naturality_sym derived by symmetry, confirming the content-free claim). Blind pass reached PRESENT-in-substance: the component-family-with-hom-setoid-naturality definition is the hom-set description the reader task asks for."
+    }
+  },
+  {
+    "id": "maclane:I.8:def4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Ab-category",
+      "preadditive category",
+      "Ab-enriched category",
+      "hom abelian groups with bilinear composition",
+      "Preadditive / Additive classes"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Preadditive.v",
+        "line": 34,
+        "symbol": "Preadditive",
+        "intree_statement": "Class Preadditive (C : Category) := { padd {x y : C} : (x ~> y) -> (x ~> y) -> (x ~> y); pzero {x y : C} : x ~> y; padd_respects ...; padd_assoc ...; padd_comm ...; padd_zero_left ...; compose_padd_left ... : h ∘ padd f g ≈ padd (h ∘ f) (h ∘ g); compose_padd_right ...; compose_pzero_left ...; compose_pzero_right ... }"
+      },
+      {
+        "file": "Structure/Additive.v",
+        "line": 34,
+        "symbol": "Additive",
+        "intree_statement": "Class Additive (C : Category) := { additive_zero : @ZeroObject C; additive_preadditive : @Preadditive C; additive_biproducts : @HasBiproducts C additive_zero; pneg {x y : C} : (x ~> y) -> (x ~> y); pneg_respects ...; padd_pneg {x y : C} (f : x ~> y) : padd f (pneg f) ≈ pzero }"
+      },
+      {
+        "file": "Instance/CMon/Biproduct.v",
+        "line": 573,
+        "symbol": "CMon_Preadditive",
+        "intree_statement": "#[export] Instance CMon_Preadditive : Preadditive CMon := @Build_Preadditive CMon ..."
+      }
+    ],
+    "statement_record": {
+      "book": "An Ab-category (preadditive category) is a category in which each hom-set A(a,b) is an additive abelian group and composition is bilinear: (g + g') ∘ (f + f') = g∘f + g∘f' + g'∘f + g'∘f'. Examples: Ab, R-Mod, Mod-R.",
+      "intree": "Preadditive: each hom-setoid carries a commutative MONOID (padd, pzero) respecting ≈, with composition distributing over addition on both sides and pzero absorbing composition — deliberately CMon-enrichment, 'Additive inverses are deliberately not demanded' (header). Additive: upgrades homs to abelian groups (pneg, padd_pneg) but additionally packages a zero object and chosen biproducts for every pair.",
+      "strength_comparison": "neither class matches exactly: Preadditive is intree-weaker (commutative monoids, no additive inverses — every Ab-category is an instance, but the class does not capture the group structure); Additive is intree-stronger (it has the abelian-group homs and full bilinearity including negation via compose_pneg_left/right, but demands a zero object and all binary biproducts, which MacLane's Ab-category does not require)."
+    },
+    "gap": "No in-tree class captures exactly MacLane's Ab-category (abelian-group hom-enrichment with bilinear composition and nothing more): the negation upgrade exists only bundled inside Additive together with a zero object and chosen biproducts; an 'Ab-enrichment only' intermediate class (Preadditive + pneg) is absent. The book's motivating examples Ab, R-Mod, Mod-R are also not in-tree as categories (the concrete preadditive witness is CMon, commutative monoids).",
+    "negative_search_log": [
+      "grep -rni 'Preadditive|Ab-category|AbCategory' --include='*.v' — hits only Structure/Preadditive.v, Structure/Additive.v, Structure/Semiadditive.v, Instance/CMon/Biproduct.v, Construction/Enriched.v prose",
+      "grep -rni 'abelian group' Instance/ — 0 hits (no Ab instance; ls Instance/ shows no Ab.v or Grp.v)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL with the same squeeze: Preadditive (Structure/Preadditive.v:34) is CMon-only (header :20 'Additive inverses are deliberately not demanded' verified), Additive (Structure/Additive.v:34) bundles ZeroObject + HasBiproducts with pneg — verified field-exact. compose_pneg_left/right exist (:120/:130). CMon_Preadditive verified at Instance/CMon/Biproduct.v:573. No Ab/R-Mod/Mod-R instances (ls Instance/ has no Ab.v/Grp.v). Gap statement precise."
+    }
+  },
+  {
+    "id": "maclane:I.8:def5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Ab-category via tensor data",
+      "enrichment in (Ab, tensor, Z)",
+      "hom-objects with composition through tensor",
+      "Enriched class at K = Ab",
+      "tensor product of abelian groups"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched.v",
+        "line": 111,
+        "symbol": "Enriched",
+        "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K; eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left ...; eid_right ...; ecompose_assoc ... }"
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 28,
+        "symbol": "(header)",
+        "intree_statement": "Taking K = Ab gives preadditive categories, with bilinear composition."
+      }
+    ],
+    "statement_record": {
+      "book": "An Ab-category defined completely by tensor data, without presupposing a category: (i) a set of objects; (ii) an abelian group A(b,c) per ordered pair; (iii) per ordered triple a morphism of abelian groups A(b,c) ⊗ A(a,b) -> A(a,c) (tensor over Z); (iv) per object a morphism Z -> A(a,a) picking out 1_a; satisfying associativity and unit laws.",
+      "intree": "Class Enriched over any monoidal (K, ⨂, I): eobj, hom-objects ehom in K, composition ecompose : (y ⟿ z) ⨂ (x ⟿ y) ~> (x ⟿ z), unit eid : I ~> (x ⟿ x), with Kelly's associativity and unit coherence — exactly the shape of MacLane's (i)-(iv) with (K, ⨂, I) generalizing (Ab, ⊗, Z).",
+      "strength_comparison": "intree covers the item parametrically (any monoidal base), which is more general in shape; but the item's specific content — the base (Ab, ⊗_Z, Z) — is absent: it cannot even be instantiated in-tree."
+    },
+    "gap": "No category Ab of abelian groups exists in-tree (the closest concrete algebra category is CMon, commutative monoids over setoids), and no tensor-product monoidal structure on abelian groups or commutative monoids is constructed; hence Enriched cannot be instantiated at (Ab, ⊗, Z), and the correspondence between Enriched-at-Ab and the hand-built Preadditive/Additive classes is noted only in prose (Enriched.v header), not proven.",
+    "negative_search_log": [
+      "grep -rni 'tensor' Instance/CMon.v Instance/CMon/ — 0 hits; grep -rn 'Monoidal' Instance/CMon* — only a prose mention of Sets_Product_Monoidal",
+      "ls Instance/ — no Ab.v, no Grp.v; grep -rni 'abelian group' Instance/ — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL: Class Enriched verified at Construction/Enriched.v:111 with exactly the (i)-(iv)-shaped fields, header :28 quote exact; no tensor product of abelian groups or monoidal structure on CMon anywhere in-tree (independent rg over Instance/CMon* and whole tree, 0 hits). Gap statement precise."
+    }
+  },
+  {
+    "id": "maclane:I.8:remark3",
+    "classification": "PRESENT",
+    "aliases": [
+      "enriched category",
+      "V-category / K-category",
+      "Kelly enrichment",
+      "hom-objects in a monoidal category",
+      "Construction/Enriched.v"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched.v",
+        "line": 111,
+        "symbol": "Enriched",
+        "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K where \"a ⟿ b\" := (ehom a b); eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left ... unit_left; eid_right ... unit_right; ecompose_assoc ... tensor_assoc }"
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 163,
+        "symbol": "Category_is_Enriched_over_Set",
+        "intree_statement": "Theorem Category_is_Enriched_over_Set : Enriched Sets ↔ Category."
+      }
+    ],
+    "statement_record": {
+      "book": "The tensor-data definition of an Ab-category is the hom-set definition of a category with (Set, x, point) replaced by (Ab, tensor, Z); this generalizes to categories whose hom-objects live in any category with a tensor-like multiplication and unit: enriched categories (Kelly).",
+      "intree": "Class Enriched (K : Category) `{@Monoidal K}: hom-objects ehom in an arbitrary monoidal base, unit and composition as K-morphisms, Kelly's three coherence axioms — the general notion the remark points to, with the K = Set specialization proven to recover ordinary categories (Category_is_Enriched_over_Set) and K = 2 proven to give preorders (Construction/Enriched/Two.v).",
+      "strength_comparison": "same (indeed intree-stronger than the remark's gesture: beyond the definition, the library has enriched functors, enriched natural transformations (Construction/Enriched/Natural.v), composition/whiskering, the functor category (Construction/Enriched/Fun.v), and worked bases K = Set and K = 2; per its ledger, V-valued hom-objects for the functor category await ends in the base)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Enriched at :111 and Theorem Category_is_Enriched_over_Set : Enriched Sets <-> Category at Construction/Enriched.v:163; the enriched satellite files (Natural/Compose/Fun/Sets/Two) all registered in _CoqProject (30-35). Blind pass identical PRESENT."
+    }
+  },
+  {
+    "id": "maclane:I.8:def6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "additive functor",
+      "Ab-enriched functor",
+      "functor preserving addition of morphisms T(f+f') = Tf + Tf'",
+      "EnrichedFunctor at K = Ab",
+      "linear functor"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched.v",
+        "line": 145,
+        "symbol": "EnrichedFunctor",
+        "intree_statement": "Class EnrichedFunctor (K : Category) `{@Monoidal K} (C : Enriched K) (D : Enriched K) := { efobj : C → D; efmap {x y} : (x ⟿ y) ~{K}~> (efobj x ⟿ efobj y); efmap_id ...; efmap_comp ... }"
+      }
+    ],
+    "statement_record": {
+      "book": "For Ab-categories A and B, a functor T : A -> B is additive when every function T : A(a,a') -> B(Ta, Ta') is a homomorphism of abelian groups, i.e. T(f + f') = Tf + Tf'; the composite of additive functors is additive.",
+      "intree": "Only the parametric notion exists: EnrichedFunctor over an arbitrary monoidal base K, whose hom-wise action efmap is a K-morphism (at K = Ab this would be exactly a group homomorphism on homs, i.e. an additive functor). No in-tree definition states preservation of the Preadditive/Additive hom-addition.",
+      "strength_comparison": "intree-weaker — the parametric V-functor shape is present, but its Ab instance cannot be formed (no Ab base in-tree), and there is no additive-functor notion over the library's own Preadditive/Additive classes: nothing anywhere states fmap (padd f g) ≈ padd (fmap f) (fmap g), and the closure of additive functors under composition is likewise absent."
+    },
+    "gap": "A direct definition of additive functor between Preadditive (or Additive) categories — a Functor with fmap (padd f g) ≈ padd (fmap f) (fmap g) (equivalently preserving pzero/pneg) — does not exist, nor does the composite-of-additive-functors lemma; the EnrichedFunctor route is blocked by the absence of an (Ab, ⊗, Z) monoidal base.",
+    "negative_search_log": [
+      "grep -rni 'additive functor|AdditiveFunctor|Additive_Functor|PreadditiveFunctor' --include='*.v' — 0 hits",
+      "grep -rn 'fmap.*padd|padd.*fmap' --include='*.v' — 0 hits",
+      "grep -rln 'padd' --include='*.v' — only Structure/{Preadditive,Additive,Semiadditive,Abelian}.v and Instance/CMon/Biproduct.v (no functor file)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass initially classed this ABSENT for the direct notion (independent rg: 'additive functor'/AdditiveFunctor/fmap-padd preservation — 0 hits; padd appears in no functor file), but PARTIAL via Class EnrichedFunctor (verified Construction/Enriched.v:145) is legitimate and consistent with def5's treatment: an additive functor IS an Ab-enriched functor, the parametric scheme is in-tree, and only the (Ab, tensor, Z) base blocks instantiation. strength_comparison honestly says intree-weaker and the gap names the missing direct definition and the composite-closure lemma. Accepted."
+    }
+  },
+  {
+    "id": "maclane:I.8:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "Ab-cat (category of small Ab-categories)",
+      "AbCat",
+      "category of preadditive categories with additive functors",
+      "category of enriched categories (V-Cat)",
+      "2-category of Ab-categories"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'Ab-cat|AbCat' --include='*.v' — 0 relevant hits (only prose 'K = Ab gives preadditive categories' in Construction/Enriched.v)",
+      "grep -rni 'additive functor|AdditiveFunctor|PreadditiveFunctor' --include='*.v' — 0 hits (the arrows of Ab-cat are themselves absent)",
+      "grep -rni 'EnrichedCat|VCat|category of.*enriched|enriched categories form' --include='*.v' — 0 hits; Construction/Enriched/Fun.v is only the functor category between two FIXED enriched categories, not a category whose objects are enriched categories",
+      "grep -rni 'category of small.*additive|additive categories' --include='*.v' — only the file headers of Structure/{Additive,Semiadditive,Preadditive}.v (definitions of the structure, not a category of such categories)",
+      "ls Instance/ — no Ab.v; Instance/Cat.v is the category of (unenriched) categories only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same ABSENT: no category of Ab/preadditive/enriched categories (independent rg for AbCat/EnrichedCat/VCat — the only case-insensitive 'vcat' hits are inside MarkovCategory and prose; Construction/Enriched/Fun.v:32 explicitly confirms it is only the functor category between two fixed enriched categories). The arrows (additive functors) are themselves absent, so the construction has no in-tree counterpart."
+    }
+  }
+]

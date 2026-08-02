@@ -1,0 +1,409 @@
+[
+  {
+    "id": "maclane:II.7:def4",
+    "classification": "PRESENT",
+    "aliases": [
+      "diagram of shape G",
+      "graph morphism into underlying graph",
+      "QuiverHomomorphism",
+      "quiver homomorphism",
+      "underlying graph/quiver of a category",
+      "Digraph morphism"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 205,
+        "symbol": "QuiverHomomorphism",
+        "intree_statement": "Class QuiverHomomorphism (G : Quiver) (G' : Quiver) := { fnodes : @nodes G -> @nodes G'; fedgemap : forall x y : @nodes G, edges x y -> edges (fnodes x) (fnodes y); fedgemap_respects : ... Proper (respectful equiv equiv) (@fedgemap x y) }"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 398,
+        "symbol": "QuiverOfCat",
+        "intree_statement": "Program Definition QuiverOfCat (C : Category) : Quiver := {| nodes := obj; edges := hom |}"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 464,
+        "symbol": "InducedFunctor",
+        "intree_statement": "Definition InducedFunctor {C : Category} (F : QuiverHomomorphism G (QuiverOfCat C)) : @Functor (FreeOnQuiver) C"
+      }
+    ],
+    "statement_record": {
+      "book": "A diagram of shape G in a category B is defined to be a graph morphism D : G -> UB into the underlying graph of B.",
+      "intree": "The type QuiverHomomorphism G (QuiverOfCat C) — a node map plus an endpoint-indexed edge map respecting the edge setoids, into the underlying quiver of C — is exactly a graph morphism into UB, and it is the input type of the free-category correspondence (InducedFunctor / UniversalArrowQuiverCat).",
+      "strength_comparison": "same — in-tree quivers carry setoid-valued edge sets (a mild generalization subsuming the book's set-edged graphs via Build_Quiver_Standard_Eq); the library never attaches the word 'diagram' to this type (its limit machinery takes functors as diagrams), but the mathematical notion the book defines is this type, used in precisely the book's role."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on QuiverHomomorphism G (QuiverOfCat C); verified Class QuiverHomomorphism at Quiver.v:205, QuiverOfCat at :398, InducedFunctor at :464 by direct read; quotes accurate. PRESENT is right: the type is exactly the book's graph-morphism-into-UB and is used in exactly the book's role (input to the free-category UMP); the absence of the word 'diagram' is honestly disclosed in strength_comparison."
+    }
+  },
+  {
+    "id": "maclane:II.7:construction3",
+    "classification": "PRESENT",
+    "aliases": [
+      "free category functor left adjoint",
+      "Free -| Forgetful",
+      "Cat(C_G,B) iso Grph(G,UB)",
+      "FreeCatFunctor",
+      "path category adjunction",
+      "free-forgetful adjunction on quivers"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 412,
+        "symbol": "Forgetful",
+        "intree_statement": "Definition Forgetful : @Functor StrictCat QuiverCategory (via QuiverOfCat and QuiverHomomorphismOfFunctor)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful — FreeOnQuiver G with unit UnitQuiverCatAdjunction is a universal arrow; every QuiverHomomorphism G (QuiverOfCat C) factors uniquely through it as InducedFunctor"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 546,
+        "symbol": "FreeCatFunctor",
+        "intree_statement": "Definition FreeCatFunctor : @Functor QuiverCategory StrictCat := (LeftAdjointFunctorFromUniversalArrows Forgetful (fun _ => @UniversalArrowQuiverCat _))"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _"
+      }
+    ],
+    "statement_record": {
+      "book": "Diagrams D : G -> UB correspond exactly to functors D' : C_G -> B (via D' = UD' o P), giving a bijection Cat(C_G, B) iso Grph(G, UB) natural in G and B; i.e. the free-category functor C : Grph -> Cat is left adjoint to the forgetful U : Cat -> Grph.",
+      "intree": "FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful, with Forgetful : StrictCat ⟶ QuiverCategory and FreeCatFunctor : QuiverCategory ⟶ StrictCat, assembled from per-object universal arrows (UniversalArrowQuiverCat) exactly as the book assembles the adjunction from Theorem 1.",
+      "strength_comparison": "same — the full adjunction (hence the natural hom-set bijection (6)) is proven; it lives over StrictCat rather than the library's weak Cat, which matches Mac Lane's Cat (functors compared strictly), and Test/Issue138.v plus the Free.v header record that the weak Cat provably cannot carry it (the underlying quiver is not invariant under natural isomorphism). Edge sets are setoids, a mild generalization."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Read Construction/Free/Quiver.v in full: Forgetful : StrictCat ⟶ QuiverCategory at 412, UniversalArrowQuiverCat at 518, FreeCatFunctor at 546, FreeForgetfulAdjunction at 550 all verified verbatim. The StrictCat-not-weak-Cat point is confirmed by Test/Issue138.v's header (underlying quiver not invariant under natural iso) and Construction/Free.v's essay; StrictCat matches Mac Lane's Cat. File registered in _CoqProject (line 72)."
+    }
+  },
+  {
+    "id": "maclane:II.7:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "opposite graph",
+      "opposite quiver",
+      "QuiverOp / Quiver_op",
+      "product of graphs/quivers",
+      "QuiverProduct",
+      "U preserves opposites and products"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'QuiverOp|Quiver_op|opposite quiver|opposite graph|product of quivers|Quiver.*∏|QuiverProduct|Quiver_Product' --include=*.v — 0 hits",
+      "grep -rn 'Quiver' --include=*.v — 10 files; read Construction/Free/Quiver.v in full: Construction.Opposite and Construction.Product are Require'd at the top but never used in the file — no opposite-quiver or product-quiver construction exists, and no statement that Forgetful : StrictCat ⟶ QuiverCategory preserves opposites or products",
+      "grep -rni 'graph' --include=*.v -l — hits are hypergraph-PROP files (Functor/Structure/Monoidal/Hypergraph.v etc.), Grothendieck, and prose essays; none defines graph opposites or products"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind searches (QuiverOp, Quiver_op, opposite quiver/graph, Quiver.*[Pp]rod, QuiverProduct) found nothing; independently confirmed Construction.Opposite and Construction.Product are imported at Quiver.v:10-11 but never used in the file. No opposite or product of quivers anywhere in-tree."
+    }
+  },
+  {
+    "id": "maclane:II.7:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "finite ordinals are free categories",
+      "ordinal as category",
+      "chain/linear quiver",
+      "Two / Omega freeness",
+      "n as free category on the linear graph"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'ordinal' --include=*.v — hits: Instance/Omega.v (ω as a thin category), Instance/Two.v and Instance/Two/Monoidal.v (2 as posetal category), Construction/Chain.v, Structure/Complete.v, prose in Theory/Algebra/Frobenius.v; none states that a finite ordinal is a free category",
+      "grep -rn 'FreeOnQuiver' --include=*.v — used only in Test/Issue138.v (a loop-quiver regression test); never applied to a linear quiver",
+      "grep -n 'Quiver|free|Free' Instance/Parallel.v Instance/Two.v Instance/Omega.v Instance/Roof.v — only prose mentions ('walking parallel pair (also called the free quiver)', 'free-living'); no freeness theorem for any finite shape category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: Instance/{Zero,One,Two,Omega}.v give ordinals as thin categories but no freeness theorem; the only in-tree application of FreeOnQuiver outside its defining file is Test/Issue138.v's one-node loop quiver (lines 90, 96). ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:II.7:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "free groupoid on a graph",
+      "FreeGroupoid",
+      "free group (corollary)",
+      "Grpd free-forgetful adjunction",
+      "universally inverting the free category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'free.groupoid|freegroupoid|free group' --include=*.v — only prose mentions in background essays (Theory/Universal/Arrow.v lines 39/45, Structure/Terminal.v line 34, all historical remarks about free groups); no formal free-groupoid or free-group construction",
+      "grep -rni 'groupoid' --include=*.v -l then read Construction/Groupoid.v — it is the CORE groupoid (maximal sub-groupoid) of a category, the other adjoint; its header explicitly notes 'no standalone category of groupoids exists in-tree, so the adjunction remark in the header above remains prose rather than a theorem'",
+      "Construction/Free/Quiver.v Require's Construction.Groupoid but never constructs a groupoid; Construction/Localization.v is orthogonal-subcategory localization (reflector form) with the calculus of fractions descoped (ledger 15), so no inverting-all-arrows construction either"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed Construction/Groupoid.v is the CORE (maximal sub-groupoid) construction, the other adjoint; its own header (lines 93-95) records that no standalone category of groupoids exists in-tree and the adjunction remark 'remains prose rather than a theorem'. No free groupoid, no free group (only historical prose in Theory/Universal/Arrow.v, Structure/Terminal.v)."
+    }
+  },
+  {
+    "id": "maclane:II.8:prop1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "quotient category C/R",
+      "Quotient",
+      "hom-congruence quotient",
+      "projection functor Q_R",
+      "universal functor identifying related arrows",
+      "QuotientLift"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Quotient.v",
+        "line": 254,
+        "symbol": "Quotient",
+        "intree_statement": "Definition Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category := {| obj := @obj C; hom := @hom C; homset := fun x y => {| equiv := R x y; ... |}; id := @id C; compose := @compose C; ... |} — same objects and morphisms, hom-equivalence coarsened from ≈ to R"
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 294,
+        "symbol": "QuotientProj",
+        "intree_statement": "Definition QuotientProj : C ⟶ Quotient C R — identity on objects and on morphisms; only the equivalence coarsens (so f R f' gives Qf ≈ Qf' definitionally)"
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 313,
+        "symbol": "QuotientLift",
+        "intree_statement": "Definition QuotientLift : Quotient C R ⟶ D, for F : C ⟶ D with HF : forall x y (f g : x ~> y), R x y f g -> fmap[F] f ≈ fmap[F] g"
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 322,
+        "symbol": "QuotientLift_proj",
+        "intree_statement": "Lemma QuotientLift_proj : fmap[QuotientLift] (fmap[QuotientProj] f) = fmap[F] f (Proof. reflexivity. Qed.)"
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 334,
+        "symbol": "QuotientLift_unique",
+        "intree_statement": "Lemma QuotientLift_unique (G : Quotient C R ⟶ D) (Hobj : forall x, fobj[G] x = fobj[F] x) (HG : ... hom_cast (Hobj x) (Hobj y) (fmap[G] (fmap[QuotientProj] f)) ≈ fmap[F] f) : forall x y f, hom_cast (Hobj x) (Hobj y) (fmap[G] f) ≈ fmap[QuotientLift] f"
+      }
+    ],
+    "statement_record": {
+      "book": "For ANY family R of binary relations on the hom-sets of C there exist a category C/R and a functor Q : C -> C/R, bijective on objects, with (i) f R f' implies Qf = Qf', and (ii) any H : C -> D merging R-related arrows factors uniquely as H = H' o Q. Proof: pass to the least congruence containing R and quotient each hom-set.",
+      "intree": "For R already a HomCongruence: Quotient C R with QuotientProj (identity on objects, so bijective on objects), (i) holds definitionally (the quotient's ≈ IS R), and (ii) is QuotientLift + QuotientLift_proj (definitional factorization) + QuotientLift_unique (uniqueness up to hom_cast along object equalities).",
+      "strength_comparison": "intree-weaker: the hypothesis is stronger — R must already be a congruence (HomCongruence), whereas the book takes an arbitrary relation family and completes it to the least congruence; for a given congruence the conclusion is the same (with Qf = Qf' faithfully rendered as the coarsened setoid ≈, and the projection identity-on-objects, stronger than 'bijective on objects')."
+    },
+    "gap": "The least-congruence completion is missing in general: no operator taking an arbitrary HomRel to the smallest HomCongruence containing it (with the induced factorization through it). Congruence-generated closures exist only as bespoke inductives for specific term categories (TermEqW in Construction/PROP/Presentation.v:136, and its coloured analogue), not for an arbitrary category C.",
+    "negative_search_log": [
+      "grep -rni 'least congruence|congruence closure|generated congruence|congruence generated' --include=*.v — only the PROP/ColouredPROP Presentation headers ('the congruence generated by those equations'), both specialized to term categories over signatures"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All five evidence citations verified by direct read of Construction/Quotient.v (Quotient 254, QuotientProj 294, QuotientLift 313, QuotientLift_proj 322, QuotientLift_unique 334); quotes accurate. PARTIAL is the right call: the in-tree UMP requires R to already be a HomCongruence; blind search for a generic least-congruence closure (incl. clos_refl_sym_trans/Relation_Operators) found none — only bespoke inductives (TermEqW at PROP/Presentation.v:136, coloured analogue). QuotientLift_unique's hom_cast phrasing is faithful uniqueness given the identity-on-objects projection."
+    }
+  },
+  {
+    "id": "maclane:II.8:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "homotopy category Toph",
+      "hTop",
+      "Top quotient by homotopy",
+      "homotopy as congruence",
+      "Ho(Top)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'toph|homotop' --include=*.v — all hits are prose in background essays (Instance/Cat.v calls the weak Cat 'the homotopy category Ho(Cat)'; Construction/Localization.v mentions the homotopy category of spaces as a motivating example; Theory/Monad.v, Theory/Adjunction.v cite homotopy-theoretic history); no formal homotopy relation and no Toph",
+      "ls Instance/ — no Top (category of topological spaces) instance exists at all, so the specific quotient Top/htpy = Toph cannot be and is not instantiated; the general quotient machinery it would instantiate is Construction/Quotient.v"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms: no Top instance, no homotopy relation, no Toph — all 'homotop' hits are background-essay prose. ABSENT (not OUT_OF_SCOPE) is correct under the frozen definition: Top is formalizable, the library just lacks it."
+    }
+  },
+  {
+    "id": "maclane:II.8:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "congruence on a category",
+      "HomCongruence",
+      "hom-congruence",
+      "least congruence containing R",
+      "two-sided substitution-closed equivalence"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Quotient.v",
+        "line": 226,
+        "symbol": "HomCongruence",
+        "intree_statement": "Class HomCongruence {C : Category} (R : HomRel C) : Type := { cong_incl : f ≈ g -> R x y f g; cong_sym : R x y f g -> R x y g f; cong_trans : R x y f g -> R x y g h -> R x y f h; cong_comp : R y z f f' -> R x y g g' -> R x z (f ∘ g) (f' ∘ g') }"
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 236,
+        "symbol": "cong_refl",
+        "intree_statement": "Lemma cong_refl : R x y f f (from cong_incl and reflexivity of ≈)"
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 241,
+        "symbol": "Quotient_equivalence",
+        "intree_statement": "Lemma Quotient_equivalence : Equivalence (R x y) — each hom-relation of a congruence is an equivalence"
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 254,
+        "symbol": "Quotient",
+        "intree_statement": "Definition Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category — same objects, hom-setoids coarsened to R, composition induced from C"
+      }
+    ],
+    "statement_record": {
+      "book": "A congruence R on C: (i) each R_{a,b} is an equivalence relation on C(a,b); (ii) if f R_{a,b} f' then (h f g) R (h f' g) for all composable g, h. Every family of relations is contained in a least congruence R'; C/R has the quotient hom-sets C(a,b)/R' with induced composition, and any functor whose kernel contains R also contains R'.",
+      "intree": "HomCongruence: per-hom equivalence (cong_sym, cong_trans, reflexivity via cong_incl from ≈) closed under composition on both sides simultaneously (cong_comp); Quotient C R realizes C/R by coarsening the hom-setoids (the setoid-library form of quotient hom-sets).",
+      "strength_comparison": "same for the congruence notion — cong_comp's simultaneous two-sided form and Mac Lane's fixed-flank form (h f g) R (h f' g) are interderivable given reflexivity (cong_refl); cong_incl (contains ≈) is the faithful setoid strengthening of the book's reflexivity. The least-congruence half of the item has no counterpart."
+    },
+    "gap": "The 'least congruence' construction is absent in general: no closure operator from an arbitrary HomRel to the smallest containing HomCongruence, and no lemma that a functor merging R-related arrows also merges R'-related ones. That pattern appears only as concrete inductively-generated congruences on syntactic term categories (TermEqW, Construction/PROP/Presentation.v:136-161, described as 'the smallest congruence on Term Σ containing ...').",
+    "negative_search_log": [
+      "grep -rni 'least congruence|congruence closure|generated congruence|congruence generated' --include=*.v — only the PROP and ColouredPROP Presentation files, both specialized to signature term categories"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "HomCongruence quote at Quotient.v:226 verified verbatim; the claimed interderivability of cong_comp's simultaneous form with Mac Lane's fixed-flank (h f g) R (h f' g') form via cong_refl is mathematically correct. Least-congruence gap independently confirmed (no generic closure operator in-tree)."
+    }
+  },
+  {
+    "id": "maclane:II.8:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "category presented by generators and relations",
+      "presentation of a category",
+      "PresentedCat",
+      "quotient of free category",
+      "monoid presentation (one-object case)",
+      "generators and relations"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 431,
+        "symbol": "FreeOnQuiver",
+        "intree_statement": "Program Definition FreeOnQuiver : Category := {| obj := @nodes G; hom := tlist edges; ... |} — the free (path) category on a quiver: the generators half"
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 254,
+        "symbol": "Quotient",
+        "intree_statement": "Definition Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category — the relations half, for any category and hom-congruence"
+      },
+      {
+        "file": "Construction/PROP/Presentation.v",
+        "line": 136,
+        "symbol": "TermEqW",
+        "intree_statement": "Inductive TermEqW : forall {m n}, Term Σ m n -> Term Σ m n -> Prop — 'the smallest congruence on [Term Σ] containing both the free equations [TermEq Σ] and the theory axioms [smt_eqs E]' (constructors: embedding, axiom, symmetry, transitivity, closure under T_comp and T_tens)"
+      },
+      {
+        "file": "Construction/PROP/Presentation.v",
+        "line": 180,
+        "symbol": "PresentedCat",
+        "intree_statement": "Definition PresentedCat : Category := @Quotient (FreeCat Σ) (fun m n : nat => @TermEqW m n) TermEqW_Congruence — free-on-generators quotiented by congruence-generated-by-equations, the Mac Lane II.8 recipe run for PROPs (with the universal property in Construction/PROP/Presentation/Universal.v)"
+      },
+      {
+        "file": "Construction/Free.v",
+        "line": 62,
+        "symbol": "(header essay)",
+        "intree_statement": "'The textbook home of this construction is Mac Lane's Chapter II: §II.7 ... and §II.8 [Quotient Categories] immediately quotients it, with Proposition 8.1 producing the category generated by a graph subject to relations among its paths ... In this library the quotient half is Construction/Quotient.v, and Construction/PROP/Presentation.v runs the same recipe one level down for presented PROPs.'"
+      }
+    ],
+    "statement_record": {
+      "book": "When C is the free category on a graph G, the quotient C/R is called the category with generators G and relations R (example: the ordinal 3 presented by three objects, arrows f, g, h and the single relation h = g o f; the one-object case recovers presented monoids).",
+      "intree": "Both halves exist generically (FreeOnQuiver; Quotient by a HomCongruence), and the assembled 'free quotiented by congruence generated by equations' pattern is fully realized one level up for PROPs (PresentedCat := Quotient (FreeCat Σ) TermEqW, with projection functor and universal property) and for coloured PROPs — but never for a bare quiver.",
+      "strength_comparison": "intree-weaker: the general definition 'category with generators G and relations R' over an arbitrary quiver is not assembled — Quotient is never applied to FreeOnQuiver, and there is no generic congruence-generated-by-path-equations closure over a free path category; the recipe is instantiated only at the (symmetric monoidal) PROP level, whose objects are fixed to nat."
+    },
+    "gap": "No assembled construction taking a quiver G plus a family of path equations to Quotient (FreeOnQuiver G) (least congruence): grep -rn 'FreeOnQuiver' shows its only use outside its defining file is Test/Issue138.v, and no in-tree category (e.g. the book's ordinal-3 example, or presented monoids as the one-object case) is built by generators and relations. The PROP-level PresentedCat is the same recipe but specialized to signature term categories over nat objects.",
+    "negative_search_log": [
+      "grep -rn 'FreeOnQuiver' --include=*.v — defining file plus Test/Issue138.v only; never composed with Quotient",
+      "grep -rni 'generators and relations|presented' --include=*.v — only PROP/ColouredPROP Presentation files and their Tietze/Universal satellites"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified TermEqW at Construction/PROP/Presentation.v:136 and PresentedCat at :180 (exact); Free.v:62 header essay quote accurate (explicitly cites Mac Lane II.7/II.8 and points at Quotient.v + PROP/Presentation.v). Independently confirmed FreeOnQuiver is never composed with Quotient — its only external use is Test/Issue138.v. PARTIAL with the stated gap is exact."
+    }
+  },
+  {
+    "id": "maclane:II.8:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "commuting square category by presentation",
+      "free square graph with one relation",
+      "walking commutative square",
+      "four-object square index category",
+      "arrow count in presented square"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'commut.*square' --include=*.v -l — hits are the commuting-squares DOUBLE category Construction/Sq.v (squares as 2-dimensional cells over an ambient C; different content), pullback/orthogonality files (Theory/Morphisms/Stability.v, Theory/Orthogonality.v), and coherence-square prose; none is the presented four-object category with 4 identities and exactly 5 non-identity arrows",
+      "ls Instance/ — finite shape categories in-tree are One, Two, Zero, Parallel, Roof, Omega; no square/commutative-square index category",
+      "grep -rn 'FreeOnQuiver' --include=*.v — no presented finite category is built from a quiver anywhere (only Test/Issue138.v's loop quiver)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: Construction/Sq.v is the commuting-squares double category over an ambient C (different content); finite shapes in Instance/ are One/Two/Zero/Parallel/Roof/Omega — no walking commutative square, no presented finite category, no arrow-count result."
+    }
+  },
+  {
+    "id": "maclane:II.8:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "congruence on a one-object category = normal subgroup",
+      "normal subgroup",
+      "quotient group as quotient category",
+      "group congruence",
+      "Grp / group objects"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'normal subgroup|NormalSubgroup' --include=*.v — 0 hits",
+      "grep -rni 'class Group|Record Group|Definition Group' --include=*.v — Instance/Comp.v defines Group := Algebra GroupOp GroupEq (groups as equational algebras for the computability development); no congruence/normal-subgroup correspondence there",
+      "grep -rn 'Grp\\b' --include=*.v — prose mentions only (Structure/Group.v is GROUP OBJECTS in a cartesian category; Structure/Complete.v cites Grp in an essay); no category Grp of groups and no one-object-group congruence theorem",
+      "Construction/Quotient.v read in full — provides the general HomCongruence quotient the exercise would instantiate, but no group instantiation exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: 'normal subgroup' has 0 hits; Structure/Group.v is group OBJECTS in a cartesian category; Instance/Comp.v's Group is an equational algebra (Group_operation at :285) with no congruence correspondence. ABSENT confirmed."
+    }
+  }
+]

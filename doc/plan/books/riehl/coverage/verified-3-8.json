@@ -1,0 +1,459 @@
+[
+ {
+  "id": "riehl:3.6:def-continuous",
+  "classification": "PRESENT",
+  "aliases": [
+   "complete category / cocomplete category / bicomplete",
+   "continuous functor / cocontinuous functor",
+   "preserves all (small) limits / preserves all colimits",
+   "Coq: Complete, Cocomplete, PreservesAllLimits, PreservesAllColimits",
+   "dual form: C cocomplete iff C^op complete; F cocontinuous iff F^op continuous"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Preservation.v",
+    "line": 229,
+    "symbol": "PreservesAllLimits",
+    "intree_statement": "Definition PreservesAllLimits {C D : Category} (F : C ⟶ D) : Type := ∀ (J : Category) (G : J ⟶ C), PreservesLimit G F."
+   },
+   {
+    "file": "Structure/Limit/Preservation.v",
+    "line": 232,
+    "symbol": "PreservesAllColimits",
+    "intree_statement": "Definition PreservesAllColimits {C D : Category} (F : C ⟶ D) : Type := ∀ (J : Category) (G : J ⟶ C), PreservesColimit G F."
+   },
+   {
+    "file": "Structure/Complete.v",
+    "line": 115,
+    "symbol": "Complete",
+    "intree_statement": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F."
+   },
+   {
+    "file": "Structure/Complete.v",
+    "line": 119,
+    "symbol": "Cocomplete",
+    "intree_statement": "Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F."
+   }
+  ],
+  "statement_record": {
+   "book": "A category is complete (resp. cocomplete) when it has all small limits (resp. all small colimits); a functor is continuous (resp. cocontinuous) when it preserves all small limits (resp. all small colimits).",
+   "intree": "Complete {C} := ∀ (D : Category) (F : D ⟶ C), Limit F;  Cocomplete {C} := ∀ (D : Category) (F : D ⟶ C), Colimit F;  PreservesAllLimits F := ∀ J (G : J ⟶ C), PreservesLimit G F;  PreservesAllColimits F := ∀ J (G : J ⟶ C), PreservesColimit G F.",
+   "strength_comparison": "same, with two presentational caveats that are documented in-tree. (1) Smallness: the definitions quantify over ∀ (D : Category) with no explicit smallness predicate; Structure/Complete.v's header states that 'the size discipline is instead carried implicitly by the library's universe polymorphism … the universe-polymorphic stand-in for D small relative to C', so this is the small-limit reading, not the (Freyd-inconsistent) all-diagrams reading. (2) Same-name-but-weaker trap checked: the underlying Class PreservesLimit (Structure/Limit/Preservation.v:48) is APEX-ONLY — 'preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L)' constrains only the image apex, leaving the legs unconstrained; the cone-level strengthening that Riehl's arguments (e.g. §3.6's use of representability) actually need is PreservesImageLimit (Construction/Comma/Limit.v:110), which is stated separately and is NOT what PreservesAllLimits packages."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Evidence re-opened and exact: Structure/Complete.v:115 `Definition Complete {C : Category} := forall (D : Category) (F : D --> C), Limit F.` and :119 the Cocomplete dual; Structure/Limit/Preservation.v:229/232 PreservesAllLimits / PreservesAllColimits, quotes verbatim-accurate at those exact lines. All four files registered in _CoqProject. STRENGTHENING THE RECORD (evidence the classifier flagged in prose but did not cite as evidence): the cone-level, faithful reading of Riehl's CONTINUOUS FUNCTOR does exist in-tree as `PreservesImageLimit` (Construction/Comma/Limit.v:110), and after `End CommaLimit` (line 250) it discharges to a fully general `@PreservesImageLimit C D U` over an arbitrary functor U -- see its use at Construction/Comma/Limit.v:265 (`right_adjoint_PreservesImageLimit ... : @PreservesImageLimit C D U`), Adjunction/GAFT.v:242 and Adjunction/SAFT.v:275. So the continuous half is PRESENT in substance, not merely in the apex-only form. TWO HONEST CAVEATS the record understates by opening strength_comparison with 'same': (i) the apex-only `Class PreservesLimit` (Structure/Limit/Preservation.v:48) is STRICTLY weaker than the standard notion -- the library says so itself at Construction/Comma/Limit.v:56-66 -- so `PreservesAllLimits` alone would not have supported a PRESENT verdict; (ii) there is NO named cone-level COCONTINUITY dual: `rg PreservesImage` returns only the limit form, so cocontinuity at cone level is available only by op-ing (`@PreservesImageLimit C^op D^op (F^op)`), consistent with the library's duality-by-definition convention (Colimit F := Limit (F^op)). Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:prop1",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Set is cocomplete",
+   "colimits of setoids / Sets_Cocomplete",
+   "coequalizer in Set = quotient by the generated equivalence relation",
+   "small coproducts = disjoint unions (Sets_Cocartesian, iprod dual)",
+   "HasCoequalizers Sets / Sets_Coequalizer"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets/Cocartesian.v",
+    "line": 28,
+    "symbol": "Sets_Cocartesian",
+    "intree_statement": "#[export] Program Instance Sets_Cocartesian : @Cocartesian Sets := { product_obj := fun x y => {| carrier := (carrier x + carrier y)%type ; is_setoid := {| equiv := … inl/inr case split … |} |}; … } — the binary coproduct of setoids as the disjoint union, with copairing as its universal property."
+   },
+   {
+    "file": "Instance/Sets/Pushout.v",
+    "line": 185,
+    "symbol": "Sets_HasPushouts",
+    "intree_statement": "#[export] Program Instance Sets_HasPushouts : HasPushouts Sets := {| … |} — the pushout of B <-f- A -g-> C is the quotient (B ⊔ C)/~ by the inductively generated equivalence relation pushout_eq (constructors po_inl_cong, po_inr_cong, po_glue, po_sym, po_trans), i.e. exactly Riehl's 'quotient by the equivalence relation generated by f a ~ g a', in pushout rather than coequalizer form."
+   },
+   {
+    "file": "Instance/Sets.v",
+    "line": 265,
+    "symbol": "Sets_Initial",
+    "intree_statement": "#[export] Program Instance Sets_Initial : @Initial Sets := { terminal_obj := {| carrier := False |}; one := _ } — the empty (nullary) coproduct."
+   }
+  ],
+  "statement_record": {
+   "book": "Set is cocomplete: by the coproducts+coequalizers reduction (Thm 3.5.11) it suffices that Set have small coproducts (disjoint unions) and coequalizers (B/~ for the equivalence relation generated by f a ~ g a).",
+   "intree": "Sets_Cocartesian : @Cocartesian Sets (binary disjoint-union coproduct); Sets_Initial : @Initial Sets (empty coproduct); Sets_HasPushouts : HasPushouts Sets (the generated-equivalence-relation quotient of B ⊔ C).",
+   "strength_comparison": "intree-weaker: the conclusion 'Sets is cocomplete' is never stated. Only finite coproducts, the initial object and pushouts are proven, and the quotient construction that Riehl uses for coequalizers appears only in its pushout instance. (Note also the object-level mismatch that is nevertheless faithful for this item: in-tree 'Sets' is the category of setoids, so the quotient is carried by the apex setoid's own equivalence relation and the construction is funext-free.)"
+  },
+  "gap": "Three missing pieces. (1) No `Cocomplete Sets` anywhere — `grep -rn --include='*.v' -E 'Cocomplete|@Complete '` returns only Structure/Complete.v's definitions plus abstract consumers (Adamek/Corollaries.v, Comma/Limit.v, GAFT.v, SAFT.v); no Instance/ file inhabits either. (2) No coequalizer in Sets: `grep -rniE 'Sets_Coequalizer|HasCoequalizers Sets'` = 0 hits; the only HasCoequalizers-related instance in-tree is Structure/Coequalizer/Reflexive.v:75 (a derivation between two abstract classes). (3) No SMALL-FAMILY coproduct in Sets: Structure/Limit/Product.v's iprod/HasIndexedProducts is abstract and has no Sets instance, and its dual is not developed. Also missing is the reduction theorem itself (Riehl 3.5.11, 'coproducts + coequalizers ⇒ cocomplete'): `grep -riE 'products and equalizers'` hits only header prose (Structure/Limit.v:71, Structure/Equalizer.v:80, Structure/Complete.v:51), never a lemma, so even the three present pieces cannot be assembled in-tree.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -E 'Cocomplete|Continuous|Cocontinuous|PreservesLimit|PreservesColimit' . — no Sets/FinSet instance of Cocomplete",
+   "grep -rn --include='*.v' -E 'Sets_Cocomplete|Sets_Complete|Cocomplete Sets|Complete Sets' . — 0 hits",
+   "grep -rn --include='*.v' -iE 'Sets_Coequalizer|HasCoequalizers Sets' . — 0 hits",
+   "grep -rn --include='*.v' -E 'Limit|Colimit' Instance/ — only Instance/Cones/Limit.v (Limit_Cones from a terminal cone), no concrete completeness instance",
+   "grep -rn --include='*.v' -iE 'products and equalizers|limits from products' . — prose-only hits in Structure/{Limit,Equalizer,Complete,Topos}.v headers"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, on the same three pieces. Evidence re-opened: Instance/Sets/Cocartesian.v:28 Sets_Cocartesian (binary disjoint-union coproduct), Instance/Sets/Pushout.v:185 Sets_HasPushouts (the generated-equivalence-relation quotient of B (+) C), Instance/Sets.v:265 Sets_Initial (carrier := False). All lines exact, all files in _CoqProject. Negative claims re-run and confirmed: no `Cocomplete Sets` / `Sets_Coequalizer` / `HasCoequalizers Sets` anywhere; and the reduction theorem Riehl 3.5.11 ('coproducts + coequalizers => cocomplete') is NOT in-tree -- `rg -i 'products and equalizers'` hits only header prose at Structure/Limit.v:71, Structure/Equalizer.v:80, Structure/Complete.v:51, never a lemma. One additional in-tree piece the record omits and an issue draft should cite: Instance/Sets/Coend.v:69-93 builds a colimit-shaped quotient in Sets (coend_sum / coend_eq / coend_apex_setoid) as an inductive setoid quotient by exactly the dinaturality relation -- the same 'quotient by a generated equivalence relation' technique Riehl uses for coequalizers, applied to a different diagram shape. It strengthens the PARTIAL but does not close the gap (still no coequalizer of a bare parallel pair, no small-family coproduct, no cocompleteness conclusion). Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:prop2",
+  "classification": "ABSENT",
+  "aliases": [
+   "Top is complete and cocomplete / bicomplete",
+   "category of topological spaces and continuous maps",
+   "underlying-set functor U : Top ⟶ Set is continuous and cocontinuous",
+   "topological product / subspace / quotient / disjoint-union topology",
+   "U represented by the one-point space (Sierpinski/singleton representability)",
+   "Coq encoding: Instance/Top.v, TopologicalSpace, OpenSets, Continuous"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "ls Instance/ — no Top.v (categories present: Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX)",
+   "grep -rn --include='*.v' -E 'Instance Top|Category Top|topological space' . — 0 hits",
+   "grep -rn --include='*.v' -iE '\\btop\\b|topology|Open' Instance/ Theory/ Structure/ Construction/ — only unrelated uses (Instance/Shapes.v's `Top` constructor of a shape grammar, Instance/Two.v's lattice 'top', `Open Scope`, 'topos')",
+   "grep -rn --include='*.v' -iE 'Topological' . — 20 hits, all prose in background essays (no definition)",
+   "grep -rn --include='*.v' -iE 'quotient topology|subspace topology|coarsest|finest' . — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-ran the decisive searches: `ls Instance/` has no Top.v (Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX); `rg -i 'topolog|open set'` over all .v files returns only bibliographic prose (Theory/Algebra/Frobenius.v, Theory/Monad.v, Construction/Karoubi.v, Construction/Enriched.v:70 'K = Top gives topological categories', Construction/Grothendieck.v on Grothendieck topologies) -- no space, no open-set structure, no continuous-map hom. Nothing to be complete or cocomplete about, and no U : Top --> Set to be continuous. NOT OUT_OF_SCOPE: Top is perfectly formalizable in this setting (an object would be a setoid plus an open-family predicate), it simply is not there. Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:example3",
+  "classification": "ABSENT",
+  "aliases": [
+   "limits/colimits in Top are the set-level (co)limits topologized",
+   "initial/final topology, coarsest/finest topology making the legs continuous",
+   "inverse limit of circles under p-th power maps",
+   "p-adic solenoid, solenoid group, ω^op-indexed inverse limit in Top",
+   "Coq encoding: Instance/Top.v + Limit of a Cochain / Omega^op diagram"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'solenoid' . — 0 hits",
+   "grep -rn --include='*.v' -iE 'p-adic' . — 1 hit, Structure/Limit.v:51, prose only ('the p-adic integers' cited as a motivating example of a projective limit; no construction)",
+   "grep -rn --include='*.v' -E 'Instance Top|Category Top|topological space' . — 0 hits (no Top to topologize into)",
+   "grep -rn --include='*.v' -iE 'circle|S\\^1|covering map|winding' . — no relevant hits",
+   "ls Instance/ — no Top.v; Instance/Omega.v exists (the ordinal ω, with Cochain by duality) but carries no Top-valued diagram"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. `rg -i 'solenoid|p-adic|circle|covering map|coarsest|finest|quotient topology|subspace topology'` -- the only hit is Structure/Limit.v:51, background prose naming the p-adic integers as a motivating projective limit, with no construction. With no Top in the tree there is no category in which to topologize a set-level (co)limit, so both halves of the example (the initial/final topology recipe and the omega^op diagram of p-th power maps) have no counterpart. Instance/Omega.v does supply the ordinal omega with Cochain by duality, but it carries no Top-valued diagram. Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:example4",
+  "classification": "ABSENT",
+  "aliases": [
+   "configuration space of n points, Conf_n(X)",
+   "ordered configuration space PConf_n(X), complement of the fat diagonal",
+   "symmetric group action B S_n ⟶ Top, colimit over the delooped symmetric group",
+   "quotient by a group action as a colimit / orbit space",
+   "Coq encoding: Instance/Top.v + DiscreteCat/group-as-one-object-category diagram"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'configuration' . — 1 hit, Construction/Cospan/SCFA.v:130, an unrelated use of the English word ('the dual configurations use [back] on the LEFT')",
+   "grep -rn --include='*.v' -iE 'fat diagonal|Conf\\b|PConf' . — 0 relevant hits",
+   "grep -rn --include='*.v' -E 'Instance Top|topological space' . — 0 hits",
+   "grep -rn --include='*.v' -iE 'one-object categor|delooping|Deloop|BMonoid|One_Object' . — only Theory/Bicategory/OneObject.v (a MONOIDAL CATEGORY delooped to a one-object BICATEGORY) and prose; there is no construction turning a group/monoid into a one-object category, so the diagram shape B S_n cannot even be written",
+   "grep -rn --include='*.v' -iE 'symmetric group|group action|orbit' Instance/ Structure/ Construction/ — no group-action diagram construction"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. `rg -i 'configuration|fat diagonal|PConf|Conf_n'` -- no relevant hits (the sole 'configuration' occurrence is an unrelated English use in Construction/Cospan/SCFA.v). Independently confirmed the sharper obstruction the record names: the DIAGRAM SHAPE B S_n cannot even be written, because nothing in-tree deloops a group or monoid into a one-object category -- `rg -i 'one-object|deloop'` finds only Structure/Monoidal.v:109-110 and Theory/Bicategory/OneObject.v, which deloop a MONOIDAL CATEGORY into a one-object BICATEGORY, a different construction. Structure/Monoid.v is monoid OBJECTS in a monoidal category, not monoids-as-categories. Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:prop5",
+  "classification": "PARTIAL",
+  "aliases": [
+   "slice/over category C/c and coslice/under category c/C are bicomplete",
+   "the forgetful functor from a slice creates limits and connected colimits",
+   "comma category over a right adjoint is complete (Comma_Complete)",
+   "wide pushout under c gives coproducts in c/C; wedge sum of based objects",
+   "connected colimits, initial object id_c of c/C"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Comma/Limit.v",
+    "line": 245,
+    "symbol": "Comma_Complete",
+    "intree_statement": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K."
+   },
+   {
+    "file": "Construction/Comma/Limit.v",
+    "line": 271,
+    "symbol": "Comma_Complete_right_adjoint",
+    "intree_statement": "Definition Comma_Complete_right_adjoint {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) (d : D) (HC : @Complete C) : @Complete (=(d) ↓ U) := Comma_Complete (right_adjoint_PreservesImageLimit A) HC."
+   },
+   {
+    "file": "Construction/Slice.v",
+    "line": 181,
+    "symbol": "Comma_Coslice",
+    "intree_statement": "#[export] Program Instance Comma_Coslice `(C : Category) `(c : C) : c ̸co C ≅[Cat] (=(c) ↓ Id) := { to := …; from := … } — the coslice is isomorphic in Cat to the comma category to which Comma_Complete applies (with U := Id, whose PreservesImageLimit witness is right_adjoint_PreservesImageLimit adj_id, Instance/Adjoints.v:42)."
+   }
+  ],
+  "statement_record": {
+   "book": "If C is complete and cocomplete then so are c/C and C/c: the forgetful functor creates all limits and all connected colimits, and coproducts in c/C are wide pushouts under c (the empty one being id_c).",
+   "intree": "Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U); together with Comma_Coslice : c ̸co C ≅[Cat] (=(c) ↓ Id), this gives the coslice-complete leg.",
+   "strength_comparison": "intree-weaker: one of the four legs only (coslice + complete), and stated for the comma category rather than for Coslice itself. Comma_Complete is genuinely a creation-of-limits argument (Construction/Comma/Limit.v's Create section builds the limit of K from the limit of comma_proj2 ◯ K), so it matches Riehl's proof method for the limit half; but it carries an extra hypothesis Riehl's Π does not need in this special case — the cone-level PreservesImageLimit on U (discharged for U := Id by the identity adjunction adj_id, though the library never writes that instantiation)."
+  },
+  "gap": "Three of the four legs are missing, plus the transport. (a) COCOMPLETENESS of a slice/coslice is entirely absent: no connected-colimit vocabulary exists (`grep -riE 'connected colimit|wide pushout|wide colimit'` = 0 hits; `Structure/Coequalizer/Reflexive.v` is about reflexive pairs, not connected diagrams), and Riehl's coproduct-as-wide-pushout construction has no counterpart. (b) The SLICE C/c (= Id ↓ =(c)) is not covered at all: Comma_Complete is stated only for the coslice-shaped comma `=(d) ↓ U`, and completeness of a slice is not the formal dual of completeness of a coslice. (c) No in-tree statement `@Complete (Coslice C c)` or `@Complete (Slice C c)` — the transport across Comma_Coslice is available but never taken. (d) The forgetful functor Π : c/C ⟶ C is never shown to create limits as a named result (Riehl 3.4.8); the creation is inlined inside comma_limit.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'connected|wide pushout|wide colimit' . | grep -iE 'definition|lemma|theorem|class|instance' — only Instance/FinSet/Pushout.v's connected-components computation for FinSet pushouts; no connected-diagram/connected-colimit notion",
+   "grep -rn --include='*.v' -iE 'slice' . | grep -iE 'limit|colimit|complete|create' — only Construction/Slice/Pullback.v (Bang_Functor/Star_Functor) and header prose; no completeness statement",
+   "grep -rn --include='*.v' -E 'Coslice' . — Construction/Slice.v only (definition + Comma_Coslice iso)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, on the same leg. Evidence re-opened and exact: Construction/Comma/Limit.v:245 `Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) |> U) := fun J K => comma_limit HC HU K.`, :271 Comma_Complete_right_adjoint, Construction/Slice.v:181 Comma_Coslice (the Cat-iso `c /co C ~= (=(c) |> Id)`), and Instance/Adjoints.v:42 `Program Instance adj_id {C : Category} : Id -| Id` really does exist, so the record's route to a PreservesImageLimit witness for U := Id is sound (via right_adjoint_PreservesImageLimit at Construction/Comma/Limit.v:264). The four-gap analysis holds under independent search: (a) no connected-colimit or wide-pushout vocabulary anywhere; (b) Comma_Complete is stated ONLY for the coslice-shaped comma `=(d) |> U`, and completeness of a slice is not the formal dual of completeness of a coslice (dualizing swaps Complete for Cocomplete), so C/c is genuinely uncovered -- I checked Construction/Slice/Pullback.v, which contains only Bang_Functor (line 50) and Star_Functor (line 67), no (co)completeness; (c) neither `@Complete (Coslice C c)` nor `@Complete (Slice C c)` is ever written; (d) creation of limits by the projection is inlined in comma_limit, never named. Classification unchanged. (A header defect noticed in Construction/Slice/Pullback.v while checking (b) is reported in problems[].)"
+  }
+ },
+ {
+  "id": "riehl:3.6:prop6",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Cat is complete / CAT is complete",
+   "products of categories, equalizer of a parallel pair of functors",
+   "ob and mor : Cat ⇒ Set are represented by 1 and 2 (hence preserve limits)",
+   "limits of categories computed on objects and morphisms",
+   "Coq: Cat_Cartesian, Cat_Terminal, Complete Cat"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Cat/Cartesian.v",
+    "line": 39,
+    "symbol": "Cat_Cartesian",
+    "intree_statement": "#[export] Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x) ; fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := {| fobj := fst; fmap := fun _ _ => fst |}; exr := {| fobj := snd; fmap := fun _ _ => snd |} }."
+   },
+   {
+    "file": "Instance/One.v",
+    "line": 54,
+    "symbol": "Cat_Terminal",
+    "intree_statement": "Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; … } — the nullary product of categories."
+   }
+  ],
+  "statement_record": {
+   "book": "Cat (small categories) and CAT (locally small categories) are complete; limits are computed on objects and on morphisms, products are the product categories of Definition 1.3.12, and the equalizer of F, G : C ⇒ D is the subcategory of C on the objects/morphisms where F and G agree; Theorem 3.5.11 then gives all small limits.",
+   "intree": "Cat_Cartesian : @Cartesian Cat (binary products, with the UMP up to natural isomorphism since the hom-equivalence in Cat is ≅ rather than on-the-nose equality) and Cat_Terminal : @Terminal Cat.",
+   "strength_comparison": "intree-weaker: FINITE products only, no equalizers, and no completeness conclusion. The in-tree UMP is also stated up to ≅ in Cat (natural isomorphism) rather than as an equality of functors, per Instance/Cat/Cartesian.v's header — faithful for a bicategorical reading but weaker than the strict equalizer-of-functors construction Riehl uses (which needs on-the-nose F c = G c)."
+  },
+  "gap": "Missing: (1) equalizers of a parallel pair of functors — `grep -riE 'Cat_Equalizer|Equalizer Cat'` = 0 hits, and there is no subcategory-where-two-functors-agree construction; (2) small-family products of categories (Structure/Limit/Product.v's iprod has no Cat instance); (3) any `@Complete Cat` statement; (4) the lead-in representability argument — no ob/mor functors Cat ⟶ Sets exist (`grep -E 'Cat ⟶ Sets|ob_functor|mor_functor'` = 0 hits), so 'ob is represented by 1 and mor by 2' is not available; (5) the Cat/CAT size distinction is not drawn — Instance/Cat.v is a single universe-polymorphic Cat, so the proposition's two-category scope collapses to one.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -E 'Cat_Cartesian|Cat_Terminal|Cat_Initial|Cat_Cocartesian|Complete Cat|Cocomplete Cat' . — finite (co)products and the terminal/initial object only",
+   "grep -rn --include='*.v' -iE 'Cat_Equalizer|Equalizer Cat' . — 0 hits",
+   "grep -rn --include='*.v' -E 'Cat ⟶ Sets|ob_functor|mor_functor|Obj_Functor' . — 0 hits",
+   "grep -rn --include='*.v' -iE 'locally small' . — 4 hits, all prose (Functor/Hom.v, Functor/Representable.v, Construction/Enriched.v, Structure/Complete.v); no CAT-vs-Cat distinction is formalized"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently. Evidence re-opened: Instance/Cat/Cartesian.v:39 Cat_Cartesian (quote accurate; binary product only, with the header itself saying 'This supplies only the *binary* products') and Instance/One.v:54 Cat_Terminal (terminal_obj := _1, with _1 defined at Instance/One.v:25). Both in _CoqProject. The five listed gaps all re-verified: no Cat_Equalizer / equalizer-of-functors subcategory, no small-family product of categories, no `@Complete Cat`, no ob/mor functors Cat --> Sets (`rg 'Cat --> Sets|ob_functor|mor_functor|Obj_Functor'` = 0), and no Cat/CAT size distinction (`rg -i 'locally small'` = 4 prose hits only; Theory/Metacategory.v:54 in fact says the metacategory CAT 'is too big'). I independently confirm the record's sharpest observation, which is the real obstruction and is honestly stated: Instance/Cat.v:142-145 gives Cat the hom-setoid `Functor_Setoid` (natural isomorphism of functors), so Riehl's equalizer -- the subcategory on the objects where F c = G c ON THE NOSE -- is not merely unproven but not expressible as stated in this Cat. Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:construction-cat-coproducts",
+  "classification": "PARTIAL",
+  "aliases": [
+   "coproducts in Cat are disjoint unions",
+   "every small category is the coproduct of its connected components",
+   "connected component of a category, π0 of a category",
+   "Coq: Cat_Cocartesian, Construction/Coproduct.v, Cat_Initial",
+   "reduction of cocompleteness to pushouts (Lemma 3.5.16)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Cat/Cocartesian.v",
+    "line": 40,
+    "symbol": "Cat_Cocartesian",
+    "intree_statement": "#[export] Program Instance Cat_Cocartesian : @Cocartesian Cat := { product_obj := @Coproduct; fork := fun _ _ _ F G => {| fobj := fun x => match x with inl x => F x | inr x => G x end ; fmap := … |}; exl := {| fobj := Datatypes.inl; … |}; exr := {| fobj := Datatypes.inr; … |} } — the coproduct of two categories is the disjoint-union category C ∐ D, cross-summand homs being empty."
+   },
+   {
+    "file": "Instance/Zero.v",
+    "line": 44,
+    "symbol": "Cat_Initial",
+    "intree_statement": "Program Instance Cat_Initial : @Initial Cat := { terminal_obj := _0; … } — the empty category as the nullary coproduct in Cat."
+   }
+  ],
+  "statement_record": {
+   "book": "Coproducts in Cat are disjoint unions: any small category is uniquely a coproduct of its connected components, so the coproduct of a family of categories is their disjoint union; with Lemma 3.5.16 this reduces cocompleteness of Cat to pushouts (deferred to Corollary 4.6.15).",
+   "intree": "Cat_Cocartesian : @Cocartesian Cat with product_obj := @Coproduct (the disjoint-union category), plus Cat_Initial : @Initial Cat for the empty coproduct.",
+   "strength_comparison": "intree-weaker: only the BINARY (plus nullary) coproduct is exhibited, and only the 'coproduct = disjoint union' half; the connected-components decomposition — the actual content of Riehl's remark — is absent, as is the reduction to pushouts."
+  },
+  "gap": "Missing: (1) connected components of a category — there is no π0 / connected-component construction anywhere (`grep -riE 'connected'` finds only Instance/FinSet/Pushout.v's connected-components computation on a FinSet edge relation, which is about the set-level pushout quotient, not about decomposing a category); (2) the uniqueness claim 'every small category is uniquely a coproduct of its connected components'; (3) small-family (as opposed to binary) coproducts in Cat; (4) the Lemma 3.5.16 reduction 'coproducts + pushouts ⇒ cocomplete', which has no in-tree counterpart, so nothing follows about Cocomplete Cat.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'connected|wide pushout|wide colimit' . | grep -iE 'definition|lemma|theorem|class|instance' — only Instance/FinSet/Pushout.v connected-components labeling (a FinSet computation)",
+   "grep -rn --include='*.v' -iE 'Pushout Cat|HasPushouts Cat|Cat_Pushout' . — 0 hits",
+   "grep -rn --include='*.v' -E 'Cocomplete Cat' . — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently. Evidence re-opened: Instance/Cat/Cocartesian.v:40 Cat_Cocartesian (product_obj := @Coproduct, the disjoint-union category, cross-summand homs False; quote accurate) and Instance/Zero.v:44 Cat_Initial. Both in _CoqProject; Instance/Cat/Cocartesian.v's own header confirms 'Cat has finite coproducts' and that the nullary one is Instance/Zero.v -- consistent, no same-name-weaker trap. Gaps re-verified: no pi_0 / connected-component construction for a category anywhere (`rg -i 'connected component'` hits only Instance/FinSet/Pushout.v:265/398/405, which is the connected-components labelling of a FinSet EDGE RELATION for computing set-level pushouts -- unrelated to decomposing a category); no uniqueness claim; no small-family coproduct in Cat; no Lemma-3.5.16 reduction. Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:example7",
+  "classification": "ABSENT",
+  "aliases": [
+   "category of elements ∫F / el(F) of a Set-valued functor",
+   "Grothendieck construction of a presheaf; discrete opfibration / discrete left fibration",
+   "pullback in CAT of C -F-> Set <-U- Set_* (pointed sets)",
+   "Set_* the category of pointed sets, U the underlying-set functor",
+   "Coq: Elements, CatOfElements, Grothendieck applied to a Sets-valued functor"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'category of elements|Elements\\b|Elts|CatOfElements' . — 1 relevant hit: Construction/Grothendieck.v:108, and it is HEADER PROSE explicitly describing the construction as NOT done: 'Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F) …'. No definition follows.",
+   "grep -rn --include='*.v' -iE 'discrete fibration|discrete opfibration' . — 1 hit, Structure/Factorization.v:98, prose only",
+   "grep -rn --include='*.v' -iE 'pointed|Set_\\*|Sets_star' . | grep -iE 'definition|instance|class|record' — only Instance/Fun.v's Pointed/WellPointed ENDOFUNCTOR classes and Instance/Coq/Par.v prose about pointed sets; there is no category of pointed sets and no U : Set_* ⟶ Set",
+   "grep -rn --include='*.v' -iE 'Pullback Cat|HasPullbacks Cat|Cat_Pullback' . — 0 hits, so the pullback in CAT that the example asserts cannot be stated either",
+   "Construction/Grothendieck.v:406 `Definition Grothendieck : Category := Total Grothendieck_Displayed` is the Cat-VALUED Grothendieck construction over an IndexedCat; no in-tree assertion instantiates it at a Sets-valued functor (Construction/Grothendieck/Strict.v's IndexedCat_of_StrictFunctor takes a strict functor into Cat, and no DiscreteCat ∘ F composite is built)."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. `rg -i 'category of elements'` over all .v files returns exactly ONE hit, Construction/Grothendieck.v:108, and I opened it: it sits inside the file's background essay ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F) ...'), in the same paragraph as the modules-over-rings and semidirect-product remarks -- mathematical background about what the general construction organizes, not a claim that el(F) is built. No definition follows; Construction/Grothendieck.v:406 `Definition Grothendieck : Category := Total Grothendieck_Displayed` is over an IndexedCat (a Cat-valued coherent pseudofunctor), and nothing composes DiscreteCat with a Sets-valued functor to instantiate it. Independently confirmed both other subjects of the example are missing too: there is no category of pointed sets Set_* (`rg -i pointed` finds only Instance/Fun.v:230/240's Pointed/WellPointed ENDOFUNCTOR classes and prose in Instance/Coq/Par.v) and no pullbacks in Cat at all. Adjacency note for Phase E: Construction/Grothendieck.v (+ Construction/Grothendieck/Strict.v's IndexedCat_of_StrictFunctor and Instance/Discrete.v's DiscreteCat) is the natural home for a future el(F), and an issue should say so; but as the item stands -- el(F) EXHIBITED AS A PULLBACK IN CAT -- neither subject nor claim is in-tree, so ABSENT rather than PARTIAL is right. Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:example8",
+  "classification": "ABSENT",
+  "aliases": [
+   "pushout in Cat of 1 + 1 -> 2 along 1 + 1 -> 1",
+   "BN, the one-object category on a free endomorphism; the monoid (ℕ, +) as a category",
+   "BZ, the delooped group of integers; walking isomorphism I",
+   "free category on one object and one non-identity arrow",
+   "monoids are one-object categories (delooping)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'Pushout Cat|HasPushouts Cat|Cat_Pushout' . — 0 hits; the only HasPushouts instances in-tree are Sets (Instance/Sets/Pushout.v:185) and FinSet (Instance/FinSet/Pushout.v:513)",
+   "grep -rn --include='*.v' -iE 'one-object categor|delooping|Deloop|BMonoid|One_Object|OneObjectCat' . — Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY into a one-object BICATEGORY; no construction deloops a monoid or group into a category, so BN and BZ cannot be named",
+   "grep -rn --include='*.v' -iE 'walking (arrow|isomorphism)' . — Instance/Two.v defines the walking arrow _2, and Construction/Funny.v / Instance/StrictCat/Funny.v mention the walking isomorphism I only in prose; there is no in-tree category I",
+   "grep -rn --include='*.v' -iE 'free monoid on one|free categor' . — Construction/Free.v builds the path category on the underlying quiver of an EXISTING category C (Free/FreeSyntax/FreeFunctor), not the free category on an abstract one-vertex one-edge graph"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-verified every leg: no pushouts in Cat (`rg -i 'Pushout Cat|HasPushouts Cat|Cat_Pushout'` = 0; the only HasPushouts instances in-tree are Instance/Sets/Pushout.v:185 and Instance/FinSet/Pushout.v:513, both confirmed at those exact lines); no delooping of a monoid or group into a category, so BN and BZ have no names (see the example4 note); no walking isomorphism category I (Instance/Two.v:134 defines the walking arrow _2, and I appears only in prose in the Funny-tensor files). Construction/Free.v:118 `Free` is the path category on the underlying quiver of an EXISTING category C (with FreeFunctor at :164, FreeSyntax at :253), not the free category on an abstract one-vertex one-loop graph, so it does not give BN either. Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:remark9",
+  "classification": "ABSENT",
+  "aliases": [
+   "CAT is not cocomplete",
+   "locally small categories, hom-sets that are proper classes",
+   "pushout of ob E -> 1 along ob E -> E collapses objects and destroys local smallness",
+   "size / universe obstruction to colimits of categories",
+   "Coq: universe-level obstruction, Cat vs CAT distinction"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'locally small' . — 4 hits, all background prose (Functor/Hom.v:18, Functor/Representable.v:29, Construction/Enriched.v:26, Structure/Complete.v:83); local smallness is never formalized as a predicate, so 'CAT is not cocomplete' has no statable subject",
+   "grep -rn --include='*.v' -E 'Cocomplete Cat|Complete Cat' . — 0 hits",
+   "grep -rn --include='*.v' -iE 'Pushout Cat|HasPushouts Cat' . — 0 hits (the specific pushout the counterexample is about does not exist in-tree either way)",
+   "grep -rn --include='*.v' -iE 'proper class|size obstruction|too large' . — the only in-tree size-obstruction discussion is Instance/Sets.v / Instance/Sets/Classifier.v about the truth-value setoid living one universe up; nothing about colimits of categories",
+   "Note: Instance/Cat.v is a single universe-polymorphic Cat, so the Cat/CAT distinction this remark contrasts is not drawn anywhere in-tree."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Local smallness is never a predicate in-tree: `rg -i 'locally small'` = 4 hits, all background prose (Functor/Hom.v:18, Functor/Representable.v:29, Construction/Enriched.v:26, Structure/Complete.v:83), so the remark's SUBJECT (a category of locally small categories, distinguished from Cat) cannot be named; Instance/Cat.v:142 is a single universe-polymorphic Cat. Its CLAIM is unavailable too: no `Cocomplete Cat`, no pushouts in Cat. Checked the OUT_OF_SCOPE option and reject it under the frozen rule: the library has universe polymorphism and does formalize size obstructions elsewhere (Instance/Sets/Classifier.v's cross-universe treatment of the truth-value setoid; Structure/Complete.v:64-77 on Freyd's thinness theorem), so a universe-indexed Cat_i / Cat_j pair and a failure-of-colimit statement are formalizable in principle -- this is a genuine absence, not an unformalizable one. ABSENT is the correct and conservative call. Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:prop10",
+  "classification": "ABSENT",
+  "aliases": [
+   "a poset is complete and cocomplete iff it is a complete lattice",
+   "limits in a preorder are infima / greatest lower bounds; colimits are suprema",
+   "complete lattice, meet, join, glb, lub",
+   "completeness is equivalence-invariant; preorder complete iff its skeleton is",
+   "Coq: Instance/Poset.v, Instance/Proset.v, Complete (Poset R)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'complete lattice' . — 2 hits, both header prose (Instance/Poset.v:93 citing Knaster–Tarski; Structure/Complete.v:71 citing Adámek–Herrlich–Strecker on complete small categories being complete lattices). No definition of a complete lattice exists",
+   "grep -n -E '^(Program )?(Definition|Instance|Lemma|Theorem|Class|Record)' Instance/Poset.v Instance/Proset.v — Poset.v declares only eq_equiv, Poset and LessThanEqualTo_Category; Proset.v only Proset and LessThanEqualTo_Category. Both are bare category constructions with no limit theory",
+   "grep -rn --include='*.v' -iE 'infimum|supremum|greatest lower bound|least upper bound' . — 0 hits (Instance/Poset.v:50-51 says 'a product is a meet, and more generally the limit over a subset is its greatest lower bound' in a COMMENT, and nothing proves it)",
+   "grep -rn --include='*.v' -iE 'preorder|thin categor|posetal' Structure/ Theory/ Construction/ — only PreOrder instances on hom (Theory/Category.v:282) and the enriched-in-2 preorder correspondence (Construction/Enriched/Two.v); no limit-in-a-preorder result",
+   "Nearest neighbours, both too weak to count: Instance/Props.v:69/80 prove Props_Cartesian/Props_Cocartesian (binary meet/join in the thin category of propositions) — binary only, one fixed preorder, and no iff; Theory/Equivalence/Limit.v:486 equivalence_creates_limits transports a single limit along an equivalence but never concludes `Complete D` from `Complete C`, so even the proposition's lead-in (equivalence-invariance of completeness, hence 'a preorder is bicomplete iff its skeleton is') is unstated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. No complete lattice exists: `rg -i 'complete lattice'` = 2 hits, both background prose (Instance/Poset.v:93 on Knaster-Tarski, Structure/Complete.v:71 citing Adamek-Herrlich-Strecker). Instance/Poset.v and Instance/Proset.v really do declare nothing but the category constructions (Poset.v: eq_equiv:111, Poset:116, LessThanEqualTo_Category:120; Proset.v: Proset:33, LessThanEqualTo_Category:47) -- no limit theory at all. The nearest neighbours the record names check out and are indeed too weak: Instance/Props.v:69/80 Props_Cartesian/Props_Cocartesian are BINARY meet/join in one fixed thin category, and Theory/Equivalence/Limit.v:486 equivalence_creates_limits transports a single Limit, never concluding Complete D from Complete C. MINOR LOG INACCURACY, not affecting the verdict: the negative_search_log asserts \"grep -riE 'infimum|supremum|greatest lower bound|least upper bound' . -- 0 hits\", but that grep in fact returns one hit, Instance/Poset.v:51 ('the limit over a subset is its greatest lower bound') -- which the same bullet then goes on to quote and correctly dismiss as a comment. The log line should read '1 hit, prose only'. Classification unchanged."
+  }
+ },
+ {
+  "id": "riehl:3.6:example11",
+  "classification": "PARTIAL",
+  "aliases": [
+   "kernel pair of f as the pullback of f along itself",
+   "internal equivalence relation (reflexivity ρ, symmetry σ, transitivity τ)",
+   "quotient object X/R as the coequalizer of the kernel pair; effective equivalence relation",
+   "image factorization f = m ∘ e with m monic; (regular epi, mono) factorization system",
+   "relation as a subobject of X × X; regular category, Grothendieck topos"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Regular/Factorization.v",
+    "line": 270,
+    "symbol": "regular_factorization",
+    "intree_statement": "Definition regular_factorization {x y : C} (f : x ~> y) : Factorization f (@RegularEpiClass C) (@MonoClass C) := {| fact_mid := image_obj f; fact_e := image_epi f; fact_e_in := image_epi_regular f; fact_m := image_mor f; fact_m_in := image_comparison_monic f; fact_comm := image_commutes f |} — with Lemma image_comparison_monic (line 175) : Monic (image_mor f), and Definition Regular_OFS (line 282) : OFS RegularEpiClass MonoClass."
+   },
+   {
+    "file": "Structure/Regular/Factorization.v",
+    "line": 140,
+    "symbol": "image_is_coeq",
+    "intree_statement": "Definition image_is_coeq {x y : C} (f : x ~> y) : IsCoequalizer (pullback_fst f f (image_kernel_pair f)) (pullback_snd f f (image_kernel_pair f)) (image_obj f) (image_epi f) — the quotient X/R of Riehl's clause (d), exhibited as the coequalizer of the two projections of the kernel pair of f (image_kernel_pair f := @kernel_pair C _ x y f := pullback f f)."
+   },
+   {
+    "file": "Instance/Sets/Image.v",
+    "line": 143,
+    "symbol": "Sets_Image_Factorization",
+    "intree_statement": "Definition Sets_Image_Factorization : Factorization f EpiClass MonoClass := @Build_Factorization Sets X Y f EpiClass MonoClass Sets_Image Sets_Image_epi Sets_Image_epi_epic Sets_Image_mono Sets_Image_mono_monic Sets_Image_comm — the concrete Set-level image factorization Riehl points at, over Sets_Image := {| carrier := ∃ y : Y, ∃ x : X, f x ≈ y |}."
+   }
+  ],
+  "statement_record": {
+   "book": "In a finitely (co)complete category: the kernel pair (s,t) : R ⇒ X of f is the pullback of f along itself, and (s,t) : R → X × X is monic, hence a relation; kernel pairs are internal equivalence relations (maps ρ, σ, τ satisfying (i)-(iii)); an internal equivalence relation is defined by that data; the coequalizer of s,t is the quotient X/R; and for kernel pairs f factors uniquely as f = m ∘ e through X/R, with m monic in good situations (regular categories, Grothendieck toposes) — the image factorization.",
+   "intree": "regular_factorization f : Factorization f RegularEpiClass MonoClass, built from image_is_coeq (the image is the coequalizer of the kernel pair pullback f f), image_comparison_monic : Monic (image_mor f), and packaged as Regular_OFS : OFS RegularEpiClass MonoClass; Sets_Image_Factorization is the concrete witness in Sets.",
+   "strength_comparison": "same for the last two clauses (d) and (e) — indeed intree-stronger there, since the mono half is proven (image_comparison_monic, by the double-cover chase) and upgraded to a full orthogonal factorization system rather than merely asserted 'in good situations'. intree-weaker on clauses (a)-(c): the kernel pair exists only as a definitional alias (Structure/Regular.v:46 kernel_pair f := pullback f f) and its monicity into X × X is never proven; the internal-equivalence-relation structure is absent."
+  },
+  "gap": "Clauses (a)(partly), (b) and (c) are missing. (a) Nothing proves that the kernel-pair pairing (s,t) : R → X × X is monic, hence nothing exhibits R as a subobject/relation on X; the generalized-elements reading ('x, x' : Z ⇒ X are identified exactly when f x = f x'') is likewise unstated. (b) The three structure maps ρ (a common section of s and t factoring the diagonal), σ (with t σ = s, s σ = t) and τ (on the pullback of t along s, with s τ = s s̄, t τ = t t̄) are nowhere constructed for a kernel pair. (c) There is NO internal-equivalence-relation class in the library at all: `grep -riE 'equivalence relation|internal relation'` over Structure/ Theory/ Construction/ Instance/ returns only setoid-level equivalence relations and header prose (Structure/Topos.v:92 mentions 'equivalence relations effective' as part of the Giraud-axiom discussion, without formalizing it). Consequently effectiveness/exactness — the converse direction, that every internal equivalence relation is a kernel pair — is also absent, and Structure/Coequalizer/Reflexive.v's ReflexivePair captures only clause (i).",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'equivalence relation|internal relation|quotient object' Structure/ Theory/ Construction/ Instance/ — no internal equivalence relation record; all hits are setoid equivalences or prose",
+   "grep -rn --include='*.v' -iE 'effective|exact category' . — no effective-equivalence-relation statement",
+   "grep -rn --include='*.v' -iE 'reflexivity map|symmetry map|transitivity map|rho.*sigma.*tau' . — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, with the same split (kernel pair + image factorization present; internal equivalence relation absent). Every cited line re-opened and exact: Structure/Regular.v:46 `Definition kernel_pair ... (f : x ~> y) : Pullback f f := pullback f f`; Structure/Regular/Factorization.v:128 image_kernel_pair, :132 image_obj, :140 image_is_coeq, :155 image_mor, :175 `Lemma image_comparison_monic ... : Monic (image_mor f)`, :270 regular_factorization, :282 Regular_OFS; Instance/Sets/Image.v:143 Sets_Image_Factorization (Sets_Image itself at :75). All files in _CoqProject. Absences re-confirmed by independent search: no internal-equivalence-relation record, no rho/sigma/tau structure maps, no effectiveness/exactness, and no proof that the kernel-pair pairing (s,t) : R -> X x X is monic -- `rg -i 'jointly monic'` returns a single hit, Construction/Cospan/Double.v:45, which is prose pointing at Theory/Morphisms/Stability.v and is about pushout legs, not kernel pairs. ONE REFINEMENT to strength_comparison, which is slightly generous: clause (d) is NOT covered in Riehl's generality. In-tree the coequalizer is taken of a KERNEL PAIR under a `Regular C` hypothesis (image_is_coeq is `2 (`2 (@regular_coeq C R x y f))), whereas Riehl states (d) for an arbitrary internal equivalence relation; with clause (c) missing there is no such relation to quotient. So (d) is present only in the kernel-pair special case, and only inside Regular. Clause (e) is fairly called intree-stronger (the mono half is proven, not assumed, and is upgraded to a full OFS). Classification unchanged."
+  }
+ }
+]

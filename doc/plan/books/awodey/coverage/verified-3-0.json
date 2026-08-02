@@ -1,0 +1,210 @@
+[
+  {
+    "id": "awodey:3.1:prop1",
+    "classification": "PARTIAL",
+    "aliases": ["formal duality", "syntactic dual statement Sigma*", "self-dual axioms CT* = CT", "duality principle", "dualization by C^op", "arrow reversal"],
+    "evidence": [
+      {"file": "Construction/Opposite.v", "line": 126, "symbol": "op_invol", "intree_statement": "Lemma op_invol {C : Category} : (C^op)^op = C."},
+      {"file": "Structure/Cocartesian.v", "line": 115, "symbol": "Cocartesian", "intree_statement": "Notation \"'Cocartesian' C\" := (@Cartesian (C^op)) ... (the dual concept realized by reading the product class in C^op)"}
+    ],
+    "statement_record": {
+      "book": "The syntactic dual Sigma* of an elementary sentence Sigma is obtained by swapping composition order (g∘f <-> f∘g) and swapping dom with cod; because the category axioms are self-dual (CT* = CT), whenever the axioms prove Sigma they prove Sigma*: if C |- Sigma then C |- Sigma*.",
+      "intree": "Lemma op_invol {C : Category} : (C^op)^op = C. ; Cocartesian C := @Cartesian (C^op)",
+      "strength_comparison": "intree-weaker: the library realizes duality via the shallow-embedded C^op construction (op_invol makes (C^op)^op = C definitional/reflexive, and dual concepts like Cocartesian/Comonad/Coequalizer are literally the primal concept read in C^op), but it does NOT reify the elementary language of category theory, so there is no internal dual-statement operation Sigma* and no metatheorem 'CT* = CT ⟹ provability transfers'. The proof principle is embodied structurally rather than stated as a syntactic metatheorem."
+    },
+    "gap": "The syntactic reification of category-theory statements and the dual operation Sigma*, together with the self-duality metatheorem CT* = CT and provability-transfer 'if C |- Sigma then C |- Sigma*', are not formalized (would require a deep embedding). What is present is the semantic core: op_invol and the pervasive definition of dual notions as the primal notion in C^op.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agrees: no deep embedding of the elementary language / dual-statement operator exists; op_invol (Opposite.v:126, verified) and Cocartesian := Cartesian in C^op (Cocartesian.v:115, verified) are the semantic realization. PARTIAL is the honest call over OUT_OF_SCOPE since the op mechanism is a genuine partial realization used tree-wide; gap precisely stated."}
+  },
+  {
+    "id": "awodey:3.1:remark-op-involution",
+    "classification": "PRESENT",
+    "aliases": ["(C^op)^op = C", "opposite is involutive", "op_invol", "double opposite", "Opposite_Opposite", "duality involution"],
+    "evidence": [
+      {"file": "Construction/Opposite.v", "line": 126, "symbol": "op_invol", "intree_statement": "Lemma op_invol {C : Category} : (C^op)^op = C. Proof. unfold Opposite; simpl. destruct C; simpl. f_equal. Qed."}
+    ],
+    "statement_record": {
+      "book": "For every category C, taking the opposite twice returns the same category: (C^op)^op = C (eq (3.1)); an interpretation of Sigma in C yields an interpretation of the dual Sigma* in C^op.",
+      "intree": "Lemma op_invol {C : Category} : (C^op)^op = C.",
+      "strength_comparison": "same: the equation (C^op)^op = C is proved on the nose; the file header moreover notes duality is built in so the two associativity laws swap and applying the construction twice lands every field on its original, i.e. the involution holds by construction. The book's second sentence (interpretation of Sigma* in C^op) is the informal duality reading realized library-wide by defining dual notions in C^op."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified op_invol at Opposite.v:126, quoted proof accurate (unfold Opposite; simpl. destruct C; simpl. f_equal). (C^op)^op = C proved on the nose. File registered in _CoqProject. Note: proof is f_equal not eq_refl — the CLAUDE.md/duality-architecture phrasing 'C^op^op = C by reflexivity' is slightly loose (it holds definitionally on fields but the record needs a structural f_equal to close), but this is not a defect, just a nuance."}
+  },
+  {
+    "id": "awodey:3.1:prop2",
+    "classification": "PARTIAL",
+    "aliases": ["conceptual duality", "duality principle for all categories", "Sigma holds for all C implies Sigma* holds for all C", "dualize a universal theorem", "op_invol"],
+    "evidence": [
+      {"file": "Construction/Opposite.v", "line": 126, "symbol": "op_invol", "intree_statement": "Lemma op_invol {C : Category} : (C^op)^op = C."},
+      {"file": "Structure/Cocartesian.v", "line": 20, "symbol": "Cocartesian (header)", "intree_statement": "\"This is exactly the dual of the cartesian product: a coproduct in C is a product in C^op, with all arrows reversed.\" — the coproduct UMP is not restated but inherited from Cartesian's ump_products read in C^op."}
+    ],
+    "statement_record": {
+      "book": "If a statement Sigma about categories holds for all categories, then its dual Sigma* also holds for all categories. Proof: Sigma holds in every C^op, so Sigma* holds in every (C^op)^op = C.",
+      "intree": "op_invol : (C^op)^op = C, together with the pervasive practice of instantiating a universally-quantified lemma (∀ C, P C) at C^op to obtain the dual result for all C (e.g. Cocartesian := Cartesian in C^op inherits every product law dualized).",
+      "strength_comparison": "intree-weaker: the exact mechanism of the book's proof (instantiate at C^op, rewrite by (C^op)^op = C) is present and used constantly, but as a shallow embedding the library cannot state the universally-quantified-over-statements metatheorem itself; each dual theorem is obtained individually rather than from a single 'conceptual duality' theorem."
+    },
+    "gap": "The metatheorem quantifying over statements Sigma ('for all Sigma, if Sigma holds in all categories then Sigma* holds in all categories') is not reified; only its per-instance realization via op_invol and C^op-instantiation exists.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agrees: no reified meta-quantification over statements exists; the conceptual duality principle is realized per-instance via op_invol + C^op instantiation (e.g. Comonad := Monad in C^op, Coequalizer, Cocartesian). PARTIAL honest; op_invol:126 verified, Cocartesian.v:20 header quote accurate."}
+  },
+  {
+    "id": "awodey:3.2:def3",
+    "classification": "PRESENT",
+    "aliases": ["product", "binary product A x B", "Cartesian", "fork / pairing", "exl exr projections", "universal mapping property of product", "IsCartesianProduct"],
+    "evidence": [
+      {"file": "Structure/Cartesian.v", "line": 121, "symbol": "Cartesian", "intree_statement": "Class Cartesian := { product_obj : obj → obj → obj where \"x × y\" := (product_obj x y); fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z; exl {x y} : x × y ~> x; exr {x y} : x × y ~> y; ... ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g) }."},
+      {"file": "Structure/Cartesian.v", "line": 145, "symbol": "IsCartesianProduct", "intree_statement": "Class IsCartesianProduct (x y z : C) := { fork' {a} (f : a ~> x) (g : a ~> y) : a ~> z; exl' : z ~> x; exr' : z ~> y; ... ump_product ... : h ≈ fork' f g ↔ (exl' ∘ h ≈ f) * (exr' ∘ h ≈ g) }."}
+    ],
+    "statement_record": {
+      "book": "A diagram A <-p1- P -p2-> B is a product of A and B if for every Z with z1 : Z -> A, z2 : Z -> B there is a unique u : Z -> P with p_i ∘ u = z_i (i=1,2).",
+      "intree": "Class Cartesian with exl/exr projections, fork pairing, and ump_products : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g); IsCartesianProduct witnesses one designated object being a product.",
+      "strength_comparison": "same: the UMP is stated as the existence-and-uniqueness biconditional (uniqueness packaged as 'h ≈ fork f g iff it factors the projections'), the faithful setoid rephrasing of 'unique u with p_i∘u=z_i'. IsCartesianProduct exactly matches the book's 'a diagram is a product' (property of a specific object) as opposed to a chosen operation."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Class Cartesian at Cartesian.v:121 (ump_products at :136) and IsCartesianProduct at :145 (ump_product at :155). UMP biconditional matches book's unique-mediating-morphism up to faithful setoid rephrasing. File registered."}
+  },
+  {
+    "id": "awodey:3.2:def-coproduct",
+    "classification": "PRESENT",
+    "aliases": ["coproduct", "sum A + B", "Cocartesian", "injections inl inr", "copairing [f,g] / merge", "dual of product", "product in C^op"],
+    "evidence": [
+      {"file": "Structure/Cocartesian.v", "line": 115, "symbol": "Cocartesian", "intree_statement": "Notation \"'Cocartesian' C\" := (@Cartesian (C^op))"},
+      {"file": "Structure/Cocartesian.v", "line": 125, "symbol": "Coprod", "intree_statement": "Definition Coprod : C → C → C := @product_obj _ O.  Infix \"+\" := Coprod ..."},
+      {"file": "Structure/Cocartesian.v", "line": 131, "symbol": "merge", "intree_statement": "Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x := ...  Infix \"▽\" := merge."},
+      {"file": "Structure/Cocartesian.v", "line": 142, "symbol": "inl", "intree_statement": "Definition inl {x y : C} : x ~{C}~> x + y := @exl _ O _ _.  (inr dually)"}
+    ],
+    "statement_record": {
+      "book": "The dual of a product: A -i1-> A+B <-i2- B is a coproduct if for every Z with z1:A->Z, z2:B->Z there is a unique u:Q->Z with u∘q_i=z_i; copairing [z1,z2], injections i1,i2; a coproduct in C is exactly a product in C^op.",
+      "intree": "Cocartesian C := @Cartesian (C^op); coproduct object Coprod x y (x + y); injections inl/inr := exl/exr of C^op; copairing merge (▽) with dualized laws inl_merge, inr_merge and uniqueness merge_inv / merge_inl_inr, all inherited from ump_products read in C^op.",
+      "strength_comparison": "same: the library defines the coproduct precisely as Awodey does — as the product in the opposite category — so the UMP and its uniqueness transfer verbatim by duality; injections and copairing are named exactly (inl/inr, merge = [f,g])."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified all four evidence lines: Cocartesian notation :115, Coprod :125, merge :131, inl :142. Coproduct-as-product-in-C^op matches Awodey's 'a coproduct in C is exactly a product in C^op' exactly. File registered."}
+  },
+  {
+    "id": "awodey:3.2:example4",
+    "classification": "PRESENT",
+    "aliases": ["coproduct in Sets", "disjoint union of setoids", "Sets_Cocartesian", "sum type carrier", "copairing case-split"],
+    "evidence": [
+      {"file": "Instance/Sets/Cocartesian.v", "line": 28, "symbol": "Sets_Cocartesian", "intree_statement": "Program Instance Sets_Cocartesian : @Cocartesian Sets := { product_obj := fun x y => {| carrier := (carrier x + carrier y)%type ; is_setoid := {| equiv := ... inl/inl -> equiv, inr/inr -> equiv, cross -> False ... |} |}; fork := fun _ _ _ f g => {| morphism := fun x => match x with inl x => f x | inr x => g x end |}; exl := {| morphism := Datatypes.inl |}; exr := {| morphism := Datatypes.inr |} }."}
+    ],
+    "statement_record": {
+      "book": "In Sets the coproduct A+B is the disjoint union {(a,1)} ∪ {(b,2)}, injections i1(a)=(a,1), i2(b)=(b,2); copairing [f,g](x,1)=f(x), [f,g](x,2)=g(x) is the unique map with [f,g]∘i1=f, [f,g]∘i2=g.",
+      "intree": "Sets_Cocartesian: carrier is the sum type carrier x + carrier y with equivalence identifying elements only within the same summand; exl/exr are Datatypes.inl/inr; fork is the case-split copairing; obligations discharge uniqueness.",
+      "strength_comparison": "same (setoid rephrasing): the disjoint union is realized as the sum type with the same-summand equivalence; injections and copairing match the book exactly; uniqueness is the discharged UMP obligation."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Sets_Cocartesian at Instance/Sets/Cocartesian.v:28; carrier = sum type with same-summand equivalence (cross-summand -> False), exl/exr = Datatypes.inl/inr, fork = case-split. Faithful setoid realization of the Sets disjoint-union coproduct. File registered."}
+  },
+  {
+    "id": "awodey:3.2:remark-finite-copower",
+    "classification": "ABSENT",
+    "aliases": ["copower of 1", "finite set as coproduct of singletons", "A iso 1+1+...+1", "n-fold coproduct of terminal", "2 = 1+1", "tensoring/copowering by a set"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'copower|coproduct of copies|1 + 1|n-fold|nfold_coproduct|finite set.*coproduct' --include=*.v .  -> only Tools/Represented.v (Bool as 1+1 informal comment), Lawvere/Multicategory 'n-fold product/sum' (unrelated), Cocartesian.v line 100 (1+1 boolean-algebra comment). No decomposition of a finite set as an iterated coproduct of the terminal object 1, and no copower construction.",
+      "Instance/FinSet.v has computable coproducts but no theorem exhibiting a finite object as an iterated coproduct of 1 (checked via grep hits above).",
+      "No 'copower' operation exists anywhere in the tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search confirms ABSENT: no copower operation; FinSet.v has computable coproducts but only comments (FinSet.v:69 'finite coproducts on a single object') — no theorem A ≅ 1+...+1 exhibiting a finite object as an iterated coproduct of the terminal. No counterpart found."}
+  },
+  {
+    "id": "awodey:3.2:example5",
+    "classification": "ABSENT",
+    "aliases": ["coproduct of free monoids", "M(A)+M(B) iso M(A+B)", "free monoid functor preserves coproducts", "free functor left adjoint preserves colimits", "M : Sets -> Mon"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'free monoid|FreeMonoid|free_monoid|M :.*Sets.*Mon' --include=*.v .  -> no free-monoid functor M : Sets -> Mon; hits are the free-category/PROP/Cayley constructions, none building the free monoid on a set as a left adjoint.",
+      "Theory/Algebra/Monoid/Hom.v defines Mon(C) (internal monoids) with a forgetful functor Mon_Forget but NO left adjoint (free functor) and NO coproducts in Mon.",
+      "grep -rn 'Cocartesian|Coproduct|coproduct|free|Free' --include=*.v Theory/Algebra/Monoid/  -> 0 hits for coproducts/free in the monoid development.",
+      "Instance/Coq/Lists.v gives list A as an initial ListF-algebra but not as a free-monoid functor into a category of monoids, and does not prove M(A)+M(B) iso M(A+B).",
+      "Adjunction/Continuity.v proves LAPC (left adjoints preserve colimits) abstractly, but the specific free-monoid example content (Mon, M, M(A+B)) is not instantiated."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search confirms ABSENT: Construction/Free.v is the free CATEGORY (path category), not a free-monoid functor Sets->Mon; Cayley relates to free monoids on a type but not as a Mon-valued left adjoint; no category of monoids with coproducts and no M(A)+M(B) ≅ M(A+B) theorem. No counterpart found."}
+  },
+  {
+    "id": "awodey:3.2:example6",
+    "classification": "ABSENT",
+    "aliases": ["coproduct in Top", "disjoint union topological space", "category of topological spaces", "O(X+Y) iso O(X) x O(Y)", "coproduct of spaces"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'category of topological|TopologicalSpace|Instance Top|Definition Top|open sets' --include=*.v .  -> 0 hits: there is no category Top of topological spaces in the tree.",
+      "find . -iname '*top*.v' -> only Instance/FinSet/Topos.v (elementary topos, not topological spaces) and Instance/Cat.v (substring match); neither is a category of spaces.",
+      "The secondary poset-juxtaposition / rooted-poset content of the example also has no in-tree counterpart (no Pos coproduct construction; see example7 which is only PARTIAL)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search confirms ABSENT: no category Top of topological spaces exists in the tree (only Instance/FinSet/Topos.v = elementary topos, unrelated). No disjoint-union-space coproduct. No counterpart found."}
+  },
+  {
+    "id": "awodey:3.2:example7",
+    "classification": "PARTIAL",
+    "aliases": ["coproduct in a poset is the join", "least upper bound", "supremum p v q", "coproduct in a preorder", "thin category coproduct", "Props coproduct = disjunction"],
+    "evidence": [
+      {"file": "Instance/Props.v", "line": 80, "symbol": "Props_Cocartesian", "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; (* P + Q = P ∨ Q *) fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := or_introl; exr := or_intror }."},
+      {"file": "Instance/Props.v", "line": 33, "symbol": "Props (header)", "intree_statement": "\"P + Q = P ∨ Q     (coproduct,  Props_Cocartesian)\" — Props is the thin category of propositions ordered by implication."}
+    ],
+    "statement_record": {
+      "book": "In a poset P viewed as a category, the coproduct of p, q is their join p∨q: p ≤ p+q, q ≤ p+q, and whenever p ≤ z and q ≤ z then p+q ≤ z.",
+      "intree": "Props_Cocartesian: the coproduct in the thin category Props (propositions ordered by implication) is disjunction ∨, i.e. the least upper bound; inl : P -> P∨Q, inr : Q -> P∨Q, and copairing gives the mediating implication P∨Q -> R.",
+      "strength_comparison": "intree-weaker: the phenomenon 'coproduct in a poset = join' is witnessed for the single specific thin category Props (join = ∨), but the general theorem — for an arbitrary poset/preorder-as-category (Instance/Poset.v's Proset/LessThanEqualTo_Category) the categorical coproduct coincides with the order-theoretic join — is NOT stated. Instance/Poset.v only builds the poset-as-category and merely comments 'a coproduct is a join'."
+    },
+    "gap": "The general result relating the coproduct of a poset-as-category to the order join/lub is not formalized over Instance/Poset.v's Proset; only the concrete Props instance (coproduct = ∨) exhibits the phenomenon.",
+    "negative_search_log": [
+      "grep -n 'Cocartesian|join|lub|Coprod|upper bound' Instance/Poset.v -> only comment lines 51-52 ('a coproduct is a join'); no Cocartesian instance and no join theorem for the general Proset."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified: Props (Props.v:39, hom = Basics.impl, equiv := True) IS a thin/posetal category (preorder of propositions ordered by implication), and Props_Cocartesian:80 gives coproduct = or = join, a genuine instance of 'coproduct in a poset = join'. My initial poset-only search missed this; classifier correctly found it. General Proset theorem confirmed absent (Poset.v has only comment lines, no Cocartesian instance). PARTIAL honest, gap precise."}
+  },
+  {
+    "id": "awodey:3.2:example8",
+    "classification": "PRESENT",
+    "aliases": ["sum types are coproducts", "coproduct in the category of types", "Coq_Cocartesian", "sum type inl/inr", "case term copairing", "lambda-calculus sum type"],
+    "evidence": [
+      {"file": "Instance/Coq.v", "line": 199, "symbol": "Coq_Cocartesian", "intree_statement": "Program Instance Coq_Cocartesian : @Cocartesian Coq := { product_obj := sum; fork := fun _ _ _ f g x => match x with Datatypes.inl v => f v | Datatypes.inr v => g v end; exl := λ _ _ p, Datatypes.inl p; exr := λ _ _ p, Datatypes.inr p }."}
+    ],
+    "statement_record": {
+      "book": "Sum types in the lambda-calculus, formulated with case terms, are coproducts in the category of types (subsection 2.6).",
+      "intree": "Coq_Cocartesian: in the category Coq of types and functions the coproduct object is the sum type (Datatypes.sum), injections are inl/inr, and the copairing fork is the case-split match — exactly the case term.",
+      "strength_comparison": "same: the category of (Coq) types has sum types as coproducts, with the case-split as the copairing; this is Awodey's 'category of types' with sum types as coproducts. (Coq's type category vs. the pure simply-typed lambda-calculus of subsection 2.6 is the standard shallow model — a faithful realization of the example's content.)"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Coq_Cocartesian at Instance/Coq.v:199: product_obj = sum, exl/exr = Datatypes.inl/inr, fork = case-split match (the case term). Instance/Lambda has no coproduct, so Coq (types + functions) is the faithful shallow model of Awodey's 'category of types'. Sum-types-as-coproducts substance present; PRESENT defensible. File registered."}
+  },
+  {
+    "id": "awodey:3.2:example9",
+    "classification": "ABSENT",
+    "aliases": ["coproduct of monoids", "free product of monoids", "M(|A|+|B|)/~", "words over disjoint union quotient", "coproduct in Mon", "amalgamation of monoids"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Cocartesian|Coproduct|coproduct|free|Free' --include=*.v Theory/Algebra/Monoid/ -> 0 hits; the category Mon(C) (Theory/Algebra/Monoid/Hom.v, internal monoids) has only obj/hom/id/compose and a forgetful functor, no coproduct construction.",
+      "grep -rn 'category of monoids|Monoids :|Monoid category' --include=*.v . -> only Mon(C) internal monoids; no coproduct/free-product construction on it.",
+      "No 'free product', 'word', or congruence-quotient-of-free-monoid construction realizing the coproduct of two monoids exists (searched free monoid aliases; only Construction/Free.v = free CATEGORY, PROP/ColouredPROP free objects, Cayley — none is Mon coproduct).",
+      "Instance/CMon.v is commutative monoids with a biproduct (Instance/CMon/Biproduct.v), NOT the Awodey Mon free-product coproduct; and commutativity changes the construction, so it is not the same example content."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search confirms ABSENT: no category of monoids with a free-product coproduct; Instance/CMon has a biproduct but commutativity changes the construction (not Awodey's free-product Mon coproduct). No word-quotient / M(|A|+|B|)/~ construction. No counterpart found."}
+  }
+]

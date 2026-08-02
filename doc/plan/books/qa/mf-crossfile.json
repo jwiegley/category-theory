@@ -1,0 +1,1889 @@
+[
+ {
+  "issue": 485,
+  "decision": "1.6",
+  "mode": "replace_text",
+  "find": "routing through the completed Beck theorem (the §VI.7 Theorem 1 issue) / `beck_monadicity`",
+  "replace": "routing through the in-tree `beck_monadicity` (`Monad/Monadicity/Beck.v:739`)",
+  "note": "1.6 rider (#485, non-edge half): route Exs. 7-8 through the in-tree beck_monadicity. inv-labels.md confirms the live body still carries the pre-edit wording."
+ },
+ {
+  "issue": 485,
+  "decision": "1.6",
+  "mode": "replace_text",
+  "find": "Depends on: #481 (`maclane:VI.7:def2`)\nDepends on: #484 (`maclane:VI.7:thm1`)",
+  "replace": "Depends on: #481 (`maclane:VI.7:def2`)\n- Related (NOT blocking): #484 completes Beck's theorem (absolute condition, general converse, strict form); none of that is needed for Exs. 7-8.",
+  "note": "1.6 EDGE HALF, beyond the literal 'non-edge halves' wording: inv-labels.md proves the #485 Group A row was never applied in EITHER half, so the body rider alone would leave body/trailer/native disagreeing. Drop this entry (and the two below) if a separate tail-chunk Group A pass is planned."
+ },
+ {
+  "issue": 485,
+  "decision": "1.6",
+  "mode": "trailer_deps",
+  "replace": [
+   "maclane:VI.7:def2"
+  ],
+  "note": "1.6 edge half: drop maclane:VI.7:thm1 (#484) from #485's trailer deps."
+ },
+ {
+  "issue": 485,
+  "decision": "1.6",
+  "mode": "edge_remove",
+  "replace": "484",
+  "note": "1.6 edge half: remove blocked_by #484 from #485 (live blocked_by is [481, 484])."
+ },
+ {
+  "issue": 926,
+  "decision": "1.6",
+  "mode": "replace_text",
+  "find": "- Depends on: #705 (the category of directed graphs as a functor category — the nearest in-tree graph development; this issue must build the *simple*-graph variant and relate the two)",
+  "replace": "- Related (NOT blocking): #705 (the category of directed graphs as the functor category Sets^Γ) — this issue builds the *simple*-graph variant itself and only contrasts the two in its header; no artifact of #705 is consumed. NOTE: #705's Work item 1 originally also named its category `Graph`; under QA decision 3.3 that one is renamed `DiGraph` (`Instance/Parallel/Graphs.v`) and this issue keeps `Graph` (`Instance/Graph.v`), so the two can be imported together.",
+  "note": "1.6 rider (#926) ADAPTED: the planned NOTE told #926 to pick a distinct name (e.g. SimpleGraph); decision 3.3 instead renames #705's category to DiGraph and lets #926 keep Graph, so the NOTE is restated in those terms. Consistent with the two mf-naming.json 3.3 edits on this issue (header instruction + DoD line), which already name #705's category `DiGraph`."
+ },
+ {
+  "issue": 926,
+  "decision": "1.6",
+  "mode": "trailer_deps",
+  "replace": [
+   "#345"
+  ],
+  "note": "1.6 edge half (#926): drop #705 from the trailer deps, leaving #345."
+ },
+ {
+  "issue": 926,
+  "decision": "1.6",
+  "mode": "edge_remove",
+  "replace": "705",
+  "note": "1.6 edge half (#926): remove blocked_by #705 (live blocked_by is [345, 705])."
+ },
+ {
+  "issue": 959,
+  "decision": "1.6",
+  "mode": "replace_text",
+  "find": "`Structure/UniversalProperty/Limit.v`, `Structure/Limit/Weighted.v`, `Instance/Fun.v`, #425, #428,\n#720, #481, #406, #671.",
+  "replace": "`Structure/UniversalProperty/Limit.v`, `Structure/Limit/Weighted.v`, `Instance/Fun.v`, #425, #428,\n#481, #406.",
+  "note": "1.6 rider (#959, non-edge half): drop #720 and #671 from the In-tree donors line. The line is hard-wrapped; the find spans its last two physical lines."
+ },
+ {
+  "issue": 959,
+  "decision": "1.6",
+  "mode": "replace_text",
+  "find": "Depends on: #425\nDepends on: #428\nDepends on: #720\nDepends on: #481\nDepends on: #406\nDepends on: #671",
+  "replace": "Depends on: #425\nDepends on: #428\nDepends on: #481\nDepends on: #406\n- Related (NOT blocking): **#720** proves the product and exponential cases of Yoneda preservation; the general limit-preservation theorem here subsumes its product half. Do not duplicate — whichever lands second cites the other.\n- Related (NOT blocking): **#671** introduces local membership of a generalized element in a subobject (Theory/Subobject/Membership.v); keep the generalized-element definition here compatible with it. No dependency edge is asserted.",
+  "note": "1.6 EDGE HALF (#959): inv-labels.md shows both #720 and #671 still hard edges. Work item 4's coordination sentence and the #720 DoD line are deliberately left unchanged, as the plan directs."
+ },
+ {
+  "issue": 959,
+  "decision": "1.6",
+  "mode": "trailer_deps",
+  "replace": [
+   "#425",
+   "#428",
+   "#481",
+   "#406"
+  ],
+  "note": "1.6 edge half (#959): drop #720 and #671 from the trailer deps."
+ },
+ {
+  "issue": 959,
+  "decision": "1.6",
+  "mode": "edge_remove",
+  "replace": "720",
+  "note": "1.6 edge half (#959): remove blocked_by #720."
+ },
+ {
+  "issue": 959,
+  "decision": "1.6",
+  "mode": "edge_remove",
+  "replace": "671",
+  "note": "1.6 edge half (#959): remove blocked_by #671."
+ },
+ {
+  "issue": 704,
+  "decision": "1.6",
+  "mode": "replace_text",
+  "find": "## Dependencies\n\nDepends on: #311 (MacLane III.1: A universal element for the contravariant\nDepends on: #227 — creates `Instance/Sets/Powerset.v`\n- Related (NOT blocking): coordinate the module layout so the covariant and contravariant halves coexist.\npower-set functor)\nDepends on: #428 (MacLane V.4: Hom-functors are continuous) — the book's stated\nroute for Exercise 1\n",
+  "replace": "## Dependencies\n\nNone.\n\n- Related (NOT blocking): #227 (MacLane I.3: the covariant power-set functor) — designated `creator` of `Instance/Sets/Powerset.v` in `doc/plan/books/graph/serialize-groups.json` (claimants 227, 466, 704, 750, 871, 1005). This issue's Work item 1 builds the same `≈`-closed-predicate carrier, so land whichever comes first and have the other reuse it; must not share a parallel wave.\n- Related (NOT blocking): #311 — the same functor at `FinSet`, where the universe obstruction does not bite; nothing here consumes it.\n- Related (NOT blocking): #428 (Hom-functors are continuous) — the book's own route to Exercise 1; this issue takes the `exp_coprod` route instead and only records the alternative in the header.\n",
+  "note": "1.6 rider (#704): the F8a whole-block replacement. It repairs a physically mangled block (the orphaned `power-set functor)` line, and a Related line carrying no issue number at all, so check_graph still reports body_deps(#704) = [227, 311, 428] despite the prose). The block replacement necessarily carries the edge half, so the trailer/native entries below MUST land with it. Claimant list verified against graph/serialize-groups.json."
+ },
+ {
+  "issue": 704,
+  "decision": "1.6",
+  "mode": "trailer_deps",
+  "replace": [],
+  "note": "1.6 (#704): trailer deps emptied; the six `ids` are preserved verbatim and must NOT be touched."
+ },
+ {
+  "issue": 704,
+  "decision": "1.6",
+  "mode": "edge_remove",
+  "replace": "311",
+  "note": "1.6 (#704): remove blocked_by #311."
+ },
+ {
+  "issue": 704,
+  "decision": "1.6",
+  "mode": "edge_remove",
+  "replace": "428",
+  "note": "1.6 (#704): remove blocked_by #428."
+ },
+ {
+  "issue": 704,
+  "decision": "1.6",
+  "mode": "edge_remove",
+  "replace": "227",
+  "note": "1.6 (#704): remove blocked_by #227."
+ },
+ {
+  "issue": 704,
+  "decision": "1.6",
+  "mode": "replace_text",
+  "find": "> `P X`.\nSuggested module: `Instance/Sets/Powerset.v`.",
+  "replace": "> `P X`.\n\nSuggested module: `Instance/Sets/Powerset.v`.",
+  "note": "1.6 (#704) F8a low-priority rider, still unapplied: without the blank line GFM lazy continuation swallows the module line into the preceding blockquote."
+ },
+ {
+  "issue": 0,
+  "decision": "3.5",
+  "mode": "file_edit",
+  "file": "doc/plan/books/graph/serialize-groups.json",
+  "find": "\"module\": \"Instance/Rng/MonoidRing.v\",\n  \"issues\": [\n   310,\n   518\n  ],\n  \"creator\": 518,\n  \"reason\": \"SERIALIZE_ONLY: same-file peers; no dependency edge is asserted, but they must not be dispatched in the same parallel wave.\"",
+  "replace": "\"module\": \"Instance/Rng/MonoidRing.v\",\n  \"issues\": [\n   310,\n   518\n  ],\n  \"creator\": 518,\n  \"reason\": \"SERIALIZE_ONLY: same-file peers; no dependency edge is asserted, but they must not be dispatched in the same parallel wave. QA decision 3.5 confirms exactly this shape and adds the path unification: #518's body is retargeted from Instance/GroupRing.v to this module (Work + Verification), so both issues now name one path and NO edge is asserted in either direction.\"",
+  "note": "3.5: the requested serialize-groups entry for #518/#310 ALREADY EXISTS, verbatim as decided -- module Instance/Rng/MonoidRing.v, issues [310, 518], creator 518, no edge. So this is an AMENDMENT, not a new entry: it records the path unification that mf-edges.json applies to #518's body, so a reader of the file learns why #518 no longer says Instance/GroupRing.v. Drop this entry if the coordinator wants the file byte-frozen; nothing depends on it. Does not touch the three serialize-groups edits in mf-naming.json (Instance/Module/Tensor.v, the numeric entry, Structure/Lattice.v)."
+ },
+ {
+  "issue": 570,
+  "decision": "5.1",
+  "mode": "replace_text",
+  "find": "Partial. The `Wedge`/`Cowedge` classes exist (`Structure/Wedge.v:38,61`) and the `Dinatural` class (`Theory/Dinatural.v:51`), but they have zero instances tree-wide.",
+  "replace": "Absent. The `Wedge`/`Cowedge` classes exist (`Structure/Wedge.v:38,61`) and the `Dinatural` class (`Theory/Dinatural.v:51`); the only in-tree `Wedge` instance is the universal end wedge `Sets_End_Wedge` (`Instance/Sets/End.v:101`), and `Dinatural` has zero instances tree-wide. Neither of the two wedges of this item is built.",
+  "note": "5.1 PARTIAL->ABSENT on #570, in inv-570-ledger.md's Rider A form: the bare flip would leave the body asserting 'zero instances tree-wide', which Instance/Sets/End.v:101 refutes. The replacement states the real ABSENT justification (no Qed'd statement covers either wedge). Do NOT cite 'zero instances tree-wide' as the reason in any commit message."
+ },
+ {
+  "issue": 0,
+  "decision": "5.1",
+  "mode": "file_edit",
+  "file": "doc/plan/books/ledger.tsv",
+  "find": "maclane:IX.4:construction2\tPARTIAL\t#570",
+  "replace": "maclane:IX.4:construction2\tABSENT\t#570",
+  "note": "5.1 ledger.tsv line 790, column 2 only. Row index and rule application verified in inv-570-ledger.md (schemas.md:218 requires a PROVED statement covering part of the item; neither construction2 nor construction4 has one). NOTE: `sed -i ''` silently no-ops on this box (GNU sed from nix) -- use perl -pi -e."
+ },
+ {
+  "issue": 0,
+  "decision": "5.1",
+  "mode": "file_edit",
+  "file": "doc/plan/books/ledger.tsv",
+  "find": "maclane:IX.4:construction4\tPARTIAL\t#570",
+  "replace": "maclane:IX.4:construction4\tABSENT\t#570",
+  "note": "5.1 ledger.tsv line 791, column 2 only. RIDER B is left to the operator: doc/plan/books/maclane/coverage/verified-IX-3.json still records classification PARTIAL for both ids, and nothing automated cross-checks it, so ledger and provenance will disagree unless that JSON is flipped too (schema-legal -- both records already carry a populated negative_search_log)."
+ },
+ {
+  "issue": 0,
+  "decision": "5.2",
+  "mode": "file_edit",
+  "file": "doc/plan/books/ledger.tsv",
+  "find": "7sketches:6.3.1:ex6.57\tPARTIAL\t#868\t6\tSeven Sketches 6.3.1: The spider normal-form theorem — connected Frobenius diagrams are spiders",
+  "replace": "7sketches:6.3.1:ex6.57\tPARTIAL\t#868\t6\tpart: the positive/equality half of Exercise 6.57",
+  "note": "5.2 edit 1/4: ledger.tsv:1964 note column (it currently holds the issue TITLE) -> a `part:` note, matching the sanctioned precedent 7sketches:6.2.1:ex6.3 at lines 1945/1988."
+ },
+ {
+  "issue": 0,
+  "decision": "5.2",
+  "mode": "file_edit",
+  "file": "doc/plan/books/ledger.tsv",
+  "find": "7sketches:6.3.1:thm6.58\tABSENT\t#869\t6\tSeven Sketches 6.3.1: The free prop on the Frobenius presentation is Cospan(FinSet)\n",
+  "replace": "7sketches:6.3.1:thm6.58\tABSENT\t#869\t6\tSeven Sketches 6.3.1: The free prop on the Frobenius presentation is Cospan(FinSet)\n7sketches:6.3.1:ex6.57\tPARTIAL\t#869\t6\tpart: the separation/negative half of Exercise 6.57\n",
+  "note": "5.2 edit 2/4: the new PARTIAL row for #869, inserted after ledger.tsv:1965 so it stays in the 7sketches ch.6 block. Anchored on line 1965, NOT on line 1964 which edit 1/4 rewrites, so the two file_edits cannot collide in either order. Duplicate item_id rows are house style (awodey:8.8:remark-topos-properties at 1323/1339; 7sketches:6.2.1:ex6.3 at 1945/1988)."
+ },
+ {
+  "issue": 0,
+  "decision": "5.2",
+  "mode": "file_edit",
+  "file": "doc/plan/books/seven-sketches/issue-map.json",
+  "find": " \"7sketches:6.3.1:ex6.57\": 868,\n",
+  "replace": " \"7sketches:6.3.1:ex6.57\": 868,\n \"7sketches:6.3.1:ex6.57@869\": 869,\n",
+  "note": "5.2 edit 3/4: issue-map.json gains the second leg under the `id@issue` convention (precedent: 7sketches:6.2.1:ex6.3@756, awodey:8.8:remark-topos-properties@405). One-space indent matches the file; JSON validity preserved."
+ },
+ {
+  "issue": 0,
+  "decision": "5.3",
+  "mode": "file_edit",
+  "file": "doc/plan/books/ledger.tsv",
+  "find": "awodey:8.8:remark-topos-properties\tABSENT\t#722\t5\tMULTI-PART leg 2/2: the higher-order-logic/quantifier reading -> #722",
+  "replace": "awodey:8.8:remark-topos-properties\tABSENT\t#722\t5\tMULTI-PART leg 2/2: every slice of a topos is again a topos -> #722",
+  "note": "5.3 ledger.tsv:1323 note column only: the stray phrase belongs to awodey:8.8:remark18. Line 1339 (#405, leg 1/2, 'the topos-properties list') is a different row with a different note and is NOT touched."
+ },
+ {
+  "issue": 226,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant D, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 234,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 237,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 238,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.8, Example 7.23, printed pages 176–177",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.8, Example 7.23, printed pages 176–177",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 238,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.8, unnumbered remark, printed page 178",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.8, unnumbered remark, printed page 178",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 241,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 245,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 247,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 248,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 250,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 252,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition), §10.5, unnumbered remark, printed page 283 (PDF page 292) — item `awodey:10.5:remark-nat-initial-algebra`.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §10.5, unnumbered remark, printed page 283 (PDF page 292) — item `awodey:10.5:remark-nat-initial-algebra`.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 252,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition), Exercise 10.6.1(c), printed page 290 (PDF page 299) — item `awodey:10:ex1` (part (c) only; parts (a) and (b) are recorded on #637).",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Exercise 10.6.1(c), printed page 290 (PDF page 299) — item `awodey:10:ex1` (part (c) only; parts (a) and (b) are recorded on #637).",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 253,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 254,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 261,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 266,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.1, Proposition 3.1, printed page 58, PDF page 67 (item `awodey:3.1:prop1`). Awodey's *formal duality*: the syntactic dual `Σ*` of an elementary category-theory sentence `Σ` (swap composition order `g∘f ↔ f∘g`, swap `dom ↔ cod`), together with the self-duality of the axioms (`CT* = CT`), so that `C ⊢ Σ` implies `C ⊢ Σ*`. This is the same duality-principle obligation as MacLane II.1 (a deep embedding of the elementary statement language plus the dual-statement operator); the semantic core (`op_invol : (C^op)^op = C`, `Construction/Opposite.v:126`) is already present. No new aspect beyond MacLane II.1.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.1, Proposition 3.1, printed page 58, PDF page 67 (item `awodey:3.1:prop1`). Awodey's *formal duality*: the syntactic dual `Σ*` of an elementary category-theory sentence `Σ` (swap composition order `g∘f ↔ f∘g`, swap `dom ↔ cod`), together with the self-duality of the axioms (`CT* = CT`), so that `C ⊢ Σ` implies `C ⊢ Σ*`. This is the same duality-principle obligation as MacLane II.1 (a deep embedding of the elementary statement language plus the dual-statement operator); the semantic core (`op_invol : (C^op)^op = C`, `Construction/Opposite.v:126`) is already present. No new aspect beyond MacLane II.1.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 266,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.1, Proposition 3.2, printed page 59, PDF page 68 (item `awodey:3.1:prop2`). Awodey's *conceptual duality*: if a statement `Σ` holds for all categories then so does its dual `Σ*` (proof: `Σ` holds in every `C^op`, and `(C^op)^op = C`). Same meta-level duality-principle obligation as MacLane II.1; realized per-instance in-tree via `op_invol` and `C^op`-instantiation. No new aspect.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.1, Proposition 3.2, printed page 59, PDF page 68 (item `awodey:3.1:prop2`). Awodey's *conceptual duality*: if a statement `Σ` holds for all categories then so does its dual `Σ*` (proof: `Σ` holds in every `C^op`, and `(C^op)^op = C`). Same meta-level duality-principle obligation as MacLane II.1; realized per-instance in-tree via `op_invol` and `C^op`-instantiation. No new aspect.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 270,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 271,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 275,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 277,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 279,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 296,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §2.9 Exercise 4 (printed p. 55; PDF p. 64) — item `awodey:2:ex4`. For a set `A`, Awodey defines the category `A`-**Mon** of monoids `M` with a function `A → U(M)` (arrows: monoid homomorphisms commuting with the structure maps) and asks to show that an initial object of `A`-**Mon** is the same thing as a free monoid `M(A)` on `A`, by comparing universal properties.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §2.9 Exercise 4 (printed p. 55; PDF p. 64) — item `awodey:2:ex4`. For a set `A`, Awodey defines the category `A`-**Mon** of monoids `M` with a function `A → U(M)` (arrows: monoid homomorphisms commuting with the structure maps) and asks to show that an initial object of `A`-**Mon** is the same thing as a free monoid `M(A)` on `A`, by comparing universal properties.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 296,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.5, Example 7.7, printed page 163 (PDF",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.5, Example 7.7, printed page 163 (PDF",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 315,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.4, Example 3.19, printed page 71, PDF pages 80–81 (item `awodey:3.4:example19`). For an equivalence relation `R ⊆ X × X` with projections `r₁, r₂ : R ⇉ X`, the canonical projection `π : X → X/R` is the coequalizer of `r₁, r₂` in **Sets**; `f` factors through `π` iff `f` respects `R` (iff `f r₁ = f r₂`), the mediator unique because `π` is epic. This is the **Sets** quotient-as-coequalizer obligation; in-tree the generated-equivalence quotient exists only for pushouts (`Instance/Sets/Pushout.v`) and there is no `HasCoequalizers Sets`. No new aspect beyond the MacLane III.1 Sets-coequalizer work.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.4, Example 3.19, printed page 71, PDF pages 80–81 (item `awodey:3.4:example19`). For an equivalence relation `R ⊆ X × X` with projections `r₁, r₂ : R ⇉ X`, the canonical projection `π : X → X/R` is the coequalizer of `r₁, r₂` in **Sets**; `f` factors through `π` iff `f` respects `R` (iff `f r₁ = f r₂`), the mediator unique because `π` is epic. This is the **Sets** quotient-as-coequalizer obligation; in-tree the generated-equivalence quotient exists only for pushouts (`Instance/Sets/Pushout.v`) and there is no `HasCoequalizers Sets`. No new aspect beyond the MacLane III.1 Sets-coequalizer work.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 315,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.4, unnumbered construction, printed page 72, PDF page 81 (item `awodey:3.4:construction-sets-coeq`). The coequalizer in **Sets** of `f, g : A ⇉ B` is `B` quotiented by the equivalence relation generated by the equations `f x = g x`. Same obligation as the MacLane III.1 Sets-coequalizer work; the generated-equivalence quotient technique is in-tree for pushouts only (`Instance/Sets/Pushout.v`), with no `HasCoequalizers Sets`. No new aspect.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.4, unnumbered construction, printed page 72, PDF page 81 (item `awodey:3.4:construction-sets-coeq`). The coequalizer in **Sets** of `f, g : A ⇉ B` is `B` quotiented by the equivalence relation generated by the equations `f x = g x`. Same obligation as the MacLane III.1 Sets-coequalizer work; the generated-equivalence quotient technique is in-tree for pushouts only (`Instance/Sets/Pushout.v`), with no `HasCoequalizers Sets`. No new aspect.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 315,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.5, Exercise 4, printed page 76, PDF page 85 (item `awodey:3:ex4`). Prove **Sets** has all coequalizers by constructing the coequalizer of `f, g : A ⇉ B` as `Q = B/(f=g)`, the quotient by the intersection of all equivalence relations on `B` containing the pairs `(f x, g x)`. This is the same `HasCoequalizers Sets` obligation as the MacLane III.1 Sets-coequalizer work (the generated-equivalence quotient is in-tree for pushouts only). No new aspect.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.5, Exercise 4, printed page 76, PDF page 85 (item `awodey:3:ex4`). Prove **Sets** has all coequalizers by constructing the coequalizer of `f, g : A ⇉ B` as `Q = B/(f=g)`, the quotient by the intersection of all equivalence relations on `B` containing the pairs `(f x, g x)`. This is the same `HasCoequalizers Sets` obligation as the MacLane III.1 Sets-coequalizer work (the generated-equivalence quotient is in-tree for pushouts only). No new aspect.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 316,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 321,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 324,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Example 3.6, printed page 62, PDF page 71 (item `awodey:3.2:example6`). The coproduct in **Top** of two spaces is their disjoint union (with `O(X+Y) ≅ O(X) × O(Y)`); the example also notes coproducts of posets by juxtaposition and rooted posets by basepoint identification. This is the **Top** case of coproducts in the familiar topological categories; no category **Top** exists in-tree yet. No new aspect beyond MacLane III.3.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.2, Example 3.6, printed page 62, PDF page 71 (item `awodey:3.2:example6`). The coproduct in **Top** of two spaces is their disjoint union (with `O(X+Y) ≅ O(X) × O(Y)`); the example also notes coproducts of posets by juxtaposition and rooted posets by basepoint identification. This is the **Top** case of coproducts in the familiar topological categories; no category **Top** exists in-tree yet. No new aspect beyond MacLane III.3.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 324,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, unnumbered construction, printed page 64, PDF page 73 (item `awodey:3.2:construction-free-product-groups`). The monoid-coproduct construction also gives coproducts in **Groups**, where the coproduct is the *free product* `A ⊕ B`. This is the **Grp** case of coproducts in the familiar algebraic categories; no category of groups exists in-tree (only group *objects*, `Structure/Group.v`). No new aspect beyond MacLane III.3.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.2, unnumbered construction, printed page 64, PDF page 73 (item `awodey:3.2:construction-free-product-groups`). The monoid-coproduct construction also gives coproducts in **Groups**, where the coproduct is the *free product* `A ⊕ B`. This is the **Grp** case of coproducts in the familiar algebraic categories; no category of groups exists in-tree (only group *objects*, `Structure/Group.v`). No new aspect beyond MacLane III.3.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 324,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Example 3.10, printed page 64, PDF page 73 (item `awodey:3.2:example10`). Because the free product need not be abelian, the coproduct in **Ab** is instead the direct sum on the underlying product set, with injections `a ↦ (a, 0)`, `b ↦ (0, b)` and copairing `(a,b) ↦ f a + g b`. This is the **Ab** case of coproducts in the familiar algebraic categories; the identical direct-sum-as-coproduct is already in-tree for commutative monoids (`Instance/CMon/Biproduct.v`: `CMon_inl`/`CMon_inr`, `CMon_bi_is_coproduct`), but the category **Ab** of abelian groups does not exist in-tree. No new aspect beyond MacLane III.3.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.2, Example 3.10, printed page 64, PDF page 73 (item `awodey:3.2:example10`). Because the free product need not be abelian, the coproduct in **Ab** is instead the direct sum on the underlying product set, with injections `a ↦ (a, 0)`, `b ↦ (0, b)` and copairing `(a,b) ↦ f a + g b`. This is the **Ab** case of coproducts in the familiar algebraic categories; the identical direct-sum-as-coproduct is already in-tree for commutative monoids (`Instance/CMon/Biproduct.v`: `CMon_inl`/`CMon_inr`, `CMon_bi_is_coproduct`), but the category **Ab** of abelian groups does not exist in-tree. No new aspect beyond MacLane III.3.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 328,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Example 3.5, printed pages 61–62, PDF pages 70–71 (item `awodey:3.2:example5`). The coproduct of two free monoids satisfies `M(A) + M(B) ≅ M(A+B)` in **Mon** — a special case of coproducts in **Mon**. New aspect: the corollary that the free-monoid functor `M : Sets → Mon` preserves coproducts, which follows from left adjoints preserving colimits (LAPC, `Adjunction/Continuity.v`) once the free-monoid adjunction and the **Mon** coproduct of this issue are in place; note this in the DoD.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.2, Example 3.5, printed pages 61–62, PDF pages 70–71 (item `awodey:3.2:example5`). The coproduct of two free monoids satisfies `M(A) + M(B) ≅ M(A+B)` in **Mon** — a special case of coproducts in **Mon**. New aspect: the corollary that the free-monoid functor `M : Sets → Mon` preserves coproducts, which follows from left adjoints preserving colimits (LAPC, `Adjunction/Continuity.v`) once the free-monoid adjunction and the **Mon** coproduct of this issue are in place; note this in the DoD.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 328,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Example 3.9, printed pages 63–64, PDF pages 72–73 (item `awodey:3.2:example9`). The coproduct of two monoids `A, B` is `M(|A|+|B|)/∼`, the free monoid on words over the disjoint union of underlying sets modulo the least congruence collapsing units and adjacent same-side letters, with copairing `[f,g]` lifted from the free monoid. This is exactly the coproduct in **Mon**; no category **Mon** with coproducts exists in-tree. No new aspect beyond MacLane III.3.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.2, Example 3.9, printed pages 63–64, PDF pages 72–73 (item `awodey:3.2:example9`). The coproduct of two monoids `A, B` is `M(|A|+|B|)/∼`, the free monoid on words over the disjoint union of underlying sets modulo the least congruence collapsing units and adjacent same-side letters, with copairing `[f,g]` lifted from the free monoid. This is exactly the coproduct in **Mon**; no category **Mon** with coproducts exists in-tree. No new aspect beyond MacLane III.3.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 335,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 341,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.2, Example 7.3, printed page 155 (PDF",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.2, Example 7.3, printed page 155 (PDF",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 341,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.2, printed page 156 (PDF page 165),",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.2, printed page 156 (PDF page 165),",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 345,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 346,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 369,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 374,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.10 Exercise 11, printed page 188 (PDF",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.10 Exercise 11, printed page 188 (PDF",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 374,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.10 Exercise 12, printed page 188 (PDF",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.10 Exercise 12, printed page 188 (PDF",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 384,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 389,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 392,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 403,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §8.8 (Topoi), defined in running prose",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §8.8 (Topoi), defined in running prose",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 403,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §8.8 (Topoi), constructed inside the proof",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §8.8 (Topoi), constructed inside the proof",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 404,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 405,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 407,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 414,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.1, printed page 151 (PDF pages\n160–161), item `awodey:7.1:construction-cat-equalizer` — the equalizer of two",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.1, printed page 151 (PDF pages\n160–161), item `awodey:7.1:construction-cat-equalizer` — the equalizer of two",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, 2-line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 414,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.1, printed page 151 (PDF pages\n160–161), item `awodey:7.1:remark-cat-complete` — the prose recollection that",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.1, printed page 151 (PDF pages\n160–161), item `awodey:7.1:remark-cat-complete` — the prose recollection that",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, 2-line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 422,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §2.6 (printed p. 46; PDF p. 55), the worked example that the product in a poset is the greatest lower bound — item `awodey:2.6:construction-product-poset`. Awodey shows that for elements `p, q` of a poset-as-category the product `p × q` is their meet (glb); same obligation as products in a preorder are greatest lower bounds.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §2.6 (printed p. 46; PDF p. 55), the worked example that the product in a poset is the greatest lower bound — item `awodey:2.6:construction-product-poset`. Awodey shows that for elements `p, q` of a poset-as-category the product `p × q` is their meet (glb); same obligation as products in a preorder are greatest lower bounds.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 422,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Example 3.7, printed page 63, PDF page 72 (item `awodey:3.2:example7`). In a poset viewed as a category, the coproduct of `p, q` is their join `p ∨ q` (least upper bound). This is the order-dual of \"products in a preorder are greatest lower bounds\": whereas MacLane V.2 covers the meet/glb (product) direction, Awodey states the join/lub (coproduct) direction. New aspect: the dual coproduct-in-a-preorder = join statement over `Instance/Poset.v`'s `Proset` (in-tree only the concrete `Props_Cocartesian` = disjunction instance, `Instance/Props.v:80`, witnesses it) — add the join direction alongside the glb direction.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.2, Example 3.7, printed page 63, PDF page 72 (item `awodey:3.2:example7`). In a poset viewed as a category, the coproduct of `p, q` is their join `p ∨ q` (least upper bound). This is the order-dual of \"products in a preorder are greatest lower bounds\": whereas MacLane V.2 covers the meet/glb (product) direction, Awodey states the join/lub (coproduct) direction. New aspect: the dual coproduct-in-a-preorder = join statement over `Instance/Poset.v`'s `Proset` (in-tree only the concrete `Props_Cocartesian` = disjunction instance, `Instance/Props.v:80`, witnesses it) — add the join direction alongside the glb direction.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 424,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 425,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 428,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 429,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 442,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 447,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 458,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 463,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition), Example 10.4, §10.2, printed page 270 (PDF page 279) — item `awodey:10.2:example4`.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Example 10.4, §10.2, printed page 270 (PDF page 279) — item `awodey:10.2:example4`.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 463,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition), §10.2, unnumbered construction, printed page 271 (PDF page 280) — item `awodey:10.2:construction-poset-monad-adjunction`.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §10.2, unnumbered construction, printed page 271 (PDF page 280) — item `awodey:10.2:construction-poset-monad-adjunction`.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 466,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition), Example 10.5, §10.2, printed page 271 (PDF page 280) — item `awodey:10.2:example5`.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Example 10.5, §10.2, printed page 271 (PDF page 280) — item `awodey:10.2:example5`.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 466,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition), Exercise 10.6.5, printed page 291 (PDF page 300) — item `awodey:10:ex5`.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Exercise 10.6.5, printed page 291 (PDF page 300) — item `awodey:10:ex5`.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 469,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 471,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition), Example 10.7, §10.3, printed page 276 (PDF page 285) — item `awodey:10.3:example7`.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Example 10.7, §10.3, printed page 276 (PDF page 285) — item `awodey:10.3:example7`.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 471,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition), Exercise 10.6.6, printed page 291 (PDF page 300) — item `awodey:10:ex6`.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Exercise 10.6.6, printed page 291 (PDF page 300) — item `awodey:10:ex6`.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 476,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 479,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.4, Proposition 3.22, printed pages 74–75, PDF pages 83–84 (item `awodey:3.4:prop22`). Every monoid `M` is a coequalizer of free monoids, `M ≅ F(G)/(r₁=r₂)`, via the bar resolution `T²M ⇉ TM → M` (`T = M(|−|)`) exhibited as a coequalizer of monoids. This is the canonical U-split-coequalizer presentation of an algebra (Awodey's monoid case of \"algebraic quotients as coequalizers split under the forgetful functor\"). The general monadic form is already in-tree and stronger: `canonical_split` (`Monad/Monadicity/BeckObjects.v:75`) exhibits every T-algebra's presentation `μ_a, Tα ⇉ Ta → a` as a *split* (hence absolute) coequalizer. The concrete monoid instance is absent (no category **Mon**, no free-monoid monad). New aspect: instantiating the canonical presentation for the free-monoid monad / **Mon** (MacLane VI.4 monoid monad = #471) to realize `M ≅ F(G)/(r₁=r₂)`.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.4, Proposition 3.22, printed pages 74–75, PDF pages 83–84 (item `awodey:3.4:prop22`). Every monoid `M` is a coequalizer of free monoids, `M ≅ F(G)/(r₁=r₂)`, via the bar resolution `T²M ⇉ TM → M` (`T = M(|−|)`) exhibited as a coequalizer of monoids. This is the canonical U-split-coequalizer presentation of an algebra (Awodey's monoid case of \"algebraic quotients as coequalizers split under the forgetful functor\"). The general monadic form is already in-tree and stronger: `canonical_split` (`Monad/Monadicity/BeckObjects.v:75`) exhibits every T-algebra's presentation `μ_a, Tα ⇉ Ta → a` as a *split* (hence absolute) coequalizer. The concrete monoid instance is absent (no category **Mon**, no free-monoid monad). New aspect: instantiating the canonical presentation for the free-monoid monad / **Mon** (MacLane VI.4 monoid monad = #471) to realize `M ≅ F(G)/(r₁=r₂)`.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 479,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.5, Exercise 3, printed page 76, PDF page 85 (item `awodey:3:ex3`). For the canonical coequalizer presentation `T²M ⇉ TM → M` of a monoid (Prop 3.22), show coequalizers of this form are preserved by the forgetful functor **Mon → Sets**. The abstract reason is in-tree and stronger: the presentation is a *split* coequalizer (`canonical_split`, `Monad/Monadicity/BeckObjects.v:75`), and every functor preserves split coequalizers (`functor_preserves_split`, `Structure/Coequalizer/Split.v:104`), so absolute coequalizers are preserved by any functor. Missing only the concrete forgetful functor **Mon → Sets** to instantiate the exercise. No new aspect beyond the MacLane VI.6 algebraic-quotient split-coequalizer work (plus the category **Mon**).",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.5, Exercise 3, printed page 76, PDF page 85 (item `awodey:3:ex3`). For the canonical coequalizer presentation `T²M ⇉ TM → M` of a monoid (Prop 3.22), show coequalizers of this form are preserved by the forgetful functor **Mon → Sets**. The abstract reason is in-tree and stronger: the presentation is a *split* coequalizer (`canonical_split`, `Monad/Monadicity/BeckObjects.v:75`), and every functor preserves split coequalizers (`functor_preserves_split`, `Structure/Coequalizer/Split.v:104`), so absolute coequalizers are preserved by any functor. Missing only the concrete forgetful functor **Mon → Sets** to instantiate the exercise. No new aspect beyond the MacLane VI.6 algebraic-quotient split-coequalizer work (plus the category **Mon**).",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 482,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 503,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 530,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.4, Example 3.16, printed page 69, PDF page 78 (item `awodey:3.4:example16`). In **Ab** the equalizer of `f, g` is the kernel `ker(f − g)`, i.e. the equalizer of `h = f − g` against the zero map — exactly the equalizers-as-kernels-of-differences obligation. The abstract identity `IsKernel f i := IsEqualizer f zero_mor k i` is in-tree (`Structure/Kernel.v:53`), but the `f, g = ker(f − g)` direction (needing subtraction) and the category **Ab** are absent. New aspect: the example also gives equalizers in **Pos**, **Mon**, and **Top** as the underlying-set equalizer subset with induced structure (order/submonoid/subspace); these ride on the respective category constructions (Pos = #641, Top = MacLane I.7 = #259, and a category **Mon**) and are illustration-level once those categories exist.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.4, Example 3.16, printed page 69, PDF page 78 (item `awodey:3.4:example16`). In **Ab** the equalizer of `f, g` is the kernel `ker(f − g)`, i.e. the equalizer of `h = f − g` against the zero map — exactly the equalizers-as-kernels-of-differences obligation. The abstract identity `IsKernel f i := IsEqualizer f zero_mor k i` is in-tree (`Structure/Kernel.v:53`), but the `f, g = ker(f − g)` direction (needing subtraction) and the category **Ab** are absent. New aspect: the example also gives equalizers in **Pos**, **Mon**, and **Top** as the underlying-set equalizer subset with induced structure (order/submonoid/subspace); these ride on the respective category constructions (Pos = #641, Top = MacLane I.7 = #259, and a category **Mon**) and are illustration-level once those categories exist.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 530,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.5, Exercise 2, printed page 76, PDF page 85 (item `awodey:3:ex2`). Show the category **Ab** of abelian groups has all equalizers. The equalizer of `f, g` in **Ab** is `ker(f − g)` — the equalizers-as-kernels-of-differences obligation — but no category **Ab** exists in-tree (`Instance/CMon` is commutative monoids, without inverses, and carries no equalizer content). No new aspect beyond MacLane VIII.1 (plus the category **Ab**, MacLane I.7 = #256).",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), Chapter 3 \"Duality\", §3.5, Exercise 2, printed page 76, PDF page 85 (item `awodey:3:ex2`). Show the category **Ab** of abelian groups has all equalizers. The equalizer of `f, g` in **Ab** is `ker(f − g)` — the equalizers-as-kernels-of-differences obligation — but no category **Ab** exists in-tree (`Instance/CMon` is commutative monoids, without inverses, and carries no equalizer content). No new aspect beyond MacLane VIII.1 (plus the category **Ab**, MacLane I.7 = #256).",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 534,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 590,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 637,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 640,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 641,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 642,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 643,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 643,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 644,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 645,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 646,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 647,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 648,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed., Oxford University Press)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant E, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 649,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 650,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 651,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 652,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 653,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 654,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §2.3 (printed p. 37; PDF p. 46) — the prose definitions of filter and ultrafilter and the correspondence `Hom_Bool(B, 2) ≅ ultrafilters(B)` — together with §2.9 Exercise 5 (printed p. 55; PDF p. 64), which restates the same correspondence. Item IDs: `awodey:2.3:def-filter`, `awodey:2.3:def-ultrafilter`, `awodey:2.3:construction-ultrafilter-bijection`, `awodey:2:ex5`.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §2.3 (printed p. 37; PDF p. 46) — the prose definitions of filter and ultrafilter and the correspondence `Hom_Bool(B, 2) ≅ ultrafilters(B)` — together with §2.9 Exercise 5 (printed p. 55; PDF p. 64), which restates the same correspondence. Item IDs: `awodey:2.3:def-filter`, `awodey:2.3:def-ultrafilter`, `awodey:2.3:construction-ultrafilter-bijection`, `awodey:2:ex5`.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 654,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.3, printed page 158 (PDF page 167),\nitem `awodey:7.3:def-ultrafilter` — an ultrafilter in a Boolean algebra `B` is",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.3, printed page 158 (PDF page 167),\nitem `awodey:7.3:def-ultrafilter` — an ultrafilter in a Boolean algebra `B` is",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, 2-line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 654,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.3, printed page 158 (PDF page 167),\nitem `awodey:7.3:remark-ultrafilter-maximality` — the observation (posed as an",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.3, printed page 158 (PDF page 167),\nitem `awodey:7.3:remark-ultrafilter-maximality` — the observation (posed as an",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, 2-line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 655,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 656,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 657,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 659,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 660,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 661,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 662,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 663,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 664,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 665,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 666,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 667,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 668,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 669,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 670,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 671,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §5.1 \"Subobjects\", the local-membership definition and Example 5.3, printed page 95 (PDF page 104). Items covered: `awodey:5.1:def-local-membership`, `awodey:5.1:example3`.",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §5.1 \"Subobjects\", the local-membership definition and Example 5.3, printed page 95 (PDF page 104). Items covered: `awodey:5.1:def-local-membership`, `awodey:5.1:example3`.",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 671,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §8.8 (Topoi), Remark 8.18, printed page 211\n(PDF page 220), item `awodey:8.8:remark18` — because subobjects `U ↣ E`",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §8.8 (Topoi), Remark 8.18, printed page 211\n(PDF page 220), item `awodey:8.8:remark18` — because subobjects `U ↣ E`",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, 2-line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 671,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "> Awodey, *Category Theory* (2nd ed.), §8.8 (Topoi), Remark 8.18, printed page 211 (PDF page 220), item `awodey:8.8:remark18` (multi-part — leg 1/2, the membership criterion; the topos-level adjoint-triple leg is recorded against #387)",
+  "replace": "> Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §8.8 (Topoi), Remark 8.18, printed page 211 (PDF page 220), item `awodey:8.8:remark18` (multi-part — leg 1/2, the membership criterion; the topos-level adjoint-triple leg is recorded against #387)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 672,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 673,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 674,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 675,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 676,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 677,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 678,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 680,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 681,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 682,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 683,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 684,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 685,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 686,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 687,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 688,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 689,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 690,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 691,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 692,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 693,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 694,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 695,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 696,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 697,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.1 \"Functor categories\" (functors and",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.1 \"Functor categories\" (functors and",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 697,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §8.2 (The Yoneda embedding), printed page",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §8.2 (The Yoneda embedding), printed page",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 697,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §8.3 (The Yoneda lemma), closing prose of",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §8.3 (The Yoneda lemma), closing prose of",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 698,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 699,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 700,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 701,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 702,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 703,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 704,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 705,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §7.7 \"Examples of functor categories\",",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §7.7 \"Examples of functor categories\",",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 705,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.), §8.1 (Set-valued functor categories),",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005), §8.1 (Set-valued functor categories),",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, line-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 706,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 707,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 708,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 709,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 710,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 711,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 712,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd ed.)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant A, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 713,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 714,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 715,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 716,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 717,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 718,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 719,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 720,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 721,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 722,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 723,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory*, 2nd ed. (Oxford Logic Guides 52)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant C, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 740,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 741,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 742,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 743,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 744,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 745,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 746,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 747,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 748,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 749,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 750,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 751,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 752,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 753,
+  "decision": "5.4",
+  "mode": "replace_text",
+  "find": "Awodey, *Category Theory* (2nd edition)",
+  "replace": "Awodey, *Category Theory* (1st ed., Carnegie Mellon pre-print, September 2005)",
+  "note": "5.4 Awodey edition relabel to the 1st-ed CMU pre-print (variant B, label-anchored). Anchored on the full `Awodey, *Category Theory*` prefix, never on the bare '(2nd ed.)': #590 and #534 also carry a Riehl 2nd-ed citation that must not move."
+ },
+ {
+  "issue": 560,
+  "decision": "5.6",
+  "mode": "replace_text",
+  "find": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` clean.",
+  "replace": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` adds no new hits.",
+  "note": "5.6 sweep UNDER-REACH found by inv-maketodo.md: #560-#565 carry the byte-identical unachievable box the #566-#584 sweep replaced (`make todo` prints 89 pre-existing hits on a pristine tree and can never fail -- the recipe is `-@...|| exit 0`). All 19 audited issues are correct; nothing to revert."
+ },
+ {
+  "issue": 561,
+  "decision": "5.6",
+  "mode": "replace_text",
+  "find": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` clean.",
+  "replace": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` adds no new hits.",
+  "note": "5.6 sweep UNDER-REACH found by inv-maketodo.md: #560-#565 carry the byte-identical unachievable box the #566-#584 sweep replaced (`make todo` prints 89 pre-existing hits on a pristine tree and can never fail -- the recipe is `-@...|| exit 0`). All 19 audited issues are correct; nothing to revert."
+ },
+ {
+  "issue": 562,
+  "decision": "5.6",
+  "mode": "replace_text",
+  "find": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` clean.",
+  "replace": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` adds no new hits.",
+  "note": "5.6 sweep UNDER-REACH found by inv-maketodo.md: #560-#565 carry the byte-identical unachievable box the #566-#584 sweep replaced (`make todo` prints 89 pre-existing hits on a pristine tree and can never fail -- the recipe is `-@...|| exit 0`). All 19 audited issues are correct; nothing to revert."
+ },
+ {
+  "issue": 563,
+  "decision": "5.6",
+  "mode": "replace_text",
+  "find": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` clean.",
+  "replace": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` adds no new hits.",
+  "note": "5.6 sweep UNDER-REACH found by inv-maketodo.md: #560-#565 carry the byte-identical unachievable box the #566-#584 sweep replaced (`make todo` prints 89 pre-existing hits on a pristine tree and can never fail -- the recipe is `-@...|| exit 0`). All 19 audited issues are correct; nothing to revert."
+ },
+ {
+  "issue": 564,
+  "decision": "5.6",
+  "mode": "replace_text",
+  "find": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` clean.",
+  "replace": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` adds no new hits.",
+  "note": "5.6 sweep UNDER-REACH found by inv-maketodo.md: #560-#565 carry the byte-identical unachievable box the #566-#584 sweep replaced (`make todo` prints 89 pre-existing hits on a pristine tree and can never fail -- the recipe is `-@...|| exit 0`). All 19 audited issues are correct; nothing to revert."
+ },
+ {
+  "issue": 565,
+  "decision": "5.6",
+  "mode": "replace_text",
+  "find": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` clean.",
+  "replace": "Full `make` green on Rocq 9.1; Coq 8.19/8.20 nix builds pass; `make todo` adds no new hits.",
+  "note": "5.6 sweep UNDER-REACH found by inv-maketodo.md: #560-#565 carry the byte-identical unachievable box the #566-#584 sweep replaced (`make todo` prints 89 pre-existing hits on a pristine tree and can never fail -- the recipe is `-@...|| exit 0`). All 19 audited issues are correct; nothing to revert."
+ },
+ {
+  "issue": 1005,
+  "decision": "6.1",
+  "mode": "replace_text",
+  "find": "printed pp. 206–207, PDF pp. 226–228",
+  "replace": "printed pp. 206–208, PDF pp. 226–228",
+  "note": "6.1 printed range extended to 208 (EN DASH U+2013, not hyphen). Per inv-1005-pages.md it is the PROOF OF THEOREM 5.5.9 -- not Lemma 5.5.10, which ends on printed 207 -- that runs onto printed p. 208, and #1005 cites both items. The PDF range was already right and is untouched."
+ },
+ {
+  "issue": 843,
+  "decision": "6.2",
+  "mode": "replace_text",
+  "find": "\n\n> **SCOPE (added on audit).** The BASE matrix category is **#221's** obligation, not this\n> issue's: #221 already scopes \"In `Instance/Matr.v` (new): objects `nat`; `hom m n` :=\n> matrices…; composition = matrix product via finite sums; identity matrices; category\n> laws\", and notes a semiring suffices. Completing both issues as originally written would\n> land TWO matrix categories in the tree (`Instance/Matr.v` and `Instance/Mat.v`), and #327\n> already depends on #221. **Build on #221's category** — this issue's genuine content is\n> the generalisation of entries to a rig and the symmetric monoidal (PROP) structure that\n> #221 does not scope. Prefer extending #221's module over creating a second one.\n\n",
+  "replace": "\n\n",
+  "note": "6.2 DELETE at the old site: the audit blockquote leaves ## Dependencies. Verified on the live body that this issue's ## Dependencies section carries NO `- Related (NOT blocking):` line, so none can be lost. Emit as a pair with the insert below, deletion first."
+ },
+ {
+  "issue": 843,
+  "decision": "6.2",
+  "mode": "replace_text",
+  "find": "\n\n## Definition of Done\n",
+  "replace": "\n\n> **SCOPE (added on audit).** The BASE matrix category is **#221's** obligation, not this\n> issue's: #221 already scopes \"In `Instance/Matr.v` (new): objects `nat`; `hom m n` :=\n> matrices…; composition = matrix product via finite sums; identity matrices; category\n> laws\", and notes a semiring suffices. Completing both issues as originally written would\n> land TWO matrix categories in the tree (`Instance/Matr.v` and `Instance/Mat.v`), and #327\n> already depends on #221. **Build on #221's category** — this issue's genuine content is\n> the generalisation of entries to a rig and the symmetric monoidal (PROP) structure that\n> #221 does not scope. Prefer extending #221's module over creating a second one.\n\n## Definition of Done\n",
+  "note": "6.2 INSERT at the new site: the same blockquote verbatim at the END of ## Work to be done (after the `In-tree donors:` paragraph, immediately before `## Definition of Done`). Every line begins at column 0. Apply AFTER the deletion above."
+ },
+ {
+  "issue": 827,
+  "decision": "6.2",
+  "mode": "replace_text",
+  "find": "\n\n> **Verification note folded in on audit (it was recorded in Phase D and dropped before\n> filing).** The gap here is **\"no instance is written\", not \"not derivable\"**. `Cocartesian C`\n> is notation for `@Cartesian (C^op)` (`Structure/Cocartesian.v:115`), and both\n> `FinSet_Cocartesian` (`Instance/FinSet.v:250`) and `FinSet_Initial` (`:223`) exist — so the\n> ADDITIVE monoidal structure is one application away as\n> `@Monoidal_op (FinSet^op) (@CC_Monoidal (FinSet^op) FinSet_Cocartesian FinSet_Initial)`\n> (`CC_Monoidal` at `Structure/Monoidal/Internal/Product.v:54`, `Monoidal_op` at\n> `Construction/Opposite/Monoidal.v:92`), which typechecks at `@Monoidal FinSet`. There is\n> in-tree precedent for exactly this pairing at `Instance/FinSet/Lawvere.v:41-42`. Note\n> `Cartesian_Monoidal` would give the WRONG tensor (× rather than +). **The real work is\n> therefore the STRICT + SYMMETRIC + PROP assembly** — nat addition is only propositionally\n> associative on open terms — i.e. the labour `Construction/PROP/Instance.v` already performs\n> for `FreeCat`. Do not start from scratch.\n\n",
+  "replace": "\n\n",
+  "note": "6.2 DELETE at the old site: the audit blockquote leaves ## Dependencies. Verified on the live body that this issue's ## Dependencies section carries NO `- Related (NOT blocking):` line, so none can be lost. Emit as a pair with the insert below, deletion first."
+ },
+ {
+  "issue": 827,
+  "decision": "6.2",
+  "mode": "replace_text",
+  "find": "\n\n## Definition of Done\n",
+  "replace": "\n\n> **Verification note folded in on audit (it was recorded in Phase D and dropped before\n> filing).** The gap here is **\"no instance is written\", not \"not derivable\"**. `Cocartesian C`\n> is notation for `@Cartesian (C^op)` (`Structure/Cocartesian.v:115`), and both\n> `FinSet_Cocartesian` (`Instance/FinSet.v:250`) and `FinSet_Initial` (`:223`) exist — so the\n> ADDITIVE monoidal structure is one application away as\n> `@Monoidal_op (FinSet^op) (@CC_Monoidal (FinSet^op) FinSet_Cocartesian FinSet_Initial)`\n> (`CC_Monoidal` at `Structure/Monoidal/Internal/Product.v:54`, `Monoidal_op` at\n> `Construction/Opposite/Monoidal.v:92`), which typechecks at `@Monoidal FinSet`. There is\n> in-tree precedent for exactly this pairing at `Instance/FinSet/Lawvere.v:41-42`. Note\n> `Cartesian_Monoidal` would give the WRONG tensor (× rather than +). **The real work is\n> therefore the STRICT + SYMMETRIC + PROP assembly** — nat addition is only propositionally\n> associative on open terms — i.e. the labour `Construction/PROP/Instance.v` already performs\n> for `FreeCat`. Do not start from scratch.\n\n## Definition of Done\n",
+  "note": "6.2 INSERT at the new site: the same blockquote verbatim at the END of ## Work to be done (after the `In-tree donors:` paragraph, immediately before `## Definition of Done`). Every line begins at column 0. Apply AFTER the deletion above."
+ },
+ {
+  "issue": 829,
+  "decision": "6.2",
+  "mode": "replace_text",
+  "find": "\n\n> **SCOPE (added on audit — two-thirds of the original Work section belonged to #824).**\n> #824's step 1 is \"Supply the missing `CorelComposable` instance for finite sets… the\n> load-bearing step\" and its step 3 transports the symmetric monoidal structure to the\n> corelation category. **Both are #824's, not this issue's** — do not re-derive them here.\n> What is genuinely new and remains in scope for this issue: the PROP packaging, and the\n> bijection FinCorel(m,n) with partitions of Fin.t (m+n). The dependency on #824 was\n> already declared but its parenthetical understated the overlap. NOTE the two issues\n> propose module names differing by ONE WORD (Instance/FinSet/Corelation.v vs\n> Instance/FinSet/Corel.v), which is why the path-keyed collision check did not catch this.\n\n",
+  "replace": "\n\n",
+  "note": "6.2 DELETE at the old site: the audit blockquote leaves ## Dependencies. Verified on the live body that this issue's ## Dependencies section carries NO `- Related (NOT blocking):` line, so none can be lost. Emit as a pair with the insert below, deletion first."
+ },
+ {
+  "issue": 829,
+  "decision": "6.2",
+  "mode": "replace_text",
+  "find": "\n\n## Definition of Done\n",
+  "replace": "\n\n> **SCOPE (added on audit — two-thirds of the original Work section belonged to #824).**\n> #824's step 1 is \"Supply the missing `CorelComposable` instance for finite sets… the\n> load-bearing step\" and its step 3 transports the symmetric monoidal structure to the\n> corelation category. **Both are #824's, not this issue's** — do not re-derive them here.\n> What is genuinely new and remains in scope for this issue: the PROP packaging, and the\n> bijection FinCorel(m,n) with partitions of Fin.t (m+n). The dependency on #824 was\n> already declared but its parenthetical understated the overlap. NOTE the two issues\n> propose module names differing by ONE WORD (Instance/FinSet/Corelation.v vs\n> Instance/FinSet/Corel.v), which is why the path-keyed collision check did not catch this.\n\n## Definition of Done\n",
+  "note": "6.2 INSERT at the new site: the same blockquote verbatim at the END of ## Work to be done (after the `In-tree donors:` paragraph, immediately before `## Definition of Done`). Every line begins at column 0. Apply AFTER the deletion above."
+ },
+ {
+  "issue": 832,
+  "decision": "6.2",
+  "mode": "replace_text",
+  "find": "\n\n> **Precision correction (added on audit).** This issue's Current-state text says the in-tree\n> notion \"demands unit preservation and full monoidal-functor coherence\". That is half wrong in\n> BOTH directions, so state it precisely: `strict_pure_obj : I = F I`\n> (`Functor/Structure/Monoidal/Strict.v:57`) really IS automatic for an identity-on-objects\n> functor between props, since it reads `0 = F 0`. But `strict_pure_iso_id` (`:60-63`) is a\n> SECOND, genuinely non-automatic unit-side condition: it demands the unit comparison MORPHISM\n> be the transported identity, and `hom(0,0)` is generally non-trivial in a prop. So the surplus\n> over Definition 5.11 is: the MonoidalFunctor comparison data with its coherence, the braid\n> square, AND `strict_pure_iso_id` — but NOT `strict_pure_obj`. (The PARTIAL verdict and the gap\n> statement are unaffected.)\n\n",
+  "replace": "\n\n",
+  "note": "6.2 DELETE at the old site: the audit blockquote leaves ## Dependencies. Verified on the live body that this issue's ## Dependencies section carries NO `- Related (NOT blocking):` line, so none can be lost. Emit as a pair with the insert below, deletion first."
+ },
+ {
+  "issue": 832,
+  "decision": "6.2",
+  "mode": "replace_text",
+  "find": "\n\n## Definition of Done\n",
+  "replace": "\n\n> **Precision correction (added on audit).** This issue's Current-state text says the in-tree\n> notion \"demands unit preservation and full monoidal-functor coherence\". That is half wrong in\n> BOTH directions, so state it precisely: `strict_pure_obj : I = F I`\n> (`Functor/Structure/Monoidal/Strict.v:57`) really IS automatic for an identity-on-objects\n> functor between props, since it reads `0 = F 0`. But `strict_pure_iso_id` (`:60-63`) is a\n> SECOND, genuinely non-automatic unit-side condition: it demands the unit comparison MORPHISM\n> be the transported identity, and `hom(0,0)` is generally non-trivial in a prop. So the surplus\n> over Definition 5.11 is: the MonoidalFunctor comparison data with its coherence, the braid\n> square, AND `strict_pure_iso_id` — but NOT `strict_pure_obj`. (The PARTIAL verdict and the gap\n> statement are unaffected.)\n\n## Definition of Done\n",
+  "note": "6.2 INSERT at the new site: the same blockquote verbatim at the END of ## Work to be done (after the `In-tree donors:` paragraph, immediately before `## Definition of Done`). Every line begins at column 0. Apply AFTER the deletion above."
+ },
+ {
+  "issue": 534,
+  "decision": "6.4",
+  "mode": "replace_text",
+  "find": "axioms … feeding `bicartesian_preadditive` without assuming it\"), so the two\nissues together cover both routes and should share the resulting lemma rather\nthan proving it twice.\n\n### Scope increment (QA audit)\n\nThe clause instructing that #534 and #547 *should share the resulting lemma rather than proving\nit twice* is superseded by: *cover both routes under disjoint hypotheses; name the two lemmas\ndistinctly and cross-cite, rather than attempting to share one.* #534 proves\n`can_comparison_iso` ASSUMING the `Preadditive` enrichment; #547 must prove the same conclusion\nBEFORE any enrichment exists. Neither can invoke the other. No edge in either direction.",
+  "replace": "axioms … feeding `bicartesian_preadditive` without assuming it\"), so the two\nissues together cover both routes under disjoint hypotheses; name the two\nlemmas distinctly and cross-cite, rather than attempting to share one. #534\nproves `can_comparison_iso` ASSUMING the `Preadditive` enrichment; #547 must\nprove the same conclusion BEFORE any enrichment exists. Neither can invoke the\nother. No edge in either direction.",
+  "note": "6.4 BOTH halves in ONE verified edit: the in-place fix AND the removal of the appended block. The plan's quote failed only because the body is hard-wrapped and a newline falls between `rather` and `than` (inv-534.md). The find is widened past `cover both routes and ` -- the literal instruction would otherwise have produced 'cover both routes and cover both routes under disjoint hypotheses'. Option A: the block's disjointness rationale and its 'No edge in either direction' assertion are folded into the paragraph, so nothing is lost. Result: one blank line between this paragraph and the catalog trailer, which stays last. ADJACENT DEFECT, not remediated here: #547's own `### Scope increment (QA audit)` block was appended as INSTRUCTIONS to an editor (it literally reads 'On its own physical line in `## Dependencies`:' followed by a stray '> ' line), so the cross-cite this paragraph promises exists on #547 only in imperative form, in the wrong section."
+ },
+ {
+  "issue": 370,
+  "decision": "6.3",
+  "mode": "trailer_ids",
+  "replace": [
+   "maclane:IV.3:construction1",
+   "7sketches:3.4.2:example3.74",
+   "riehl:4.6:example13",
+   "riehl:5.3:exii"
+  ],
+  "note": "6.3 #370 += riehl:5.3:exii. Precondition checked: the trailer is already the last thing in the body, so file_chapter.py:224's id-append path is live (it falls through to :231 and appends blindly while the trailer is not last)."
+ },
+ {
+  "issue": 373,
+  "decision": "6.3",
+  "mode": "trailer_ids",
+  "replace": [
+   "maclane:IV.3:ex7",
+   "riehl:4.6:prop14",
+   "riehl:5.6:cor6"
+  ],
+  "note": "6.3 #373 += riehl:5.6:cor6. Trailer verified already last."
+ },
+ {
+  "issue": 416,
+  "decision": "6.3",
+  "mode": "trailer_ids",
+  "replace": [
+   "maclane:V.2:thm1",
+   "maclane:V.2:thm2",
+   "maclane:V.2:cor2",
+   "maclane:V.4:ex2",
+   "awodey:5.4:prop23",
+   "awodey:5.4:cor24",
+   "awodey:5.4:thm25",
+   "riehl:3.2:thm11",
+   "riehl:3.2:remark13",
+   "riehl:3.2:exii",
+   "riehl:3.5:thm11",
+   "riehl:E.1:thm-colimit-construction"
+  ],
+  "note": "6.3 #416 += riehl:E.1:thm-colimit-construction; the other eleven ids are reproduced verbatim from the live trailer. Trailer verified already last."
+ },
+ {
+  "issue": 384,
+  "decision": "6.3",
+  "mode": "trailer_ids",
+  "replace": [
+   "maclane:IV.5:construction4",
+   "awodey:9.4:example12",
+   "awodey:9.6:remark-rapl-distributivity",
+   "7sketches:1.4.3:example117",
+   "riehl:4.1:example8",
+   "riehl:4.1:example9",
+   "riehl:4.1:exii",
+   "riehl:4.5:construction-quantifier-adjoint-triple"
+  ],
+  "note": "6.3 #384 -= awodey:8.8:remark18 (the removal is stated inside this issue's Group C block). The id stays live elsewhere -- ledger.tsv:1340 gives awodey:8.8:remark18 leg 1/2 to #671 -- so this is a de-duplication, not a retirement."
+ },
+ {
+  "issue": 918,
+  "decision": "6.3",
+  "mode": "trailer_ids",
+  "replace": [
+   "riehl:1.5:example11",
+   "riehl:2.2:cor8"
+  ],
+  "note": "6.3 #918 += riehl:2.2:cor8. Independent of the #231 demotion (a trailer_deps change in a separate Group A row); this entry touches `ids` only."
+ },
+ {
+  "issue": 1006,
+  "decision": "6.3",
+  "mode": "trailer_ids",
+  "replace": [
+   "riehl:5.5:exv",
+   "riehl:5.5:exvi",
+   "riehl:5.5:example7"
+  ],
+  "note": "6.3 #1006 += riehl:5.5:example7. FLAG (inv-1005-pages.md §Incidental, no edit emitted): #1006's own page citation `printed p. 205, PDF pp. 225-226` is internally inconsistent -- clause (iii) of Example 5.5.7 sits entirely on printed 206 / PDF 226."
+ },
+ {
+  "issue": 869,
+  "decision": "5.2",
+  "mode": "trailer_ids",
+  "replace": [
+   "7sketches:6.3.1:thm6.58",
+   "7sketches:6.3.1:ex6.57"
+  ],
+  "note": "5.2 edit 4/4, EMITTED LAST as instructed. IDENTICAL to the trailer_ids entry already in mf-edges.json (decision 3.6, same final array): apply ONCE -- it is a final-array set, so a second application is a no-op. HARD SEQUENCING: only after the three 5.2 cross-file edits above land, since 7sketches:6.3.1:ex6.57 today resolves to #868 alone."
+ }
+]

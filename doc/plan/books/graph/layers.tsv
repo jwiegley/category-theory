@@ -1,0 +1,539 @@
+issue	layer	title
+#216	0	MacLane I.1: Commutative diagrams as first-class objects
+#217	0	MacLane I.1: Arrows-only metacategories and the equivalence of category presentations
+#218	0	MacLane I.2: A category is a monoid for the product over its object set
+#219	0	MacLane I.2: Discrete categories are exactly sets
+#220	0	MacLane I.2: Delooping monoids and groups into one-object categories
+#222	0	MacLane I.2: Ens_V, the category of sets within a set V
+#223	0	MacLane I.2: Preorders as thin categories, with partial and linear orders
+#224	0	MacLane I.2: Finite ordinals as categories and the chain ω
+#225	0	MacLane I.2: The simplicial category Delta
+#227	0	MacLane I.3: The covariant power-set functor
+#231	0	MacLane I.3: Full and faithful functors, subcategories, and reflection of monics
+#238	0	MacLane I.4: The skeleton equivalence between finite sets and finite ordinals
+#239	0	MacLane I.4: The currying adjunction and naturality of evaluation
+#242	0	MacLane I.4: Natural transformations into a preorder
+#243	0	MacLane I.4: The arrows-only presentation of natural transformations
+#245	0	MacLane I.5: Epis in Sets are exactly the surjections
+#246	0	MacLane I.5: Split morphisms, idempotent composites, and regular arrows
+#247	0	MacLane I.5: Uniqueness of terminal, initial, and zero objects
+#250	0	MacLane I.5: Monic/epi cancellation and a non-invertible bimorphism
+#252	0	MacLane I.5: The natural numbers as an initial algebra
+#253	0	MacLane I.6: Size and foundations vocabulary
+#254	0	MacLane I.6: Small completeness of Sets (indexed products and coproducts)
+#255	0	MacLane I.6: Grp, the category of groups
+#259	0	MacLane I.7: Top, the category of topological spaces
+#261	0	MacLane I.7: Set_*, the category of pointed sets
+#262	0	MacLane I.7: Rel, converse relations, and the graph embedding
+#264	0	MacLane I.8: Ab-categories and additive functors
+#266	0	MacLane II.1: The ETAC statement language and the duality principle
+#267	0	MacLane II.2: The op involution as a functor on Cat
+#270	0	MacLane II.3: Bifunctors and transformations from partial data (Propositions 1 and 2)
+#274	0	MacLane II.3: Set-indexed products of categories
+#276	0	MacLane II.4: Functor categories over discrete shapes and their size
+#277	0	MacLane II.4: The arrow category as [2, B] and the classification of natural transformations
+#283	0	MacLane II.5: Strict 2-categories, double categories, and Cat
+#284	0	MacLane II.5: Naturality of the exponential laws
+#285	0	MacLane II.5: The abstract Eckmann-Hilton argument
+#287	0	MacLane II.5: The hom-action of a functor as a natural transformation
+#290	0	MacLane II.6: The comma diagram over the arrow category and its universal property
+#291	0	MacLane II.6: The Huq correspondence is a bijection
+#292	0	MacLane II.6: Functoriality of the comma construction
+#294	0	MacLane II.7: O-graphs, the composable-pairs product, and categories as monoids
+#295	0	MacLane II.7: Concrete free categories and free finite ordinals
+#296	0	MacLane II.7: The free monoid and its universal property
+#297	0	MacLane II.7: Opposite and product graphs
+#299	0	MacLane II.8: The least congruence and presented categories
+#302	0	MacLane III.1: Couniversal arrows (universal arrows from a functor to an object)
+#303	0	MacLane III.1: Universal elements as first-class structures
+#308	0	MacLane III.1: Metric-space completion as a universal arrow
+#316	0	MacLane III.2: Naturality of the Yoneda isomorphism in both variables
+#317	0	MacLane III.2: Representations are functorial in natural transformations
+#318	0	MacLane III.2: Naturality is unchanged by enlarging the codomain
+#320	0	MacLane III.3: Indexed coproducts
+#322	0	MacLane III.3: Wide equalizers and wide coequalizers
+#323	0	MacLane III.3: Cokernel pairs and the pushout characterization of epimorphisms
+#326	0	MacLane III.4: Interdefinability of the finite (co)limit constructions
+#328	0	MacLane III.3: Coproducts in Mon and Grph
+#332	0	MacLane III.4: Graph-shaped diagrams and their limits
+#334	0	MacLane III.4: Limits along an index category with an initial object
+#335	0	MacLane III.5: All finite products from a terminal object and binary products
+#339	0	MacLane III.5: Pointwise finite products in functor categories
+#340	0	MacLane III.6: Ring and lattice objects by internalization
+#343	0	MacLane III.6: The categories of internal monoids and groups have finite products
+#345	0	MacLane III.7: The category of elements of a set-valued functor
+#350	0	MacLane IV.1: Paré's criterion — a left adjoint from a split idempotent
+#351	0	MacLane IV.1: Coproducts as the left adjoint of the diagonal functor
+#352	0	MacLane IV.2: Connected categories
+#358	0	MacLane IV.2: Functors adjoint on the right
+#368	0	MacLane IV.3: Fullness of an adjoint and invertibility of the unit-counit composites
+#373	0	MacLane IV.3: A full reflective subcategory inherits limits
+#379	0	MacLane IV.4: Adjoint equivalences compose
+#390	0	MacLane IV.6: The entailment preorder of a theory is cartesian closed
+#391	0	MacLane IV.6: Internal composition in a cartesian closed category
+#392	0	MacLane IV.6: Cartesian closure is not inherited by functor categories
+#393	0	MacLane IV.7: Maps of adjunctions
+#394	0	MacLane IV.7: Conjugate natural transformations and the four characterizations of conjugacy
+#406	0	MacLane V.1: Creation of limits by a functor
+#418	0	MacLane V.2: Completeness of a product category
+#422	0	MacLane V.2: Products in a preorder are greatest lower bounds
+#424	0	MacLane V.3: The evaluation functor on a functor category
+#427	0	MacLane V.4: Cone-level preservation of limits and continuous functors
+#429	0	MacLane V.4: Projective and injective objects
+#432	0	MacLane V.5: Non-existence of adjoints in Set and Set^op
+#435	0	MacLane V.6: The initial-object theorem as a characterization
+#440	0	MacLane V.6: The category of algebras of a variety
+#445	0	MacLane V.7: Intersections and unions of subobjects
+#446	0	MacLane V.7: Quotient objects
+#447	0	MacLane V.7: Generating (separating) sets of objects
+#463	0	MacLane VI.1: Monads on a preorder are closure operators, and their algebras are the closed elements
+#464	0	MacLane VI.2: The group-action monad G×(−) and its algebras are G-sets
+#468	0	MacLane VI.2: Morphisms of monads, the category of monads, and the induced functor between algebra categories
+#470	0	MacLane VI.4: The word monad, the free-semigroup adjunction, and monadicity of semigroups over Set
+#475	0	MacLane VI.5: The Kleisli comparison functor and the free-object subcategory
+#477	0	MacLane VI.6: The absolute-coequalizer (absolute-colimit) predicate
+#478	0	MacLane VI.6: The dom/cod fork in Cat and its splitting by a terminal object
+#480	0	MacLane VI.6: Contractible (Beck) parallel pairs
+#481	0	MacLane VI.7: Reflection of coequalizers — definition, and from creation or from preservation+conservativity
+#490	0	MacLane VII.1: Cocartesian monoidal structure from finite coproducts
+#491	0	MacLane VII.1: Moncat, the category of monoidal categories, and its finite products
+#492	0	MacLane VII.1: The pointwise monoidal structure on a functor category and the exponential law
+#493	0	MacLane VII.1: One-object strict monoidal categories and the Eckmann–Hilton interchange
+#494	0	MacLane VII.1: Independence of the pentagon and triangle axioms
+#495	0	MacLane VII.1: Isbell's argument against strictifying by identifying isomorphic objects
+#496	0	MacLane VII.2: The free monoidal category on one generator
+#502	0	MacLane VII.3: Construction of free monoids as coproducts of tensor powers
+#503	0	MacLane VII.3: Finite products in the category of monoids
+#505	0	MacLane VII.4: Modules over a monoid object and the free/forgetful adjunction
+#510	0	MacLane VII.4: Actions of a monad on an endofunctor and liftings to the algebras
+#530	0	MacLane VIII.1: Equalizers as kernels of differences in an Ab-category
+#532	0	MacLane VIII.1: The canonical factorization f = ker(coker f) ∘ q and its diagonal fill-in
+#533	0	MacLane VIII.2: Characterization of the zero object in an Ab-category
+#534	0	MacLane VIII.2: Product, biproduct, and coproduct coincide in an Ab-category
+#535	0	MacLane VIII.2: The biproduct bifunctor and its associativity and commutativity
+#536	0	MacLane VIII.2: Finite biproducts and the matrix calculus of arrows
+#539	0	MacLane VIII.2: Group completion of the semiadditive enrichment (Ex 4b)
+#540	0	MacLane VIII.2: The free Ab-category on a category
+#543	0	MacLane VIII.3: Functor and product categories inherit abelian structure
+#544	0	MacLane VIII.3: Coimage and the canonical coimage-to-image isomorphism
+#547	0	MacLane VIII.3: The economical (Freyd–Schubert) axiomatization of abelian categories
+#559	0	MacLane IX.1: Filtered categories and filtered colimits
+#570	0	MacLane IX.4: Canonical wedges — evaluation and the identity family
+#572	0	MacLane IX.4: Multi-variable (di)natural transformations and dummy variables
+#574	0	MacLane IX.4: Euclidean self-duality as a dinatural transformation
+#575	0	MacLane IX.5: The end–limit correspondence (subdivision and twisted-arrow categories)
+#577	0	MacLane IX.5: The set of natural transformations is an end of the hom-functor
+#578	0	MacLane IX.5: Preservation and creation of ends; hom-functors are continuous for ends
+#579	0	MacLane IX.6: The tensor product of functors as a coend
+#581	0	MacLane IX.7: Functoriality of ends in the integrand
+#585	0	MacLane X.1: The formal criterion for the existence of an adjoint via comma-category limits
+#587	0	MacLane X.1: The Bénabou collage of a set-valued functor and representability via a left adjoint
+#588	0	MacLane X.2: Weak universal arrows and weak (co)limits
+#589	0	MacLane X.3: The pointwise (co)limit formula for Kan extensions
+#597	0	MacLane X.4: Composition of right Kan extensions (Dubuc)
+#600	0	MacLane X.6: Dense and codense functors and the full-faithfulness (nerve) criteria
+#603	0	MacLane X.7: Kan extensions along the identity and the terminal functor give functors and (co)limits
+#606	0	MacLane XI.1: The braiding as a natural isomorphism, unit compatibility, and the inverse braiding
+#607	0	MacLane XI.2: Monoidal natural transformations compose, and the category of monoidal functors
+#609	0	MacLane XI.3: Strictification — every monoidal category is monoidally equivalent to a strict one
+#610	0	MacLane XI.3: The endofunctor category [C,C] as a strict monoidal category (Exercise 1)
+#617	0	MacLane XII.1: Internal categories (category objects in a finitely complete category)
+#625	0	MacLane XII.4: Right Kan extensions in a 2-category (formal Kan extensions)
+#631	0	MacLane XII.6: The two duals of a bicategory
+#632	0	MacLane XII.7: Every one-object bicategory is a monoidal category (and bicategorical coherence)
+#634	0	MacLane XII.7: The bicategory Span(C)
+#639	0	MacLane App.1: A two-valued subobject classifier is a Boolean algebra
+#640	0	Awodey 1.4: Wide subcategories of Sets cut out by a class of functions
+#641	0	Awodey 1.4: Pos, the category of posets and monotone maps
+#642	0	Awodey 1.4: The category of a deductive system (proofs as arrows)
+#646	0	Awodey 1.9 Ex 4: The coslice as the opposite of the slice over the opposite category
+#647	0	Awodey 1.9 Ex 5: Free categories on graphs with exactly six arrows
+#651	0	Awodey 2.1: Every arrow in a poset is a bimorphism, and Pos is not balanced
+#653	0	Awodey 2.2: Boolean algebras and the category Bool
+#655	0	Awodey 2.3: Well-pointed categories and having enough points
+#656	0	Awodey 2.4: Functors preserve split monomorphisms and split epimorphisms
+#658	0	Awodey 3.2: The coproduct bifunctor + : C ∏ C ⟶ C
+#659	0	Awodey 3.2: The coproduct universal property — representability and uniqueness up to isomorphism
+#664	0	Awodey 4.3: The homomorphism theorem for categories — kernel congruence, kernel category, and the bijective-on-objects/faithful factorization of a functor
+#669	0	Awodey 5.1: The subobject preorder Sub_C(X) as a category, and its poset quotient
+#671	0	Awodey 5.1: Local membership of generalized elements, and the equalizer as a comprehension subobject
+#672	0	Awodey 5.3/5.7 Ex 1: Pullback calculus — the prism lemma, and monos as pullback squares
+#679	0	Awodey 5.5: Composition-reversal and identity laws for contramap
+#683	0	Awodey 6.3: Heyting algebras — the class, the poset exponential UMP, and negation
+#689	0	Awodey 6.4: The equational characterization of cartesian closed categories
+#690	0	Awodey 6.5: The typed λ-calculus over a signature, and λ-theories with a provable-equality judgement
+#696	0	Awodey 6.6 Ex 2: The category of monoids is not cartesian closed
+#713	0	Awodey 8.2: The hom-bifunctor and its two exponential transposes in Cat
+#714	0	Awodey 8.2/8.4: Lower sets, the principal-down-set embedding, and the thin-category Yoneda criterion
+#721	0	Awodey 8.8: The subobject functor is representable — naturality of the classifying bijection and uniqueness of Ω
+#740	0	Awodey 10.4: The comonad induced by an adjunction, with its counit and comultiplication exposed
+#741	0	Awodey 10.4: Comonadic functors — the co-Eilenberg–Moore comparison and the Comonadic predicate
+#742	0	Awodey 10.6 Ex 7(c): The category of sets with an endomorphism and its eventually-fixed-points comonad
+#746	0	Awodey 10.5: Pointwise sums of functors and the class of polynomial endofunctors
+#753	0	Awodey 10.6 Ex 10: The final coalgebra of 1 + A × X — possibly-infinite lists
+#233	1	MacLane I.3: Functors out of 1, 2, and 3
+#235	1	MacLane I.3: Two distinct functors sharing the identity object function
+#240	1	MacLane I.4: The fixed-factor product functor and its induced transformation
+#241	1	MacLane I.4: Natural transformations between group homomorphisms are conjugations
+#248	1	MacLane I.5: Groupoids and the structure of connected groupoids
+#251	1	MacLane I.5: Epimorphisms of groups are surjective
+#256	1	MacLane I.7: Ab, the category of abelian groups
+#260	1	MacLane I.7: Homotopy categories and pointed spaces
+#268	1	MacLane II.2: Open(X) and the presheaf of continuous functions
+#271	1	MacLane II.3: The cylinder C x 2 and the universal natural transformation
+#272	1	MacLane II.3: Product categories subsume products of monoids, groups, and sets
+#273	1	MacLane II.3: Preorders are closed under products and functor categories
+#278	1	MacLane II.4: Monoid and group actions as functor categories
+#288	1	MacLane II.5: The centre of a category
+#289	1	MacLane II.6: Comma-category specializations
+#300	1	MacLane II.8: The walking commutative square by generators and relations
+#301	1	MacLane II.8: Group congruences are normal subgroups
+#304	1	MacLane III.1: Kernels as universals for a contravariant functor
+#311	1	MacLane III.1: A universal element for the contravariant power-set functor
+#313	1	MacLane III.1: Quotient groups and the isomorphism theorems by universality
+#315	1	MacLane III.1: Quotient setoids and coequalizers in Sets
+#319	1	MacLane III.2: Kan's coyoneda lemma over the category of elements
+#321	1	MacLane III.4: Powers and copowers of an object
+#325	1	MacLane III.3: Pushouts in Grp and Top; amalgamated products
+#331	1	MacLane III.4: Hom-functors preserve products and limits
+#333	1	MacLane III.4: Pullbacks and kernel pairs in Sets
+#336	1	MacLane III.5: The matrix calculus from finite coproducts to finite products
+#337	1	MacLane III.5: Cat has pullbacks and comma categories are pullbacks in Cat
+#338	1	MacLane III.5: Cat has small coproducts
+#341	1	MacLane III.6: Group objects through their representable functors
+#342	1	MacLane III.6: Pointwise group objects in functor categories
+#344	1	MacLane III.6: Groups in Grp are abelian groups
+#346	1	MacLane III.7: The density theorem: set-valued functors as colimits of representables
+#347	1	MacLane IV.1: Determination of an adjunction by its counit and by couniversal arrows
+#349	1	MacLane IV.1: Adjoints of additive functors are additive
+#353	1	MacLane IV.2: Limits and colimits as adjoints of the diagonal functor
+#357	1	MacLane IV.2: The adjoint string on the objects functor of Cat
+#363	1	MacLane IV.2: A monoid is a group exactly when its translations have adjoints
+#364	1	MacLane IV.2: The cokernel-pair functor is left adjoint to the equalizer functor
+#369	1	MacLane IV.3: Monomorphisms and epimorphisms in a functor category are pointwise
+#372	1	MacLane IV.3: Posets are reflective in preorders, and T0-spaces in Top
+#374	1	MacLane IV.4: Skeletons and skeletal categories
+#380	1	MacLane IV.5: Galois connections are adjunctions between preorders
+#395	1	MacLane IV.7: The category of adjunctions and conjugate pairs
+#396	1	MacLane IV.7: Adjunctions with a parameter
+#397	1	MacLane IV.7: Choosing right adjoints functorially
+#398	1	MacLane IV.7: Adjoint squares and the Palmquist mates bijection
+#405	1	MacLane IV.10: Every elementary topos has finite colimits
+#412	1	MacLane V.1: The arrow-category projection creates limits
+#413	1	MacLane V.1: Compact Hausdorff spaces and the creation of limits
+#416	1	MacLane V.2: Limits from products and equalizers
+#419	1	MacLane V.2: The canonical comparison arrow for limits of composites
+#423	1	MacLane V.2: A small small-complete category is a preorder (Freyd)
+#425	1	MacLane V.3: Pointwise limits in a functor category
+#434	1	MacLane V.5: A full reflective subcategory of a cocomplete category is cocomplete
+#438	1	MacLane V.6: The comma projection creates limits
+#448	1	MacLane V.7: Spanning arrows and solution sets from subobject intersections
+#451	1	MacLane V.8: Well-powered and co-well-powered categories
+#452	1	MacLane V.8: The special initial-object theorem
+#456	1	MacLane V.9: The underlying-set functor of Top and its adjoint triple
+#460	1	MacLane V.9: Gluing along an open cover and the sheaf condition
+#466	1	MacLane VI.2: The power-set monad and complete semilattices (Manes)
+#467	1	MacLane VI.2: The Eilenberg–Moore forgetful functor creates limits
+#471	1	MacLane VI.4: The monoid monad W₀ and monoids as its algebras
+#482	1	MacLane VI.7: Comparison of adjunctions defining the same monad (definition and uniqueness)
+#483	1	MacLane VI.7: The graded weak and precise tripleability construction (left adjoint to K, unit/counit isos, algebra presentation)
+#497	1	MacLane VII.2: The coherence theorem for monoidal categories
+#498	1	MacLane VII.2: The free monoidal category on a set
+#506	1	MacLane VII.4: Limits and colimits in the category of modules
+#507	1	MacLane VII.4: The relative tensor product of a right module by a left module
+#508	1	MacLane VII.4: Comodules over a comonoid object
+#511	1	MacLane VII.4: A monoidal category acting on a category (actegories)
+#512	1	MacLane VII.5: The simplicial category Δ as the free strict monoidal category on a monoid
+#520	1	MacLane VII.7: Coherence for symmetric monoidal categories, and product/coproduct as symmetric tensor
+#521	1	MacLane VII.8: The compact-open function space and the local-compactness exponential law
+#522	1	MacLane VII.8: Compactly generated Hausdorff spaces and the Kelleyfication coreflection
+#526	1	MacLane VII.9: The category of pointed objects and the pointed function space
+#537	1	MacLane VIII.2: Additive functors are exactly the biproduct-preserving functors
+#542	1	MacLane VIII.3: Abelian categories are finitely (co)complete and balanced
+#545	1	MacLane VIII.3: Exact sequences and short exact sequences
+#550	1	MacLane VIII.3: Subquotients and the ker/im ≅ coim/coker isomorphism
+#560	1	MacLane IX.1: Small coproducts from finite coproducts and directed colimits
+#561	1	MacLane IX.1: Algebraic forgetful functors create filtered colimits
+#565	1	MacLane IX.2: Pseudo-filtered categories
+#567	1	MacLane IX.3: Final (cofinal) functors and final subcategories
+#573	1	MacLane IX.4: Composition calculus for dinatural transformations
+#576	1	MacLane IX.5: Existence of ends from completeness and from products and equalizers
+#582	1	MacLane IX.7: The Parameter Theorem for ends and coends
+#586	1	MacLane X.1: Formal criteria for representability and universal arrows (Bénabou)
+#590	1	MacLane X.3: Existence of Kan extensions from completeness and the global adjoint to precomposition
+#591	1	MacLane X.3: Fully faithful K — an invertible Kan counit and extension along an inclusion
+#592	1	MacLane X.3: Kan extensions between sets — images, representables, and non-existence
+#608	1	MacLane XI.2: The word-indexed comparison transformation F_v of a monoidal functor
+#611	1	MacLane XI.3: The tensoring functor T : M ⟶ [M,M] and an independent strictification proof (Exercises 2–3)
+#618	1	MacLane XII.1: Internal functors and internal natural transformations
+#619	1	MacLane XII.1: Internal diagrams (left C-objects) and their morphisms
+#620	1	MacLane XII.1: Category objects in Grp are group objects in Cat, and the interchange of internalizations
+#623	1	MacLane XII.3: The hom-category (Cat-enriched) formulation of a 2-category
+#626	1	MacLane XII.4: 2-functors and 2-natural transformations (strict)
+#629	1	MacLane XII.5: Single-set (arrows-only) categories and functors via source/target operators
+#635	1	MacLane XII.8: Crossed modules of groups
+#637	1	MacLane App.1: Natural-numbers object
+#643	1	Awodey 1.5: Automorphism groups, permutation groups, and Cayley's theorem
+#645	1	Awodey 1.9 Ex 3: Isomorphisms versus bijective homomorphisms in Sets, Mon, and Pos
+#648	1	Awodey 2.1: Monomorphisms in Mon are exactly the injective homomorphisms
+#652	1	Awodey 2.2: Initial and terminal objects in slice categories, coslices, and posets
+#654	1	Awodey 2.3: Filters, ultrafilters, and the correspondence between Boolean homomorphisms to 2 and ultrafilters
+#657	1	Awodey 2.4: The categorical axiom of choice and projective objects in Sets and Pos
+#662	1	Awodey 3.5 Ex 5: The category of posets has all coequalizers
+#665	1	Awodey 4.3–4.4: Coequalizers of functors in Cat via congruence quotients
+#666	1	Awodey 4.4: Finitely presented example categories — the walking isomorphism, Z/2Z, cyclic groups, and presentations of the category 3
+#667	1	Awodey 4.1: Group objects in Sets, Top, and Pos recover ordinary, topological, and ordered groups
+#668	1	Awodey 4.5 Ex 2: Internal groups in a slice Sets/I as an I-indexed family of groups
+#670	1	Awodey 5.1: Functoriality of subobjects — direct image along a mono, and monotonicity of reindexing
+#674	1	Awodey 5.6: The cumulative hierarchy as an ω-colimit, and the functoriality of V_ω
+#675	1	Awodey 5.6: ω-CPOs and continuous monotone maps
+#678	1	Awodey 5.7 Ex 4: The category of partial maps Par(C) over a category with pullbacks
+#680	1	Awodey 6.2: Pos is cartesian closed — the componentwise product and the pointwise-ordered monotone function space
+#682	1	Awodey 6.2/6.6 Ex 3: The unit of the currying adjunction (− × B) ⊣ (−)^B, and the global points of an exponential
+#684	1	Awodey 6.3: Complete lattices — meets give joins, and the infinite distributive law as the Heyting criterion
+#686	1	Awodey 6.3: The full IPC entailment calculus and the Lindenbaum–Tarski Heyting algebra
+#691	1	Awodey 6.5: The category of types C(L) of a λ-theory, and its cartesian closed structure
+#692	1	Awodey 6.5: Models of a λ-theory in a cartesian closed category, and the λ-theory of monoids
+#697	1	Awodey 7.1: Injectivity and surjectivity of a functor on objects and on arrows
+#698	1	Awodey 7.1: Monoids, groups, posets and sets embed fully and faithfully in Cat
+#716	1	Awodey 8.6: The category of elements is equivalent to the Yoneda slice y/P
+#718	1	Awodey 8.7: Exponentials of presheaves and cartesian closure of Sets^(C^op)
+#743	1	Awodey 10.4: Adjoint triples — the induced monad, the induced comonad, and T ⊣ G
+#747	1	Awodey 10.5: Group structures as algebras for 1 + X + X × X, and signatures as polynomial endofunctors
+#749	1	Awodey 10.5: Initial algebras unwound — binary trees, term trees, and length by initiality
+#229	2	MacLane I.3: Commutator subgroup and abelianization functors
+#230	2	MacLane I.3: The center of a group is not functorial
+#236	2	MacLane I.4: Character groups and duality of finite abelian groups
+#249	2	MacLane I.5: The fundamental groupoid of a topological space
+#257	2	MacLane I.7: Rng, the category of rings
+#263	2	MacLane I.7: Concrete categories
+#265	2	MacLane I.8: The tensor product of abelian groups and Ab-enrichment
+#281	2	MacLane II.4: Graded abelian groups as Ab^N
+#298	2	MacLane II.7: The free groupoid on a graph and free groups
+#329	2	MacLane III.3: Chain unions as colimits and the cocompleteness of Sets
+#330	2	MacLane III.3: An abelian group is the colimit of its finitely generated subgroups
+#348	2	MacLane IV.1: A left adjoint exists exactly when the hom-functors are representable
+#354	2	MacLane IV.2: Units and counits of the equalizer, coequalizer, pullback and pushout adjunctions
+#355	2	MacLane IV.2: Limits over a disjoint union of index categories, and connected components
+#356	2	MacLane IV.2: Limits and colimits of a constant functor over a connected index category
+#365	2	MacLane IV.2: A left adjoint to the coslice projection
+#366	2	MacLane IV.2: Copowers and powers as an adjunction with a parameter
+#367	2	MacLane IV.3: Fullness and faithfulness of a right adjoint through its counit
+#371	2	MacLane IV.3: Torsion-free abelian groups form a reflective subcategory
+#375	2	MacLane IV.4: An isomorphism-dense full subcategory is reflective
+#382	2	MacLane IV.5: The powerset preorder and the direct-image/inverse-image adjunction
+#386	2	MacLane IV.5: Closed elements of a Galois connection and the fixed points of an adjunction
+#387	2	MacLane IV.5: Base change is right adjoint to composition on slices
+#399	2	MacLane IV.8: Horizontal composition of conjugate pairs makes Adj two-dimensional
+#402	2	MacLane IV.9: A subobject classifier for the category of sets
+#407	2	MacLane V.1: Completeness of Sets by cone sets
+#414	2	MacLane V.1: Cat is small-complete
+#417	2	MacLane V.2: Finite index categories and finite limits
+#420	2	MacLane V.2: Limit as a functor on the category of diagrams
+#421	2	MacLane V.2: Manes' criterion for completeness
+#426	2	MacLane V.3: Pointwise limits as creation along the discrete inclusion
+#430	2	MacLane V.4: The free abelian group functor is not continuous
+#431	2	MacLane V.5: Adjunctions and limits in functor categories
+#436	2	MacLane V.6: The Freyd adjoint functor theorem as a characterization
+#439	2	MacLane V.6: Creation of limits is stable under pullback in Cat
+#453	2	MacLane V.8: The special adjoint functor theorem as a characterization
+#457	2	MacLane V.9: Subspace and quotient topologies as sliced adjoint inverses
+#459	2	MacLane V.9: Collapsing a subset and the category of pairs
+#462	2	MacLane V.9: The connected-components functor
+#469	2	MacLane VI.3: The discrete-space adjunction induces the identity monad — a non-monadic example
+#476	2	MacLane VI.5: The category of resolutions of a monad — Kleisli initial, Eilenberg–Moore terminal
+#484	2	MacLane VI.7: Complete Beck's monadicity theorem (isomorphism conclusion, absolute-coequalizer condition, general converse)
+#499	2	MacLane VII.2: The associahedron of canonical maps
+#501	2	MacLane VII.3: The general associative law and coherence for monoids
+#509	2	MacLane VII.4: Coherence for a module action
+#513	2	MacLane VII.5: The arrow calculus of Δ — factorization, generators and relations
+#515	2	MacLane VII.5: Simplicial sets and simplicial objects
+#523	2	MacLane VII.8: CGHaus is complete and cocomplete
+#527	2	MacLane VII.9: The smash product and the smash–hom adjunction on pointed spaces
+#529	2	MacLane VII.9: The left adjoint of the pointed-hom functor on pointed sets
+#531	2	MacLane VIII.1: The kernel–cokernel Galois connection
+#538	2	MacLane VIII.2: The infinite canonical coproduct-to-product map need not be an isomorphism
+#546	2	MacLane VIII.3: Exact and left-exact functors
+#548	2	MacLane VIII.3: (Finite) abelian groups are abelian; free abelian groups are not
+#552	2	MacLane VIII.4: Pullbacks of epimorphisms and of short exact sequences
+#553	2	MacLane VIII.4: The additive category Ses A of short exact sequences
+#557	2	MacLane VIII.4: Chain complexes and homology objects
+#562	2	MacLane IX.1: Grp is cocomplete
+#563	2	MacLane IX.2: Finite limits commute with filtered colimits in Set
+#566	2	MacLane IX.2: Coproducts commute with pullbacks, and pseudo-filtered colimits commute with pullbacks, in Set
+#568	2	MacLane IX.3: Final functors preserve colimits (and initial functors, limits)
+#571	2	MacLane IX.4: The unit and counit of a parametrized adjunction are (di)natural in the parameter
+#583	2	MacLane IX.7: A limit in a functor category that is not pointwise (Dubuc)
+#584	2	MacLane IX.8: The Fubini theorem and interchange of iterated ends
+#593	2	MacLane X.4: Kan extensions as (co)ends — the pointwise coend and end formulas
+#598	2	MacLane X.5: Preservation of Kan extensions; right adjoints and representables preserve them
+#602	2	MacLane X.6: Density as a coend of copowers
+#624	2	MacLane XII.3: The homotopy 2-category of topological spaces
+#627	2	MacLane XII.4: The 2-category 2-Cat
+#630	2	MacLane XII.5: Single-set n-categories and ω-categories
+#636	2	MacLane XII.8: Crossed modules are equivalent to category objects in Grp
+#638	2	MacLane App.1: ETCS — well-pointed topos with choice and a natural-numbers object
+#649	2	Awodey 2.1: The inclusion of the additive monoid of naturals into the integers is a non-surjective epimorphism
+#661	2	Awodey 3.5 Ex 6: Kernel relations, quotients, and generated equivalence relations in Sets
+#673	2	Awodey 5.3/5.5: Slices of Sets as indexed families — reindexing as pullback, and its preservation of coproducts
+#676	2	Awodey 5.6: Least fixed points of continuous maps on an ω-CPO (Kleene iteration)
+#677	2	Awodey 5.6: Colimits depend on the ambient category — the chain of finite ω-CPOs in Pos and in ωCPO
+#681	2	Awodey 6.2/6.6 Ex 4: ω-CPOs are cartesian closed, and strict ω-CPOs are not
+#687	2	Awodey 6.3/6.6 Ex 5: Derived entailment rules and the three implication axioms of positive IPC
+#688	2	Awodey 6.3: Heyting algebras presented by generators and relations — the universal property of HA(L)
+#693	2	Awodey 6.5: The universal property of C(L) — the free cartesian closed category on a λ-theory
+#694	2	Awodey 6.5/6.6 Ex 6: Completeness of the λ-calculus for cartesian closed models, and the degeneracy of Sets-models
+#695	2	Awodey 6.5: The internal language L(C) of a cartesian closed category, and the isomorphism C(L(C)) ≅ C
+#706	2	Awodey 7.7: The functor category of two posets is the exponential poset, and Pos ⟶ Cat preserves cartesian closed structure
+#707	2	Awodey 7.7: The category Grpd of groupoids is cartesian closed and its inclusion into Cat preserves the structure
+#708	2	Awodey 7.9: The category of partial maps is equivalent to the category of pointed sets
+#710	2	Awodey 7.10 Ex 3: The forgetful functors Grp ⟶ Mon ⟶ Sets — fullness, faithfulness and (non-)surjectivity
+#711	2	Awodey 7.10 Ex 4: The Alexandroff topology as a functor Pos ⟶ Top
+#712	2	Awodey 7.10 Ex 5: The full-image factorization of a functor, and its comparison with the bijective-on-objects factorization
+#720	2	Awodey 8.9 Ex 4: The Yoneda embedding preserves products and exponentials
+#724	2	Awodey 9.1/9.9 Ex 3: Binary products and coproducts from an adjoint to the diagonal functor
+#725	2	Awodey 9.1: The lower-set completion is left adjoint to the forgetful functor from cocomplete posets
+#726	2	Awodey 9.2/9.8: Recovering universal arrows from an adjunction — each unit component is initial in the comma category
+#729	2	Awodey 9.7: Change of base for indexed families of sets — the adjoint triple with its fibrewise formulas
+#731	2	Awodey 9.7: Structure on slice categories — the domain functor, products from pullbacks, and C ≅ C/1
+#737	2	Awodey 9.8: The adjoint functor theorem for complete posets — a join-preserving monotone map has a right adjoint
+#738	2	Awodey 9.8/9.9 Ex 10: Recursion from a natural numbers object — arithmetic, functor iteration, and exponentiation in a cartesian closed category
+#744	2	Awodey 10.4: The comonad Δ∘lim on a diagram category, and Sets as its coalgebras
+#748	2	Awodey 10.5/10.6 Ex 2: Lambek's lemma — the initial algebra structure map is an isomorphism
+#221	3	MacLane I.2: The matrix category Matr_K
+#232	3	MacLane I.3: The field of quotients as a functor
+#258	3	MacLane I.7: Module categories R-Mod and friends
+#275	3	MacLane II.3: The ring of continuous functions as a contravariant functor
+#286	3	MacLane II.5: Loop interchange and the abelian fundamental group of a topological group
+#293	3	MacLane II.6: Commutative K-algebras as a coslice of commutative rings
+#312	3	MacLane III.1: Universal arrows to the standard forgetful functors
+#362	3	MacLane IV.2: Adjoining an identity to a ring as a left adjoint
+#370	3	MacLane IV.3: Concrete reflective and coreflective subcategories
+#376	3	MacLane IV.4: Left-adjoint-left-inverses and their characterization
+#381	3	MacLane IV.5: The Galois connection of a group acting on a set
+#383	3	MacLane IV.5: Boolean connectives as adjoints on a powerset
+#384	3	MacLane IV.5: Quantifiers as adjoints to substitution
+#385	3	MacLane IV.5: The orthogonal complement as a Galois connection
+#389	3	MacLane IV.6: Powerset lattices and Boolean algebras are cartesian closed
+#400	3	MacLane IV.8: The free-ring adjunction as a composite in two ways
+#403	3	MacLane IV.9: Subobject classifiers for functor categories
+#408	3	MacLane V.1: Inverse limits of towers of sets
+#411	3	MacLane V.1: The forgetful functor of Grp lifts and creates limits
+#415	3	MacLane V.1: FinSet is finitely complete
+#428	3	MacLane V.4: Hom-functors are continuous
+#437	3	MacLane V.6: The representability theorem
+#441	3	MacLane V.6: The free-algebra adjunction for a variety
+#450	3	MacLane V.7: Colimits in algebraic categories via the adjoint functor theorem
+#455	3	MacLane V.6/V.8: The Stone-Cech compactification via the adjoint functor theorems
+#458	3	MacLane V.9: Top is complete and cocomplete
+#461	3	MacLane V.9: Hausdorff spaces, reflection, and the separation axioms
+#479	3	MacLane VI.6: Algebraic quotients as coequalizers split under the forgetful functor (groups and rings)
+#485	3	MacLane VI.7: The CTT/VTT/PTT tripleability predicates and their monadicity theorems
+#504	3	MacLane VII.3: Substitution of words and the generalized associative law
+#514	3	MacLane VII.5: The geometric-realization functor Δ → Top
+#518	3	MacLane VII.6: The monoid-ring functor and the group ring
+#524	3	MacLane VII.8: CGHaus is cartesian closed
+#528	3	MacLane VII.9: Reduced suspension, loop space, and the Σ ⊣ Ω adjunction
+#551	3	MacLane VIII.4: Members (pseudo-elements) and the diagram-chasing rules
+#564	3	MacLane IX.2: Interchange of iterated limits and of iterated colimits
+#569	3	MacLane IX.3: Properties of final functors and colimits of representables
+#594	3	MacLane X.4: Kan extensions as (co)ends in the functor category (Ulmer; Day–Kelly)
+#595	3	MacLane X.4: Additive (Ab-enriched) Kan extensions via cotensor
+#599	3	MacLane X.5: Pointwise Kan extensions and the comma-category limit criterion
+#604	3	MacLane X.7: The adjoint criterion via the Kan extension of the identity, and absolute Kan extensions
+#612	3	MacLane XI.4: The Artin braid group B_n
+#621	3	MacLane XII.2: The nerve of a category as a simplicial set
+#628	3	MacLane XII.4: 3-categories via enrichment in 2-Cat
+#644	3	Awodey 1.5: Every category with small hom-collections is concrete (Cayley/Yoneda into Sets)
+#650	3	Awodey 2.1: Sets is balanced — a monic epimorphism of sets is an isomorphism
+#660	3	Awodey 3.3: Subsets as equalizers of their characteristic functions in Sets
+#709	3	Awodey 7.9: The equivalence Sets^I ≃ Sets/I and reindexing as pullback
+#715	3	Awodey 8.6: Colimits in a functor category are pointwise, and presheaf categories are cocomplete
+#730	3	Awodey 9.7: The dependent product — the right adjoint to base change on slices
+#736	3	Awodey 9.8: Smallness discharges the solution-set condition — the adjoint functor theorem for small complete categories
+#751	3	Awodey 10.5: Every polynomial endofunctor on Sets has an initial algebra
+#752	3	Awodey 10.5: When endofunctor algebras are monad algebras — the free P-algebra and the three equivalent conditions
+#226	4	MacLane I.2: The roster of standard large categories
+#228	4	MacLane I.3: GL_n and the determinant as a natural transformation
+#234	4	MacLane I.3: Functors between preorders, groups, and representation categories
+#244	4	MacLane I.4: Finite-dimensional vector spaces and the matrix-category equivalence
+#269	4	MacLane II.2: Restriction of scalars and the fibered category of all modules
+#279	4	MacLane II.4: Linear representations as the functor category (K-Mod)^G
+#280	4	MacLane II.4: R-Mod as an additive functor category
+#282	4	MacLane II.4: Matrix equivalence and similarity via functor categories
+#305	4	MacLane III.1: The free vector space on a set as a universal arrow
+#306	4	MacLane III.1: The tensor product as a universal element of the bilinear-maps functor
+#307	4	MacLane III.1: The field of quotients as a universal arrow
+#309	4	MacLane III.1: Free modules and polynomial rings as universal arrows
+#310	4	MacLane III.1: Group rings, tensor algebras, and exterior algebras as universal arrows
+#314	4	MacLane III.1: Quotient modules and quotient rings by universality
+#324	4	MacLane III.3: Coproducts in the familiar algebraic and topological categories
+#327	4	MacLane III.3: Coequalizers in the matrix category
+#361	4	MacLane IV.2: The universal enveloping algebra is left adjoint to the commutator functor
+#377	4	MacLane IV.4: A full, faithful, surjective-on-objects functor has a left-adjoint-right-inverse
+#378	4	MacLane IV.4: The colimit functor as a left-adjoint-left-inverse of the diagonal
+#404	4	MacLane IV.10: Sets and presheaf categories as elementary toposes
+#409	4	MacLane V.1: The p-adic integers and formal power series as inverse limits of rings
+#410	4	MacLane V.1: The p-adic solenoid as a limit in Top
+#442	4	MacLane V.6: The free group functor via the adjoint functor theorem
+#443	4	MacLane V.6: Left adjoints to forgetful functors by the adjoint functor theorem
+#444	4	MacLane V.6: The solution set condition is necessary (counterexamples)
+#449	4	MacLane V.7: Tensor products of modules via the adjoint functor theorem
+#454	4	MacLane V.8: Watt's theorem on representable additive functors
+#465	4	MacLane VI.2: The monad R⊗(−) on Ab and its algebras are left R-modules
+#486	4	MacLane VI.7: Tripleability is closed under composition (CTT/VTT/PTT composites)
+#487	4	MacLane VI.8: Algebras of a variety are T-algebras (equational categories are monadic over Set)
+#488	4	MacLane VI.8: Beck's theorem for K-Alg over K-Mod
+#489	4	MacLane VI.9: Compact Hausdorff spaces are monadic over Set (the ultrafilter monad)
+#500	4	MacLane VII.3: Monoids in a monoidal category recover the classical algebraic structures
+#516	4	MacLane VII.5: Homology of a simplicial object and singular homology
+#525	4	MacLane VII.8: Further properties of compactly generated spaces (exercises)
+#541	4	MacLane VIII.2: The free additive category Add(A) and Add(K) = Matr_K
+#549	4	MacLane VIII.3: Finitely generated modules over a left noetherian ring form an abelian category
+#554	4	MacLane VIII.4: The short five lemma and the five lemma
+#555	4	MacLane VIII.4: The snake lemma (the ker–coker exact sequence)
+#558	4	MacLane VIII.4: The Freyd–Mitchell embedding theorem
+#580	4	MacLane IX.6: Module tensor products and free modules as coends
+#596	4	MacLane X.4: Left derived functors as a right Ab-enriched Kan extension
+#601	4	MacLane X.6: Density in Ab and in R-Mod
+#605	4	MacLane X.7: The codensity monad and codensity as Ran_K K
+#613	4	MacLane XI.4: The surjection B_n ⟶ S_n and the symmetric group by transpositions
+#614	4	MacLane XI.4: The braid category B as a braided (non-symmetric) monoidal category
+#622	4	MacLane XII.2: The nerve of an internal category as a simplicial object
+#633	4	MacLane XII.7: The bicategory of rings and bimodules
+#663	4	Awodey 3.4: Presentations of algebras by generators and relations as coequalizers of free algebras
+#685	4	Awodey 6.3: Powersets and open-set lattices as complete Heyting algebras, and the failure of the Boolean laws
+#704	4	Awodey 7.5: The contravariant powerset functor on Sets, the double-powerset unit, and P(A+B) ≅ P(A) × P(B)
+#717	4	Awodey 8.6: The Yoneda embedding is the free cocompletion of a small category
+#719	4	Awodey 8.7/8.9 Ex 5: (− × B) as a left adjoint, and its preservation of all colimits
+#722	4	Awodey 8.8: The fundamental theorem of topos theory — every slice of a topos is a topos
+#728	4	Awodey 9.5: Quantifiers as adjoints to weakening — a syntactic hyperdoctrine and its geometric reading
+#732	4	Awodey 9.7: Locally cartesian closed categories, and the equivalence with slicewise cartesian closure
+#237	5	MacLane I.4: The double-dual natural isomorphism for finite-dimensional vector spaces
+#388	5	MacLane IV.6: The tensor-hom adjunction for modules
+#473	5	MacLane VI.4: The polynomial-ring monad from CRng
+#474	5	MacLane VI.4: The tensor-algebra monad on Ab and rings as its algebras
+#517	5	MacLane VII.6: The simplicial bar construction and standard resolution of a comonad
+#556	5	MacLane VIII.4: The 3×3 lemma and the exact sequence of a composite
+#615	5	MacLane XI.5: The braid category is the free braided monoidal category on one object
+#699	5	Awodey 7.2: Hom(X,2) as a Boolean algebra and the powerset as a functor Sets^op ⟶ BA
+#705	5	Awodey 7.7: The category of directed graphs as the functor category Sets^Γ
+#723	5	Awodey 8.9 Ex 6: The subobject classifiers of Sets^2 and Sets^ω, and finite-set diagrams as a topos
+#727	5	Awodey 9.4: The interior operator as a right adjoint to the inclusion of open sets
+#733	5	Awodey 9.7: A slice of a presheaf category is again a presheaf category
+#735	5	Awodey 9.7: Fibrations of posets — the category Fib, and Fib/P as a locally cartesian closed category
+#739	5	Awodey 9.9 Ex 8: Indexed sets, change of base, and Lawvere's hyperdoctrine diagram
+#750	5	Awodey 10.5: The covariant powerset functor has no initial algebra (Lambek plus Cantor)
+#359	6	MacLane IV.2: The dual-object functor is adjoint to itself on the right
+#360	6	MacLane IV.2: The forgetful functor from R-modules to abelian groups has both adjoints
+#401	6	MacLane IV.8: Bimodule tensor adjunctions and their composites
+#519	6	MacLane VII.6: Group (co)homology via the bar resolution
+#616	6	MacLane XI.5: Braided coherence via the underlying braid, and the B_2 action on a tensor
+#700	6	Awodey 7.3: The ultrafilter functor Ult : BA^op ⟶ Sets and the covariant ultrafilter endofunctor on Sets
+#734	6	Awodey 9.7: Presheaf categories are locally cartesian closed
+#745	6	Awodey 10.4/10.6 Ex 8: The interior comonad and the closure monad on the subsets of a space
+#433	7	MacLane V.5: The vector-space dual functor has no right adjoint
+#472	7	MacLane VI.4: The free R-module monad on Set and R-modules as its algebras
+#701	7	Awodey 7.3: The Stone representation φ_B : B → P(Ult(B)) and the Stone representation theorem
+#702	7	Awodey 7.9: Finite Stone duality — BA_fin is equivalent to Sets_fin^op
+#703	8	Awodey 7.9: Complete atomic Boolean algebras and the discrete Stone duality caBA ≃ Sets^op

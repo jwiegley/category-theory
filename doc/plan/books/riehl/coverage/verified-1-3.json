@@ -1,0 +1,452 @@
+[
+  {
+    "id": "riehl:1.2:exvi",
+    "classification": "PRESENT",
+    "aliases": [
+      "split epimorphism is an epimorphism",
+      "retraction / section",
+      "SplitEpi / SplitMono",
+      "Retraction f -> Epic f",
+      "monic + split epi implies iso (Monic_Retraction_Iso)",
+      "dual: split mono is monic; epic + section is iso"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 392,
+        "symbol": "Monic_Retraction_Iso",
+        "intree_statement": "Program Instance Monic_Retraction_Iso {C : Category} {x y : C} `(r : @Retraction _ _ _ f) `(m : @Monic _ _ _ f) : x ≅ y := { to := f; from := retract }."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 162,
+        "symbol": "retractions_are_epic",
+        "intree_statement": "(* Every split epimorphism is an epimorphism. *) Lemma retractions_are_epic : Retraction f → Epic f."
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 412,
+        "symbol": "Epic_Section_Iso",
+        "intree_statement": "Program Instance Epic_Section_Iso {C : Category} {x y : C} `(s : @Section _ _ _ f) `(e : @Epic _ _ _ f) : x ≅ y := { to := f; from := section }."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 179,
+        "symbol": "sections_are_monic",
+        "intree_statement": "(* Every split monomorphism is a monomorphism. *) Lemma sections_are_monic : Section f → Monic f."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.2.vi: prove, and then state and prove the duals of, (i) split epimorphisms are epimorphisms and (ii) a morphism that is both a monomorphism and a split epimorphism is an isomorphism.",
+      "intree": "`Lemma retractions_are_epic : Retraction f → Epic f.` and `Program Instance Monic_Retraction_Iso {C} {x y : C} (r : @Retraction _ _ _ f) (m : @Monic _ _ _ f) : x ≅ y := { to := f; from := retract }.` together with the explicitly stated duals `sections_are_monic : Section f → Monic f` and `Epic_Section_Iso (s : Section f) (e : Epic f) : x ≅ y`.",
+      "strength_comparison": "same — `Retraction f` (right inverse) is the library's split epi and `Section f` its split mono (Theory/Morphisms.v:126-127 `Definition SplitEpi f := Retraction f`, `Definition SplitMono f := Section f`); both directions of both parts, and both duals, are proved. The library states the duals as separate lemmas rather than deriving them by opposition, which is exactly what the exercise asks for. Repeated a second time class-style in Theory/Morphisms/Classes.v (`split_epi_in_epi`, `split_mono_in_mono`)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same four witnesses before opening the coverage file (rg -i 'split.?epi|SplitEpi', 'SplitMono|Retraction|Section'). All cited lines verified by reading: Theory/Morphisms.v:161-162 comment + `Lemma retractions_are_epic : Retraction f -> Epic f`, Theory/Morphisms.v:178-179 comment + `Lemma sections_are_monic : Section f -> Monic f` (both inside `Section Lemmas` with `Variable f : x ~> y`, so the quoted signatures are the section-local form; the exported forms take x y f explicitly, as Theory/Morphisms/Classes.v:54 `exact (sections_are_monic x y f)` shows). Theory/Isomorphism.v:392 `Monic_Retraction_Iso` and :412 `Epic_Section_Iso` verified verbatim, both `Program Instance ... : x ≅ y` with the split's one-sided inverse as `from` and both obligations discharged by cancellation. The second-copy claim is accurate: Theory/Morphisms/Classes.v:51-52 `split_mono_in_mono` and :58-59 `split_epi_in_epi` exist as stated. All four files are registered in _CoqProject. No same-name-weaker-statement, no special-case restriction: both parts AND both duals are proved for an arbitrary category. strength_comparison 'same' is honest."
+    }
+  },
+  {
+    "id": "riehl:1.2:exvii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "supremum / least upper bound / join in a poset",
+      "infimum / greatest lower bound / meet",
+      "coproduct in a poset; colimit of a discrete diagram",
+      "indexed product/coproduct (iprod, IsIndexedProduct)",
+      "Poset / Proset as a thin category",
+      "uniqueness of colimits up to isomorphism"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 105,
+        "symbol": "iprod_ump",
+        "intree_statement": "Definition iprod_ump {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) (c : C) (pi : ∀ a, c ~> f a) : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with | or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }.  (* the binary join in the poset of propositions ordered by entailment; Props_Cartesian at line 69 is the dual meet *)"
+      },
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := { obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity; compose := fun x y z f g => transitivity g f }.  (Instance/Poset.v:116 `Definition Poset ... := Proset P` adds antisymmetry.)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.2.vii: regarding a poset (P,≤) as a category, define the supremum of a subcollection A of objects so that the dual definition is the infimum, and prove that a supremum is unique when it exists, in such a way that the dual proof gives uniqueness of infima.",
+      "intree": "The poset-as-category exists (`Proset`/`Poset`), limits of discrete diagrams carry the ∃!-universal property `iprod_ump : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a`, colimits are defined by duality (`Definition Colimit F := Limit (F^op)`, Structure/Limit.v:158), and binary joins/meets are exhibited in a concrete poset by `Props_Cocartesian`/`Props_Cartesian`.",
+      "strength_comparison": "intree-weaker: the categorical apparatus the exercise is a special case of is present, but nothing in the tree states the poset-level content. There is no definition of the supremum (or infimum) of an arbitrary subcollection of objects of a poset, no bridge lemma identifying a colimit in `Proset`/`Poset` with a least upper bound, and no uniqueness statement for the sup/inf OBJECT — `iprod_ump` and `colimit_med_unique` give uniqueness only of the MEDIATING MORPHISM, and `univ_property_unique` (Structure/UniversalProperty.v:112) gives uniqueness of a representing object but is never applied to posets. The indexed side is also one-legged: `iprod` (the infimum direction) exists, the dual indexed coproduct (the supremum direction the exercise names first) is not defined."
+    },
+    "gap": "No sup/inf of a subcollection of poset objects is defined anywhere in the tree; no lemma says a colimit (resp. limit) in `Proset`/`Poset` is a least upper bound (resp. greatest lower bound); no uniqueness-of-supremum theorem exists. Only the binary case is witnessed, and only inside the concrete poset `Props` (∨ as coproduct, ∧ as product). The indexed/discrete-diagram machinery is present only on the limit side (`iprod`, `iprod_proj`, `iprod_ump`, `IsIndexedProduct`); there is no `icoprod`.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'supremum|infimum|least upper bound|greatest lower bound| lub |join_|meet_|Lattice' . -- 0 hits for supremum/infimum/lub as definitions; 'greatest lower bound'/'join' occur only in the Instance/Poset.v prose dictionary (lines 51, 60)",
+      "grep -rn --include='*.v' -iE 'upper bound|lower bound|\\bsup\\b|\\binf\\b|bounded' . -- only Instance/Poset.v:51 prose, PROP `SubSig (Sub Sup)` name collisions, and 'Inf. Comput.' journal citations",
+      "grep -rn --include='*.v' -iE 'icoprod|indexed coproduct|IsIndexedCoproduct' . -- 0 hits",
+      "grep -rn --include='*.v' -E 'Limit_Unique|limit_unique|Colimit_Unique|colimit_unique|initial_unique|terminal_unique' Structure/ Theory/ Construction/ -- 0 hits; only limit_med_unique/colimit_med_unique (mediator uniqueness)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found: poset-as-category (Instance/Proset.v:33 `Proset`, Instance/Poset.v:116 `Poset`), `Colimit F := Limit (F^op)` (Structure/Limit.v:158), `iprod`/`iprod_proj`/`iprod_ump` (Structure/Limit/Product.v:93/98/105), and NO supremum/infimum/lub/glb definition anywhere (rg -i 'supremum|infimum|lub|glb|least upper|greatest lower|join|meet' returns only Monad `join`, prose, and 'X meets Y' English). Independently re-ran the classifier's negative searches: `icoprod` / 'indexed coproduct' / 'IsIndexedCoproduct' => 0 hits, confirming the one-legged indexed story. Cited lines verified: iprod_ump at 105 with exactly the quoted ∃! statement; Instance/Props.v:80 `Props_Cocartesian` verbatim (the `product_obj := or` field name is correct — `Cocartesian` is `Cartesian` read in the opposite category, and the in-file comment at Instance/Props.v:78-79 says so); Instance/Proset.v:33 verbatim. PARTIAL is the right call. TWO SUPPLEMENTS the classifier missed, neither changing the classification: (1) Structure/UniversalProperty.v:175 `univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s)` is a genuine uniqueness-of-the-OBJECT-up-to-unique-iso theorem, stronger than the `univ_property_unique` at :112 that the record cites; it is still never applied to posets and still gives uniqueness only up to iso, not the antisymmetry-mediated equality the exercise wants, so the gap stands. (2) The gap is reinforced by a header overclaim recorded in problems[]: Instance/Poset.v:46 says '[Poset] installs the resulting dictionary' and lists 'a coproduct is a join' / 'the limit over a subset is its greatest lower bound', but the file installs nothing of the kind (three declarations in 123 lines)."
+    }
+  },
+  {
+    "id": "riehl:1.2:exviii",
+    "classification": "ABSENT",
+    "aliases": [
+      "external axiom of choice",
+      "every epimorphism is a split epimorphism",
+      "every epi splits / epis are retractions",
+      "projective object / enough projectives",
+      "epis in Set are surjections and split by choice",
+      "categories where choice fails (e.g. a preorder, Group, Top)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'external axiom of choice' . -- 0 hits",
+      "grep -rn --include='*.v' -iE 'axiom of choice' . -- 5 hits, all in Theory/Equivalence.v prose about full+faithful+eso ⇒ equivalence being choice-equivalent; no statement about epis",
+      "grep -rn --include='*.v' -iE 'epi.*split' . -- 8 hits, all comments in Theory/Morphisms.v, Theory/Isomorphism.v, Theory/Morphisms/Classes.v, Structure/Factorization/StrongEpi.v naming the split-epi/split-mono vocabulary; none asserts that an epi splits",
+      "grep -rn --include='*.v' -iE 'split.*every epi' . -- 0 hits",
+      "grep -rn --include='*.v' -iE 'Projective|ProjectiveObject|enough projectives' . -- 7 hits, all prose (Structure/Abelian.v:97 notes the library LACKS enough projectives; Structure/Limit.v:43 'Projective limit'; Construction/Opposite.v projective geometry)",
+      "grep -rn --include='*.v' -iE 'surject.*epi|epi.*surject' . -- Instance/Sets.v:429 `surjectivity_is_epic : (∀ b, ∃ a, h a ≈ b) ↔ Epic h` is the nearest relative, but it is the epi/surjection correspondence in Sets (and the header at line 414 records that the reverse direction is deliberately not in the environment); nothing derives a section from an epi",
+      "grep -rn --include='*.v' -iE 'Groupoid' . -- Construction/Groupoid.v exists (every morphism invertible, hence trivially a category where every epi splits) but no such statement is made there or anywhere else"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found nothing: rg -i 'external axiom|axiom of choice|epi.*split|split.*every epi|every epimorphism is' over all .v files produced only the split-epi/split-mono VOCABULARY comments (Theory/Morphisms.v:121,240, Theory/Isomorphism.v:388, Theory/Morphisms/Classes.v:18, Structure/Factorization/StrongEpi.v:26-27) and, in docs/AXIOMS.md:173-174, the stdlib `dependent_choice`/`unique_choice` axiom names — none of which is the statement 'every epimorphism splits' as a property of a category. No MorphismClass-level inclusion Epi ⊆ SplitEpi is asserted; Theory/Morphisms/Classes.v:19-23 draws the inclusion diagram in the correct direction only (Iso ⊆ SplitEpi ⊆ Epi). Verified the classifier's nearest relative: Instance/Sets.v:429 `surjectivity_is_epic` is genuinely NOT in the environment — the proof ends `Abort.` at Instance/Sets.v:476, exactly as the in-file header at 412-428 discloses; and even if it were, it is the epi/surjection correspondence, not epi/section. ABSENT confirmed. Note this record has evidence: [] and statement_record: null, which the schema permits for ABSENT (negative_search_log is present and its commands reproduce)."
+    }
+  },
+  {
+    "id": "riehl:1.3:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "functor",
+      "covariant functor",
+      "Class Functor / fobj / fmap",
+      "functoriality axioms fmap_id, fmap_comp",
+      "F : C ⟶ D"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 96,
+        "symbol": "Functor",
+        "intree_statement": "Class Functor@{o1 h1 p1 o2 h2 p2} {C : Category@{o1 h1 p1}} {D : Category@{o2 h2 p2}} := { fobj : C → D; fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y; fmap_respects : ∀ x y, Proper (respectful equiv equiv) (@fmap x y); fmap_id {x : C} : fmap (@id C x) ≈ id; fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) : fmap (f ∘ g) ≈ fmap f ∘ fmap g }."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 1.3.1: a functor F : C → D consists of an object Fc of D for each object c of C and a morphism Ff : Fc → Fc' for each f : c → c', with domains/codomains obtained by applying F, subject to the two functoriality axioms F(g·f) = Fg·Ff and F(id_c) = id_{Fc}.",
+      "intree": "`Class Functor {C D : Category} := { fobj : C → D; fmap {x y} (f : x ~> y) : fobj x ~> fobj y; fmap_respects; fmap_id {x} : fmap (@id C x) ≈ id; fmap_comp {x y z} (f : y ~> z) (g : x ~> y) : fmap (f ∘ g) ≈ fmap f ∘ fmap g }`.",
+      "strength_comparison": "same — the object map, the hom map with domain/codomain determined by `fobj`, and both functoriality axioms are exactly the book's, with `≈` in place of `=` (the faithful setoid rephrasing). The one extra field, `fmap_respects`, is forced by hom-setoids and has no counterpart in a set-based presentation; it is not an added hypothesis on the mathematics but the congruence condition making `fmap` well defined on hom-setoids. Universe-polymorphic in {o h p} for both categories, so the size discussion around functors is available rather than fixed."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass landed on the same site. Theory/Functor.v:96-108 read directly: `Class Functor@{o1 h1 p1 o2 h2 p2} {C : Category@{o1 h1 p1}} {D : Category@{o2 h2 p2}}` with fields fobj (:98), fmap (:99), fmap_respects (:101), fmap_id (:105), fmap_comp (:106-107) — the quote is accurate and complete. `fmap_comp` is stated in the book's orientation (`fmap (f ∘ g) ≈ fmap f ∘ fmap g`). The strength_comparison's treatment of `fmap_respects` as a setoid congruence rather than an extra mathematical hypothesis is correct and is the frozen definition's sanctioned 'setoid rephrasing is faithful' case. Theory/Functor.v is in _CoqProject. No weaker-same-name competitor: Theory/Coq/Functor.v's `Class Functor` is the law-free FP-level fmap, but the record does not cite it."
+    }
+  },
+  {
+    "id": "riehl:1.3:example2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "covariant power set functor / direct image",
+      "forgetful functor U : Group ⟶ Set, U : Top ⟶ Set",
+      "underlying-set functor / concrete category",
+      "free group functor, free ⊣ forgetful",
+      "fundamental group π₁, fundamental groupoid Π₁, homology H_n",
+      "vertex/arrow functors V, A : Quiver ⟶ Set"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/CMon.v",
+        "line": 169,
+        "symbol": "CMon_Forget",
+        "intree_statement": "Program Definition CMon_Forget : CMon ⟶ Sets := {| fobj := fun M => cmon_setoid M; fmap := fun _ _ f => cmon_map f |}.  (* the forgetful functor to Sets, dropping the monoid structure *)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .  (with FreeCatFunctor : QuiverCategory ⟶ StrictCat at line 546)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 412,
+        "symbol": "Forgetful",
+        "intree_statement": "Definition Forgetful : @Functor StrictCat QuiverCategory. ... exact QuiverOfCat. exact QuiverHomomorphismOfFunctor. ...  (the underlying-quiver functor of a category)"
+      }
+    ],
+    "statement_record": {
+      "book": "Example 1.3.2 lists eleven covariant functors: (i) the covariant power set functor P : Set ⟶ Set by direct image; (ii) forgetful functors out of concrete categories (Group, Top, Quiver ⟶ Set); (iii) intermediate forgetful functors and inclusions (R-Mod ⟶ Ab, Ab ⟶ Group, Field ⟶ Ring); (iv) forgetful functors to Set_*; (v) Q : Top ⟶ Htpy; (vi) π₁ : Top_* ⟶ Group; (vii) the fundamental groupoid Π₁; (viii) cycle/boundary/homology functors Ch_R ⟶ R-Mod; (ix) the free group functor F : Set ⟶ Group; (x) the derivative D : Euclid_* ⟶ Mat_R; (xi) Segal's M^- : Fin_* ⟶ Set.",
+      "intree": "`CMon_Forget : CMon ⟶ Sets` (forget the commutative-monoid structure), `Forgetful : StrictCat ⟶ QuiverCategory` (underlying quiver of a category) and `FreeCatFunctor : QuiverCategory ⟶ StrictCat` with `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful`.",
+      "strength_comparison": "intree-weaker: only the SHAPE of clauses (ii) and (ix) is realized, and on different categories from the book's. `CMon_Forget` is a genuine forgetful functor from an algebraic concrete category to Sets (the U : Group ⟶ Set pattern), and the free-category-on-a-quiver functor with its adjunction is the free-functor pattern of (ix), but none of the eleven named functors is in the tree because none of the named categories is: there is no Set-level power set functor, no Group, Ab, Ring, Field, R-Mod, Top, Top_*, Set_*, Htpy, Groupoid (as a category of groupoids), Ch_R, GrMod_R, Euclid_*, Mat_R, or Fin_*."
+    },
+    "gap": "Nine of the eleven clauses have no counterpart at all — (i) the covariant power set functor with direct image (no power-set functor anywhere; `Pow a := Ω ^ a` in Structure/Topos.v:129 is an object-level power OBJECT in a topos, not a covariant Set-endofunctor, and Instance/Sets/Image.v handles the image of one morphism, not a functor), (iii)-(viii) and (x)-(xi) (no Top, Group, Ab, Ring, Ch_R, Euclid_*, Fin_*; π₁ appears only in a Construction/Groupoid.v prose aside, homology and the derivative not at all). Clauses (ii) and (ix) are covered only by the analogues CMon ⟶ Sets and the free-category/underlying-quiver adjunction; the book's V, A : Quiver ⟶ Set (vertex and arrow sets) are also not defined even though QuiverCategory exists.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed on the shape: rg for 'Forget|forgetful' and 'free functor' found the same forgetful/free family, and rg -i 'power set|powerset', 'fundamental group|pi_1|homotopy', 'vect|vector space', 'Zariski|CRing' found no category of groups, spaces, modules, rings or chain complexes and no power-set functor. Cited lines verified: Instance/CMon.v:169 `Program Definition CMon_Forget : CMon ⟶ Sets` verbatim with the quoted comment; Construction/Free/Quiver.v:412 `Definition Forgetful : @Functor StrictCat QuiverCategory` (built by `unshelve eapply Build_Functor` with `QuiverOfCat` / `QuiverHomomorphismOfFunctor`, as quoted) and :550 `Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _.` with `FreeCatFunctor` at :546. All in _CoqProject. PARTIAL is consistent with the calibration already CONFIRMED for the sibling list items riehl:1.1:example3 and riehl:1.1:example4 (clause counting, PARTIAL when at least one clause is shape-realized). SUPPLEMENT the classifier missed: Theory/Lawvere/Sets.v:83 `Program Definition ev1 : Models T Sets ⟶ Sets` is a SECOND and closer witness for clause (ii) — it is literally the underlying-set functor of the models of an algebraic theory, i.e. Riehl's U : Group ⟶ Set pattern at the level of generality of Example 1.1.3 clause (xii), with `ev1_Faithful` at :105 under an explicit reachability hypothesis. Also unlisted but real: `Mon_Forget` (Theory/Algebra/Monoid/Hom.v:93), `Comon_Forget` (Theory/Algebra/Comonoid/Hom.v:216), `EM_Forget`, `Kleisli_Forget`, `FAlg_Forget`, `FCoalg_Forget`. None of these is one of the book's eleven, so the gap text stands unchanged. One prose imprecision in the gap: it says 'π₁ appears only in a Construction/Groupoid.v prose aside' — π₁ is also named in Structure/Group.v:76 prose; immaterial."
+    }
+  },
+  {
+    "id": "riehl:1.3:thm3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Brouwer fixed point theorem",
+      "every continuous endomap of D^2 has a fixed point",
+      "no retraction of the disk onto its boundary circle",
+      "π₁(S¹) = Z, π₁(D²) = 0",
+      "functorial proof via the fundamental group"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'brouwer' . -- 0 hits",
+      "grep -rn --include='*.v' -iE 'fixed.?point theorem' . -- 1 hit, Construction/FAlg.v:43 citing the Knaster-Tarski lattice fixed-point theorem (an order-theoretic result, unrelated)",
+      "grep -rn --include='*.v' -iE 'D\\^2|disk|ball' . -- 6 hits, none topological",
+      "grep -rn --include='*.v' -iE 'S\\^1|circle|sphere' . -- 5 hits, none topological",
+      "grep -rn --include='*.v' -iE 'retraction of the inclusion' . -- 0 hits",
+      "grep -rn --include='*.v' -iE 'pi_1|fundamental group' . -- 1 hit, Construction/Groupoid.v:58 prose mentioning π₁(X,A); no definition",
+      "grep -rn --include='*.v' -iE 'TopologicalSpace|Topology' . | grep -E ':(Definition|Class|Record|Program Definition|Instance)' -- 0 hits; there is no category of topological spaces in the tree, so the proof's ingredients (Top, π₁, π₁(S¹) ≅ Z) are all unavailable"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: rg -i 'brouwer' => 0 hits; rg -i 'fixed point|fixpoint' returns only Coq `Fixpoint` keywords and Construction/FAlg.v's Knaster–Tarski/Lambek citations; rg -i 'fundamental group|pi_1|homotopy' returns prose only (Structure/Group.v:76, Construction/Groupoid.v, Theory/Adjunction.v:32, Instance/Cat.v:31 etc.); rg -i 'topological space|open sets' => no category of spaces. Every ingredient of the proof (Top, Top_*, π₁, π₁(S¹) ≅ ℤ, the retraction argument) is unavailable in-tree. ABSENT confirmed. Deliberately NOT reclassified OUT_OF_SCOPE: Brouwer via π₁ is meaningfully formalizable in Coq (it needs a topology development, not a foundational change), so the frozen definition puts it at ABSENT."
+    }
+  },
+  {
+    "id": "riehl:1.3:example4",
+    "classification": "ABSENT",
+    "aliases": [
+      "clustering functor / functorial data analysis",
+      "FinMetric (finite metric spaces, distance non-increasing maps)",
+      "Cluster / PCluster, partitions and refinement",
+      "Kleinberg impossibility theorem",
+      "Carlsson-Memoli persistent clustering / single-linkage",
+      "persistence module as a functor ([0,∞), ≤) ⟶ partitions"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'cluster' . -- 3 hits, all the word 'cluster' meaning a group of files (Theory/Coq.v:5, :87; Structure/Premonoidal.v:129)",
+      "grep -rn --include='*.v' -iE 'persistent|dendrogram|Kleinberg|Carlsson|FinMetric|data analysis' . -- 0 hits each",
+      "grep -rn --include='*.v' -iE 'partition' . -- 4 hits, none a category of partitioned sets or a refinement order",
+      "grep -rn --include='*.v' -iE 'metric space' . -- 5 hits, all prose citing Lawvere's 'Metric spaces, generalized logic, and closed categories' as motivation for enrichment (Theory/Profunctor.v:46,100; Instance/Poset.v:39,75; Instance/Two.v:28; Construction/Enriched.v:40,49,75); no metric space, no category of them, and no distance-non-increasing maps are constructed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: rg -i 'cluster' => 3 hits, all the English word for a group of files (Theory/Coq.v:5,87; Structure/Premonoidal.v:129); rg -i 'metric space' => 5 files, all citing Lawvere 1973 as motivation for enrichment (Theory/Profunctor.v:46,100; Instance/Poset.v:39,75; Instance/Two.v:28; Construction/Enriched.v:40,49,75) with no metric space and no category of them constructed; 'Kleinberg', 'Carlsson', 'FinMetric', 'persistent', 'dendrogram' => 0 hits each. ABSENT confirmed. Note in passing that the ([0,∞), ≤)-indexed persistence functor of the example is exactly a functor out of a `Proset`, which the tree does have, but neither the target (partitions under refinement) nor any of the named categories exists, so no part of the item is realized."
+    }
+  },
+  {
+    "id": "riehl:1.3:def5",
+    "classification": "PRESENT",
+    "aliases": [
+      "contravariant functor",
+      "functor out of the opposite category C^op ⟶ D",
+      "contramap",
+      "presheaf",
+      "Opposite category / C^op"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Opposite.v",
+        "line": 56,
+        "symbol": "contramap",
+        "intree_statement": "Definition contramap `{F : C^op ⟶ D} `(f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f)."
+      },
+      {
+        "file": "Construction/Opposite.v",
+        "line": 106,
+        "symbol": "Opposite",
+        "intree_statement": "Definition Opposite `(C : Category) : Category := {| obj := @obj C; hom := fun x y => @hom C y x; homset := fun x y => @homset C y x; id := @id C; compose := fun _ _ _ f g => g ∘ f; ... id_left := fun x y f => @id_right C y x f; comp_assoc := fun x y z w f g h => @comp_assoc_sym C w z y x h g f |}."
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 180,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x; is_setoid := @SubObj_Setoid C x |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f); proper_morphism := sub_reindex_respects (unop f) |} |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 1.3.5: a contravariant functor F from C to D is a functor F : C^op → D; explicitly, an object Fc for each c, a morphism Ff : Fc' → Fc for each f : c → c', with F(g·f) = Ff·Fg and F(id_c) = id_{Fc}. Functors as in 1.3.1 are called covariant.",
+      "intree": "`Definition contramap {F : C^op ⟶ D} (f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f).` over `Definition Opposite (C : Category) : Category := {| hom := fun x y => hom C y x; compose := fun _ _ _ f g => g ∘ f; ... |}`, with `Sub : C^op ⟶ Sets` as a worked contravariant functor.",
+      "strength_comparison": "same — the library takes the book's definition literally (a contravariant functor IS an ordinary `Functor` out of `Opposite C`), so the explicit clauses come for free: `contramap` supplies the arrow-reversing hom map Fc' ← Fc, and the two functoriality axioms are `fmap_id`/`fmap_comp` of that functor read at `C^op`, where `compose f g := g ∘ f` definitionally, giving F(g·f) ≈ Ff ∘ Fg. `Opposite` is genuinely duality-by-definition ((C^op)^op = C by reflexivity, Construction/Opposite.v:126), matching Riehl's use of contravariance as a reindexing rather than a separate species. The Coq-programming layer additionally carries a law-free `Class Contravariant` (Theory/Coq/Functor.v:51) with only `contramap` and no axioms; that one alone would be weaker, which is why the categorical form above is cited."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same reading: a contravariant functor is an ordinary `Functor` out of `Opposite C`, with `Opposite` at Construction/Opposite.v:106 and its arrow-reversing `compose := fun _ _ _ f g => g ∘ f` at :111. Cited lines verified verbatim: Functor/Opposite.v:56-57 `Definition contramap `{F : C^op ⟶ D} `(f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f)`; Construction/Opposite.v:106-121 (the quote reproduces the record fields correctly, including `id_left := fun x y f => @id_right C y x f` and `comp_assoc := ... @comp_assoc_sym C ...`); Theory/Subobject/Functor.v:180 `Program Definition Sub : C^op ⟶ Sets` verbatim, including `sub_reindex (unop f)`. Independently checked the derived law: for f : c ~> c', g : c' ~> c'' in C, `compose (op f) (op g)` in C^op unfolds definitionally to `g ∘[C] f`, so `fmap_comp` at C^op IS F(gf) ≈ Ff ∘ Fg — the classifier's claim holds on the nose. All three files in _CoqProject. The pointer to the law-free `Class Contravariant` is accurate (Theory/Coq/Functor.v:50-51, `contramap` with no laws) and is correctly flagged as the weaker one. ONE PROSE INACCURACY, not affecting the verdict: the strength_comparison says '(C^op)^op = C by reflexivity, Construction/Opposite.v:126'. The lemma at :126 is `Lemma op_invol {C : Category} : (C^op)^op = C`, proved `unfold Opposite; simpl; destruct C; simpl; f_equal` — it needs record eta via `destruct`, not plain `reflexivity`. (`reflexivity` DOES suffice one level up, at Functor/Opposite.v:49 `Corollary Opposite_Functor_invol : (F^op)^op = F. Proof. reflexivity. Qed.`) Recorded in problems[] because CLAUDE.md repeats the same claim."
+    }
+  },
+  {
+    "id": "riehl:1.3:def6",
+    "classification": "PRESENT",
+    "aliases": [
+      "Notation 1.3.6 drawing convention for contravariant functors",
+      "op / unop reading of a morphism in C^op",
+      "always write C^op explicitly rather than leaving variance to context",
+      "F(gf) = Ff ∘ Fg",
+      "arrow reversal bookkeeping"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Opposite.v",
+        "line": 137,
+        "symbol": "op / unop",
+        "intree_statement": "Definition op {C : Category} {x y} (f : y ~{C}~> x) : x ~{C^op}~> y := f.  Definition unop {C : Category} {x y} (f : x ~{C^op}~> y) : y ~{C}~> x := f."
+      },
+      {
+        "file": "Functor/Opposite.v",
+        "line": 56,
+        "symbol": "contramap",
+        "intree_statement": "Definition contramap `{F : C^op ⟶ D} `(f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f)."
+      },
+      {
+        "file": "Construction/Opposite.v",
+        "line": 123,
+        "symbol": "C ^op notation",
+        "intree_statement": "Notation \"C ^op\" := (@Opposite C) (at level 7, format \"C ^op\", left associativity) : category_scope."
+      }
+    ],
+    "statement_record": {
+      "book": "Notation 1.3.6: a morphism in the domain of F : C^op → D is always drawn as f : c → c' in C and its image as Ff : Fc' → Fc in D, so domain/codomain positions swap; for f : c → c' and g : c' → c'' the composite is written gf and F(gf) = Ff·Fg. The text always writes the op explicitly rather than leaving variance to context.",
+      "intree": "`Definition op {C} {x y} (f : y ~{C}~> x) : x ~{C^op}~> y := f.` / `Definition unop {C} {x y} (f : x ~{C^op}~> y) : y ~{C}~> x := f.` and `Definition contramap {F : C^op ⟶ D} (f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f).`, with `C ^op` a first-class notation written out at every contravariant use site (`Sub : C^op ⟶ Sets`, `Presheaf U C := U^op ⟶ C`, `Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E]`, …).",
+      "strength_comparison": "same — `op`/`unop` are exactly the book's drawing convention made formal: they move no data (both are the identity on the underlying arrow, as the in-file comment at Construction/Opposite.v:134-136 records) and only rename which endpoint is the domain, which is what the notation environment is about. The library likewise never leaves variance to context: contravariance is always spelled `C^op ⟶ D`, and `contramap` is the operation the book denotes Ff for f : c → c'. The one thing not given a name of its own is the derived rule F(gf) = Ff ∘ Fg; it is `fmap_comp` of the functor at `C^op`, where `compose f g := g ∘ f` holds definitionally, so it needs no rewriting."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "This is the batch's only borderline call and I considered overturning it to OUT_OF_SCOPE (a Notation environment about how arrows are DRAWN is not a mathematical statement). PRESENT survives, because the item has real content beyond the drawing convention and all of it is in-tree: (a) the endpoint-swap bookkeeping is `op`/`unop` at Construction/Opposite.v:137-138, verified verbatim, both literally the identity on the underlying arrow, with the in-file comment at :133-136 saying exactly that ('both are the identity on the underlying arrow; they only flip how its direction is named'); (b) the `C ^op` notation at :123-124 is verified verbatim; (c) the book's policy of always writing the op explicitly is the library's actual practice — I checked the contravariant use sites named in the record and they all spell it (`Sub : C^op ⟶ Sets`, `Presheaf U C := U^op ⟶ C` at Theory/Sheaf.v:124, `Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E]` at Structure/Closed.v:124); and (d) the derived rule F(gf) = Ff ∘ Fg holds definitionally, which I verified by unfolding C^op composition myself (see the def5 note). OUT_OF_SCOPE would have required claiming this is not meaningfully formalizable, which is false. Caveat for downstream consumers: this record and def5 cite overlapping evidence and def6 adds no independent formal content beyond def5 — it should not be counted as a separate covered theorem."
+    }
+  },
+  {
+    "id": "riehl:1.3:example7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "contravariant power set functor / inverse image",
+      "dual vector space functor (-)* : Vect^op ⟶ Vect",
+      "O : Top^op ⟶ Poset, the open-set functor",
+      "Spec : CRing^op ⟶ Top",
+      "presheaf C^op ⟶ Set",
+      "simplicial set, the simplex category Δ"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 180,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x; is_setoid := @SubObj_Setoid C x |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f); proper_morphism := sub_reindex_respects (unop f) |} |}."
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 166,
+        "symbol": "Presheaf_Graph",
+        "intree_statement": "Program Definition Presheaf_Graph : Parallel^op ⟶ Sets := {| fobj := fun z => match z with ParX => {| carrier := nat |} | ParY => {| carrier := nat * nat |} end; fmap := ... {| morphism := fst |} (* source *) ... {| morphism := snd |} (* target *) |}.  (* a presheaf on the parallel-pair category is a graph *)"
+      },
+      {
+        "file": "Structure/Closed.v",
+        "line": 124,
+        "symbol": "Curry",
+        "intree_statement": "Program Definition Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E] := {| ... |}.  (* the contravariant-in-the-first-variable currying used to present hom- and presheaf-valued functors *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Example 1.3.7 lists six contravariant functors: (i) the contravariant power set functor P : Set^op ⟶ Set by inverse image; (ii) the dual vector space (-)* : Vect_k^op ⟶ Vect_k; (iii) O : Top^op ⟶ Poset sending a space to its poset of opens and a map to f^{-1}; (iv) Spec : CRing^op ⟶ Top; (v) a functor C^op ⟶ Set is a presheaf on C; (vi) presheaves on the simplex category Δ are the simplicial sets.",
+      "intree": "`Sub : C^op ⟶ Sets`, the subobject presheaf whose action on morphisms is chosen-pullback reindexing (preimage of subobjects); `Presheaf_Graph : Parallel^op ⟶ Sets`, a worked Set-valued presheaf; `Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E]`.",
+      "strength_comparison": "intree-weaker: clause (v) is realized in substance and clause (i) only in generalized form. `Sub : C^op ⟶ Sets` is the categorical generalization of the contravariant power set functor — in Sets a subobject is a subset and `sub_reindex` is preimage — but it is stated for subobjects in an arbitrary category with chosen pullbacks, never specialized to Set to recover P. The presheaf clause is present as a definition (`Definition Presheaf (U C : Category) := U^op ⟶ C`, Theory/Sheaf.v:124) with concrete witnesses; the concrete example the book pairs with it (the sheaf of continuous real-valued functions O(X)^op ⟶ Set) is not available since there is no Top."
+    },
+    "gap": "Clauses (ii), (iii), (iv) and (vi) are absent outright: there is no Vect_k (hence no dual-space functor), no Top and no category of open sets (hence no O or C functor), no CRing and no Zariski spectrum (hence no Spec), and no simplex category Δ and no simplicial sets — Δ and sSet occur only in prose (Instance/FinSet.v:87-89, Construction/Enriched.v:72, Theory/Kan/Extension.v:47,91). Clause (i) is present only as the general subobject presheaf `Sub`, never instantiated at Sets to give the contravariant power set functor with inverse image.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed clause-by-clause: rg -i 'presheaf' finds a real definition (Theory/Sheaf.v:124 `Definition Presheaf (U C : Category) := U^op ⟶ C`, :126 `Presheaves := [U^op, C]`) plus many witnesses, while rg -i 'vect|vector space|dual space', 'zariski|prime spectrum|CRing', 'open sets|topological space', 'simplicial|simplex categor' find NO constructions — Δ and sSet occur only in prose (Instance/FinSet.v:87-89, Construction/Enriched.v:72, Theory/Kan/Extension.v:47,91), matching the gap text exactly. Cited lines verified verbatim: Theory/Subobject/Functor.v:180 `Sub : C^op ⟶ Sets`; Instance/Parallel.v:166 `Program Definition Presheaf_Graph : Parallel^op ⟶ Sets` with the quoted vertex/edge carriers and the fst/snd source/target maps; Structure/Closed.v:124 `Program Definition Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E]` verbatim. REGISTRATION/HEALTH CHECK on the one risky citation: Structure/Closed.v IS in _CoqProject and `Curry` there is a fully discharged `Program Definition` (six `Next Obligation ... Qed.`), so it does not fall under CLAUDE.md's warning that the file's `Class Closed` is 'an incomplete Eilenberg–Kelly stub ... not yet in force' — the warning is about the class, not about `Curry`. `Curry` is nevertheless the weakest of the three citations for this item (it is currying machinery, not a contravariant functor EXAMPLE); the verdict rests on `Sub` and `Presheaf_Graph`. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "riehl:1.3:lem8",
+    "classification": "PRESENT",
+    "aliases": [
+      "functors preserve isomorphisms",
+      "F f is an isomorphism with inverse F g",
+      "fobj_iso / map_iso",
+      "Proper (Isomorphism ==> Isomorphism) fobj",
+      "invariance of isomorphism under a functor"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 227,
+        "symbol": "fobj_iso",
+        "intree_statement": "Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F]). Next Obligation. proper. refine {| to := fmap[F] (to X) ; from := fmap (from X) |}. - rewrite <- fmap_comp. rewrite iso_to_from; cat. - rewrite <- fmap_comp. rewrite iso_from_to; cat. Defined."
+      },
+      {
+        "file": "Theory/Bicategory/Pseudofunctor.v",
+        "line": 57,
+        "symbol": "map_iso",
+        "intree_statement": "Program Definition map_iso `(F : C ⟶ D) {x y : C} (i : x ≅ y) : F x ≅ F y := {| to := fmap[F] (to i); from := fmap[F] (from i) |}. Next Obligation. rewrite <- fmap_comp, iso_to_from; apply fmap_id. Qed. Next Obligation. rewrite <- fmap_comp, iso_from_to; apply fmap_id. Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "Lemma 1.3.8: functors preserve isomorphisms — if f : x → y is an isomorphism in C with inverse g and F : C → D is a functor, then Ff is an isomorphism in D with inverse Fg, by F(g)F(f) = F(gf) = F(id_x) = id_{Fx} and symmetrically.",
+      "intree": "`Program Instance fobj_iso (F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F])`, whose witness is `to := fmap[F] (to X); from := fmap (from X)` with both round trips discharged by `rewrite <- fmap_comp; rewrite iso_to_from/iso_from_to; cat` — i.e. exactly the book's two-line proof. Restated in transparent bundled form as `map_iso (F : C ⟶ D) {x y} (i : x ≅ y) : F x ≅ F y`.",
+      "strength_comparison": "same — both the inverse witness (`fmap` of the given inverse) and both composite identities are proved by the two functoriality axioms, no extra hypotheses. `fobj_iso` is packaged as a rewriting `Proper` instance (so isomorphic objects are interchangeable under `fobj` throughout the library) rather than as a standalone lemma, but the underlying obligation is precisely Lemma 1.3.8; `map_iso` gives the plain `x ≅ y → F x ≅ F y` form. The library also has the converse-flavoured `Functor.v:356 ∀ x y, F x ≅ F y → x ≅ y` for conservative functors, which the book does not claim here."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found `fobj_iso` at Theory/Functor.v:227 before opening the coverage file. Both citations verified verbatim, including the proof scripts quoted: Theory/Functor.v:226-237 `Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F])` with `to := fmap[F] (to X); from := fmap (from X)` and both obligations `rewrite <- fmap_comp; rewrite iso_to_from/iso_from_to; cat` — literally Riehl's two-line proof, ending `Defined.` (so it computes); and Theory/Bicategory/Pseudofunctor.v:57-62 `Program Definition map_iso `(F : C ⟶ D) {x y : C} (i : x ≅ y) : F x ≅ F y` giving the plain `x ≅ y → F x ≅ F y` form. Both files in _CoqProject. Hunted specifically for a same-name-weaker or hypothesis-laden variant and found none: no Full/Faithful/conservativity hypothesis appears on either. ONE PROSE IMPRECISION, immaterial to the verdict: the strength_comparison calls Theory/Functor.v:356 'the converse-flavoured ... for conservative functors'; the lemma there is `Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y`, i.e. it is stated for FULLY FAITHFUL functors (which are conservative), not for a `Conservative` class — the tree has no such class at that site."
+    }
+  },
+  {
+    "id": "riehl:1.3:example9",
+    "classification": "ABSENT",
+    "aliases": [
+      "BG, a group as a one-object category",
+      "delooping of a group / monoid",
+      "functor BG ⟶ C is a group action",
+      "G-set, G-representation, G-space",
+      "left action vs right action as BG ⟶ C vs BG^op ⟶ C",
+      "linear representation as a functor to Vect"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'BG|one-object|one object|delooping|deloop|group action|G-set|representation of the group|monoid as a category' . -- ~40 hits, ALL prose or a different dimension: Theory/Functor.v:68 states the BG/representation correspondence only in the header essay; Theory/Bicategory.v:68-74 and Theory/Bicategory/OneObject.v deloop a MONOIDAL CATEGORY into a one-object BICATEGORY (one level up, not a group into a category); Theory/Multicategory/Operad.v:10 does the multicategory analogue; Instance/Fun.v:76 is prose",
+      "grep -rn --include='*.v' -E 'obj *:= *unit|obj *:= *poly_unit|poly_unit;' . -- Instance/One.v:26 (the terminal category, i.e. B of the trivial group, with no action theory) and Construction/Funny/Comparison.v:82 `ListMon` (a one-object category whose hom-monoid is the free monoid on bool, built as a discriminating interpretation target for the funny tensor). ListMon is a single bespoke delooping instance, not a `B(-)` construction, and nothing relates functors out of it to actions",
+      "grep -rn --include='*.v' -E 'Action|action' Structure/ Theory/ Construction/ Instance/ | grep -E ':(Class|Definition|Record|Instance|Lemma|Theorem) ' -- the only `Action` is Theory/Multicategory/Algebra.v:152 `Record OperadAction` (an operad acting on an object), unrelated to group actions",
+      "grep -rn --include='*.v' -iE 'Definition .*Group|Class Group' Structure/Group.v Instance/*.v -- Structure/Group.v:109 `Class GroupObject (grp : C)` (a group object internal to a cartesian category) and Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq` (a universal-algebra group); neither is delooped into a category, and there is no category of G-sets, G-representations or G-spaces anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently searched for a delooping: rg -i 'one-object|one object|deloop|BG|group action|G-set|Groupoid' plus a scan for every single-object category construction (`obj := unit`, `obj := poly_unit`). Only two one-object categories exist in-tree, both bespoke: Instance/One.v (the terminal category `1`) and Construction/Funny/Comparison.v:81 `Program Definition ListMon : Category := {| obj := poly_unit; hom := fun _ _ => list bool; id := nil; compose := fun _ _ _ u v => (v ++ u)%list |}` — verified verbatim, the delooping of the free monoid on bool, written as a discriminating interpretation target for the funny tensor and unconnected to any action theory. No B(-) construction from a group or monoid exists, and no notion of group action exists (Structure/Group.v is group OBJECTS in a cartesian monoidal category; Instance/Comp.v:382 `Group` is a universal algebra; Theory/Multicategory/Algebra.v `OperadAction` is unrelated). Theory/Functor.v:68 does state the BG/representation correspondence, but as a header-essay claim cited to nLab, with no in-tree referent. ABSENT confirmed, and consistent with the already-CONFIRMED sibling riehl:1.1:example13 (BG as a category), which the same reasoning covered."
+    }
+  }
+]

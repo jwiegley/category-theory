@@ -1,0 +1,942 @@
+{
+  "book": "maclane",
+  "range": {"pdf_start": 199, "pdf_end": 217},
+  "pages": [
+    {
+      "pdf_page": 199,
+      "book_page": "191",
+      "empty": false,
+      "items": ["maclane:VIII.1:def1", "maclane:VIII.1:def2", "maclane:VIII.1:remark1"],
+      "notes": "Chapter VIII opener; §1 Kernels and Cokernels begins. Opening paragraph (Ab/R-Mod motivation) is pure overview prose, skipped. Legible; kernel diagram clear."
+    },
+    {
+      "pdf_page": 200,
+      "book_page": "192",
+      "empty": false,
+      "items": ["maclane:VIII.1:def3", "maclane:VIII.1:remark2", "maclane:VIII.1:construction1"],
+      "notes": "Grp / Set_* / Top_* worked examples of kernels are illustrative, skipped. construction1 (P_c, Q^c preorders + ker/coker Galois connection) starts here and continues to PDF 201."
+    },
+    {
+      "pdf_page": 201,
+      "book_page": "193",
+      "empty": false,
+      "items": ["maclane:VIII.1:remark3", "maclane:VIII.1:lem1"],
+      "notes": "construction1 continues from PDF 200 (triangular identities, 'g is a kernel iff g=ker(coker g)'). Lemma 1 statement + diagram (3) here; its proof continues to PDF 202."
+    },
+    {
+      "pdf_page": 202,
+      "book_page": "194",
+      "empty": false,
+      "items": ["maclane:VIII.2:def1", "maclane:VIII.2:prop1", "maclane:VIII.2:remark1", "maclane:VIII.2:def2", "maclane:VIII.2:thm2"],
+      "notes": "Lemma 1 proof ends at top. §2 Additive Categories begins. Theorem 2 statement here; its proof continues to PDF 203."
+    },
+    {
+      "pdf_page": 203,
+      "book_page": "195",
+      "empty": false,
+      "items": ["maclane:VIII.2:construction1"],
+      "notes": "Theorem 2 proof continues from PDF 202 (includes A(d,c)≅A(d,a)⊕A(d,b), proof content). biproduct bifunctor construction1 starts here and continues to PDF 204. 'direct sum' terminology remark skipped."
+    },
+    {
+      "pdf_page": 204,
+      "book_page": "196",
+      "empty": false,
+      "items": ["maclane:VIII.2:construction2", "maclane:VIII.2:def3", "maclane:VIII.2:prop3"],
+      "notes": "biproduct bifunctor construction1 continues from PDF 203. Proposition 3 statement and its short direct-calculation proof both complete on this page."
+    },
+    {
+      "pdf_page": 205,
+      "book_page": "197",
+      "empty": false,
+      "items": ["maclane:VIII.2:def4", "maclane:VIII.2:prop4", "maclane:VIII.2:ex1", "maclane:VIII.2:ex2"],
+      "notes": "Examples of additive functors (hom-functors, projections, tensor/torsion product) are illustrative, skipped. §2 Exercises begin: Exercises 1 and 2 on this page."
+    },
+    {
+      "pdf_page": 206,
+      "book_page": "198",
+      "empty": false,
+      "items": ["maclane:VIII.2:ex3", "maclane:VIII.2:ex4", "maclane:VIII.2:ex5", "maclane:VIII.2:ex6", "maclane:VIII.3:def1", "maclane:VIII.3:remark1"],
+      "notes": "§2 Exercises 3-6 conclude. §3 Abelian Categories begins with the bolded Definition (def1)."
+    },
+    {
+      "pdf_page": 207,
+      "book_page": "199",
+      "empty": false,
+      "items": ["maclane:VIII.3:remark2", "maclane:VIII.3:remark3", "maclane:VIII.3:prop1"],
+      "notes": "R-Mod/Mod-R/Ab-are-abelian instance claim folded into remark3 (functor category A^J abelian). Proposition 1 statement + diagram (2) here; proof continues to PDF 208."
+    },
+    {
+      "pdf_page": 208,
+      "book_page": "200",
+      "empty": false,
+      "items": ["maclane:VIII.3:def2", "maclane:VIII.3:def3", "maclane:VIII.3:def4"],
+      "notes": "Proposition 1 proof ends at top (functoriality/uniqueness-up-to-iso). Ab three-fold-factorization example skipped. §3 continues to PDF 209 (owned by range B): short right/left exact sequences, exact functor, left exact functor, economical axiomatization."
+    },
+    {
+      "pdf_page": 209,
+      "book_page": "201",
+      "empty": false,
+      "items": [
+        "maclane:VIII.3:def-short-right-left-exact",
+        "maclane:VIII.3:def-exact-functor",
+        "maclane:VIII.3:def-left-exact-functor",
+        "maclane:VIII.3:remark-economical-axioms"
+      ],
+      "notes": "Last content page of §VIII.3 (Abelian Categories). Continues the exactness discussion begun on printed 200 (PDF 208). Diagram (8) merely re-displays ker f / coim f / im f / coker f (all defined on printed 200) as two short exact sequences, so it is not separately inventoried."
+    },
+    {
+      "pdf_page": 210,
+      "book_page": "202",
+      "empty": false,
+      "items": [
+        "maclane:VIII.3:ex1",
+        "maclane:VIII.3:ex2",
+        "maclane:VIII.3:ex3",
+        "maclane:VIII.3:ex4",
+        "maclane:VIII.3:ex5",
+        "maclane:VIII.3:ex6",
+        "maclane:VIII.4:def-chain-complex",
+        "maclane:VIII.4:def-homology-object",
+        "maclane:VIII.4:def-morphism-ses",
+        "maclane:VIII.4:construction-ses",
+        "maclane:VIII.4:lem1"
+      ],
+      "notes": "Top: the six §VIII.3 exercises. Then §VIII.4 (Diagram Lemmas) opens with prose definitions of chain complex and n-th homology object, morphism of short exact sequences, the additive category Ses A, and Lemma 1 (short five lemma; its statement completes here, proof continues on 211)."
+    },
+    {
+      "pdf_page": 211,
+      "book_page": "203",
+      "empty": false,
+      "items": [
+        "maclane:VIII.4:lem1",
+        "maclane:VIII.4:prop2",
+        "maclane:VIII.4:remark-ext-bifunctor"
+      ],
+      "notes": "Lemma 1 proof (Ab element chase, then element-free version). Proposition 2 (pullbacks of epis are epi in an abelian category; kernel factorization) stated with diagram; proof continues on 212. Remark on pullback of a short exact sequence and Ext(c,a) as a bifunctor."
+    },
+    {
+      "pdf_page": 212,
+      "book_page": "204",
+      "empty": false,
+      "items": [
+        "maclane:VIII.4:prop2",
+        "maclane:VIII.4:def-member",
+        "maclane:VIII.4:thm3"
+      ],
+      "notes": "Proposition 2 proof completes. Definition of a member of an object (x ∈_m a) and the equivalence relation ≡ (with zero member and negative). Theorem 3 (elementary rules for chasing diagrams) begins; statement continues on 213."
+    },
+    {
+      "pdf_page": 213,
+      "book_page": "205",
+      "empty": false,
+      "items": [
+        "maclane:VIII.4:thm3",
+        "maclane:VIII.4:lem4"
+      ],
+      "notes": "Theorem 3 statement completes (rules iv, v, vi) and is proved. Lemma 4 (Five Lemma) stated; proof begins here and continues on 214."
+    },
+    {
+      "pdf_page": 214,
+      "book_page": "206",
+      "empty": false,
+      "items": [
+        "maclane:VIII.4:lem4",
+        "maclane:VIII.4:construction-ker-coker-rows",
+        "maclane:VIII.4:lem5"
+      ],
+      "notes": "Lemma 4 proof completes. Construction of the induced kernel/cokernel rows (diagram (5)) from a morphism of short exact sequences, with partial exactness proved by a member chase. Lemma 5 (Ker-coker / Snake lemma) begins; statement (the six-term sequence (6)) continues on 215."
+    },
+    {
+      "pdf_page": 215,
+      "book_page": "207",
+      "empty": false,
+      "items": [
+        "maclane:VIII.4:lem5"
+      ],
+      "notes": "Continuation only. Lemma 5 statement completes (exact sequence (6)); proof runs here — construction of the connecting arrow δ via a pullback (of e and ker h) and pushout (of coker f and m'), the zig-zag member description, and exactness at Keh. No new item starts on this page."
+    },
+    {
+      "pdf_page": 216,
+      "book_page": "208",
+      "empty": false,
+      "items": [
+        "maclane:VIII.4:lem5",
+        "maclane:VIII.4:ex1",
+        "maclane:VIII.4:ex2",
+        "maclane:VIII.4:ex3",
+        "maclane:VIII.4:ex4",
+        "maclane:VIII.4:ex5",
+        "maclane:VIII.4:ex6",
+        "maclane:VIII.4:ex7"
+      ],
+      "notes": "Lemma 5 proof completes (member chase for exactness at Cof). Then the seven §VIII.4 exercises."
+    },
+    {
+      "pdf_page": 217,
+      "book_page": "209",
+      "empty": false,
+      "items": [
+        "maclane:VIII.4:remark-embedding"
+      ],
+      "notes": "Chapter-end Notes block — historical prose, non-inventoriable by convention and mostly skipped (Eilenberg-Steenrod origins; name-drops of Krull-Remak-Schmidt, Morita duality, injective envelopes, Grothendieck and locally Noetherian categories, none stated as theorems). One formalizable theorem statement is surfaced from it and flagged: the Lubkin-Haron-Freyd-Mitchell embedding theorem. Judgment call recorded in problems[]."
+    }
+  ],
+  "items": [
+    {
+      "id": "maclane:VIII.1:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "zero arrow (via null object)",
+      "statement_summary": "In a category with a null object z (both initial and terminal, recalled from §I.5), the zero arrow 0 = 0_b^a : a→b is the composite a→z→b of the unique arrows through z; any composite having a zero arrow as a factor is again zero, and the zero arrow is independent of the choice of null object.",
+      "book_section": "VIII.1",
+      "book_page": "191",
+      "pdf_pages": [199],
+      "cross_refs": ["maclane:I.5:null-object"],
+      "flags": ["unnumbered-definition", "defined-in-prose"]
+    },
+    {
+      "id": "maclane:VIII.1:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "kernel of an arrow",
+      "statement_summary": "A kernel of f : a→b is an equalizer of the pair (f, 0 : a⇉b); equivalently a monic k : s→a with fk = 0 such that every h with fh = 0 factors uniquely as h = k h' through k.",
+      "book_section": "VIII.1",
+      "book_page": "191",
+      "pdf_pages": [199],
+      "cross_refs": ["maclane:VIII.1:def1"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:VIII.1:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "kernels exist and are monic",
+      "statement_summary": "Any category with a zero object and all equalizers (equivalently all pullbacks, or all finite limits) has a kernel for every arrow, unique up to isomorphism of the source; every kernel is monic (kg'=kh' implies g'=h') by the unique-factorization requirement, so a kernel may be viewed as a subobject of a.",
+      "book_section": "VIII.1",
+      "book_page": "191",
+      "pdf_pages": [199, 200],
+      "cross_refs": ["maclane:VIII.1:def2"],
+      "flags": ["formalizable-remark"]
+    },
+    {
+      "id": "maclane:VIII.1:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "cokernel of an arrow",
+      "statement_summary": "The cokernel of f : a→b is the dual of the kernel (a coequalizer of f and 0): a universal epi u : b→q with uf = 0 through which every arrow annihilating f (post-composing to 0) factors uniquely; already described dually in §III.3.",
+      "book_section": "VIII.1",
+      "book_page": "192",
+      "pdf_pages": [200],
+      "cross_refs": ["maclane:VIII.1:def2"],
+      "flags": ["unnumbered-definition", "dual-recalled-from-III.3"]
+    },
+    {
+      "id": "maclane:VIII.1:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "in an Ab-category every equalizer is a kernel",
+      "statement_summary": "In any Ab-category, for a parallel pair f,g : b→c an arrow h satisfies fh = gh iff (f−g)h = 0, so the equalizer of f,g coincides with the kernel of f−g; hence equalizers are kernels and one works with kernels rather than equalizers in R-Mod, Ab, etc.",
+      "book_section": "VIII.1",
+      "book_page": "192",
+      "pdf_pages": [200],
+      "cross_refs": ["maclane:VIII.1:def2"],
+      "flags": ["formalizable-remark"]
+    },
+    {
+      "id": "maclane:VIII.1:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "ker/coker Galois connection between the preorders Q^c and P_c",
+      "statement_summary": "For a category with zero, kernels and cokernels and an object c: P_c is the set of arrows into c preordered by g≤f iff g factors through f (restricting to monics gives the subobjects of c), and Q^c the set of arrows out of c preordered dually (u≥v iff v factors through u). Choosing a kernel for each u and cokernel for each f gives order maps ker : Q^c→P_c and coker : P_c→Q^c with f≤ker u ⇔ uf=0 ⇔ coker f≥u, forming a Galois connection (§IV.5) with triangular identities ker(coker(ker u))=ker u, coker(ker(coker f))=coker f, and g is a kernel iff g=ker(coker g).",
+      "book_section": "VIII.1",
+      "book_page": "192",
+      "pdf_pages": [200, 201],
+      "cross_refs": ["maclane:IV.5", "maclane:V.7", "maclane:VIII.1:def2", "maclane:VIII.1:def3"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:VIII.1:remark3",
+      "kind": "remark",
+      "number": null,
+      "name": "canonical factorization f = mq with m = ker(coker f)",
+      "statement_summary": "In any category with a null object, kernels and cokernels, every arrow f has a canonical factorization f = m q where m = ker(coker f).",
+      "book_section": "VIII.1",
+      "book_page": "193",
+      "pdf_pages": [201],
+      "cross_refs": ["maclane:VIII.1:construction1"],
+      "flags": ["formalizable-remark"]
+    },
+    {
+      "id": "maclane:VIII.1:lem1",
+      "kind": "lemma",
+      "number": "1",
+      "name": "diagonal fill-in for the canonical factorization; q epi",
+      "statement_summary": "Given the canonical factorization f = mq (m = ker(coker f)) and any other factorization f = m'q' in which m' is a kernel, there is a unique diagonal arrow t with m = m't and q' = tq; moreover, if the category has equalizers and every monic is a kernel, then q is epi (so f = mq is an epi-mono factorization).",
+      "book_section": "VIII.1",
+      "book_page": "193",
+      "pdf_pages": [201, 202],
+      "cross_refs": ["maclane:VIII.1:remark3"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.2:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "Ab-category",
+      "statement_summary": "An Ab-category is a category in which each hom-set A(b,c) is a (not necessarily small) abelian group and composition is bilinear over this addition; the group's zero element is a zero arrow 0 : b→c (even absent a null object) and any composite with a zero arrow is zero. Recalled/restated from §I.8.",
+      "book_section": "VIII.2",
+      "book_page": "194",
+      "pdf_pages": [202],
+      "cross_refs": ["maclane:I.8"],
+      "flags": ["recalled-from-I.8", "defined-in-prose"]
+    },
+    {
+      "id": "maclane:VIII.2:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "characterization of a null object in an Ab-category",
+      "statement_summary": "For an object z of an Ab-category the following are equivalent: (i) z is initial; (ii) z is terminal; (iii) 1_z = 0 : z→z; (iv) A(z,z) is the zero group. In particular any initial or terminal object of an Ab-category is a null object.",
+      "book_section": "VIII.2",
+      "book_page": "194",
+      "pdf_pages": [202],
+      "cross_refs": ["maclane:I.5:null-object"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.2:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "the two zero arrows coincide",
+      "statement_summary": "In an Ab-category with a null object z, the unique maps b→z and z→c are the zero elements of their hom-groups, and their composite b→z→c equals the zero element 0 of the abelian group A(b,c); i.e. the §1 zero morphism and the additive identity of the hom-group agree.",
+      "book_section": "VIII.2",
+      "book_page": "194",
+      "pdf_pages": [202],
+      "cross_refs": ["maclane:VIII.1:def1", "maclane:VIII.2:def1"],
+      "flags": ["formalizable-remark"]
+    },
+    {
+      "id": "maclane:VIII.2:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "biproduct diagram",
+      "statement_summary": "A biproduct diagram for objects a,b in an Ab-category is a⇄c⇄b with projections p1,p2 and injections i1,i2 satisfying p1 i1 = 1_a, p2 i2 = 1_b, and i1 p1 + i2 p2 = 1_c.",
+      "book_section": "VIII.2",
+      "book_page": "194",
+      "pdf_pages": [202],
+      "cross_refs": ["maclane:VIII.2:def1"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:VIII.2:thm2",
+      "kind": "theorem",
+      "number": "2",
+      "name": "product iff biproduct iff coproduct in an Ab-category",
+      "statement_summary": "In an Ab-category, two objects a,b have a product iff they have a biproduct iff they have a coproduct: given a biproduct diagram (c,p1,p2,i1,i2), the object c with p1,p2 is a product of a,b and dually c with i1,i2 is a coproduct; conversely a product diagram extends uniquely to a biproduct.",
+      "book_section": "VIII.2",
+      "book_page": "194",
+      "pdf_pages": [202, 203],
+      "cross_refs": ["maclane:VIII.2:def2"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.2:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "biproduct bifunctor ⊕ : A×A→A",
+      "statement_summary": "When all binary biproducts exist, a chosen c = a⊕b for each pair makes ⊕ : A×A→A a bifunctor, with f1⊕f2 (for f1:a→a', f2:b→b') characterized equivalently by p'_j(f1⊕f2) = f_j p_j (as for the product ×) or by (f1⊕f2)i_k = i'_k f_k (as for the coproduct ⊔); the identification of the product bifunctor with the coproduct bifunctor is a natural isomorphism.",
+      "book_section": "VIII.2",
+      "book_page": "195",
+      "pdf_pages": [203, 204],
+      "cross_refs": ["maclane:VIII.2:def2", "maclane:VIII.2:thm2"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:VIII.2:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "finite biproducts and the matrix calculus of arrows",
+      "statement_summary": "Iterating yields finite biproducts ⊕_j a_j (j=1..n) characterized by i1 p1 + ... + in pn = 1 and p_k i_j = δ_{kj}; then A(⊕_k c_k, ⊕_j a_j) ≅ Σ_{j,k} A(c_k, a_j), each arrow f is determined by its n×m matrix of components f_{kj} = p_k f i_j, and composition of arrows is matrix multiplication of component matrices.",
+      "book_section": "VIII.2",
+      "book_page": "196",
+      "pdf_pages": [204],
+      "cross_refs": ["maclane:VIII.2:construction1", "maclane:III.5"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:VIII.2:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "additive category",
+      "statement_summary": "An additive category is an Ab-category having a zero object 0 and a biproduct for every pair of its objects.",
+      "book_section": "VIII.2",
+      "book_page": "196",
+      "pdf_pages": [204],
+      "cross_refs": ["maclane:VIII.2:def1", "maclane:VIII.2:def2"],
+      "flags": ["defined-in-prose"]
+    },
+    {
+      "id": "maclane:VIII.2:prop3",
+      "kind": "proposition",
+      "number": "3",
+      "name": "addition of arrows recovered from the biproduct",
+      "statement_summary": "In an additive category, for parallel arrows f,f' : a→b one has f + f' = δ^b (f⊕f') δ_a, where δ_a : a→a×a is the diagonal (p1δ_a = 1_a = p2δ_a) and δ^b : b⊔b→b the codiagonal (δ^b i1 = 1_b = δ^b i2); i.e. the additive structure is determined by the biproduct.",
+      "book_section": "VIII.2",
+      "book_page": "196",
+      "pdf_pages": [204],
+      "cross_refs": ["maclane:VIII.2:def3", "maclane:III.5"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.2:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "additive functor",
+      "statement_summary": "An additive functor T : A→B between Ab-categories is a functor satisfying T(f+f') = Tf + Tf' for every parallel pair f,f'; consequently T0 = 0.",
+      "book_section": "VIII.2",
+      "book_page": "197",
+      "pdf_pages": [205],
+      "cross_refs": ["maclane:VIII.2:def1"],
+      "flags": ["defined-in-prose"]
+    },
+    {
+      "id": "maclane:VIII.2:prop4",
+      "kind": "proposition",
+      "number": "4",
+      "name": "additive functor iff preserves biproducts",
+      "statement_summary": "If A,B are Ab-categories and A has all binary biproducts, then a functor T : A→B is additive iff it carries every binary biproduct diagram in A to a biproduct diagram in B; equivalently iff it carries every binary product diagram to a product, equivalently iff it carries every binary coproduct diagram to a coproduct.",
+      "book_section": "VIII.2",
+      "book_page": "197",
+      "pdf_pages": [205],
+      "cross_refs": ["maclane:VIII.2:def4", "maclane:VIII.2:def2"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.2:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "canonical map coproduct→product is iso",
+      "statement_summary": "Show that in any additive category the canonical map κ : a1⊔...⊔an → a1×...×an (defined in §III.5) is an isomorphism; this is essentially a reformulation of Theorem 2.",
+      "book_section": "VIII.2",
+      "book_page": "197",
+      "pdf_pages": [205],
+      "cross_refs": ["maclane:VIII.2:thm2", "maclane:III.5"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.2:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "infinite canonical map need not be iso",
+      "statement_summary": "Define the canonical map κ from an infinite coproduct to the corresponding infinite product, and give an example showing it need not be an isomorphism in every additive category.",
+      "book_section": "VIII.2",
+      "book_page": "197",
+      "pdf_pages": [205],
+      "cross_refs": ["maclane:VIII.2:ex1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.2:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "biproduct associative and commutative",
+      "statement_summary": "Show that the biproduct in an additive category is associative and commutative up to a natural isomorphism.",
+      "book_section": "VIII.2",
+      "book_page": "198",
+      "pdf_pages": [206],
+      "cross_refs": ["maclane:VIII.2:def2"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.2:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "alternative construction of addition of arrows",
+      "statement_summary": "(a) For a category with a null object, finite products and finite coproducts in which the canonical map a1⊔a2→a1×a2 is always an isomorphism, define f+f' = δ^b(f×f')δ_a and prove each A(a,b) is a commutative monoid with composition distributive over it. (b) If additionally each object a has an arrow v_a : a→a with v_a + 1_a = 0, prove each A(a,b) is a group, so this addition gives A the structure of an additive category (Mac Lane 1950).",
+      "book_section": "VIII.2",
+      "book_page": "198",
+      "pdf_pages": [206],
+      "cross_refs": ["maclane:VIII.2:def3", "maclane:VIII.2:prop3"],
+      "flags": ["multi-part"]
+    },
+    {
+      "id": "maclane:VIII.2:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "free Ab-category on a category C",
+      "statement_summary": "Given a category C, construct an Ab-category A and a functor C→A universal from C to an Ab-category (hint: same objects as C, with A(b,c) = Z(C(b,c)) the free abelian group on the hom-set C(b,c)).",
+      "book_section": "VIII.2",
+      "book_page": "198",
+      "pdf_pages": [206],
+      "cross_refs": ["maclane:VIII.2:def1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.2:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "free additive category Add(A); Add(K)=Matr_K",
+      "statement_summary": "(a) Given an Ab-category A, construct an additive category Add(A) and an additive functor A→Add(A) universal from A to an additive category (objects are n-tuples of A-objects, arrows are matrices of A-arrows). (b) For A the commutative ring K as a one-object Ab-category, show Add(K) is the category Matr_K of §I.2.",
+      "book_section": "VIII.2",
+      "book_page": "198",
+      "pdf_pages": [206],
+      "cross_refs": ["maclane:VIII.2:def3", "maclane:I.2"],
+      "flags": ["multi-part"]
+    },
+    {
+      "id": "maclane:VIII.3:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "abelian category",
+      "statement_summary": "An abelian category is an Ab-category satisfying: (i) it has a null object; (ii) it has binary biproducts; (iii) every arrow has a kernel and a cokernel; (iv) every monic arrow is a kernel and every epi is a cokernel.",
+      "book_section": "VIII.3",
+      "book_page": "198",
+      "pdf_pages": [206],
+      "cross_refs": ["maclane:VIII.2:def1", "maclane:VIII.1:def2", "maclane:VIII.1:def3"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.3:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "abelian category has all finite limits and colimits",
+      "statement_summary": "Conditions (i)-(ii) make an abelian category additive; a terminal or initial object may replace the null object (Prop VIII.2.1), and all products a×b or all binary coproducts may replace the biproducts. With (i)-(ii), the kernels of (iii) give all finite limits (the equalizer of f,g is ker(f−g); biproducts give finite products); dually cokernels give all finite colimits.",
+      "book_section": "VIII.3",
+      "book_page": "198",
+      "pdf_pages": [206],
+      "cross_refs": ["maclane:VIII.2:prop1", "maclane:VIII.3:def1"],
+      "flags": ["formalizable-remark"]
+    },
+    {
+      "id": "maclane:VIII.3:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "monic + epi implies iso in an abelian category",
+      "statement_summary": "In an abelian category any arrow f : a→b that is both monic and epi is an isomorphism: f monic gives f = ker g for some g with gf = 0 = 0f, then f epi cancels to g = 0, and ker(0 : b→c) is equivalent to 1_b, so f is an isomorphism.",
+      "book_section": "VIII.3",
+      "book_page": "199",
+      "pdf_pages": [207],
+      "cross_refs": ["maclane:VIII.3:def1"],
+      "flags": ["formalizable-remark"]
+    },
+    {
+      "id": "maclane:VIII.3:remark3",
+      "kind": "remark",
+      "number": null,
+      "name": "functor category A^J is abelian",
+      "statement_summary": "R-Mod, Mod-R, Ab are abelian with the usual kernels/cokernels; and if A is abelian so is every functor category A^J: Nat(S,T) = A^J(S,T) is an abelian group under termwise addition ((α+β)_j = α_j + β_j), the functor constant at A's null object is the null functor, the biproduct S⊕T is (S⊕T)a = Sa⊕Ta termwise, and the kernel of a natural transformation α : S→T is (K j = ker α_j) termwise, so all axioms hold.",
+      "book_section": "VIII.3",
+      "book_page": "199",
+      "pdf_pages": [207],
+      "cross_refs": ["maclane:VIII.3:def1"],
+      "flags": ["formalizable-remark"]
+    },
+    {
+      "id": "maclane:VIII.3:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "functorial monic-epi (image) factorization in an abelian category",
+      "statement_summary": "In an abelian category every arrow f has a factorization f = m e with m monic and e epi, where m = ker(coker f) and e = coker(ker f). The factorization is functorial: for any other such factorization f' = m'e' and any morphism <g,h> : f→f' (a commutative square) there is a unique k with e'g = ke and m'k = hm; in particular any two monic-epi factorizations of f are isomorphic by a unique iso.",
+      "book_section": "VIII.3",
+      "book_page": "199",
+      "pdf_pages": [207, 208],
+      "cross_refs": ["maclane:VIII.1:lem1", "maclane:VIII.1:remark3"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.3:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "image and coimage of an arrow",
+      "statement_summary": "For the monic-epi factorization f = m e : a→b, the image im f := m (a subobject of the codomain b) and the coimage coim f := e (a quotient object of the domain a), each determined up to isomorphism; more generally if f = m1 t e1 with m1 monic, t an isomorphism and e1 epi, then m1 ≡ im f, e1 ≡ coim f and t is the canonical coimage-to-image isomorphism.",
+      "book_section": "VIII.3",
+      "book_page": "200",
+      "pdf_pages": [208],
+      "cross_refs": ["maclane:VIII.3:prop1"],
+      "flags": ["defined-in-prose"]
+    },
+    {
+      "id": "maclane:VIII.3:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "exact at an object",
+      "statement_summary": "A composable pair a→f b→g c is exact at b when im f = ker g as subobjects of b (equivalently coker f = coim g). Characterization: im f ≤ ker g iff gf = 0, and im f ≥ ker g iff every k with gk = 0 factors through m = im f; classically, gf = 0 and everything killed by g lies in the image of f.",
+      "book_section": "VIII.3",
+      "book_page": "200",
+      "pdf_pages": [208],
+      "cross_refs": ["maclane:VIII.3:def2", "maclane:VIII.1:def2"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.3:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "short exact sequence",
+      "statement_summary": "The diagram 0→a→f b→g c→0 (with 0 the null object) is a short exact sequence when it is exact at a, at b and at c; equivalently f is monic, g is epi, and f = ker g with g = coker f.",
+      "book_section": "VIII.3",
+      "book_page": "200",
+      "pdf_pages": [208],
+      "cross_refs": ["maclane:VIII.3:def3"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.3:def-short-right-left-exact",
+      "kind": "definition",
+      "number": null,
+      "name": "short right / short left exact sequence",
+      "statement_summary": "Terminology introduced in prose: a sequence a→b→c→0 that is exact at b and at c (equivalently, h = coker f) is called a short right exact sequence; dually, a sequence 0→a→b→c exact at a and b (equivalently, k = ker f) is a short left exact sequence.",
+      "book_section": "VIII.3",
+      "book_page": "201",
+      "pdf_pages": [209],
+      "cross_refs": [],
+      "flags": ["unnumbered", "terminology", "continued-from-previous-page"]
+    },
+    {
+      "id": "maclane:VIII.3:def-exact-functor",
+      "kind": "definition",
+      "number": null,
+      "name": "exact functor",
+      "statement_summary": "A functor T:A→B between abelian categories is exact when it preserves all finite limits and all finite colimits; equivalently (since limits are built from products and equalizers) when T is additive and preserves kernels and cokernels, i.e. ker(Tf)=T(ker f) and coker(Tf)=T(coker f). An exact functor also preserves images and coimages and carries exact sequences to exact sequences.",
+      "book_section": "VIII.3",
+      "book_page": "201",
+      "pdf_pages": [209],
+      "cross_refs": [],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "maclane:VIII.3:def-left-exact-functor",
+      "kind": "definition",
+      "number": null,
+      "name": "left exact functor",
+      "statement_summary": "A functor T is left exact when it preserves all finite limits; equivalently when T is additive and ker(Tf)=T(ker f) for every f; equivalently when T preserves short left exact sequences.",
+      "book_section": "VIII.3",
+      "book_page": "201",
+      "pdf_pages": [209],
+      "cross_refs": ["maclane:VIII.3:def-short-right-left-exact"],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "maclane:VIII.3:remark-economical-axioms",
+      "kind": "remark",
+      "number": null,
+      "name": "economical axiomatization of abelian categories (Freyd/Schubert)",
+      "statement_summary": "Alternative characterization, stated with proof omitted (attributed to Freyd 1964 / Schubert 1970): a category satisfying the abelian-category axioms (i), (iii), (iv) together with (ii') existence of binary products and binary coproducts — rather than a given abelian-group structure on each hom-set — automatically admits an addition on each hom-set A(a,b) (via the formula (2.6)) making it an abelian category. The additive enrichment is derivable from finite (co)products.",
+      "book_section": "VIII.3",
+      "book_page": "201",
+      "pdf_pages": [209],
+      "cross_refs": [],
+      "flags": ["unnumbered", "proof-omitted", "alternative-characterization"]
+    },
+    {
+      "id": "maclane:VIII.3:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "exact iff preserves short exact sequences",
+      "statement_summary": "Show that an additive functor T:A→B between abelian categories is exact iff it carries every short exact sequence in A to a short exact sequence in B.",
+      "book_section": "VIII.3",
+      "book_page": "202",
+      "pdf_pages": [210],
+      "cross_refs": ["maclane:VIII.3:def-exact-functor"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.3:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "product of abelian categories is abelian",
+      "statement_summary": "Prove that if A and B are abelian categories then the product category A × B is abelian.",
+      "book_section": "VIII.3",
+      "book_page": "202",
+      "pdf_pages": [210],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.3:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "free abelian groups not abelian",
+      "statement_summary": "Show that the category of all free abelian groups is not abelian.",
+      "book_section": "VIII.3",
+      "book_page": "202",
+      "pdf_pages": [210],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.3:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "finite abelian groups form an abelian category",
+      "statement_summary": "Show that the category of all finite abelian groups (with all group morphisms as arrows) is abelian.",
+      "book_section": "VIII.3",
+      "book_page": "202",
+      "pdf_pages": [210],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.3:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "finitely generated modules over a left noetherian ring",
+      "statement_summary": "If R is a left noetherian ring, show that the category of all finitely generated left R-modules (with all module morphisms) is abelian.",
+      "book_section": "VIII.3",
+      "book_page": "202",
+      "pdf_pages": [210],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.3:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "quotient object v/u; ker/im vs coim/coker duality",
+      "statement_summary": "For subobjects u ≤ v of an object a in an abelian category, define a quotient object v/u agreeing with the usual notion in Ab; and if gf = 0, prove that ker g / im f is isomorphic to the dual object coim g / coker f.",
+      "book_section": "VIII.3",
+      "book_page": "202",
+      "pdf_pages": [210],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:def-chain-complex",
+      "kind": "definition",
+      "number": null,
+      "name": "chain complex",
+      "statement_summary": "In an abelian category A, a chain complex is a sequence of composable arrows …→c_{n+1}→c_n→c_{n-1}→… with successive composites vanishing: ∂_n ∘ ∂_{n+1} = 0 for all n.",
+      "book_section": "VIII.4",
+      "book_page": "202",
+      "pdf_pages": [210],
+      "cross_refs": [],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "maclane:VIII.4:def-homology-object",
+      "kind": "definition",
+      "number": null,
+      "name": "n-th homology object H_n c",
+      "statement_summary": "For a chain complex, the n-th homology object measuring the deviation from exactness at c_n is H_n c = Ker(∂_n : c_n→c_{n-1}) / Im(∂_{n+1} : c_{n+1}→c_n); this definition works in any abelian category (the quotient as in Exercise VIII.3.6).",
+      "book_section": "VIII.4",
+      "book_page": "202",
+      "pdf_pages": [210],
+      "cross_refs": ["maclane:VIII.4:def-chain-complex", "maclane:VIII.3:ex6"],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "maclane:VIII.4:def-morphism-ses",
+      "kind": "definition",
+      "number": null,
+      "name": "morphism of short exact sequences",
+      "statement_summary": "A morphism ⟨m,e⟩→⟨m',e'⟩ of short exact sequences in A is a triple ⟨f,g,h⟩ of arrows making the two-row ladder diagram (3) (rows 0→a→b→c→0 and 0→a'→b'→c'→0, verticals f,g,h) commute.",
+      "book_section": "VIII.4",
+      "book_page": "202",
+      "pdf_pages": [210],
+      "cross_refs": [],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "maclane:VIII.4:construction-ses",
+      "kind": "construction",
+      "number": null,
+      "name": "category Ses A of short exact sequences",
+      "statement_summary": "The short exact sequences of an abelian category A, together with their morphisms (triples ⟨f,g,h⟩), form a category Ses A, which is additive.",
+      "book_section": "VIII.4",
+      "book_page": "202",
+      "pdf_pages": [210],
+      "cross_refs": ["maclane:VIII.4:def-morphism-ses"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:VIII.4:lem1",
+      "kind": "lemma",
+      "number": "1",
+      "name": "short five lemma",
+      "statement_summary": "In any commutative diagram (3) of two short exact rows joined by a morphism ⟨f,g,h⟩: if f and h are monic then g is monic; and if f and h are epi then g is epi.",
+      "book_section": "VIII.4",
+      "book_page": "202",
+      "pdf_pages": [210, 211],
+      "cross_refs": ["maclane:VIII.4:def-morphism-ses"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:prop2",
+      "kind": "proposition",
+      "number": "2",
+      "name": "pullback of an epi is epi (abelian); kernel factorization",
+      "statement_summary": "In an abelian category, given a pullback square with f:b→c epi and g:d→c, the pulled-back arrow f':s→d is epi; moreover the kernel k of f factors as k = g'k' where k' is the kernel of f'. (Pullbacks of monics are monic in any category, Lemma V.7; this supplies the epi case for abelian categories. In particular, pulling a short exact sequence a→b→c back along g:d→c yields a short exact sequence a→s→d.)",
+      "book_section": "VIII.4",
+      "book_page": "203",
+      "pdf_pages": [211, 212],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:remark-ext-bifunctor",
+      "kind": "remark",
+      "number": null,
+      "name": "pullback of a short exact sequence; Ext(c,a) as a bifunctor",
+      "statement_summary": "Given a short exact sequence a→b→c, any arrow g:d→c into the right-hand end yields by pullback a short exact sequence a→s→d; this operation and its dual (pushout) make Ext(c,a), the collection of short exact sequences from a to c, a bifunctor on an abelian category (reference: Mac Lane 1963, Chap. III). Ext itself is not developed here.",
+      "book_section": "VIII.4",
+      "book_page": "203",
+      "pdf_pages": [211],
+      "cross_refs": ["maclane:VIII.4:prop2"],
+      "flags": ["passing-reference"]
+    },
+    {
+      "id": "maclane:VIII.4:def-member",
+      "kind": "definition",
+      "number": null,
+      "name": "member of an object (x ∈_m a) and the relation ≡",
+      "statement_summary": "A member x ∈_m a of an object a is any arrow with codomain a. Two members x,y of a are declared equivalent, x ≡ y, iff there exist epis u,v with xu = yv; this is an equivalence relation (transitivity uses Proposition 2), and a member is its ≡-class. Each object a has a zero member (class of the zero arrow 0→a) and each member x has a negative -x; every arrow f:a→b sends members of a to members of b respecting ≡. This apparatus supports element-free diagram chasing in any abelian category.",
+      "book_section": "VIII.4",
+      "book_page": "204",
+      "pdf_pages": [212],
+      "cross_refs": ["maclane:VIII.4:prop2"],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "maclane:VIII.4:thm3",
+      "kind": "theorem",
+      "number": "3",
+      "name": "elementary rules for chasing diagrams with members",
+      "statement_summary": "For members in any abelian category: (i) f:a→b is monic iff for all x ∈_m a, fx ≡ 0 implies x ≡ 0; (ii) f monic iff for all x,x' ∈_m a, fx ≡ fx' implies x ≡ x'; (iii) g:b→c is epi iff every z ∈_m c has some y ∈_m b with gy ≡ z; (iv) h:r→s is the zero arrow iff hx ≡ 0 for all x ∈_m r; (v) a→b→c is exact at b iff gf = 0 and every y ∈_m b with gy ≡ 0 has some x ∈_m a with fx ≡ y; (vi) (subtraction) if gx ≡ gy there is z ∈_m b with gz ≡ 0, and any f with fx ≡ 0 has fy ≡ fz while any h with hy ≡ 0 has hx ≡ -hz.",
+      "book_section": "VIII.4",
+      "book_page": "204",
+      "pdf_pages": [212, 213],
+      "cross_refs": ["maclane:VIII.4:def-member"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:lem4",
+      "kind": "lemma",
+      "number": "4",
+      "name": "five lemma",
+      "statement_summary": "In a commutative diagram (4) of two five-term rows with exact rows and vertical maps f_1,...,f_5: if f_1, f_2, f_4, f_5 are isomorphisms then f_3 is an isomorphism. (Proved by member chasing; by duality it suffices to show f_3 monic.)",
+      "book_section": "VIII.4",
+      "book_page": "205",
+      "pdf_pages": [213, 214],
+      "cross_refs": ["maclane:VIII.4:thm3"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:construction-ker-coker-rows",
+      "kind": "construction",
+      "number": null,
+      "name": "induced kernel and cokernel rows of a morphism of short exact sequences",
+      "statement_summary": "Given a morphism ⟨f,g,h⟩ of short exact sequences, adjoining the kernels (Kef, Keg, Keh) and cokernels (Cof, Cog, Coh) yields diagram (5) with exact columns; there are unique induced arrows m_0,e_0 forming a kernel row Kef→Keg→Keh and m_1,e_1 forming a cokernel row Cof→Cog→Coh making the added squares commute. A member chase shows the kernel row is exact at Kef and Keg, and the cokernel row is exact at Cog and Coh; the kernel row need not be short exact — e_0 need not be epi, failing precisely when m_1 is not monic.",
+      "book_section": "VIII.4",
+      "book_page": "206",
+      "pdf_pages": [214],
+      "cross_refs": ["maclane:VIII.4:def-morphism-ses", "maclane:VIII.4:thm3"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:VIII.4:lem5",
+      "kind": "lemma",
+      "number": "5",
+      "name": "snake lemma (ker-coker sequence)",
+      "statement_summary": "Given a morphism ⟨f,g,h⟩ of short exact sequences (diagram (3)), there is a connecting arrow δ : Keh→Cof making the six-term ker-coker sequence 0→Kef→Keg→Keh→(δ)→Cof→Cog→Coh→0 exact. δ is constructed from a pullback (of e and ker h) and a pushout (of coker f and m'), with the usual zig-zag description on members; full exactness is proved by member chasing.",
+      "book_section": "VIII.4",
+      "book_page": "206",
+      "pdf_pages": [214, 215, 216],
+      "cross_refs": ["maclane:VIII.4:construction-ker-coker-rows", "maclane:VIII.4:prop2", "maclane:VIII.4:thm3"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "minimal hypotheses for f_3 monic in the five lemma",
+      "statement_summary": "In the five lemma, obtain minimal hypotheses on f_1, f_2, and f_4 only for f_3 to be monic.",
+      "book_section": "VIII.4",
+      "book_page": "208",
+      "pdf_pages": [216],
+      "cross_refs": ["maclane:VIII.4:lem4"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "five lemma f_3 epi via members",
+      "statement_summary": "In the five lemma, prove f_3 epi using members (not comembers); the hint notes Rule (vi) of Theorem 3 is necessary in this proof.",
+      "book_section": "VIII.4",
+      "book_page": "208",
+      "pdf_pages": [216],
+      "cross_refs": ["maclane:VIII.4:lem4", "maclane:VIII.4:thm3"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "complete exactness of the ker-coker sequence",
+      "statement_summary": "Complete the proof of the exactness of the ker-coker (snake) sequence.",
+      "book_section": "VIII.4",
+      "book_page": "208",
+      "pdf_pages": [216],
+      "cross_refs": ["maclane:VIII.4:lem5"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "connecting morphism δ is natural",
+      "statement_summary": "Show that the connecting morphism δ is natural: a natural transformation between two appropriate functors defined on a suitable category whose objects are morphisms (3) of short exact sequences.",
+      "book_section": "VIII.4",
+      "book_page": "208",
+      "pdf_pages": [216],
+      "cross_refs": ["maclane:VIII.4:lem5"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "3x3 lemma and middle 3x3 lemma",
+      "statement_summary": "For a bordered-by-zeros commutative 3x3 diagram: (a) give a direct proof of the 3x3 lemma — if all three columns and the last two rows are short exact, then so is the first row; (b) show this also follows from the ker-coker sequence; (c) prove the middle 3x3 lemma — if all three columns and the first and third rows are short exact, then so is the middle row.",
+      "book_section": "VIII.4",
+      "book_page": "208",
+      "pdf_pages": [216],
+      "cross_refs": ["maclane:VIII.4:lem5"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "six-term exact sequence for a composite gf",
+      "statement_summary": "For arrows f:a→b and g:b→c, establish the exact sequence 0→Kef→Ke(gf)→Keg→Cof→Co(gf)→Cog→0.",
+      "book_section": "VIII.4",
+      "book_page": "208",
+      "pdf_pages": [216],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "Ses(A) not abelian in general",
+      "statement_summary": "Show explicitly that the category Ses(A) of short exact sequences is not in general abelian.",
+      "book_section": "VIII.4",
+      "book_page": "208",
+      "pdf_pages": [216],
+      "cross_refs": ["maclane:VIII.4:construction-ses"],
+      "flags": []
+    },
+    {
+      "id": "maclane:VIII.4:remark-embedding",
+      "kind": "remark",
+      "number": null,
+      "name": "Lubkin-Haron-Freyd-Mitchell embedding theorem",
+      "statement_summary": "Stated (in the chapter Notes, without proof) as an alternative route to the diagram lemmas: for any small abelian category A there exist a faithful exact functor A→Ab and a full and faithful exact functor A→R-Mod for a suitable ring R (Lubkin-Haron-Freyd-Mitchell embedding theorems). Consequently the abelian-category diagram lemmas can be reduced to the case of R-modules.",
+      "book_section": "VIII.4",
+      "book_page": "209",
+      "pdf_pages": [217],
+      "cross_refs": [],
+      "flags": ["from-notes-block", "unnumbered", "proof-omitted"]
+    }
+  ]
+}

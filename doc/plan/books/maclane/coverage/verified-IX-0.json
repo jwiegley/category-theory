@@ -1,0 +1,240 @@
+[
+  {
+    "id": "maclane:IX.1:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "directed preorder",
+      "directed set / directed poset",
+      "filtered poset (poset that is filtered as a category)",
+      "upward directed / common upper bound",
+      "Proset / Poset (bare substrate, no directedness)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'directed' -g '*.v' : hits only in unrelated senses -- 'directed graph'/'quiver' (Lib/NETList.v, Lib/TList.v, Construction/Free*.v), 'direct limits'/'directed index sets' as historical prose in Structure/Limit.v:48-58, 'goal-directed'/'type-directed' tactics and predicates. No directedness predicate on an order/category.",
+      "rg -in 'upper bound|common upper|upperbound|upper_bound' -g '*.v' : 0 hits.",
+      "rg -in 'preorder|poset' -g '*.v' -l : substrate exists (Instance/Proset.v gives the thin category of a PreOrder; Instance/Poset.v adds antisymmetry) but NEITHER defines directedness/upward-directedness. Read Instance/Proset.v (head + Proset definition) and Instance/Poset.v (head): only reflexive+transitive (+antisym) relations, no 'any two elements have a common upper bound' condition.",
+      "Directedness is exactly filteredness for a poset; 'filtered' is also absent (see def2 log). The IX.1 definitional payload (common-upper-bound / finite-subset-has-upper-bound) has no in-tree counterpart; only the bare preorder carrier exists, which is not a formalization of 'directed'."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently ABSENT. rg -i 'directed'/'upper bound'/'semilattice'/'lattice'/'join' over *.v found only directed-graph/path/homotopy comments, the 'directed poset' history at Structure/Limit.v:69, and monad-join; no directedness predicate. Instance/Poset.v & Instance/Proset.v carry only order axioms (reflexive/transitive/antisym), no common-upper-bound condition. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:IX.1:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "filtered category",
+      "IsFiltered / Filtered predicate on a Category",
+      "cofiltered category (dual)",
+      "filtrant category",
+      "directed category (generalizing directed preorder)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'filtered' -g '*.v' : only 2 hits, both unrelated comment prose in the Comonad development (Comonad/CoKleisli.v:81 'the filtered stream' -- a stream-processing metaphor, not a filtered category). No Class/Record/Definition of a filtered category.",
+      "rg -in 'cofiltered|cofilter|cofinal' -g '*.v' : 0 hits.",
+      "No predicate encoding the filtered axioms (nonempty; any two objects j,j' admit arrows to a common k; any parallel pair u,v:i->j admits w:j->k with w.u = w.v). The library's colimit theory (Structure/Limit.v, Colimit) is over an ARBITRARY shape category J and never carves out the filtered subclass.",
+      "CLAUDE.md Key Files index and coend/Kan/limit developments contain no filtered-category notion."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently ABSENT. rg -i 'filtered' -g '*.v' yields EXACTLY 1 hit (Comonad/CoKleisli.v:81, 'filtered stream' prose); classifier's log says '2 hits' but there is only 1 -- immaterial, both agree no filtered-category Class/Record exists. 'cofiltered' = 0 hits. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:IX.1:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "finite diagrams have cocones in a filtered category",
+      "every finite diagram in a filtered J is the base of a cocone",
+      "filtered => cocone over any finite diagram (two-object + parallel-pair cases)",
+      "weakly terminal cocone / upper bound of a finite family in filtered J"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "This remark is a corollary of the filtered axioms (def2), which are themselves absent -- see def2 log (rg -in 'filtered' -g '*.v' yields only unrelated Comonad comments).",
+      "rg -in 'cocone' -g '*.v' : cone/cocone infrastructure exists (Instance/Cones*, Structure/Limit.v) but there is no result 'a filtered category admits a cocone over every finite diagram' (the statement presupposes 'filtered', which is undefined).",
+      "No in-tree lemma about finite diagrams admitting cocones/upper bounds under a filteredness hypothesis."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently ABSENT. Presupposes the filtered axioms (def2), which are absent; cone/cocone infrastructure exists (Instance/Cones, Structure/Limit.v) but there is no lemma 'a filtered category admits a cocone over every finite diagram'. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:IX.1:def3",
+    "classification": "ABSENT",
+    "aliases": [
+      "filtered colimit",
+      "directed colimit / direct limit",
+      "colimit over a filtered (or directed) index category",
+      "ind-object / ind-completion (home of filtered colimits)",
+      "filtered_colimit"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'filtered colimit|filtered_colimit|directed colimit|directed_colimit|direct limit|direct_limit' -g '*.v' : only historical-essay prose in Structure/Limit.v:48,58 ('inverse and direct limits over directed index sets', 'those early articles still call colimits direct limits') -- no definition.",
+      "rg -in 'ind-completion|ind-object|ind completion|\\bInd\\b|pro-object' -g '*.v' : only a Kan-extension background-essay mention (Theory/Kan/Extension.v:88 'pro-objects', 1971 reference). No ind-completion / filtered-colimit construction.",
+      "General Colimit exists (Structure/Limit.v: Colimit over any shape J), but 'filtered colimit' as the distinguished notion requires the filtered qualifier on J (def2), which is absent. The colimit-over-arbitrary-J generality is present; the filtered specialization that is the payload of def3 is not."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently ABSENT. Only a general Colimit over arbitrary shape J exists; no filtered/directed qualifier and no Ind-completion (only a 'pro-objects' background mention at Theory/Kan/Extension.v:88). Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:IX.1:thm1",
+    "classification": "ABSENT",
+    "aliases": [
+      "coproducts from finite coproducts and directed colimits",
+      "all small coproducts via directed colimit of finite coproducts over J+ (finite subsets)",
+      "finite coproducts + filtered/directed colimits => all small coproducts",
+      "small coproduct as a directed colimit of finite subcoproducts"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The theorem's hypotheses combine finite coproducts (present) with colimits over all small directed preorders (absent). Finite coproducts: Structure/Cocartesian.v defines the Cocartesian class (x + y, inl/inr, initial 0). Directed/filtered colimits: absent (see def3 log).",
+      "rg -in 'finite coproduct|finitely cocomplete|finite colimit' -g '*.v' : only Cocartesian/BiCCC/Distributive/Bicartesian essays and Instance/Cat/Cocartesian.v; none assembles small coproducts as a directed colimit of finite coproducts.",
+      "No lemma of the form 'has finite coproducts and directed colimits => has all small coproducts'. The finite-subsets index poset J+ and its directed-colimit assembly are not constructed anywhere (rg -in 'directed' -g '*.v' returns only unrelated hits)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently ABSENT. Finite coproducts present (Structure/Cocartesian.v) but the reduction 'finite coproducts + all small directed colimits => all small coproducts' and its finite-subset index J+ / directed-colimit assembly are absent; directed colimits themselves are absent. Existence of indexed coproducts by other routes does not formalize this specific reduction. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:IX.1:prop2",
+    "classification": "ABSENT",
+    "aliases": [
+      "forgetful Grp -> Set creates filtered colimits",
+      "underlying-set functor creates filtered/directed colimits",
+      "monadic/algebraic forgetful functor creates filtered colimits",
+      "colimit of underlying sets carries a unique group structure",
+      "U-creation of filtered colimits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "No concrete category of groups: rg -in '\\bGrp\\b|category of groups|GroupHom|group homomorphism' -g '*.v' finds only Structure/Group.v (GroupObject -- an internal group OBJECT in a monoidal category, at :109) and prose mentions of 'Grp' in Structure/Complete.v:55 / Structure/Group.v essays. There is no Grp with groups as objects and homomorphisms as arrows, hence no forgetful Grp->Set.",
+      "Filtered colimits absent (see def3 log): rg -in 'filtered' yields only unrelated Comonad comments.",
+      "'Creates colimits': rg -in 'Creates|creates' -g '*.v' finds ONLY (i) CreatesUSplitCoequalizers for the Beck monadicity engine (Monad/Monadicity/Beck.v:164, EM_Forget creates coequalizers of U-split pairs) and (ii) equivalence_creates_colimits (Theory/Equivalence/Limit.v:582, creation along an equivalence). Neither is 'the forgetful functor of an algebraic category creates filtered colimits'.",
+      "No result about a forgetful/underlying functor lifting/creating filtered (or general) colimits by transporting structure along the underlying colimit."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently ABSENT. No Instance/Grp: verified only Structure/Group.v 'Class GroupObject' at :109 (an internal group OBJECT), no forgetful Grp->Set. Filtered colimits absent. 'creates/Creation' hits are all limit-creation (comma Construction/Comma/Limit.v, equivalence Theory/Equivalence/Limit.v, monadic-functors comment Structure/Complete.v:58) or Beck U-split-coequalizer creation -- none is 'algebraic forgetful functor creates filtered colimits'. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:IX.1:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Alg_tau -> Set creates filtered colimits",
+      "algebras of a type (universal algebra) cocomplete / creates filtered colimits",
+      "finitary variety / Lawvere-theory models create filtered colimits",
+      "monadic over Set (algebraic category) creates filtered colimits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The generalization target Alg_tau (algebras of a fixed operator/identity type) has a modern in-tree counterpart -- Lawvere theories and their models: Theory/Lawvere.v (LawvereTheory), Theory/Lawvere/Model.v (Models T C := full subcategory of product-preserving functors, :77), Theory/Lawvere/Sets.v (Sets-models, underlying-set functor ev1). BUT the RESULT asserted here (forgetful creates filtered colimits; Alg_tau cocomplete) is not proven.",
+      "rg -in 'colimit|cocomplete|complete' Theory/Lawvere/ : 0 hits -- no (co)completeness or colimit-creation result for Lawvere-theory models.",
+      "Filtered colimits absent (def3 log); general 'creates colimits' absent (prop2 log). No creation-of-filtered-colimits statement for any algebraic/monadic forgetful functor."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently ABSENT. Lawvere Models T C exists (Theory/Lawvere/Model.v:77) but rg -i 'colimit|cocomplete|complete' over Theory/Lawvere/ = 0 hits (independently verified). Reflexive coequalizers (Structure/Coequalizer/Reflexive.v) are documented as the algebra-cocompleteness workhorse (Linton) but no assembled creation-of-filtered-colimits or Alg_tau-cocompleteness result exists. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:IX.1:cor3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Grp is cocomplete",
+      "the category of groups has all small colimits",
+      "free product G*H as the coproduct in Grp; quotient groups as coequalizers",
+      "Grp cocomplete (initial = trivial group, coproduct = free product)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "No concrete Grp category exists (see prop2 log: only the internal GroupObject in Structure/Group.v, not a category of groups). Therefore 'Grp is cocomplete' is not even statable for a concrete Grp in-tree.",
+      "A general Cocomplete predicate DOES exist: Structure/Complete.v:119 'Definition Cocomplete {C} := forall (D : Category) (F : D -> C), Colimit F.' -- but it is never instantiated for a category of groups.",
+      "rg -in 'free product|Grp cocomplete|Grp .* colimit' -g '*.v' : 0 hits. No free product of groups, no quotient-group coequalizer, no cocompleteness proof for Grp.",
+      "rg -in 'Cocomplete' -g '*.v' : Cocomplete appears only as a hypothesis (e.g. Theory/Adamek/Corollaries.v:61) or the bare definition; no concrete category (including Grp) is exhibited as cocomplete here."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently ABSENT. No concrete Grp category (only internal GroupObject); abstract Cocomplete exists (Structure/Complete.v:119) but is never instantiated for groups; no free product / quotient-group coequalizer in-tree. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:IX.1:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "adjoint functor theorem proof that Grp is cocomplete",
+      "GAFT/SAFT applied to the free-group / forgetful adjunction to get colimits in Grp",
+      "Freyd adjoint functor theorem => cocompleteness of an algebraic category",
+      "solution-set condition yields left adjoints building colimits in Grp"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Exercise content = 'use the AFT to prove Grp has all small colimits'. The TOOL (adjoint functor theorem) IS formalized: Adjunction/GAFT.v:241 'Theorem GAFT ...' (plus GAFT_from_initials:180, SolutionSet, and Adjunction/SAFT.v). This is the notable near-miss -- the AFT machinery the exercise invokes exists.",
+      "But the exercise's mathematical CONTENT -- the conclusion 'Grp is cocomplete', obtained by applying the AFT -- is absent: there is no concrete Grp (prop2/cor3 logs) and no in-tree derivation of any category's cocompleteness via GAFT/SAFT (rg -in 'cocomplete' near GAFT/SAFT: none; GAFT is applied to abstract U with SolutionSet, never to build colimits of groups).",
+      "rg -in '\\bGrp\\b|category of groups' -g '*.v' : no group category; hence the concrete AFT application asked for is not present."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently ABSENT. AFT machinery present and verified (Adjunction/GAFT.v: SolutionSet:159, GAFT_from_initials:180, Theorem GAFT) but applied only to an abstract U; no Grp and no GAFT-derived cocompleteness of any concrete category. Classifier's near-miss characterization is honest. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:IX.1:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Alg_tau is cocomplete",
+      "algebras of a type / a variety has all small colimits",
+      "Lawvere-theory model category cocomplete; initial object (free algebra on empty set)",
+      "when is Alg_tau empty (no constants) / initial algebra description"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Exercise content = 'Alg_tau has all small colimits; describe its initial object; when is it empty'. The category has a modern counterpart -- Models T C (Theory/Lawvere/Model.v:77) -- and the Cocomplete predicate is defined (Structure/Complete.v:119), so the statement is EXPRESSIBLE; but the result is not proven.",
+      "rg -in 'colimit|cocomplete|complete|initial' Theory/Lawvere/ : no colimit/cocompleteness result; no computation of the initial model / free algebra on the empty set as a colimit.",
+      "General cocompleteness/creation for algebraic categories is absent (prop2/remark2 logs). No in-tree proof that any Lawvere-model category (or algebras-of-a-type category) is cocomplete."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently ABSENT. Models T C is expressible and Cocomplete is defined, but no cocompleteness / initial-model (free algebra on empty set) / emptiness result for any Lawvere-model or algebras-of-a-type category. Confirmed ABSENT."
+    }
+  }
+]

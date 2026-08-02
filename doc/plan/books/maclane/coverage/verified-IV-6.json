@@ -1,0 +1,515 @@
+[
+  {
+    "id": "maclane:IV.6:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "powerset lattice P(U) ordered by inclusion, viewed as a thin category",
+      "poset/preorder as a category (Instance/Poset.v `Poset`, Instance/Proset.v `Proset`)",
+      "Heyting algebra / Boolean algebra as a cartesian closed preorder; relative pseudo-complement / residual A ⇒ B",
+      "meet = ∩ = product, exponential = (¬A ∪ B) in a Boolean algebra; a `@Closed` instance on a thin category",
+      "2-element Boolean algebra = the walking arrow `_2` (Instance/Two.v); subobject lattice `SubObj` (Theory/Subobject.v); power object `Pow a := Ω ^ a` (Structure/Topos.v)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 39,
+        "symbol": "Props",
+        "intree_statement": "Program Definition Props : Category := {|\n  obj     := Prop;\n  hom     := Basics.impl;\n  homset  := fun P Q => {| equiv := fun f g => True |};\n  id      := fun _ x => x;\n  compose := fun _ _ _ g f x => g (f x)\n|}.   (* thin: at most one arrow, so this IS a preorder viewed as a category *)"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := {\n  product_obj := and;   (* P × Q = P ∧ Q, the meet *)\n  fork := fun _ _ _ f g x => conj (f x) (g x);\n  exl  := fun _ _ p => proj1 p;\n  exr  := fun _ _ p => proj2 p }."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "Program Instance Props_Closed : @Closed Props _ := {\n  exponent_obj := Basics.impl;   (* Q ^ P = P → Q, the relative pseudo-complement *)\n  exp_iso := fun _ _ _ =>\n    {| to   := {| morphism := fun f a b => f (conj a b) |}\n     ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }."
+      },
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity; compose := transitivity |}.   (* preorder ⇒ thin category; no lattice or closure structure attached *)"
+      },
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 80,
+        "symbol": "Two_Cartesian",
+        "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |}.   (* the 2-element Boolean algebra gets meets, and Two_Terminal (line 98) the top, but NO `Closed` instance exists anywhere in the tree *)"
+      }
+    ],
+    "statement_record": {
+      "book": "(a) For any set U the preorder P(U) of all subsets of U (ordered by inclusion) is a cartesian closed category. (b) Any Boolean algebra, regarded as a preorder, is cartesian closed.",
+      "intree": "Instance/Props.v: `Props` (obj := Prop, hom := Basics.impl, trivial hom-setoid ⇒ thin) is proven `Cartesian` (product_obj := and) and `Closed` (exponent_obj := Basics.impl, exp_iso the currying bijection). The header states the reading: \"Equipped with the logical connectives below it is a bicartesian closed thin category — a Heyting prealgebra ... The exponential is implication because cartesian closure is exactly the adjunction (R ∧ P) ⊢ Q ↔ R ⊢ (P → Q), the deduction theorem.\"",
+      "strength_comparison": "intree-weaker: the 'lattice as a thin CCC' content is carried out for exactly ONE preorder — Coq's `Prop` under implication, a Heyting PREalgebra. That preorder does coincide with P(U) at U = a singleton (subsets of a point = truth values), so a degenerate instance of (a) is in the tree, but P(U) for a general U is never constructed, no Boolean algebra is ever constructed, and there is no general theorem 'a preorder with finite meets and relative pseudo-complements is cartesian closed', which is the actual content of both halves."
+    },
+    "gap": "Neither half is instantiated as stated. (a) The powerset order P(U) is never constructed as a category: Instance/Ens.v's `EnsT T` does take the subsets of a fixed T as objects, but a morphism A ~> B there is a function f : T → T with (∀x, x ∈ A ↔ f x ∈ B), i.e. A = f⁻¹(B) — not an inclusion — so it is neither thin nor the inclusion order, and it carries no Cartesian/Closed instance. Only the U = singleton case is effectively present, as `Props`. (b) No Boolean-algebra structure exists in-tree at all; the one concrete two-element Boolean algebra `_2` (Instance/Two.v) is given Cartesian + Terminal (Instance/Two/Monoidal.v:80, 98) but no `Closed` instance, and Instance/Two.v:85-89 only remarks in prose that \"a Heyting algebra is a skeletal thin finitely-cocomplete cartesian-closed category, and a Boolean algebra a skeletal thin finitely-cocomplete star-autonomous one\". Instance/Poset.v / Instance/Proset.v give preorder ⇒ category but say nothing about meets or exponentials, and Theory/Subobject.v's `sub_le` preorder on subobjects is never made into a category (its Heyting structure is prose at Structure/Topos.v:81).",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i -E 'powerset|power set|℘' . — 1 hit, prose only (Structure/Topos.v:75, 'the categorical power set', about Pow a := Ω ^ a)",
+      "grep -rn --include=\"*.v\" -i 'Boolean' . — ~12 hits, all prose/comments (Instance/Two.v:85-89, Theory/Lawvere.v:87, Theory/Equivalence.v:120, Structure/Cocartesian.v:100); no Boolean-algebra class, record, or instance",
+      "grep -rn --include=\"*.v\" -i 'Heyting' . — Theory/Sheaf.v:85, Instance/Two.v:86, Instance/Props.v:15-27, Structure/Topos.v:81; only Instance/Props.v is an actual construction",
+      "grep -rn --include=\"*.v\" -i -E 'lattice|meet|join semilattice' . — prose only (Instance/Poset.v:50 'a product is a meet'); `two_meet` (Instance/Two/Monoidal.v:37) is the only meet operation defined in code",
+      "grep -rn --include=\"*.v\" -E '(Program )?Instance [A-Za-z_0-9]+ *:.*@?Closed' . — complete list of `Closed` instances: Hom_Closed (AST), Algs_Closed (COMMENTED OUT, Instance/Comp.v:188), Rel_Closed, Props_Closed, Coq_Closed, Cat_Closed, FinSet_Closed, Sets_Closed, Product_Closed. No poset/lattice/powerset instance; no `Two_Closed`",
+      "grep -rn --include=\"*.v\" -i -E 'subsets|Ensemble' . — Instance/Ens.v only; its morphisms are preimage-preserving functions, not inclusions"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED after an independent blind pass. My own alias expansion (powerset / P(U) / subsets / Ensemble / Boolean algebra / Heyting / preorder-proset-poset-lattice / thin CCC) reached the same picture: no P(U)-as-inclusion-preorder category anywhere, no Boolean-algebra structure of any kind, and my independent enumeration of every `@Closed` instance in the tree (AST Hom_Closed, Rel_Closed, Props_Closed, Coq_Closed, Cat_Closed, FinSet_Closed, Sets_Closed, Lambda_Closed, Product_Closed, plus the commented-out Algs_Closed) contains no poset/lattice/powerset instance and no Two_Closed. Cited lines verified exactly: Instance/Props.v:39 (Props), :69 (Props_Cartesian), :94 (Props_Closed), Instance/Proset.v:33 (Proset), Instance/Two/Monoidal.v:80 (Two_Cartesian), :98 (Two_Terminal). Instance/Props.v is registered in _CoqProject (line 223) and contains no Admitted/Axiom. I also independently confirmed the two supporting negatives: Instance/Ens.v's `EnsT T` (line 56) has morphisms `f : T -> T` with `forall x, x in A <-> f x in B`, i.e. A = f^-1(B), not inclusions, and carries no Cartesian/Closed instance; Theory/Subobject.v's `sub_le` (line 59) is a Type-valued preorder with sub_le_refl/sub_le_trans that is never turned into a Category. BORDERLINE, disclosed: an earlier verification pass over an earlier draft of this record confirmed ABSENT. PARTIAL is defensible only because `Props` genuinely is the U = singleton case of (a) (constructively, subsets of a point = truth values = Prop under implication), and the record says exactly that and states the gap precisely ('carried out for exactly ONE preorder'), so nothing is inflated. Minor log defect: the log cites Algs_Closed as commented out at Instance/Comp.v:188; the comment actually opens at 189 with the instance at 190 (substance correct - it is inside `(* ... *)`)."
+    }
+  },
+  {
+    "id": "maclane:IV.6:ex2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Lindenbaum–Tarski preorder of sentences under entailment; syntactic/deductive category of a theory",
+      "propositions ordered by implication/entailment as a thin category (Instance/Props.v)",
+      "deduction theorem as the currying adjunction (R ∧ P) ⊢ Q ↔ R ⊢ (P → Q)",
+      "intuitionistic propositional logic as a bicartesian closed category; Curry–Howard–Lambek syntactic CCC (Instance/Lambda.v)",
+      "sequent / derivability / provability from the axioms of an elementary theory T"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 39,
+        "symbol": "Props",
+        "intree_statement": "Program Definition Props : Category := {| obj := Prop; hom := Basics.impl; homset := fun P Q => {| equiv := fun f g => True |}; id := fun _ x => x; compose := fun _ _ _ g f x => g (f x) |}."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 19,
+        "symbol": "Props (header)",
+        "intree_statement": "\"Objects are propositions (`Prop`) and a morphism P ~> Q is an implication ... this is a thin / posetal category: at most one arrow between any two objects, so P ~> Q is inhabited exactly when P entails Q. That makes Props the preorder of propositions ordered by implication. ... 1 = True, 0 = False, P × Q = P ∧ Q, P + Q = P ∨ Q, Q ^ P = P → Q ... The exponential is implication because cartesian closure is exactly the adjunction (R ∧ P) ⊢ Q ↔ R ⊢ (P → Q), the deduction theorem.\""
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }."
+      },
+      {
+        "file": "Instance/Lambda.v",
+        "line": 291,
+        "symbol": "Lambda_Closed",
+        "intree_statement": "Program Instance Lambda_Closed Γ : @Closed (Lambda Γ) _ := ...   (* the syntactic CCC of the simply-typed lambda calculus: objects are types, morphisms are open terms of function type, with SEMANTIC (denotational) morphism equality (Instance/Lambda.v:41-46) — not a thin entailment preorder *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For an elementary theory T, the set S of sentences of T preordered by entailment (p ≤ q meaning p entails q on the basis of T's axioms) is a cartesian closed category, with product given by conjunction and exponential q^p given by 'p implies q'.",
+      "intree": "`Props` — the preorder of propositions ordered by entailment, thin because every hom-setoid is trivial — is proven `Cartesian` with product_obj := and (Instance/Props.v:69) and `Closed` with exponent_obj := Basics.impl (Instance/Props.v:94), the transpose being exactly the deduction theorem.",
+      "strength_comparison": "intree-weaker: the exercise quantifies over EVERY elementary theory T and its relativized entailment 'T ⊢ p → q'; the library builds exactly one such preorder, with entailment fixed as Coq's ambient (meta-level, intuitionistic) implication. The cartesian-closure computation itself — meet = conjunction, exponential = implication, transposition = deduction theorem — matches the exercise exactly."
+    },
+    "gap": "No formal theory T anywhere in the tree: no syntax of sentences, no axiom set, no derivability relation, no Lindenbaum–Tarski quotient. `Props` is not parameterized by a theory and does not relativize its hom (e.g. to `Axioms → P → Q`), so the exercise's quantification over T is unwitnessed; its entailment is intuitionistic rather than the classical first-order entailment of an elementary theory (which does not change the CCC content). The one syntactic development, Instance/Lambda.v, is a CCC of TYPES and TERMS — not thin, and with semantic morphism equality — so it does not present the entailment preorder either.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i 'Lindenbaum' . — 0 hits",
+      "grep -rn --include=\"*.v\" -i 'entail' . — 8 hits; the only ones about an entailment preorder are Instance/Props.v:23 and Instance/Poset.v:104-107, and the latter is prose pointing at Props.v",
+      "grep -rn --include=\"*.v\" -i -E 'sequent|derivab|provab' . — no deductive system over a theory's axioms (hits are unrelated: 'Consequently', 'interderivable', ZX soundness)",
+      "grep -rn --include=\"*.v\" -i 'elementary theory' . — 5 hits, all citations of Lawvere's ETCS; no formalized theory T",
+      "grep -rn --include=\"*.v\" -i 'deduction theorem' . — 1 hit, Instance/Props.v:37 (quoted above)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass reached PARTIAL on the same grounds. Verified verbatim: the header quote at Instance/Props.v:19 ff ('a morphism P ~> Q is an implication ... thin / posetal ... P ~> Q is inhabited exactly when P entails Q ... the deduction theorem'), Props at :39, Props_Closed at :94 with `exponent_obj := Basics.impl` and the currying transpose, Props_Cartesian at :69 with `product_obj := and`. Independently reproduced the negatives: 0 hits for Lindenbaum; no syntax of sentences, no axiom set, no derivability relation anywhere; Instance/Lambda.v:291 `Lambda_Closed` is a CCC of types and terms with semantic morphism equality and is not thin, as the record states. A PRESENT reading is arguable (the exercise's mathematical content - entailment preorder is cartesian closed with meet = conjunction and exponential = implication - is fully formalized), but PARTIAL is honest given the exercise's quantification over an arbitrary elementary theory T, which has no in-tree witness; the gap statement is precise and correct."
+    }
+  },
+  {
+    "id": "maclane:IV.6:ex3",
+    "classification": "PRESENT",
+    "aliases": [
+      "exponential laws c^1 ≅ c and c^(b × b') ≅ (c^b)^(b')",
+      "`exp_one`, `exp_prod_l`, `exp_swap`, `one_exp`",
+      "z^(x × y) ≅ (z^y)^x (the currying law); x^1 ≅ x (unit exponent)",
+      "internal-hom laws [1, c] ≅ c and [b × b', c] ≅ [b', [b, c]]",
+      "laws of exponentials in a bicartesian closed category (Structure/BiCCC.v, Theory/Algebra.v)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 389,
+        "symbol": "exp_one",
+        "intree_statement": "#[export] Program Instance exp_one {x : C} :\n  x^1 ≅ x := {\n  to   := eval ∘ id △ one;\n  from := curry exl\n}.   (* in Section Closed, under Context {C : Category}, `{@Cartesian C}`, `{@Closed}`, `{@Terminal C}` *)"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 257,
+        "symbol": "exp_prod_l",
+        "intree_statement": "#[export] Program Instance exp_prod_l {x y z : C} :\n  z^(x × y) ≅ (z^y)^x := {\n  to   := curry (curry (eval ∘ to prod_assoc));\n  from := curry (uncurry eval ∘ from prod_assoc)\n}."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 339,
+        "symbol": "exp_swap",
+        "intree_statement": "#[export] Program Instance exp_swap {x y z : C} :\n  (z^y)^x ≅ (z^x)^y := { to := to exp_prod_l ∘ to (exp_respects_iso prod_comm iso_id) ∘ from exp_prod_l; ... }   (* reconciles the two orders in which the exponents of a product may be peeled off *)"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 415,
+        "symbol": "one_exp",
+        "intree_statement": "#[export] Program Instance one_exp {x : C} :\n  1^x ≅ 1 := { to := one; from := curry one }.   (* beyond the exercise *)"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 310,
+        "symbol": "exp_prod_r",
+        "intree_statement": "#[export] Program Instance exp_prod_r {x y z : C} :\n  (y × z)^x ≅ y^x × z^x := { to := curry (exl ∘ eval) △ curry (exr ∘ eval); from := curry (uncurry exl △ uncurry exr) }.   (* beyond the exercise *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In any cartesian closed category, prove c^1 ≅ c and c^(b × b') ≅ (c^b)^(b').",
+      "intree": "`exp_one {x : C} : x^1 ≅ x` and `exp_prod_l {x y z : C} : z^(x × y) ≅ (z^y)^x`, both `Isomorphism`s in C established inside `Section Closed` over an arbitrary `Context {C : Category}` with `@Cartesian C` and `@Closed` (plus `@Terminal C` for `exp_one`), with `to`/`from` given explicitly and both round-trip obligations discharged.",
+      "strength_comparison": "same. Both isomorphisms are proven for an arbitrary cartesian closed category — exactly the exercise's hypothesis — and `≅` is the library's faithful setoid rendering of Mac Lane's ~. The only presentational difference is which exponent `exp_prod_l` peels off first (the library states z^(x × y) ≅ (z^y)^x where Mac Lane writes c^(b × b') ≅ (c^b)^(b')), a difference absorbed by `exp_swap : (z^y)^x ≅ (z^x)^y` at line 339. The library additionally proves `one_exp : 1^x ≅ 1` and `exp_prod_r : (y × z)^x ≅ y^x × z^x`, beyond what is asked."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass independently found exactly these two lemmas as the two halves of the exercise. All five cited lines verified against the file: 257 exp_prod_l (`z^(x x y) = (z^y)^x`), 310 exp_prod_r, 339 exp_swap, 389 exp_one (`x^1 = x`), 415 one_exp; each is `#[export] Program Instance` with `to`/`from` given explicitly and every obligation closed by Qed - no Admitted/admit in the file, which is registered in _CoqProject (line 300). Both live in `Section Closed` over an arbitrary `Context {C : Category}` with `@Cartesian C` and `@Closed`; `Context `{@Terminal C}` is opened immediately before exp_one, so its extra hypothesis is part of the book's own CCC data and is not a weakening. The book's c^(b x b') = (c^b)^(b') is exp_prod_l read with x := b', y := b (up to prod_comm), and exp_swap makes that reconciliation explicit - the record says so. strength_comparison 'same' is honest, and the two extra isos are correctly marked 'beyond the exercise'."
+    }
+  },
+  {
+    "id": "maclane:IV.6:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "internal composition morphism c^b × b^a ~> c^a in a cartesian closed category",
+      "Eilenberg–Kelly composition L : [y, z] ~> [[x, y], [x, z]] of a closed category",
+      "self-enrichment of a CCC over itself; V-category composition `ecompose` with `ecompose_assoc`",
+      "internal `comp` combinator; `curry (eval ∘ (eval × id))`",
+      "associativity of internal composition (the enriched associativity law)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i -E 'internal comp|comp_internal|internal_comp|composition map|composition (morphism|arrow)' . — the only hits are Structure/Closed.v:21 and :159, both describing a class that is COMMENTED OUT: the `Class Closed` block carrying `hom_compose {x y z} : [y, z] ~> [[x, y], [x, z]]` spans Structure/Closed.v:154-195 inside `(* ... *)`, and the header (line 26) says \"The [Closed] class capturing this structure is sketched but commented out below\" (CLAUDE.md concurs: \"an incomplete Eilenberg–Kelly stub whose `Class Closed` is not yet in force\")",
+      "grep -rn --include=\"*.v\" -E 'exp_comp|comp_exp|compose_exp|exp_compose|ccomp' . — 0 hits",
+      "grep -rn --include=\"*.v\" -E '\\^ *[a-z]+ *× *[a-z]+ *\\^' . — 0 hits; no morphism of type c^b × b^a ~> c^a is declared anywhere. The only statements mixing exponentials and products are the isomorphisms Structure/Cartesian/Closed.v:311, Structure/BiCCC.v:135, Theory/Algebra.v:86-87",
+      "grep -rn --include=\"*.v\" -F 'curry (eval' . — 4 hits, all inside `exp_respects_iso`, `exp_prod_l`, and Structure/BiCCC.v's coproduct-exponential iso; none is an internal composition",
+      "grep -rn --include=\"*.v\" -i -E 'self-enrich|enriched over itself' . — 1 hit, Structure/Closed.v:56, prose only; grep for instances of the `Enriched` class shows NO enrichment of a cartesian closed category over itself. `Construction/Enriched.v:117 ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z)` with `ecompose_assoc` (line 127) is an AXIOM of the V-category class, and the only instantiations in-tree are V = Sets (Construction/Enriched/Sets.v) and V = _2 (Construction/Enriched/Two.v)",
+      "Functor/Hom/Internal.v:40 `InternalHomFunctor` supplies the action of [-,-] on morphisms, `curry (g ∘ eval ∘ second (op f))`, but no composition morphism between internal homs and no associativity statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass independently reached ABSENT. No morphism of type c^b x b^a ~> c^a is declared anywhere (searched exp_comp/comp_exp/internal composition/ccomp and the type shape directly). Functor/Hom/Internal.v:40 supplies only the internal-hom bifunctor's action on morphisms, `curry (g o eval o second (op f))`. I verified the key negative myself: Structure/Closed.v's `hom_compose {x y z} : [y, z] ~> [[x, y], [x, z]]` sits at line 175 INSIDE the comment that opens at line 154 (`(* jww (2018-10-05): TODO`) and closes at line 195, with the header at :26 saying the class is 'sketched but commented out below' - CLAUDE.md independently records it as 'an incomplete Eilenberg-Kelly stub whose Class Closed is not yet in force'. Construction/Enriched.v:117 `ecompose` and :127 `ecompose_assoc` are FIELDS of the V-category class, and no cartesian closed category is enriched over itself in-tree (the only enrichments instantiated are V = Sets and V = _2). I also checked a candidate the record did not: Instance/AST.v's `Hom` constructors (lines 72-89) - `Compose` there is external composition of arrows, and the free bicartesian closed syntax has no internal composition combinator. No associativity statement exists for anything of this shape."
+    }
+  },
+  {
+    "id": "maclane:IV.6:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "functor category A^J / [J, A] cartesian closed",
+      "pointwise exponentials in a functor category; presheaf category as a topos",
+      "counterexample: A cartesian closed but [J, A] not cartesian closed (e.g. A^𝟚 is CCC iff A is locally cartesian closed)",
+      "`Functor_Category_Cartesian` (products lift pointwise) with no `Closed` counterpart",
+      "'need not', 'fails to be cartesian closed', counterexample/countermodel"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E '(Program )?Instance [A-Za-z_0-9]+ *:.*@?Closed' . — the complete list of `Closed` instances contains no functor category: AST, Rel, Props, Coq, Cat (Instance/Cat/Cartesian/Closed.v:47, where the EXPONENT is a functor category — that is closure of Cat, not of [C, D]), FinSet, Sets, and Structure/Cartesian/Closed/Product.v:43 `Product_Closed` for C ∏ D. So even the positive direction is absent, and nothing states that it FAILS",
+      "grep -rn --include=\"*.v\" -E 'Functor_Category_Closed' . — 0 hits. The only functor-category structure lemma is Instance/Fun/Cartesian.v:111 `Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)`, the pointwise-product lifting, whose header quotes the nLab on limits lifting pointwise and says nothing about exponentials",
+      "grep -rn --include=\"*.v\" -i 'not cartesian closed' . — 2 hits, Instance/Coq/Par.v:219 and Instance/Coq/ParE.v:177, both prose remarks about partiality Kleisli categories, neither about a functor category and neither a proof",
+      "grep -rn --include=\"*.v\" -i -E 'counterexample|countermodel|fails to be|need not' . — no in-tree counterexample about cartesian closure of a functor category (the counterexamples present are Construction/Indexed.v's twist, Construction/Funny/Bifunctor.v's interchange failure, Structure/Monoidal.v:74 on strictness, Adjunction/GAFT.v:121's Mac Lane/Joyal product example)",
+      "grep -rn --include=\"*.v\" -i 'presheaf' . filtered by cartesian/closed/topos — 3 hits, all prose (Theory/Sheaf.v:84 mentions the presheaf topos); no presheaf category is given exponentials, so neither the lifting nor its failure is formalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass independently reached ABSENT. Verified that Instance/Fun/Cartesian.v:111 `Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)` is the only structure lemma for functor categories, that `grep Functor_Category_Closed` returns 0 hits, and that Instance/Cat/Cartesian/Closed.v:47 `Cat_Closed` uses a functor category AS the exponential OF Cat (closure of Cat, not of [C, D]) - confirmed by reading its header. Instance/Fun.v:105 only remarks in prose that '[C, D] is cartesian closed' when C is small and D is cartesian closed and complete, with no proof; nothing anywhere asserts or exhibits a failure. So neither the positive direction nor the exercise's counterexample is in the tree, and the two 'not cartesian closed' remarks (Instance/Coq/Par.v:219, Instance/Coq/ParE.v:177) are about partiality Kleisli categories, exactly as the record says."
+    }
+  },
+  {
+    "id": "maclane:IV.7:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "map of adjunctions ⟨K, L⟩ : ⟨F, G, φ⟩ → ⟨F', G', φ'⟩ with K F = F' L and L G = G' K",
+      "morphism of adjunctions / 1-cell in the 2-category Adj",
+      "commuting functor square between two adjunctions; adjoint square; Beck–Chevalley square",
+      "hom-set compatibility L(φ f) = φ'(K f) of the two adjunction bijections",
+      "mates square in a bicategory with a = L, b = K and an identity 2-cell"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i -E 'map of adjunction|morphism of adjunction|transformation of adjunction' . — 1 hit, Instance/Adj.v:30, inside a CAVEAT comment, and it concerns the arrows of Adj(C,D) (a conjugate pair between two adjunctions over the SAME pair of categories) — Mac Lane's IV.7 construction1, not the K/L map of adjunctions",
+      "grep -rn --include=\"*.v\" -i -E 'AdjMap|adj_map|Adjunction_Map|adjunction morphism|2-category of adjunctions' . — 0 hits. (Instance/Adjoints.v:84 `adj_morphism` is an ADJUNCTION regarded as an arrow C ⇸ D of the category `Adjoints`, whose objects are categories — a different construction entirely)",
+      "grep -rn --include=\"*.v\" -i -E 'Beck-Chevalley|BeckChevalley' . — 1 hit, Theory/Bicategory.v:104, prose only",
+      "grep -rn --include=\"*.v\" -E '◯ *[A-Z][A-Za-z]* *(≈|≅|⟹|=) *[A-Z][A-Za-z]* *◯' . plus greps for 'K ◯ F', 'F\\' ◯ L', 'L ◯ G', 'G\\' ◯ K' — the only pair of commuting functor squares over an adjunction is Monad/Comparison.v:198 `EM_Comparison_Forget : EM_Forget ◯ EM_Comparison ≈ U` and :260 `EM_Comparison_Free : EM_Comparison ◯ F ≈ EM_Free`. That is one INSTANCE of the two square conditions (with L = Id, and with `≈` i.e. natural isomorphism rather than Mac Lane's strict equality); the notion 'map of adjunctions' is not defined, the hom-set compatibility condition is never stated, and nothing quantifies over a pair (K, L)",
+      "Theory/Bicategory/Mates.v does introduce squares (a, b, σ : f' ∘ a ⟹ b ∘ f) but with a genuine 2-cell σ instead of strict commutation, and never packages a 'map of adjunctions'; Instance/Cat/Bicategory/Adjunction.v specialises that machinery to Cat and likewise defines no such notion",
+      "grep -rn --include=\"*.v\" -i -E 'square of functors|functor square|adjoint square|adjunction square|lifts? (the|an) adjunction' . — 0 relevant hits (Monad/Lifting.v is the Dubuc adjoint TRIANGLE, a different configuration: R : B ⟶ C with a left adjoint for U ◯ R)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass independently reached ABSENT. Re-ran the record's own greps: 'map of adjunction|morphism of adjunction|transformation of adjunction' returns 0 hits (not the 1 hit the log reports at Instance/Adj.v:30 - that CAVEAT reads 'takes as a morphism (F |- U) -> (F' |- U')', which does not match the pattern; the note's substance is right and the true 0-hit result only strengthens ABSENT). Also 0 hits for AdjMap/adj_map/Adjunction_Map/2-category of adjunctions, 0 for adjoint square / square of adjunctions / lifts an adjunction, and no statement anywhere quantifies over a pair (K, L) with K F = F' L and L G = G' K. Confirmed the nearest-relative analysis: Theory/Bicategory/Mates.v sets up exactly this configuration (a : x ~~> x', b : y ~~> y') but fills the squares with a genuine 2-cell sigma rather than requiring strict commutation, and never packages a map of adjunctions nor the sigma = identity case; Instance/Cat/Bicategory/Adjunction.v specializes that machinery to Cat and defines no such notion either. I additionally checked a candidate the record did not name: Theory/Equivalence/Adjunction.v:105 `Transported_Adjunction` transports an adjunction along a pair of equivalences - it CONSTRUCTS a new adjunction rather than comparing two given ones, so it is not this notion. Monad/Comparison.v:198/260 verified as described (an instance of the two square conditions with L = Id, stated with the functor-setoid `=` whose witness is `fun c => iso_id`)."
+    }
+  },
+  {
+    "id": "maclane:IV.7:prop1",
+    "classification": "ABSENT",
+    "aliases": [
+      "map of adjunctions characterized by L η = η' L (unit condition)",
+      "map of adjunctions characterized by ε' K = K ε (counit condition)",
+      "equivalence of the hom-set square with the unit square and with the counit square",
+      "mate of the identity 2-cell is the identity; unit-compatible 2-cell (`mate_charac`, `mate_unit_compat`)",
+      "an adjunction morphism preserves unit and counit"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "This item depends on maclane:IV.7:def1, which is itself ABSENT (see that record's log): with no in-tree notion of a map of adjunctions ⟨K, L⟩ there is nothing whose three characterizations could be stated, and no lemma anywhere quantifies over K, L with K F = F' L and L G = G' K",
+      "greps for 'L η', 'η\\' L', 'ε\\' K', 'K ε', 'unit condition', 'counit condition', 'η\\' ◯' — 0 hits stating any such square",
+      "Nearest relative: Theory/Bicategory/Adjunction.v:347 `mate_charac {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) (γ : a ~> b) : rwhisker γ f ∘∘ uη Aa ≈ uη Ab → γ ≈ matecell Aa Ab` — a UNIT-compatibility characterization, but for two right adjoints of ONE 1-cell f (the uniqueness-of-adjoints argument), not for a K/L square between two different adjunctions; it gives only the unit form, has no counit counterpart, and asserts no equivalence with a hom-set square",
+      "grep -rn --include=\"*.v\" -i -E 'preserves the (unit|counit)|compatible with the unit' . — only Theory/Bicategory/Adjunction.v:313's prose about `mate_unit_compat`, same configuration as above",
+      "Instance/Cat/Bicategory/Adjunction.v:244 `Cat_mate_unfold_raw` gives the mate's component formula in Cat, from which 'mate id = id' could be written down in one line, but no in-tree statement instantiates σ = id or asserts any of Mac Lane's three equivalent conditions"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass independently reached ABSENT. With no in-tree map of adjunctions (see def1) there is nothing whose three characterizations could be stated, and no lemma anywhere writes L eta = eta' L or eps' K = K eps. Verified the nearest relative exactly: Theory/Bicategory/Adjunction.v:347-349 `mate_charac {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) (gamma : a ~> b) : rwhisker gamma f oo u_eta Aa = u_eta Ab -> gamma = matecell Aa Ab` - the unit-compatibility form, but for two right adjoints of ONE 1-cell f (the uniqueness-of-adjoints argument), with `mate_unit_compat` (line 634) its companion. No counit counterpart, and no equivalence with a hom-set square is asserted - precisely as the record states."
+    }
+  },
+  {
+    "id": "maclane:IV.7:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "conjugate natural transformations ⟨σ, τ⟩ for two adjunctions between the same categories",
+      "mate / mates correspondence (Kelly–Street): `mate`, `mate_inv`, `mate_iso`",
+      "σ : F ⟹ F' and τ : G' ⟹ G with φ(f ∘ σ_x) ≈ τ_a ∘ φ'(f)",
+      "conjugate pair as an arrow of Adj(X, A) (Instance/Adj.v CAVEAT)",
+      "transpose of a natural transformation across an adjunction; 'mate through the units and counits'"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 476,
+        "symbol": "mate",
+        "intree_statement": "(* Forward mate: paste η' on the left, whisker σ, paste ε on the right. *)\nDefinition mate (σ : (f' ∘∘∘ a) ~> (b ∘∘∘ f)) : (a ∘∘∘ u) ~> (u' ∘∘∘ b) :=\n  postcomp_to Af (from (hassoc u' b f) ∘∘ precomp_to Af' σ).   (* Context: Af : BicatAdjunction f u, Af' : BicatAdjunction f' u', a : bicat x x', b : bicat y y' *)"
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 480,
+        "symbol": "mate_inv",
+        "intree_statement": "Definition mate_inv (τ : (a ∘∘∘ u) ~> (u' ∘∘∘ b)) : (f' ∘∘∘ a) ~> (b ∘∘∘ f) :=\n  precomp_from Af' (to (hassoc u' b f) ∘∘ postcomp_from Af τ)."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 515,
+        "symbol": "mate_iso",
+        "intree_statement": "Program Definition mate_iso : @Isomorphism Sets mate_dom mate_cod := {|\n  to   := {| morphism := mate |};\n  from := {| morphism := mate_inv |}\n|}.   (* mate_dom := (f' ∘∘∘ a) ~{bicat x y'}~> (b ∘∘∘ f); mate_cod := (a ∘∘∘ u) ~{bicat y x'}~> (u' ∘∘∘ b) *)"
+      },
+      {
+        "file": "Instance/Cat/Bicategory/Adjunction.v",
+        "line": 244,
+        "symbol": "Cat_mate_unfold_raw",
+        "intree_statement": "Theorem Cat_mate_unfold_raw (Z : y) :\n  transform[mate Af Af' σ] Z\n    ≈ fmap[U'] (fmap[b] (adj_counit F U Z))\n        ∘ (fmap[U'] (σ (fobj[U] Z)) ∘ adj_unit F' U' (fobj[a] (fobj[U] Z))).   (* the classical conjugate formula, componentwise, in Cat *)"
+      },
+      {
+        "file": "Instance/Adj.v",
+        "line": 29,
+        "symbol": "Adj (CAVEAT header)",
+        "intree_statement": "\"CAVEAT ... the standard 'category of adjunctions' takes as a morphism (F ⊣ U) → (F' ⊣ U') a conjugate, or mate, pair of natural transformations — σ and τ are required to correspond under the two hom-set transposes ... The hom defined below imposes no such condition\"   (* the conjugacy condition is named but explicitly NOT formalized *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given adjunctions ⟨F, G, φ, η, ε⟩ and ⟨F', G', φ', η', ε'⟩ both from X to A, natural transformations σ : F ⟹ F' and τ : G' ⟹ G are conjugate when for all x, a the square commutes: φ(f ∘ σ_x) = τ_a ∘ φ'(f) for every f : F' x ~> a.",
+      "intree": "`mate` (Theory/Bicategory/Mates.v:476) sends a 2-cell σ : f' ∘ a ⟹ b ∘ f to the 2-cell a ∘ u ⟹ u' ∘ b obtained by pasting η' on the left, whiskering σ, and pasting ε on the right; `mate_iso` (line 515) packages it with `mate_inv` as an isomorphism of the two 2-cell hom-setoids in Sets. In Cat this unfolds componentwise to (mate σ) Z ≈ U'(b ε_Z) ∘ U'(σ (U Z)) ∘ η'(a (U Z)) (Instance/Cat/Bicategory/Adjunction.v:244).",
+      "strength_comparison": "Mixed. intree-stronger in generality — an arbitrary bicategory and arbitrary 1-cells a, b, of which Mac Lane's setting is the case a = Id, b = Id in Cat. intree-weaker in kind — the library supplies an OPERATOR computing the unique partner rather than the conjugacy RELATION on a pair (σ, τ), and never states Mac Lane's defining hom-set square φ(f ∘ σ_x) ≈ τ_a ∘ φ'(f). What the library takes as the definition of the mate is Mac Lane's characterization (i)/(ii), the pasting composite — not his definition."
+    },
+    "gap": "No predicate `Conjugate σ τ` (or equivalent) is defined, and the defining hom-set square — φ(f ∘ σ_x) ≈ τ_a ∘ φ'(f), phrased in the two adjunction transposes ⌊−⌋ and ⌊−⌋' — is nowhere written down, hence never proven equivalent to `τ ≈ mate σ`. The a = Id, b = Id specialization that yields Mac Lane's shape (σ : F ⟹ F', τ : G' ⟹ G between two adjunctions over the SAME pair of categories) is not recorded, and no ordinary-CT (non-bicategorical) restatement exists: a caller must transport by hand along `Cat_BicatAdjunction_Adjunction_iff` (Instance/Cat/Bicategory/Adjunction.v:163). Instance/Adj.v names the conjugacy condition in its CAVEAT and deliberately omits it.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i 'conjugate' . — 20 hits; the only ones about adjunctions are Instance/Adj.v:30,33,38 (CAVEAT prose) and Instance/Adjoints.v:94 (prose, 'the conjugate-pair correspondence then makes the choice coherent'). The rest are `equivalence_unit_conjugate` and unrelated 'conjugated by the unitors' usages",
+      "grep -rn --include=\"*.v\" -E '\\bmate\\b|mate_iso|mate_inv' . — occurrences only in Theory/Bicategory/{Mates,Adjunction}.v and Instance/Cat/Bicategory/Adjunction.v; no consumer of `mate` outside the bicategory development, and no `Conjugate` class or definition anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass found the same evidence and reached PARTIAL on the same grounds. Verified Theory/Bicategory/Mates.v:476 (`mate`), :480 (`mate_inv`), :515 (`mate_iso`) and Instance/Cat/Bicategory/Adjunction.v:244 (`Cat_mate_unfold_raw`) verbatim; Mates.v has no Admitted/Axiom and is registered in _CoqProject (line 404). I independently confirmed the specialization arithmetic the gap statement rests on: at a = b = identity, mate_dom is (F' ==> F) and mate_cod is (U ==> U'), i.e. Mac Lane's sigma/tau pair with the roles of the two adjunctions exchanged, and no corollary records it. `grep -i conjugate` over the whole tree yields no adjunction-theoretic definition - only Instance/Adj.v's CAVEAT prose (29-41), Instance/Adjoints.v:94, and unrelated 'conjugated by' usages - so the record's central claim (an OPERATOR exists, the conjugacy RELATION and Mac Lane's defining hom-set square do not) is exactly right."
+    }
+  },
+  {
+    "id": "maclane:IV.7:thm2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "four equivalent characterizations of conjugacy, (i)–(iv)",
+      "bijection between σ : F ⟹ F' and τ : G' ⟹ G (each determines the other uniquely)",
+      "mates correspondence as a bijection of 2-cell sets: `mate_iso`, `mate_roundtrip_left/right`",
+      "τ = G ε' ∘ G σ G' ∘ η G' and σ = ε F' ∘ F τ F' ∘ F η' (the pasting formulas)",
+      "triangle forms ε ∘ F τ ≈ ε' ∘ σ G' and G σ ∘ η ≈ τ F' ∘ η'; uniqueness of mates (`mate_charac`)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 515,
+        "symbol": "mate_iso",
+        "intree_statement": "Definition mate_dom : SetoidObject := {| carrier := (f' ∘∘∘ a) ~{bicat x y'}~> (b ∘∘∘ f) |}.\nDefinition mate_cod : SetoidObject := {| carrier := (a ∘∘∘ u) ~{bicat y x'}~> (u' ∘∘∘ b) |}.\nProgram Definition mate_iso : @Isomorphism Sets mate_dom mate_cod := {| to := {| morphism := mate |}; from := {| morphism := mate_inv |} |}."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 489,
+        "symbol": "mate_roundtrip_left",
+        "intree_statement": "Lemma mate_roundtrip_left (σ : (f' ∘∘∘ a) ~> (b ∘∘∘ f)) : mate_inv (mate σ) ≈ σ."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 498,
+        "symbol": "mate_roundtrip_right",
+        "intree_statement": "Lemma mate_roundtrip_right (τ : (a ∘∘∘ u) ~> (u' ∘∘∘ b)) : mate (mate_inv τ) ≈ τ."
+      },
+      {
+        "file": "Instance/Cat/Bicategory/Adjunction.v",
+        "line": 260,
+        "symbol": "Cat_mate_unfold",
+        "intree_statement": "Theorem Cat_mate_unfold (Z : y) :\n  transform[mate Af Af' σ] Z\n    ≈ fmap[U'] (fmap[b] (adj_counit F U Z)) ∘ to adj[Cat_BicatAdjunction_Adjunction Af'] (σ (fobj[U] Z)).   (* the mate as the transpose ⌊σ (U Z)⌋ post-whiskered by the counit: characterization (i), in Cat *)"
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 347,
+        "symbol": "mate_charac",
+        "intree_statement": "Lemma mate_charac {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) (γ : a ~> b) :\n  rwhisker γ f ∘∘ uη Aa ≈ uη Ab → γ ≈ matecell Aa Ab.   (* the unit characterization, only in the special case of two right adjoints of ONE 1-cell f, i.e. F = F' and σ = id *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For two adjunctions between X and A, σ : F ⟹ F' and τ : G' ⟹ G are conjugate iff any one of four diagrams commutes: (i) τ = G ε' ∘ G σ G' ∘ η G'; (ii) σ = ε F' ∘ F τ F' ∘ F η'; (iii) ε ∘ F τ = ε' ∘ σ G'; (iv) G σ ∘ η = τ F' ∘ η'. Moreover each σ has a unique conjugate τ and each τ a unique conjugate σ — a bijection between the two sets of natural transformations.",
+      "intree": "`mate_iso : @Isomorphism Sets mate_dom mate_cod`, with `mate_roundtrip_left : mate_inv (mate σ) ≈ σ` and `mate_roundtrip_right : mate (mate_inv τ) ≈ τ`, over an arbitrary bicategory B, two internal adjunctions f ⊣ u and f' ⊣ u', and 1-cells a, b. `mate` is defined BY the pasting composite (Mac Lane's (i)) and `mate_inv` by the dual pasting (his (ii)); in Cat the composite unfolds to the classical formula (`Cat_mate_unfold`).",
+      "strength_comparison": "Mixed. intree-stronger: the bijection holds over an arbitrary bicategory and for arbitrary a, b (Mac Lane's a = b = identity being one instance), and it is a genuine bijection of hom-SETOIDS with both round trips proven from the zig-zag identities. intree-weaker on the characterizations: (i) and (ii) appear only as the DEFINITIONS of `mate`/`mate_inv`, so what the round trips prove is their mutual inverseness; (iii) and (iv) are never stated in general — only the F = F', σ = id case of (iv), as `mate_charac` — and equivalence with Mac Lane's defining hom-set square is not stated at all, the conjugacy relation itself being undefined (see maclane:IV.7:def2)."
+    },
+    "gap": "Three things are missing. (1) Characterizations (iii) `ε ∘ F τ ≈ ε' ∘ σ G'` and (iv) `G σ ∘ η ≈ τ F' ∘ η'` are not stated as equivalent conditions; the only relative is `mate_charac` (Theory/Bicategory/Adjunction.v:347), the unit form in the degenerate case of two right adjoints of a single 1-cell, with no counit counterpart. (2) Equivalence with the defining hom-set square is absent because the conjugacy relation is never defined. (3) The specialization to Mac Lane's shape is not recorded: at a = Id, b = Id the in-tree bijection reads (F' ⟹ F) ≅ (U ⟹ U'), which is Mac Lane's σ/τ bijection with the roles of the two adjunctions exchanged, but no corollary states it, and no ordinary-CT version over `F ⊣ U` (rather than `BicatAdjunction`) exists — a caller must first transport along `Cat_BicatAdjunction_Adjunction_iff` (Instance/Cat/Bicategory/Adjunction.v:163).",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E '\\bmate\\b|Mates' . — the mates development is confined to Theory/Bicategory/{Mates,Adjunction}.v and Instance/Cat/Bicategory/Adjunction.v; no ordinary-CT corollary and no consumer elsewhere",
+      "Theory/Bicategory/Mates.v:52-55 scopes the file explicitly: \"the bijection and its round trips are delivered here at full strength over an arbitrary bicategory. The pasting/composition *functoriality* of mates (the double category of adjunctions) is deliberately out of scope (descope ledger entry 10)\""
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass reached PARTIAL on the same grounds. Verified mate_iso (Mates.v:515), mate_roundtrip_left (:489), mate_roundtrip_right (:498), Cat_mate_unfold (Instance/Cat/Bicategory/Adjunction.v:260) and mate_charac (Theory/Bicategory/Adjunction.v:347) - all quotes accurate, all proofs Qed. The half-and-half strength claim is honest: the bijection genuinely exceeds the book (arbitrary bicategory, arbitrary a and b, both round trips derived from the zig-zag identities via precomp/postcomp), while characterizations (i) and (ii) exist only as the DEFINITIONS of mate and mate_inv (I checked: `mate` is defined as postcomp_to (assoc^-1 oo precomp_to sigma) and Cat_mate_unfold_raw is its componentwise pasting formula), (iii) and (iv) are never stated in general, and no 'iff' can exist because the conjugacy relation is undefined. The descope note quoted from Mates.v:52-55 is verbatim."
+    }
+  },
+  {
+    "id": "maclane:IV.7:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the category of adjunctions A^(adj)X / Adj(X, A); hom-category of the 2-category Adj",
+      "vertical composition of conjugate pairs ⟨σ', τ'⟩ ∘ ⟨σ, τ⟩ = ⟨σ' ∘ σ, τ ∘ τ'⟩",
+      "forgetful functors Adj(X, A) → A^X (⟨σ, τ⟩ ↦ σ) and [Adj(X, A)]^op → X^A (⟨σ, τ⟩ ↦ τ)",
+      "`Instance/Adj.v` `Adj (C D : Category) : Category`; `Instance/Adjoints.v` `Adjoints`",
+      "conjugate pairs are closed under composition (functoriality of mates)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Adj.v",
+        "line": 43,
+        "symbol": "Adj",
+        "intree_statement": "Program Definition Adj (C D : Category) : Category := {|\n  obj := ∃ (F : D ⟶ C) (U : C ⟶ D), F ⊣ U;\n  hom := fun x y => (`1 x ⟹ `1 y) ∧ (`1`2 x ⟹ `1`2 y);\n  id  := fun x => (nat_id, nat_id);\n  compose := fun _ _ _ f g => (fst f ∙ fst g, snd f ∙ snd g)\n|}."
+      },
+      {
+        "file": "Instance/Adj.v",
+        "line": 29,
+        "symbol": "Adj (CAVEAT header)",
+        "intree_statement": "\"CAVEAT (needs-followup, not a build issue): the standard 'category of adjunctions' takes as a morphism (F ⊣ U) → (F' ⊣ U') a conjugate, or mate, pair of natural transformations — σ and τ are required to correspond under the two hom-set transposes ... The hom defined below imposes no such condition: it is the bare product setoid ([D,C] × [C,D]) of natural transformations restricted to the carrier of adjunction triples. This is why every category obligation discharges trivially. The construction is a genuine category but a coarser one than the conjugate-pair Adj(C,D); tightening the hom to mate pairs is left as future work.\""
+      },
+      {
+        "file": "Instance/Adj.v",
+        "line": 16,
+        "symbol": "Adj (header)",
+        "intree_statement": "\"For fixed C and D this assembles the adjunctions F ⊣ U with F : D ⟶ C and U : C ⟶ D into a category Adj(C,D): objects triples (F, U, F ⊣ U); arrows pairs (σ : F ⟹ F', τ : U ⟹ U') of natural transformations; identity the pair (nat_id, nat_id); composition componentwise vertical composition of natural transformations. This is the hom-category between C and D of the 2-category Adj of categories, adjunctions, and their maps\""
+      }
+    ],
+    "statement_record": {
+      "book": "A conjugate pair ⟨σ, τ⟩ is a morphism of adjunctions; conjugate pairs compose (⟨σ', τ'⟩ ∘ ⟨σ, τ⟩ = ⟨σ' ∘ σ, τ ∘ τ'⟩ is again conjugate), giving the category A^(adj)X whose objects are the adjunctions from X to A and whose arrows are the conjugate pairs, together with two forgetful functors A^(adj)X → A^X (⟨σ, τ⟩ ↦ σ) and [A^(adj)X]^op → X^A (⟨σ, τ⟩ ↦ τ).",
+      "intree": "`Adj (C D : Category) : Category`, objects the triples (F, U, F ⊣ U), hom (F ⟹ F') ∧ (U ⟹ U'), identity (nat_id, nat_id), composition componentwise vertical composition, hom-setoid the product setoid — together with the file's own CAVEAT recording that no conjugacy condition is imposed.",
+      "strength_comparison": "intree-weaker, and self-disclosed: the object part matches, but the hom is the bare product of ALL pairs of natural transformations, so `Adj` is strictly coarser than Mac Lane's A^(adj)X — the file says so outright (\"a genuine category but a coarser one than the conjugate-pair Adj(C,D)\"). The second component also runs in the opposite direction to the book (τ : U ⟹ U' rather than τ : G' ⟹ G), so composition is componentwise in both slots instead of Mac Lane's ⟨σ' ∘ σ, τ ∘ τ'⟩."
+    },
+    "gap": "(a) The conjugacy condition on an arrow — precisely what makes this Mac Lane's construction — is absent; the file's CAVEAT admits it and calls tightening the hom to mate pairs \"future work\", and as a result every category law discharges trivially rather than through the substantive lemma that conjugate pairs compose. (b) That composition lemma is proven nowhere: Theory/Bicategory/Mates.v:52-55 explicitly descopes \"the pasting/composition *functoriality* of mates (the double category of adjunctions) ... (descope ledger entry 10)\". (c) Mac Lane's contravariant second component (τ : G' ⟹ G) is replaced by a covariant one, so the op-twist in the second forgetful functor's domain has no counterpart. (d) Neither forgetful functor — Adj(X,A) → A^X or [Adj(X,A)]^op → X^A — is defined; in fact `Adj` has no consumers at all (the identifier occurs only inside Instance/Adj.v).",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E 'Adj [A-Z]|Adj \\(|@Adj|Adj\\b' . (excluding Adjunction/Adjoint/adj_ matches) — hits only inside Instance/Adj.v; no functor out of `Adj`, no downstream use",
+      "grep -rn --include=\"*.v\" -i 'forgetful' . — the forgetful functors in-tree are EM_Forget, the Kleisli forgetful, Drinfeld_Forget, FCoalg_Forget, etc.; none out of a category of adjunctions"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass found Instance/Adj.v independently and reached PARTIAL. Verified line 43: `hom := fun x y => (`1 x ==> `1 y) /\\ (`1`2 x ==> `1`2 y)` - the bare product of (F ==> F') and (U ==> U'), so the second component is indeed covariant, opposite to Mac Lane's tau : G' -> G, and composition is componentwise in both slots. The CAVEAT at 29-41 is quoted verbatim and is the library's own admission that the conjugacy condition is omitted ('a genuine category but a coarser one than the conjugate-pair Adj(C,D)'). I independently confirmed the strongest part of the gap: `Adj` has NO consumers - `grep 'Category\\.Instance\\.Adj\\.'` and `grep 'Require.*Instance\\.Adj\\b'` both return 0 - so neither forgetful functor exists, and the composition-of-conjugate-pairs lemma is descoped in Mates.v (ledger 10) as the record says. Minor quoting note: the Instance/Adj.v:16 evidence re-flows a formatted table (objects / arrows / identity / composition each on its own line) into one prose sentence; content faithful, not literally verbatim."
+    }
+  },
+  {
+    "id": "maclane:IV.7:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "hom(S × T, R) ≅ hom(S, hom(T, R)) in Set as an adjunction with parameter T",
+      "currying / product-hom adjunction (− × T) ⊣ hom(T, −); `Sets_Closed`, `Coq_Closed`",
+      "− × t : − × T ⟹ − × T' conjugate to hom(t, −) : hom(T', −) ⟹ hom(T, −)",
+      "tensor-hom adjunction Mod_K(A ⊗_K B, C) ≅ Mod_K(A, Hom_K(B, C)); category of modules over a commutative ring",
+      "functoriality of the exponential in its exponent (`InternalHomFunctor`, contravariant slot)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 38,
+        "symbol": "Sets_Closed",
+        "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := {\n  exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |};\n  exp_iso := fun _ _ _ => {| to := {| morphism := fun f => {| morphism := fun x => {| morphism := fun y => f (x, y) |} |} |} ; from := {| morphism := fun f => {| morphism := fun p => f (fst p) (snd p) |} |} |} }.   (* the bijection Hom(S × T, R) ≅ Hom(S, R^T) for setoids *)"
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 167,
+        "symbol": "Coq_Closed",
+        "intree_statement": "Program Instance Coq_Closed : @Closed Coq _ := { ... }   (* the same currying bijection for Coq types and functions; Instance/Coq.v:177 notes the internal hom of the cartesian monoidal product is this exponential *)"
+      },
+      {
+        "file": "Functor/Hom/Internal.v",
+        "line": 40,
+        "symbol": "InternalHomFunctor",
+        "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {|\n  fobj := fun p => @exponent_obj C E O (fst p) (snd p);\n  fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f))\n|}.   (* contravariant in the exponent — this IS the action t ↦ hom(t, −) — but no conjugacy claim accompanies it *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The bijection hom(S × T, R) ≅ hom(S, hom(T, R)) in Set is an adjunction with parameter T: each t : T → T' gives a natural transformation − × t : − × T ⟹ − × T' whose conjugate is hom(t, −) : hom(T', −) ⟹ hom(T, −), in the reverse direction. Likewise, for a commutative ring K, Mod_K(A ⊗_K B, C) ≅ Mod_K(A, Hom_K(B, C)) is an adjunction with parameter B.",
+      "intree": "`Sets_Closed` supplies the bijection Hom(x × y, z) ≅ Hom(x, z^y) for setoids (and `Coq_Closed` the same for Coq types), packaged as `exp_iso`, a family of isomorphisms in Sets indexed by x, y, z. `InternalHomFunctor : C^op ∏ C ⟶ C` supplies the contravariant action in the exponent, `[f, g] := curry (g ∘ eval ∘ second (op f))`, for any cartesian closed C; the covariant action − × t is `second t` of Structure/Cartesian.v.",
+      "strength_comparison": "intree-weaker: the underlying bijection of the Set example is present (in setoid form, the library's faithful reading of Set), and both functorial actions in the parameter exist separately, but nothing states the 'with a parameter' content — that − × t and hom(t, −) form a conjugate pair, or that the bijection is natural in T. The Mod_K example has no counterpart whatsoever."
+    },
+    "gap": "The parameter reading is entirely missing: no statement that t : T ~> T' makes `second t : − × T ⟹ − × T'` and `InternalHomFunctor (t, −) : hom(T', −) ⟹ hom(T, −)` conjugate, and no naturality of `exp_iso` in its middle argument — note that `Closed` (Structure/Cartesian/Closed.v:51) asks only for a family `exp_iso {x y z} : x × y ~> z ≊ x ~> z^y` plus the beta law, with no naturality field in any variable. The Mod_K half is absent outright: the tree has no rings, no modules and no tensor product of modules; the nearest algebraic instance, Instance/CMon.v (commutative monoids), carries biproducts rather than a tensor-hom adjunction.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i -E 'Module_|Modules|Vect|R-module|Mod_K|tensor product of modules|Ring\\b' . — 0 relevant hits; no category of modules over a ring exists",
+      "grep -rn --include=\"*.v\" -i -E 'with a parameter|parametri[sz]ed adjunct|parameterized adjunct' . — 0 hits",
+      "grep -rn --include=\"*.v\" -E '⊣' . filtered by prod/exp/closed/tensor/curry — the currying adjunction (− × y) ⊣ (− ^ y) is named only in comments (Structure/Cartesian/Closed.v:34, Instance/Sets/Cartesian/Closed.v:24, Comonad/Duality.v:95, Instance/Coq/Comonad/Store.v:28); it is never instantiated as an `Adjunction` record, so the 'adjunction with parameter T' cannot even be stated in the F ⊣ U vocabulary"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass reached PARTIAL on the same grounds. Verified Sets_Closed (Instance/Sets/Cartesian/Closed.v:38), Coq_Closed (Instance/Coq.v:167) and InternalHomFunctor (Functor/Hom/Internal.v:40, `fmap := fun x y '(f, g) => curry (g o eval o second (op f))`, contravariant in the exponent). I independently checked the load-bearing negative and it holds: the `Closed` class (Structure/Cartesian/Closed.v:43-63) carries only exponent_obj, exp_iso, the derived curry'/uncurry'/eval' and ump_exponents' - there is NO naturality field in any variable - and the only exponent-variable machinery is `exp_respects_iso` (lines 225-255), which handles isomorphisms only; `ClosedMonoidal` (Structure/Monoidal/Closed.v:46) is the same shape. I also confirmed the currying adjunction (- x y) |- (- ^ y) appears only in prose (Structure/Cartesian/Closed.v:34 and :47, Theory/Adjunction.v:75 and :94, Comonad/Duality.v:95) and is never instantiated as an `Adjunction` record, so the 'adjunction with parameter T' truly cannot be phrased in F |- U vocabulary. `second` is Structure/Cartesian.v:175, as claimed. No rings, modules or module tensor products exist in-tree, so the Mod_K half is absent outright."
+    }
+  },
+  {
+    "id": "maclane:IV.7:thm3",
+    "classification": "ABSENT",
+    "aliases": [
+      "adjunction with a parameter; parametrized/parameterized adjunction",
+      "bifunctor F : X ∏ P ⟶ A with F(−, p) ⊣ G(p, −) for each p, extending G to a bifunctor P^op ∏ A ⟶ X",
+      "pointwise right adjoints assemble into a functor; unique functorial extension in the parameter",
+      "naturality of the adjunction bijection in all three variables x, p, a",
+      "G(h, −) as the unique natural transformation conjugate to F(−, h); functoriality from uniqueness of conjugates"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i -E 'with a parameter|parametri[sz]ed adjunct|parameterized adjunct|parametric adjoint|bifunctor.*adjoint|adjoint.*bifunctor' . — 1 hit, Adjunction/Hom.v:24, which is only the two-variable hom-bifunctor presentation of a SINGLE adjunction (`Adjunction_Hom`, Adjunction/Hom.v:72), not a parameter category",
+      "grep -rn --include=\"*.v\" -i -E 'three variable|natural in all|in each variable|separately functorial' . — the only 'three variables' hit is Structure/Premonoidal.v:310 (about `composite_ff'`); the 'separately functorial' hits are all the funny-tensor development (Construction/Funny.v), which is about data WITHOUT an interchange law, not parametrized adjoints",
+      "grep -rn --include=\"*.v\" -i -E 'family of adjunctions|pointwise (right |left )?adjoint' . — 0 hits; nothing in the tree takes a P-indexed family of adjunctions as input",
+      "Nearest relatives, none of which is the theorem: (1) Functor/Hom/Internal.v:40 `InternalHomFunctor : C^op ∏ C ⟶ C` builds the internal hom as a bifunctor for cartesian closed C — an instance of the theorem's CONCLUSION in the case X = A = P = C, F = ×, but constructed by hand from `curry` with its functor laws proven directly, carrying no uniqueness claim, no three-variable naturality, and no derivation from a family of adjunctions. (2) Structure/Cartesian/Closed.v:44 and Structure/Monoidal/Closed.v:49 declare `exponent_obj : obj → obj → obj` as a bare object-level operation, so the bifunctoriality thm3 would supply is simply not part of the interface. (3) Theory/Universal/Arrow.v:185 `LeftAdjointFunctorFromUniversalArrows (H : forall c : C, UniversalArrow c U)` is the OBJECT-indexed functoriality theorem (a family of universal arrows assembles into a left adjoint functor), the one-variable analogue, with no parameter category and no bifunctor. (4) The uniqueness-of-conjugates engine Mac Lane's proof runs on IS in-tree (`mate_iso`, Theory/Bicategory/Mates.v:515) but is never applied to build a parametrized adjoint",
+      "grep -rn --include=\"*.v\" -E 'P\\^op ∏|∏ A ⟶|C\\^op ∏ C ⟶ C' . — the only bifunctors of this shape are Hom, InternalHom and profunctors; none arises as a parametrized right adjoint"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass independently reached ABSENT. Reproduced the negatives: 0 hits for 'with a parameter' / parametrized-parameterized adjunction / parametric adjoint / family of adjunctions / pointwise adjoint / two-variable adjunction / adjoint in each variable. Verified that the record's nearest relatives are correctly filed as relatives and NOT as evidence: Functor/Hom/Internal.v:40 builds the internal-hom bifunctor by hand out of `curry` with its functor laws proven directly - it takes no family of adjunctions as input, claims no uniqueness, and asserts no three-variable naturality (the `Closed` class states no naturality at all, so the theorem's very conclusion cannot be phrased against it); Theory/Universal/Arrow.v:185 `LeftAdjointFunctorFromUniversalArrows` is the object-indexed one-variable analogue. DISCLOSED DISAGREEMENT: an earlier verification pass over an earlier draft of this record confirmed PARTIAL, on the ground that InternalHomFunctor realizes the theorem's conclusion for F = cartesian product. I adjudicate in favour of the current ABSENT: the theorem's hypothesis (a P-indexed family of adjunctions), its construction (via uniqueness of conjugates) and its uniqueness-plus-naturality conclusion are all missing, and what remains is a bifunctor obtained by other means - a nearest relative, not partial coverage."
+    }
+  }
+]

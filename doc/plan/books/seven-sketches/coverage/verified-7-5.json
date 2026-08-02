@@ -1,0 +1,460 @@
+[
+  {
+    "id": "7sketches:7.4.3:def-predicate",
+    "classification": "PARTIAL",
+    "aliases": [
+      "predicate as a morphism into the subobject classifier (S ~> Ω)",
+      "characteristic / classifying morphism, char",
+      "truth-value object Ω, generic subobject truth : 1 ~> Ω",
+      "membership predicate of a subobject",
+      "internal proposition of a topos"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}."
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 44,
+        "symbol": "SubobjectClassifier",
+        "intree_statement": "Class SubobjectClassifier := { Ω : C; truth : 1 ~> Ω; char {u x : C} (m : u ~> x) (M : Monic m) : x ~> Ω; char_pullback {u x : C} (m : u ~> x) (M : Monic m) : IsPullback (char m M) truth u m one; char_unique {u x : C} (m : u ~> x) (M : Monic m) (h : x ~> Ω) : IsPullback h truth u m one → h ≈ char m M }."
+      },
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 77,
+        "symbol": "FinSet_char_at_true",
+        "intree_statement": "Example FinSet_char_at_true : char point_true point_true_monic fin_true = fin_true := eq_refl."
+      }
+    ],
+    "statement_record": {
+      "book": "In the topos of sheaves on a space X, a predicate on a sheaf S is a sheaf morphism p : S → Ω into the subobject classifier; by the definition of a sheaf morphism it gives, for each open U, a function S(U) → Ω(U), so p applied to a section s over U returns an open subset of U — the region of U on which the predicate holds of s.",
+      "intree": "Class SubobjectClassifier := { Ω : C; truth : 1 ~> Ω; char {u x} (m : u ~> x) (M : Monic m) : x ~> Ω; char_pullback ... : IsPullback (char m M) truth u m one; char_unique ... } together with Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}.",
+      "strength_comparison": "same for the general topos content — a predicate on x is exactly an element of the hom-setoid x ~> Ω, and classifier_classifies asserts these correspond bijectively (as setoids) to subobjects of x; intree-weaker in instantiation: the correspondence is available only for FinSet (Ω = 2, Instance/FinSet/Classifier.v) and as cross-universe theorems for Sets (Instance/Sets/Classifier.v), never for a sheaf topos, so the book's defining unwinding — a predicate assigns to a section over U an OPEN SUBSET of U — has no in-tree instance."
+    },
+    "gap": "Sh(X) is not a topos in-tree. Theory/Sheaf/Category.v builds `Sheaves` only as a full subcategory of presheaves (Sheaves_Incl full+faithful, sheaf_iso_closed); there is no `SubobjectClassifier Sheaves` and no `ElementaryTopos Sheaves` instance (grep for SubobjectClassifier/ElementaryTopos finds instances only in Instance/FinSet/{Classifier,Topos}.v and cross-universe theorems in Instance/Sets/Classifier.v). Consequently the sheaf-level semantics of the definition — Ω(U) = opens of U, p(s) ⊆ U as the region of validity, compatibility with restriction along V ⊆ U — is entirely absent; only the abstract 'predicate = morphism into Ω' half is in force.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL; matches my blind call. Evidence re-opened and quotes checked line by line: Structure/SubobjectClassifier.v:44 is exactly `Class SubobjectClassifier := { Ω; truth : 1 ~> Ω; char {u x} (m : u ~> x) (M : Monic m) : x ~> Ω; char_pullback ...; char_unique ... }` (the record correctly reports char_respects as a derived Lemma at :143, not a field); :187 `Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}` verbatim, ending in Defined. Instance/FinSet/Topos.v:77-78 `Example FinSet_char_at_true : char point_true point_true_monic fin_true = fin_true := eq_refl` verbatim. Gap independently re-verified: `rg -n 'SubobjectClassifier|ElementaryTopos'` yields exactly one topos instance in the whole tree (Instance/FinSet/Topos.v:38 FinSet_Topos); Theory/Sheaf/Category.v defines only Sheaves/Sheaves_Incl/Sheaves_Full/Sheaves_Faithful/sheaf_iso_closed — no classifier, no ElementaryTopos, no Ω(U)=opens. There is also no named `Predicate` abbreviation anywhere (rg -i predicate: 88 hits, none a definition of a predicate as an arrow into Ω). Not size/universe obstructed in principle, so PARTIAL rather than OUT_OF_SCOPE is right. All cited files are in _CoqProject (lines 197, 199, 369, 370). || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.3:ex7.62",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comprehension {s in S | p(s)}",
+      "subobject classified by a predicate",
+      "extension of a predicate / inverse image of truth",
+      "pullback of truth along p (sub_reindex p truth_subobject)",
+      "subsheaf cut out by a predicate"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 159,
+        "symbol": "classifier_char_roundtrip",
+        "intree_statement": "Lemma classifier_char_roundtrip {x : C} (h : x ~> Ω) : char (sub_mono (sub_reindex h truth_subobject)) (sub_is_monic (sub_reindex h truth_subobject)) ≈ h."
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 174,
+        "symbol": "classifier_pullback_roundtrip",
+        "intree_statement": "Lemma classifier_pullback_roundtrip {x : C} (s : SubObj x) : sub_reindex (char (sub_mono s) (sub_is_monic s)) truth_subobject ≈ s."
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 188,
+        "symbol": "fin_select_sat",
+        "intree_statement": "Lemma fin_select_sat {n : nat} (P : Fin.t n → bool) (k : Fin.t (fin_countP P)) : P (fin_select P k) = true."
+      }
+    ],
+    "statement_record": {
+      "book": "A predicate p : S → Ω determines, by subobject classification, a subobject of S written {s in S | p(s)} (the comprehension of S along p); describe the sections of that subsheaf over an arbitrary open U.",
+      "intree": "`sub_reindex h truth_subobject` is the comprehension of a predicate h : x ~> Ω (the pullback of the generic subobject truth along h), and the two round trips assert it is inverse to classification: classifier_char_roundtrip : char (sub_mono (sub_reindex h truth_subobject)) ... ≈ h, and classifier_pullback_roundtrip : sub_reindex (char (sub_mono s) (sub_is_monic s)) truth_subobject ≈ s. In the FinSet topos the comprehension is computed: fin_select_sat asserts every member of the cut-out subset fin_countP P satisfies P (with fin_select_rank giving the converse).",
+      "strength_comparison": "same for the operation itself (comprehension = pullback of truth along the predicate, proved to be the inverse of char); intree-weaker for the exercise's actual demand: the members of the comprehension are described only in FinSet, and there in boolean form (P i = true) rather than as sections; there is no sheaf-level answer 'sections of {S | p} over U are the s ∈ S(U) with p(s) = U'."
+    },
+    "gap": "No sheaf topos in-tree (see 7.4.3:def-predicate), so the exercise's answer — the sections of the comprehension over U are exactly those s ∈ S(U) with p(s) = U (equivalently, the s whose region of validity is all of U) — is not stated anywhere. Also, no notation or API is given for comprehension: it exists only as the composite `sub_reindex h truth_subobject`, with no dedicated symbol, no membership lemma at the level of a general topos, and no elementwise/generalized-element characterization of its domain.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL; matches my blind call. Quotes at Structure/SubobjectClassifier.v:159 (classifier_char_roundtrip) and :174 (classifier_pullback_roundtrip) are verbatim, and the record's reading of `sub_reindex h truth_subobject` as the comprehension is correct: Theory/Subobject/Functor.v:35 defines sub_reindex as the chosen pullback of a subobject, and truth_subobject (SubobjectClassifier.v:72) is (1, truth, truth_monic), so the composite IS the pullback of the generic subobject along the predicate. Instance/FinSet/Classifier.v:188 quote checked verbatim (`Lemma fin_select_sat {n} (P : Fin.t n → bool) (k : Fin.t (fin_countP P)) : P (fin_select P k) = true`), and fin_select_rank at :201 is the converse the record claims. Gap independently confirmed: `rg -i comprehension --glob '*.v'` = 0 hits tree-wide, so there is no notation, no membership lemma, and no elementwise description; and with no sheaf topos there is no sections-over-U answer. Honest strength_comparison. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.3:eq7.63",
+    "classification": "PARTIAL",
+    "aliases": [
+      "poset of predicates (Hom(S,Ω), ≤)",
+      "entailment order p ⊢ q on predicates",
+      "subobject preorder / factorization order (sub_le)",
+      "Sub(S) as a partial order; antisymmetry by mutual factorization",
+      "propositions as morphisms 1 ~> Ω"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Subobject.v",
+        "line": 93,
+        "symbol": "sub_equiv_iff_mutual",
+        "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u)."
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}."
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 67,
+        "symbol": "sub_le_trans",
+        "intree_statement": "Lemma sub_le_trans (u v w : SubObj x) : sub_le u v → sub_le v w → sub_le u w.  (with sub_le u v := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u } and sub_le_refl)"
+      }
+    ],
+    "statement_record": {
+      "book": "Pred_S := (Hom_{Sh(X)}(S, Ω), ≤), where p ≤ q iff for every open U and every section s ∈ S(U) the open p(s) is contained in q(s) (also written p ⊢ q). The relation is antisymmetric — mutual containment of opens is equality — so this is a genuine partial order; when S = 1 its elements are called propositions, i.e. morphisms 1 → Ω.",
+      "intree": "Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }, with sub_le_refl / sub_le_trans, and Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u); Theorem classifier_classifies (x : C) : SubObj x ≅ (x ~> Ω) in Sets.",
+      "strength_comparison": "intree-weaker in placement, same in content on the subobject side: the entailment order is defined on SubObj x (factorization of monos), where sub_equiv_iff_mutual is exactly the book's antisymmetry (mutual entailment = equality in the quotient) and sub_le_refl/sub_le_trans make it a preorder. The identification of predicates with subobjects (classifier_classifies) is an isomorphism of SETOIDS ONLY — the order is never transported across it, so the hom-setoid x ~> Ω carries no in-tree order relation, and 'Sub : C^op ⟶ Sets' (Theory/Subobject/Functor.v:180) lands in Sets rather than in a category of posets."
+    },
+    "gap": "Three precise gaps. (1) No order is defined on the object of predicates: `sub_le` lives on SubObj x, and nothing in-tree defines p ≤ q for p q : x ~> Ω, nor transports sub_le along classifier_classifies (which is only an iso of setoids; grep shows `sub_le` has ZERO uses outside Theory/Subobject.v). (2) The book's defining formula for the order — pointwise containment over all opens U and all sections s — has no counterpart, since no sheaf topos exists in-tree. (3) The `Sub` functor is Sets-valued, not poset-valued, so the order is not part of any functorial structure; and the S = 1 specialization ('propositions are morphisms 1 ~> Ω') is never named, though `truth : 1 ~> Ω` and Instance/FinSet/Topos.v's `point_true : 1 ~> 2` are instances of that shape.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL; matches my blind call. Theory/Subobject.v:59 sub_le, :62 sub_le_refl, :67 sub_le_trans, :78 sub_le_unique, :93 sub_equiv_iff_mutual — all quotes verbatim, and sub_equiv_iff_mutual really is the book's antisymmetry (mutual factorization ⇔ equality in the SubObj setoid quotient). The load-bearing negative claim in the gap, `sub_le has ZERO uses outside Theory/Subobject.v`, I re-ran independently: `rg -n 'sub_le' --glob '*.v' . | grep -v Theory/Subobject.v` returns nothing. Theory/Subobject/Functor.v:180 `Sub : C^op ⟶ Sets` confirmed Sets-valued (not poset-valued), so the order is indeed carried by no functorial structure, and classifier_classifies is an iso of SETOIDS with no order transport. The S=1 specialization ('propositions = 1 ~> Ω') is genuinely unnamed: the only 1 ~> Ω arrows in-tree are `truth` and FinSet's point_true. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.3:ex7.64",
+    "classification": "ABSENT",
+    "aliases": [
+      "example of entailment p ⊢ q between predicates",
+      "witness/instance of sub_le (one subobject contained in another)",
+      "concrete subobject inclusion in a topos",
+      "nested opens as an entailment example",
+      "worked example of the predicate order"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" \"sub_le\" . | grep -v Theory/Subobject.v  -- 0 hits: the entailment order defined in Theory/Subobject.v is never instantiated, applied, or witnessed anywhere else in the tree",
+      "grep -rn --include=\"*.v\" -i \"entail\" .  -- 13 hits, ALL prose in header essays (Instance/Props.v 'propositions ordered by entailment', Instance/Poset.v, Structure/Topos.v); no Definition/Lemma/Example exhibiting an entailment between two predicates",
+      "grep -rn --include=\"*.v\" -i \"turnstile\" .  -- 0 hits; grep for '⊢' -- 32 hits, all typing judgements in Instance/Lambda/* (Instance/Lambda/Log.v etc.), unrelated to predicate entailment",
+      "grep -n -E \"^(Definition|Lemma|Theorem|Example|Program Definition)\" Instance/FinSet/Topos.v  -- the only worked topos examples are FinSet_Pow_two, FinSet_Pow_zero, FinSet_truth_computes, FinSet_char_at_true, FinSet_char_at_false, FinSet_Pow_membership: single predicates evaluated at points, never a PAIR of predicates with one below the other",
+      "grep -rn --include=\"*.v\" -E \"SubobjectClassifier|ElementaryTopos\" .  -- classifier instances exist only for FinSet and (cross-universe) Sets; no space X, no sheaf S, hence no candidate site for the exercise's example",
+      "Nearest in-tree material: sub_le_refl (Theory/Subobject.v:62) gives the trivial entailment u ⊢ u, but that is the reflexivity law rather than the exercise's requested nontrivial instance."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. I re-ran the decisive searches: sub_le has no use outside its defining file (so the order is never witnessed); no classifier exists on Sheaves; Instance/FinSet/Topos.v contains only single-predicate point evaluations. TWO LOG INACCURACIES, neither affecting the verdict: (i) the entailment grep line says '13 hits, ALL prose in header essays' — the count 13 is right but two hits are LEMMA NAMES, Instance/Coq/Comonad/Store.v:167 coq_store_map_proper_entails_funext and Instance/Coq/Comonad/Traced.v:194 coq_traced_map_proper_entails_funext (both about funext, unrelated to predicate entailment); (ii) the '⊢' hits are in Instance/Lambda/{Sub,Exp,Sound}.v and Construction/Arrow.v:101, not only Log.v. The nearest-material remark (sub_le_refl gives only the trivial entailment) is accurate. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.3:remark-heyting-predicates",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Heyting algebra of predicates / subobject lattice",
+      "bicartesian closed poset (Heyting prealgebra)",
+      "pointwise connectives on predicates (∧, ∨, ⇒, ¬, ⊤, ⊥)",
+      "meets and joins in the entailment order",
+      "internal logic / Mitchell-Bénabou language of a topos"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |}; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }.  (Q ^ P = P → Q; exp_iso is the deduction-theorem adjunction (- ∧ P) ⊣ (P → -))"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }.  (P × Q = P ∧ Q is the meet in the entailment order)"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }.  (P + Q = P ∨ Q is the join)"
+      }
+    ],
+    "statement_record": {
+      "book": "All the logical symbols of §7.4.2 (⊤, ⊥, ∧, ∨, ⇒, ¬) extend to predicates on any sheaf S by computing pointwise — (p ∧ q)(s) := p(s) ∧ q(s), etc. With respect to the order of (7.63), ∧ is the meet and ∨ the join in the sense of Chapter 1; and the poset of predicates on S is a Heyting algebra (the term is not defined, deferred to further reading).",
+      "intree": "Props is the thin category of propositions ordered by implication, equipped with Props_Terminal (⊤ = True), Props_Initial (⊥ = False), Props_Cartesian (∧ = product = meet), Props_Cocartesian (∨ = coproduct = join) and Props_Closed (⇒ = exponential, via the currying iso Hom(R ∧ P, Q) ≅ Hom(R, P → Q)) — i.e. a bicartesian closed thin category, which is exactly a Heyting prealgebra.",
+      "strength_comparison": "intree-weaker on carrier and on pointwise-ness. What is proved is that the TRUTH VALUES themselves (Prop, ordered by implication) form a Heyting prealgebra — the S = 1 case of the book's claim, and in the Set-like setting only. Nothing asserts that predicates on a general object S, i.e. the hom-setoid S ~> Ω or SubObj S in a topos, carry any of these operations; there is no Heyting-algebra CLASS in the library (Props is an instance of Cartesian/Cocartesian/Closed, not of a named Heyting structure), and the pointwise extension of connectives from Ω to predicates is nowhere performed. Negation ¬p = (p ⇒ ⊥) is derivable from Props_Closed + Props_Initial but is not stated."
+    },
+    "gap": "The Heyting structure is proved only on the truth-value poset Props (Prop with implication), never on Pred(S) = (S ~> Ω) or on SubObj S. Specifically missing: (i) any binary operation on predicates in a topos and any proof that ∧ is the meet / ∨ the join for `sub_le` (grep for 'meet'/'join'/'lattice' finds only the monad multiplication `join`, no order-theoretic meet or join anywhere in the tree); (ii) a Heyting-algebra class or the theorem 'Sub(S) is a Heyting algebra in any elementary topos' (grep -i heyting: 7 hits, all header prose, including Structure/Topos.v:81 which states the fact only as background); (iii) the pointwise mechanism itself — Instance/Fun/Cartesian.v gives pointwise PRODUCTS in a functor category but no pointwise exponentials or coproducts, and in any case that concerns presheaves, not predicates on a fixed sheaf.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL, but flagged as sitting on the PARTIAL/ABSENT boundary — my blind call was ABSENT-leaning. All three Instance/Props.v quotes (:69 Props_Cartesian, :80 Props_Cocartesian, :94 Props_Closed) are verbatim and the file really does assemble a bicartesian closed thin category = Heyting prealgebra. What tips it to PARTIAL is that the record's strength_comparison already states the whole weakness in the open: the carrier is Coq's Prop ordered by implication, NOT Pred(S) = (S ~> Ω) nor SubObj S, and no pointwise extension is performed. I independently confirmed every negative in the gap: `rg -i heyting` = 7 hits, all header prose (Theory/Lawvere.v:87, Theory/Sheaf.v:85, Instance/Two.v:86, Structure/Topos.v:81, Instance/Props.v:15/17/27) — there is no Heyting class; `rg -i '\\bmeet\\b|\\blattice\\b'` finds no order-theoretic meet, and every `join` hit is monad multiplication; Instance/Fun/ contains ONLY Cartesian.v (Functor_Category_Cartesian at :111), so the 'pointwise products but no pointwise exponentials or coproducts' claim is exactly right. Props is also never connected to Instance/Sets/Classifier.v's PropSetoid or to any Ω. Phase E must treat the remark's actual content (pointwise connectives on predicates, ∧ = meet / ∨ = join for the entailment order, Sub(S) Heyting in any topos) as entirely unformalized. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.4:example7.65",
+    "classification": "ABSENT",
+    "aliases": [
+      "quantification of a two-variable predicate over sheaves",
+      "quantifier as an operation Hom(S × T, Ω) → Hom(S, Ω)",
+      "n+1-ary predicate reduced to n-ary predicate",
+      "∀_T p and ∃_T p along a projection",
+      "worked example of ∀/∃ in a sheaf topos"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"quantif|hyperdoctrine|beck.?chevalley\" .  -- ~30 hits, ALL prose: Theory/Adjunction.v:75-77 and Instance/Poset.v:70 mention Lawvere's adjoint triple ∃ ⊣ substitution ⊣ ∀ over a hyperdoctrine in header essays only; every other hit is the unrelated Coq sense of 'quantified over' in Multicategory/Displayed files",
+      "grep -rn --include=\"*.v\" -E \"forall_quant|exists_quant|univ_quant\" .  -- 0 hits",
+      "grep -rn --include=\"*.v\" -i \"internal language|Mitchell|Bénabou\" .  -- prose only (Structure/Topos.v:84 names the Mitchell-Bénabou language and says 'its quantifiers appearing as adjoint functors' as background, with no development)",
+      "grep -rn --include=\"*.v\" -E \"SubobjectClassifier|ElementaryTopos\" .  -- no operation on Hom(x × y, Ω) is defined anywhere; Structure/Topos.v exports only Pow and relations_iso",
+      "Nearest in-tree material: Structure/Topos.v:146 relations_iso : SubObj (a × b) ≅ (a ~> Pow b) handles TWO-VARIABLE predicates and their currying, which is the setting of the example, but performs no quantification — it transposes the second variable into an exponential rather than eliminating it."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. Independently verified: no operation of type Hom(x × y, Ω) → Hom(x, Ω) exists; every 'quantif' hit is either header prose (Theory/Adjunction.v:75-76 names the hyperdoctrine triple ∃ ⊣ subst ⊣ ∀ as background, Instance/Poset.v, Structure/Topos.v:84) or the unrelated Coq sense of 'quantified over'. The nearest-material pointer is accurate and honest: Structure/Topos.v:146 relations_iso does exist and does handle two-variable predicates by currying (SubObj (a × b) ≅ (a ~> Pow b)), transposing rather than eliminating the second variable. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.4:ex7.66",
+    "classification": "ABSENT",
+    "aliases": [
+      "quantifiers in the topos Set (Ω = booleans)",
+      "{n : ∀ z, P(n,z)} and {n : ∃ z, P(n,z)}",
+      "decidable bounded quantification over a finite type",
+      "∀/∃ of a boolean predicate on a product",
+      "quantifier computation example"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E \"forall_quant|exists_quant|univ_quant\" .  -- 0 hits; no quantifier operation on predicates exists to be evaluated on an example",
+      "grep -rn --include=\"*.v\" -iE \"forallb|fin_forall\" Instance/FinSet/  -- 0 hits: there is no universal-search counterpart at all",
+      "Instance/FinSet/Classifier.v:82,94 fin_existsb_sound/fin_existsb_complete DO assert a bounded existential search (fin_existsb P = true → ∃ i, P i = true, and its converse), but they are Coq-level helper lemmas used to define char; they are not an operation on predicates of the topos, carry no universal companion, and are confined to finite types, so the exercise's Set-level ℕ × ℤ computation has no counterpart",
+      "grep -rn --include=\"*.v\" -E \"SubobjectClassifier|ElementaryTopos\" .  -- Sets has no classifier instance at all (Instance/Sets/Classifier.v proves cross-universe theorems only), so 'the topos of sets with Ω = booleans' is not available as a setting for the exercise",
+      "grep -rn --include=\"*.v\" -i \"predicate\" . (88 hits) -- none defines a predicate on a product of number objects, and the library has no natural number object or integer object (no NNO grep hit) to state the exercise's predicate n ≤ |z| over"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. Checks re-run: `rg -i 'forallb|fin_forall' Instance/FinSet/` = 0 hits (no universal-search counterpart to fin_existsb, exactly as claimed); Instance/FinSet/Classifier.v:82/94 fin_existsb_sound/fin_existsb_complete are indeed Coq-level helpers feeding char, not operations on topos predicates; `rg -i 'natural number object|\\bNNO\\b'` = 0 hits tree-wide, confirming there is no object over which to state n ≤ |z|; and Sets has no classifier INSTANCE (Instance/Sets/Classifier.v proves cross-universe theorems sets_char_pullback / sets_char_unique / sets_char_subobject only), so 'the topos of sets with Ω = 2' is not available as a setting. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.4:def-universal-quantification",
+    "classification": "ABSENT",
+    "aliases": [
+      "universal quantification ∀_T of a predicate along a sheaf",
+      "right adjoint to pullback/weakening along a projection (Π_f, dependent product)",
+      "largest open V on which the predicate holds for all sections",
+      "pullback of truth-transpose along the curried predicate (via Ω^T)",
+      "∀ as a pullback square with the exponential Ω^T"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E \"forall_quant|univ_quant\" .  -- 0 hits",
+      "grep -rn --include=\"*.v\" -iE \"quantif|hyperdoctrine\" .  -- prose only; Theory/Adjunction.v:75-77 mentions ∃ ⊣ substitution ⊣ ∀ over a hyperdoctrine purely as background",
+      "grep -n -E \"^(Program Definition|Definition|Instance|Lemma|Theorem)\" Construction/Slice/Pullback.v  -- the base-change spine stops short: Bang_Functor (Σ_f) and Star_Functor (f*) are defined, but the adjunction Σ_f ⊣ f* is COMMENTED OUT (lines 121-127, `Base_Functor_Adjunction` stub) and the further right adjoint Π_f (dependent product), which is the categorical universal quantifier, is not defined at all — the header at line 37 explicitly leaves Σ_f ⊣ f* ⊣ Π_f as a remark",
+      "grep -rn --include=\"*.v\" -i \"dependent product\" .  -- 3 hits, all header prose (Construction/Slice.v:96, Structure/Pullback.v:128, Construction/Slice/Pullback.v:37)",
+      "grep -rn --include=\"*.v\" -E \"Ω *~>|Ω *×\" .  -- 2 hits, both comments; no morphism into or out of Ω is constructed beyond truth and char",
+      "Ingredients exist but are never assembled: Structure/Topos.v gives Pow a := Ω ^ a (line 129) and relations_iso (line 146) = the currying transpose SubObj (a × b) ≅ (a ~> Pow b) that the book's pullback square uses as its bottom leg, plus HasPullbacks and truth in the ElementaryTopos class; nothing forms the pullback that DEFINES ∀, and no statement asserts any universal-quantifier property."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. The Slice claims are the load-bearing ones and I checked them in the file: Construction/Slice/Pullback.v:50 Bang_Functor (Σ_f) and :67 Star_Functor (f*) are the ONLY live definitions in the file; `Base_Functor_Adjunction` is a fully commented-out stub beginning at line 121; and the header at lines 30-40 does leave Σ_f ⊣ f* ⊣ Π_f as a remark, with Π_f never defined. So the categorical universal quantifier is missing at both levels (as Π_f and as the book's Ω^T pullback). The ingredient inventory in the last log line is accurate: Structure/Topos.v:129 Pow and :146 relations_iso exist and are exactly the transpose the book's bottom leg uses, but nothing forms the pullback. Not OUT_OF_SCOPE: the library has pullbacks, exponentials and Ω in ElementaryTopos, so the definition is statable as written. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.4:ex7.67",
+    "classification": "ABSENT",
+    "aliases": [
+      "worked example of universal quantification on a sheaf predicate",
+      "largest subinterval on which a predicate holds for all sections",
+      "∀ applied to a concrete two-variable predicate",
+      "sanity check of the ∀ definition against its informal reading",
+      "universal quantifier example in Sh(X)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E \"forall_quant|univ_quant|exists_quant\" .  -- 0 hits: the operation the exercise applies does not exist in-tree (see 7.4.4:def-universal-quantification)",
+      "grep -rn --include=\"*.v\" -E \"SubobjectClassifier|ElementaryTopos\" .  -- classifier instances exist only for FinSet and cross-universe Sets; Theory/Sheaf/Category.v's `Sheaves` has neither, so no sheaf on an interval is available to evaluate the quantifier on",
+      "grep -rn --include=\"*.v\" -i \"sections over\" .  -- 0 hits; grep -i \"restriction map\" -- 3 hits, all prose in Theory/Sheaf.v and Theory/Sheaf/Category.v headers; the sheaf-of-sections-over-an-interval vocabulary the exercise needs is not developed",
+      "grep -n -E \"^(Definition|Lemma|Theorem|Example)\" Instance/FinSet/Topos.v  -- the only worked topos examples are Pow/truth/char point evaluations; none quantifies"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. The operation the exercise applies does not exist (see def-universal-quantification), and there is no sheaf topos to evaluate it in (only FinSet_Topos exists; Sheaves carries no classifier). Sheaf-of-sections-over-an-interval vocabulary is likewise undeveloped: Theory/Sheaf.v's Site/Sheaf classes are stated over an abstract category C with a vector-indexed covering family, never over a topological space. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.4:def-existential-quantification",
+    "classification": "ABSENT",
+    "aliases": [
+      "existential quantification ∃_T of a predicate along a sheaf",
+      "left adjoint to pullback / direct image along a projection (Σ_f)",
+      "union of opens with local witnesses (covering-sensitive ∃)",
+      "epi-mono (image) factorization of the composite subobject → S",
+      "direct image of a subobject along a projection"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E \"exists_quant|forall_quant|univ_quant\" .  -- 0 hits",
+      "grep -rn --include=\"*.v\" -iE \"quantif|hyperdoctrine|beck.?chevalley\" .  -- prose only (Theory/Adjunction.v:75-77, Instance/Poset.v:70, Comonad/Coalgebra.v:94)",
+      "grep -n -E \"^(Program Definition|Definition|Instance)\" Construction/Slice/Pullback.v  -- Bang_Functor (Σ_f, post-composition) is defined but its adjunction to base change is commented out (lines 121-127); nothing states that Σ_f computes an existential quantifier, and it acts on slices, not on subobjects or predicates",
+      "grep -rn --include=\"*.v\" -E \"^(Definition|Lemma|Theorem|Instance).*[Ii]mage\" .  -- image factorizations DO exist (Structure/Regular/Factorization.v image_obj + Regular_OFS, Structure/Abelian.v abelian_image / image_mediator_epic, Instance/Sets/Image.v Sets_Image_Factorization), i.e. the third step of the book's abstract recipe is available machinery; but no elementary topos is shown to be regular (no `Regular C` instance derived from ElementaryTopos), and no lemma anywhere factors a subobject-composed-with-projection or names the result an existential quantifier",
+      "grep -rn --include=\"*.v\" -i \"comprehension\" .  -- 0 hits; the recipe's first step (the subobject classified by p) exists only as the unnamed composite sub_reindex p truth_subobject",
+      "The covering-sensitivity the book stresses (∃ yields a cover with local witnesses, not a global section) has no counterpart: Theory/Sheaf.v's Site/Sheaf classes are never connected to any classifier or quantifier."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. I checked the ingredient claims rather than taking them: Structure/Regular/Factorization.v:132 image_obj / :270 regular_factorization / :282 Regular_OFS, Structure/Abelian.v:261 abelian_image_obj / :264 abelian_image, Instance/Sets/Image.v:143 Sets_Image_Factorization all exist — so the epi-mono step of the book's recipe is genuinely available machinery — but `Class Regular` (Structure/Regular.v:66) has no instance derived from ElementaryTopos, and no lemma anywhere factors mono-then-projection or names the result ∃. `rg -i comprehension` = 0 hits confirms the recipe's first step is unnamed too. The covering-sensitivity point is right: Theory/Sheaf.v's covering_family is never joined to any classifier. Ingredients are not the item, so ABSENT (not PARTIAL) is the correct call under the frozen definitions. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.4:ex7.68",
+    "classification": "ABSENT",
+    "aliases": [
+      "worked example of existential quantification on a sheaf predicate",
+      "∃ applied to a concrete two-variable predicate",
+      "union of opens carrying local witnesses",
+      "sanity check of the ∃ definition against its expected semantics",
+      "existential quantifier example in Sh(X)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E \"exists_quant|forall_quant|univ_quant\" .  -- 0 hits: the operation the exercise applies does not exist in-tree (see 7.4.4:def-existential-quantification)",
+      "grep -rn --include=\"*.v\" -E \"SubobjectClassifier|ElementaryTopos\" .  -- no classifier on Theory/Sheaf/Category.v's `Sheaves`, so no sheaf topos in which to evaluate the example",
+      "grep -rn --include=\"*.v\" -i \"predicate\" .  (88 hits) -- none is a predicate on a product of two sheaves; the only concrete predicates in a topos are Instance/FinSet/Topos.v's char point_true evaluations, on a single finite variable",
+      "grep -rn --include=\"*.v\" -i \"local witness|covering family\" .  -- covering_family appears only inside Theory/Sheaf.v's Site class; it is never used to witness an existential statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. Same two-fold obstruction as ex7.67, re-verified independently: no ∃ operation in-tree, and no sheaf topos in which to name predicates on a product of two sheaves. The log's characterization of Instance/FinSet/Topos.v's examples (char point_true evaluations at points, single finite variable) is accurate — I read lines 60-95. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.5:def7.69",
+    "classification": "ABSENT",
+    "aliases": [
+      "modality / Lawvere-Tierney topology j : Ω → Ω",
+      "local operator, geometric modality, nucleus",
+      "closure operator on the truth-value object (inflationary + idempotent + meet-preserving)",
+      "monad on the poset of truth values",
+      "j-operator cutting out a subtopos"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"lawvere.?tierney\" .  -- 2 hits, BOTH prose: Structure/Topos.v:34 (a Wikipedia URL in the header) and Structure/Topos.v:86-89, which states 'Lawvere and Tierney observed that a Grothendieck topology is encoded by an idempotent, finite-meet-preserving endomorphism j : Ω ~> Ω' purely as background essay — there is no Class, Record, Definition or Lemma for it",
+      "grep -rn --include=\"*.v\" -i \"modality\" .  -- 4 hits, all prose: Comonad/CoKleisli.v:50,87 and Comonad/Core.v:99 (the linear-logic exponential modality !), Construction/Localization.v:119 (reflective modality, citing Rijke-Shulman-Spitters)",
+      "grep -rn --include=\"*.v\" -iE \"local operator|nucleus|inflationary|closure operator\" .  -- only Instance/Poset.v:48,64,66,68 header prose ('a monad is a closure operator'); no definition",
+      "grep -rn --include=\"*.v\" -E \"Ω *~>|Ω *×\" .  -- 2 hits, both comments; no endomorphism of Ω is ever constructed, and Ω appears in code only as the classifier field, in Pow := Ω ^ a, and in relations_iso",
+      "grep -rn --include=\"*.v\" -iE \"\\bmeet\\b|\\blattice\\b\" .  -- no order-theoretic meet exists, so the meet-preservation condition (c) could not even be stated as written",
+      "Nearest in-tree material: Construction/Reflective/Idempotent.v:81 Class IdempotentMonad is the categorified form of a modality (a modality on Ω is an idempotent monad on a poset object), but it is a monad on a CATEGORY, requires no relation to Ω or to a topos, and none of its instances is an endomorphism of a truth-value object."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. Re-verified the decisive negatives: `rg -i 'lawvere.?tierney'` = 2 hits, both in Structure/Topos.v's header essay (:34 a Wikipedia URL, :86-89 the background sentence 'a Grothendieck topology is encoded by an idempotent, finite-meet-preserving endomorphism j : Ω ~> Ω') — no Class/Record/Definition/Lemma; `rg -i modality` = 4 hits, all prose about the linear-logic ! and reflective modalities; `rg -i 'nucleus|local operator|inflationary'` = 0 code hits; no endomorphism of Ω is constructed anywhere (Ω occurs in code only as the classifier field, in Pow := Ω ^ a, and in relations_iso). I additionally searched for locale/frame/complete-lattice theory (an alternative home for a nucleus) — 0 relevant hits. The IdempotentMonad pointer (Construction/Reflective/Idempotent.v:81) is accurate and correctly labelled as a monad on a CATEGORY, unrelated to Ω. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.5:ex7.70",
+    "classification": "ABSENT",
+    "aliases": [
+      "idempotence from the inflationary law (j∘j ≤ j ⟺ j∘j = j)",
+      "antisymmetry argument for a closure operator",
+      "j² ≤ j implies j² = j given p ≤ j p",
+      "poset antisymmetry applied to a modality",
+      "idempotence of a closure/nucleus"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"lawvere.?tierney|modality|local operator|nucleus|inflationary\" .  -- prose only (see 7.4.5:def7.69); with no j : Ω ~> Ω in-tree there is nothing to state the equivalence about",
+      "grep -rn --include=\"*.v\" -E \"Ω *~>\" .  -- no endomorphism of the subobject classifier is defined anywhere",
+      "grep -rn --include=\"*.v\" -iE \"antisymmetr\" .  -- 0 hits for a named antisymmetry law; the only in-tree instance of the argument pattern is Theory/Subobject.v:93 sub_equiv_iff_mutual (u ≈ v ↔ sub_le u v * sub_le v u), which supplies the generic 'mutual ≤ gives =' step the exercise relies on, but for SUBOBJECTS rather than for truth values, and it is not applied to any operator",
+      "grep -rn --include=\"*.v\" -iE \"idempoten\" . | grep -v Reflective  -- idempotence appears only for split idempotents (Construction/Karoubi.v) and idempotent monads (Construction/Reflective/Idempotent.v), never for an endomorphism of a truth-value object"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. With no j : Ω ~> Ω in-tree there is nothing to state the equivalence about, and no order on predicates either (sub_le is unused outside its file). ONE LOG INACCURACY, not affecting the verdict: the line \"grep -iE 'antisymmetr' -- 0 hits for a named antisymmetry law\" is wrong — `rg -in antisym` returns 10 hits in Test/Poset.v (registered in _CoqProject:482), including the named law `poset_nat_antisym : Antisymmetric nat eq PeanoNat.Nat.le` (Test/Poset.v:99-100) and the `Antisymmetric` hypothesis of the Poset instance. That antisymmetry is about (nat, ≤) in Instance/Poset.v's Poset, not about truth values or a closure operator, so the exercise remains ABSENT; the record's substantive nearest-material pointer (sub_equiv_iff_mutual as the generic 'mutual ≤ gives =' step) stands. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.5:prop7.71",
+    "classification": "ABSENT",
+    "aliases": [
+      "three modalities from a fixed proposition p",
+      "open modality (p ⇒ -), closed modality (p ∨ -), relative double negation ((- ⇒ p) ⇒ p)",
+      "reader/continuation monad on the truth-value poset",
+      "double-negation topology / ¬¬-modality",
+      "Lawvere-Tierney topologies induced by a proposition"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"lawvere.?tierney|modality|local operator|nucleus\" .  -- prose only (see 7.4.5:def7.69); the notion the proposition instantiates does not exist in-tree, so none of its three witnesses can be stated",
+      "grep -rn --include=\"*.v\" -iE \"double negation|not_not|neg_neg|¬¬\" .  -- 0 hits: relative or absolute double negation is nowhere formalized",
+      "grep -rn --include=\"*.v\" -E \"Ω *~>|Ω *×\" .  -- no endomorphism of Ω exists; Instance/Props.v (the truth-value poset) has Props_Closed and Props_Cocartesian, so the OPERATIONS q ↦ (p ⇒ q) and q ↦ (p ∨ q) are expressible there, but no instance fixes p and proves the three modality laws",
+      "grep -rn --include=\"*.v\" -iE \"reader\" Theory/Coq/ Instance/Coq/  -- Theory/Coq/Monad.v:154 defines the reader monad 'arrow x = (x → -)', which is the categorified form of clause (a) (its ret is the inflationary law and its join the idempotence law); but it is a monad on the category of Coq types, carries no relation to a subobject classifier or to a poset of truth values, and asserts nothing about meet preservation",
+      "grep -rn --include=\"*.v\" -iE \"\\bmeet\\b\" .  -- no order-theoretic meet, so 'j preserves binary conjunction' has no in-tree form"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. The three modalities cannot be stated because the notion they instantiate is absent (see def7.69). I verified the two nuanced log claims: Instance/Props.v does make q ↦ (p ⇒ q) and q ↦ (p ∨ q) expressible (Props_Closed :94, Props_Cocartesian :80) yet no instance fixes p or proves any modality law; and Theory/Coq/Monad.v does define the reader monad at lines 154-162 as `Instance arrow_Monad x : Monad (arrow x)`, correctly described as the categorified form of clause (a) with no relation to a classifier and no meet-preservation content. `rg -i 'double negation|not_not|¬¬'` = 0 hits, so clause (c)'s relative double negation is likewise absent. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  },
+  {
+    "id": "7sketches:7.4.5:ex7.72",
+    "classification": "ABSENT",
+    "aliases": [
+      "worked example unwinding a modality on a sheaf of people",
+      "checking the modality axioms on a concrete j",
+      "j applied to a predicate: inflationary, idempotent, meet-preserving on an example",
+      "'assuming p' modality evaluated pointwise",
+      "modality example in Sh(X)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"lawvere.?tierney|modality|local operator|nucleus\" .  -- prose only (see 7.4.5:def7.69); with no modality in-tree there is nothing to unwind on an example",
+      "grep -rn --include=\"*.v\" -E \"SubobjectClassifier|ElementaryTopos\" .  -- classifier instances exist only for FinSet and cross-universe Sets; Theory/Sheaf/Category.v's `Sheaves` has none, so there is no sheaf topos in which to name a predicate on a sheaf S and apply j to it",
+      "grep -n -E \"^(Definition|Lemma|Theorem|Example)\" Instance/FinSet/Topos.v  -- the only worked topos examples (FinSet_char_at_true/false, FinSet_Pow_membership) evaluate char and eval at points; none composes a predicate with an endomorphism of Ω or checks p ≤ j p, j³ = j², or j(p ∧ q) = j p ∧ j q",
+      "grep -rn --include=\"*.v\" \"sub_le\" . | grep -v Theory/Subobject.v  -- 0 hits, so even part (4)'s comparison p ≤ j p has no order in-tree to be checked against for predicates"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; matches my blind call. Every leg of the exercise is blocked and I checked each independently: no modality (def7.69), no classifier on Sheaves so no sheaf of people, no order on predicates for part (4) (sub_le unused outside Theory/Subobject.v), and no meet on truth values for part (6). Instance/FinSet/Topos.v's examples (FinSet_char_at_true/false at :77/:80, FinSet_Pow_membership at :91) evaluate char and eval at points and compose nothing with an endomorphism of Ω — read and confirmed. || BLIND PASS (run before opening coverage-7-5.json), aliases expanded per item and searched whole-tree with rg over *.v: heyting | lawvere.tierney | modalit | nucleus | 'closure operator' | 'local operator' | inflationary | quantif | hyperdoctrine | beck-chevalley | 'base change' | 'internal logic' | 'internal language' | Mitchell | Benabou | predicate | Pred | comprehension | entail | turnstile | 'double negation' | not_not | sieve | dense | 'j-closed' | meet | join | lattice | locale | frame | 'complete lattice' | 'natural number object' | NNO | antisym | Sieve/Site/Topology, plus symbol listings of Structure/{SubobjectClassifier,Topos,Regular,Regular/Factorization}.v, Theory/{Subobject,Subobject/Functor,Sheaf,Sheaf/Category}.v, Instance/{Props,Two,Poset}.v, Instance/FinSet/{Classifier,Topos}.v, Instance/Sets/{Classifier,Image}.v, Construction/{Slice,Slice/Pullback,Reflective/Idempotent}.v, and a _CoqProject registration check for every cited file (all registered). My independent classifications before reading Phase C: def-predicate PARTIAL, ex7.62 PARTIAL, eq7.63 PARTIAL, ex7.64 ABSENT, remark-heyting-predicates ABSENT-or-PARTIAL (boundary), example7.65 ABSENT, ex7.66 ABSENT, def-universal-quantification ABSENT, ex7.67 ABSENT, def-existential-quantification ABSENT, ex7.68 ABSENT, def7.69 ABSENT, ex7.70 ABSENT, prop7.71 ABSENT, ex7.72 ABSENT. That agrees with Phase C on 15/15."
+    }
+  }
+]

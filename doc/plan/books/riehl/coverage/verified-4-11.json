@@ -1,0 +1,355 @@
+[
+  {
+    "id": "riehl:4.7:lem11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "initial object from a coseparating set",
+      "cogenerating family / cogenerator / coseparator (this library's spelling: Cogenerator, cog_separates)",
+      "intersection of subobjects / wide pullback of monos / meet in the subobject preorder",
+      "well-powered + complete + cogenerator ⇒ Initial C",
+      "the object-level engine of SAFT (dual: separator + cointersections ⇒ terminal object)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 223,
+        "symbol": "cogenerator_canonical_monic",
+        "intree_statement": "Lemma cogenerator_canonical_monic {C : Category} (comp : @Complete C) (G : Cogenerator C) (c : C) : Monic (cogen_canonical comp G c). — the canonical map c ~> ∏_{(j,k)} cog_obj G j into the hom-indexed power of the cogenerating family, whose (j,k)-component is k itself, is monic; proved from cog_separates."
+      },
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 89,
+        "symbol": "initial_from_weakly_initial",
+        "intree_statement": "Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C) (P : Limit (DiscreteCat_Functor (wif_obj W))) (Pe : Limit (DiscreteCat_Functor (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P) => iprod (wif_obj W) P))) (E : HasEqualizers C) : @Initial C. — the in-tree route to the item's CONCLUSION, but from the Freyd product-and-equalize-all-endomorphisms hypotheses (weakly initial family + two products + equalizers), i.e. Riehl's Lemma 4.7.5, not from a coseparating set and intersections."
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 99,
+        "symbol": "Cogenerator",
+        "intree_statement": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g } — the item's 'small coseparating set Φ' hypothesis, formalized as data."
+      }
+    ],
+    "statement_record": {
+      "book": "If C is locally small, complete, has a small coseparating set Φ, and every collection of subobjects of an object has an intersection, then C has an initial object; the initial object is the intersection of ALL subobjects of the product ∏_{k∈Φ} k, and uniqueness of arrows out of it follows because an equalizer of two competing arrows would be a strictly smaller subobject.",
+      "intree": "Lemma cogenerator_canonical_monic ... : Monic (cogen_canonical comp G c) [Adjunction/SAFT.v:223] together with Theorem initial_from_weakly_initial ... (E : HasEqualizers C) : @Initial C [Theory/WeaklyInitial.v:89].",
+      "strength_comparison": "intree-weaker: no in-tree assertion has the item's hypotheses in its antecedent and Initial C in its consequent. Only the first proof step (coseparation ⇒ the canonical map into a power of the family is monic) is proved, and the initial object is instead obtained under DIFFERENT hypotheses (a weakly initial family plus explicit products and equalizers — Riehl 4.7.5). Notably the in-tree SAFT reaches its solution set by ASSUMING the factorization conclusion as data (SubobjectCover, Adjunction/SAFT.v:240) rather than deriving it from intersections of subobjects."
+    },
+    "gap": "Two things are missing. (1) There is NO notion of an intersection of a family of subobjects anywhere in the tree: Theory/Subobject.v gives SubObj x, the factorization preorder sub_le, and sub_equiv_iff_mutual, but no meet/wide pullback of monos ('intersection' occurs only in comments at Structure/Pullback.v:94 and Structure/Factorization.v:70), and there is no wide-pullback machinery at all. (2) Consequently the lemma's conclusion is never derived from its hypotheses: nothing in-tree produces @Initial C from (complete + Cogenerator + intersections). Adjunction/SAFT.v short-circuits exactly this step by taking SubobjectCover (the conclusion of the classical image-factorization argument) as a hypothesis, as its own header discloses.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'intersection' . — 3 hits, all prose comments (Construction/Groupoid.v:59, Structure/Pullback.v:94, Structure/Factorization.v:70); no definition",
+      "grep -rn --include='*.v' -i 'wide pullback|wide_pullback|WidePullback' . — 0 hits",
+      "grep -rn --include='*.v' -i 'meet|infimum|greatest lower' . — only prose in Instance/Poset.v, Instance/Two.v, Theory/Bicategory.v; no subobject meet",
+      "grep -rn --include='*.v' 'Initial\\b' . filtered to Theorem/Lemma/Definition sites — the only construction of an Initial from hypotheses is Theory/WeaklyInitial.v:89 (and Theory/Adamek.v:285 for FAlg)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (before opening coverage-4-11.json) expanded aliases {coseparating set, cogenerator, coseparator, intersection of subobjects, wide pullback of monos, meet of subobjects, initial object from a cogenerator} and reached the same conclusion: hypothesis vocabulary present, lemma unproven. Evidence re-verified line by line: Adjunction/SAFT.v:99 `Record Cogenerator` with cog_index/cog_obj/cog_separates exactly as quoted; Adjunction/SAFT.v:223 `Lemma cogenerator_canonical_monic ... : Monic (cogen_canonical comp G c)` quoted verbatim, and its proof genuinely consumes cog_separates (apply (cog_separates G g1 g2)); Theory/WeaklyInitial.v:89 `Theorem initial_from_weakly_initial` has exactly the quoted signature (WeaklyInitialFamily + two DiscreteCat_Functor limits + HasEqualizers -> Initial C). Both files registered in _CoqProject (SAFT.v line 8, WeaklyInitial.v line 476) and compiled (.vo present). Gap text re-checked and accurate: Theory/Subobject.v really has only SubObj:15, sub_le:59, sub_le_unique:78, sub_equiv_iff_mutual:93 and NO meet; independent `rg -i intersection` reproduces exactly 3 hits, all prose (Construction/Groupoid.v:59, Structure/Pullback.v:94, Structure/Factorization.v:70). REFINEMENT for Phase E: a BINARY intersection is latent in-tree — Theory/Morphisms/Stability.v:226 `monic_pullback_stable` makes the pullback of a mono a mono, which is the binary meet of subobjects — so the precise gap is (a) no packaging of that as a meet on SubObj and (b) no arbitrary/wide intersection of a FAMILY of subobjects, which is what 4.7.11 needs. The gap's 'family' wording already covers this, but an issue should cite monic_pullback_stable as the starting point rather than starting from zero."
+    }
+  },
+  {
+    "id": "riehl:4.7:example12",
+    "classification": "ABSENT",
+    "aliases": [
+      "Stone-Čech compactification βX",
+      "cHaus / compact Hausdorff spaces; Top; reflector into cHaus",
+      "unit interval [0,1] as a coseparating object; Urysohn's lemma",
+      "closure of the image of the canonical map X -> I^{Hom(X,I)}",
+      "reflective subcategory of Top (dual: k-ification / coreflection)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'stone|cech|compact|hausdorff|topolog|Urysohn' . — no definitions; only background prose (Theory/Monad.v:65-66 on the ultrafilter monad and compact Hausdorff spaces, Theory/Equivalence.v:120-122 on Stone duality, Theory/Category.v:84-86 'Rosetta Stone')",
+      "grep -rn --include='*.v' 'Instance Top|Category Top|Top :' . — 0 hits",
+      "grep -rn --include='*.v' -i 'haus' . — 0 category definitions (only the word 'exhaustive'/'exhaustively' and the two prose mentions above)",
+      "ls Instance/ — the concrete instances are Sets, Coq, Cat, Fun, FinSet, CMon, Rel, Poset, Proset, Props, Two, One, Zero, Omega, Discrete, Parallel, Roof, Shapes, StrictCat, Lambda, AST, ZX, Ens, Adj, Adjoints, Cones, Comp, Fact; there is no topological category of any kind",
+      "grep -rn --include='*.v' -i 'coseparat|cogenerat|separator|separating' . — Cogenerator exists (Adjunction/SAFT.v:99) but no coseparating OBJECT is exhibited in any concrete category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind searches for {stone, cech, compact, hausdorff, topolog, urysohn, beta X, cHaus, Top} found zero definitions; the only hits are background prose, and I re-read the two the record cites: Theory/Monad.v:65-67 (Manes — algebras of the ultrafilter monad are the compact Hausdorff spaces) and Theory/Equivalence.v:120-124 (Stone 1936 / Gelfand-Naimark 1943 dualities). `ls Instance/*.v` independently confirms 28 instance files (Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX) with no topological category of any kind. ABSENT is right; nothing to overturn."
+    }
+  },
+  {
+    "id": "riehl:4.7:cor13",
+    "classification": "ABSENT",
+    "aliases": [
+      "SAFT hypotheses imply cocompleteness",
+      "complete + well-powered + cogenerating set ⇒ Cocomplete",
+      "colimits from limits; totally complete / total category",
+      "left adjoint to the constant-diagram functor Δ : C ⟶ C^J (colim ⊣ Δ ⊣ lim)",
+      "Cocomplete, Colimit, Diagonal/Δ[J]"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Cocomplete' . — the only definition is Structure/Complete.v:119 (Definition Cocomplete {C} := ∀ D (F : D ⟶ C), Colimit F); its only consumer is Theory/Adamek/Corollaries.v:61, which takes it as a hypothesis. Nothing derives Cocomplete from any other hypotheses.",
+      "grep -rn --include='*.v' -i 'limit.*right adjoint|colimit.*left adjoint|Δ ⊣|⊣ lim|colim ⊣' . — the equivalence 'C is J-cocomplete iff Δ has a left adjoint' (Riehl 4.6.1, the engine of this corollary) appears ONLY in prose comments: Functor/Diagonal.v:28, Instance/Fun.v:70, Structure/Cone/Const.v:24. Functor/Diagonal.v:33 defines Diagonal J but proves no adjunction; Adjunction/Diagonal/Product.v:36 proves only the finite case Δ ⊣ (×) into C ∏ C.",
+      "grep -rn --include='*.v' -i 'well-powered|wellpowered|well_powered' . — only Adjunction/SAFT.v's SubobjectIndex packaging plus prose; no cocompleteness consequence",
+      "grep -n 'Definition|Theorem|Lemma|Corollary' Adjunction/SAFT.v — the file ends at SAFT (line 274); no corollaries are drawn from its hypothesis package"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass reached ABSENT independently. Re-verified every leg of the negative log: `Cocomplete` is defined exactly once (Structure/Complete.v:119) and its only consumer is Theory/Adamek/Corollaries.v:59-61, where it is a HYPOTHESIS; nothing derives it. The engine of the corollary (Riehl 4.6.1, colim -| Delta) exists only as prose — Functor/Diagonal.v:28, Instance/Fun.v:70, Structure/Cone/Const.v:24, Adjunction/Diagonal/Product.v:20 — while Functor/Diagonal.v:33 defines Diagonal with no adjunction and Adjunction/Diagonal/Product.v:36 proves only the binary Cartesian case Delta -| (x) into C x C. I also checked that neither Functor/Diagonal.v nor Adjunction/Diagonal/Product.v contains any Preserves* result (0 hits), and that Instance/Fun.v proves no pointwise completeness of [J,C] (0 Complete/Limit hits) — a second missing ingredient of the book's proof that the record does not mention but which only reinforces ABSENT. Adjunction/SAFT.v does end at SAFT (line 274, file ends 279)."
+    }
+  },
+  {
+    "id": "riehl:4.7:cor14",
+    "classification": "PARTIAL",
+    "aliases": [
+      "SAFT ⇒ continuous Set-valued functors are representable",
+      "representability corollary of the special adjoint functor theorem",
+      "Representable / repr_obj / [Hom A,─] ≅ F",
+      "C(L(*), c) ≅ Set(*, Fc) ≅ Fc — representing object as the value of the left adjoint at a singleton",
+      "limit-preserving functor into Sets is representable"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 274,
+        "symbol": "SAFT",
+        "intree_statement": "Definition SAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D ⟶ C & F ⊣ U } := GAFT U comp cont (SAFT_solution_set U comp G WP cover)."
+      },
+      {
+        "file": "Functor/Representable.v",
+        "line": 46,
+        "symbol": "Representable",
+        "intree_statement": "Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F } — the target notion of the corollary; it is never connected to Complete, Cogenerator, PreservesImageLimit or SolutionSet anywhere in the tree."
+      }
+    ],
+    "statement_record": {
+      "book": "If C is locally small, complete, has a small coseparating set, and has all intersections of subobjects, then EVERY continuous functor F : C → Set is representable — apply Theorem 4.7.10 to F to get a left adjoint L : Set → C, then C(L(*), c) ≅ Set(*, Fc) ≅ Fc naturally, so L(*) represents F.",
+      "intree": "SAFT U comp cont G WP cover : { F : D ⟶ C & F ⊣ U } (Adjunction/SAFT.v:274), instantiable at D := Sets, U := the continuous functor.",
+      "strength_comparison": "intree-weaker on both ends. (a) The conclusion delivered is the ADJOINT form { F & F ⊣ U }, never the representability form Representable F; the last step of the book's proof (evaluate the adjunction at the singleton set) is nowhere carried out and there is no in-tree lemma turning a left adjoint into a representation. (b) The hypotheses are strictly stronger than the book's: the in-tree SAFT takes the image-factorization half as DATA (SubobjectCover, i.e. the conclusion 'every h : d ~> U c factors through a well-powered subobject of the cogenerator product'), rather than deriving it from well-poweredness and intersections; the intersection hypothesis has no in-tree counterpart at all."
+    },
+    "gap": "The representability conclusion is never drawn. Nothing in the tree produces a `Representable F` from continuity plus smallness hypotheses; `Representable` (Functor/Representable.v:46) is used only by Structure/UniversalProperty.v's Yoneda-flavoured equivalences (universal element ⟺ representation), never fed by an adjoint functor theorem. Two further pieces of the book's argument are missing: the natural iso Sets(1, X) ≅ X specializing an adjunction at the terminal set, and the smallness hypotheses in their book form (the in-tree SAFT assumes SubobjectCover as data and has no notion of intersection of subobjects).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Representable' . — only Functor/Representable.v:46,51 (class + coercion) plus prose references; no lemma with Representable in its conclusion",
+      "grep -rn --include='*.v' '⊣' . | grep -i 'sets' — only Theory/Profunctor/Adjunction.v:65,71 (representable PROFUNCTORS, a different statement) and Instance/Sets/Cartesian/Closed.v:24 (the CCC exponential adjunction)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld. SAFT's signature at Adjunction/SAFT.v:274 is quoted verbatim and correct; `Class Representable` really is at Functor/Representable.v:46, the file is registered (_CoqProject line 145) and compiled (Functor/Representable.vo present). Strength comparison is honest on both counts I checked: SAFT delivers { F : D -> C & F -| U } and never a representation, and SubobjectCover (SAFT.v:240) is indeed the classical factorization CONCLUSION taken as data, as the file's own header (lines 52-90) discloses. CORRECTION to the gap prose (classification unaffected): the claim that Representable 'is used only by Structure/UniversalProperty.v's Yoneda-flavoured equivalences' is wrong — NO file in the tree imports Category.Functor.Representable (`rg 'Category.Functor.Representable'` = 0 hits), and Structure/UniversalProperty.v (imports at lines 1-11: Lib, Tactics2, Category, Isomorphism, Opposite, Functor, Transformation, Hom, Hom.Yoneda, Sets, Groupoid) develops representability independently and never mentions the class. So `Representable` is a definition with ZERO in-tree consumers — which strengthens, not weakens, the PARTIAL verdict and is worth stating in the issue."
+    }
+  },
+  {
+    "id": "riehl:4.7:thm15",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Freyd's representability theorem",
+      "solution set condition ⇒ representable (SolutionSet, sol_covers)",
+      "initial object of the category of elements ∫F / of the comma * ↓ F = universal element",
+      "GAFT in representability form; general representability theorem",
+      "UniversalArrow c F := Initial (=(c) ↓ F)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 241,
+        "symbol": "GAFT",
+        "intree_statement": "Theorem GAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }. — the same three hypotheses as the item (complete domain, continuity, solution set), concluded in adjoint rather than representability form."
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 159,
+        "symbol": "SolutionSet",
+        "intree_statement": "Record SolutionSet {C D : Category} (U : C ⟶ D) (d : D) := { sol_index : Type; sol_obj : sol_index -> C; sol_arr : forall i, d ~> U (sol_obj i); sol_covers {c} (h : d ~> U c) : { i : sol_index & { t : sol_obj i ~> c & fmap[U] t ∘ sol_arr i ≈ h } } } — the item's solution set condition verbatim (at D := Sets, d := the singleton, sol_arr i is the element y ∈ F s and sol_covers is (Ff)(y) = x)."
+      },
+      {
+        "file": "Functor/Representable.v",
+        "line": 46,
+        "symbol": "Representable",
+        "intree_statement": "Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F } — the item's conclusion as a notion; no in-tree result concludes it."
+      }
+    ],
+    "statement_record": {
+      "book": "Freyd's Representability Theorem: a continuous functor F : C → Set on a complete, locally small C is representable provided it satisfies the solution set condition — a SET Φ of objects such that for every c and every x ∈ Fc there are s ∈ Φ, y ∈ Fs and f : s → c with (Ff)(y) = x. Proof: the solution set is jointly weakly initial in * ↓ F ≅ ∫F, which is complete by Lemma 4.7.2, so Lemma 4.7.5 gives an initial object, i.e. a universal element, i.e. a representation.",
+      "intree": "Theorem GAFT ... (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U } (Adjunction/GAFT.v:241).",
+      "strength_comparison": "intree-weaker: the hypotheses match (the in-tree solution set is the book's condition, and PreservesImageLimit is the honest cone-level reading of continuity — stronger than the apex-only class, hence a leaner hypothesis), and every intermediate step of the book's proof is in-tree (Comma_Complete = Lemma 4.7.2, wif_of_sols + initial_from_weakly_initial = Lemma 4.7.5, producing an Initial (=(d) ↓ U) = UniversalArrow), but the conclusion delivered is a left adjoint, not `Representable F`. Riehl's theorem is the Sets-valued specialization at the singleton set, which is never stated."
+    },
+    "gap": "The Sets-specific last step is missing on two counts. (1) No in-tree bridge from an initial object of the comma =(c) ↓ F (equivalently a UniversalArrow, Theory/Universal/Arrow.v:127) or from a left adjoint to `Representable F` — the library has no category of elements ∫F for a Sets-valued functor and no iso Sets(1, X) ≅ X used to transpose an adjunction at the singleton. (2) The theorem is therefore never stated for F : C ⟶ Sets at all; only the general adjoint form exists. Structure/UniversalProperty.v proves representability ⟺ universal element (representability_by_yoneda, line 72) but is not connected to SolutionSet or GAFT.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Representable' . — no lemma concludes Representable from a solution set or from continuity",
+      "grep -rn --include='*.v' -i 'category of elements|Elements\\b|universal element' . — no category-of-elements construction for a Sets-valued functor (Construction/Grothendieck.v is the IndexedCat/Cat-valued construction; ∫ hits are coends and Displayed totals)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld and the evidence is exact: Adjunction/GAFT.v:159 `Record SolutionSet` (sol_index/sol_obj/sol_arr/sol_covers) and GAFT.v:241 `Theorem GAFT ... : { F : D -> C & F -| U }` are quoted verbatim; the GAFT proof body (lines 244-256) really does route Comma_Complete + wif_of_sols + initial_from_weakly_initial, i.e. Riehl's 4.7.2 and 4.7.5 are the in-tree steps as claimed. Two refinements for Phase E. (1) `representability_by_yoneda` does exist at Structure/UniversalProperty.v:72 as cited, but it is stated for PRESHEAVES (F : C^op -> Sets, the universal-element-vs-natural-iso bijection), whereas Riehl's F is COVARIANT C -> Set; so even the 'universal element = representation' half exists only in the opposite variance and would need transporting. (2) Theory/Universal/Arrow.v:127 `UniversalArrow c F` is the initial-object-of-a-comma form the theorem's proof passes through, so the missing link is precisely UniversalArrow/left adjoint -> Representable at D := Sets, evaluated at the singleton."
+    }
+  },
+  {
+    "id": "riehl:4.7:def16",
+    "classification": "ABSENT",
+    "aliases": [
+      "locally κ-presentable category; locally finitely presentable; locally presentable",
+      "accessible functor / accessible category",
+      "κ-filtered colimit; filtered / directed colimit",
+      "κ-presentable (compact, finitely presentable) object; C(s,−) preserves filtered colimits",
+      "regular cardinal; dense generator; Ind-completion; limit sketch"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'presentable' . — 0 hits other than the unrelated word 'presented' in Construction/Free.v:88 prose",
+      "grep -rn --include='*.v' -i 'accessible' . — 0 hits",
+      "grep -rn --include='*.v' -i 'filtered' . — 1 hit, Comonad/CoKleisli.v:81, about a filtered STREAM (unrelated)",
+      "grep -rn --include='*.v' -i 'regular cardinal|cardinal' . — only Theory/Metacategory.v's finite `cardinality` counter",
+      "grep -rn --include='*.v' -i 'compact object|finitely present|ind-completion|Ind(|directed colimit|small object|sketch' . — 0 relevant hits (only Seven Sketches book citations and a proof-sketch comment)",
+      "find . -iname '*filtered*' -o -iname '*present*' -o -iname '*access*' — only Functor/Representable.* and Tools/Represented.*"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT is correct — my blind searches for {presentable, locally finitely presentable, accessible, filtered, kappa-filtered, directed colimit, regular cardinal, compact object, Ind-completion, dense generator} found no definition anywhere: `rg -i filtered` returns a single unrelated hit (Comonad/CoKleisli.v:81, a filtered STREAM), and there is no notion of cardinal beyond Theory/Metacategory.v's finite counter. BUT two lines of the negative_search_log are FALSE AS WRITTEN and must not be copied into an issue: `rg -i 'presentable'` DOES hit Adjunction/GAFT.v:124 ('a biconditional between locally presentable categories') and `rg -i 'accessible'` DOES hit Adjunction/GAFT.v:125 ('has a left adjoint exactly when it is accessible and preserves small limits'). Both are header-essay prose in GAFT.v (lines 122-127), not definitions, so the verdict stands unchanged; the log line 'grep -i presentable — 0 hits other than ... Construction/Free.v:88' also mis-locates the only other hit (Construction/Free.v:88 says 'finitely presented category', a different word). Recorded in problems[]."
+    }
+  },
+  {
+    "id": "riehl:4.7:thm17",
+    "classification": "ABSENT",
+    "aliases": [
+      "adjoint functor theorem for locally presentable categories",
+      "Adámek–Rosický adjoint functor theorem",
+      "cocontinuous functor between locally presentable categories has a right adjoint",
+      "continuous + accessible ⇒ has a left adjoint",
+      "presentable AFT / biconditional adjoint functor theorem"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'presentable|accessible' . — 0 hits, so neither hypothesis of either clause is expressible in-tree (see riehl:4.7:def16)",
+      "grep -rn --include='*.v' -i 'Rosick' . — 1 hit, Adjunction/GAFT.v:123, a PROSE mention in the header essay ('The modern sharpening (Adámek and Rosický) makes it a biconditional between locally presentable categories'), not an assertion",
+      "grep -rn --include='*.v' -i 'cocontinuous' . — Theory/Adjunction.v:448 and Adjunction/Continuity.v:26 are quoted prose; Structure/Limit/Preservation.v:225 names the vocabulary but proves no adjoint-existence result",
+      "grep -n 'Definition adamek|Theorem adamek' Theory/Adamek.v — Theory/Adamek.v:285 is Adámek's INITIAL-ALGEBRA theorem (adamek : AdamekData → Initial (FAlg F)), unrelated to the presentable AFT",
+      "grep -rn --include='*.v' 'Cocomplete' . — only the Structure/Complete.v:119 definition; no converse-of-continuity result other than GAFT/SAFT"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld: neither clause's hypotheses are expressible in-tree (see def16), and the only in-tree trace of the Adamek-Rosicky sharpening is the prose paragraph Adjunction/GAFT.v:122-127, which the record cites correctly at line 123. Same caveat as def16: this record's first log line ('presentable|accessible — 0 hits') is false as written and is contradicted by its own next line; substance unaffected. Also re-verified the record's disambiguation: Theory/Adamek.v is the INITIAL-ALGEBRA Adamek theorem (adamek : AdamekData -> Initial (FAlg F)), unrelated to the presentable AFT, and Structure/Limit/Preservation.v names cocontinuity vocabulary without any adjoint-existence result."
+    }
+  },
+  {
+    "id": "riehl:4.7:construction-unitalization",
+    "classification": "ABSENT",
+    "aliases": [
+      "unitalization of a non-unital ring; Dorroh extension R* ≅ Z ⊕ R",
+      "left adjoint to the inclusion Ring ⟶ Rng",
+      "adjoining a unit / augmentation ideal",
+      "free (unital / non-unital) ring on an abelian group; tensor algebra ⊕_{n≥0} A^{⊗n}",
+      "left adjoints commute with left adjoints along a commuting square of forgetful functors (Prop 4.3.4)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i '\\bRng\\b|non-unital|nonunital|unitaliz|augmentation' . — the only 'non-unital' hit is Theory/Category/Semi.v:11 (semigroupoid = non-unital CATEGORY); the 'augmentation' hits are Structure/Monoidal/Heunen_Vicary.v's monoidal augmentations; no ring theory",
+      "grep -rn --include='*.v' -i 'Ring' . filtered to Instance/Definition/Record/Class sites — 0 hits; there is no category of rings, abelian groups or groups in the tree",
+      "ls Instance/ — the algebraic instances are CMon (commutative monoids) and FinSet only; no Ring, Rng, Ab, Group, Mod",
+      "grep -rn --include='*.v' -i 'tensor algebra|graded ring|direct sum' . — 0 relevant hits",
+      "Note: the composite-of-left-adjoints principle the construction uses (Riehl 4.3.4) does exist in-tree as Adjunction/Compose.v, but the construction itself — a left adjoint to Ring ⟶ Rng, or the formula R* ≅ Z ⊕ R — has no counterpart, since neither category exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT confirmed by an independent search: `rg '\\bRng\\b|unitaliz'` = 0 hits; the word 'ring' occurs only in background prose (Structure/Abelian.v:111 R-Mod, Structure/Monoid.v:69, Structure/Limit.v:52 Z/p^n, Structure/Coend.v:95, Theory/Equivalence.v:78 Morita, Construction/Grothendieck.v:114), and `ls Instance/*.v` shows the only algebraic instances are CMon and FinSet. I also checked the nearest false positive the record does not mention: Structure/Group.v:109 defines `Class GroupObject` — group objects INTERNAL to a category, not the category Grp — so the record's 'no category of rings, abelian groups or groups' holds. The record's closing note that Adjunction/Compose.v supplies the composite-of-adjoints principle used by the construction is fair and does not amount to partial coverage of the unitalization itself."
+    }
+  },
+  {
+    "id": "riehl:4.7:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the comma projection Π : s ↓ U ⟶ A strictly creates limits",
+      "creation of limits in a comma category (=(d) ↓ U in this library's notation)",
+      "Comma_Complete / comma_limit",
+      "limits in a slice / over-category are created by the forgetful functor",
+      "lifted cone with apex (lim ΠK, φ) where φ is the mediator into the preserved limit"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 238,
+        "symbol": "comma_limit",
+        "intree_statement": "Definition comma_limit : Limit K := @Build_Limit J (=(d) ↓ U) K apex_cone comma_ump. — for K : J ⟶ (=(d) ↓ U), under the section hypotheses (HC : @Complete C) and (HU : PreservesImageLimit), the created limit whose apex is apex_obj := ((ttt, vertex_obj[Ldiag]); phi) (the limit of the base diagram Gdiag := comma_proj2 ◯ K in C, paired with the mediator phi : d ~> U Ldiag into the U-image limit) and whose legs are the base legs upgraded to comma morphisms; comma_ump proves its universal property."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 245,
+        "symbol": "Comma_Complete",
+        "intree_statement": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K. — the completeness corollary consumed by GAFT."
+      }
+    ],
+    "statement_record": {
+      "book": "Lemma 4.7.2 (the exercise asks for a direct proof of it): the forgetful functor Π : s ↓ U → A strictly creates limits of any diagram whose limit exists in A and is preserved by U.",
+      "intree": "comma_limit : Limit K, with apex ((ttt, vertex_obj[Ldiag]); phi) where Ldiag := HC J Gdiag and phi := limit_med (image_is_alimit HU Ldiag) base_cone (Construction/Comma/Limit.v:131,151,159,238); packaged as Comma_Complete (line 245).",
+      "strength_comparison": "intree-weaker in hypothesis form and in what is asserted about the lift. (a) HYPOTHESES ARE GLOBAL, NOT PER-DIAGRAM: comma_limit takes HC : @Complete C and HU : PreservesImageLimit (preservation for EVERY diagram), whereas the book asks only that the single diagram's limit exist in A and be preserved by U. (b) STRICTNESS IS NOT ISOLATED: the file constructs the lifted cone and proves it limiting (comma_ump), but never states the creation clause as such — that the lift over a given limit cone of ΠK is unique, and that a cone of K is limiting whenever its Π-image is. On the honest side the preservation hypothesis is the cone-level PreservesImageLimit rather than the apex-only PreservesAllLimits, which is the mathematically correct reading and is inhabited by every right adjoint (right_adjoint_PreservesImageLimit, line 264)."
+    },
+    "gap": "The lemma is realized as EXISTENCE of the comma limit (and completeness of the comma category), not as strict CREATION: (i) the hypotheses are quantified over all diagrams (Complete C plus PreservesImageLimit) rather than over the single diagram at hand, so the book's per-diagram statement is not obtainable from the in-tree one without assuming completeness; (ii) no in-tree statement asserts uniqueness of the lifted cone over a given limit cone in C, nor that Π reflects limits — the two clauses that make creation 'strict'. Also, only the comma =(d) ↓ U over a constant left leg is treated; general comma categories F ↓ G have no limit theory in-tree.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'creates limit|CreatesLimit|creation of limit' . — Construction/Comma/Limit.v:17 titles the file 'Creation of limits in a comma category' (a comment) and Theory/Equivalence/Limit.v:486 proves equivalence_creates_limits for equivalences (a different statement); no CreatesLimit predicate exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld; all cited lines check out. Construction/Comma/Limit.v:238 `Definition comma_limit : Limit K := @Build_Limit J (=(d) | U) K apex_cone comma_ump` and :245 `Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) | U)` are verbatim, as is right_adjoint_PreservesImageLimit at :264. Gap clause (a) verified at the source: PreservesImageLimit (line 110) is quantified 'forall (J : Category) (G : J -> C) (L : Limit G) (N : Cone (U o G))', and HC is global `@Complete C`, so the in-tree hypotheses are indeed not the book's per-diagram ones. Gap clause (b) verified: the file contains no uniqueness-of-lift and no reflection statement (`rg -i creat` in the file returns only the title:17, the nLab URL:20, the header sentence:33, the sub-header:120 and Section Create:122/241 — no proposition). USEFUL FOR PHASE E: a strict-creation TEMPLATE already exists in-tree at Monad/Monadicity/Beck.v:164 `Class CreatesUSplitCoequalizers` (whose fields include create_coeq_unique and create_coeq_reflects), so the missing clauses are expressible in the library's own idiom. See the LIBRARY-DEFECT entry in problems[] about the header claiming creation."
+    }
+  },
+  {
+    "id": "riehl:4.7:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "largest Hausdorff quotient; Haus ⟶ Top has a left adjoint",
+      "Haus is a reflective subcategory of Top (Reflective, reflector, Incl)",
+      "GAFT applied to a full subcategory inclusion",
+      "a reflective subcategory of a complete and cocomplete category is complete and cocomplete (Riehl 4.6.14)",
+      "Top, Hausdorff spaces, Hausdorff reflection / T2-quotient"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'haus|topolog|quotient space' . — no category of topological or Hausdorff spaces; the only 'Hausdorff' hits are prose (Theory/Monad.v:66, Theory/Equivalence.v:122)",
+      "grep -rn --include='*.v' 'Instance Top|Category Top|Top :' . — 0 hits; ls Instance/ confirms no topological instance",
+      "grep -rn --include='*.v' -i 'complete' Construction/Reflective.v Construction/Reflective/Idempotent.v Construction/Localization.v — 0 hits: the reflective-subcategory development (Reflective record at Construction/Reflective.v:60, reflective_counit_iso at line 92, Coreflective at line 85) proves NOTHING about limits or colimits in a reflective subcategory, so even the general principle behind the exercise's second half (Riehl 4.6.14) is missing",
+      "grep -rn --include='*.v' 'Cocomplete' . — only the Structure/Complete.v:119 definition; no transfer of cocompleteness along a reflection"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT confirmed, including the record's strongest claim, which I re-ran myself: `rg -i complete Construction/Reflective.v Construction/Reflective/Idempotent.v Construction/Localization.v` returns 0 hits, so the reflective-subcategory development (Reflective:60, Coreflective:85, reflective_counit_iso:92) proves nothing about limits or colimits and the general principle behind the exercise's second half (Riehl 4.6.14) really is missing — i.e. BOTH halves of the exercise are uncovered, not just the topological half. No topological category exists (see example12)."
+    }
+  },
+  {
+    "id": "riehl:4.7:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "F : C → Set is representable iff it has a left adjoint",
+      "left adjoint to a Sets-valued functor; copower / tensoring X · c = ∐_X c",
+      "Representable F ↔ { L : Sets ⟶ C & L ⊣ F }",
+      "hom-functor [Hom A,─] has left adjoint (−) · A given by coproducts of copies",
+      "C locally small with coproducts (Cocartesian / indexed coproducts)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Representable' . — the only sites are Functor/Representable.v:46 (Class Representable) and :51 (the coercion to the representing object); no lemma relates Representable to ⊣ in either direction",
+      "grep -rn --include='*.v' '⊣' . | grep -i 'sets' — Theory/Profunctor/Adjunction.v:71 representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U) is about representable PROFUNCTORS (the hom-set characterization of an adjunction), NOT about a Sets-valued functor being representable iff it has a left adjoint; Instance/Sets/Cartesian/Closed.v:24 is the exponential adjunction",
+      "grep -rn --include='*.v' -i 'copower|tensoring|coproduct of copies' . — 0 relevant hits; the copower X · c that would build the left adjoint has no in-tree definition (Structure/Limit/Product.v provides indexed PRODUCTS iprod; there is no dual iprod for indexed coproducts of a constant family)",
+      "grep -n 'Definition|Lemma|Theorem|Corollary' Structure/UniversalProperty.v — representability is characterized only via Yoneda/universal elements (representability_by_yoneda, line 72), never via adjoints"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld after a deliberate hunt for a counterpart the classifier might have missed: no lemma anywhere relates `Representable` to `-|` in either direction (nothing even imports Functor/Representable.v); the record's disambiguation of Theory/Profunctor/Adjunction.v:71 `representable_adjunction : (F -| U) <-> (Repr_left F ~= Repr_right U)` as the hom-profunctor characterisation, NOT this exercise, is correct; and the copower X . c = coproduct of X copies that would build the left adjoint has no in-tree definition — Structure/Limit/Product.v gives indexed PRODUCTS (iprod over DiscreteCat) with no dual indexed-coproduct construction (`rg -i copower|tensoring` yields only premonoidal tensoring functors). NOTED TENSION (not a reason to overturn): cor14 is PARTIAL and this is ABSENT although both hinge on the same missing 'left adjoint / universal arrow => Representable' bridge; the asymmetry is defensible because cor14's antecedent machinery (SAFT) is fully in-tree whereas here neither direction of the biconditional nor its enabling copower exists."
+    }
+  }
+]

@@ -1,0 +1,495 @@
+[
+  {
+    "id": "maclane:II.2:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "commutation of induced maps k_* and g*",
+      "hom-set square hom(g,b') / hom(a,k) commutes",
+      "pre-composition and post-composition commute",
+      "bifunctoriality of hom / middle-four exchange at Hom",
+      "bimap interchange (swap forms)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p) ... |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}  (fmap_comp obligation: now rewrite !comp_assoc)"
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 104,
+        "symbol": "bimap_id_right_left",
+        "intree_statement": "Lemma bimap_id_right_left {F : C ∏ D ⟶ E} {w} `(f : z ~{C}~> w) `(g : x ~{D}~> y) : bimap f id ∘ bimap id g ≈ bimap f g."
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 116,
+        "symbol": "bimap_id_left_right",
+        "intree_statement": "Lemma bimap_id_left_right {F : C ∏ D ⟶ E} {w} `(f : z ~{D}~> w) `(g : x ~{C}~> y) : bimap id f ∘ bimap g id ≈ bimap g f."
+      }
+    ],
+    "statement_record": {
+      "book": "For g : a -> a' and k : b -> b', the square in Set with horizontal maps g* (pre-composition) and vertical maps k_* (post-composition) commutes: both paths send f in hom(a',b) to k f g, i.e. k_* ∘ g* = g* ∘ k_*.",
+      "intree": "Hom C : C^op ∏ C ⟶ Sets acts on a pair (f, g) by q ↦ snd f ∘ q ∘ fst f (post- and pre-composition at once); the generic lemmas bimap_id_right_left / bimap_id_left_right, instantiated at F := Hom C, state that the two one-sided actions composed in either order both equal the joint action, hence commute.",
+      "strength_comparison": "same — in Sets, ≈ of setoid maps is pointwise equality up to the codomain setoid, which for hom-setoids is the library's ≈ on morphisms; the book's k f g appears as the common value snd f ∘ q ∘ fst f. The inventory's cross-reference (this square is what later makes hom a bifunctor) is realized literally: in-tree the square IS the bifunctor's interchange."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same evidence (Hom at Functor/Hom.v:49; bimap_id_right_left/bimap_id_left_right at Functor/Bifunctor.v:104/116, quotes exact). The hom-specific square is not drawn as a named corollary, but the in-tree statement is strictly more general (any bifunctor) and Hom's fmap_comp obligation carries exactly the square's content; the book's remark is a zero-content instantiation. PRESENT stands."
+    }
+  },
+  {
+    "id": "maclane:II.2:construction6",
+    "classification": "PRESENT",
+    "aliases": [
+      "Ens = Set_V, variable receiving category for hom-functors",
+      "universe-polymorphic Sets / category of setoids at a chosen level",
+      "large hom-sets device / local smallness",
+      "Bishop sets / SetoidObject",
+      "hom-functor codomain for large categories"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets.v",
+        "line": 188,
+        "symbol": "Sets",
+        "intree_statement": "Program Definition Sets@{o so} : Category@{so o o} := {| obj := SetoidObject; hom := fun x y => SetoidMorphism x y; ... |} — explicitly universe-polymorphic in the object/proof levels."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 113,
+        "symbol": "SetoidObject",
+        "intree_statement": "Record SetoidObject@{o p} : Type@{max(o+1,p+1)} := { carrier :> Type@{o}; is_setoid :> Setoid@{o p} carrier }."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets — defined for EVERY category C, with no local-smallness hypothesis; the Sets occurrence elaborates at universes large enough to hold C's hom-setoids."
+      }
+    ],
+    "statement_record": {
+      "book": "For a category C whose hom-sets need not be small, choose a set V large enough to include all subsets of the set of arrows of C, and let Ens = Set_V be the category of all sets in V with all functions; each hom-set is then an object of Ens, so hom-functors C(a,-) : C ⟶ Ens and C(-,b) : C^op ⟶ Ens exist. When V is the universe of small sets, Ens = Set; Ens is a variable receiving category.",
+      "intree": "Sets is universe-polymorphic (Sets@{o so} : Category@{so o o}); each use instantiates its levels — Coq's universe inference plays the role of choosing V — so Hom C : C^op ∏ C ⟶ Sets is definable for every category with hom-setoids at any level, and instantiating the levels at the base recovers the ordinary category of small setoids. The library's own foundational essay (Instance/Sets.v lines 96-111, and Instance/Sets/Classifier.v) works explicitly with the one-level-up regime.",
+      "strength_comparison": "same in substance — the set-theoretic 'choose V large enough' device is realized by universe polymorphism, which the library's documented universe strategy ({o h p} levels) makes systematic; arguably intree-stronger since size bookkeeping is inferred per use and no smallness hypothesis ever appears on Hom. Caution: Instance/Ens.v also exists and bears Mac Lane's name 'Ens', but it is a DIFFERENT construction (Coq Ensembles, i.e. predicate subsets of a carrier type) and is not this item's counterpart."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached the same reading: universe-polymorphic Sets (SetoidObject at Instance/Sets.v:113, Sets@{o so} at :188, quotes verified) is the variable receiving category, and Hom C : C^op ∏ C ⟶ Sets carries no smallness hypothesis. Independently flagged the same false friend: Instance/Ens.v is Coq Ensembles (subsets with membership-preserving-and-reflecting maps), NOT Mac Lane's Ens — the record's caution is correct and important. Consistent with the frozen guidance that size devices realized by universe polymorphism are PRESENT/PARTIAL."
+    }
+  },
+  {
+    "id": "maclane:II.2:construction7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Open(X) poset of open sets as a category",
+      "sheaf/presheaf of germs of continuous functions",
+      "presheaf of continuous real-valued functions with restriction",
+      "Top / topological space",
+      "contravariant functor on an inclusion order"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Sheaf.v",
+        "line": 124,
+        "symbol": "Presheaf",
+        "intree_statement": "Definition Presheaf (U C : Category) := U^op ⟶ C.  (header: \"Its action fmap[X] f on a morphism f : a ~> b of U is the restriction map X(b) → X(a)\"; sites and the sheaf condition follow at Site line 159, Sheaf line 192)"
+      },
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category — any preorder (hence any inclusion order such as the open sets of a space) is a category."
+      }
+    ],
+    "statement_record": {
+      "book": "For a topological space X, the open subsets ordered by inclusion form a poset, hence a category Open(X) (an arrow V -> U iff V ⊆ U); U ↦ C̄(U) = continuous real-valued functions on U, with h ↦ h|V as the arrow action, is a contravariant functor Open(X) ⟶ Set — the sheaf of germs of continuous functions (likewise for C-infinity functions on a manifold).",
+      "intree": "Only the general frame the example instantiates: Presheaf U C := U^op ⟶ C with the restriction-map reading, sites and the sheaf condition (Theory/Sheaf.v), and preorders-as-categories (Proset). No topological spaces, no Open(X), no continuous real-valued functions exist anywhere in the tree.",
+      "strength_comparison": "intree-weaker: the general concept (contravariant restriction functor on a poset) is present and more general (arbitrary base category, arbitrary value category, plus the sheaf condition Mac Lane only names), but the item's concrete content — the topological example itself — has no counterpart."
+    },
+    "gap": "The concrete example cannot be assembled in-tree: the library contains no topological spaces, no category Top, no Open(X) inclusion poset for a space, and no rings of continuous functions. Searches: rg -tcoq -i 'TopologicalSpace|topological_space|OpenSets|open_sets|OpenSubset' — 0 hits; rg -tcoq -i 'real-valued|germs|C-infinity|smooth manifold' — only Structure/Group.v:46, a header-essay mention of Lie groups; rg -tcoq -i 'topolog' — only Grothendieck-topology/site prose in Theory/Sheaf.v and the Solver's unrelated 'Top' constructor. What exists is exactly the general Presheaf/Site/Sheaf frame and Proset.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently confirmed: no topological spaces, no Open(X), no continuous/real-valued functions, no germs anywhere in-tree (rg topolog/germ/continuous — prose-only hits); Presheaf verified at Theory/Sheaf.v:124 and Proset at Instance/Proset.v:33. The PARTIAL gap statement is precise and honest."
+    }
+  },
+  {
+    "id": "maclane:II.2:construction8",
+    "classification": "ABSENT",
+    "aliases": [
+      "Rng, the category of (small) rings",
+      "Mod-R, right modules over R",
+      "restriction of scalars / pullback module structure along rho",
+      "Mod as contravariant functor Rng ⟶ Cat'",
+      "change of rings"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -tcoq 'Class Ring|Record Ring|Definition Ring|Structure Ring' — 0 hits (no ring theory in-tree)",
+      "rg -tcoq -w 'Rng' — 0 hits",
+      "rg -tcoq -w 'RMod|ModR|Mod_R' — 0 hits",
+      "rg -tcoq -i 'right module|left module|R-module|scalar' — hits are prose analogies only: Comonad/Coalgebra.v:99 (essay mention of the extension-of-scalars adjunction), Structure/Abelian.v:69,111 (essay mentions of R-Mod as motivation), Construction/Funny.v:134 ('scalar indices', unrelated)",
+      "rg -tcoq -i 'Rng|Mod-R|restriction of scalars' — only Construction/ColouredPROP/BaseChange.v:32,40,150: a coloured-PROP colour base change NAMED after restriction of scalars (nLab link in header); it restructures PROP generators along a colour map, not modules along a ring morphism",
+      "nearest in-tree analogue checked and rejected: the abstract shape 'contravariant (pseudo)functor into Cat' exists as IndexedCat (Construction/Indexed.v:75), but that is general machinery (credited under II.2:construction9), not this item's content, which is the modules-over-rings functor itself"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently found no rings or modules in-tree (no Ring class/record, no Rng token, R-Mod only in header essays of Structure/Abelian.v and Theory/Equivalence.v). Spot-verified the log's positive claims: Construction/ColouredPROP/BaseChange.v:32,150 is colour base change named after restriction of scalars; Comonad/Coalgebra.v prose mentions the extension-of-scalars adjunction. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:II.2:construction9",
+    "classification": "PARTIAL",
+    "aliases": [
+      "category Mod of all modules over all rings",
+      "fibered category / fibration preview",
+      "Grothendieck construction, total category and projection",
+      "displayed category / Total / Total_Proj",
+      "opfibration over the base of rings"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Grothendieck.v",
+        "line": 406,
+        "symbol": "Grothendieck",
+        "intree_statement": "Definition Grothendieck : Category := Total Grothendieck_Displayed.  (objects are pairs of a base object and a fibre object; morphisms are pairs of a base morphism and a fibre morphism into the transported target — exactly Mac Lane's (rho, f) shape)"
+      },
+      {
+        "file": "Construction/Grothendieck.v",
+        "line": 409,
+        "symbol": "Grothendieck_Proj",
+        "intree_statement": "Definition Grothendieck_Proj : Grothendieck ⟶ B := Total_Proj Grothendieck_Displayed.  (first-projection functor to the base; header essay line 114: \"It collects the modules over every ring into one category fibered over the ring\")"
+      },
+      {
+        "file": "Construction/Grothendieck/Fibration.v",
+        "line": 120,
+        "symbol": "Grothendieck_OpCleaving",
+        "intree_statement": "Definition Grothendieck_OpCleaving : OpCleaving (Grothendieck_Displayed A) — the projection is a (split) opfibration, with fibre categories and the fibre equivalence fiber_grothendieck_equiv in Construction/Grothendieck/Fiber.v."
+      }
+    ],
+    "statement_record": {
+      "book": "The category Mod: objects (R, A) with R a small ring and A a right R-module; morphisms (R,A) -> (S,B) are pairs (rho, f) with rho : R -> S a ring morphism and f : A -> (Mod rho)B; the projection Mod ⟶ Rng sends (R,A) to R; its relation to the contravariant functor Rng ⟶ Cat' leads to fibered categories (Mod is fibered over Rng with fibre Mod-R).",
+      "intree": "The general construction the example previews is complete and stronger than a preview: displayed categories (Theory/Displayed.v), the total category Total and projection Total_Proj (Construction/Displayed/Total.v), the Grothendieck construction of a coherent indexed category with every displayed law discharged (Construction/Grothendieck.v), the projection shown a split opfibration (Construction/Grothendieck/Fibration.v), fibre categories with fiber_grothendieck_equiv (Construction/Grothendieck/Fiber.v), and both presentations of fibrations (Theory/Fibration.v) with the fibred-to-indexed round-trip equivalence (Construction/Grothendieck/RoundTrip.v). The Grothendieck.v header essay explicitly cites the modules-over-rings motivation.",
+      "strength_comparison": "intree-stronger on the general theory (the 'leads to the theory of fibered categories' forward pointer is fully developed, including the fibration property and fibre recovery Mac Lane only gestures at); intree-absent on the concrete witness — no rings or modules exist in-tree, so Mod over Rng itself is never instantiated."
+    },
+    "gap": "The concrete category Mod is not constructible: the library has no ring theory and no module theory (see the negative search log of maclane:II.2:construction8 — 'Ring'/'Rng'/'module' searches return only prose analogies). Present is precisely the general fibered-category machinery; absent is the instantiation at Rng with fibres Mod-R.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: Grothendieck at Construction/Grothendieck.v:406, Grothendieck_Proj at :409, Grothendieck_OpCleaving at Construction/Grothendieck/Fibration.v:120, and the essay's modules-over-rings motivation at Grothendieck.v:114-115. Blind pass reached the same split: general fibered-category machinery fully present, concrete Mod/Rng witness impossible without ring/module theory. PARTIAL with a precise gap."
+    }
+  },
+  {
+    "id": "maclane:II.3:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "product category B x C",
+      "Product / C ∏ D",
+      "binary product of categories",
+      "componentwise composition of pairs"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Product.v",
+        "line": 95,
+        "symbol": "Product",
+        "intree_statement": "Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); id := fun _ => (id, id); compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g); ... |}  with Notation \"C ∏ D\" (line 142)."
+      }
+    ],
+    "statement_record": {
+      "book": "The product B x C of categories: objects are pairs (b, c); an arrow (b,c) -> (b',c') is a pair (f, g) with f : b -> b' in B and g : c -> c' in C; composition is componentwise, (f',g') ∘ (f,g) = (f'∘f, g'∘g).",
+      "intree": "Product C D with objects C * D, homs the pairs of homs, identity (id, id), composition componentwise; the hom-setoid is the componentwise conjunction of ≈ in each factor, and unit/associativity laws are proven componentwise.",
+      "strength_comparison": "same — verbatim up to the setoid discipline (morphism equivalence is the componentwise pair of the factors' ≈, the faithful rephrasing)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the identical evidence: Product at Construction/Product.v:95 with componentwise composition and the ∏ notation at :142. Verbatim match up to the setoid discipline."
+    }
+  },
+  {
+    "id": "maclane:II.3:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "projection functors P, Q from B x C",
+      "Fst / Snd, exl / exr in Cat",
+      "universal property of the product category",
+      "pairing / fork ⟨R, T⟩ of functors",
+      "Cat has binary products (Cat_Cartesian)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Product.v",
+        "line": 149,
+        "symbol": "Fst",
+        "intree_statement": "Program Instance Fst {C D : Category} : C ∏ D ⟶ C := { fobj := fst; fmap := fun _ _ => fst }  (and Snd, line 157, dually)."
+      },
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x); fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := Fst-shaped; exr := Snd-shaped }  — the ump_products obligation is discharged below it."
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 136,
+        "symbol": "ump_products",
+        "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)  — instantiated at Cat, ≈ on functors is natural isomorphism."
+      }
+    ],
+    "statement_record": {
+      "book": "Projections P : B x C -> B, Q : B x C -> C act by P(f,g) = f, Q(f,g) = g; for any D with functors R : D -> B, T : D -> C there is a UNIQUE functor F : D -> B x C with PF = R and QF = T, necessarily Fh = (Rh, Th); the projections are universal among pairs of functors.",
+      "intree": "Fst/Snd are the projections with exactly the book's action; Cat_Cartesian exhibits C ∏ D as the product object in Cat with pairing fork F G := x ↦ (F x, G x) (the book's exact formula) and the biconditional universal property ump_products: H ≈ ⟨R,T⟩ iff exl ∘ H ≈ R and exr ∘ H ≈ T, giving existence and uniqueness.",
+      "strength_comparison": "same up to the library's setoid discipline: Cat's hom-equivalence is natural isomorphism, so commutation and uniqueness are stated up to natural iso rather than Mac Lane's on-the-nose functor equalities PF = R (the projection equations for the fork functor do hold definitionally on components, but the strict-equality uniqueness clause as such is not stated). This is the standing faithful rephrasing, not a mathematical weakening."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: Fst/Snd at Construction/Product.v:149/157, Cat_Cartesian at Instance/Cat/Cartesian.v:39, and the ump_products quote exact at Structure/Cartesian.v:136. The record honestly discloses that uniqueness is up to Cat's hom-setoid (natural isomorphism) rather than Mac Lane's on-the-nose PF = R; under the frozen setoid-faithfulness rule this is PRESENT. (StrictCat, whose hom-setoid is strict functor equality, has no Cartesian instance — the strict-equality form is genuinely not in-tree, correctly noted as presentation only.)"
+    }
+  },
+  {
+    "id": "maclane:II.3:construction2",
+    "classification": "PRESENT",
+    "aliases": [
+      "product of functors U x V",
+      "ProductFunctor / F ∏⟶ G",
+      "componentwise functor on product categories",
+      "functor product via the UMP (fork of composites)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Construction/Product.v",
+        "line": 34,
+        "symbol": "ProductFunctor",
+        "intree_statement": "Program Instance ProductFunctor {C D F J K G} : (C ∏ J) ⟶ (D ∏ K) := { fobj := fun x => (F (fst x), G (snd x)); fmap := fun _ _ f => (fmap[F] (fst f), fmap[G] (snd f)); fmap_id/fmap_comp componentwise }  with Notation \"F ∏⟶ G\" (line 51)."
+      }
+    ],
+    "statement_record": {
+      "book": "For U : B -> B' and V : C -> C', the product functor U x V : B x C -> B' x C' is (U x V)(b,c) = (Ub, Vc), (U x V)(f,g) = (Uf, Vg); alternatively the unique functor making both projection squares commute (P'(U x V) = UP, Q'(U x V) = VQ).",
+      "intree": "ProductFunctor is the explicit componentwise definition, verbatim (including the componentwise functor laws); the alternative UMP characterization is available through Cat_Cartesian (Instance/Cat/Cartesian.v), under which the projection squares exl ∘ (F ∏⟶ G) ≈ F ∘ exl, exr ∘ (F ∏⟶ G) ≈ G ∘ exr hold componentwise-definitionally.",
+      "strength_comparison": "same — the explicit definition matches on the nose; the uniqueness clause of the alternative characterization is up to natural isomorphism (Cat's hom-setoid), the standing faithful rephrasing."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: ProductFunctor (the #[export] Program Instance begins at Functor/Construction/Product.v:34-35) with the exact componentwise definition and notation F ∏⟶ G at :51. Matches the book's explicit form on the nose."
+    }
+  },
+  {
+    "id": "maclane:II.3:construction3",
+    "classification": "PRESENT",
+    "aliases": [
+      "x as a functor Cat x Cat -> Cat",
+      "InternalProductFunctor ×(C) at C := Cat",
+      "(U' x V') ∘ (U x V) = (U'U) x (V'V)",
+      "product bifunctor on the category of categories",
+      "cartesian tensor of Cat (CC_Monoidal at Cat)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Product/Internal.v",
+        "line": 34,
+        "symbol": "InternalProductFunctor",
+        "intree_statement": "Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} : C ∏ C ⟶ C := { fobj := fun p => fst p × snd p; fmap := fun _ _ p => (fst p ∘ exl) △ (snd p ∘ exr) }  — the product assembled into a bifunctor with fmap_id/fmap_comp proven."
+      },
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; ... }  — supplies the @Cartesian Cat instance InternalProductFunctor needs, yielding @InternalProductFunctor Cat Cat_Cartesian : Cat ∏ Cat ⟶ Cat."
+      },
+      {
+        "file": "Functor/Construction/Product.v",
+        "line": 19,
+        "symbol": "ProductFunctor (header)",
+        "intree_statement": "\"This is the action of the product on morphisms of Cat, making (− ∏ −) a functor Cat ∏ Cat ⟶ Cat\" — with ProductFunctor's fmap_comp field giving (U' ∏⟶ V') composition componentwise."
+      }
+    ],
+    "statement_record": {
+      "book": "Whenever U'∘U and V'∘V are defined, (U' x V') ∘ (U x V) = (U'U) x (V'V); with (B,C) ↦ B x C this makes x, restricted to small categories, a functor x : Cat x Cat -> Cat (with analogues Grp x Grp -> Grp, Top x Top -> Top, etc.).",
+      "intree": "The generic product bifunctor ×(C) : C ∏ C ⟶ C (InternalProductFunctor) instantiated at C := Cat via Cat_Cartesian is the functor Cat ∏ Cat ⟶ Cat with object action (B,C) ↦ B ∏ C and morphism action (U,V) ↦ ⟨U ∘ Fst, V ∘ Snd⟩, which computes componentwise as U ∏⟶ V; its fmap_comp field IS the displayed composition equation. Instantiation verified by compiling 'Definition ProductAsFunctorOnCat : Cat ∏ Cat ⟶ Cat := @InternalProductFunctor Cat Cat_Cartesian.' against the built library (exit 0, no universe obstruction).",
+      "strength_comparison": "same up to the setoid discipline: the composition equation holds at Cat's hom-setoid (natural isomorphism) as the bifunctor's fmap_comp, rather than as Mac Lane's strict equality of functors; smallness is handled by universe polymorphism instead of an explicit restriction to small categories. The Grp/Top analogues are absent (no such categories in-tree) but are asides, not the item's claim."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "The load-bearing compile claim REPRODUCED: 'Definition ProductAsFunctorOnCat : Cat ∏ Cat ⟶ Cat := @InternalProductFunctor Cat Cat_Cartesian.' compiles against the built library (nix develop, coqc -R . Category, exit 0) — no universe obstruction, so the instantiation is immediate from two in-tree components (InternalProductFunctor at Functor/Product/Internal.v:34, Cat_Cartesian at Instance/Cat/Cartesian.v:39). Blind pass had leaned PARTIAL on the ground that no NAMED in-tree instantiation at Cat exists and the composition law is not a named lemma; the successful zero-content instantiation plus fmap_comp of the instance carrying the displayed equation justifies PRESENT under 'formalized in substance'. Contrast honestly disclosed: the equation holds at Cat's hom-setoid (natural iso), and the funny-tensor file's 'no tensor on weak Cat' caveat concerns the funny tensor only, not this cartesian one."
+    }
+  },
+  {
+    "id": "maclane:II.3:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "bifunctor / functor of two variables",
+      "functor out of a product category C ∏ D ⟶ E",
+      "bimap",
+      "partial functors by fixing one argument",
+      "Data.Bifunctor (Haskell reading)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 38,
+        "symbol": "bimap",
+        "intree_statement": "Definition bimap {F : C ∏ D ⟶ E} {x w y z} (f : x ~{C}~> w) (g : y ~{D}~> z) : F (x, y) ~{E}~> F (w, z) := @fmap (C ∏ D) E F (x, y) (w, z) (f, g).  (header, line 14: \"A bifunctor is just a functor F : C ∏ D ⟶ E out of a product category, so we do not formalize it as a separate structure\")"
+      },
+      {
+        "file": "Functor/Product/Internal.v",
+        "line": 34,
+        "symbol": "InternalProductFunctor",
+        "intree_statement": "The book's example (cartesian product of sets as the object function of a bifunctor Set x Set -> Set) is the instance ×(Sets) : Sets ∏ Sets ⟶ Sets of InternalProductFunctor at the cartesian Sets."
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 80,
+        "symbol": "bimap_comp_id_left",
+        "intree_statement": "Lemma bimap_comp_id_left {F} {w} `(f : y ~{D}~> z) `(g : x ~{D}~> y) : bimap (id[w]) (f ∘ g) ≈ bimap id f ∘ bimap id g  — fixing one argument yields a one-variable functorial action (and bimap_comp_id_right, line 91, dually)."
+      }
+    ],
+    "statement_record": {
+      "book": "A functor S : B x C -> D out of a product category is a bifunctor on B and C (functor of two variables); example: cartesian product of sets as a bifunctor Set x Set -> Set; fixing one argument yields an ordinary functor of the other.",
+      "intree": "Bifunctors are exactly functors C ∏ D ⟶ E — deliberately not a separate class (documented design choice matching the book's consolidation) — with the bimap helper for the action on pairs of arrows, the fixed-argument partial-functorial actions as lemmas, and the cartesian-product example available as ×(Sets).",
+      "strength_comparison": "same — identical packaging (a bifunctor IS a functor on the product category); the partial functors are provided as bimap lemmas rather than bundled Functor instances, an inessential presentational difference (bundled partial functors also appear where needed, e.g. Curried_Hom's fobj components in Functor/Hom.v)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same packaging: Functor/Bifunctor.v header states the book's exact consolidation (bifunctor := functor out of the product category, deliberately no separate class), bimap at :38, partial-action lemmas at :80/:91. The Set×Set→Set example claim checks out: Sets_Cartesian exists (Instance/Sets/Cartesian.v:32), so ×(Sets) is available."
+    }
+  },
+  {
+    "id": "maclane:II.3:prop1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "bifunctor determined by its partial functors",
+      "separately functorial + interchange iff jointly functorial",
+      "middle-four exchange condition (4)",
+      "uncurrying a functor into a functor category",
+      "exp_iso of Cat (currying bijection)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 104,
+        "symbol": "bimap_id_right_left",
+        "intree_statement": "Lemma bimap_id_right_left {F : C ∏ D ⟶ E} {w} `(f : z ~{C}~> w) `(g : x ~{D}~> y) : bimap f id ∘ bimap id g ≈ bimap f g  (with bimap_id_left_right line 116, bimap_comp_id_left line 80, bimap_comp_id_right line 91: every bifunctor has separately functorial partial actions satisfying Mac Lane's commutation condition (4) — the forward direction)."
+      },
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 59,
+        "symbol": "Cat_Closed (exp_iso, from)",
+        "intree_statement": "from := {| morphism := fun F : A ⟶ [B, C] => {| fobj := fun x => F (fst x) (snd x); fmap := fun J K f => fmap (snd f) ∘ transform[fmap[F] (fst f)] _ |} |}  — uncurrying assembles a bifunctor A ∏ B ⟶ C whose fmap is exactly Mac Lane's formula S(f,g) := M g ∘ L f, with the round trips of exp_iso proven (the converse direction, in curried packaging)."
+      }
+    ],
+    "statement_record": {
+      "book": "Given functors L_c : B -> D (one per object c of C) and M_b : C -> D (one per object b of B) with L_c(b) = M_b(c), there exists a bifunctor S : B x C -> D with S(-,c) = L_c and S(b,-) = M_b IFF for all f : b -> b', g : c -> c': M_{b'} g ∘ L_c f = L_{c'} f ∘ M_b g (condition (4)); S(f,g) is then this common value (and S is unique).",
+      "intree": "Forward direction fully present: for any F : C ∏ D ⟶ E the partial actions are separately functorial (bimap_comp_id_left/right) and satisfy the commutation (bimap_id_right_left / bimap_id_left_right), with bimap_comp the middle-four exchange. Converse present only in curried packaging: Cat_Closed's exp_iso.from turns a functor A ⟶ [B, C] — equivalent data to (L_c, M_b, condition (4)): the transition natural transformations have components M_b g, and their naturality IS condition (4) — into a bifunctor by Mac Lane's exact formula, with both round trips of the currying bijection proven.",
+      "strength_comparison": "intree-weaker as stated: the iff in Mac Lane's two-family form is never stated as a theorem (the Functor/Bifunctor.v header asserts the equivalence in a comment only), and the converse requires the user to first repackage the two object-indexed families satisfying (4) as a functor into the functor category — a routine but genuine assembly step the book's proof performs and the library does not."
+    },
+    "gap": "No in-tree statement of the two-partial-family characterization itself: missing is a constructor taking families L_c : B ⟶ D and M_b : C ⟶ D agreeing on objects plus condition (4) and producing the (unique) bifunctor S with those partial functors. Present are the forward direction (all four bimap partial/commutation lemmas) and the curried converse (exp_iso.from of Cat_Closed with proven round trips); the proposition follows from these by the standard repackaging but is not drawn. Searched: rg -tcoq 'Build_Bifunctor|bifunctor_from|Bifunctor_of|from_partial' — 0 hits; rg -tcoq -i 'separately functorial' — only the funny-tensor development (SepFunctorial/FunnyUP, Construction/Funny*), which deliberately handles the NO-interchange case (functors out of C □ D, not C ∏ D).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently found forward-direction-only in Functor/Bifunctor.v (all four partial/commutation lemmas verified at :80/:91/:104/:116) and NO two-family converse constructor (Build_Bifunctor/bifunctor_from/from_partial: 0 hits). The exp_iso.from quote verified at Instance/Cat/Cartesian/Closed.v:59-63 — the uncurrying does use Mac Lane's S(f,g) = M g ∘ L f formula, a fair 'curried converse' credit. PARTIAL with the gap stated precisely (the two-family iff itself is never drawn as a theorem)."
+    }
+  },
+  {
+    "id": "maclane:II.3:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "(B x C)^op iso B^op x C^op",
+      "Product_Opposite",
+      "opposite of a product category",
+      "mixed-variance bifunctor B^op x C -> D",
+      "contravariant in B, covariant in C"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Product.v",
+        "line": 185,
+        "symbol": "Product_Opposite",
+        "intree_statement": "Corollary Product_Opposite {C D : Category} : (C ∏ D) ^op = (C^op ∏ D^op). Proof. reflexivity. Qed.  — definitional equality, not merely an isomorphism."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets  — the standing mixed-variance idiom; likewise Theory/Profunctor.v:122: Definition Profunctor (C D : Category) := (C^op ∏ D) ⟶ Sets."
+      }
+    ],
+    "statement_record": {
+      "book": "Products of three or more categories, and combinations with opposites, work the same way; there is an evident isomorphism (B x C)^op ≅ B^op x C^op; a functor B^op x C -> D is a bifunctor contravariant in B and covariant in C.",
+      "intree": "Product_Opposite states (C ∏ D)^op = C^op ∏ D^op by reflexivity (both constructions act componentwise, and the library's duality is definitionally involutive); mixed-variance bifunctors as functors B^op ∏ C ⟶ D are the pervasive idiom (Hom, CoHom, profunctors, dinaturals), with the Construction/Product.v header stating the convention explicitly (\"contravariance in one slot is covariance from the opposite category in that slot, and [Product_Opposite] makes the bookkeeping free of transport\"). Products of three or more categories are iterated binary ∏ (used throughout, e.g. Day convolution's double coends).",
+      "strength_comparison": "intree-stronger: the book's 'evident isomorphism' holds on the nose (Leibniz =) thanks to the C^op^op = C duality architecture; the mixed-variance convention is adopted verbatim."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: Product_Opposite at Construction/Product.v:185 proven by reflexivity — the intree-stronger claim (Leibniz = vs the book's iso) is accurate and rests on the C^op^op = C duality architecture; the header quote about mixed variance and transport-free bookkeeping is verbatim at :73-75; Profunctor at Theory/Profunctor.v:122 verified. PRESENT."
+    }
+  },
+  {
+    "id": "maclane:II.3:construction4",
+    "classification": "PRESENT",
+    "aliases": [
+      "hom bifunctor hom : C^op x C -> Set",
+      "Hom functor C^op ∏ C ⟶ Sets",
+      "identity profunctor",
+      "two partial hom-functors satisfying condition (4)",
+      "Curried_Hom / CoHom"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p); is_setoid := @homset C (fst p) (snd p) |}; fmap := fun x y f => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}  — functoriality obligation discharged by comp_assoc (line 58), which is exactly the commutation condition."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets]  — the covariant partial hom-functors hom(a,-) as the fobj components; the contravariant family via CoHom (line 134) and Curried_CoHom (line 146)."
+      }
+    ],
+    "statement_record": {
+      "book": "For C with small hom-sets, the hom-sets form a bifunctor hom : C^op x C -> Set, contravariant in the first and covariant in the second variable; the partial functors hom(-,c) and hom(b,-) satisfy Proposition 1's condition (4), which is exactly the commuting square (6) of II.2.",
+      "intree": "Hom C : C^op ∏ C ⟶ Sets sends (a,b) to the hom-setoid and (f,g) to q ↦ g ∘ q ∘ f (pre- and post-composition at once); the partial functors are recovered by fixing arguments (Curried_Hom, CoHom), and the condition-(4) content is carried by associativity of composition (the fmap_comp obligation) — equivalently by the bimap interchange lemmas instantiated at Hom.",
+      "strength_comparison": "intree-stronger: no small-hom-sets hypothesis is needed — Hom is defined for every category, landing in the universe-polymorphic Sets of setoids (the II.2:construction6 device), and the same file derives the Yoneda embedding (Yoneda_Full/Yoneda_Faithful) from it."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the identical primary evidence: Hom at Functor/Hom.v:49 with fmap q ↦ snd f ∘ q ∘ fst f, the fmap_comp obligation discharged by comp_assoc at :58, Curried_Hom at :60, CoHom at :134, Curried_CoHom at :146 — all verified. The intree-stronger claim (no small-hom-sets hypothesis; lands in universe-polymorphic Sets) is accurate. PRESENT."
+    }
+  }
+]

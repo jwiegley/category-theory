@@ -1,0 +1,540 @@
+[
+ {
+  "id": "7sketches:2.4.3:def74",
+  "classification": "PARTIAL",
+  "aliases": [
+   "V-product of V-categories: Ob(X) \u00d7 Ob(Y) with hom-object X(x,x') \u2297 Y(y,y')",
+   "Enriched_Product / EnrichedProduct / product of enriched categories (likely Coq naming); V-Cat is monoidal",
+   "product category `C \u220f D` (Construction/Product.v) \u2014 the V = Sets instance, hom = product of hom-setoids",
+   "product preorder (the V = Bool instance, tensor = \u2227: (x,y) \u2264 (x',y') iff both coordinates)",
+   "\u2113\u00b9 / sum metric on a product of Lawvere metric spaces (the V = Cost instance)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Product.v",
+    "line": 95,
+    "symbol": "Product",
+    "intree_statement": "Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); homset := fun x y => {| equiv := fun f g => (equiv (fst f) (fst g) * equiv (snd f) (snd g)) |}; id := fun _ => (id, id); compose := fun _ _ _ f g => (fst f \u2218 fst g, snd f \u2218 snd g); id_left := fun x y f => (@id_left C .. (fst f), @id_left D .. (snd f)); comp_assoc := fun x y z w f g h => (@comp_assoc C .., @comp_assoc D ..) |}  \u2014 clause (i) is `obj := C * D` and clause (ii) is `hom := (fst x ~> fst y) * (snd x ~> snd y)`, i.e. the Sets-tensor of the two component hom-objects, with the two V-category axioms discharged componentwise"
+   },
+   {
+    "file": "Construction/Enriched.v",
+    "line": 163,
+    "symbol": "Category_is_Enriched_over_Set",
+    "intree_statement": "Theorem Category_is_Enriched_over_Set : Enriched Sets \u2194 Category.  (backward leg: `@Build_Enriched Sets Sets_Product_Monoidal obj (fun x y : X => {| carrier := x ~> y |}) (fun x => {| morphism := fun _ => id[x] |}) (fun x y z => {| morphism := fun p => fst p \u2218 snd p |}) _ _ _`) \u2014 identifies ordinary categories with V-categories at V = Sets over `Sets_Product_Monoidal`, which is what makes the entry above the V = Sets instance of Def 2.74: hom-object = hom-setoid, tensor = cartesian product of setoids"
+   }
+  ],
+  "statement_record": {
+   "book": "For V-categories X and Y over a symmetric monoidal preorder V, the V-product X \u00d7 Y is the V-category with (i) Ob(X \u00d7 Y) := Ob(X) \u00d7 Ob(Y) and (ii) (X \u00d7 Y)((x,y),(x',y')) := X(x,x') \u2297 Y(y,y'), the V-tensor of the two component hom-objects. At V = Bool this is the product preorder (tensor = \u2227); at V = Cost it is the sum-of-coordinate-distances metric. That it is a V-category is Exercise 2.75 and uses the symmetry of V.",
+   "intree": "Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); id := fun _ => (id, id); compose := fun _ _ _ f g => (fst f \u2218 fst g, snd f \u2218 snd g); ... |}, together with Theorem Category_is_Enriched_over_Set : Enriched Sets \u2194 Category.",
+   "strength_comparison": "intree-weaker: only the V = Sets instance exists, and it is stated as a construction on ORDINARY categories, not as an operation on `Enriched K`. At V = Sets clause (i) is literally `obj := C * D` and clause (ii) is literally `hom x y := (fst x ~> fst y) * (snd x ~> snd y)` \u2014 the pair setoid, which is the tensor of `Sets_Product_Monoidal` used by `Category_is_Enriched_over_Set` \u2014 so the book's definition is matched on the nose at that one base. Nothing in tree takes two `Enriched K` values (for K an arbitrary monoidal base) to a third; the book's parenthetical Bool case (product preorder) and Cost case (sum of distances) have no in-tree counterpart either \u2014 there is no product of `TwoPreorder`s and no Cost base at all. Note that the symmetry the book flags is available in tree at the right generality (`swap_inner`, Structure/Monoidal/Braided/Proofs.v:767, defined over `@SymmetricMonoidal C`), so the missing piece is the construction, not its ingredients."
+  },
+  "gap": "The generic V-product is absent: there is no operation `Enriched K \u2192 Enriched K \u2192 Enriched K` anywhere (all of Construction/Enriched.v, Enriched/{Compose,Fun,Natural,Sets,Two}.v enumerated \u2014 they give identity/composite enriched functors, whiskerings, V-natural transformations, the ordinary category of V-functors, and the V = Sets / V = Two round trips, and nothing else), so clauses (i)+(ii) are never stated with a V-valued hom-object. Consequently there is no product of Bool-categories (no product of `TwoPreorder`, no product order), and no product of Cost-categories (no Cost base at all; see def53/example54). Instantiating the V = Sets case as an enriched product would additionally need `Product` to be transported through `Category_is_Enriched_over_Set`, which no file does.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'EnrichedProduct|Enriched_Product|product of (V-|enriched)|V-product|product V-categor' . \u2014 0 hits",
+   "grep -rn --include='*.v' -iE 'Enriched.*\u220f|\u220f.*Enriched|tensor of (V-)?categor|product of two (V-)?categor' . \u2014 0 relevant hits (only monoidal/bifunctor prose)",
+   "declaration listing of Construction/Enriched.v and all five files under Construction/Enriched/ \u2014 no product construction of any kind",
+   "grep -rIoh --include='*.v' -iE 'product of preorders' . \u2014 0 hits; grep -rn 'Proset|TwoPreorder' \u2014 no product-order construction",
+   "grep -rn --include='*.v' '\\bCost\\b' . \u2014 0 hits (so the Cost instance of the product cannot exist)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass (before opening coverage-2-5.json) reached ABSENT; I confirm PARTIAL as defensible under the frozen definition, because the V = Sets instance of clauses (i)+(ii) exists LITERALLY in tree and the bridge to enrichment exists too. Both cited locations verified verbatim: Construction/Product.v:95 is `Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); ... id := fun _ => (id, id); ... |}` (obj/hom exactly as quoted; the homset field is a hand-rolled pair setoid, which the record abbreviates fairly), and Construction/Enriched.v:163 is `Theorem Category_is_Enriched_over_Set : Enriched Sets <-> Category`. Both files are in _CoqProject (lines 30 and 43-ish region; Construction/Enriched.v:30). Independently reproduced the negative half: `rg -n 'Enriched' -tcoq . | rg -i 'product|prod'` yields only `Sets_Product_Monoidal` (the BASE monoidal structure), never a product OF enriched categories; I enumerated every declaration in Construction/Enriched.v and all five files under Construction/Enriched/ and there is no operation of type `Enriched K -> Enriched K -> Enriched K`. Extra finding supporting the gap: the enriched development never assumes a braided or symmetric base anywhere (`rg 'Symmetric' Construction/Enriched*.v` finds only tactic uses), so the book's symmetry requirement cannot even be posed there. strength_comparison is honest: it says outright 'only the V = Sets instance exists, and it is stated as a construction on ORDINARY categories, not as an operation on Enriched K'."
+  }
+ },
+ {
+  "id": "7sketches:2.4.3:ex75",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the V-product satisfies the unit and composition axioms (product of V-categories is a V-category)",
+   "middle-four interchange / shuffle (a \u2297 b) \u2297 (c \u2297 d) \u2192 (a \u2297 c) \u2297 (b \u2297 d) built from the braiding \u2014 where symmetry is used",
+   "`swap_inner` / `mid_swap` / interchange of four objects",
+   "componentwise identity and associativity laws of a product category (the V = Sets check)",
+   "tensor of two comonoids / of two algebraic structures needs the symmetry (same shuffle pattern)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Product.v",
+    "line": 95,
+    "symbol": "Product",
+    "intree_statement": "Definition Product (C D : Category) : Category := {| ... id := fun _ => (id, id); compose := fun _ _ _ f g => (fst f \u2218 fst g, snd f \u2218 snd g); id_left := fun x y f => (@id_left C (fst x) (fst y) (fst f), @id_left D (snd x) (snd y) (snd f)); id_right := ...; comp_assoc := fun x y z w f g h => (@comp_assoc C .. , @comp_assoc D ..); comp_assoc_sym := ... |}  \u2014 the V = Sets discharge of parts (1) and (2): the unit axiom is `id := (id, id)` with `id_left`/`id_right` proved componentwise, and the composition axiom is `compose := (fst f \u2218 fst g, snd f \u2218 snd g)` with `comp_assoc` proved componentwise"
+   },
+   {
+    "file": "Structure/Monoidal/Braided/Proofs.v",
+    "line": 767,
+    "symbol": "swap_inner",
+    "intree_statement": "Definition swap_inner (a b c d : C) : (a \u2a02 b) \u2a02 (c \u2a02 d) ~> (a \u2a02 c) \u2a02 (b \u2a02 d) := (tensor_assoc a c (b \u2a02 d))\u207b\u00b9 \u2218 bimap id[a] (to (tensor_assoc c b d)) \u2218 bimap id[a] (bimap (braid b c) id[d]) \u2218 bimap id[a] ((tensor_assoc b c d)\u207b\u00b9) \u2218 to (tensor_assoc a b (c \u2a02 d))  \u2014 in a section with `Context `{S : @SymmetricMonoidal C}` (line 632): exactly the shuffle (X(x1,x2) \u2297 Y(y1,y2)) \u2297 (X(x2,x3) \u2297 Y(y2,y3)) \u2192 (X(x1,x2) \u2297 X(x2,x3)) \u2297 (Y(y1,y2) \u2297 Y(y2,y3)) that part (3) asks the reader to locate, and it is built from `braid`, i.e. it is the use of Def 2.2(d)"
+   },
+   {
+    "file": "Theory/Algebra/Comonoid/Tensor.v",
+    "line": 214,
+    "symbol": "Comonoid_Tensor",
+    "intree_statement": "Definition Comonoid_Tensor {X Y : C} (CX : Comonoid X) (CY : Comonoid Y) : Comonoid (X \u2a02 Y) := @Build_Comonoid C _ (X \u2a02 Y) (canonical_tensor_delta CX CY) (canonical_tensor_epsilon CX CY) (canonical_tensor_delta_coassoc CX CY) (canonical_tensor_delta_counit_left CX CY) (canonical_tensor_delta_counit_right CX CY)  \u2014 over `Context `{S : @SymmetricMonoidal C}`; the in-tree instance of the exercise's PATTERN: the laws of a structure on a tensor product are verified by routing the doubled structure maps through `swap_inner`, and the file's header states outright that tensoring two different structures 'needs the interchange coherences ... of Braided/Proofs.v'"
+   }
+  ],
+  "statement_record": {
+   "book": "For the V-product of Def 2.74: (1) verify the unit axiom I \u2264 (X \u00d7 Y)((x,y),(x,y)); (2) verify the composition axiom (X \u00d7 Y)((x1,y1),(x2,y2)) \u2297 (X \u00d7 Y)((x2,y2),(x3,y3)) \u2264 (X \u00d7 Y)((x1,y1),(x3,y3)); (3) point out exactly where the symmetry of V (Def 2.2(d)) is used \u2014 the promised reason symmetry is needed for products of V-categories.",
+   "intree": "Product (C D : Category) : Category with `id := (id, id)`, `compose := (fst f \u2218 fst g, snd f \u2218 snd g)` and id_left/id_right/comp_assoc proved componentwise; swap_inner (a b c d : C) : (a \u2a02 b) \u2a02 (c \u2a02 d) ~> (a \u2a02 c) \u2a02 (b \u2a02 d) over a SymmetricMonoidal base; Comonoid_Tensor : Comonoid X \u2192 Comonoid Y \u2192 Comonoid (X \u2a02 Y).",
+   "strength_comparison": "intree-weaker, and split across two developments that are never joined. Parts (1) and (2) are discharged only at V = Sets, where they degenerate: the unit axiom is the pair of identities and the composition axiom is componentwise composition, so the shuffle the exercise is really about is invisible (in Sets the tensor is the cartesian product and the reassociation is silent). Part (3) has a genuine in-tree witness of the right shape and generality \u2014 `swap_inner` is the four-object interchange, is built from `braid`, and lives in a section that assumes `@SymmetricMonoidal C` \u2014 but it is never stated ABOUT a product of V-categories; the in-tree place where it plays the exercise's role is the tensor of comonoids, not the product of enriched categories. Nothing in tree records the negative half of the exercise's point either (that without symmetry the composition axiom cannot be verified)."
+  },
+  "gap": "No statement that the V-product of two V-categories satisfies the two `Enriched` axioms, because the V-product itself does not exist in tree (see def74). Consequently part (3) \u2014 locating the use of Def 2.2(d) \u2014 is nowhere recorded: the symmetry-built shuffle `swap_inner` exists and is used to verify laws for a tensor of comonoids, but no file connects it to `eid`/`ecompose` of a product enrichment, and there is no lemma of the form 'the composition axiom of X \u00d7 Y factors through swap_inner \u2218 (ecompose \u2a02 ecompose)'. Also missing: the V = Bool reading of parts (1)-(2) (reflexivity and transitivity of a product preorder) and any remark that a merely braided or non-symmetric V would not suffice.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'EnrichedProduct|Enriched_Product|product of (V-|enriched)|V-product' . \u2014 0 hits (so no product to verify the axioms for)",
+   "grep -rn --include='*.v' -iE 'middle four|middle-four|interchange|shuffle|interleav' . \u2014 Functor/Bifunctor.v (bifunctor middle-four exchange), Theory/Bicategory/* (Godement interchange), Structure/Monoidal/Braided/Proofs.v \u00a7Interchange (swap_inner and its coherences); none about enriched products",
+   "grep -rn --include='*.v' -iE 'symmetry is (needed|used)|requires symmetry|needs the symmetry' . \u2014 no lemma or comment tying symmetry to a product of enriched categories"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT; PARTIAL confirmed as generous-but-disclosed. Evidence verified verbatim: Structure/Monoidal/Braided/Proofs.v:767 `Definition swap_inner (a b c d : C) : (a (x) b) (x) (c (x) d) ~> (a (x) c) (x) (b (x) d)` built from `braid`, and it does sit inside `Context `{S : @SymmetricMonoidal C}` which opens at line 632 (the file has a second such Context at 506; 632 is the one governing 767, so the citation is right). Theory/Algebra/Comonoid/Tensor.v:214 `Definition Comonoid_Tensor {X Y : C} (CX : Comonoid X) (CY : Comonoid Y) : Comonoid (X (x) Y) := @Build_Comonoid ...` verified verbatim. Construction/Product.v:95 discharges parts (1)/(2) componentwise at V = Sets as claimed. The generous move -- crediting a comonoid-tensor use of swap_inner for part (3) -- is explicitly fenced in strength_comparison ('never stated ABOUT a product of V-categories; the in-tree place where it plays the exercise's role is the tensor of comonoids') and in the gap, so no over-claim survives. I add one reinforcement of the gap: because nothing in the enriched development assumes a symmetric base at all, the negative half of the exercise (a merely braided V will not do) is not merely unproved but unstatable there today."
+  }
+ },
+ {
+  "id": "7sketches:2.4.3:example76",
+  "classification": "ABSENT",
+  "aliases": [
+   "Cost-product of two Lawvere metric spaces presented by weighted graphs",
+   "sum metric d((x,y),(x',y')) = d_X(x,x') + d_Y(y,y') (\u2113\u00b9 / taxicab product metric)",
+   "product of two shortest-path metrics; grid graph of a product of weighted graphs",
+   "product of Cost-categories / of generalized (quasi-)metric spaces",
+   "weighted-graph presentation of a Cost-category (edge labels in [0,\u221e])"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' '\\bCost\\b' . \u2014 0 hits: no Cost base, hence no Cost-category and no Cost-product",
+   "grep -rn --include='*.v' -iE 'Require.*Reals|Rle|Rplus|Rminus|QArith' . \u2014 0 hits; grep -rIoh -iE 'infty|infinity' . \u2014 0 hits: the carrier [0,\u221e] of the edge labels and distances does not exist in tree",
+   "grep -rn --include='*.v' -iE 'weighted|shortest path|edge weight|adjacency' . \u2014 prose only (weighted LIMITS in Structure/Limit/Weighted.v, Theory/Profunctor.v:102, Instance/Coq/Comonad/Traced.v:33); `Class Quiver` (Construction/Free/Quiver.v:54) carries unlabelled `edges : nodes \u2192 nodes \u2192 uedges`, so a Cost-weighted graph cannot be written",
+   "grep -rn --include='*.v' -iE 'EnrichedProduct|Enriched_Product|product of (V-|enriched)|V-product' . \u2014 0 hits: even given a Cost base there is no product of V-categories to apply (see def74)",
+   "grep -rIoh --include='*.v' -iE 'metric' . / grep -rn -iE 'lawvere metric|generalized metric' . \u2014 prose only (Instance/Poset.v:77, Construction/Enriched.v:75, Instance/Two.v:69), and Instance/Two.v discloses that only the V = 2 case is carried in tree",
+   "grep -rn --include='*.v' -iE 'taxicab|manhattan|sum metric|\u21131|l1 metric' . \u2014 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT. Reproduced the decisive negatives: `rg -nw 'Cost' -tcoq .` = 0 hits; `rg -n 'Require.*Reals|Rdefinitions|QArith' -tcoq .` = 0 hits; no metric-space construction anywhere (every 'metric' hit is prose). Spot-checked the two supporting citations and both are accurate: Construction/Free/Quiver.v:54 `Class Quiver@{o h p} := { nodes : Type@{o}; uedges := Type@{h} ...; edges : nodes -> nodes -> uedges; edgeset : ... }` -- edges carry no weights, so a Cost-weighted graph is not expressible; Instance/Two.v:69 does disclose the scope ('over [_2] enrichment produces preorders, over the interval [0, infinity] it produces metric spaces ... The library carries the first case in full'). Nothing in my blind search contradicts ABSENT."
+  }
+ },
+ {
+  "id": "7sketches:2.4.3:ex78",
+  "classification": "ABSENT",
+  "aliases": [
+   "distance in the Cost-product R \u00d7 R: d((5,6),(-1,4)) = |(-1)-5| + |4-6| = 8",
+   "the real line as a Lawvere metric space (Cost-category) with d(x,y) = |y - x|",
+   "\u2113\u00b9 (taxicab) metric on the plane versus the Euclidean metric",
+   "product of two Cost-categories evaluated at a pair of points",
+   "Instance/Reals / R as an in-tree object; absolute difference as a distance"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'Require.*Reals|Rle|Rplus|Rminus|Rabs|Rdefinitions|QArith' . \u2014 0 hits: the reals are never imported, so R is not an in-tree object (same finding as example54)",
+   "grep -rn --include='*.v' '\\bCost\\b' . \u2014 0 hits; grep -rIoh -iE 'infty|infinity' . \u2014 0 hits",
+   "ls Instance/ \u2014 the numeric/order instances present are FinSet, Omega (\u03c9 with a Type-valued le_t), Two, CMon, Coq, Sets, Ens, Rel, Proset, Poset; none is R or [0,\u221e], and none carries a non-cartesian monoidal structure (grep 'Monoidal' Instance/ finds only Instance/Two/Monoidal.v)",
+   "grep -rn --include='*.v' -iE 'EnrichedProduct|V-product|product of (V-|enriched)' . \u2014 0 hits: no product of V-categories in which to compute a distance",
+   "grep -rn --include='*.v' -iE 'euclidean|taxicab|manhattan|sqrt' . \u2014 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT. Reproduced: no reals/rationals are ever imported (0 hits for Reals/Rdefinitions/QArith), `Cost` does not occur as an identifier, and `ls Instance/` confirms the record's enumeration -- the only order-flavoured instances are Omega (a Type-valued `le_t` on nat), Two, Poset/Proset, FinSet; none is R or [0, infinity]. With neither the carrier nor the V-product (def74) in tree there is nothing to compute, so ABSENT is right; there is no weaker in-tree relative to credit."
+  }
+ },
+ {
+  "id": "7sketches:2.5.1:def79",
+  "classification": "PARTIAL",
+  "aliases": [
+   "symmetric monoidal closed preorder; hom-element v \u22b8 w (residuation / internal hom)",
+   "`SymMonClosed` / `ClosedMonoidal` / `Closed` (exp_iso : x \u2a02 y ~> z \u224a x ~> y \u21d2 z)",
+   "residuated commutative ordered monoid; Heyting/Girard implication; linear implication \u22b8",
+   "closed category (Eilenberg\u2013Kelly), internal hom primitive",
+   "quantale-style residuation a \u2297 v \u2264 w \u27fa a \u2264 v \u22b8 w (Galois connection form, Eq. 2.80)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/StarAutonomous.v",
+    "line": 109,
+    "symbol": "SymMonClosed",
+    "intree_statement": "Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj \u2192 obj \u2192 obj where \"x \u21d2 y\" := (exponent_obj x y); exp_iso {x y z} : x \u2a02 y ~> z \u224a x ~> y \u21d2 z; curry' {x y z} : x \u2a02 y ~> z \u2192 x ~> y \u21d2 z := to (@exp_iso x y z); uncurry' {x y z} : x ~> y \u21d2 z \u2192 x \u2a02 y ~> z := from (@exp_iso x y z); eval' {x y} : (x \u21d2 y) \u2a02 x ~> y := @uncurry' _ _ _ id; ump_exponents' {x y z} (f : x \u2a02 y ~> z) : \u2203! h : x ~> y \u21d2 z, f \u2248 eval' \u2218 (h \u2a02 id) }  \u2014 `exp_iso` at (x,y,z) := (a,v,w) is exactly Eq. (2.80): (a \u2a02 v ~> w) \u2245 (a ~> v \u21d2 w), over a genuinely SYMMETRIC MONOIDAL (not cartesian) base"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 94,
+    "symbol": "Props_Closed",
+    "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }  \u2014 the one in-tree witness of Def 2.79 over a THIN base: `Props` (line 39: hom := Basics.impl, homset equiv := True, i.e. the preorder of truth values under entailment) has hom-element `v \u22b8 w := v \u2192 w` and the residuation bijection (a \u2227 v \u22a2 w) \u2245 (a \u22a2 v \u2192 w), the deduction theorem"
+   }
+  ],
+  "statement_record": {
+   "book": "A symmetric monoidal preorder V = (V, \u2264, I, \u2297) is symmetric monoidal CLOSED if for all v, w \u2208 V there is an element v \u22b8 w (the hom-element) such that for all a, v, w: (a \u2297 v) \u2264 w if and only if a \u2264 (v \u22b8 w) \u2014 Eq. (2.80), an internal-hom/residuation axiom, i.e. an adjunction between (- \u2297 v) and (v \u22b8 -) at the level of the preorder.",
+   "intree": "Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj \u2192 obj \u2192 obj; exp_iso {x y z} : x \u2a02 y ~> z \u224a x ~> y \u21d2 z; ...; ump_exponents' {x y z} (f : x \u2a02 y ~> z) : \u2203! h : x ~> y \u21d2 z, f \u2248 eval' \u2218 (h \u2a02 id) }, with Props_Closed : @Closed Props _ (exponent_obj := Basics.impl) as a thin instance.",
+   "strength_comparison": "same for the closure clause, intree-weaker for the packaging. The residuation axiom matches Eq. (2.80) on the nose with (x,y,z) = (a,v,w): `exp_iso : x \u2a02 y ~> z \u224a x ~> y \u21d2 z`, and `\u224a` (Instance/Sets.v:205, iso of hom-setoids in Sets) collapses to the book's 'if and only if' exactly when the base is thin \u2014 which is the case for the one in-tree instance, `Props`, whose homsets have `equiv := True`. The in-tree class is stronger in base generality (an arbitrary SymmetricMonoidal, so non-cartesian tensors are allowed) and carries one field the book does not state, `ump_exponents'` (existence-and-uniqueness of the transpose), which is vacuous over a thin base. What is weaker is the base packaging inherited from Def 2.2: there is no `MonoidalPreorder`/`SymmetricMonoidalPreorder` class (booked at def2 as PARTIAL), `SymMonClosed` has NO in-tree model at all (its own header, StarAutonomous.v:77, notes it 'constrains no model'), and the only thin closed instance, Props, is CARTESIAN (tensor = \u2227, unit = True) and is never even declared `Monoidal`. So the book's leading non-cartesian closed preorders (Cost, Mat) are unreachable."
+  },
+  "gap": "No closed monoidal PREORDER exists as such. Three concrete deficits: (1) no class assembling a (symmetric) monoidal preorder, so 'closed' cannot be predicated of one \u2014 the same gap booked at def2; (2) `SymMonClosed` (the correct general class) has no instance anywhere in tree, and the two closed classes that do have instances (`Closed`, `ClosedMonoidal`) require a CARTESIAN tensor, so no non-cartesian closed base exists; (3) the two thin bases in tree sit on opposite sides of the requirement \u2014 `Two_Monoidal` (Instance/Two/Monoidal.v:105) is the Bool base but has no `Closed` instance, while `Props_Closed` supplies the hom-element over a thin base but `Props` is never declared `Monoidal`/`SymmetricMonoidal`, so `exp_iso` there is not formally 'closedness of a symmetric monoidal preorder'.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -E '(Program )?(Instance|Definition)[^:]*: *@?Closed|@ClosedMonoidal|SymMonClosed' . \u2014 every closed instance in tree: AST, Lambda, Rel, Comp/Algs, Coq, Props, Cat, FinSet, Sets, Product_Closed, plus CCC_ClosedMonoidal and Coq_ClosedMonoidal; `SymMonClosed` occurs ONLY in Structure/Monoidal/StarAutonomous.v (class + two Contexts), i.e. it has no instance",
+   "grep -rn --include='*.v' -iE 'Two_Closed|Closed _2' . \u2014 0 hits (the Bool base is not closed in tree)",
+   "grep -rIoh --include='*.v' -iE 'hom-element|residuat' . \u2014 0 hits",
+   "grep -rIoh --include='*.v' -iE 'quantale' . \u2014 1 prose hit (Construction/Enriched.v:78)",
+   "Structure/Closed.v \u2014 the Eilenberg\u2013Kelly `Class Closed` (internal hom primitive, unit iso, hom_id, hom_compose) is COMMENTED OUT (lines 154-195, 'the class does not yet typecheck'), so it supplies no assertion"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT on the strength of `SymMonClosed` alone (whose `exp_iso` IS Eq. (2.80)); I confirm PARTIAL because it is the consistent call for this book: 7sketches:2.2.1:def2 (symmetric monoidal PREORDER) is PARTIAL/CONFIRMED in verified-2-0.json for exactly the packaging reason repeated here, and Def 2.79 is that same base plus one clause. Evidence verified verbatim: Structure/Monoidal/StarAutonomous.v:109-124 `Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj -> obj -> obj; exp_iso {x y z} : x (x) y ~> z ~= x ~> y => z; curry'; uncurry'; eval'; ump_exponents' }` (all field names and types as quoted); Instance/Props.v:39 `Props` (hom := Basics.impl, homset equiv := True, i.e. genuinely thin), :69 `Props_Cartesian` (product_obj := and), :53 `Props_Terminal` (terminal_obj := True), :94 `Props_Closed` (exponent_obj := Basics.impl, exp_iso the currying pair) -- all verbatim; `~=` is Instance/Sets.v:205 as claimed. I independently verified the two load-bearing negatives: (i) `SymMonClosed` has NO in-tree instance -- it occurs only as the class, its coercion, two Contexts in StarAutonomous.v, and prose in Structure/Closed.v and Monoidal/Symmetric.v; (ii) Props really carries no monoidal structure, and this is not a typeclass-resolution artifact, because `Cartesian_Monoidal` (Structure/Monoidal/Cartesian.v:49) and `CC_SymmetricMonoidal` (Structure/Monoidal/Internal/Product.v:314) are plain Definitions, not Instances, so nothing derives `Monoidal Props` automatically. RECORD CORRECTION (prose only, classification unaffected): the record attributes the phrase 'constrains no model' at StarAutonomous.v:77 to `SymMonClosed`; line 77 is about `star_transpose` ('it records data every [SymMonClosed] already supplies and constrains no model'). The correct support for the no-instance claim is StarAutonomous.v:67 ('No concrete instance is constructed here') plus the tree-wide grep above. Also worth noting for Phase E: Structure/Closed.v cannot serve as a second witness -- its Eilenberg-Kelly `Class Closed` (line 166) is inside a comment block spanning lines 154-195, as the record's own negative log correctly states."
+  }
+ },
+ {
+  "id": "7sketches:2.5.1:ex82",
+  "classification": "PARTIAL",
+  "aliases": [
+   "closedness as a Galois connection: (- \u2297 v) \u22a3 (v \u22b8 -) between preorders",
+   "tensor-hom adjunction / currying adjunction (- \u2a02 y) \u22a3 (y \u21d2 -)",
+   "monotonicity of tensoring (functoriality of - \u2a02 v) and of the internal hom (v \u21d2 -)",
+   "counit/evaluation (v \u22b8 w) \u2297 v \u2264 w; adjunction from unit+counit",
+   "V closed iff every - \u2297 v has a right adjoint (Galois connection between preorders = adjunction)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/Closed.v",
+    "line": 83,
+    "symbol": "eval",
+    "intree_statement": "Definition eval {x y} : (x \u21d2 y) \u2a02 x ~> y := uncurry id.  \u2014 step (2) of the exercise: ((v \u22b8 w) \u2297 v) \u2264 w, obtained exactly as the book obtains it, by transposing the identity on the hom-element (the counit of the adjunction)"
+   },
+   {
+    "file": "Structure/Premonoidal/Monoidal.v",
+    "line": 92,
+    "symbol": "Monoidal_Tensor_Left",
+    "intree_statement": "Definition Monoidal_Tensor_Left (w : C) : @AFunctor C C (fun x : C => (x \u2a02 w)%object) := @Build_AFunctor C C (fun x => (x \u2a02 w)%object) (fun x y (f : x ~> y) => f \u2a02 id[w]) (fun x y => Monoidal_Tensor_Left_respects w x y) (fun x => Monoidal_Tensor_Left_id w x) (fun x y z f g => Monoidal_Tensor_Left_comp w f g)  \u2014 step (1): (- \u2297 v) is a functor, whose thin-base reading is exactly monotonicity of x \u21a6 x \u2297 v, derived from bifunctoriality of the tensor (Def 2.2(a))"
+   },
+   {
+    "file": "Functor/Hom/Internal.v",
+    "line": 40,
+    "symbol": "InternalHomFunctor",
+    "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op \u220f C \u27f6 C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p); fmap := fun x y '(f, g) => curry (g \u2218 eval \u2218 second (op f)) |}  \u2014 step (3): (v \u22b8 -) is a functor (monotone in the thin case), here as a bifunctor contravariant in the first argument and covariant in the second"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 165,
+    "symbol": "curry_comp_l",
+    "intree_statement": "Corollary curry_comp_l {x y z w : C} (f : y \u00d7 z ~> w) (g : x ~> y) : curry f \u2218 g \u2248 curry (f \u2218 first g).  \u2014 the naturality of the transpose in its domain variable, i.e. the naturality half of 'exp_iso IS an adjunction' that step (4) needs (with curry_comp, uncurry_comp_r, uncurry_comp for the remaining variables)"
+   }
+  ],
+  "statement_record": {
+   "book": "Show that Eq. (2.80) says precisely that for each v the monotone map (- \u2297 v) : V \u2192 V has right adjoint (v \u22b8 -), i.e. a Galois connection. Steps: (1) (- \u2297 v) is monotone; (2) if V is closed then ((v \u22b8 w) \u2297 v) \u2264 w; (3) hence (v \u22b8 -) is monotone; (4) conclude: a symmetric monoidal preorder is closed if and only if (- \u2297 v) has a right adjoint for every v.",
+   "intree": "eval {x y} : (x \u21d2 y) \u2a02 x ~> y := uncurry id; Monoidal_Tensor_Left (w : C) : AFunctor over (fun x => x \u2a02 w); InternalHomFunctor : C^op \u220f C \u27f6 C with fmap (f,g) := curry (g \u2218 eval \u2218 second (op f)); curry_comp_l : curry f \u2218 g \u2248 curry (f \u2218 first g).",
+   "strength_comparison": "intree-weaker: steps (1)-(3) are present (and in a stronger, proof-relevant form \u2014 functors rather than monotone maps), but step (4), the actual content of the exercise, is nowhere asserted. `exp_iso` is a family of hom-setoid isomorphisms indexed by (x,y,z) with NO naturality field; the naturality is available only as separately proved substitution laws (curry_comp_l, curry_comp, uncurry_comp_r, uncurry_comp) and only for the CARTESIAN class, and no file assembles them into the `Adjunction_Hom` shape (`hom_adj : Hom C \u25ef F^op \u220f\u27f6 Id \u2245[[D^op \u220f C, Sets]] Hom D \u25ef Id^op \u220f\u27f6 U`, Adjunction/Hom.v:72) that would yield `F \u22a3 U` via Adjunction_Hom_to_Universal. The converse direction (a right adjoint to every - \u2297 v makes V closed) is likewise absent. Also note the in-tree `InternalHomFunctor` is available only over a cartesian `Closed`, so even step (3) is not stated for a general symmetric monoidal closed base."
+  },
+  "gap": "The biconditional of step (4) is missing in both directions: there is no in-tree `\u22a3` whose left adjoint is a tensoring functor (enumerating every declaration whose type mentions \u22a3 finds only Id \u22a3 Id, Kleisli/Eilenberg\u2013Moore, CoKleisli/CoEM, comma, lifting, composition and transport adjunctions \u2014 none built from `exp_iso`), and no lemma turning 'each - \u2a02 y has a right adjoint' back into a `Closed`/`ClosedMonoidal` structure. Mechanically what blocks the forward direction is that `exp_iso` is a pointwise iso with no naturality field, so `Adjunction_Hom` cannot be instantiated without first proving the four substitution laws natural in all three variables at the monoidal (non-cartesian) base, where only the cartesian versions exist. Separately, the preorder reading of the exercise \u2014 a Galois connection between preorders \u2014 has no in-tree vocabulary at all: 'Galois connection' occurs only in prose (Theory/Adjunction.v:78, Instance/Poset.v:37-100, Adjunction/GAFT.v:136) and there is no monotone-map adjunction anywhere (`MonotoneMap`, Construction/Enriched/Two.v:175, is not paired into an adjunction).",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -E '(Definition|Program Definition|Instance|Program Instance|Theorem|Lemma|Corollary)[^:]*:[^=]*\u22a3' . \u2014 full list of in-tree adjunctions; none is a tensoring/exponential pair",
+   "grep -rIoh --include='*.v' -i 'galois' . \u2014 prose only (Theory/Adjunction.v:78-79, Instance/Poset.v:37-100, Instance/Adjoints.v:280, Structure/Limit.v:53, Structure/Factorization.v:69, Adjunction/GAFT.v:136)",
+   "grep -rn --include='*.v' -E 'Adjunction|\u22a3|\u2239' Structure/Cartesian/Closed.v Structure/Monoidal/Closed.v Structure/Closed.v \u2014 only comments ('expressing (- \u00d7 y) \u22a3 (- ^ y)'), no assertion",
+   "grep -rn --include='*.v' -iE 'Prod(Functor|_Functor)|tensor_left|Curry_Adjunction|exp_adj' . \u2014 Monoidal_Tensor_Left / Tensor_Left exist as functors, but no adjunction instance for them"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached PARTIAL on the same split (steps 1-3 present, step 4 absent). Evidence verified verbatim: Structure/Monoidal/Closed.v:83 `Definition eval {x y} : (x => y) (x) x ~> y := uncurry id.`; Structure/Premonoidal/Monoidal.v:92 `Definition Monoidal_Tensor_Left (w : C) : @AFunctor C C (fun x : C => (x (x) w)%object) := @Build_AFunctor ...` (AFunctor is Theory/Functor.v:391, a functor over a bare object map -- so the 'monotonicity of - (x) v' reading is right); Functor/Hom/Internal.v:40 `InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op \u220f C \u27f6 C` (the record's caveat that step (3) is only available over a CARTESIAN closed base is confirmed by the binders); Structure/Cartesian/Closed.v:165 `Corollary curry_comp_l ... : curry f \u2218 g \u2248 curry (f \u2218 first g)`; Adjunction/Hom.v:72 `hom_adj : Hom C \u25ef F^op \u220f\u27f6 Id \u2245[[D^op \u220f C, Sets]] Hom D \u25ef Id^op \u220f\u27f6 U` (field of `Class Adjunction_Hom`). I re-ran the \u22a3 enumeration independently: every in-tree adjunction is Id/Kleisli/Eilenberg-Moore/CoKleisli/comma/lifting/composition/transport -- none has a tensoring or product functor as left adjoint, and 'Galois' occurs only in prose (16 hits, all headers). So step (4), the actual content of the exercise, is genuinely missing in both directions. One imprecision to carry forward: the `eval` cited as step (2) lives in `ClosedMonoidal`, which BUNDLES `CartesianMonoidal` (field `closed_is_cartesian`, Structure/Monoidal/Closed.v:47, and the header says so at 40-42), so that witness is cartesian; the non-cartesian witness of step (2) is `eval'` at StarAutonomous.v:120, which the sibling prop87 record does cite."
+  }
+ },
+ {
+  "id": "7sketches:2.5.1:example83",
+  "classification": "ABSENT",
+  "aliases": [
+   "Cost = ([0,\u221e], \u2265, 0, +) is monoidal closed with x \u22b8 y := max(0, y - x)",
+   "truncated subtraction / monus / y \u2238 x as the residual of addition",
+   "the quantale [0,\u221e] with residuation; Lawvere's cost quantale",
+   "residuated ordered monoid on the extended non-negative reals",
+   "a + x \u2265 y iff a \u2265 y - x (residuation of + in the reversed order)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' '\\bCost\\b' . \u2014 0 hits: no Cost base at all (same as def53, example54)",
+   "grep -rIoh --include='*.v' -iE 'truncated subtraction' . \u2014 0 hits; grep -rIoh -iE 'monus' . \u2014 0 hits",
+   "grep -rn --include='*.v' -iE 'Require.*Reals|Rle|Rplus|Rminus|QArith' . \u2014 0 hits; grep -rIoh -iE 'infty|infinity' . \u2014 0 hits: neither [0,\u221e] nor subtraction on it exists",
+   "grep -rn --include='*.v' -E '(Program )?(Instance|Definition)[^:]*: *@?Closed|@ClosedMonoidal|SymMonClosed' . \u2014 the complete list of closed instances (AST, Lambda, Rel, Algs, Coq, Props, Cat, FinSet, Sets, Product_Closed); none is numeric or order-theoretic, and none is over a non-cartesian tensor",
+   "grep -rn --include='*.v' -i 'quantale' . \u2014 1 prose hit (Construction/Enriched.v:78)",
+   "grep -rn 'Monoidal' Instance/ \u2014 only Instance/Two/Monoidal.v, i.e. the only thin monoidal base in tree is Bool, not Cost"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT. Reproduced every negative: 0 hits for `Cost`, for 'truncated subtraction'/'monus', for Reals/QArith, and for 'infty|infinity'; `rg -i quantale` = 1 prose hit (Construction/Enriched.v:78). I also re-derived the record's closed-instance census independently (AST/Lambda/Rel/Algs/Coq/Props/Cat/FinSet/Sets/Product_Closed, plus CCC_ClosedMonoidal and Coq_ClosedMonoidal): none is numeric or over a non-cartesian tensor, so even the SHAPE of this example (residuation of a non-cartesian tensor on a thin base) has no in-tree witness. ABSENT stands."
+  }
+ },
+ {
+  "id": "7sketches:2.5.1:ex84",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Bool = (B, \u2264, true, \u2227) is monoidal closed with p \u22b8 q := implication (p \u21d2 q)",
+   "Heyting algebra / Boolean algebra as a cartesian closed thin category",
+   "`Two_Closed` / `@Closed _2` (the two-element base) \u2014 expected Coq naming",
+   "`Props_Closed` (exponent_obj := Basics.impl) \u2014 the truth-value preorder under entailment",
+   "deduction theorem: (a \u2227 p) \u22a2 q iff a \u22a2 (p \u2192 q); relative pseudocomplement"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Props.v",
+    "line": 94,
+    "symbol": "Props_Closed",
+    "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }  \u2014 the hom-element of the truth-value preorder IS implication, and `exp_iso` is the required bijection (a \u2227 p \u22a2 q) \u2245 (a \u22a2 p \u2192 q)"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 69,
+    "symbol": "Props_Cartesian",
+    "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }  (with Props_Terminal at line 53: terminal_obj := True, one := fun _ _ => I) \u2014 the tensor of the base is AND and its unit is the top element, so the closure above is closure for exactly the book's monoidal structure (B, \u2264, true, \u2227)"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 39,
+    "symbol": "Props",
+    "intree_statement": "Program Definition Props : Category := {| obj := Prop; hom := Basics.impl; homset := fun P Q => {| equiv := fun f g => True |}; id := fun _ x => x; compose := fun _ _ _ g f x => g (f x) |}  \u2014 a THIN category: at most one arrow up to \u2248, so `Props` is the preorder of truth values ordered by entailment and the iso in `exp_iso` degenerates to the book's 'if and only if'"
+   }
+  ],
+  "statement_record": {
+   "book": "Show that Bool = (B, \u2264, true, \u2227) is monoidal closed: exhibit the hom-element p \u22b8 q (logical implication) satisfying (a \u2227 p) \u2264 q iff a \u2264 (p \u22b8 q).",
+   "intree": "Props_Closed : @Closed Props _ with exponent_obj := Basics.impl and exp_iso : (R \u2227 P ~> Q) \u224a (R ~> P \u2192 Q), over Props (obj := Prop, hom := Basics.impl, homset equiv := True) with Props_Cartesian (product_obj := and) and Props_Terminal (terminal_obj := True).",
+   "strength_comparison": "same argument, different truth-value object: intree-weaker in that the base is the Heyting PREALGEBRA of Coq's `Prop` (intuitionistic, proper-class-many truth values) rather than the two-element Boolean algebra B, and intree-weaker again in that `Props` is never declared `Monoidal`/`SymmetricMonoidal`, so 'monoidal closed' is not literally predicated of it \u2014 the closure is stated in the cartesian vocabulary (`Cartesian` + `Closed`) and the bridge `Cartesian_Monoidal`/`CC_SymmetricMonoidal` (Structure/Monoidal/Internal/Product.v) is never applied to Props. Everything else matches exactly: the hom-element is implication, the tensor is \u2227 with unit the top element, thinness turns `\u224a` into the book's iff, and the file header states the point verbatim ('cartesian closure is exactly the adjunction (R \u2227 P) \u22a2 Q \u2194 R \u22a2 (P \u2192 Q), the deduction theorem'). Note the two-element base itself IS in tree (`Two_Monoidal := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal`, tensor = meet, unit = top, Instance/Two/Monoidal.v:105) but carries no `Closed` instance, so the exercise's own object is the one that is missing."
+  },
+  "gap": "The exercise is discharged for the Prop-valued truth-value preorder, not for Bool: there is no `@Closed _2` / `Two_Closed` instance, i.e. the two-element base `Two_Monoidal` used by the rest of the chapter's in-tree development (`Enriched_Two_preorder`) is not shown closed, and nothing exhibits the implication table on `TwoObj` as an exponential. Conversely `Props`, which IS shown closed, is never given the `Monoidal`/`SymmetricMonoidal` structure that the phrase 'monoidal closed' requires (its \u2227/True cartesian structure is present but not transported through `Cartesian_Monoidal`). So neither in-tree object satisfies the exercise's statement literally, and the two halves are in different files with no lemma joining them.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'Two_Closed|Closed _2' . \u2014 0 hits",
+   "grep -rn --include='*.v' -E '(Program )?(Instance|Definition)[^:]*: *@?Closed' . \u2014 AST, Lambda, Rel, Algs, Coq, Props, Cat, FinSet, Sets, Product_Closed; Props is the only thin one",
+   "declaration listing of Instance/Two.v and Instance/Two/Monoidal.v \u2014 two_meet/two_exl/two_exr/two_fork/Two_Cartesian/two_one/Two_Terminal/Two_Monoidal only; no exponential, no implication morphism",
+   "grep -rn --include='*.v' -iE 'Cartesian_Monoidal' Instance/Props.v \u2014 0 hits (Props carries no monoidal structure)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached PARTIAL for the same two-sided reason. Verified verbatim: Instance/Props.v:94 `Props_Closed` with `exponent_obj := Basics.impl` and the currying `exp_iso`; :69 `Props_Cartesian` (product_obj := and); :53 `Props_Terminal` (terminal_obj := True); :39 `Props` thin (homset equiv := True); and the file header's own statement of the point at lines 36-37 ('cartesian closure is exactly the adjunction (R /\\ P) |- Q <-> R |- (P -> Q), the deduction theorem'). Verified the exercise's own object is the missing one: `rg -i 'Two_Closed|Closed _2'` = 0 hits, and enumerating Instance/Two.v + Instance/Two/Monoidal.v gives only two_meet/two_exl/two_exr/two_fork/Two_Cartesian/two_one/Two_Terminal/Two_Monoidal -- no exponential and no implication morphism on TwoObj, while Two_Monoidal (line 105-106, `@Cartesian_Monoidal _2 Two_Cartesian Two_Terminal`) IS the book's base (B, <=, true, AND). The record's claim that Props is never made Monoidal is correct and non-artifactual: Cartesian_Monoidal/CC_SymmetricMonoidal are Definitions, not Instances (see def79 note). The Prop-vs-B difference the record flags is real and constructively material (Coq's Prop is a Heyting prealgebra, not a two-valued Boolean one), so PARTIAL rather than PRESENT is right."
+  }
+ },
+ {
+  "id": "7sketches:2.5.1:example85",
+  "classification": "ABSENT",
+  "aliases": [
+   "(B, \u2264, false, OR) is NOT monoidal closed (a non-closed symmetric monoidal preorder)",
+   "join/disjunction as tensor with the bottom element as unit; Cocartesian_Monoidal on a thin category",
+   "no right adjoint to (- \u2228 p); co-implication / subtraction / co-residual does not exist",
+   "refutation of a candidate hom-element (bottom is below everything, so Eq. (2.80) fails)",
+   "counterexample to closedness / no-go for a monoidal preorder"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'Cocartesian_Monoidal|coproduct monoidal|join monoidal' . \u2014 0 hits: the join/disjunction monoidal structure on a thin category (the object of the example) is never built, so its non-closedness cannot be stated",
+   "grep -rn --include='*.v' -iE 'not (monoidal )?closed|fails to be closed|no right adjoint|is not closed' . \u2014 5 hits, ALL comments: Instance/Sets/Par.v:200, Instance/Coq/ParE.v:177, Instance/Coq/Par.v:219-221, Construction/ColouredPROP/LNL.v:53; no theorem",
+   "grep -rn --include='*.v' -E '(Theorem|Lemma|Corollary|Definition)[^:]*: *(\u00ac|~) *@?(Closed|ClosedMonoidal|SymMonClosed)' . \u2014 0 hits: no formal non-closedness result for any category",
+   "nearest in-tree pattern (not evidence for this item): `to_from_impossible` / `from_to_impossible` (Instance/Sets/Par.v:240, 269) refute a SPECIFIC candidate currying pair for Par under decidability/inhabitance hypotheses \u2014 a refutation of one candidate, about a different object, and not a preorder",
+   "grep -rn --include='*.v' -iE 'co-implication|coimplication|subtraction|difference operator|pseudo-?difference' . \u2014 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT, and independently surfaced the same 'nearest pattern' the record already fenced off: Instance/Sets/Par.v:200 plus the REAL lemmas `to_from_impossible` (line 240) and `from_to_impossible` (line 269), which refute one candidate currying pair for Par under inhabitance hypotheses. The record correctly lists these under 'nearest in-tree pattern (not evidence for this item)' rather than as evidence -- the object, the tensor and the setting all differ, and neither lemma is a non-closedness theorem. I verified the other three cited hits are comments: Instance/Coq/Par.v:219 ('Par is not cartesian closed') and :221 ('It is *also* not closed for the monoidal tensor defined above'), Instance/Coq/ParE.v:177 ('[ParE] is not cartesian closed'), Construction/ColouredPROP/LNL.v:53. There is no `Cocartesian_Monoidal`/join-tensor on a thin category anywhere, so the example's very object ((B, <=, false, OR)) cannot be written today. ABSENT stands."
+  }
+ },
+ {
+  "id": "7sketches:2.5.1:example86",
+  "classification": "ABSENT",
+  "aliases": [
+   "resource-theoretic reading of monoidal closure: c \u22b8 d as a converter, a + c \u2192 d iff a \u2192 (c \u22b8 d)",
+   "Mat (chemical materials under reactions) is NOT monoidal closed",
+   "resource theory / reaction network as a symmetric monoidal preorder (Coecke\u2013Fritz\u2013Spekkens)",
+   "no substance realizes 2Na \u22b8 (2NaOH + H2); potential reaction vs. material",
+   "internal hom of a free commutative-monoid resource preorder does not exist"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIoh --include='*.v' -iE 'resource theor' . \u2014 1 hit, prose (Structure/Monoidal/Symmetric.v:84, citing Coecke\u2013Fritz\u2013Spekkens); no resource preorder is constructed as such (the nearest object is the free coloured SMC `CFreeCat S`, booked at construction-mat as PARTIAL, whose homs are proof-relevant terms rather than a preorder)",
+   "grep -rIoh --include='*.v' -iE 'converter' . \u2014 0 hits; grep -rIoh -iE 'hom-element' . \u2014 0 hits",
+   "grep -rn --include='*.v' -iE 'chemi|reaction|NaOH|molecul|substance' . \u2014 0 relevant hits (no chemistry example anywhere)",
+   "grep -rn --include='*.v' -E '(Theorem|Lemma|Corollary|Definition)[^:]*: *(\u00ac|~) *@?(Closed|ClosedMonoidal|SymMonClosed)' . \u2014 0 hits: no non-closedness theorem for any in-tree category, so the negative claim about Mat has no counterpart",
+   "grep -rn --include='*.v' -iE 'Closed' Construction/ColouredPROP/ Construction/PROP/ \u2014 only Construction/Funny/Closed.v (a closed structure on Cat, unrelated); the free-SMC resource models are never discussed as closed or non-closed"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT, and ABSENT (not OUT_OF_SCOPE) is the right call under the frozen definitions: the item IS formalizable in this setting in principle (a free commutative-monoid preorder of material collections plus a proof that some residual fails to exist), it simply has no counterpart. Verified the one cited near-miss: Structure/Monoidal/Symmetric.v:84 is prose citing Coecke-Fritz-Spekkens ('Resource theories ... are symmetric monoidal categories outright'), and no resource preorder is constructed. Reproduced: 0 hits for 'converter', 'hom-element', and for any chemistry vocabulary; 0 non-closedness theorems for any in-tree category (`rg -E '(Theorem|Lemma|Corollary|Definition)[^:]*: *(\u00ac|~) *@?(Closed|ClosedMonoidal|SymMonClosed)'` = 0 hits)."
+  }
+ },
+ {
+  "id": "7sketches:2.5.1:prop87",
+  "classification": "PARTIAL",
+  "aliases": [
+   "properties of a monoidal closed preorder: (- \u2297 v) \u22a3 (v \u22b8 -), tensor preserves joins, evaluation, I \u22b8 v \u2245 v, composition of hom-elements",
+   "left adjoints preserve colimits (LAPC) / tensor distributes over colimits; distributive category",
+   "counit/evaluation v \u2297 (v \u22b8 w) \u2264 w; `eval`",
+   "`exp_one : x^1 \u2245 x` (the unit exponent iso); currying with the unit as base",
+   "internal composition morphism (u \u21d2 v) \u2297 (v \u21d2 w) ~> (u \u21d2 w) (`hom_compose`, Eilenberg\u2013Kelly L)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/BiCCC.v",
+    "line": 90,
+    "symbol": "prod_coprod_r",
+    "intree_statement": "Program Instance prod_coprod_r {x y z : C} : x \u00d7 (y + z) \u2245 x \u00d7 y + x \u00d7 z := { to := uncurry (curry (inl \u2218 swap) \u25bd curry (inr \u2218 swap)) \u2218 swap; from := second inl \u25bd second inr }  (with prod_zero_l/prod_zero_r at lines 208/221: 0 \u00d7 x \u2245 0 and x \u00d7 0 \u2245 0)  \u2014 clause (b) for BINARY and EMPTY joins: the tensor distributes over the coproduct, and the file's header states the reason the book gives ('because the category is closed, each functor _ \u00d7 x has a right adjoint _ ^ x, hence preserves all colimits')"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 389,
+    "symbol": "exp_one",
+    "intree_statement": "Program Instance exp_one {x : C} : x^1 \u2245 x := { to := eval \u2218 id \u25b3 one; from := curry exl }  \u2014 clause (d), v \u2245 (I \u22b8 v), for the cartesian tensor with I = the terminal object"
+   },
+   {
+    "file": "Structure/Monoidal/Closed.v",
+    "line": 83,
+    "symbol": "eval",
+    "intree_statement": "Definition eval {x y} : (x \u21d2 y) \u2a02 x ~> y := uncurry id.  \u2014 clause (c), v \u2297 (v \u22b8 w) \u2264 w, obtained the book's way, by transposing the identity (and available as the class field `eval'` of both ClosedMonoidal, line 61, and SymMonClosed, StarAutonomous.v:120)"
+   },
+   {
+    "file": "Structure/Monoidal/StarAutonomous.v",
+    "line": 115,
+    "symbol": "exp_iso",
+    "intree_statement": "exp_iso {x y z} : x \u2a02 y ~> z \u224a x ~> y \u21d2 z  (field of Class SymMonClosed, line 109)  \u2014 clause (a) in hom-bijection form: the transposition (a \u2297 v ~> w) \u2245 (a ~> v \u21d2 w) that IS the adjunction (- \u2a02 v) \u22a3 (v \u21d2 -) once naturality is supplied"
+   },
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 223,
+    "symbol": "left_adjoint_preserves_colimits",
+    "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D \u27f6 C} {U : C \u27f6 D} (A : F \u22a3 U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G.  \u2014 the general form of clause (b)'s proof ('because left adjoints preserve joins'), for arbitrary index categories; but it consumes an `F \u22a3 U`, which no in-tree development provides for a tensoring functor"
+   }
+  ],
+  "statement_record": {
+   "book": "For a closed symmetric monoidal preorder V: (a) (- \u2297 v) is left adjoint to (v \u22b8 -); (b) tensoring preserves joins \u2014 if \u22c1_{a\u2208A} a exists so does \u22c1_{a\u2208A}(v \u2297 a), and v \u2297 \u22c1A \u2245 \u22c1(v \u2297 a) (Eq. 2.88); (c) v \u2297 (v \u22b8 w) \u2264 w; (d) v \u2245 (I \u22b8 v); (e) (u \u22b8 v) \u2297 (v \u22b8 w) \u2264 (u \u22b8 w). Proofs: (a) is Eq. (2.80) restated; (b) because left adjoints preserve joins; (c) from reflexivity plus symmetry; (d),(e) from (c).",
+   "intree": "prod_coprod_r : x \u00d7 (y + z) \u2245 x \u00d7 y + x \u00d7 z and prod_zero_r : x \u00d7 0 \u2245 0; exp_one : x^1 \u2245 x; eval : (x \u21d2 y) \u2a02 x ~> y := uncurry id; exp_iso {x y z} : x \u2a02 y ~> z \u224a x ~> y \u21d2 z; left_adjoint_preserves_colimits (A : F \u22a3 U) : PreservesAllColimits F.",
+   "strength_comparison": "clause by clause: (c) SAME \u2014 `eval` is exactly it, at the monoidal (non-cartesian) generality the book uses, modulo the harmless factor order ((v \u22b8 w) \u2297 v rather than v \u2297 (v \u22b8 w)). (a) intree-weaker \u2014 only the hom-bijection `exp_iso` is asserted, with no naturality field and no `\u22a3`; the phrase 'left adjoint' appears only in comments. (b) intree-weaker in TWO ways: the in-tree distributivity isos cover only the binary join (prod_coprod_r) and the empty join (prod_zero_r), and only for the CARTESIAN tensor (Structure/BiCCC.v assumes Cartesian + Cocartesian + Closed), whereas the book asserts preservation of an arbitrary subset-indexed join; the general mechanism (left_adjoint_preserves_colimits) is in tree but is conditional on an adjunction the tensor is not known in tree to have. (d) intree-weaker \u2014 `exp_one : x^1 \u2245 x` is the CARTESIAN case with I the terminal object; nothing states v \u2245 (I \u21d2 v) for a general SymMonClosed unit. (e) ABSENT \u2014 no internal composition morphism (u \u21d2 v) \u2297 (v \u21d2 w) ~> (u \u21d2 w) exists anywhere; the Eilenberg\u2013Kelly field `hom_compose {x y z} : [y,z] ~> [[x,y],[x,z]]` sits inside the COMMENTED-OUT class of Structure/Closed.v (line 175) and therefore asserts nothing. [CORRECTED ON AUDIT (fess-7s2 MEDIUM-1): the claim that eval is available 'at the monoidal (non-cartesian) generality the book uses' is FALSE. Structure/Monoidal/Closed.v:46 declares `Class ClosedMonoidal` whose FIRST field is `closed_is_cartesian : @CartesianMonoidal C` (coercion at :71), and its header at :41 says so outright; `eval` at :83 sits under `Context {ClosedMonoidal}` at :76, so it exists ONLY for a cartesian tensor. Cost \u2014 the book's own witness, tensor = +, meet = max \u2014 is not cartesian. The genuine non-cartesian counterpart is `eval'` at Structure/Monoidal/StarAutonomous.v:120 under `SymMonClosed` (:109, over `smc_is_symmetric : @SymmetricMonoidal C`), whose header at :93-95 states it is ClosedMonoidal verbatim minus the bundled CartesianMonoidal. That class has no in-tree instance (:77 notes it 'constrains no model') and its beta law is disclosed unwired at :84-85. This is the trap CLAUDE.md already documents. Classification stays PARTIAL.]"
+  },
+  "gap": "Clause (e) is entirely missing: there is no morphism (u \u21d2 v) \u2a02 (v \u21d2 w) ~> (u \u21d2 w) (nor its cartesian form z^y \u00d7 y^x ~> z^x) anywhere in tree, which also blocks remark89. Clause (a) is not stated as an adjunction: `exp_iso` carries no naturality, no `Adjunction_Hom` is built from it, and no `\u22a3` in tree has a tensoring functor as its left adjoint. Clause (b) exists only as binary + empty distributivity for the cartesian tensor (Structure/BiCCC.v), never as preservation of an arbitrary join by an arbitrary monoidal tensor, and the general LAPC theorem cannot be applied because clause (a)'s adjunction is unavailable. Clause (d) exists only for the cartesian/terminal unit (`exp_one`), not for a general monoidal unit. Finally, none of these are stated over a monoidal PREORDER (see def79), so the package Prop 2.87 is about does not exist in tree.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -E 'z\\^y \u00d7 y\\^x|\\^y \u00d7|internal (hom )?compos|exp_.*comp|hom_compose' . \u2014 the only `hom_compose` is inside the commented-out Eilenberg\u2013Kelly class (Structure/Closed.v:175, disabled at lines 154-195); no internal composition morphism is defined anywhere",
+   "grep -rn --include='*.v' -E '(Definition|Instance|Theorem|Lemma|Corollary)[^:]*:[^=]*\u22a3' . \u2014 no adjunction whose left adjoint is a tensoring or product functor",
+   "grep -rn --include='*.v' -E 'exp_one|one_exp' . \u2014 Structure/Cartesian/Closed.v:389/415 only (cartesian), plus hint declarations; no monoidal-unit version",
+   "grep -rn --include='*.v' -iE '\\bjoin\\b|supremum|\\blub\\b|least upper bound' . \u2014 every hit is the monad multiplication `join`; there is no order-theoretic join/sup vocabulary in tree, so Eq. (2.88) can only be read through colimits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached PARTIAL with the same clause-by-clause verdict, including the same single strongest finding, which I verified in full: clause (e) has NO in-tree witness because the only internal composition in the tree, `hom_compose {x y z} : [y, z] ~> [[x, y], [x, z]]` at Structure/Closed.v:175, sits inside a comment block that opens at line 154 ('jww (2018-10-05): TODO') and closes at line 195, with `Class Closed` at line 166 -- i.e. the whole Eilenberg-Kelly class is disabled and asserts nothing (the same is true of `hom_id` at 174, which the remark89 record relies on). Every other Closed instance in tree (Props, Sets, Coq, Rel, Cat, FinSet, Lambda, AST, Algs, Product_Closed) instantiates the DIFFERENT class at Structure/Cartesian/Closed.v:43, so nothing supplies internal composition; searching for `z^y \u00d7 y^x`-shaped morphisms gives 0 hits. Remaining evidence verified verbatim: Structure/BiCCC.v:90 `prod_coprod_r : x \u00d7 (y + z) \u2245 x \u00d7 y + x \u00d7 z` with prod_zero_l:208 / prod_zero_r:221, and the header quote at lines 30-32 is verbatim ('because the category is closed, each functor `_ \u00d7 x` has a right adjoint `_ ^ x`, hence preserves all colimits'); Structure/Cartesian/Closed.v:389 `exp_one {x : C} : x^1 \u2245 x` -- and note the notation `y ^ x := exponent_obj x y` makes this literally (1 => x) \u2245 x, i.e. clause (d) with I the terminal object, so the record reads it correctly; Structure/Monoidal/Closed.v:83 `eval`; StarAutonomous.v:115 `exp_iso`; Adjunction/Continuity.v:223 `left_adjoint_preserves_colimits (A : F \u22a3 U) : PreservesAllColimits F`. The honest 'conditional on an adjunction the tensor is not known in tree to have' framing for clause (b) matches what I found independently."
+  }
+ },
+ {
+  "id": "7sketches:2.5.1:remark89",
+  "classification": "PARTIAL",
+  "aliases": [
+   "a monoidal closed preorder is enriched in itself (self-enrichment via the internal hom)",
+   "V as a V-category with V(v,w) := v \u22b8 w; canonical self-enrichment of a closed monoidal category",
+   "`Enriched_Self` / self-enriched base / Kelly's V-category V",
+   "unit axiom I \u2264 (x \u22b8 x) = name of the identity; composition axiom = Prop 2.87(e)",
+   "Sets enriched over Sets via its internal hom (hom-setoid = exponential)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched.v",
+    "line": 163,
+    "symbol": "Category_is_Enriched_over_Set",
+    "intree_statement": "Theorem Category_is_Enriched_over_Set : Enriched Sets \u2194 Category.  (backward leg: `@Build_Enriched Sets Sets_Product_Monoidal obj (fun x y : X => {| carrier := x ~> y |}) (fun x => {| morphism := fun _ => id[x] |}) (fun x y z => {| morphism := fun p => fst p \u2218 snd p |}) _ _ _`)  \u2014 instantiated at X := Sets this IS the self-enrichment of the closed monoidal base Sets: hom-object := the hom-setoid, `eid` := the name of the identity (a point of it), `ecompose` := composition, with the three `Enriched` laws discharged"
+   },
+   {
+    "file": "Instance/Sets/Cartesian/Closed.v",
+    "line": 38,
+    "symbol": "Sets_Closed",
+    "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}; exp_iso := ... }  \u2014 identifies the hom-object used above with the internal hom: in Sets the hom-setoid `{| carrier := x ~> y |}` and `exponent_obj x y` have the same carrier `SetoidMorphism x y`, so the enrichment above really is 'V(v,w) := v \u22b8 w'"
+   }
+  ],
+  "statement_record": {
+   "book": "Any symmetric monoidal closed preorder V may be regarded as a V-category with Ob(V) := V and V(v,w) := (v \u22b8 w). Both axioms of Def 2.46 hold: the unit axiom I \u2264 (x \u22b8 x) because I \u2297 x \u2264 x, and the composition axiom V(u,v) \u2297 V(v,w) \u2264 V(u,w) is exactly Prop 2.87(e). So closed preorders enrich themselves.",
+   "intree": "Theorem Category_is_Enriched_over_Set : Enriched Sets \u2194 Category, whose backward leg builds `Enriched Sets` with ehom x y := {| carrier := x ~> y |}, eid x := the point id[x], ecompose := fun p => fst p \u2218 snd p; together with Sets_Closed whose exponent_obj x y has carrier SetoidMorphism x y.",
+   "strength_comparison": "intree-weaker: the remark's GENERAL claim is not stated, and the one in-tree instance of it is the V = Sets case, where it is nearly definitional. Applying the backward leg at X := Sets yields Sets as a Sets-category whose hom-object is the hom-setoid, which by Sets_Closed is (carrier-wise) the internal hom, so 'Sets is enriched in itself through its internal hom' is asserted in substance; and the two axioms are discharged there in the book's way \u2014 `eid` is the name of the identity (a point of the internal hom, the transpose of the unitor) and `ecompose` is composition. But the derivation is from the ordinary category structure of Sets, not from closure: nothing in tree constructs an `Enriched V` from a `SymMonClosed V` (or `ClosedMonoidal V`), no `I ~> (x \u21d2 x)` transpose is defined for a general closed base, and the composition axiom's general form \u2014 Prop 2.87(e), (u \u21d2 v) \u2a02 (v \u21d2 w) ~> (u \u21d2 w) \u2014 does not exist in tree at all (see prop87), so the remark's stated proof cannot even be run. The claim is made in prose in two headers (Construction/Enriched.v:80 'Any closed monoidal base is moreover enriched in itself through its internal hom'; Structure/Closed.v:56 'a closed structure on V is already an enrichment context in which V is self-enriched') without any accompanying assertion."
+  },
+  "gap": "No general self-enrichment: there is no construction `SymMonClosed C \u2192 Enriched C` (or from `ClosedMonoidal`/`Closed`), and both of its ingredients are missing at that generality \u2014 the unit axiom would need a transpose I ~> (x \u21d2 x) (nothing of that type is defined; the Eilenberg\u2013Kelly `hom_id {x} : I ~> [x,x]` is in the commented-out class of Structure/Closed.v:174) and the composition axiom would need the internal composition of Prop 2.87(e), which is absent. The only in-tree instance is V = Sets, obtained as a special case of a theorem about arbitrary categories rather than from closure, and the identification of its hom-object with `exponent_obj` is left to the reader (no lemma states `ehom x y = exponent_obj x y` in Sets). No Bool or Cost self-enrichment (`Enriched_of_TwoPreorder` enriches a preorder in Bool, not Bool in itself).",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'enriched in itself|self-enrich|self enrich|Enriched_Self|enrich(es|ed) itself' . \u2014 2 hits, both prose headers (Construction/Enriched.v:80, Structure/Closed.v:56)",
+   "declaration listing of Construction/Enriched.v and all of Construction/Enriched/ \u2014 the only `Enriched` constructions are the two round trips (Sets, Two) and functor/transformation machinery; no base is enriched in itself",
+   "grep -rn --include='*.v' -E 'internal (hom )?compos|hom_compose|z\\^y \u00d7 y\\^x' . \u2014 only the disabled Eilenberg\u2013Kelly field, so the remark's composition axiom has no in-tree witness",
+   "grep -rn --include='*.v' -E 'I ~> .*\u21d2|unit_object ~> ' . \u2014 no name-of-identity transpose for a closed base"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "RESERVATION RECORDED. Blind pass reached ABSENT. The cited evidence does not STATE self-enrichment: Construction/Enriched.v:163 `Theorem Category_is_Enriched_over_Set : Enriched Sets <-> Category` is a statement about ARBITRARY categories (its header reads it as 'enrichment over Set adds nothing'), and the self-enrichment reading needs two steps no file performs -- instantiating the backward leg at X := Sets, and identifying `ehom x y = {| carrier := x ~> y |}` with `exponent_obj x y` (Instance/Sets/Cartesian/Closed.v:38, verified: carrier `SetoidMorphism x y`, so the identification is plausible but is nowhere asserted). I confirm PARTIAL rather than overturning because (i) the record's gap discloses precisely this ('obtained as a special case of a theorem about arbitrary categories rather than from closure', 'the identification ... is left to the reader'), (ii) it is the same kind of V = Sets credit this campaign already accepted at def74, and (iii) the campaign's calibration (verified-2-2, verified-2-3) overturns only over-strong PRESENTs. A stricter reviewer would file ABSENT and no sentence of the record would need changing. Two caveats for Phase E: the record's phrase 'is asserted in substance' overstates what is in tree (it is derivable, not asserted); and I could not compile a probe (no coqc/rocq on PATH in this read-only pass) to confirm the X := Sets instantiation actually typechecks -- `eobj : Type` is universe-polymorphic and Sets is locally small in its own carrier universe, so it is plausible, but it is unverified. Independently confirmed the general negative: `rg -i 'enriched in itself|self-enrich'` = 2 prose hits only (Construction/Enriched.v:80, Structure/Closed.v:56), and the remark's stated proof cannot be run because BOTH ingredients live in the disabled block of Structure/Closed.v (hom_id:174, hom_compose:175, inside the comment 154-195)."
+  }
+ },
+ {
+  "id": "7sketches:2.5.2:def90",
+  "classification": "PARTIAL",
+  "aliases": [
+   "unital commutative quantale = symmetric monoidal closed preorder with all joins",
+   "complete lattice / sup-lattice with a commutative monoid structure whose tensor preserves joins",
+   "`SymMonClosed` + `Cocomplete` (all colimits = all joins over a thin base)",
+   "bottom element 0 := \u22c1\u2205 (initial object / empty colimit)",
+   "residuated complete lattice; commutative quantale (Rosenthal), Lawvere's cost quantale"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/StarAutonomous.v",
+    "line": 109,
+    "symbol": "SymMonClosed",
+    "intree_statement": "Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj \u2192 obj \u2192 obj; exp_iso {x y z} : x \u2a02 y ~> z \u224a x ~> y \u21d2 z; eval' {x y} : (x \u21d2 y) \u2a02 x ~> y := @uncurry' _ _ _ id; ump_exponents' {x y z} (f : x \u2a02 y ~> z) : \u2203! h : x ~> y \u21d2 z, f \u2248 eval' \u2218 (h \u2a02 id) }  \u2014 the first conjunct of the definition (symmetric monoidal closed), with `exp_iso` the residuation Eq. (2.80)"
+   },
+   {
+    "file": "Structure/Complete.v",
+    "line": 119,
+    "symbol": "Cocomplete",
+    "intree_statement": "Definition Cocomplete {C : Category} := \u2200 (D : Category) (F : D \u27f6 C), Colimit F.  \u2014 the second conjunct: over a thin base a colimit of a diagram is the join of its image, so this is 'all joins exist'; the empty diagram gives the book's 0 := \u22c1\u2205 (equivalently the initial object)"
+   }
+  ],
+  "statement_record": {
+   "book": "A unital commutative quantale is a symmetric monoidal closed preorder V = (V, \u2264, I, \u2297, \u22b8) that has ALL joins: \u22c1A exists for every subset A \u2286 V. The empty join is written 0 := \u22c1\u2205 (the bottom element). Throughout the book 'quantale' means unital commutative quantale.",
+   "intree": "Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj; exp_iso {x y z} : x \u2a02 y ~> z \u224a x ~> y \u21d2 z; ... } together with Definition Cocomplete {C : Category} := \u2200 (D : Category) (F : D \u27f6 C), Colimit F.",
+   "strength_comparison": "intree-weaker: both conjuncts exist as separate in-tree notions and are never combined, and neither is stated over a preorder. `SymMonClosed` is the closed symmetric monoidal half at full (proof-relevant) generality but has NO in-tree instance (StarAutonomous.v:77 notes it 'constrains no model'). `Cocomplete` is the all-joins half in categorified form \u2014 for a thin C a colimit is a join of the image, and the empty diagram supplies the bottom element \u2014 and is if anything STRONGER than the book's requirement, since it quantifies over all index categories at the ambient universe rather than over subsets. What does not exist is any class, definition, or instance named or shaped like a quantale: no `Quantale`, no record bundling closure with joins, and no thin example (the only thin monoidal base, `Two_Monoidal`, is neither shown closed nor shown cocomplete)."
+  },
+  "gap": "No quantale in tree, in three layers. (1) No assembly: nothing conjoins a closed monoidal structure with cocompleteness \u2014 `grep -i quantale` yields a single prose mention (Construction/Enriched.v:78) and there is no `Quantale`/`CompleteLattice`/`SupLattice` class. (2) No lattice-theoretic vocabulary for the joins the book uses: there is no order-theoretic \u22c1/sup/lub anywhere (every `join` in tree is the monad multiplication), so 'all joins' is expressible only through `Colimit`, and no lemma identifies a colimit in a thin category with a join of its image; likewise the bottom element 0 = \u22c1\u2205 is available only as an `Initial` object with no in-tree link to the empty colimit in this setting. (3) No instance: `SymMonClosed` has no model, `Two_Monoidal` is not closed, `Props` is not monoidal, and Cost does not exist \u2014 so no object in tree is a quantale even informally.",
+  "negative_search_log": [
+   "grep -rIoh --include='*.v' -i 'quantale' . \u2014 1 hit, prose (Construction/Enriched.v:78)",
+   "grep -rIoh --include='*.v' -iE 'sup-lattice|suplattice' . \u2014 0 hits; grep -rn -i 'complete lattice' . \u2014 2 prose hits (Instance/Poset.v:93, Structure/Complete.v:71)",
+   "grep -rn --include='*.v' -iE '\\bjoin\\b|\\bsupremum\\b|\\blub\\b|least upper bound' . \u2014 every hit is the monad `join` (Theory/Monad.v:94 etc.); no order-theoretic join operation",
+   "grep -rn --include='*.v' -E 'Class (Complete|Cocomplete)|Definition (Complete|Cocomplete)' . \u2014 Structure/Complete.v:115/119 only",
+   "grep -rn --include='*.v' -E '(Program )?(Instance|Definition)[^:]*: *@?(Closed|ClosedMonoidal)|SymMonClosed' . \u2014 no closed instance is over a thin/preorder base except Props (cartesian, not declared monoidal); `SymMonClosed` has no instance"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT; I confirm PARTIAL because both conjuncts genuinely exist as in-tree notions and the record never pretends they are joined. Verified verbatim: Structure/Monoidal/StarAutonomous.v:109 `Class SymMonClosed` (fields as quoted) and Structure/Complete.v:119 `Definition Cocomplete {C : Category} := forall (D : Category) (F : D \u27f6 C), Colimit F.`. Reproduced the negatives: `rg -i quantale` = 1 prose hit (Construction/Enriched.v:78); no Quantale/CompleteLattice/SupLattice class; no order-theoretic join/sup/lub (every `join` is monad multiplication or prose); `SymMonClosed` has no instance. RECORD CORRECTION (gap text, classification unaffected): the gap says the bottom element 0 = \\/(empty) 'is available only as an `Initial` object with no in-tree link to the empty colimit in this setting'. That link DOES exist, definitionally, under the library's duality architecture: `Theorem Terminal_Limit (C : Category) (F : 0 \u27f6 C) : Limit F <-> @Terminal C` (Structure/Limit/Terminal.v:33) read at C^op is exactly 'initial object = colimit of the empty diagram', because `Initial C` is notation for `@Terminal (C^op)` (Structure/Initial.v:96) and `Colimit F := Limit (F^op)` (Structure/Limit.v:158); the file even states the dual in prose at lines 29-31. So the empty-join half of Def 2.90 is in better shape than the record says -- what is missing is the quantale assembly, the order-theoretic join vocabulary, and any thin instance. The record also repeats the def79 misattribution of 'constrains no model' (StarAutonomous.v:77 is about `star_transpose`; use line 67, 'No concrete instance is constructed here')."
+  }
+ },
+ {
+  "id": "7sketches:2.5.2:example91",
+  "classification": "ABSENT",
+  "aliases": [
+   "Cost = ([0,\u221e], \u2265, 0, +) is a unital commutative quantale",
+   "joins in the reversed order are infima: \u22c1{2,3} = 2, \u22c1{2.5, 2.05, ...} = 2, \u22c1\u2205 = \u221e",
+   "the extended non-negative reals as a complete lattice / sup-lattice under \u2265",
+   "greatest lower bound / infimum of a subset of [0,\u221e]; \u221e as the bottom of the reversed order",
+   "Lawvere's cost quantale; [0,\u221e] with addition as a residuated complete lattice"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' '\\bCost\\b' . \u2014 0 hits; grep -rIoh -iE 'infty|infinity' . \u2014 0 hits: neither the carrier [0,\u221e] nor the value \u221e = \u22c1\u2205 exists in tree",
+   "grep -rn --include='*.v' -iE 'Require.*Reals|Rle|Rplus|Rminus|QArith' . \u2014 0 hits: the reals/rationals are never imported",
+   "grep -rIoh --include='*.v' -i 'quantale' . \u2014 1 prose hit (Construction/Enriched.v:78), so not even the target notion exists (see def90)",
+   "grep -rn --include='*.v' -iE '\\binfimum\\b|greatest lower bound|\\bglb\\b|\\bmeet\\b' . \u2014 only `two_meet` (the two-element meet, Instance/Two/Monoidal.v:37) and lattice prose; no infimum of an arbitrary subset",
+   "ls Instance/ \u2014 no numeric complete-lattice instance; Instance/Omega.v is \u03c9 with a Type-valued le_t and carries no monoidal or join structure"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT. Reproduced: 0 hits for `Cost`, for 'infty|infinity', for Reals/QArith; 1 prose hit for 'quantale'; the only in-tree meet is `two_meet` (Instance/Two/Monoidal.v:37) and there is no infimum of an arbitrary subset anywhere. Instance/Omega.v is confirmed to be omega with a Type-valued `le_t` and carries no monoidal or join structure, so the record's enumeration is accurate. With the target notion itself absent (def90) and the carrier [0, infinity] absent, ABSENT is the only available verdict."
+  }
+ }
+]

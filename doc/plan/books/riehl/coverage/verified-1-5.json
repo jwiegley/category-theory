@@ -1,0 +1,400 @@
+[
+  {
+    "id": "riehl:1.3:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "image of a functor",
+      "full image / essential image of F",
+      "image subcategory / Im F",
+      "FunctorImage / Image_Functor / Full_Image (likely Coq names)",
+      "replete image; essentially wide image",
+      "dual/related: (epi,mono) image factorization in Cat"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'image of a functor|functor image|Image_Functor|full image' --include=*.v . -> 2 hits, both prose in Construction/Reflective/Idempotent.v ('join is a functor image of the ...'), no construction",
+      "for pat in 'essential image' 'essential_image' 'Full_Image' 'image subcategory' 'Image_of' 'FunctorImage'; grep -rli \"$pat\" --include=*.v . | wc -l -> 0 for every alias",
+      "grep -rni 'Image' --include=*.v . (filtered to drop Instance/Sets/Image.v, image_mediator_epic, Regular/Abelian/Factorization/PreservesImage) -> remaining hits are all header prose about 'the image of the tensor', 'preimage' in Full/prefmap, and Adamek 'image legs'; no functor-image object",
+      "grep -rn 'Subcategory' --include=*.v . | grep -i 'class|record|definition|instance|program' -> only Construction/Subcategory.v's Record Subcategory and its consumers (Sheaves_sub, Models_sub, C_W, ThunkableSub, MLocal_Subcategory); none is the image of a functor",
+      "NOTE the in-tree image development that exists is UNRELATED: Instance/Sets/Image.v and Regular/Factorization.v build the (RegularEpi, Mono) image of a MORPHISM, not the image of a functor. No file constructs the objects-and-morphisms image of F : C ⟶ D, so the exercise's counterexample (that image closed under neither composition nor identities in general) has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same verdict independently. My own searches: `rg -in 'image of a functor|functor image|Image' --glob '*.v'` (all hits are the image of a MORPHISM — Instance/Sets/Image.v, Regular/Factorization.v, image_mediator_epic — or the PreservesImageLimit/'image cone' vocabulary of Adjunction/GAFT.v and Adjunction/Continuity.v); `rg -in 'essential image|essential_image' --glob '*.v'` -> 0 hits (re-run by me, exit 1, confirming the classifier's alias sweep); `rg -n 'Class|Record|Definition' Construction/Subcategory.v` -> Record Subcategory (l.31), Sub (l.50), Incl (l.59), Full (l.69), Replete (l.87), Wide (l.93) — the subcategory vocabulary exists but nothing constructs the image of a functor, so the exercise's counterexample has no in-tree target. Construction/Subcategory.v IS registered in _CoqProject (l.71), so the absence is not a registration artifact. ABSENT stands under the frozen definition."
+    }
+  },
+  {
+    "id": "riehl:1.3:exiv",
+    "classification": "PRESENT",
+    "aliases": [
+      "represented / representable functor C(c,-)",
+      "corepresented functor C(-,c); presheaf; contravariant hom",
+      "hom-functor, hom bifunctor C(-,-) : C^op x C -> Set",
+      "Hom / Curried_Hom / CoHom / Curried_CoHom (library names)",
+      "Yoneda embedding; profunctor identity"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p) ; is_setoid := @homset (C) (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y ; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Verify that the constructions of Definitions 1.3.11 and 1.3.13 are functorial: the covariant represented functor C(c,-) : C -> Set, the contravariant C(-,c) : C^op -> Set, and the two-sided hom bifunctor C(-,-) : C^op x C -> Set all satisfy the functoriality axioms.",
+      "intree": "Hom `(C : Category) : C^op ∏ C ⟶ Sets  (post-compose with the C-leg, pre-compose with the C^op-leg);  Curried_Hom `(C : Category) : C^op ⟶ [C, Sets]  (inner functor y ↦ C(x,y) acting by post-composition; outer action f ↦ (g ↦ g ∘ op f)).",
+      "strength_comparison": "same. Both are `Functor`/typeclass instances, so fmap_respects, fmap_id and fmap_comp are discharged as obligations — exactly the verification the exercise asks for. Values land in Sets (setoids) rather than bare sets, the library's standard faithful rephrasing; Riehl's local-smallness proviso is discharged by universe polymorphism rather than a side condition. The contravariant clause C(-,c) : C^op ⟶ Sets is the SAME theorem instantiated at C^op — the inner functor of `Curried_Hom C^op`, aliased at Functor/Hom.v:146 as `Curried_CoHom C : C ⟶ [C^op, Sets]` (a bare alias, hence not cited as separate evidence). Functoriality in the PARAMETER c (which Riehl leaves implicit in 1.3.11) is additionally asserted by Curried_Hom's outer functor structure, so the in-tree form is if anything slightly stronger."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same evidence before opening the coverage file. Verified at the cited locations: Functor/Hom.v:49 `Program Definition Hom \\`(C : Category) : C^op ∏ C ⟶ Sets` and Functor/Hom.v:60 `Program Definition Curried_Hom \\`(C : Category) : C^op ⟶ [C, Sets]`; both quotes are accurate verbatim against the file. Also verified Functor/Hom.v:131 CoHom : C ∏ C^op ⟶ Sets and Functor/Hom.v:146 `Definition Curried_CoHom \\`(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op`, so the contravariant clause C(-,c) really is the same theorem at C^op as claimed. Functor/Hom.v is registered in _CoqProject (l.139). Hunted for same-name-weaker-statement: these are genuine `Functor` instances (Program Definition with fobj/fmap), so fmap_id/fmap_comp/fmap_respects are discharged, not assumed — the exercise's actual content. strength_comparison 'same' is honest. Side finding (does not affect the classification, filed in problems[]): the header comment at Functor/Hom.v:127 misdescribes CoHom_Alt."
+    }
+  },
+  {
+    "id": "riehl:1.3:exv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "variance; contravariant functor; F : C^op -> D vs F : C -> D^op",
+      "opposite functor F^op; dualization; contramap",
+      "split epimorphism; retraction; section; functors preserve retractions",
+      "functors preserve split epis / split monos / absolute properties",
+      "dual: functors preserve split monomorphisms (sections)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Opposite.v",
+        "line": 31,
+        "symbol": "Opposite_Functor",
+        "intree_statement": "Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := @Build_Functor (C^op) (D^op) F (λ (x y : C^op) (f : x ~{C^op}~> y), @fmap C D F y x f) ... (λ (x y z : C^op) (f : y ~{C^op}~> z) (g : x ~{C^op}~> y), @fmap_comp _ _ F _ _ _ g f)."
+      },
+      {
+        "file": "Functor/Opposite.v",
+        "line": 49,
+        "symbol": "Opposite_Functor_invol",
+        "intree_statement": "Corollary Opposite_Functor_invol `{F : C ⟶ D} : (F^op)^op = F. Proof. reflexivity. Qed."
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 116,
+        "symbol": "fmap_split_epic",
+        "intree_statement": "Lemma fmap_split_epic {x y : D} (p : x ~> y) (s : y ~> x) (Hps : p ∘ s ≈ id) : Epic (fmap[T] p).  (* proof: apply retractions_are_epic; exists (fmap[T] s); rewrite <- fmap_comp, Hps; apply fmap_id *)"
+      }
+    ],
+    "statement_record": {
+      "book": "(a) Explain the difference between a functor C^op -> D and a functor C -> D^op, and between C -> D and C^op -> D^op. (b) State and prove a result describing the interaction between functors and split epimorphisms, and explain all four dual variants.",
+      "intree": "Opposite_Functor : (C ⟶ D) → (C^op ⟶ D^op) with (F^op)^op = F by reflexivity, plus contramap `{F : C^op ⟶ D} `(f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f);  and fmap_split_epic (p ∘ s ≈ id) : Epic (fmap[T] p), whose proof exhibits fmap[T] s as a right inverse of fmap[T] p.",
+      "strength_comparison": "intree-weaker on both halves. (a) The dualization apparatus is present and involutive on the nose, and instantiating Opposite_Functor at C^op does relate the four variance forms; but the library never STATES the bijection (C^op ⟶ D) ≅ (C ⟶ D^op) nor a lemma distinguishing the four forms — that content is only in header prose (Functor/Opposite.v:24-29). (b) The split-epi preservation result exists only under strictly extra hypotheses: fmap_split_epic sits in a section with `Context (T : D ⟶ D). Context {H : @Monad D T}.`, so it applies only to an ENDOfunctor carrying a monad structure, and it concludes `Epic (fmap[T] p)` rather than the retraction itself, even though the proof produces the retraction. Neither the general `∀ (F : C ⟶ D) (f : x ~> y), Retraction f → Retraction (fmap[F] f)` nor its dual for Section/split monos is stated anywhere."
+    },
+    "gap": "Missing (a) any stated comparison of the four variance forms — in particular the bijection between functors C^op ⟶ D and functors C ⟶ D^op (only the F ↦ F^op construction and its involutivity are proven); and (b) a functor-general split-epimorphism preservation lemma. The only in-tree instance, Monad/Monadicity/BeckObjects.v's fmap_split_epic, is scoped to a monad endofunctor T (Monad instance required in the section context) and concludes only Epic, not Retraction; the split-MONO dual is absent entirely. Theory/Morphisms.v (Section/Retraction, l.56/70) and Theory/Morphisms/Classes.v (SplitMonoClass/SplitEpiClass, l.44/48) supply the vocabulary but assert nothing about functors.",
+    "negative_search_log": [
+      "grep -rn 'Retraction (fmap|Section (fmap|SplitEpi (fmap|Epic (fmap|Monic (fmap' --include=*.v . -> only Monad/Monadicity/{Crude,Beck,BeckObjects}.v, all monad-scoped",
+      "grep -rn 'Retraction' --include=*.v . excluding Theory/Morphisms*, Theory/Isomorphism.v -> only Construction/Karoubi/Universal.v:127 and Structure/Factorization/StrongEpi.v:114 (Retraction f → StrongEpi f); no functor-preservation statement",
+      "grep -rn 'preserves.*split|split.*preserv' --include=*.v . -> Structure/Coequalizer/Split.v functor_preserves_split (SPLIT COEQUALIZERS, not split epis) and Monad/Monadicity/BeckObjects.v:204"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same two halves. Verified every load-bearing claim of the record: (1) Functor/Opposite.v:31 Opposite_Functor and :49 Opposite_Functor_invol ((F^op)^op = F by reflexivity) exist as quoted; :56 defines contramap for F : C^op ⟶ D. My own `rg -n 'C\\^op ⟶ D|C ⟶ D\\^op'` found no statement of the bijection between the two variance forms — only header prose. (2) The scoping claim on fmap_split_epic is CORRECT and I checked it directly: Monad/Monadicity/BeckObjects.v opens `Section BeckObjects.` (l.58) with `Context {D : Category}` (l.60), `Context (T : D ⟶ D)` (l.61) and `Context \\`{H : @Monad D T}` (l.62), so the lemma at l.116 is stated only for a monad endofunctor, and its conclusion is `Epic (fmap[T] p)` although its proof visibly builds the retraction `exists (fmap[T] s)`. (3) The negative log's near-miss disambiguation also checks out: Structure/Coequalizer/Split.v:104 `functor_preserves_split` is about split COEQUALIZERS, and Structure/Factorization/StrongEpi.v:114 `split_epi_strong : Retraction f → StrongEpi f` says nothing about functors. Theory/Morphisms.v:126/127 SplitEpi := Retraction / SplitMono := Section and Theory/Morphisms/Classes.v:43/47 SplitMonoClass/SplitEpiClass are vocabulary only — I confirmed both line numbers. No general `∀ F, Retraction f → Retraction (fmap[F] f)` exists anywhere in the tree. PARTIAL with the stated gap is honest."
+    }
+  },
+  {
+    "id": "riehl:1.3:exvi",
+    "classification": "PRESENT",
+    "aliases": [
+      "comma category F/G, F ↓ G, (F,G)",
+      "Lawvere comma construction",
+      "Comma / Build_Comma (library name)",
+      "projection functors dom/cod; comma_proj1/comma_proj2",
+      "arrow category, slice as special cases"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma.v",
+        "line": 127,
+        "symbol": "Comma",
+        "intree_statement": "Program Definition Comma : Category := {| obj := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p); hom := fun x y => ∃ f : (fst (`1 x) ~{A}~> fst (`1 y)) * (snd (`1 x) ~{B}~> snd (`1 y)), `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x; homset := fun _ _ => {| equiv := fun f g => (fst `1 f ≈ fst `1 g) * (snd `1 f ≈ snd `1 g) |}; id := fun _ => ((id, id); _); compose := fun _ _ _ f g => ((fst `1 f ∘ fst `1 g, snd `1 f ∘ snd `1 g); _) |}.  (Context {S : A ⟶ C} {T : B ⟶ C}; notation S ↓ T.)"
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 196,
+        "symbol": "comma_proj1",
+        "intree_statement": "Program Instance comma_proj1 : Comma ⟶ A := {| fobj := fun x => fst ``x; fmap := fun _ _ f => fst ``f |}.   (* and comma_proj2 : Comma ⟶ B at line 204, plus comma_proj : Comma ⟶ A ∏ B at 185 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given F : D -> C and G : E -> C, show there is a category F/G whose objects are triples (d, e, f : Fd -> Ge) and whose morphisms (d,e,f) -> (d',e',f') are pairs (h : d -> d', k : e -> e') with f' . Fh = Gk . f; define the projection functors dom : F/G -> D and cod : F/G -> E.",
+      "intree": "Comma (S ↓ T) with obj := ∃ p : A ∏ B, S (fst p) ~> T (snd p), hom the pairs (f,g) subject to `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x, identity (id,id) and componentwise composition; comma_proj1 : Comma ⟶ A and comma_proj2 : Comma ⟶ B as Functor instances.",
+      "strength_comparison": "same. The triple is encoded as a dependent pair over A ∏ B (`1 x the object pair, `2 x the mediating morphism) — a presentation difference only; the commuting square is stated with ≈ rather than =, the library's faithful setoid rephrasing, and the square proof is made irrelevant in the hom-setoid exactly as the exercise intends. The category laws are discharged as Program obligations. The in-tree development is stronger than asked: it also supplies comma_proj : Comma ⟶ A ∏ B and the natural transformation comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2 (line 214), which the exercise does not require."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Construction/Comma.v first, before reading the coverage file. Verified line by line: `Program Definition Comma : Category` really is at Construction/Comma.v:127 and the quoted record fields (obj as ∃ p : A ∏ B, S (fst p) ~> T (snd p); hom as the pair with `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x; componentwise homset, id and compose) match the source verbatim; all eight Program obligations are discharged with Qed. comma_proj1 is at l.196 and comma_proj2 at l.204 (the record cites 196 and mentions 204 and comma_proj at 185 — all three verified), and comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2 at l.214. Construction/Comma.v is registered in _CoqProject (l.21). Definition-without-required-API check: the projections Riehl asks for (dom, cod) are exactly comma_proj1/comma_proj2 and both are Functor instances, not bare maps. No weaker same-name variant exists. PRESENT is right."
+    }
+  },
+  {
+    "id": "riehl:1.3:exvii",
+    "classification": "PRESENT",
+    "aliases": [
+      "slice category C/c as comma (Id ↓ Δc)",
+      "coslice / under category c/C as (Δc ↓ Id)",
+      "over category; Comma_Slice / Comma_Coslice (library names)",
+      "constant functor =(c), Δ(c), Diagonal at the terminal category",
+      "forgetful/projection functor C/c ⟶ C"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice.v",
+        "line": 140,
+        "symbol": "Comma_Slice",
+        "intree_statement": "Program Instance Comma_Slice `(C : Category) `(c : C) : C ̸ c ≅[Cat] (Id ↓ =(c)) := { to := {| fobj := _; fmap := _ |}; from := {| fobj := _; fmap := _ |} }."
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 181,
+        "symbol": "Comma_Coslice",
+        "intree_statement": "Program Instance Comma_Coslice `(C : Category) `(c : C) : c ̸co C ≅[Cat] (=(c) ↓ Id) := { to := {| fobj := _; fmap := _ |}; from := {| fobj := _; fmap := _ |} }."
+      }
+    ],
+    "statement_record": {
+      "book": "Define functors exhibiting the slice categories c/C and C/c of Exercise 1.1.iii as special cases of the comma categories of Exercise 1.3.vi, and identify the resulting projection functors.",
+      "intree": "Comma_Slice : C ̸ c ≅[Cat] (Id ↓ =(c))  and  Comma_Coslice : c ̸co C ≅[Cat] (=(c) ↓ Id), where =(c) is the constant functor selecting c and ↓ is the Comma of Construction/Comma.v.",
+      "strength_comparison": "intree-stronger. Riehl asks only for functors exhibiting the slices as comma categories; the library proves full ISOMORPHISMS in Cat in both the over and under directions, each with the two round-trip natural isomorphisms discharged. Both directions of the duality are covered (Riehl's c/C and C/c). The one clause not separately stated is the identification of the projections: Construction/Slice.v's header (l.41-43) records that the forgetful C/c ⟶ C is comma_proj1 transported across Comma_Slice, but no lemma asserts that equality — the projection is recoverable by composing with the iso, and Construction/Slice/Pullback.v instead builds Bang_Functor/Star_Functor directly on Slice."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Comma_Slice/Comma_Coslice independently via `rg -n 'Comma_Slice|Comma_Coslice' Construction/Slice.v`. Verified at the cited lines: Construction/Slice.v:140 `Program Instance Comma_Slice \\`(C : Category) \\`(c : C) : C ̸ c ≅[Cat] (Id ↓ =(c))` and :181 `Comma_Coslice ... : c ̸co C ≅[Cat] (=(c) ↓ Id)`. I read the full obligation blocks (l.145-167 and l.186-208): both round-trip obligations are genuinely discharged (`constructive; simplify; simpl in *; cat`), so these are real isomorphisms in Cat, not stubs. Construction/Slice.v is in _CoqProject (l.68). Adversarial check on the one honest caveat in strength_comparison — that the projections are never separately identified: I confirmed no lemma equates the slice forgetful functor with comma_proj1 ∘ (to Comma_Slice); the claim lives only in header prose at Construction/Slice.v:39-43, and Construction/Slice/Pullback.v:50 builds Bang_Functor directly on Slice as that prose says. Since Riehl's 'identify the projection functors' is an observation recoverable definitionally from an isomorphism of categories, PRESENT (not PARTIAL) is the correct call; the caveat is disclosed in the record rather than hidden."
+    }
+  },
+  {
+    "id": "riehl:1.3:exviii",
+    "classification": "ABSENT",
+    "aliases": [
+      "functors need not reflect isomorphisms",
+      "conservative functor; ReflectsIsos; reflects_iso",
+      "counterexample: non-conservative functor",
+      "F f iso but f not iso",
+      "dual/related: fully faithful functors DO reflect isos"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'reflect' --include=*.v . | grep -i 'iso|conservat' -> Structure/Limit/Preservation.v:243 Class ReflectsIsos { reflects_iso {x y} (f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f }, plus POSITIVE witnesses only: Theory/Equivalence/Limit.v:335 ff_reflects_isos, :456 equivalence_reflects_isos, Monad/Monadicity/BeckObjects.v:177 em_forget_reflects_isos, Monad/Monadicity/Beck.v:264 creates_split_reflects_isos",
+      "grep -rli 'conservative functor' --include=*.v . -> Structure/Limit/Preservation.v only (the class header)",
+      "grep -rni 'not an isomorphism|is not iso|fails to reflect|does not reflect' --include=*.v . -> 0 hits",
+      "grep -rli 'counterexample' --include=*.v . -> Construction/Indexed.v, Construction/Funny/Bifunctor.v, Structure/Terminal.v, Structure/Monoidal.v, Adjunction/GAFT.v; read: all concern other topics (a 2-cocycle twist of fmap_comp, interchange failure, terminal-object separation, monoidal coherence, smallness), none exhibits a non-conservative functor",
+      "ls Test/ -> FullIssue118, HypergraphPROPResolution, Issue138, Issue139, Issue213, Poset, ProbeFunnyPoly; none is a reflection counterexample",
+      "NOTE: the library HAS the vocabulary (ReflectsIsos as an assumable class, and its being a hypothesis rather than a theorem implicitly presupposes the exercise's answer), but no in-tree functor + morphism pair is ever exhibited with fmap[F] f invertible and f not invertible, so the exercise's actual content — the counterexample — has no counterpart. Nothing in Instance/One.v or Instance/Two.v states that the walking-arrow morphism is non-invertible or that the unique functor to the terminal category fails to reflect isos."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. I verified the class the record cites: Structure/Limit/Preservation.v:243 `Class ReflectsIsos {C D} (F : C ⟶ D) := { reflects_iso {x y} (f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f }` (registered, _CoqProject l.327), and confirmed that every in-tree occurrence is a POSITIVE witness or a hypothesis (ff_reflects_isos, equivalence_reflects_isos, em_forget_reflects_isos, creates_split_reflects_isos, and `Context (refl : ReflectsIsos U)` in Crude.v:115 / Lifting.v:497 / Lawvere/Monad.v:89). My own `rg -in 'does not reflect|need not reflect|fails to reflect|not conservative'` -> 0 hits. ENRICHMENT the classifier's log slightly undersells: the raw MATERIAL for the counterexample does exist — Instance/Two.v:122 `Lemma TwoHom_Y_X_absurd : TwoHom TwoY TwoX → False` (no morphism back along the walking arrow) and Instance/One.v:47 `Program Instance Erase \\`(C : Category) : C ⟶ 1`. What is missing is any statement assembling them, i.e. no in-tree proposition says the walking-arrow morphism is non-invertible or that Erase fails to reflect isos. That makes ABSENT correct for the exercise's deliverable (a counterexample) while showing a Phase-E issue would be cheap to close; I record it here so the ingredient pointer is not lost."
+    }
+  },
+  {
+    "id": "riehl:1.3:exix",
+    "classification": "ABSENT",
+    "aliases": [
+      "center Z(G) of a group; centre functor",
+      "commutator subgroup [G,G]; abelianization",
+      "automorphism group Aut(G); Aut as a functor",
+      "category of groups Group / Grp; Group_iso; Group_epi (wide subcategories on isos / epis)",
+      "functoriality along isomorphisms only; core groupoid of Group"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "for pat in 'Instance/Grp' 'category of groups' 'GroupHom' 'group homomorphism' 'Z(G)' 'commutator' 'Aut(' 'automorphism group' ; grep -rli \"$pat\" --include=*.v . -> 0 hits for EVERY alias",
+      "grep -rli 'center' --include=*.v . -> Structure/Monoidal/Drinfeld.v only (the Drinfeld/monoidal CENTRE of a monoidal category, an unrelated construction)",
+      "ls Instance/ -> Adj Adjoints AST Cat CMon Comp Cones Coq Discrete Ens Fact FinSet Fun Lambda Omega One Parallel Poset Props Proset Rel Roof Sets Shapes StrictCat Two Zero ZX — there is NO category of groups; Structure/Group.v defines a group OBJECT in a cartesian monoidal category (Class with grp/mappend/mempty/inverse), not the category Group, and Construction/Groupoid.v is the CORE groupoid of an arbitrary category",
+      "grep -rni 'conjugat' --include=*.v . -> only 'conjugation coherence' of Functor_Setoid in the equivalence files; unrelated to group conjugation",
+      "Consequence: with no category of groups and no group-homomorphism hom-sets, none of Z(-), [-,-] (commutator) or Aut(-) is defined, and no statement about which extend to functors Group_iso ⟶ Group, Group_epi ⟶ Group or Group ⟶ Group exists. The 'discrete category of groups' baseline of the exercise is likewise unavailable (Instance/Discrete.v builds DiscreteCat on an arbitrary type, but never on groups)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Confirmed the decisive fact: there is NO category of groups in-tree. `ls Instance/` matches the record's list exactly; Structure/Group.v:1-60 defines a group OBJECT in a cartesian monoidal category (grp/mappend/mempty/inverse), Structure/Group/Proofs.v its derived laws, and Construction/Groupoid.v the core groupoid — none is Grp. The nearest thing to a group is Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq` inside Andrej Bauer's universal-algebra module: this DOES give groups as objects of the category `Algs` (Instance/Comp.v:151, with AlgHom as homomorphisms), so a category of groups is arguably a one-line instantiation — but no such instantiation exists, and neither Z(-), the commutator subgroup, Aut(-), nor the wide subcategories Group_iso / Group_epi appear anywhere. My own `rg -in 'conjugacy|commutator|automorphism group'` -> 0 hits. ABSENT stands. LOG INACCURACY in the record (harmless to the verdict, noted for provenance): the negative_search_log claims `grep -rli 'center' -> Structure/Monoidal/Drinfeld.v only`. Re-running it gives ~11 files (Structure/Binoidal.v, Structure/Premonoidal*.v, Structure/Binoidal/Central.v, Monad/Thunkable.v, Construction/Indexed.v, Construction/Grothendieck/Fiber.v, ...). All are the CATEGORICAL centre (Drinfeld or premonoidal), so the conclusion is unaffected, but the log understates the hit count. Also worth recording for Phase E: Instance/Comp.v:382's Group and Instance/Comp.v:151's Algs are the natural in-tree foothold for this item and for riehl:1.3:exx."
+    }
+  },
+  {
+    "id": "riehl:1.3:exx",
+    "classification": "ABSENT",
+    "aliases": [
+      "conjugacy classes functor Conj : Group -> Set",
+      "set of conjugacy classes; class equation",
+      "isomorphism invariant of groups; cardinality obstruction",
+      "quotient of a group by conjugation; coinvariants",
+      "functors preserve isomorphisms (Lemma 1.3.8) applied to Conj"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'conjugacy' --include=*.v . -> 0 hits",
+      "grep -rni 'conjugat' --include=*.v . -> only 'conjugation coherence'/'conjugates a bifunctor' in Theory/Equivalence*.v and Functor/Construction/Product.v; nothing about group conjugation",
+      "for pat in 'category of groups' 'GroupHom' 'group homomorphism' 'Instance/Grp'; grep -rli \"$pat\" --include=*.v . -> 0 hits (same negative as riehl:1.3:exix)",
+      "grep -rn 'Program Instance|Program Definition' Construction/Quotient.v | head -> the in-tree Quotient is a hom-congruence quotient of a CATEGORY (Construction/Quotient.v), not the quotient of a group's underlying set by conjugation",
+      "Consequence: neither the functor Conj : Group ⟶ Set nor the corollary 'groups with different numbers of conjugacy classes are non-isomorphic' can be stated, because the source category Group does not exist in-tree. The generic ingredient the corollary uses — that functors preserve isomorphisms — does exist (Theory/Functor.v:227 fobj_iso : Proper (Isomorphism ==> Isomorphism) fobj[F]) but that is Riehl's Lemma 1.3.8, a different item, and asserts nothing about conjugacy classes."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently; `rg -in 'conjugacy' --glob '*.v'` returns 0 hits (I re-ran it, exit 1). The source category Group does not exist, so neither Conj : Group ⟶ Set nor the cardinality corollary is expressible — same root cause as riehl:1.3:exix. Verified the one positive pointer the record makes: Theory/Functor.v:227 `Program Instance fobj_iso \\`(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F])`, quoted accurately, and the record is honest that this is Riehl's Lemma 1.3.8 (a different item) and says nothing about conjugacy classes. Same foothold note as exix: Instance/Comp.v's universal-algebra `Algs` category with `Group := Algebra GroupOp GroupEq` (l.382) is the only place in the tree where a group is a first-class object; a Phase-E issue for exix/exx should be aware of it rather than assume the ground is bare."
+    }
+  },
+  {
+    "id": "riehl:1.4:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "natural transformation alpha : F => G",
+      "naturality square; commuting square alpha_c' . Ff = Gf . alpha_c",
+      "Transform / Build_Transform / transform / naturality (library names)",
+      "2-cell of Cat; morphism of the functor category [C,D]",
+      "dual: naturality_sym, the reversed orientation"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 113,
+        "symbol": "Transform",
+        "intree_statement": "Class Transform := { transform {x} : F x ~> G x;   naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f;   naturality_sym {x y} (f : x ~> y) : transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform }.  (Context {C D : Category} {F G : C ⟶ D}; notation F ⟹ G.)"
+      }
+    ],
+    "statement_record": {
+      "book": "For functors F, G : C -> D, a natural transformation alpha : F => G is a family of arrows alpha_c : Fc -> Gc in D, one per object c of C (its components), such that for every f : c -> c' in C the naturality square commutes: alpha_{c'} . Ff = Gf . alpha_c.",
+      "intree": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f; naturality_sym {x y} (f : x ~> y) : transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform }.",
+      "strength_comparison": "same. The component family is the implicitly-quantified field `transform {x}` and the naturality square is stated with ≈ on the D-hom-setoid instead of =, the library's faithful setoid rephrasing. The extra field naturality_sym is the mirrored orientation of the SAME equation, carried for definitional duality (C^op^op = C on the nose) and proven redundant in-tree by the smart constructor Build_Transform' (line 129), which derives it from naturality alone — so it adds no content beyond Riehl's definition."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Theory/Natural/Transformation.v:113 before opening the coverage file; the quoted `Class Transform` is verbatim accurate (transform {x} : F x ~> G x; naturality; naturality_sym), stated in the section `Context {C D : Category} {F G : C ⟶ D}` with notation F ⟹ G at l.160. Registered in _CoqProject (l.467). Adversarial check of the record's key honesty claim — that naturality_sym adds no content: verified directly at Theory/Natural/Transformation.v:129-136, where `Definition Build_Transform'` takes only the components and the single naturality square and derives naturality_sym by `symmetry; apply natural`, closed with Defined. So the extra field is genuinely redundant and the strength_comparison 'same' is honest, not a hidden strengthening of the definition. Checked for definition-without-required-API: Transform_Setoid (l.139) gives the componentwise setoid and Instance/Fun.v:108 assembles [C, D], so the definition is in force, not orphaned."
+    }
+  },
+  {
+    "id": "riehl:1.4:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "natural isomorphism alpha : F ≅ G",
+      "componentwise invertible natural transformation",
+      "isomorphism in the functor category [C,D]; ≅[Fun]",
+      "Functor_Setoid_Nat_Iso / iso_equiv / equiv_iso (library names)",
+      "natural equivalence (Eilenberg-Mac Lane's original term)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 255,
+        "symbol": "Functor_Setoid_Nat_Iso",
+        "intree_statement": "Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) : F ≅[Fun] G  ↔  F ≈ G.   (* forward direction constructs, from an isomorphism in the functor category, the family (iso : ∀ x : C, F x ≅ G x); backward direction assembles such a family into a natural isomorphism *)"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 148,
+        "symbol": "Functor_Setoid",
+        "intree_statement": "Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D) := { equiv := fun F G => { iso : ∀ x : C, F x ≅ G x & ∀ (x y : C) (f : x ~> y), fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) } }."
+      }
+    ],
+    "statement_record": {
+      "book": "A natural isomorphism is a natural transformation alpha : F => G every component of which is an isomorphism in the target category; written alpha : F ≅ G.",
+      "intree": "F ≅[Fun] G (an Isomorphism in the functor category [C, D], whose to/from are Transforms with two-sided inverse composites), characterized by Functor_Setoid_Nat_Iso : F ≅[Fun] G ↔ F ≈ G, where F ≈ G unfolds to { iso : ∀ x : C, F x ≅ G x & ∀ x y (f : x ~> y), fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) }.",
+      "strength_comparison": "same, with the componentwise characterization proven rather than taken as the definition. Riehl DEFINES a natural isomorphism as a componentwise-invertible natural transformation; the library takes the invertible 2-cell F ≅[Fun] G as primitive and proves (Functor_Setoid_Nat_Iso, both directions, Defined) that it is equivalent to a family of component isomorphisms F x ≅ G x satisfying naturality — i.e. Riehl's definition is recovered as a theorem, with iso_equiv/equiv_iso (l.305/308) as the standalone conversions. No extra hypotheses; the naturality condition is stated in the conjugated form fmap[F] f ≈ from(iso y) ∘ fmap[G] f ∘ to(iso x), equivalent to the naturality square by invertibility of the components."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass located the same two pieces independently. Verified Instance/Fun.v:255 `Theorem Functor_Setoid_Nat_Iso \\`(F : C ⟶ D) (G : C ⟶ D) : F ≅[Fun] G ↔ F ≈ G` — I read the proof body (l.257-300): the forward direction builds `iso : ∀ x : C, F x ≅ G x` and the reverse assembles the natural isomorphism, and the theorem is closed with `Defined`, so both conversions are computational (iso_equiv at l.305, equiv_iso at l.308, both verified). Verified Theory/Functor.v:148 `Program Instance Functor_Setoid` with equiv := { iso : ∀ x, F x ≅ G x & ∀ x y f, fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) } — quoted accurately. Instance/Fun.v is in _CoqProject (l.200) and `[C, D]` is the Fun notation (Instance/Fun.v:119). Hunted for same-name-weaker: `≅[Fun]` is a plain Theory/Isomorphism.v Isomorphism in the functor category, i.e. a two-sided-inverse pair of Transforms, so it is exactly Riehl's notion up to the direction of definition; the library takes the invertible 2-cell as primitive and PROVES the componentwise characterization rather than assuming it. The record says so. PRESENT confirmed."
+    }
+  },
+  {
+    "id": "riehl:1.4:example4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "double dual ev_V : V -> V** natural; single dual not natural (Vect_k)",
+      "powerset functor P and the singleton unit eta : id_Set => P",
+      "G-equivariant map = natural transformation between functors BG -> C; delooping",
+      "open/closed subset functors O, C : Top^op -> Set naturally isomorphic by complementation",
+      "opposite-group functor (-)^op : Group -> Group naturally iso to the identity via inversion",
+      "no-cloning: the only natural Id => (-)⊗(-) on Vect_k is zero; natural diagonal"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Collapse.v",
+        "line": 526,
+        "symbol": "no_cloning",
+        "intree_statement": "Theorem no_cloning : @braid C _ x x ≈ id[(x ⨂ x)%object].   (* Section NoCloning: Context {C : Category}; Context `{R : @RelevanceMonoidal C}; Context `{CC : @CompactClosed C (@relevance_is_symmetric C R)} — i.e. a natural, monoidal, cocommutative diagonal ∆ in a compact closed category forces the braiding on every diagonal square to be the identity *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Seven worked examples/non-examples of naturality: (i) ev_V : V -> V** is natural on Vect_k; (ii) the identity and single-dual functors on fin-dim vector spaces are NOT naturally isomorphic; (iii) eta_A(a) = {a} : id_Set => P is natural; (iv) a natural transformation between X, Y : BG -> C is exactly a G-equivariant morphism; (v) O and C : Top^op -> Set are naturally isomorphic by complementation; (vi) (-)^op : Group -> Group is naturally isomorphic to the identity via inversion; (vii) the only natural transformation from the identity to V |-> V ⊗ V on Vect_k is the zero family — likewise for Hilbert spaces, the 'no cloning theorem'.",
+      "intree": "no_cloning : @braid C _ x x ≈ id[(x ⨂ x)%object], under `{R : @RelevanceMonoidal C} (a diagonal ∆ with diagonal_natural, diagonal_unit, diagonal_braid2, braid_diagonal) and `{CC : @CompactClosed C ...}.",
+      "strength_comparison": "intree-weaker and reformulated. Only clause (vii)'s content has an in-tree counterpart, and in Abramsky's abstract form (arXiv:0910.2401 §4, Theorem 11 second step) rather than Riehl's: the library assumes a NATURAL monoidal cocommutative diagonal in a compact closed category and derives a degeneracy (braid ≈ id, whence every endomorphism is a scalar), whereas Riehl COMPUTES on Vect_k that the only natural family Id ⟹ (-)⊗(-) is the zero family. Both are no-go results about a natural copying map, but neither statement implies the other as written, and the in-tree one carries the extra compact-closed hypothesis. Clauses (i)-(vi) have no counterpart at all."
+    },
+    "gap": "Clauses (i)-(vi) are wholly absent: the library has no Vect_k (so no dual, double-dual, or evaluation natural transformation on vector spaces — Structure/Monoidal/StarAutonomous.v:269-276 carries star_double_dual and its naturality only as CLASS FIELDS, i.e. assumed data on an abstract star-autonomous category, never proven of a concrete model), no powerset functor on Sets and no singleton unit, no BG delooping of a group/monoid into a one-object category (Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY into a bicategory, a different construction) hence no 'natural transformation = equivariant map' identification, no Top and so no open/closed-subset functors or complementation isomorphism, and no category of groups and so no (-)^op ≅ Id via inversion. Clause (vii) is present only as the compact-closed collapse theorem no_cloning, not as Riehl's Vect_k computation.",
+    "negative_search_log": [
+      "grep -rli 'Vect|vector space' --include=*.v . -> every hit is header prose (Theory/Functor.v, Theory/Natural/Transformation.v, Construction/Opposite.v:51 'double dual is natural where the single dual is not', Structure/Monoidal/*.v); no Instance/Vect.v exists",
+      "grep -rni 'powerset|power set' --include=*.v . -> only Structure/Topos.v:126-129 Pow a := Ω ^ a (the power OBJECT of an elementary topos) and Instance/FinSet/Topos.v; no P : Set ⟶ Set and no singleton natural transformation",
+      "grep -rni 'delooping|deloop|one-object|BG' --include=*.v . -> Theory/Bicategory/OneObject.v (monoidal category as a one-object BICATEGORY), Theory/Multicategory/Operad.v (one-object multicategory); no BG for a group or monoid",
+      "grep -rli 'topological space' --include=*.v . -> 0 hits; no Instance/Top.v (the 'Top' matches are Coq tactic/solver identifiers)",
+      "for pat in 'category of groups' 'GroupHom' 'Instance/Grp'; grep -rli \"$pat\" --include=*.v . -> 0 hits",
+      "grep -rni 'no.cloning' --include=*.v . -> Structure/Monoidal/{Monoidal,CompactClosed,Collapse}.v; Collapse.v:526 Theorem no_cloning is the only theorem"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found that clauses (i)-(vi) have no in-tree counterpart and that the only related theorem is Structure/Monoidal/Collapse.v's no_cloning; I reached the same PARTIAL. Verified the evidence: Structure/Monoidal/Collapse.v:526 `Theorem no_cloning : @braid C _ x x ≈ id[(x ⨂ x)%object]` closed with Qed, in the Cloning section under `\\`{R : @RelevanceMonoidal C}` and `\\`{CC : @CompactClosed C ...}` exactly as the record states; the file is in _CoqProject (l.342). Verified the gap's key sub-claim: Structure/Monoidal/StarAutonomous.v:269 `star_double_dual {x : C} : x ≅ double_dual dualizer x` and :273 `star_natural` are indeed CLASS FIELDS of `Class StarAutonomous` (assumed data, no concrete model), so clauses (i)/(ii) really have no in-tree witness. Re-ran the negative greps: 'topological space' -> 0 hits (no Top), no powerset functor on Sets, no BG delooping of a group. ADVERSARIAL CAVEAT recorded rather than overturned: the link between clause (vii) and no_cloning is THEMATIC, not statement-level — Riehl computes that the only natural Id ⟹ (-)⊗(-) on Vect_k is zero, while the in-tree theorem assumes a natural cocommutative monoidal diagonal in a compact closed category and derives braid ≈ id. Neither implies the other as written, and the record's strength_comparison says exactly that. PARTIAL is therefore defensible, but a Phase-E issue should treat all SEVEN clauses as open work and not read no_cloning as covering (vii). One pointer the negative log missed (does not change the verdict): a monoid-as-one-object-category does occur in-tree as a bespoke example, Construction/Funny/Comparison.v:81 `Program Definition ListMon : Category` (the free monoid on bool as a one-object category), but there is still no general BG construction, so clause (iv) stays absent."
+    }
+  },
+  {
+    "id": "riehl:1.4:prop6",
+    "classification": "ABSENT",
+    "aliases": [
+      "torsion subgroup TA; torsion-free quotient A/TA",
+      "the splitting A ≅ TA ⊕ (A/TA) is not natural",
+      "finitely generated abelian groups Ab_fg; category of abelian groups Ab",
+      "natural endomorphisms of the identity functor = multiplication by n; centre of a category, End(Id)",
+      "non-naturally-split short exact sequence; unnatural isomorphism"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'torsion' --include=*.v . -> 0 hits",
+      "grep -rni 'finitely generated|Ab_fg|Z-module|Zmod' --include=*.v . -> 0 relevant hits (only 'p-adic integers' and 'construction of the integers' in header prose of Structure/Limit.v and Structure/Monoidal/Traced.v)",
+      "grep -rli 'abelian group' --include=*.v . -> Theory/Adjunction.v, Structure/{Closed,Group,Monoid,Preadditive,Additive,Abelian}.v; read: ALL are header prose citing Ab as motivation. Structure/Abelian.v defines ABELIAN CATEGORIES (kernels, cokernels, epi-mono factorization) abstractly; the only concrete additive witness in-tree is Instance/CMon.v (commutative monoids over setoids), which has no negation, no torsion notion and no finite-generation notion",
+      "grep -rni 'centre of a category|center of a category|End(Id)|natural endomorphism' --include=*.v . -> 0 hits; the proof's crux (every natural endomorphism of Id on Ab_fg is multiplication by a fixed n) has no in-tree analogue, and no file computes the endomorphism monoid of an identity functor",
+      "grep -rni 'natural.*not|unnatural' style checks: the library states no negative naturality results (Structure/Monoidal/Collapse.v's no_cloning is a degeneracy theorem under an assumed natural diagonal, not a non-existence of natural families)",
+      "Consequence: neither the statement (no natural family A ≅ TA ⊕ (A/TA) over Ab_fg) nor the equivalent (the short exact sequence 0 -> TA -> A -> A/TA -> 0 admits no natural splitting) can be expressed, since Ab_fg, TA and A/TA are all absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently; I re-ran `rg -in 'torsion' --glob '*.v'` -> 0 hits (exit 1) and `rg -in 'finitely generated|abelian group'` -> all hits are header prose (Structure/{Abelian,Preadditive,Additive,Closed,Group,Monoid}.v, Theory/Adjunction.v) citing Ab as motivation for the ABSTRACT abelian-category development. The only concrete additive witness is Instance/CMon.v (commutative monoids over setoids), which has no negation, no torsion and no finite-generation notion, so Ab_fg, TA and A/TA are all unavailable and neither the statement nor its equivalent (no natural splitting of 0 → TA → A → A/TA → 0) can be written. I also checked the proof's crux separately, since it is the more portable half: nothing in-tree computes End(Id) for a functor category or states any 'every natural endomorphism of the identity is ...' result (`rg -in 'natural endomorphism|End\\(Id\\)|centre of a category'` -> 0 hits). Confirmed the record's careful remark that the library states no negative naturality results at all — Collapse.v's no_cloning is a degeneracy consequence of an ASSUMED natural diagonal, not a non-existence claim about natural families. ABSENT stands."
+    }
+  }
+]

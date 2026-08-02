@@ -1,0 +1,7 @@
+[
+  {
+    "item_id": "maclane:X.1:remark1",
+    "issue": 353,
+    "append_block": "### Also covered by\n\nMac Lane, *Categories for the Working Mathematician*, 2nd ed., §X.1 \"Adjoints and Limits\", book p. 233, PDF p. 240 (item `maclane:X.1:remark1`). Section X.1 opens by restating that the diagonal (constant-diagram) functor `Δ : C ⟶ [J, C]` has the colimit functor as a left adjoint and the limit functor as a right adjoint, `Colim ⊣ Δ ⊣ Lim`, whenever the `J`-indexed (co)limits exist — the same adjoint characterization of (co)limits this issue already tracks (IV.2, `maclane:IV.2:construction2`). No new mathematical obligation is added: §X.1 merely redeploys `Colim ⊣ Δ ⊣ Lim` as the setup for the initial-object-as-limit discussion and the formal adjoint criterion (filed separately). In-tree status is unchanged — only the binary-(co)product special case (`Adjunction/Diagonal/Product.v:36`) and the Kan route `Induced ⊣ Ran` (`Structure/Limit/Kan/Extension.v`) exist; the general `J`-indexed `Colim ⊣ Δ ⊣ Lim` remains the gap this issue records."
+  }
+]

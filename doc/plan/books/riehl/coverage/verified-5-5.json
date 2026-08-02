@@ -1,0 +1,334 @@
+[
+  {
+    "id": "riehl:5.5:def-elementary-topos",
+    "classification": "PRESENT",
+    "aliases": [
+      "elementary topos",
+      "ElementaryTopos",
+      "cartesian closed category with finite limits and a subobject classifier",
+      "Terminal + Cartesian + HasPullbacks + Closed + SubobjectClassifier",
+      "topos (Lawvere-Tierney), power object Ω^a"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Topos.v",
+        "line": 112,
+        "symbol": "ElementaryTopos",
+        "intree_statement": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }"
+      },
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 38,
+        "symbol": "FinSet_Topos",
+        "intree_statement": "Definition FinSet_Topos : ElementaryTopos FinSet := {| topos_terminal := FinSet_Terminal; topos_cartesian := FinSet_Cartesian; topos_pullbacks := FinSet_Pullbacks; topos_closed := FinSet_Closed; topos_classifier := FinSet_Classifier |}"
+      }
+    ],
+    "statement_record": {
+      "book": "One-line gloss given while remarking that the proof of Theorem 5.5.9 generalizes: an elementary topos is a cartesian closed category with finite limits and a subobject classifier, a further generalization of the Grothendieck toposes of section E.4.",
+      "intree": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }",
+      "strength_comparison": "same — the three clauses of the book's gloss are the five fields: finite limits are carried by the standard generating data (terminal object + binary products + pullbacks), cartesian closure by [Closed] (imported from Structure/Cartesian/Closed.v at Structure/Topos.v:7, i.e. the LIVE cartesian-closed class, not the Structure/Closed.v Eilenberg-Kelly stub), and the classifier by [SubobjectClassifier]. Two presentational notes, neither a weakening of the definition: the library never DERIVES equalizers (hence 'all finite limits') from terminal+products+pullbacks — Structure/Topos.v's own header calls the pullback-from-equalizer reduction a known in-tree gap — and the class is genuinely inhabited (FinSet_Topos), with Pow 2 = 4 by eq_refl, so the definition is not vacuous."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Phase-D blind pass run BEFORE opening coverage-5-5.json; aliases expanded per item and searched whole-tree: rg 'ElementaryTopos|SubobjectClassifier'; rg -i 'beck.?chevalley|direct image|inverse image|power ?set|preimage'; rg -i 'strictly create|creates.*coequalizer|split coequalizer|U-split'; rg -i 'IsomorphismOfCategories|strictly|strictly monadic'; rg -i 'reflexive tripleab|tripleab|crude monadicity'; rg -i 'free monoid|free group|G-set|group action|BG|deloop'; rg -i 'copower|indexed coproduct|icoprod'; rg -i 'restriction functor|precompos|res_K|Lan|LeftKan'; rg -i 'finitary|filtered|sifted'; rg 'Kleisli' over Theory/Lawvere*; ls Instance/. My independent preliminary verdicts were: def-elementary-topos PRESENT, lem10 ABSENT, exi PARTIAL, exii ABSENT, exiii PRESENT, exiv ABSENT, exv ABSENT, exvi ABSENT, exvii ABSENT-leaning (PARTIAL defensible), def-lawvere-theory PARTIAL. AGREES with Phase C. Blind pass reached the same evidence independently (rg 'ElementaryTopos' -> Structure/Topos.v:112, Instance/FinSet/Topos.v:38). Both quotes verified verbatim at the cited lines: the five fields are exactly Terminal + Cartesian + HasPullbacks + Closed (imported at Structure/Topos.v:7 from Structure/Cartesian/Closed.v, i.e. the LIVE cartesian-closed class, not the Structure/Closed.v stub) + SubobjectClassifier; FinSet_Topos:38 lists the five component structures as quoted, with Example FinSet_Pow_two : Pow 2 = 4 := eq_refl at :53, so the class is genuinely inhabited. Riehl's gloss (cartesian closed + finite limits + subobject classifier) is matched; terminal + binary products + pullbacks is a standard generating set for finite limits and the header discloses that the equalizer reduction is not formalized, which strength_comparison states honestly. Both files are registered in _CoqProject. One header inaccuracy found while confirming (Structure/Topos.v:95-98, on the slice-topos theorem) is reported in problems[]; it does not touch the definition itself."
+    }
+  },
+  {
+    "id": "riehl:5.5:lem10",
+    "classification": "ABSENT",
+    "aliases": [
+      "Beck-Chevalley condition",
+      "direct image along a mono commutes with inverse image over a pullback square",
+      "existential quantification / left adjoint to pullback (∃_f ⊣ f*)",
+      "base change on power sets, P B' → P A",
+      "covariant power set functor P : Set ⟶ Set (direct image f_*)",
+      "pullback square of monomorphisms of sets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'beck.chevalley|beck_chevalley' --include='*.v' . → 2 hits, both prose inside file headers (Comonad/Coalgebra.v:94 'bifibration satisfying the Beck–Chevalley condition', Theory/Bicategory.v:104 'Beck-Chevalley squares'); no statement, no definition.",
+      "grep -rni 'direct image|inverse image|preimage' --include='*.v' . → 'preimage' occurs only as the CHOSEN fmap-preimage of a full functor (Theory/Functor.v:332 prefmap) and in equivalence/eso plumbing; no subset direct-image or inverse-image operator anywhere.",
+      "grep -rni 'power set|powerset|PowerSet' --include='*.v' . → 1 hit, Structure/Topos.v:75 prose about Pow a := Ω^a; there is no Set-level power set functor and no P : Set^op ⟶ Set (which is also why riehl:5.5:thm9 has no carrier).",
+      "grep -rniE 'exists_along|Ex_f|Sigma_f|image along|left adjoint to pullback|quantifier' --include='*.v' . → only hyperdoctrine PROSE (Theory/Adjunction.v:75, Structure/Pullback.v:124, Construction/Slice.v:93, Instance/Poset.v:70); the adjoint triple ∃ ⊣ f* ⊣ ∀ is nowhere constructed.",
+      "grep -rniE 'base change|basechange|reindex' --include='*.v' . → Construction/Slice.v:88 announces the base-change functor f^* in prose but Construction/Slice.v defines only Slice/Coslice/Comma_Slice/Comma_Coslice (grep of its Definition/Instance lines); Construction/ColouredPROP/BaseChange.v is colour-signature base change, unrelated.",
+      "Theory/Subobject/Functor.v:180 'Program Definition Sub : C^op ⟶ Sets' supplies only the INVERSE-image half (chosen-pullback reindexing of subobjects). There is no covariant direct-image counterpart and no square relating the two, so the lemma's assertion (equality of two maps P B' → P A) has no in-tree carrier.",
+      "Theory/Morphisms/Stability.v:106 pullback_paste / :160 pullback_unpaste are exactly the pasting tool the book's proof invokes (Exercise 3.1.vi), and monos are shown pullback-stable there, but no Beck-Chevalley-shaped consequence is stated from them.",
+      "Instance/Sets/Image.v and Structure/Regular/Factorization.v were read at their Definition/Lemma sites: these are epi-mono image FACTORIZATIONS of a morphism, not the direct-image operation on subsets, and neither mentions a pullback-square commutation."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Phase-D blind pass run BEFORE opening coverage-5-5.json; aliases expanded per item and searched whole-tree: rg 'ElementaryTopos|SubobjectClassifier'; rg -i 'beck.?chevalley|direct image|inverse image|power ?set|preimage'; rg -i 'strictly create|creates.*coequalizer|split coequalizer|U-split'; rg -i 'IsomorphismOfCategories|strictly|strictly monadic'; rg -i 'reflexive tripleab|tripleab|crude monadicity'; rg -i 'free monoid|free group|G-set|group action|BG|deloop'; rg -i 'copower|indexed coproduct|icoprod'; rg -i 'restriction functor|precompos|res_K|Lan|LeftKan'; rg -i 'finitary|filtered|sifted'; rg 'Kleisli' over Theory/Lawvere*; ls Instance/. My independent preliminary verdicts were: def-elementary-topos PRESENT, lem10 ABSENT, exi PARTIAL, exii ABSENT, exiii PRESENT, exiv ABSENT, exv ABSENT, exvi ABSENT, exvii ABSENT-leaning (PARTIAL defensible), def-lawvere-theory PARTIAL. AGREES with Phase C. My search found the same two prose-only Beck-Chevalley hits (Comonad/Coalgebra.v:94, Theory/Bicategory.v:104) and no statement; separately I found Theory/Subobject/Functor.v:180 Sub : C^op -> Sets with :35 sub_reindex and :152 sub_reindex_comp (the inverse-image half, proved by exactly the pullback pasting the book's proof invokes) and Instance/Sets/Image.v (epi-mono factorization, not a direct-image operator). No powerset functor, no direct image on subobjects, no Beck-Chevalley-shaped statement anywhere: ABSENT stands. CORRECTION to one negative-log entry, which does not change the verdict: the base-change bullet ('Construction/Slice.v:88 announces the base-change functor f^* in prose but Construction/Slice.v defines only Slice/Coslice/Comma_Slice/Comma_Coslice') is misleading -- the functors DO exist one file over, at Construction/Slice/Pullback.v:50 Bang_Functor (Sigma_f, post-composition) and :67 Star_Functor (f^*, pullback). What is missing there is the adjunction (only a commented Base_Functor_Adjunction stub at :121, whose orientation error the file's own header flags at :38-40). Since the lemma equates two composites of maps P B' -> P A and neither the powerset functor nor a direct-image operation on subobjects exists in-tree, ABSENT remains correct."
+    }
+  },
+  {
+    "id": "riehl:5.5:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "strict monadicity theorem",
+      "strictly creates coequalizers of U-split pairs",
+      "isomorphism of categories D ≅ C^T (strictly monadic)",
+      "Beck's theorem, strict form / strict tripleability",
+      "CreatesUSplitCoequalizers, EM_Comparison"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 739,
+        "symbol": "beck_monadicity",
+        "intree_statement": "Definition beck_monadicity : EquivalenceOfCategories (EM_Comparison A) := {| quasi_inverse := Beck_Inverse; equivalence_counit := beck_equivalence_counit; equivalence_unit := beck_equivalence_unit |}   (* section binders: F : D ⟶ C, U : C ⟶ D, A : F ⊣ U, CR : CreatesUSplitCoequalizers U *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 911,
+        "symbol": "monadic_creates",
+        "intree_statement": "Theorem monadic_creates : CreatesUSplitCoequalizers (EM_Forget T)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 164,
+        "symbol": "CreatesUSplitCoequalizers",
+        "intree_statement": "Class CreatesUSplitCoequalizers (U : C ⟶ D) := { create_coeq {x y} (f g : x ~> y) (S : SplitCoequalizer (fmap[U] f) (fmap[U] g)) : ∃ (q : C) (e : y ~> q), IsCoequalizer f g q e ∧ (∃ i : @Isomorphism D (U q) (scoeq_obj S), to i ∘ fmap[U] e ≈ scoeq_e S); create_coeq_reflects ... : IsCoequalizer f g q e }"
+      }
+    ],
+    "statement_record": {
+      "book": "Strict form of the monadicity theorem: for a right adjoint U : D → C, D is ISOMORPHIC (not merely equivalent) to the category of algebras for the induced monad if and only if U STRICTLY creates coequalizers of U-split pairs (Definition 5.4.8(c): every U-split coequalizer has a UNIQUE lift to a coequalizer upstairs).",
+      "intree": "Definition beck_monadicity : EquivalenceOfCategories (EM_Comparison A), under CR : CreatesUSplitCoequalizers U; and Theorem monadic_creates : CreatesUSplitCoequalizers (EM_Forget T).",
+      "strength_comparison": "intree-weaker on exactly the point of the exercise. (a) Conclusion: an EQUIVALENCE of categories, never an isomorphism — the library's ≅[Cat] is itself equivalence-level (Instance/Cat.v:145 homset := Functor_Setoid, which identifies functors up to natural isomorphism; Theory/Equivalence.v:164 Equivalence_to_Cat_Iso converts an equivalence into a Cat-iso), and on-the-nose iso of categories exists only in Instance/StrictCat.v, which is never connected to monadicity. (b) Hypothesis: creation is rendered UP TO a packaged comparison isomorphism i : U q ≅ scoeq_obj S, not by a unique on-the-nose lift; Beck.v's header states the deviation outright — 'Mac Lane's strict definition demands a unique on-the-nose lift of the colimiting cocone ... the non-evil rendering asks instead that every iso-compatible lift be colimiting'. (c) The converse direction is proved only at U^T = EM_Forget; Beck.v:106-111 explicitly defers transporting it along K to an arbitrary monadic U."
+    },
+    "gap": "The strict version is absent in both directions. There is no 'strictly creates' predicate (grep -rni 'strictly creates|StrictlyCreates|strict creation' → 0 hits), no 'strictly monadic' notion (grep → 0 hits, though Riehl's own §5.3 names it), and no statement anywhere concluding an isomorphism of categories between the domain of a right adjoint and an Eilenberg-Moore category. What exists is the isomorphism-invariant analogue of both halves (beck_monadicity, monadic_creates); the exercise's content — replacing 'up to compatible iso' by 'unique on-the-nose lift' and 'equivalence' by 'isomorphism' — is entirely missing, and Beck.v documents the choice as deliberate.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Phase-D blind pass run BEFORE opening coverage-5-5.json; aliases expanded per item and searched whole-tree: rg 'ElementaryTopos|SubobjectClassifier'; rg -i 'beck.?chevalley|direct image|inverse image|power ?set|preimage'; rg -i 'strictly create|creates.*coequalizer|split coequalizer|U-split'; rg -i 'IsomorphismOfCategories|strictly|strictly monadic'; rg -i 'reflexive tripleab|tripleab|crude monadicity'; rg -i 'free monoid|free group|G-set|group action|BG|deloop'; rg -i 'copower|indexed coproduct|icoprod'; rg -i 'restriction functor|precompos|res_K|Lan|LeftKan'; rg -i 'finitary|filtered|sifted'; rg 'Kleisli' over Theory/Lawvere*; ls Instance/. My independent preliminary verdicts were: def-elementary-topos PRESENT, lem10 ABSENT, exi PARTIAL, exii ABSENT, exiii PRESENT, exiv ABSENT, exv ABSENT, exvi ABSENT, exvii ABSENT-leaning (PARTIAL defensible), def-lawvere-theory PARTIAL. AGREES with Phase C. All three evidence quotes verified at the exact cited lines (Beck.v:164 Class CreatesUSplitCoequalizers, :739 beck_monadicity, :911 Theorem monadic_creates). The strength_comparison is honest and independently checkable: Beck.v:51-58 states the deviation in the library's own words ('Mac Lane's strict definition demands a unique on-the-nose lift of the colimiting cocone ... the non-evil rendering asks instead that every iso-compatible lift be colimiting'), and Beck.v:104-111 explicitly defers transporting the converse along K. My own rg -ni 'strictly creates|StrictlyCreates|strict creation|strictly monadic' returns 0 hits, confirming the gap. Instance/Cat.v:145 'homset := @Functor_Setoid' verified verbatim. One trivial drift: Equivalence_to_Cat_Iso is at Theory/Equivalence.v:163, the record says :164 (symbol and claim correct). Files registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:5.5:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "Monoid/Group/Ab/Ring monadic over Set",
+      "free-forgetful adjunction for a variety of algebras",
+      "category of monoids / groups / rings / R-modules / vector spaces",
+      "Set^{BG} (G-sets), Lattice, semilattices, Set_* (pointed sets)",
+      "algebras for the free-monoid monad, C^T ≅ Monoid"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'category of monoids|Monoid category' --include='*.v' . → 0 hits; the tree has no category of monoids (Instance/ has no Monoid.v, Group.v, Ring.v, Vect.v, Module.v or pointed-set category — full ls of Instance/ checked).",
+      "grep -rniE 'Group\\b|Ring\\b|Vect|Module|pointed set|R-Mod' --include='*.v' . → only prose (Theory/Functor.v:68 'functor from BG to vector spaces', Construction/Slice.v:82 'pointed sets are the coslice', Instance/Coq/Par.v:34 'equivalent ... to the category of pointed sets'); no such category is constructed and none is claimed monadic.",
+      "Instance/CMon.v:140 defines the category CMon of commutative monoids and :169 CMon_Forget : CMon ⟶ Sets, but there is no free functor and no adjunction (grep '⊣' over Instance/CMon.v and Instance/CMon/ → 0 hits), so the one algebraic category in the tree has no free-forgetful adjunction to feed the monadicity theorem.",
+      "grep -rn 'Monadic' --include='*.v' . → the only inhabited monadicity claim is Monad/Monadicity/Examples.v:155 'Definition Identity_Monadic {C : Category} : Monadic Id[C]'; everything else is the abstract spine (Monad/Comparison.v:273 Monadic, Beck/Crude) or the hypothesis-scoped Lawvere corollary.",
+      "docs/INHABITATION.md:56 confirms independently: 'beck_monadicity | CreatesUSplitCoequalizers composed from the engine | never assembled; Id is shown monadic by a direct proof (Monad/Monadicity/Examples.v), bypassing the coequalizer machinery'.",
+      "grep -rn '⊣' --include='*.v' Instance/ Construction/Free.v Construction/Free/ → the only concrete adjunctions are Cardinality ⊣ Canonicity (Instance/Shapes.v:506), the free-category/Quiver adjunction (Construction/Free/Quiver.v) and the Kleisli/EM resolutions; none is a free-algebra adjunction over Sets for any category in Corollary 5.5.3's list."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Phase-D blind pass run BEFORE opening coverage-5-5.json; aliases expanded per item and searched whole-tree: rg 'ElementaryTopos|SubobjectClassifier'; rg -i 'beck.?chevalley|direct image|inverse image|power ?set|preimage'; rg -i 'strictly create|creates.*coequalizer|split coequalizer|U-split'; rg -i 'IsomorphismOfCategories|strictly|strictly monadic'; rg -i 'reflexive tripleab|tripleab|crude monadicity'; rg -i 'free monoid|free group|G-set|group action|BG|deloop'; rg -i 'copower|indexed coproduct|icoprod'; rg -i 'restriction functor|precompos|res_K|Lan|LeftKan'; rg -i 'finitary|filtered|sifted'; rg 'Kleisli' over Theory/Lawvere*; ls Instance/. My independent preliminary verdicts were: def-elementary-topos PRESENT, lem10 ABSENT, exi PARTIAL, exii ABSENT, exiii PRESENT, exiv ABSENT, exv ABSENT, exvi ABSENT, exvii ABSENT-leaning (PARTIAL defensible), def-lawvere-theory PARTIAL. AGREES with Phase C. ls Instance/ confirms there is no Monoid/Group/Ring/Vect/Module/pointed-set category; the one algebraic category, Instance/CMon.v:140 CMon with :169 CMon_Forget : CMon -> Sets, has no left adjoint (rg for the adjunction symbol over Instance/CMon.v and Instance/CMon/ -> 0 hits), so nothing can be fed to the monadicity theorem. Instance/Comp.v carries single-sorted universal algebra (Algs at :151, even a Group variety at :382) but defines no forgetful functor to Sets/Coq and no adjunction -- an additional near-miss the log does not name, immaterial to the verdict. Monad/Comparison.v:273 Monadic and Monad/Monadicity/Examples.v:155 Identity_Monadic verified verbatim; docs/INHABITATION.md:56 verified ('never assembled; Id is shown monadic by a direct proof ... bypassing the coequalizer machinery'). Instance/Shapes.v's Card_Canon_Adjunction is at :505-506 and Construction/Free/Quiver.v:550 FreeForgetfulAdjunction exists -- the latter is the shape of Riehl's Example 5.5.7(iv) (Cat over Quiver), not a category over Set, and carries no monadicity claim, so it does not answer this exercise."
+    }
+  },
+  {
+    "id": "riehl:5.5:exiii",
+    "classification": "PRESENT",
+    "aliases": [
+      "reflexive tripleability theorem (Proposition 5.5.8)",
+      "crude monadicity theorem (CTT)",
+      "coequalizers of reflexive pairs + preservation + conservativity ⇒ monadic",
+      "reflexive pair / common section",
+      "crude_monadicity, PreservesReflexiveCoequalizers, ReflectsIsos"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 601,
+        "symbol": "crude_monadicity",
+        "intree_statement": "Definition crude_monadicity : EquivalenceOfCategories (EM_Comparison A) := {| quasi_inverse := Crude_Inverse; equivalence_counit := crude_equivalence_counit; equivalence_unit := crude_equivalence_unit |}   (* section binders, Crude.v:108-115: F : D ⟶ C, U : C ⟶ D, A : F ⊣ U, RC : HasReflexiveCoequalizers C, pres : PreservesReflexiveCoequalizers U, refl : ReflectsIsos U *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 5.5.iii asks for a proof of Proposition 5.5.8, the reflexive tripleability theorem: if U : D → C has a left adjoint, D has coequalizers of reflexive pairs, U preserves coequalizers of reflexive pairs, and U reflects isomorphisms, then U is monadic.",
+      "intree": "Definition crude_monadicity : EquivalenceOfCategories (EM_Comparison A), given A : F ⊣ U, RC : HasReflexiveCoequalizers C, pres : PreservesReflexiveCoequalizers U, refl : ReflectsIsos U (with PreservesReflexiveCoequalizers U := ∀ x y (f g : x ~> y), ReflexivePair f g → ∀ q e, IsCoequalizer f g q e → IsCoequalizer (fmap[U] f) (fmap[U] g) (U q) (fmap[U] e), Crude.v:100).",
+      "strength_comparison": "same — the three hypotheses match one-for-one (the library names the domain of U 'C', Riehl names it 'D'), and the conclusion 'the Eilenberg-Moore comparison EM_Comparison A is an equivalence' is precisely Riehl's Definition 5.3.1 of monadic (Monad/Comparison.v:273 Definition Monadic U := ∃ F (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A)). One presentational difference, flagged in Crude.v's header: hypothesis (ii) is stated elementarily on forks rather than through the PreservesColimit vocabulary — that is the standard crude hypothesis and is if anything the form the proof consumes. Note also that the in-tree dependency runs opposite to the exercise's hint: Beck.v (Theorem 5.5.1) is built ON TOP of the crude architecture rather than the reflexive theorem being adapted from Beck's proof, so the exercise's content is proved, by a different route."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Phase-D blind pass run BEFORE opening coverage-5-5.json; aliases expanded per item and searched whole-tree: rg 'ElementaryTopos|SubobjectClassifier'; rg -i 'beck.?chevalley|direct image|inverse image|power ?set|preimage'; rg -i 'strictly create|creates.*coequalizer|split coequalizer|U-split'; rg -i 'IsomorphismOfCategories|strictly|strictly monadic'; rg -i 'reflexive tripleab|tripleab|crude monadicity'; rg -i 'free monoid|free group|G-set|group action|BG|deloop'; rg -i 'copower|indexed coproduct|icoprod'; rg -i 'restriction functor|precompos|res_K|Lan|LeftKan'; rg -i 'finitary|filtered|sifted'; rg 'Kleisli' over Theory/Lawvere*; ls Instance/. My independent preliminary verdicts were: def-elementary-topos PRESENT, lem10 ABSENT, exi PARTIAL, exii ABSENT, exiii PRESENT, exiv ABSENT, exv ABSENT, exvi ABSENT, exvii ABSENT-leaning (PARTIAL defensible), def-lawvere-theory PARTIAL. AGREES with Phase C; I reached PRESENT independently and then checked it against the book statement via the inventory entry for riehl:5.5:prop8 (hypotheses: D has coequalizers of reflexive pairs, U preserves them, U reflects isomorphisms => U monadic). Monad/Monadicity/Crude.v:108-115 binds exactly F : D -> C, U : C -> D, A : F -| U, RC : HasReflexiveCoequalizers C, pres : PreservesReflexiveCoequalizers U, refl : ReflectsIsos U (the library's C is Riehl's D, the domain of U), and :601 crude_monadicity : EquivalenceOfCategories (EM_Comparison A) is verified verbatim -- precisely Monad/Comparison.v:273's Monadic. PreservesReflexiveCoequalizers is at Crude.v:100 as quoted, and Structure/Coequalizer/Reflexive.v supplies ReflexivePair (common section), matching the book's footnote. The record's caveat that the in-tree dependency runs Crude -> Beck rather than the exercise's Beck -> Crude adaptation is accurate (Beck.v:19 requires Monadicity/Crude and reuses its lemma stack) and does not weaken the statement proved. Deliberately checked for the 'same-name-weaker-statement' trap: the elementary fork form of hypothesis (ii) is if anything the stronger/standard crude hypothesis, not a weakening."
+    }
+  },
+  {
+    "id": "riehl:5.5:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "G-sets, Set^{BG}",
+      "delooping BG of a group as a one-object category",
+      "free G-set functor X ↦ G × X, left adjoint to the forgetful functor",
+      "category of group actions / permutation representations",
+      "the monad G × (−) on Set and its algebras"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'G-set|Gset' --include='*.v' . → 0 relevant hits (the 'G-set' matches are the substring in 'underlying-set functor').",
+      "grep -rni 'delooping|deloop' --include='*.v' . → only the monoidal-category-as-one-object-bicategory development (Theory/Bicategory.v:70, Theory/Bicategory/OneObject.v, Monad/Graded.v:43); no group is delooped to a category.",
+      "grep -rni 'BG|one-object' --include='*.v' . → prose only (Theory/Functor.v:68 'a functor from a one-object category BG to vector spaces is precisely a linear representation', Functor/Hom/Yoneda.v:84, Theory/Profunctor.v:60); no BG is constructed.",
+      "grep -rni 'group action|action of a group|representation' --include='*.v' . → only symmetric-group actions on multicategory arities (Theory/Multicategory.v:54, :393) and the Representable class; nothing about a category of G-sets.",
+      "Consequently neither the adjunction G × (−) ⊣ U nor its monadicity has a carrier: grep -rn 'Monadic' shows the only inhabited monadicity witness is Identity_Monadic (Monad/Monadicity/Examples.v:155)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Phase-D blind pass run BEFORE opening coverage-5-5.json; aliases expanded per item and searched whole-tree: rg 'ElementaryTopos|SubobjectClassifier'; rg -i 'beck.?chevalley|direct image|inverse image|power ?set|preimage'; rg -i 'strictly create|creates.*coequalizer|split coequalizer|U-split'; rg -i 'IsomorphismOfCategories|strictly|strictly monadic'; rg -i 'reflexive tripleab|tripleab|crude monadicity'; rg -i 'free monoid|free group|G-set|group action|BG|deloop'; rg -i 'copower|indexed coproduct|icoprod'; rg -i 'restriction functor|precompos|res_K|Lan|LeftKan'; rg -i 'finitary|filtered|sifted'; rg 'Kleisli' over Theory/Lawvere*; ls Instance/. My independent preliminary verdicts were: def-elementary-topos PRESENT, lem10 ABSENT, exi PARTIAL, exii ABSENT, exiii PRESENT, exiv ABSENT, exv ABSENT, exvi ABSENT, exvii ABSENT-leaning (PARTIAL defensible), def-lawvere-theory PARTIAL. AGREES with Phase C. No delooping of a group or monoid into a category exists -- the only delooping in-tree is monoidal-category-as-one-object-bicategory (Theory/Bicategory/OneObject.v, Monad/Graded.v:46) -- so Set^{BG} cannot even be written; Instance/One.v is the terminal category, not BG. No G-set category, no G x (-) monad on Sets, no free-G-set adjunction, and no monadicity claim; the only inhabited monadicity witness remains Identity_Monadic (Monad/Monadicity/Examples.v:155, verified)."
+    }
+  },
+  {
+    "id": "riehl:5.5:exv",
+    "classification": "ABSENT",
+    "aliases": [
+      "restriction along the object inclusion ob J ↪ J",
+      "ev : C^J ⟶ C^{ob J} and its left adjoint Lan",
+      "left Kan extension by copowers / coproducts ⨿_{x} J(x,j) · F x",
+      "Lan ⊣ res proved by the Yoneda lemma",
+      "monadicity of a restriction (precomposition) functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Theory/Kan/Extension.v:127 'Program Definition Induced : ([B, C]) ⟶ ([A, C])' is the general restriction functor (− ◯ F) — the exercise's 'ev' in general form — but it is only the SETUP the exercise takes as given; none of the four clauses is proved anywhere.",
+      "Theory/Kan/Extension.v:222 'Class LeftKan := { Lan : [A, C] ⟶ [B, C]; lan_adjoint : Lan ⊣ Induced }' carries the left adjoint and its adjunction as DATA. grep -rn 'LeftKan|Lan ' --include='*.v' . outside Theory/Kan/Extension.v → 0 constructions: no instance of LeftKan or LocalLeftKan is ever built, so no left adjoint of any restriction functor exists in-tree.",
+      "grep -rni 'copower' --include='*.v' . → 0 hits; there is no copower/tensoring construction with which to write ⨿_{x∈J} J(x,j) · F x.",
+      "grep -rniE 'res_K|restriction functor' --include='*.v' . → Theory/Adjunction.v:98 prose and Construction/ColouredPROP/BaseChange/Laws.v:478 (a PROP restriction, unrelated); no C^J ⟶ C^{ob J}.",
+      "Instance/Discrete.v:37 DiscreteCat and :52 DiscreteCat_Functor make the ob-J inclusion expressible, but no file instantiates Induced at it, and grep -rn 'Monadic' shows no monadicity claim for any restriction functor."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Phase-D blind pass run BEFORE opening coverage-5-5.json; aliases expanded per item and searched whole-tree: rg 'ElementaryTopos|SubobjectClassifier'; rg -i 'beck.?chevalley|direct image|inverse image|power ?set|preimage'; rg -i 'strictly create|creates.*coequalizer|split coequalizer|U-split'; rg -i 'IsomorphismOfCategories|strictly|strictly monadic'; rg -i 'reflexive tripleab|tripleab|crude monadicity'; rg -i 'free monoid|free group|G-set|group action|BG|deloop'; rg -i 'copower|indexed coproduct|icoprod'; rg -i 'restriction functor|precompos|res_K|Lan|LeftKan'; rg -i 'finitary|filtered|sifted'; rg 'Kleisli' over Theory/Lawvere*; ls Instance/. My independent preliminary verdicts were: def-elementary-topos PRESENT, lem10 ABSENT, exi PARTIAL, exii ABSENT, exiii PRESENT, exiv ABSENT, exv ABSENT, exvi ABSENT, exvii ABSENT-leaning (PARTIAL defensible), def-lawvere-theory PARTIAL. AGREES with Phase C, and my blind pass hit the same two near-misses without concluding they cover any clause. Verified: Theory/Kan/Extension.v:127 'Program Definition Induced : ([B, C]) -> ([A, C])' is the generic restriction functor -- ambient setup the exercise takes as given, not one of its four clauses; :222 'Class LeftKan := { Lan : [A,C] -> [B,C]; lan_adjoint : Lan -| Induced }' carries the left adjoint purely as DATA, and rg 'LeftKan|RightKan|LocalLeft|LocalRight' over the whole tree returns only Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v, the latter merely CONSUMING a RightKan hypothesis in Theorem Kan_Limit (:46) -- no instance of any Kan class is ever constructed, confirming the log. rg -ni 'copower' -> 0 hits, and there is no indexed coproduct in-tree (Structure/Limit/Product.v defines iprod only), so the coproduct-of-copowers formula cannot even be written; nothing instantiates Induced at a DiscreteCat inclusion and no restriction functor is claimed monadic. All four clauses uncovered => ABSENT, consistent with the PARTIAL granted to exvii (there a clause leg has a real carrier, here none does)."
+    }
+  },
+  {
+    "id": "riehl:5.5:exvi",
+    "classification": "ABSENT",
+    "aliases": [
+      "restriction along K : I ⟶ J strictly creates coequalizers of res_K-split pairs",
+      "class of functors whose restriction functor is monadic",
+      "monadic precomposition functor C^J ⟶ C^I",
+      "left adjoint of res_K by the Kan extension formula (Theorem 6.2.1)",
+      "strict creation of coequalizers"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'strictly creates|StrictlyCreates|strict creation' --include='*.v' . → 0 hits; the only creation predicate in the tree is Monad/Monadicity/Beck.v:164 CreatesUSplitCoequalizers, which is the up-to-iso rendering and is stated for an arbitrary U, never for a restriction functor.",
+      "grep -rniE 'res_K|restriction functor' --include='*.v' . → no restriction functor between functor categories beyond Theory/Kan/Extension.v:127 Induced := (− ◯ F); nothing is proved about its creation, preservation or monadicity.",
+      "grep -rni 'copower' → 0 hits and grep 'LeftKan|Lan' outside Theory/Kan/Extension.v → 0 constructions, so the 'describe the left adjoint explicitly / Kan extension formula' clause has no counterpart either (Lan exists only as a class field asserted as data).",
+      "grep -rn 'Monadic' --include='*.v' . → no restriction functor is claimed monadic anywhere; the only inhabited witness is Identity_Monadic (Monad/Monadicity/Examples.v:155)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Phase-D blind pass run BEFORE opening coverage-5-5.json; aliases expanded per item and searched whole-tree: rg 'ElementaryTopos|SubobjectClassifier'; rg -i 'beck.?chevalley|direct image|inverse image|power ?set|preimage'; rg -i 'strictly create|creates.*coequalizer|split coequalizer|U-split'; rg -i 'IsomorphismOfCategories|strictly|strictly monadic'; rg -i 'reflexive tripleab|tripleab|crude monadicity'; rg -i 'free monoid|free group|G-set|group action|BG|deloop'; rg -i 'copower|indexed coproduct|icoprod'; rg -i 'restriction functor|precompos|res_K|Lan|LeftKan'; rg -i 'finitary|filtered|sifted'; rg 'Kleisli' over Theory/Lawvere*; ls Instance/. My independent preliminary verdicts were: def-elementary-topos PRESENT, lem10 ABSENT, exi PARTIAL, exii ABSENT, exiii PRESENT, exiv ABSENT, exv ABSENT, exvi ABSENT, exvii ABSENT-leaning (PARTIAL defensible), def-lawvere-theory PARTIAL. AGREES with Phase C. Re-ran the decisive search independently: rg -ni 'strictly creates|StrictlyCreates|strict creation|strictly monadic' -> 0 hits; the only creation predicate is Monad/Monadicity/Beck.v:164 CreatesUSplitCoequalizers, stated for an arbitrary U (up to iso, not strictly) and never instantiated at a restriction functor. No LeftKan instance and no copower exist for the challenge clause (same verification as exv). Nothing of the item is in-tree."
+    }
+  },
+  {
+    "id": "riehl:5.5:exvii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Lawvere theory of a monad on Set, built from its Kleisli category",
+      "N^op ⟶ L identity-on-objects functor",
+      "full subcategory of Set_T on the finite ordinals 0, 1, 2, ...",
+      "skeleton of Fin with strictly associative finite products",
+      "functor from T-algebras to models of a Lawvere theory (functorial semantics)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet/Lawvere.v",
+        "line": 39,
+        "symbol": "FinSetOp_Lawvere",
+        "intree_statement": "Definition FinSetOp_Lawvere : LawvereTheory := {| law_cat := FinSet^op; law_terminal := FinSet_Initial; law_cartesian := FinSet_Cocartesian; law_of_nat := fun n => n; law_zero_terminal := eq_refl; law_plus_product := fun m n => eq_refl |}   (* the exercise's N^op: the skeleton of finite sets, opposite, whose finite products are STRICT on objects — both equalities hold by eq_refl, the second even at open m n *)"
+      },
+      {
+        "file": "Theory/Lawvere/Model.v",
+        "line": 77,
+        "symbol": "Models",
+        "intree_statement": "Definition Models : Category := Sub (@Fun (@law_cat T) C) Models_sub   (* the full subcategory of [law_cat T, C] on the product- and terminal-preserving functors: the target category of the exercise's clause (ii) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a monad T on Set, let N be a skeleton of Fin and L the opposite of the full subcategory of the Kleisli category Set_T spanned by 0, 1, 2, ..., with I : N^op → L identity-on-objects. (i) Show N^op and L have strictly associative finite products, preserved by I. (ii) Define a functor from the category of T-algebras to the category of models for the Lawvere theory I : N^op → L.",
+      "intree": "Definition FinSetOp_Lawvere : LawvereTheory := {| law_cat := FinSet^op; ...; law_of_nat := fun n => n; law_zero_terminal := eq_refl; law_plus_product := fun m n => eq_refl |}",
+      "strength_comparison": "intree-weaker: only the N^op leg of clause (i) has a counterpart, and even there the strictness asserted is 'the terminal object and the binary product of canonical objects ARE canonical objects' (law_zero_terminal, law_plus_product, both eq_refl on FinSet^op) — strict ASSOCIATIVITY of the product is not among the LawvereTheory fields and is not proved for FinSet^op. Clause (i) for L, the functor I, and the whole of clause (ii) have no counterpart."
+    },
+    "gap": "The entire Kleisli-side construction is missing. (1) No L: nothing forms the full subcategory of a Kleisli category on the objects 0, 1, 2, ... and takes its opposite — the Kleisli category exists (Monad/Kleisli.v:38) and Lawvere theories exist (Theory/Lawvere.v:116), but grep 'Kleisli' inside Theory/Lawvere.v and Theory/Lawvere/ returns 0 hits and grep 'Lawvere' inside Monad/ returns 0 hits, so the two developments are unconnected. (2) No identity-on-objects I : N^op ⟶ L and no proof that it preserves the (strict) finite products. (3) No functor from T-algebras to models: the only in-tree functor joining EilenbergMoore and Models is Theory/Lawvere/Monad.v:78 Lawvere_EM_Comparison : Models T Sets ⟶ EilenbergMoore …, which runs in the OPPOSITE direction and is scoped to a hypothesized left adjoint L ⊣ ev1 supplied as data. (4) The exercise's hint (Exercise 5.2.vi, algebras as presheaves on the Kleisli category) likewise has no in-tree counterpart.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Phase-D blind pass run BEFORE opening coverage-5-5.json; aliases expanded per item and searched whole-tree: rg 'ElementaryTopos|SubobjectClassifier'; rg -i 'beck.?chevalley|direct image|inverse image|power ?set|preimage'; rg -i 'strictly create|creates.*coequalizer|split coequalizer|U-split'; rg -i 'IsomorphismOfCategories|strictly|strictly monadic'; rg -i 'reflexive tripleab|tripleab|crude monadicity'; rg -i 'free monoid|free group|G-set|group action|BG|deloop'; rg -i 'copower|indexed coproduct|icoprod'; rg -i 'restriction functor|precompos|res_K|Lan|LeftKan'; rg -i 'finitary|filtered|sifted'; rg 'Kleisli' over Theory/Lawvere*; ls Instance/. My independent preliminary verdicts were: def-elementary-topos PRESENT, lem10 ABSENT, exi PARTIAL, exii ABSENT, exiii PRESENT, exiv ABSENT, exv ABSENT, exvi ABSENT, exvii ABSENT-leaning (PARTIAL defensible), def-lawvere-theory PARTIAL. My blind pass leaned ABSENT; on reading the record I ACCEPT PARTIAL, because Instance/FinSet/Lawvere.v:39 FinSetOp_Lawvere genuinely is the exercise's N^op -- skeletal FinSet (objects nat) opposite, packaged as a LawvereTheory whose object-level product strictness holds by eq_refl even at open m n -- so one leg of clause (i) has a real carrier and the record states the residue precisely. Both evidence quotes verified at the exact lines (Instance/FinSet/Lawvere.v:39, Theory/Lawvere/Model.v:77). The key honesty check holds: Class LawvereTheory (Theory/Lawvere.v:116) has no associativity field, and strict associativity of nat addition is NOT eq_refl at open arguments (it needs induction on the first summand), so 'strictly associative finite products' is genuinely unproved -- which is exactly what strength_comparison says. Gap verified: rg 'Kleisli' over Theory/Lawvere.v and Theory/Lawvere/ -> 0 hits, and the only EM/Models bridge is Theory/Lawvere/Monad.v:78 Lawvere_EM_Comparison : Models T Sets -> EilenbergMoore ..., which runs opposite to clause (ii) and is scoped to a hypothesized L -| ev1 supplied as data (Theory/Lawvere/Monad.v:69-71)."
+    }
+  },
+  {
+    "id": "riehl:5.5:def-lawvere-theory",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Lawvere theory associated to a finitary monad",
+      "algebraic theory / functorial semantics",
+      "category whose objects are the iterated finite products of one generic object; n-ary operations L(n,1)",
+      "model of a Lawvere theory = finite-product-preserving functor L → Set",
+      "morphism of models = natural transformation; Models category",
+      "finitary monad ⟷ Lawvere theory correspondence (Linton)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Lawvere.v",
+        "line": 116,
+        "symbol": "LawvereTheory",
+        "intree_statement": "Class LawvereTheory : Type := { law_cat : Category; law_terminal : @Terminal law_cat; law_cartesian : @Cartesian law_cat; law_of_nat : nat → law_cat; law_zero_terminal : law_of_nat 0%nat = @terminal_obj law_cat law_terminal; law_plus_product : ∀ m n : nat, (@product_obj law_cat law_cartesian (law_of_nat m) (law_of_nat n)) = law_of_nat (m + n)%nat }"
+      },
+      {
+        "file": "Theory/Lawvere/Model.v",
+        "line": 50,
+        "symbol": "Model",
+        "intree_statement": "Record Model := { model_fun : @law_cat T ⟶ C; model_cartesian : @CartesianFunctor (@law_cat T) C model_fun (@law_cartesian T) _; model_terminal : @TerminalFunctor (@law_cat T) C model_fun (@law_terminal T) _ }"
+      },
+      {
+        "file": "Theory/Lawvere/Model.v",
+        "line": 110,
+        "symbol": "Models_Full",
+        "intree_statement": "Definition Models_Full : Construction.Subcategory.Full (@Fun (@law_cat T) C) Models_sub := fun _ _ _ _ _ => I   (* every natural transformation between the underlying functors of two models is a morphism of models *)"
+      },
+      {
+        "file": "Theory/Lawvere.v",
+        "line": 156,
+        "symbol": "law_pow_one",
+        "intree_statement": "Theorem law_pow_one (n : nat) : law_pow n = law_of_nat n   (* with law_pow 0 := terminal_obj and law_pow (S k) := product_obj (law_of_nat 1) (law_pow k): every named object IS the n-fold power of the generic object 1 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Prose definition interleaved in Exercise 5.5.vii: when the monad T on Set is finitary, the identity-on-objects I : N^op → L built from its Kleisli category is the ASSOCIATED LAWVERE THEORY; the objects of L are all iterated finite products of the object 1, so the essential data is the family of hom-sets L(n,1) of n-ary operations. A model of the Lawvere theory in Set is a finite-product-preserving functor L → Set, and a morphism of models is a natural transformation; the category of T-algebras can be recovered from this data [Lin66].",
+      "intree": "Class LawvereTheory := { law_cat; law_terminal; law_cartesian; law_of_nat : nat → law_cat; law_zero_terminal; law_plus_product } with Theorem law_pow_one (n : nat) : law_pow n = law_of_nat n; Record Model := { model_fun : law_cat T ⟶ C; model_cartesian : CartesianFunctor …; model_terminal : TerminalFunctor … }; Definition Models := Sub (Fun (law_cat T) C) Models_sub with Models_Full.",
+      "strength_comparison": "Mixed. The MODEL half is faithful and in fact more general than the book's: a model is exactly a finite-product-preserving (cartesian + terminal) functor out of the theory, morphisms of models are ALL natural transformations (Models_Full), and the target is any cartesian C rather than only Set (Riehl's Set case is Theory/Lawvere/Sets.v, with ev1 : Models T Sets ⟶ Sets). The THEORY half is intree-weaker in two ways: (a) it is a standalone class, not the theory ASSOCIATED TO A MONAD; (b) law_of_nat is only a naming function with propositional strictness equalities — bijectivity onto the objects is deliberately NOT required, so 'the objects of L are the iterated products of 1' is asserted only through law_pow_one for the named objects, and consumers must add reachability by hand (Theory/Lawvere/Sets.v's ev1_Faithful carries an explicit reachability hypothesis, witnessed on the base by FinSetOp_reach)."
+    },
+    "gap": "Two of the book item's clauses are missing. (1) 'Associated to a FINITARY monad': there is no construction of a Lawvere theory from a monad at all (no Kleisli-to-theory route; grep 'Kleisli' in Theory/Lawvere.v and Theory/Lawvere/ → 0 hits), and 'finitary' cannot even be STATED in-tree — grep -rni 'finitary|filtered|sifted|directed colimit' finds only prose, with no filtered category, filtered colimit or filtered-colimit-preservation predicate anywhere. (2) 'The category of T-algebras can be recovered [Lin66]': the only bridge is Theory/Lawvere/Monad.v:78 Lawvere_EM_Comparison : Models T Sets ⟶ EilenbergMoore …, which runs theory→monad (the reverse of the book's clause), is scoped to a left adjoint L ⊣ ev1 supplied as data (no free-model functor is constructed), and yields an equivalence only under the re-exposed crude-monadicity hypotheses (Lawvere_crude_monadicity, :91). That file's own header records the remaining scope: 'The full finitary-monad ⟷ Lawvere-theory EQUIVALENCE … is deferred (ledger 2).'",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Phase-D blind pass run BEFORE opening coverage-5-5.json; aliases expanded per item and searched whole-tree: rg 'ElementaryTopos|SubobjectClassifier'; rg -i 'beck.?chevalley|direct image|inverse image|power ?set|preimage'; rg -i 'strictly create|creates.*coequalizer|split coequalizer|U-split'; rg -i 'IsomorphismOfCategories|strictly|strictly monadic'; rg -i 'reflexive tripleab|tripleab|crude monadicity'; rg -i 'free monoid|free group|G-set|group action|BG|deloop'; rg -i 'copower|indexed coproduct|icoprod'; rg -i 'restriction functor|precompos|res_K|Lan|LeftKan'; rg -i 'finitary|filtered|sifted'; rg 'Kleisli' over Theory/Lawvere*; ls Instance/. My independent preliminary verdicts were: def-elementary-topos PRESENT, lem10 ABSENT, exi PARTIAL, exii ABSENT, exiii PRESENT, exiv ABSENT, exv ABSENT, exvi ABSENT, exvii ABSENT-leaning (PARTIAL defensible), def-lawvere-theory PARTIAL. AGREES with Phase C; I reached PARTIAL independently with the same split (models present, monad-associated theory absent). All four evidence quotes verified at the exact cited lines: Theory/Lawvere.v:116 Class LawvereTheory (law_of_nat is a naming function with two propositional strictness equalities and no bijectivity requirement, as the record says), Theory/Lawvere/Model.v:50 Record Model (CartesianFunctor + TerminalFunctor = finite-product-preserving, over an arbitrary cartesian C), :110 Models_Full (every natural transformation is a morphism of models), Theory/Lawvere.v:156 Theorem law_pow_one. Gap verified independently: rg -ni 'finitary' -> prose only, rg -ni 'filtered|sifted|directed colimit' -> one unrelated hit (Comonad/CoKleisli.v:81, 'filtered stream'), so 'finitary' is indeed unstatable in-tree; Theory/Lawvere/Monad.v:59-62 carries the deferral verbatim ('The full finitary-monad <-> Lawvere-theory EQUIVALENCE ... is deferred (ledger 2)'), and the reachability caveat is real (Theory/Lawvere/Sets.v:103-105 ev1_Faithful takes reach as an explicit hypothesis, witnessed at :176 FinSetOp_reach). All cited files are registered in _CoqProject."
+    }
+  }
+]

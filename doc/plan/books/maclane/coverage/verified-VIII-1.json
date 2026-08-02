@@ -1,0 +1,427 @@
+[
+  {
+    "id": "maclane:VIII.2:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "biproduct bifunctor",
+      "direct-sum functor a ⊕ b",
+      "bimap on biproducts",
+      "⊕ : A ∏ A ⟶ A",
+      "product bifunctor = coproduct bifunctor natural iso",
+      "InternalProductFunctor"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Biproduct.v",
+        "line": 197,
+        "symbol": "bimap",
+        "intree_statement": "Definition bimap {x y x' y'} (Bxy : Biproduct x y) (Bx'y' : Biproduct x' y') (f : x ~> x') (g : y ~> y') : biproduct_obj Bxy ~> biproduct_obj Bx'y' := bi_pair Bx'y' (f ∘ bi_exl Bxy) (g ∘ bi_exr Bxy).  [with bimap_exl : bi_exl ∘ bimap f g ≈ f ∘ bi_exl, bimap_exr : bi_exr ∘ bimap f g ≈ g ∘ bi_exr]"
+      },
+      {
+        "file": "Functor/Product/Internal.v",
+        "line": 34,
+        "symbol": "InternalProductFunctor",
+        "intree_statement": "Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} : C ∏ C ⟶ C := { fobj := fun p => fst p × snd p; fmap := fun _ _ p => (fst p ∘ exl) △ (snd p ∘ exr) }."
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 113,
+        "symbol": "bimap_bi_pair",
+        "intree_statement": "Lemma bimap_bi_pair ... : bimap B B' f g ∘ bi_pair B h k ≈ bi_pair B' (f ∘ h) (g ∘ k)."
+      }
+    ],
+    "statement_record": {
+      "book": "When all binary biproducts exist, a chosen c = a⊕b makes ⊕ : A×A→A a bifunctor; f1⊕f2 is characterized equivalently by the product rule p'_j(f1⊕f2)=f_j p_j or by the coproduct rule (f1⊕f2)i_k=i'_k f_k, and the identification of the product bifunctor with the coproduct bifunctor is a natural isomorphism.",
+      "intree": "bimap Bxy Bx'y' f g := bi_pair Bx'y' (f ∘ bi_exl) (g ∘ bi_exr) — the morphism action defined through the product side, with the product-rule commutations bimap_exl/bimap_exr; InternalProductFunctor : C ∏ C ⟶ C is a genuine binary product bifunctor (which is the biproduct bifunctor once the preadditive category is cartesian, since cartesian_biproduct identifies product with biproduct).",
+      "strength_comparison": "intree-weaker: the biproduct-native morphism action exists but is not packaged as a Functor (C ∏ C) C over HasBiproducts (no bimap_id / bimap_comp functoriality laws for it), only the product-side characterization is proved (no coproduct-side bimap_inl/bimap_inr law), and the natural isomorphism identifying the product bifunctor with the coproduct bifunctor is not stated. A packaged product bifunctor (InternalProductFunctor) exists only for the Cartesian presentation."
+    },
+    "gap": "The biproduct bimap (Structure/Biproduct.v:197) is defined and satisfies the product-side commutations, but (i) it is not assembled into a Functor (C ∏ C) C for a HasBiproducts category — there are no bimap_id / bimap_comp functoriality lemmas for it; (ii) its coproduct-side characterization (f⊕g)∘inl ≈ inl'∘f is never stated; (iii) the natural-isomorphism identification of the product bifunctor with the coproduct bifunctor is not proved. InternalProductFunctor (Functor/Product/Internal.v:34) is a genuine product bifunctor but is tied to the Cartesian, not the biproduct, presentation.",
+    "negative_search_log": [
+      "grep -rniE 'biproduct.*functor|functor.*biproduct|Biproduct.*⟶|HasBiproducts.*⟶' --include='*.v' . -> 0 hits for a biproduct-native bifunctor",
+      "grep -rniE 'bimap_id|bimap_comp' in Structure/Biproduct.v, Structure/Semiadditive.v, Instance/CMon/Biproduct.v -> 0 hits (functoriality laws only exist in Functor/Bifunctor.v for a pre-existing bifunctor F : C ∏ D ⟶ E, not for the biproduct bimap)",
+      "grep -rniE 'bimap_inl|bimap_inr|bimap.*inl|bimap.*inr' Structure/Biproduct.v Structure/Semiadditive.v -> 0 hits (no coproduct-side characterization)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL. Verified bimap (Biproduct.v:197) is a morphism-level action with only product-side commutations (bimap_exl/exr, Biproduct.v:203-213); grep for bimap_id/bimap_comp on the biproduct bimap returns 0 hits (the only such laws in-tree are for the Monoidal tensor bimap). No bundled Functor (C ∏ C ⟶ C) over HasBiproducts, no coproduct-side (f⊕g)∘inl law, no product-vs-coproduct natural-iso statement. InternalProductFunctor (Functor/Product/Internal.v:34, registered _CoqProject:144) confirmed a genuine C ∏ C ⟶ C product bifunctor tied to Cartesian, honestly flagged in the gap. All cited evidence accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:construction2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "finite biproducts",
+      "matrix calculus of arrows",
+      "n-fold direct sum ⊕_j a_j",
+      "hom(⊕c_k,⊕a_j) ≅ Σ hom(c_k,a_j)",
+      "composition is matrix multiplication",
+      "Kronecker delta p_k i_j = δ_kj"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 61,
+        "symbol": "biproduct_id_decomp",
+        "intree_statement": "Theorem biproduct_id_decomp {x y} (B : Biproduct x y) : padd (bi_inl B ∘ bi_exl B) (bi_inr B ∘ bi_exr B) ≈ id.  [the n=2 completeness relation Σ i_k p_k ≈ 1]"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 101,
+        "symbol": "bi_copair_pair",
+        "intree_statement": "Lemma bi_copair_pair {x y z w} (B : Biproduct x y) (u : x ~> w)(v : y ~> w)(f : z ~> x)(g : z ~> y) : bi_copair B u v ∘ bi_pair B f g ≈ padd (u ∘ f) (v ∘ g).  [1×2 row times 2×1 column = sum of diagonal composites]"
+      },
+      {
+        "file": "Structure/Biproduct.v",
+        "line": 51,
+        "symbol": "bi_exl_inl / bi_exl_inr / bi_exr_inl / bi_exr_inr",
+        "intree_statement": "bi_exl ∘ bi_inl ≈ id; bi_exr ∘ bi_inr ≈ id; bi_exl ∘ bi_inr ≈ zero_mor; bi_exr ∘ bi_inl ≈ zero_mor.  [the n=2 Kronecker relations p_k i_j = δ_kj]"
+      }
+    ],
+    "statement_record": {
+      "book": "Iterating yields finite biproducts ⊕_{j=1..n} a_j characterized by i1 p1 + ... + in pn = 1 and p_k i_j = δ_kj; then A(⊕_k c_k, ⊕_j a_j) ≅ Σ_{j,k} A(c_k, a_j), each arrow f is determined by its n×m matrix of components f_kj = p_k f i_j, and composition of arrows is matrix multiplication of the component matrices.",
+      "intree": "Only the binary (n=2) instance: the Kronecker relations p_k i_j = δ_kj (bi_exl_inl/bi_exl_inr/bi_exr_inl/bi_exr_inr) and the completeness relation i1 p1 + i2 p2 ≈ 1 (biproduct_id_decomp), together with the 1×2·2×1 matrix product bi_copair_pair : [u,v]∘⟨f,g⟩ ≈ u∘f + v∘g and the component reconstruction bi_pair_decomp.",
+      "strength_comparison": "intree-weaker: only binary biproducts are formalized, so the finite n-fold biproduct ⊕_{j=1..n}, the hom-set-as-matrices isomorphism A(⊕c,⊕a) ≅ Σ A(c,a), the general n×m matrix representation, and the general composition = matrix-multiplication theorem are all absent; only their n=2 fragments are proved."
+    },
+    "gap": "No iterated/finite n-fold biproduct object ⊕_{j=1..n} a_j; no isomorphism A(⊕_k c_k, ⊕_j a_j) ≅ Σ_{j,k} A(c_k,a_j); no general n×m matrix (f_kj = p_k f i_j) representation of an arrow; no general 'composition = matrix multiplication' theorem. Only the binary building blocks exist (Kronecker + completeness relations, and bi_copair_pair as the 1×2·2×1 product). The Abelian.v header (lines 119-123) describes the matrix calculus in prose but does not formalize it for general n.",
+    "negative_search_log": [
+      "grep -rniE 'matrix|Matr|bigoplus|finite biproduct|n-fold|iterated biproduct|direct sum' --include='*.v' . -> only prose/comment hits (Abelian.v header, Semiadditive.v comments) and unrelated (Profunctor 'generalised matrix multiplication', ZX); no n-ary biproduct object or matrix-of-arrows datatype",
+      "no in-tree symbol for A(⊕c,⊕a) ≅ Σ A(c,a); indexed products (Structure/Limit/Product.v iprod) are products, not biproducts, and carry no matrix/component structure"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently reached PARTIAL. Only binary content in-tree: biproduct_id_decomp (Semiadditive.v:61, the n=2 completeness relation i1p1+i2p2≈1), the four Kronecker laws bi_exl_inl/bi_exl_inr/bi_exr_inl/bi_exr_inr (Biproduct.v:51-56), and bi_copair_pair (Semiadditive.v:101, the 1×2·2×1 matrix product). Confirmed no n-ary/finite biproduct object, no A(⊕c,⊕a)≅ΣA(c,a), no general matrix-multiplication theorem (blind grep matrix|bigoplus|direct sum|iterated → prose/comment only). Evidence accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "additive category",
+      "Ab-category with zero object and biproducts",
+      "Additive class",
+      "preadditive + zero + biproducts + negation",
+      "Ab-enriched category with biproducts"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Additive.v",
+        "line": 34,
+        "symbol": "Additive",
+        "intree_statement": "Class Additive (C : Category) := { additive_zero : @ZeroObject C; additive_preadditive : @Preadditive C; additive_biproducts : @HasBiproducts C additive_zero; pneg {x y} : (x ~> y) -> (x ~> y); pneg_respects {x y} : Proper (equiv ==> equiv) (@pneg x y); padd_pneg {x y} (f : x ~> y) : padd f (pneg f) ≈ pzero }."
+      },
+      {
+        "file": "Structure/Preadditive.v",
+        "line": 34,
+        "symbol": "Preadditive",
+        "intree_statement": "Class Preadditive (C : Category) := { padd; pzero; padd_assoc; padd_comm; padd_zero_left; compose_padd_left; compose_padd_right; compose_pzero_left; compose_pzero_right }.  [CMon-enrichment: hom commutative monoid + bilinear composition]"
+      }
+    ],
+    "statement_record": {
+      "book": "An additive category is an Ab-category (each hom-set an abelian group with bilinear composition) having a zero object 0 and a biproduct for every pair of its objects.",
+      "intree": "Additive C bundles a ZeroObject, a Preadditive (CMon-enriched: each hom a commutative monoid with composition additive/bilinear in each argument and the zero morphism absorbing) structure, a HasBiproducts choice of a biproduct for every pair, plus pneg and padd_pneg upgrading each hom commutative monoid to an abelian group.",
+      "strength_comparison": "same: Preadditive (CMon-enrichment with bilinear composition) + pneg + padd_pneg is exactly Ab-enrichment (each hom an abelian group, composition bilinear); together with a zero object and biproducts for every pair this matches Mac Lane's additive category verbatim (setoid hom-groups faithfully rephrase the abelian-group hom-sets)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Read Additive.v:34: Additive = ZeroObject + Preadditive + HasBiproducts + pneg + padd_pneg. Preadditive (CMon-enrichment: commutative-monoid homs + bilinear composition + zero-absorbing) plus pneg/padd_pneg is exactly Ab-enrichment, matching Mac Lane's additive category (Ab-category + zero + biproduct for every pair). Class is real and consumed (abelian_additive, Abelian.v:138). Registered _CoqProject:288/294. Contextual note (NOT a defect, def3 is a DEFINITION hence PRESENT regardless): no concrete in-tree Additive INSTANCE exists — CMon is only preadditive/semiadditive since monoids lack negation."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:prop3",
+    "classification": "PRESENT",
+    "aliases": [
+      "addition recovered from biproduct",
+      "f + f' = ∇(f⊕f')Δ",
+      "codiagonal ∘ bimap ∘ diagonal",
+      "biproduct_addition",
+      "additive structure determined by the biproduct"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 130,
+        "symbol": "biproduct_addition",
+        "intree_statement": "Theorem biproduct_addition {x y} (B : Biproduct x x) (B' : Biproduct y y) (f g : x ~> y) : padd f g ≈ bi_copair B' id id ∘ bimap B B' f g ∘ bi_pair B id id."
+      },
+      {
+        "file": "Structure/Biproduct.v",
+        "line": 217,
+        "symbol": "bi_diag / bi_codiag",
+        "intree_statement": "bi_diag B := bi_pair B id id (Δ = ⟨id,id⟩); bi_codiag B := bi_copair B id id (∇ = [id,id])."
+      }
+    ],
+    "statement_record": {
+      "book": "In an additive category, for parallel arrows f,f' : a→b one has f + f' = δ^b (f⊕f') δ_a, where δ_a : a→a×a is the diagonal (p1 δ_a = 1_a = p2 δ_a) and δ^b : b⊔b→b the codiagonal (δ^b i1 = 1_b = δ^b i2); i.e. the additive structure is determined by the biproduct.",
+      "intree": "padd f g ≈ bi_copair B' id id ∘ bimap B B' f g ∘ bi_pair B id id, i.e. f + g ≈ ∇ ∘ (f⊕g) ∘ Δ, where bi_pair B id id is the diagonal Δ into the biproduct a⊕a and bi_copair B' id id is the codiagonal ∇ out of b⊕b.",
+      "strength_comparison": "intree-stronger: the identity is proved for any Preadditive (CMon-enriched) category with the relevant biproducts, a weaker hypothesis than Mac Lane's full additive (abelian-group) setting; it specializes to additive categories exactly as stated."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Read Semiadditive.v:130: biproduct_addition gives padd f g ≈ bi_copair B' id id ∘ bimap B B' f g ∘ bi_pair B id id = ∇∘(f⊕g)∘Δ, with bi_copair id id the codiagonal, bimap the biproduct action f⊕g, bi_pair id id the diagonal — exactly Mac Lane's f+f'=δ^b(f⊕f')δ_a. 'intree-stronger' label honest: proved under the weaker Preadditive (CMon) hypothesis and specializes to additive. No defect."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:def4",
+    "classification": "ABSENT",
+    "aliases": [
+      "additive functor",
+      "T(f+f') = Tf + Tf'",
+      "Ab-enriched functor",
+      "homomorphism-of-hom-groups functor",
+      "linear functor",
+      "functor preserving addition"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'additive.?functor|AdditiveFunctor|preserves.?(add|biproduct)|fmap.*padd|T \\(f \\+' --include='*.v' . -> 0 hits",
+      "grep -rniE '(Class|Record|Definition|Instance|Program Instance) [A-Za-z_]*[Aa]dditive' --include='*.v' . -> only Preadditive (Structure/Preadditive.v:34), Additive (Structure/Additive.v:34), bicartesian_preadditive, CMon_Preadditive, abelian_additive — no functor-level notion",
+      "grep -rniE 'Enriched.*Ab|Ab.*Enriched|CMon.*Enriched|Enriched.*CMon|Preadditive.*Functor|Functor.*Preadditive|linear functor|Ab-functor|preserves.*padd' --include='*.v' . -> no Ab/CMon-instantiated enriched functor; Construction/Enriched.v exists but Preadditive is a hand-built Ab-enriched example (Preadditive.v:22, Enriched.v:107), not an instance of the general enriched framework, so no additive functor arises from it",
+      "no symbol expresses T(padd f g) ≈ padd (T f) (T g) or T pzero ≈ pzero for any functor T"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found no additive-functor notion (no AdditiveFunctor, no T(f+g)=Tf+Tg, no fmap-over-padd; grep 0 hits). Verified the Enriched framework does NOT supply it: Construction/Enriched.v:107 explicitly calls Preadditive/Additive a 'hand-built Ab-enriched EXAMPLE', not an instance of the Enriched class, and there is no Preadditive→Enriched(CMon/Ab) bridge (no Monoidal CMon), so EnrichedFunctor cannot instantiate to additive functor. Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:prop4",
+    "classification": "ABSENT",
+    "aliases": [
+      "additive functor iff preserves biproducts",
+      "additive iff preserves binary products",
+      "additive iff preserves binary coproducts",
+      "biproduct-preserving functor",
+      "characterization of additive functors"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'preserv.*biproduct|biproduct.*preserv|carries.*biproduct|maps.*biproduct' --include='*.v' . -> 0 hits",
+      "grep -rniE 'additive.?functor|AdditiveFunctor' --include='*.v' . -> 0 hits, so the notion whose characterization Prop 4 asserts does not exist in-tree",
+      "the generic product-preservation vocabulary that DOES exist (Functor/Structure/Cartesian.v CartesianFunctor, Functor/Structure/Terminal.v, InternalProductFunctor) concerns preservation of finite products and is never connected to an additive-functor notion or to a T(f+f')=Tf+Tf' equivalence",
+      "no in-tree theorem states 'T additive ↔ T carries every binary biproduct/product/coproduct diagram to one of the same kind'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Depends on the absent def4. Blind search: no preserves-biproduct characterization (grep preserv.*biproduct → 0 hits), no additive⟺preserves-products/coproducts theorem. The existing product-preservation vocabulary (CartesianFunctor, InternalProductFunctor) is never tied to an additive-functor notion. Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "canonical map coproduct→product is iso",
+      "κ : ⊔ → × isomorphism",
+      "finite product and coproduct coincide",
+      "can_comparison invertible",
+      "biproduct = product = coproduct (Theorem 2)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 227,
+        "symbol": "cartesian_biproduct",
+        "intree_statement": "Definition cartesian_biproduct (x y : C) : Biproduct x y := {| biproduct_obj := x × y; bi_inl := id △ zero_mor; bi_inr := zero_mor △ id; bi_exl := exl; bi_exr := exr; ...; bi_is_product := ...; bi_is_coproduct := cartesian_bi_is_coproduct x y |}.  [in a preadditive category every binary product is a biproduct, hence also a coproduct]"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 288,
+        "symbol": "can_comparison",
+        "intree_statement": "Definition can_comparison (x y : C) : x + y ~> x × y := (id △ zero_mor) ▽ (zero_mor △ id).  [the canonical map from coproduct to product; the 'identity matrix']"
+      }
+    ],
+    "statement_record": {
+      "book": "In any additive category the canonical map κ : a1⊔...⊔an → a1×...×an is an isomorphism (essentially a reformulation of Theorem 2).",
+      "intree": "The canonical comparison can_comparison : x + y → x × y is defined, and cartesian_biproduct shows that in a preadditive category the binary product x × y is a biproduct — hence simultaneously a product and a coproduct of x, y — which is the binary content that finite products and coproducts coincide.",
+      "strength_comparison": "intree-weaker: the binary case is present only as 'the product is a biproduct/coproduct' (cartesian_biproduct); the explicit conclusion IsIsomorphism (can_comparison x y) is never derived — invertibility of can_comparison appears ONLY as a hypothesis (Semiadditive.v:324, Context E). The n-ary canonical map κ : ⊔_{i≤n} → ×_{i≤n} is not formalized at all."
+    },
+    "gap": "No lemma concludes that the canonical comparison is an isomorphism in a preadditive/additive category: IsIsomorphism (can_comparison x y) occurs only as an assumed hypothesis (Structure/Semiadditive.v:324), never as a theorem. cartesian_biproduct delivers the equivalent binary content (product ≅ coproduct) but does not extract the iso between the actual coproduct x+y and product x×y, and the n-ary generalization κ : a1⊔...⊔an → a1×...×an is absent.",
+    "negative_search_log": [
+      "grep -rniE 'IsIsomorphism.*can|can.*IsIsomorphism|can_comparison.*≅|coproduct.*≅.*product|biproduct.*≅.*coproduct' --include='*.v' Structure/ -> the only IsIsomorphism (can_comparison ...) is the Context hypothesis E at Semiadditive.v:324",
+      "no n-ary canonical-map symbol; indexed products (iprod) carry no comparison to indexed coproducts"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently torn PARTIAL/ABSENT; resolved to PARTIAL, agreeing with the classifier. can_comparison (Semiadditive.v:288) is defined (binary) and cartesian_biproduct (Semiadditive.v:227) supplies the Theorem-2 content the exercise says the κ-iso reformulates (product = biproduct = coproduct in a preadditive category). Verified the ONLY IsIsomorphism (can_comparison ...) in-tree is the Context hypothesis E (Semiadditive.v:324) — the iso conclusion is never derived — and no n-ary κ exists. Gap stated precisely; PARTIAL honest."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "infinite canonical map need not be iso",
+      "κ_∞ : ⊔_I → ×_I not iso",
+      "countable direct sum ≠ direct product",
+      "counterexample to infinite biproduct",
+      "coproduct/product mismatch at infinity"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'matrix|Matr|bigoplus|direct sum|finite biproduct|n-fold' --include='*.v' . -> no infinite biproduct / infinite direct sum machinery",
+      "grep -rniE 'coproduct.*product.*iso|can_comparison|product.*coproduct.*coincide' --include='*.v' . -> only the binary can_comparison (Semiadditive.v); no infinite comparison map",
+      "Structure/Limit/Product.v provides indexed products (iprod) but there is no matching indexed coproduct + canonical comparison, and no additive category instance in which κ_∞ is exhibited as a non-iso (no counterexample construction, e.g. a graded/eventually-zero-vs-arbitrary sequence example)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no infinite biproducts / infinite direct sums, no counterexample exhibiting κ_∞ as a non-iso (grep matrix|bigoplus|direct sum|infinite → prose/binary only). Only the binary can_comparison exists. Negative log accurate; ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "biproduct associative and commutative",
+      "⊕ symmetric monoidal up to natural iso",
+      "(x⊕y)⊕z ≅ x⊕(y⊕z)",
+      "x⊕y ≅ y⊕x",
+      "biproduct swap/associator"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 479,
+        "symbol": "prod_comm / prod_assoc",
+        "intree_statement": "Program Instance prod_comm {x y} : x × y ≅ y × x := { to := swap; from := swap }.  Program Instance prod_assoc {x y z} : (x × y) × z ≅ x × (y × z) := { to := (exl∘exl) △ ((exr∘exl) △ exr); from := (exl △ (exl∘exr)) △ (exr∘exr) }."
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 393,
+        "symbol": "coprod_comm / coprod_assoc",
+        "intree_statement": "Program Instance coprod_comm {x y} : x + y ≅ y + x ... ; Program Instance coprod_assoc {x y z} : (x + y) + z ≅ x + (y + z) ..."
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 227,
+        "symbol": "cartesian_biproduct",
+        "intree_statement": "in a preadditive category every binary product is a biproduct (so product-level assoc/comm transfers to the biproduct-as-product)"
+      }
+    ],
+    "statement_record": {
+      "book": "The biproduct in an additive category is associative and commutative up to a natural isomorphism.",
+      "intree": "The categorical product carries commutativity prod_comm : x×y ≅ y×x and associativity prod_assoc : (x×y)×z ≅ x×(y×z) isomorphisms (dually coprod_comm/coprod_assoc), and Structure/Monoidal/Cartesian.v assembles the product into a (symmetric) monoidal structure with the naturality/coherence of the associator and braiding; cartesian_biproduct identifies products with biproducts in a preadditive category.",
+      "strength_comparison": "intree-weaker: associativity and commutativity isomorphisms are proved for the categorical product/coproduct (and are natural via the cartesian monoidal structure), but no associativity/commutativity or natural-isomorphism result is stated for the abstract Biproduct / HasBiproducts operation ⊕ itself; it holds only through the product identification, and the n-ary reassociations are not addressed."
+    },
+    "gap": "The associativity/commutativity/natural-isomorphism content is proved for the categorical product (prod_comm, prod_assoc, plus the cartesian symmetric-monoidal structure) and coproduct, not for the abstract biproduct operation coming from HasBiproducts; there is no bi_comm : x⊕y ≅ y⊕x or bi_assoc : (x⊕y)⊕z ≅ x⊕(y⊕z) as biproducts, and no naturality statement phrased at the biproduct level. It applies to biproducts only via cartesian_biproduct (biproduct = product in a preadditive cartesian category).",
+    "negative_search_log": [
+      "grep -rniE 'biproduct.*assoc|biproduct.*comm|bi_assoc|bi_comm|bi_swap|oplus.*assoc' --include='*.v' Structure/ -> no biproduct-native associativity/commutativity symbol (only the Semiadditive.v header comment)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass initially leaned ABSENT (no biproduct-native bi_assoc/bi_comm over HasBiproducts; grep biproduct.*assoc|bi_assoc|bi_comm|bi_swap → 0 hits). On verification I UPGRADED to agree with PARTIAL: prod_comm (Cartesian.v:479), prod_assoc (Cartesian.v:485) and the cartesian SYMMETRIC MONOIDAL assembly (Structure/Monoidal/Cartesian.v — associator+braiding as natural isos with coherence, _CoqProject:337) supply exactly the 'associative and commutative up to NATURAL iso' content for ×, and cartesian_biproduct (Semiadditive.v:227) identifies × with the biproduct in a preadditive category, so the item's content genuinely holds in the cartesian preadditive presentation. Reservation (already captured in the record's gap): this route needs a Cartesian instance and does not reach the bare HasBiproducts used by the Additive class; no biproduct-native assoc/comm is stated. All cited evidence verified accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "alternative construction of addition of arrows",
+      "f+f' = δ^b(f×f')δ_a via canonical iso",
+      "Mac Lane 1950 addition",
+      "commutative monoid enrichment from products+coproducts",
+      "group upgrade via v_a with v_a+1=0",
+      "bicartesian_preadditive"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 573,
+        "symbol": "bicartesian_preadditive",
+        "intree_statement": "Definition bicartesian_preadditive : Preadditive C := {| padd := @conv; pzero := @zero_mor C Z; padd_respects := @conv_respects; padd_assoc := @conv_assoc; padd_comm := @conv_comm; padd_zero_left := @conv_zero_left; compose_padd_left := @conv_compose_left; compose_padd_right := @conv_compose_right; compose_pzero_left := ...; compose_pzero_right := ... |}.  [bicartesian + zero object + invertible can_comparison ⟹ CMon-enriched]"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 369,
+        "symbol": "conv",
+        "intree_statement": "Definition conv {x y} (f g : x ~> y) : x ~> y := (f ▽ g) ∘ can_inv x x ∘ (id △ id).  [= ∇ ∘ (f×g) ∘ Δ conjugated by the canonical iso]"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 547,
+        "symbol": "conv_compose_left / conv_compose_right",
+        "intree_statement": "Lemma conv_compose_left : h ∘ conv f g ≈ conv (h∘f) (h∘g); Lemma conv_compose_right : conv f g ∘ h ≈ conv (f∘h) (g∘h).  [composition distributes over the constructed addition]"
+      }
+    ],
+    "statement_record": {
+      "book": "(a) For a category with a null object, finite products and finite coproducts in which the canonical map a1⊔a2→a1×a2 is always an isomorphism, define f+f' = δ^b(f×f')δ_a and prove each A(a,b) is a commutative monoid with composition distributive over it. (b) If additionally each object a has an arrow v_a : a→a with v_a + 1_a = 0, prove each A(a,b) is a group, so this addition makes A an additive category (Mac Lane 1950).",
+      "intree": "bicartesian_preadditive: a bicartesian category with a zero object in which the canonical comparison can_comparison x y is invertible is Preadditive, with the convolution conv f g = (f ▽ g) ∘ can_inv ∘ (id △ id) = ∇(f×g)Δ as addition, zero_mor as unit; conv is commutative (conv_comm), associative (conv_assoc), unital (conv_zero_left/right), and composition distributes on both sides (conv_compose_left/right).",
+      "strength_comparison": "same for part (a): bicartesian_preadditive is exactly Mac Lane's construction of the commutative-monoid addition f+f' = ∇(f×f')Δ with distributive composition, under precisely the hypotheses (null object, finite products+coproducts, invertible canonical map). Part (b) is intree-missing: there is no theorem upgrading the enrichment to an abelian group (hence to an Additive category) from a family of witnesses v_a with v_a + id ≈ 0."
+    },
+    "gap": "Part (b) is not formalized: there is no in-tree theorem that, given bicartesian_preadditive plus for each object a an arrow v_a : a→a with padd v_a id ≈ pzero, concludes each hom is an abelian group and produces an Additive C structure. The only route from Preadditive to Additive is the Additive class, which takes pneg as primitive data (Structure/Additive.v:34) rather than deriving it from such object-wise witnesses.",
+    "negative_search_log": [
+      "grep -rniE 'v_a|additive from|bicartesian.*additive|group.*hom|Additive.*bicartesian|semiadditive.*additive' --include='*.v' Structure/Semiadditive.v Structure/Additive.v -> no group-upgrade construction",
+      "grep -rniE 'Additive.*:=|Build_Additive|Definition.*Additive' --include='*.v' . (excluding Preadditive/Semiadditive) -> only the Additive class and psub; no Additive built from a bicartesian category + inverse witnesses"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Read Semiadditive.v: part (a) is exactly bicartesian_preadditive (line 573) with conv f g = (f▽g)∘can_inv∘(id△id) = ∇(f×g)Δ (conv, line 369) — commutative (conv_comm:524), associative (conv_assoc:534), unital (conv_zero_left/right:458/468), composition distributive both sides (conv_compose_left/right:547/557) — under precisely Mac Lane's hypotheses (null object, finite products+coproducts, invertible canonical map, Context E:324). Part (b) genuinely absent: no theorem upgrades to an abelian group / Additive from per-object witnesses v_a with v_a+id≈0; Additive takes pneg as primitive (Additive.v:34). PARTIAL honest."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "free Ab-category on a category C",
+      "A(b,c) = Z(C(b,c)) free abelian group on hom-set",
+      "ℤ-linearization of hom-sets",
+      "free preadditive category",
+      "universal functor C → Ab-category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'free ab|free additive|Z\\(C|free abelian|group completion|additive completion|linearization|preadditive completion' --include='*.v' . -> 0 relevant hits",
+      "grep -rniE 'free abelian|FreeAbelianGroup|free group|Z\\[|Grothendieck group' --include='*.v' . -> only free MONOID constructions (Theory/Coq/List.v, Construction/Free.v, Construction/PROP.v, Cayley.v); no free abelian group on a set",
+      "no construction takes a Category C to an Ab-category A with A(b,c) = the free abelian group on C(b,c) and a universal functor C → A; Instance/CMon.v is commutative monoids but there is no free-CMon/free-Ab-on-a-set functor feeding a free Ab-category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search 'free abelian'/'free Ab'/'Z(C(b,c))'/linearization/preadditive completion → 0 relevant hits; only free MONOID constructions exist, never a free abelian group on a hom-set or a free Ab-category with universal functor C→A. Negative log accurate; ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.2:ex6",
+    "classification": "ABSENT",
+    "aliases": [
+      "free additive category Add(A)",
+      "additive completion / matrix category",
+      "Add(K) = Matr_K",
+      "matrices of A-arrows",
+      "universal functor Ab-category → additive category",
+      "matrix category of a ring"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Matr|matrix category|additive completion|AddCompletion|free additive|Add A|group ring|monoid ring' --include='*.v' . -> only prose 'matrix' hits (Yoneda header, Profunctor, ZX, Equivalence header 'category of natural numbers and matrices'); no Add(-) or Matr_K category object",
+      "grep -rniE 'free Ab|FreeAb|linearize' --include='*.v' . -> 0 hits",
+      "no additive-completion functor (objects = n-tuples of A-objects, arrows = matrices of A-arrows) and no identification Add(K) ≅ Matr_K for a one-object Ab-category K; ls Instance/ shows no Matr / R-Mod / Vect instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search Matr/Add(-)/additive completion/matrix category → prose only (Yoneda, Profunctor, Equivalence headers 'category of natural numbers and matrices'); no additive-completion functor (n-tuples/matrices of arrows), no Add(K)≅Matr_K, and no R-Mod/Vect/Matr instance in Instance/. Negative log accurate; ABSENT confirmed."
+    }
+  }
+]

@@ -1,0 +1,377 @@
+[
+  {
+    "id": "riehl:5.2:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "affine space",
+      "torsor / V-torsor / principal homogeneous space",
+      "simply transitive action of a vector space (translation action)",
+      "heap / affine set / G-set with free transitive action",
+      "vector space acting on a set (module action, group action on a set)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include='*.v' 'affine' . -- 10 hits, ALL of them the unrelated 'semicartesian (affine) monoidal' sense (Structure/Monoidal/Semicartesian.v, Semicocartesian.v, Markov.v) or prose about affine schemes (Structure/Pullback.v:112, Structure/Group.v:97); zero hits for affine space",
+      "grep -rn -i --include='*.v' 'affine space' . -- 0 hits",
+      "grep -rn -i --include='*.v' 'torsor' . -- 0 hits",
+      "grep -rn -i --include='*.v' 'simply transitive|principal homogeneous|heap\\b|G-set|group action' . -- hits only for the symmetric-GROUP ACTION on multicategory arities (Theory/Multicategory.v:393, Theory/Multicategory/Operad.v:207) and prose mentions of group actions in file headers; no set-with-free-transitive-action structure",
+      "grep -rn -i --include='*.v' 'vector space|VectorSpace|Vect\\b|R-module|RModule' . -- only header prose (Theory/Functor.v:68, Theory/Equivalence.v:86, Structure/Abelian.v:69); the library has NO category of vector spaces or modules and no field/vector-space algebraic structure at all (Instance/*.v enumerates Sets, Coq, Cat, Fun, CMon, FinSet, Rel, Poset, Proset, Props, Ens, Two, One, Zero, Omega, Discrete, Parallel, Roof, Shapes, StrictCat, ZX, Lambda, AST, Adj, Adjoints, Comp, Cones, Fact — no Vect, no Mod, no Ab)",
+      "grep -rn -i --include='*.v' 'Aff_|AffineSpace' . -- 0 hits",
+      "[Phase D blind pass] rg -in 'affine' --glob '*.v' -- 10 hits, identical set (semicartesian/affine monoidal, affine schemes prose); rg -in 'torsor|G-set|group action|simply transitive' -- no set-with-action structure; ls Instance/ re-confirms no Vect/Mod/Ab; Structure/Group.v carries only [GroupObject] (line 109), an internal-group predicate, with no action on an object"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind search reproduced the classifier's result exactly. The library has no scalars, no field, no vector space, no group/monoid ACTION on an object (Structure/Group.v defines only the internal [GroupObject] class at line 109), and no torsor vocabulary. Not OUT_OF_SCOPE: affine spaces over an in-tree algebraic structure would be perfectly formalizable here (CMon shows algebraic categories over setoids are within reach); the content is simply not present."
+    }
+  },
+  {
+    "id": "riehl:5.2:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "affine linear combination / affine combination",
+      "barycentric algebra / barycentre",
+      "convex space / convex combination (the sub-probability variant)",
+      "affine space without origin (weighted average structure)",
+      "affine map / affine-combination-preserving map"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include='*.v' 'affine combination' . -- 0 hits",
+      "grep -rn -i --include='*.v' 'barycentric' . -- 0 hits",
+      "grep -rn -i --include='*.v' 'convex|convex space' . -- 0 hits",
+      "grep -rn -i --include='*.v' 'simplex' . -- 2 hits, both unrelated (Instance/FinSet.v:89 the simplex category Delta; Instance/Two.v:81 the 1-simplex as an interval object)",
+      "grep -rn -i --include='*.v' 'affine space' . -- 0 hits (see riehl:5.2:def1 log); no scalars, no field, no k-linear structure exists in-tree, so 'coefficients summing to 1' has no in-tree vocabulary",
+      "[Phase D blind pass] rg -in 'convex|barycentric|linear combination' --glob '*.v' -- 0 hits across the whole tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: zero hits for convex / barycentric / linear combination anywhere in the tree. The informal Definition 5.2.2 is subsumed by def3 and has the same (empty) coverage."
+    }
+  },
+  {
+    "id": "riehl:5.2:def3",
+    "classification": "ABSENT",
+    "aliases": [
+      "affine linear combination monad Aff_k",
+      "distribution / barycentric / convex-combination monad",
+      "affine space as a T-algebra (TAlgebra for the affine monad)",
+      "formal affine sums monad on Set",
+      "free affine space monad"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include='*.v' 'affine' . -- 10 hits, all the semicartesian-monoidal sense or scheme prose; no affine monad",
+      "grep -rn -i --include='*.v' 'Aff_|AffineSpace' . -- 0 hits",
+      "grep -rn -i --include='*.v' 'distribution monad|convex|barycentric' . -- 0 hits",
+      "grep -rn -i --include='*.v' 'Giry monad' . -- 1 hit, Structure/Monoidal/Markov.v:56, a header nLab citation only; there is no Giry/distribution monad instance to specialize",
+      "NOTE: the generic vehicle exists (Monad/Algebra.v:24 [TAlgebra] = algebra for a monad) but the item's own content — the monad Aff_k of formal affine combinations and the identification of its algebras with affine spaces — has no in-tree counterpart: no scalars, no field, no formal-sum construction. Classified ABSENT rather than PARTIAL because none of the item's distinctive data is present.",
+      "[Phase D blind pass] independently confirmed: the only concrete categorical @Monad instances in-tree are Theory/Lawvere/Monad.v:73 [Lawvere_Monad] and Monad/Graded.v's graded examples; there is no monad on Sets or Coq built from formal sums, so Aff_k cannot even be named"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Agreed, and the ABSENT-vs-PARTIAL judgement is defensible and explicitly reasoned in the log: the generic T-algebra vehicle (Monad/Algebra.v:24) is the subject of def4, not of def3, whose whole content is the monad Aff_k. I independently verified that no categorical monad on Sets/Coq built from formal sums exists (the only concrete @Monad instances anywhere are Theory/Lawvere/Monad.v:73 and the graded examples of Monad/Graded.v)."
+    }
+  },
+  {
+    "id": "riehl:5.2:def4",
+    "classification": "PRESENT",
+    "aliases": [
+      "Eilenberg-Moore category C^T",
+      "category of T-algebras / category of algebras over a monad",
+      "EilenbergMoore, TAlgebra, TAlgebraHom (library naming)",
+      "algebra structure map with unit + associativity laws",
+      "dual: category of coalgebras for a comonad (CoEilenbergMoore)"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Eilenberg/Moore.v",
+        "line": 44,
+        "symbol": "EilenbergMoore",
+        "intree_statement": "Program Definition EilenbergMoore `(T : C ⟶ C) `{H : @Monad C T} : Category := {| obj := ∃ a : C, @TAlgebra C T H a; hom := fun x y => TAlgebraHom T ``x ``y (projT2 x) (projT2 y); homset := fun _ _ => {| equiv := fun f g => t_alg_hom[f] ≈ t_alg_hom[g] |}; id := fun _ => {| t_alg_hom := id |}; compose := fun _ _ _ f g => {| t_alg_hom := t_alg_hom[f] ∘ t_alg_hom[g] |} |}."
+      },
+      {
+        "file": "Monad/Algebra.v",
+        "line": 24,
+        "symbol": "TAlgebra",
+        "intree_statement": "Class TAlgebra `(T : C ⟶ C) `{@Monad C T} (a : C) := { t_alg : T a ~> a; t_id : t_alg ∘ ret ≈ id; t_action : t_alg ∘ fmap t_alg ≈ t_alg ∘ join }."
+      },
+      {
+        "file": "Monad/Algebra.v",
+        "line": 44,
+        "symbol": "TAlgebraHom",
+        "intree_statement": "Class TAlgebraHom `(T : C ⟶ C) `{@Monad C T} (a b : C) (F : TAlgebra T a) (G : TAlgebra T b) := { t_alg_hom : a ~> b; t_alg_hom_commutes : t_alg_hom ∘ t_alg[F] ≈ t_alg[G] ∘ fmap[T] t_alg_hom }."
+      },
+      {
+        "file": "Comonad/Coalgebra.v",
+        "line": 204,
+        "symbol": "CoEilenbergMoore",
+        "intree_statement": "Definition CoEilenbergMoore : Category := (@EilenbergMoore (C^op) (W^op) H)^op.  (with WCoalgebras_CoEilenbergMoore_Iso : WCoalgebras ≅[Cat] CoEilenbergMoore, line 303 — the dual half of Exercise 5.2.iii)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a monad (T, eta, mu) on C, the Eilenberg-Moore category C^T has objects the pairs (A, a : TA -> A) satisfying the unit triangle a . eta_A = id_A and the associativity square a . Ta = a . mu_A (display (5.2.5)); morphisms (A,a) -> (B,b) are the T-algebra homomorphisms f : A -> B with f . a = b . Tf; identities and composition are those of C.",
+      "intree": "obj := ∃ a : C, @TAlgebra C T H a  where  TAlgebra := { t_alg : T a ~> a; t_id : t_alg ∘ ret ≈ id; t_action : t_alg ∘ fmap t_alg ≈ t_alg ∘ join };  hom x y := TAlgebraHom T ``x ``y (projT2 x) (projT2 y)  where  TAlgebraHom := { t_alg_hom : a ~> b; t_alg_hom_commutes : t_alg_hom ∘ t_alg[F] ≈ t_alg[G] ∘ fmap[T] t_alg_hom };  id := id, compose := composition of underlying arrows.",
+      "strength_comparison": "same — the setoid rephrasing (≈ for =, hom-setoid equality of algebra maps given by equality of underlying C-arrows) is faithful; both axioms of (5.2.5) and the homomorphism square are present verbatim, and identities/composition are inherited from C exactly as the book says. The library also supplies the dual (Comonad/Coalgebra.v:204 [CoEilenbergMoore], which is Exercise 5.2.iii's first half)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Opened both cited files. Monad/Eilenberg/Moore.v:44 and Monad/Algebra.v:24/44 match the quoted text character-for-character; the sole Program obligation (composition of algebra homs is an algebra hom) is discharged with Qed at line 51-58, so the definition is complete and axiom-free. Both files are registered in _CoqProject (lines 256, 260), as is Comonad/Coalgebra.v's dual. Hunted for same-name-weaker: t_action is stated as [t_alg ∘ fmap t_alg ≈ t_alg ∘ join], i.e. exactly a . Ta = a . mu_A, not a weakened variant; the object type is a genuine sigma of carrier + algebra, not a bare carrier. Definition-without-API is not a concern: the required API (free functor, forgetful functor, adjunction) is in Moore/Adjunction.v and the category is consumed by Monad/Comparison.v, Monad/Lifting.v, Monad/Monadicity/*, Construction/Reflective/Idempotent.v and Theory/Lawvere/Monad.v. I added the CoEilenbergMoore evidence row the classifier mentioned only in prose (Comonad/Coalgebra.v:204, verified)."
+    }
+  },
+  {
+    "id": "riehl:5.2:example6",
+    "classification": "ABSENT",
+    "aliases": [
+      "algebras for the maybe monad are pointed sets (Set^{(-)_+} iso Set_*)",
+      "algebras for R (x)_Z (-) on Ab are R-modules",
+      "algebras for the free monoid / list monad are monoids (Set^T iso Monoid)",
+      "algebras for a closure operator are the closed subsets; coalgebras for the interior operator are the open subsets",
+      "identification / isomorphism of a category of algebras with a concrete algebraic category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i --include='*.v' 'pointed set' . -- 5 hits, ALL comments (Instance/Coq/Par.v:34-35, Instance/Coq/ParE.v:116, Instance/Coq/Par.v:222, Construction/Slice.v:82); no category of pointed sets is defined and no theorem relates one to TAlgebra of the maybe monad",
+      "grep -rn -i --include='*.v' 'Maybe|option monad' . -- Theory/Coq/Maybe.v:94 [Maybe_Monad] exists but only as a LAWLESS Coq-level Monad class (Theory/Coq/Monad.v:32 records operations only, laws are not fields), so it is not a categorical monad and has no TAlgebra instance; Theory/Coq/Maybe.v:29's 'its algebras are the pointed objects' is a comment, not an assertion",
+      "grep -rn -i --include='*.v' 'R-Mod|R-module|module category' . -- 6 hits, all header prose (Theory/Equivalence.v:79, Structure/Monoid.v:69, Structure/Abelian.v:69,111); no Ab, no R-Mod, no tensor-over-Z monad in-tree",
+      "grep -rn -i --include='*.v' 'list monad|free monoid' . -- list-monad hits are all comments in Theory/Coq/List.v (lines 27,63,80,108,175); Instance/Coq/Lists.v proves list A is the initial ListF-ALGEBRA (an F-algebra for an endofunctor, a different notion from a monad algebra); there is NO free-monoid monad in-tree, so 'Set^T iso Monoid' cannot be stated",
+      "[Phase D CORRECTION to the previous line] The Phase-C log asserted 'there is NO category of monoids in-tree (Structure/Monoid.v:173 defines [Monoid := MonoidObject] as a predicate ...)'. That assertion is FALSE and has been struck: Theory/Algebra/Monoid/Hom.v:83 defines [Mon : Category], the category of internal monoids in a monoidal category, with [Mon_Forget] (line 93) and [Mon_Forget_Faithful]; and Instance/CMon.v:140 defines [CMon], the category of commutative monoids over setoids. Both are registered in _CoqProject (lines 390 and the CMon entry). The classification is unaffected — the free-monoid MONAD and the identification Set^T ≅ Mon are still absent — but the TARGET category of clause (iii) does exist and an issue must not claim otherwise.",
+      "grep -rn -i --include='*.v' 'closure operator|kernel operator|interior operator' . -- 4 hits, all in the Instance/Poset.v header essay (lines 48, 64, 66, 68); Instance/Poset.v declares only [eq_equiv] (111), [Poset] (116) and [LessThanEqualTo_Category] (120) and no monad/algebra content; 'closed subset'/'open subset' -- 0 hits",
+      "grep -rn --include='*.v' 'EilenbergMoore' . | grep -i 'iso|equiv|Theorem|Corollary' -- the ONLY in-tree identifications of an Eilenberg-Moore category are Construction/Reflective/Idempotent.v:464 [Idempotent_EM_Equivalence] (C^M of an idempotent monad is equivalent to the reflective subcategory of M-local objects) and Monad/Monadicity/Examples.v:145 [identity_monadic] (C^Id ≃ C); neither is any of the book's four clauses"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Classification CONFIRMED after an independent blind pass: none of the four identifications is formalized. Clause (i) — no category of pointed sets, and Theory/Coq/Maybe.v:29's 'its algebras are the pointed objects' is header prose (verified by reading the file: the file defines only the lawless FP-class instances Maybe_Functor/Applicative/Monad, no TAlgebra). Clause (ii) — no Ab, no ring, no module anywhere. Clause (iii) — no free-monoid monad. Clause (iv) — no topology, no powerset poset. TWO FIELD CORRECTIONS made (classification unchanged, so no phase_c_classification field): (a) the log's claim 'there is NO category of monoids in-tree' is false — Theory/Algebra/Monoid/Hom.v:83 [Mon] and Instance/CMon.v:140 [CMon] both exist and are in _CoqProject; I struck the false clause and appended an explicit correction entry, because a Phase-E issue drafted from the original text would have asserted a falsehood about the library. (b) Idempotent_EM_Equivalence is at Construction/Reflective/Idempotent.v:464, not 462 (462-463 are its comment). FOR PHASE E: clause (iv) does have an ABSTRACT in-tree analogue worth citing as prior art — a closure operator on a poset IS an idempotent monad, and Construction/Reflective/Idempotent.v:464 proves C^M ≃ the subcategory of M-local (fixed-point) objects, which in a poset is exactly 'algebras = closed subsets'; what is missing is the instantiation (no topological space, no powerset poset in-tree). Verified Instance/Poset.v really does contain only three declarations (lines 111, 116, 120)."
+    }
+  },
+  {
+    "id": "riehl:5.2:def8",
+    "classification": "PRESENT",
+    "aliases": [
+      "free T-algebra (TA, mu_A)",
+      "free algebra functor F^T : C -> C^T",
+      "EM_Free (library naming)",
+      "left adjoint to the forgetful functor from algebras",
+      "dual: cofree coalgebra functor CoEM_Cofree"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Eilenberg/Moore/Adjunction.v",
+        "line": 79,
+        "symbol": "EM_Free",
+        "intree_statement": "Program Definition EM_Free : C ⟶ EilenbergMoore T := {| fobj := fun a => (T a; {| t_alg := @join C T H a |}); fmap := fun x y f => {| t_alg_hom := fmap[T] f |} |}.  (obligations: [apply join_ret] and [apply join_fmap_join] discharge the two T-algebra axioms for mu_A; [symmetry; apply join_fmap_fmap] discharges the homomorphism square for T f; [apply fmap_id] / [apply fmap_comp] the functor laws.)"
+      },
+      {
+        "file": "Monad/Eilenberg/Moore/Adjunction.v",
+        "line": 120,
+        "symbol": "EM_extend_unique",
+        "intree_statement": "Lemma EM_extend_unique {x b : C} (N : @TAlgebra C T H b) (g : T x ~{C}~> b) (Hg : g ∘ join ≈ t_alg[N] ∘ fmap[T] g) : t_alg[N] ∘ fmap[T] (g ∘ ret) ≈ g.  (with EM_extend_ret, line 110: (t_alg[N] ∘ fmap[T] f) ∘ ret ≈ f)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a monad (T, eta, mu) on C and any A in C, the free T-algebra on A is (TA, mu_A : T^2 A -> TA), which satisfies the T-algebra axioms by the monad unit and associativity laws; the construction is functorial, giving F^T : C -> C^T with F^T A = (TA, mu_A) and F^T f = Tf, an algebra homomorphism by naturality of mu.",
+      "intree": "EM_Free : C ⟶ EilenbergMoore T with fobj a = (T a; {| t_alg := join |}) and fmap f = {| t_alg_hom := fmap[T] f |}; the algebra axioms are discharged by [join_ret] and [join_fmap_join], the homomorphism square by [join_fmap_fmap] (naturality of mu), and the functor laws by [fmap_id]/[fmap_comp].",
+      "strength_comparison": "same, and in-tree slightly stronger: the library additionally proves the universal property of the free algebra that the book only develops implicitly (EM_extend_ret at line 110 and EM_extend_unique at line 120), which is exactly what makes F^T a left adjoint. The obligation proofs use precisely the monad laws the book cites."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Read Monad/Eilenberg/Moore/Adjunction.v in full. EM_Free is at line 79 exactly as quoted, with all six obligations closed by Qed at lines 83-88 using precisely the tactics the record names. EM_extend_ret (110) and EM_extend_unique (120) are verbatim. The file is in _CoqProject (line 261). Hunted for definition-without-API: EM_Free is consumed by EM_extend (134), EM_adj_iso (157), EM_Adjunction (183) and EM_join_agrees (208), so it is load-bearing, not decorative. The 'in-tree slightly stronger' claim is honest — Riehl states functoriality only, and the file proves both halves of the free-algebra universal property. Dual [CoEM_Cofree] confirmed at Comonad/Duality.v:298."
+    }
+  },
+  {
+    "id": "riehl:5.2:lem9",
+    "classification": "PRESENT",
+    "aliases": [
+      "Eilenberg-Moore adjunction F^T -| U^T",
+      "free/forgetful adjunction on the category of algebras",
+      "EM_Adjunction, EM_Forget, EM_Free (library naming)",
+      "terminal resolution of a monad",
+      "the adjunction induces the given monad (U^T F^T = T, U^T eps F^T = mu)"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Eilenberg/Moore/Adjunction.v",
+        "line": 183,
+        "symbol": "EM_Adjunction",
+        "intree_statement": "Program Definition EM_Adjunction : EM_Free ⊣ EM_Forget := @Build_Adjunction' (EilenbergMoore T) C EM_Free EM_Forget EM_adj_iso _ _.  (built from EM_adj_iso, line 157: an Isomorphism in Sets between the hom-setoid (EM_Free x ~{C^T}~> y) and (x ~> EM_Forget y), to = fun g => t_alg_hom[g] ∘ ret, from = EM_extend.)"
+      },
+      {
+        "file": "Monad/Eilenberg/Moore/Adjunction.v",
+        "line": 219,
+        "symbol": "EM_Monad_agrees",
+        "intree_statement": "Theorem EM_Monad_agrees : EM_Forget ◯ EM_Free ≈ T."
+      },
+      {
+        "file": "Monad/Eilenberg/Moore/Adjunction.v",
+        "line": 208,
+        "symbol": "EM_join_agrees",
+        "intree_statement": "Lemma EM_join_agrees {x : C} : fmap[EM_Forget] (@counit _ _ _ _ EM_Adjunction (EM_Free x)) ≈ join[T]."
+      },
+      {
+        "file": "Monad/Eilenberg/Moore/Adjunction.v",
+        "line": 197,
+        "symbol": "EM_counit_agrees",
+        "intree_statement": "Lemma EM_counit_agrees {y : EilenbergMoore T} : t_alg_hom[@counit _ _ _ _ EM_Adjunction y] ≈ t_alg[`2 y]."
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 280,
+        "symbol": "counit_fmap_unit / fmap_counit_unit",
+        "intree_statement": "Corollary counit_fmap_unit {x} : ... (line 288) Corollary fmap_counit_unit {x} : ... — the two triangle identities, DERIVED from the hom-setoid presentation of [Adjunction] (class at line 130, smart constructor [Build_Adjunction'] at line 156), hence automatically available for EM_Adjunction; this is what discharges Riehl's Exercise 5.2.ii."
+      }
+    ],
+    "statement_record": {
+      "book": "For any monad (T, eta, mu) on C there is an adjunction F^T -| U^T between C and C^T whose induced monad (in the sense of Lemma 5.1.3) is (T, eta, mu): U^T is forgetful, F^T is the free-algebra functor (so U^T F^T = T), the unit is eta, and the counit at (A,a) is the structure map a, whence U^T eps F^T = mu. Triangle identities left to Exercise 5.2.ii.",
+      "intree": "EM_Adjunction : EM_Free ⊣ EM_Forget; EM_Monad_agrees : EM_Forget ◯ EM_Free ≈ T; EM_unit_agrees (line 190) : unit EM_Adjunction x ≈ ret[T]; EM_join_agrees : fmap[EM_Forget] (counit EM_Adjunction (EM_Free x)) ≈ join[T]; EM_counit_agrees : t_alg_hom[counit EM_Adjunction y] ≈ t_alg[`2 y].",
+      "strength_comparison": "same, and in-tree stronger in one respect: the triangle identities that Riehl defers to Exercise 5.2.ii are fully discharged here (the library's [Adjunction] is the hom-setoid presentation, from which Theory/Adjunction.v:280/288 derive counit_fmap_unit and fmap_counit_unit as corollaries), and each of the book's four side claims (U^T F^T = T, unit = eta, counit = structure map, U^T eps F^T = mu) is a separately stated in-tree lemma. One presentational difference: 'U^T F^T = T' is in-tree a natural ISOMORPHISM with identity components (EM_Monad_agrees), not a definitional equality — the faithful setoid-library rendering of the book's equality of functors."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Every cited line verified verbatim (183, 190, 197, 208, 219, plus EM_adj_iso at 157). I specifically audited the strength claim about Exercise 5.2.ii, since 'triangle identities discharged' is exactly the kind of claim that can be hollow: Theory/Adjunction.v defines [Class Adjunction] (line 130) via the natural hom-setoid isomorphism, [Build_Adjunction'] (line 156) takes the iso plus two naturality obligations, and the zig-zag identities are genuine derived corollaries at lines 280 (counit_fmap_unit) and 288 (fmap_counit_unit) — so the claim holds. Both naturality obligations of EM_Adjunction are closed by Qed (185-186). Dual-assumed-but-absent: not applicable. I extended statement_record.strength_comparison to disclose that EM_Monad_agrees gives a natural iso with identity components rather than a definitional equality of functors — faithful, but worth stating explicitly — and added the Theory/Adjunction.v evidence row that backs the Exercise-5.2.ii claim."
+    }
+  },
+  {
+    "id": "riehl:5.2:def10",
+    "classification": "PRESENT",
+    "aliases": [
+      "Kleisli category C_T",
+      "category of free algebras / category of Kleisli maps",
+      "Kleisli (library naming), kleisli_compose, fish operators <=< / >=>",
+      "bind-based composition mu_C . Tg . f with identities eta_A",
+      "dual: co-Kleisli category of a comonad (CoKleisli)"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Kleisli.v",
+        "line": 38,
+        "symbol": "Kleisli",
+        "intree_statement": "Program Definition Kleisli : Category := {| obj := C; hom := fun x y => x ~> M y; homset := fun x y => @homset C x (M y); id := @ret C M _; compose := fun x y z f g => join ∘ fmap[M] f ∘ g |}.  (the four obligations discharge unit/associativity of Kleisli composition from join_fmap_ret, join_ret, fmap_ret, join_fmap_join and join_fmap_fmap.)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a monad (T, eta, mu) on C, the Kleisli category C_T has the same objects as C; a morphism A -> B in C_T is a morphism A -> TB in C; the identity at A is eta_A; the composite of f : A -> TB with g : B -> TC is mu_C . Tg . f. That this is a category is Exercise 5.2.iv.",
+      "intree": "obj := C; hom x y := x ~> M y; id := ret; compose f g := join ∘ fmap[M] f ∘ g (f : y ~> M z, g : x ~> M y, so the composite is mu_z . M f . g).",
+      "strength_comparison": "same — objects, hom-sets, identity and composition match on the nose (hom-setoid inherited from C, so respectfulness of Kleisli composition is proved rather than assumed). In-tree stronger than the book's presentation in that the category laws left as Exercise 5.2.iv are fully proved here, and the monad laws are re-expressed as the category laws (monad_id_left/monad_id_right/monad_comp_assoc, lines 81-92)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Monad/Kleisli.v:38 matches the quote exactly; all five obligations (Proper at 45, the two unit laws at 46-52, and the two associativity directions at 53-68 — the library's Category class carries both comp_assoc and comp_assoc_sym) are closed by Qed, so Exercise 5.2.iv really is discharged. monad_id_left/right and monad_comp_assoc are at lines 81/84/87 as claimed. File is in _CoqProject (line 263). Dual [CoKleisli] confirmed to exist (Comonad/CoKleisli.v). No same-name-weaker issue: composition is literally join ∘ fmap f ∘ g, i.e. mu . Tf . g."
+    }
+  },
+  {
+    "id": "riehl:5.2:example11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Kleisli category of the maybe monad = sets and partial functions (Set_partial, Par, Pfn)",
+      "Kleisli category of the list/free monoid monad",
+      "state monad (S x -)^S and its Kleisli category",
+      "Kleisli category of the Giry monad = measurable spaces and Markov kernels",
+      "Kleisli maps as effectful programs / computational effects"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Par.v",
+        "line": 27,
+        "symbol": "Part",
+        "intree_statement": "Program Definition Part : Category := {| obj := Sets; hom := fun x y => @SetoidMorphism x (is_setoid x) (option y) (@option_setoid _ (is_setoid y)); homset := fun x y => @SetoidMorphism_Setoid x {| is_setoid := @option_setoid _ (is_setoid y) |} |}.  (identity obligation: [exact (Some X)]; composition obligation: [destruct (g X) as [b|]; exact (f b) | exact None] — i.e. Kleisli composition for option.)"
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 53,
+        "symbol": "Par",
+        "intree_statement": "Program Definition Par : Category := {| obj := Type; hom := fun A B => A ~> option B; homset := fun P Q => {| equiv := fun f g => ∀ x, f x = g x |}; id := λ _, Some; compose := fun x y z f g => option_bind f ∘ g |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Four identifications of Kleisli categories: (i) for the maybe monad on Set, a Kleisli map A -> B is a partial function, and Kleisli composition is composition of partial functions, so Set^{maybe}_T is isomorphic to Set_partial; (ii) for the free monoid monad, a Kleisli map assigns a list of elements of B to each element of A; (iii) for the state monad (S x -)^S induced by S x (-) -| (-)^S, a Kleisli map A -> B is a function A x S -> B x S; (iv) the Kleisli category of the Giry monad is measurable spaces and Markov kernels.",
+      "intree": "Instance/Sets/Par.v [Part] and Instance/Coq/Par.v [Par]: the categories whose objects are setoids (resp. Coq Types), whose homs A ~> B are the maps A -> option B, whose identity is Some (= ret of the maybe monad) and whose composition is option_bind (= Kleisli composition of the maybe monad).",
+      "strength_comparison": "intree-weaker: clause (i) is realized only as a DEFINITION of the partial-map category with maybe-Kleisli data hand-rolled, not as a proved identification C_T iso Set_partial — the generic Monad/Kleisli.v [Kleisli] construction is never instantiated at the maybe monad (Theory/Coq/Maybe.v:94 [Maybe_Monad] inhabits the lawless Coq-level class of Theory/Coq/Monad.v:32, not the categorical @Monad, so it cannot be fed to [Kleisli]); clauses (ii), (iii), (iv) have no in-tree counterpart at all."
+    },
+    "gap": "Only clause (i) is realized, and only definitionally: Instance/Sets/Par.v [Part] and Instance/Coq/Par.v [Par] BUILD the partial-map category out of option/Kleisli data, but there is no in-tree theorem exhibiting an isomorphism (or equivalence) between the generic [Kleisli] of the maybe monad and a separately defined category of partial maps — the maybe monad is never presented as a categorical @Monad, so [Kleisli] is never applied to it. Clause (ii) (Kleisli of the free monoid/list monad): the list monad exists only as a lawless Coq-level class instance (Theory/Coq/List.v) with no Kleisli category. Clause (iii) (state monad): there is NO state monad in-tree at all — Comonad/Duality.v:96 mentions it in prose only, and Instance/Coq/Comonad/Store.v:363 supplies only the dual Store COMONAD. Clause (iv) (Giry monad, Markov kernels): the Giry monad is absent (Structure/Monoidal/Markov.v:56 cites it in a header); the library instead axiomatizes Markov categories SYNTHETICALLY (Structure/Monoidal/Markov.v), which abstracts the example rather than asserting it.",
+    "negative_search_log": [
+      "grep -rn -i --include='*.v' 'state monad' . -- 3 hits, all comments (Comonad/Duality.v:96,99; Instance/Coq/Comonad/Store.v:31 header prose); no State functor or monad instance",
+      "grep -rn -i --include='*.v' 'Giry monad' . -- 1 hit, Structure/Monoidal/Markov.v:56, header nLab link only",
+      "grep -rn -i --include='*.v' 'Markov kernel' . -- 9 hits, all header prose in Structure/Monoidal/Markov*.v, CopyDiscard*.v and Construction/Cospan/BlackBox.v",
+      "grep -rn --include='*.v' 'Definition Kleisli|Program Definition Kleisli|Definition CoKleisli' . -- the only Kleisli-category constructions are Monad/Kleisli.v:38 (generic) and Comonad/CoKleisli.v:102 (dual); no instantiation at maybe, list, state or Giry anywhere",
+      "grep -rn -i --include='*.v' 'partial function|partial map' . -- Instance/Sets/Par.v, Instance/Coq/Par.v, Instance/Coq/ParE.v only",
+      "[Phase D blind pass] rg -n 'Instance/Coq/ParE.v' -- a THIRD hand-rolled Kleisli-shaped category (the exception monad T A := E + A over a Monoid E, with error-irrelevant homset equivalence); same status as Par: built directly, never as [Kleisli] of a categorical @Monad. Not one of Riehl's four clauses, but the nearest neighbour of clause (i)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both evidence rows verified: Instance/Sets/Par.v:27 [Part] and Instance/Coq/Par.v:53 [Par] are exactly as quoted, and both files are in _CoqProject (lines 236, 189). The strength_comparison and gap are honest and precise, and I re-derived the crucial claim myself: Theory/Coq/Monad.v:32 is [Class Monad {F : Type -> Type} := { ret; bind }] with the header explicitly stating 'the laws are NOT recorded as fields here', so Maybe_Monad/list_Monad cannot be fed to Monad/Kleisli.v's [Kleisli], which needs @Monad C M from Theory/Monad.v. I also independently confirmed there is no state monad anywhere (Instance/Coq/Comonad/Store.v:363 builds only [Store_Comonad] via Build_Monad on Sets^op) and no Giry monad. Guarded against a false-positive from Instance/Sets/Par.v's 'admit' occurrences (lines 263, 265): those sit inside Aborted scratch lemmas ([from_to], [to_from]), NOT inside [Part] or the Qed'd [to_from_impossible]/[from_to_impossible], so the cited evidence carries no admitted proof. Corrected one stale citation in the negative_search_log ('Theory/Monad.v:75' for a state-monad prose hit — the actual third hit is the Instance/Coq/Comonad/Store.v header) and added the ParE observation."
+    }
+  },
+  {
+    "id": "riehl:5.2:lem12",
+    "classification": "PRESENT",
+    "aliases": [
+      "Kleisli adjunction F_T -| U_T",
+      "free/forgetful adjunction on the Kleisli category",
+      "Kleisli_Adjunction, Kleisli_Free, Kleisli_Forget (library naming)",
+      "initial resolution of a monad",
+      "C_T(F_T A, B) iso C(A, TB) transposition"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 125,
+        "symbol": "Kleisli_Adjunction",
+        "intree_statement": "Program Definition Kleisli_Adjunction : Kleisli_Free ⊣ Kleisli_Forget := @Build_Adjunction' Kleisli C Kleisli_Free Kleisli_Forget Kleisli_adj_iso _ _.  (Kleisli_adj_iso, line 96: an Isomorphism in Sets between the hom-setoids (Kleisli_Free x ~{Kleisli}~> y) and (x ~> Kleisli_Forget y), both directions the identity map.)"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 157,
+        "symbol": "Kleisli_Monad_agrees",
+        "intree_statement": "Theorem Kleisli_Monad_agrees : Kleisli_Forget ◯ Kleisli_Free ≈ M."
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 146,
+        "symbol": "Kleisli_join_agrees",
+        "intree_statement": "Lemma Kleisli_join_agrees {x : C} : fmap[Kleisli_Forget] (@counit _ _ _ _ Kleisli_Adjunction x) ≈ join[M]."
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 75,
+        "symbol": "Kleisli_Forget",
+        "intree_statement": "Program Definition Kleisli_Forget : Kleisli ⟶ C := {| fobj := fun x => M x; fmap := fun x y f => join ∘ fmap[M] f |}.  (with Kleisli_Free, line 52: fobj x = x, fmap f = ret ∘ f.)"
+      }
+    ],
+    "statement_record": {
+      "book": "For any monad (T, eta, mu) on C there is an adjunction F_T -| U_T between C and the Kleisli category C_T whose underlying monad is (T, eta, mu). F_T is the identity on objects and sends f : A -> B to eta_B . f; U_T sends A to TA and a Kleisli map g : A -> TB to mu_B . Tg. Functoriality and U_T F_T = T are left to Exercise 5.2.v; the adjunction follows from C_T(F_T A, B) iso C(A, TB) iso C(A, U_T B).",
+      "intree": "Kleisli_Free : C ⟶ Kleisli with fobj x = x, fmap f = ret ∘ f; Kleisli_Forget : Kleisli ⟶ C with fobj x = M x, fmap f = join ∘ fmap[M] f; Kleisli_Adjunction : Kleisli_Free ⊣ Kleisli_Forget via Kleisli_adj_iso (identity in both directions, since the two hom-setoids are literally x ~> M y); Kleisli_Monad_agrees : Kleisli_Forget ◯ Kleisli_Free ≈ M; Kleisli_unit_agrees (line 132) : unit ≈ ret[M]; Kleisli_counit_agrees (line 139) : counit ≈ id[M x]; Kleisli_join_agrees : fmap[Kleisli_Forget] (counit) ≈ join[M].",
+      "strength_comparison": "same, and in-tree stronger: the functoriality of F_T and U_T and the identity U_T F_T = T that Riehl defers to Exercise 5.2.v are all proved here (the functor obligations of Kleisli_Free/Kleisli_Forget plus Kleisli_Monad_agrees), and the transposition isomorphism the book asserts is constructed explicitly with both round trips. As in lem9, U_T F_T = T is rendered as a natural isomorphism with identity components rather than a definitional equality."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All four cited lines verified verbatim against Monad/Kleisli/Adjunction.v (Kleisli_Free 52, Kleisli_Forget 75, Kleisli_adj_iso 96, Kleisli_Adjunction 125, Kleisli_unit_agrees 132, Kleisli_counit_agrees 139, Kleisli_join_agrees 146, Kleisli_Monad_agrees 157). Every obligation is Qed-closed; the adjunction rides the same hom-setoid [Build_Adjunction'] whose triangle identities Theory/Adjunction.v:280/288 derive, so Exercise 5.2.v is genuinely covered. File in _CoqProject (line 264). I added Kleisli_counit_agrees to the intree statement (the classifier listed it only implicitly) and the same natural-iso-vs-equality disclosure as in lem9."
+    }
+  }
+]

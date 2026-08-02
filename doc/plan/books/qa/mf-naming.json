@@ -1,0 +1,951 @@
+[
+ {
+  "issue": 388,
+  "decision": "3.1",
+  "mode": "replace_text",
+  "find": "Suggested modules become `Instance/Module/Tensor.v` (the monoidal structure) and\n`Instance/Module/Closed.v` (the closed structure), over #258's `Instance/Mod.v`.\nDrop `coqc … Instance/Module.v` from Verification.\n\n**Do NOT rename the tensor/closed paths on this issue alone** — `Instance/Mod` vs\n`Instance/Module` must be reconciled across #388, #449 and the serialize-groups key in a\nsingle edit, or the pair becomes path-disjoint and invisible to the collision check.",
+  "replace": "Suggested modules become `Instance/Mod/Tensor.v` (the monoidal structure) and\n`Instance/Mod/Closed.v` (the closed structure), over #258's `Instance/Mod.v`.\nDrop `coqc … Instance/Module.v` from Verification.\n\n**Path resolved (QA decision 3.1):** the `Instance/Mod` vs `Instance/Module` split is settled in\nfavour of `Instance/Mod`. There is no `Instance/Module.v` and no `Instance/Module/*` file in this\ncampaign: #258 owns `Instance/Mod.v`, this issue owns `Instance/Mod/Tensor.v` and\n`Instance/Mod/Closed.v`, and #449 owns its half of `Instance/Mod/Tensor.v`. The matching\nserialize-groups key in `doc/plan/books/graph/serialize-groups.json` is `Instance/Mod/Tensor.v`,\nso the #388/#449 pair stays visible to the collision check.",
+  "note": "3.1: #388's correction block retargeted Instance/Module/* -> Instance/Mod/*; the do-not-rename hold is lifted"
+ },
+ {
+  "issue": 388,
+  "decision": "3.1",
+  "mode": "replace_text",
+  "find": "Suggested modules: `Instance/Module.v` (the category), `Instance/Module/Tensor.v` (the monoidal structure), `Instance/Module/Closed.v` (the closed structure).",
+  "replace": "Suggested modules: `Instance/Mod/Tensor.v` (the monoidal structure), `Instance/Mod/Closed.v` (the closed structure), over #258's `Instance/Mod.v` (the category, which this issue does NOT create).",
+  "note": "3.1: #388 Work-section module line retargeted to Instance/Mod/*"
+ },
+ {
+  "issue": 388,
+  "decision": "3.1",
+  "mode": "replace_text",
+  "find": "coqc -R . Category Instance/Module.v\ncoqc -R . Category Instance/Module/Tensor.v\ncoqc -R . Category Instance/Module/Closed.v",
+  "replace": "coqc -R . Category Instance/Mod/Tensor.v\ncoqc -R . Category Instance/Mod/Closed.v",
+  "note": "3.1: #388 Verification block retargeted; the Instance/Module.v line dropped as the correction requires"
+ },
+ {
+  "issue": 449,
+  "decision": "3.1",
+  "mode": "replace_text",
+  "find": "Suggested module: `Instance/Module/Tensor.v`, over #258's module categories.",
+  "replace": "Suggested module: `Instance/Mod/Tensor.v`, over #258's `Instance/Mod.v` module categories.",
+  "note": "3.1: #449 module line retargeted to Instance/Mod/Tensor.v"
+ },
+ {
+  "issue": 449,
+  "decision": "3.1",
+  "mode": "replace_text",
+  "find": "coqc -R . Category Instance/Module/Tensor.v",
+  "replace": "coqc -R . Category Instance/Mod/Tensor.v",
+  "note": "3.1: #449 Verification line retargeted"
+ },
+ {
+  "issue": 0,
+  "decision": "3.1",
+  "mode": "file_edit",
+  "file": "doc/plan/books/graph/serialize-groups.json",
+  "find": "  \"module\": \"Instance/Module/Tensor.v\",",
+  "replace": "  \"module\": \"Instance/Mod/Tensor.v\",",
+  "note": "3.1: serialize-groups key for the #388/#449 pair retargeted to Instance/Mod/Tensor.v (third half of the all-three-or-none edit)"
+ },
+ {
+  "issue": 226,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Mac Lane's standing roster of large categories of small structures — Set, Set*, Ens, Cat, Mon, Grp, Ab, Rng, CRng, R-Mod, Mod-R, K-Mod, Top, Toph, Top* (and, in I.1, the metacategories of groups, spaces, compact Hausdorff spaces, ringed spaces). See https://ncatlab.org/nlab/show/Grp and https://ncatlab.org/nlab/show/Top.",
+  "replace": "Mac Lane's standing roster of large categories of small structures — Set, Set*, Ens, Cat, Mon, Grp, Ab, Ring, CRing, R-Mod, Mod-R, K-Mod, Top, Toph, Top* (and, in I.1, the metacategories of groups, spaces, compact Hausdorff spaces, ringed spaces). See https://ncatlab.org/nlab/show/Grp and https://ncatlab.org/nlab/show/Top.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 226,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Present counterparts (verified): Set as `Coq` (`Instance/Coq.v:120`) and `Sets` (`Instance/Sets.v:188`); Cat as `Cat` (`Instance/Cat.v:142`, the Ho(Cat) presentation) and `StrictCat` (`Instance/StrictCat.v:56`, the textbook strict 1-category); `Ens` with disclosed non-classical morphisms (`Instance/Ens.v:34`); Mon as internal `Mon(C)` (`Theory/Algebra/Monoid/Hom.v:83`, not instantiated/named at `Sets`) plus `CMon` (`Instance/CMon.v:140`); Set* only via `Par`'s prose-claimed equivalence (`Instance/Coq/Par.v:53`, header lines 34–36). Verified missing: Grp, Ab, Rng, CRng, all module categories, Top, Toph, Top* (zero definitional hits tree-wide).",
+  "replace": "Present counterparts (verified): Set as `Coq` (`Instance/Coq.v:120`) and `Sets` (`Instance/Sets.v:188`); Cat as `Cat` (`Instance/Cat.v:142`, the Ho(Cat) presentation) and `StrictCat` (`Instance/StrictCat.v:56`, the textbook strict 1-category); `Ens` with disclosed non-classical morphisms (`Instance/Ens.v:34`); Mon as internal `Mon(C)` (`Theory/Algebra/Monoid/Hom.v:83`, not instantiated/named at `Sets`) plus `CMon` (`Instance/CMon.v:140`); Set* only via `Par`'s prose-claimed equivalence (`Instance/Coq/Par.v:53`, header lines 34–36). Verified missing: Grp, Ab, Ring, CRing, all module categories, Top, Toph, Top* (zero definitional hits tree-wide).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 226,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- `CRng` as the full subcategory of commutative rings (if not already delivered by the Rng issue).",
+  "replace": "- `CRing` as the full subcategory of commutative rings (if not already delivered by the Ring issue).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 226,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "# Print Assumptions on each residual construction (CRng, Mod-R, K-Mod, Mon@Sets)",
+  "replace": "# Print Assumptions on each residual construction (CRing, Mod-R, K-Mod, Mon@Sets)",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 226,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Awodey gives the same roster of concrete categories of structured sets and structure-preserving maps: groups & homomorphisms, vector spaces & linear maps, graphs & graph homomorphisms, ℝ & continuous maps, open subsets of ℝ & continuous maps, topological spaces & continuous maps, manifolds & smooth maps, ℕ & recursive functions, and posets & monotone maps. In-tree only graphs (`QuiverCategory`, `Construction/Free/Quiver.v:358`) and monoids (`Mon`/`CMon`) are realized; the algebraic/topological members are the same obligations this roster issue tracks (cf. the dedicated issues #255 Grp, #256 Ab, #257 Rng, #258 R-Mod/Vect, #259 Top). New fringe this section adds that no in-tree issue targets: manifolds & smooth maps and ℕ & recursive functions (recorded here; not worth a separate issue).",
+  "replace": "Awodey gives the same roster of concrete categories of structured sets and structure-preserving maps: groups & homomorphisms, vector spaces & linear maps, graphs & graph homomorphisms, ℝ & continuous maps, open subsets of ℝ & continuous maps, topological spaces & continuous maps, manifolds & smooth maps, ℕ & recursive functions, and posets & monotone maps. In-tree only graphs (`QuiverCategory`, `Construction/Free/Quiver.v:358`) and monoids (`Mon`/`CMon`) are realized; the algebraic/topological members are the same obligations this roster issue tracks (cf. the dedicated issues #255 Grp, #256 Ab, #257 Ring, #258 R-Mod/Vect, #259 Top). New fringe this section adds that no in-tree issue targets: manifolds & smooth maps and ℕ & recursive functions (recorded here; not worth a separate issue).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 228,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "For each `n`, taking a commutative ring `K` to the group `GL_n(K)` of invertible `n × n` matrices is a functor `CRng ⟶ Grp`, and because the determinant is one polynomial formula uniform in the ring, `det : GL_n ⟹ (−)^*` (units) is Mac Lane's flagship first example of a natural transformation. See https://ncatlab.org/nlab/show/general+linear+group and https://en.wikipedia.org/wiki/Determinant.",
+  "replace": "For each `n`, taking a commutative ring `K` to the group `GL_n(K)` of invertible `n × n` matrices is a functor `CRing ⟶ Grp`, and because the determinant is one polynomial formula uniform in the ring, `det : GL_n ⟹ (−)^*` (units) is Mac Lane's flagship first example of a natural transformation. See https://ncatlab.org/nlab/show/general+linear+group and https://en.wikipedia.org/wiki/Determinant.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 228,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Verified ABSENT (both items). No determinant or general-linear content anywhere (`GL`/`GL_n`/`determinant`: zero formal hits); no matrix category; neither the domain `CRng` nor the codomain `Grp` exists in-tree (`Structure/Group.v:109` is internal group objects only).",
+  "replace": "Verified ABSENT (both items). No determinant or general-linear content anywhere (`GL`/`GL_n`/`determinant`: zero formal hits); no matrix category; neither the domain `CRing` nor the codomain `Grp` exists in-tree (`Structure/Group.v:109` is internal group objects only).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 228,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Once the dependencies land (`CRng` from the Rng issue, `Grp`, and matrix algebra from `Matr`):",
+  "replace": "Once the dependencies land (`CRing` from the Ring issue, `Grp`, and matrix algebra from `Matr`):",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 228,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- In `Instance/Matr/GL.v` (new): the group of units of the `n × n` matrix monoid over `K`; entrywise functoriality of `GL_n f` for a ring map `f`; the functor `GL_n : CRng ⟶ Grp`.",
+  "replace": "- In `Instance/Matr/GL.v` (new): the group of units of the `n × n` matrix monoid over `K`; entrywise functoriality of `GL_n f` for a ring map `f`; the functor `GL_n : CRing ⟶ Grp`.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 228,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- The units functor `(−)^* : CRng ⟶ Grp`.",
+  "replace": "- The units functor `(−)^* : CRing ⟶ Grp`.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 232,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Once `Rng`/`CRng` land:",
+  "replace": "Once `Ring`/`CRing` land:",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 232,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Integral domains as a (full sub)category of `CRng`; the choice of morphisms matters for functoriality — develop over the category of integral domains with *monomorphisms* (the standard fix), and document why.",
+  "replace": "- Integral domains as a (full sub)category of `CRing`; the choice of morphisms matters for functoriality — develop over the category of integral domains with *monomorphisms* (the standard fix), and document why.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 244,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Fields as a class over `CRng` (nonzero, inverses for nonzero elements); `Vct_F := F-Mod` restricted to *finite-dimensional* objects — carriers with a chosen finite basis/enumeration (dimension data), the pragmatic reading that avoids classical basis-existence.",
+  "replace": "- Fields as a class over `CRing` (nonzero, inverses for nonzero elements); `Vct_F := F-Mod` restricted to *finite-dimensional* objects — carriers with a chosen finite basis/enumeration (dimension data), the pragmatic reading that avoids classical basis-existence.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 251,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "In the category of groups every epimorphism is surjective — unlike in Rng, where `ℤ → ℚ` is epi without being onto. The classical proof embeds the codomain into a permutation group of cosets and produces two maps agreeing on the image. See https://ncatlab.org/nlab/show/epimorphisms+of+groups+are+surjective.",
+  "replace": "In the category of groups every epimorphism is surjective — unlike in Ring, where `ℤ → ℚ` is epi without being onto. The classical proof embeds the codomain into a permutation group of cosets and produces two maps agreeing on the image. See https://ncatlab.org/nlab/show/epimorphisms+of+groups+are+surjective.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 257,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Rng has all small unital rings as objects and unit-preserving ring homomorphisms as arrows; the zero ring is terminal, ℤ is initial, monics are the injections, every surjection is epi — and the inclusion ℤ → ℚ is epi without being surjective, the standard witness that epis need not be onto. See https://ncatlab.org/nlab/show/Ring and https://en.wikipedia.org/wiki/Category_of_rings.",
+  "replace": "Ring has all small unital rings as objects and unit-preserving ring homomorphisms as arrows; the zero ring is terminal, ℤ is initial, monics are the injections, every surjection is epi — and the inclusion ℤ → ℚ is epi without being surjective, the standard witness that epis need not be onto. See https://ncatlab.org/nlab/show/Ring and https://en.wikipedia.org/wiki/Category_of_rings.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 257,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- In `Instance/Rng.v` (new): rings over setoid carriers — an additive abelian group (donor: the `Ab` layer from `maclane:I.7:construction1`) plus a multiplicative monoid with two-sided distributivity; unit-preserving homomorphisms; the category `Rng`; the full subcategory `CRng` of commutative rings (needed downstream by `Matr`/GL_n).",
+  "replace": "- In `Instance/Rng.v` (new): rings over setoid carriers — an additive abelian group (donor: the `Ab` layer from `maclane:I.7:construction1`) plus a multiplicative monoid with two-sided distributivity; unit-preserving homomorphisms; the category `Ring`; the full subcategory `CRing` of commutative rings (needed downstream by `Matr`/GL_n).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 257,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- `maclane:I.5:ex4`: `ℤ → ℚ` (stdlib `QArith`) is epi in `Rng` although not surjective — via the standard argument that a ring map out of ℚ is determined by its values on ℤ.",
+  "replace": "- `maclane:I.5:ex4`: `ℤ → ℚ` (stdlib `QArith`) is epi in `Ring` although not surjective — via the standard argument that a ring map out of ℚ is determined by its values on ℤ.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 257,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- The forgetful functors `Rng ⟶ Ab` (additive part) and `Rng ⟶ Sets`.",
+  "replace": "- The forgetful functors `Ring ⟶ Ab` (additive part) and `Ring ⟶ Sets`.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 257,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- [ ] `Print Assumptions` closed (or documented) for `Rng`, `CRng`, the initial/terminal witnesses, and the ℤ → ℚ theorem",
+  "replace": "- [ ] `Print Assumptions` closed (or documented) for `Ring`, `CRing`, the initial/terminal witnesses, and the ℤ → ℚ theorem",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 257,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "# Print Assumptions Rng CRng Rng_Initial_Z Rng_Terminal_zero ZtoQ_epi_not_surjective",
+  "replace": "# Print Assumptions Ring CRing Ring_Initial_Z Ring_Terminal_zero ZtoQ_epi_not_surjective",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 258,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Verified ABSENT. Module/vector-space/linear-map hits are background essays only (`Structure/Abelian.v:68–111` names Ab/R-Mod as motivation; `Theory/DoubleCategory.v:104`, `Theory/Profunctor.v` bimodule analogies); no ring exists to index modules over (see the Rng issue); `Instance/CMon.v` was inspected and rejected as not-this-item; `Structure/Abelian.v` axiomatizes abelian categories parametrically but constructs no module-category instance.",
+  "replace": "Verified ABSENT. Module/vector-space/linear-map hits are background essays only (`Structure/Abelian.v:68–111` names Ab/R-Mod as motivation; `Theory/DoubleCategory.v:104`, `Theory/Profunctor.v` bimodule analogies); no ring exists to index modules over (see the Ring issue); `Instance/CMon.v` was inspected and rejected as not-this-item; `Structure/Abelian.v` axiomatizes abelian categories parametrically but constructs no module-category instance.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 258,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Once `Ab` and `Rng` land:",
+  "replace": "Once `Ab` and `Ring` land:",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 258,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Variants: `Mod-R` as `R^op`-modules (opposite ring), bimodules `R-Mod-S`, and the notation `Vct_F` for `F-Mod` (fields as a class over `CRng` — deliver the class here or in the FdVect issue, coordinated).",
+  "replace": "- Variants: `Mod-R` as `R^op`-modules (opposite ring), bimodules `R-Mod-S`, and the notation `Vct_F` for `F-Mod` (fields as a class over `CRing` — deliver the class here or in the FdVect issue, coordinated).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 258,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "The parenthetical *(fields as a class over `CRng` — deliver the class here or in the FdVect",
+  "replace": "The parenthetical *(fields as a class over `CRing` — deliver the class here or in the FdVect",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 258,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "> (the `Field` class over `CRng` is owned by #244, which declares it unconditionally and depends on this issue — do NOT build it here; introduce `Vct_F` notation only once #244 lands, or leave the notation to #244)",
+  "replace": "> (the `Field` class over `CRing` is owned by #244, which declares it unconditionally and depends on this issue — do NOT build it here; introduce `Vct_F` notation only once #244 lands, or leave the notation to #244)",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 269,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Suggested module: `Instance/Rng/Mod.v` (over the Rng and R-Mod infrastructure of the referenced issues).",
+  "replace": "Suggested module: `Instance/Rng/Mod.v` (over the Ring and R-Mod infrastructure of the referenced issues).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 269,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "2. Package the assignment R to Mod-R, rho to restriction, as a coherent `IndexedCat` over Rng^op (donor `Construction/Indexed.v`; or via `Construction/Grothendieck/Strict.v` if the fibrewise-UIP route applies).",
+  "replace": "2. Package the assignment R to Mod-R, rho to restriction, as a coherent `IndexedCat` over Ring^op (donor `Construction/Indexed.v`; or via `Construction/Grothendieck/Strict.v` if the fibrewise-UIP route applies).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 275,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Precise gap (verified): no category Top and no category Rng exist in-tree (the algebra spine stops at commutative monoids, `Instance/CMon.v`), so neither the object assignment nor the functor exists in any form.",
+  "replace": "- Precise gap (verified): no category Top and no category Ring exist in-tree (the algebra spine stops at commutative monoids, `Instance/CMon.v`), so neither the object assignment nor the functor exists in any form.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 275,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Suggested module: `Instance/Top/ContinuousRing.v` (over the Top and Rng infrastructure of the referenced issues).",
+  "replace": "Suggested module: `Instance/Top/ContinuousRing.v` (over the Top and Ring infrastructure of the referenced issues).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 275,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "1. Define, for a space X, the ring C(X) of continuous real-valued functions (pointwise operations), as an object of the Rng category from #257.",
+  "replace": "1. Define, for a space X, the ring C(X) of continuous real-valued functions (pointwise operations), as an object of the Ring category from #257.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 275,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "3. Package as a functor `Top^op ⟶ Rng` (equivalently a contravariant functor on Top), the library's standard contravariance encoding (`Functor/Opposite.v:56`, `contramap` convention).",
+  "replace": "3. Package as a functor `Top^op ⟶ Ring` (equivalently a contravariant functor on Top), the library's standard contravariance encoding (`Functor/Opposite.v:56`, `contramap` convention).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 275,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Donors: `Functor/Opposite.v` (contravariance convention), the Top and Rng issues' infrastructure.",
+  "replace": "Donors: `Functor/Opposite.v` (contravariance convention), the Top and Ring issues' infrastructure.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 293,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Suggested module: `Instance/Rng/Algebras.v` (over the Rng infrastructure of #257).",
+  "replace": "Suggested module: `Instance/Rng/Algebras.v` (over the Ring infrastructure of #257).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 293,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "1. Define CRng, the full subcategory of commutative rings (over #257's ring category; donor `Construction/Subcategory.v`).",
+  "replace": "1. Define CRing, the full subcategory of commutative rings (over #257's ring category; donor `Construction/Subcategory.v`).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 293,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "3. Prove the isomorphism (in Cat) between K-Alg and the coslice `K ̸co CRng`, riding `Coslice`/`Comma_Coslice`.",
+  "replace": "3. Prove the isomorphism (in Cat) between K-Alg and the coslice `K ̸co CRing`, riding `Coslice`/`Comma_Coslice`.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 293,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Donors: `Construction/Slice.v`, `Construction/Subcategory.v`, the Rng issue's infrastructure.",
+  "replace": "Donors: `Construction/Slice.v`, `Construction/Subcategory.v`, the Ring issue's infrastructure.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 304,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Mac Lane remarks that the kernel of a homomorphism is itself a universal — precisely, a universal for a suitable contravariant set-valued functor (the functor of arrows killed by f), a packaging that also covers categories like Rng where zero morphisms are unavailable. See [nLab: kernel](https://ncatlab.org/nlab/show/kernel).",
+  "replace": "Mac Lane remarks that the kernel of a homomorphism is itself a universal — precisely, a universal for a suitable contravariant set-valued functor (the functor of arrows killed by f), a packaging that also covers categories like Ring where zero morphisms are unavailable. See [nLab: kernel](https://ncatlab.org/nlab/show/kernel).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 304,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Only the zero-object equalizer form exists: `Structure/Kernel.v:53` (`IsKernel f i := IsEqualizer f zero_mor k i`) with the universal property `kernel_desc` (line 118) and `kernel_monic` (line 98), all under a `ZeroObject` context. The contravariant-functor packaging — the kernel as a universal element of the presheaf d ↦ {h : d → a | f ∘ h ≈ 0} — is not formalized, and none of the remark's concrete algebraic categories (Ab, Grp, Rng, R-Mod) exists in-tree to instantiate it.",
+  "replace": "Only the zero-object equalizer form exists: `Structure/Kernel.v:53` (`IsKernel f i := IsEqualizer f zero_mor k i`) with the universal property `kernel_desc` (line 118) and `kernel_monic` (line 98), all under a `ZeroObject` context. The contravariant-functor packaging — the kernel as a universal element of the presheaf d ↦ {h : d → a | f ∘ h ≈ 0} — is not formalized, and none of the remark's concrete algebraic categories (Ab, Grp, Ring, R-Mod) exists in-tree to instantiate it.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 304,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- State the packaging so it survives in categories without a zero object when a suitable pointed-hom structure is supplied (a parametric \"distinguished morphism to kill\" version), documenting the Rng-shaped motivation in the header.",
+  "replace": "- State the packaging so it survives in categories without a zero object when a suitable pointed-hom structure is supplied (a parametric \"distinguished morphism to kill\" version), documenting the Ring-shaped motivation in the header.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 312,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "The exercise asks, from any object of the codomain, for a universal arrow to each of four forgetful functors: Ab ⟶ Grp (abelianization), Rng ⟶ Ab (forgetting multiplication; free ring), Top ⟶ Set (discrete topology), and Set∗ ⟶ Set (adjoining a basepoint). See [Wikipedia: Forgetful functor](https://en.wikipedia.org/wiki/Forgetful_functor) and [nLab: free functor](https://ncatlab.org/nlab/show/free+functor).",
+  "replace": "The exercise asks, from any object of the codomain, for a universal arrow to each of four forgetful functors: Ab ⟶ Grp (abelianization), Ring ⟶ Ab (forgetting multiplication; free ring), Top ⟶ Set (discrete topology), and Set∗ ⟶ Set (adjoining a basepoint). See [Wikipedia: Forgetful functor](https://en.wikipedia.org/wiki/Forgetful_functor) and [nLab: free functor](https://ncatlab.org/nlab/show/free+functor).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 312,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Absent. No Grp/Ab/Rng/Top/Set∗ categories exist in `Instance/` (listing checked; `Structure/Group.v` is internal group objects, a same-name trap); `abelianization` appears only in a background comment (`Construction/Localization.v:106`); `Instance/Coq/Par.v` notes an equivalence with pointed sets in a comment but carries no forgetful functor or universal arrow (verified: no adjunction hits in `Instance/Coq/Par.v`, `Instance/Sets/Par.v`).",
+  "replace": "Absent. No Grp/Ab/Ring/Top/Set∗ categories exist in `Instance/` (listing checked; `Structure/Group.v` is internal group objects, a same-name trap); `abelianization` appears only in a background comment (`Construction/Localization.v:106`); `Instance/Coq/Par.v` notes an equivalence with pointed sets in a comment but carries no forgetful functor or universal arrow (verified: no adjunction hits in `Instance/Coq/Par.v`, `Instance/Sets/Par.v`).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 312,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Depends on: #400 — creates `Instance/Rng/Free.v` and supplies the free-ring-on-an-abelian-group functor with its adjunction to the forgetful `Rng ⟶ Ab`. This issue's obligation in that file is the UNIT of exactly that adjunction, so it must reuse",
+  "replace": "Depends on: #400 — creates `Instance/Rng/Free.v` and supplies the free-ring-on-an-abelian-group functor with its adjunction to the forgetful `Ring ⟶ Ab`. This issue's obligation in that file is the UNIT of exactly that adjunction, so it must reuse",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 312,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "| (vii) `ℤ[x : x ∈ X]`, free commutative ring on a **set** | #309 | **#473** *\"The polynomial-ring monad from CRng\"*. #309's obligation is one-variable `K[x]` over a commutative ring — strictly narrower and cannot discharge (vii) |",
+  "replace": "| (vii) `ℤ[x : x ∈ X]`, free commutative ring on a **set** | #309 | **#473** *\"The polynomial-ring monad from CRing\"*. #309's obligation is one-variable `K[x]` over a commutative ring — strictly narrower and cannot discharge (vii) |",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 314,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Over #257's Rng: define two-sided ideals and quotient rings R/I with the analogous universal description.",
+  "replace": "- Over #257's Ring: define two-sided ideals and quotient rings R/I with the analogous universal description.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 324,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "The Set-style and preorder examples are witnessed: `Sets_Cocartesian` (`Instance/Sets/Cocartesian.v:28`), `Coq_Cocartesian` (`Instance/Coq.v:199`), `FinSet_Cocartesian` (`Instance/FinSet.v:250`), `Props_Cocartesian` (`Instance/Props.v:80`, the join example), `Cat_Cocartesian` (`Instance/Cat/Cocartesian.v:40`). The algebraic and topological examples are absent for want of host categories (no Ab, R-Mod, Grp, CRng, Top, Top∗ in-tree); the nearest relative is `Instance/CMon/Biproduct.v` (direct sums of commutative monoids).",
+  "replace": "The Set-style and preorder examples are witnessed: `Sets_Cocartesian` (`Instance/Sets/Cocartesian.v:28`), `Coq_Cocartesian` (`Instance/Coq.v:199`), `FinSet_Cocartesian` (`Instance/FinSet.v:250`), `Props_Cocartesian` (`Instance/Props.v:80`, the join example), `Cat_Cocartesian` (`Instance/Cat/Cocartesian.v:40`). The algebraic and topological examples are absent for want of host categories (no Ab, R-Mod, Grp, CRing, Top, Top∗ in-tree); the nearest relative is `Instance/CMon/Biproduct.v` (direct sums of commutative monoids).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 324,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Tensor product R ⊗ S with r ↦ r⊗1, s ↦ 1⊗s as the coproduct diagram in commutative rings (Exercise 1; needs a CRng full subcategory of #257's rings).",
+  "replace": "- Tensor product R ⊗ S with r ↦ r⊗1, s ↦ 1⊗s as the coproduct diagram in commutative rings (Exercise 1; needs a CRing full subcategory of #257's rings).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 370,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "      hits**, so both the ideal and the reflector are new work. #257/#226 create `CRng`",
+  "replace": "      hits**, so both the ideal and the reflector are new work. #257/#226 create `CRing`",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 443,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "`Test/Issue138.v:75`). The ring cases are entirely absent: `Rng` and `Ab` do not exist (#257, #256),",
+  "replace": "`Test/Issue138.v:75`). The ring cases are entirely absent: `Ring` and `Ab` do not exist (#257, #256),",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 443,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Over #257's `Rng` and #256's `Ab`, define the forgetful functors `Rng ⟶ Sets` and `Rng ⟶ Ab`, build",
+  "replace": "- Over #257's `Ring` and #256's `Ab`, define the forgetful functors `Ring ⟶ Sets` and `Ring ⟶ Ab`, build",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 443,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "In-tree donors: #257's `Rng`, #256's `Ab`, `Construction/Free/Quiver.v`, the §V.6 Theorem 2 issue,",
+  "replace": "In-tree donors: #257's `Ring`, #256's `Ab`, `Construction/Free/Quiver.v`, the §V.6 Theorem 2 issue,",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 450,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "background comments such as `Construction/Funny.v:113`), there is no `Grp` (#255) and no `Rng` (#257),",
+  "replace": "background comments such as `Construction/Funny.v:113`), there is no `Grp` (#255) and no `Ring` (#257),",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 450,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Coproduct of rings (Exercise 2): the analogous construction in `Rng` (#257).",
+  "replace": "- Coproduct of rings (Exercise 2): the analogous construction in `Ring` (#257).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 450,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "In-tree donors: #255's `Grp`, #257's `Rng`, the variety category issue, the §V.6 Theorem 2 issue,",
+  "replace": "In-tree donors: #255's `Grp`, #257's `Ring`, the variety category issue, the §V.6 Theorem 2 issue,",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 450,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Print Assumptions Rng_coproduct.",
+  "replace": "Print Assumptions Ring_coproduct.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 473,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "The forgetful functor `CRng → Set` from commutative rings has a left adjoint sending a set `X` to the polynomial ring `ℤ[x : x ∈ X]` (the free commutative ring on `X`); the exercise asks for a complete description of this adjunction and its induced monad. See nLab [polynomial ring](https://ncatlab.org/nlab/show/polynomial+ring) (\"the free commutative R-algebra generated by X\").",
+  "replace": "The forgetful functor `CRing → Set` from commutative rings has a left adjoint sending a set `X` to the polynomial ring `ℤ[x : x ∈ X]` (the free commutative ring on `X`); the exercise asks for a complete description of this adjunction and its induced monad. See nLab [polynomial ring](https://ncatlab.org/nlab/show/polynomial+ring) (\"the free commutative R-algebra generated by X\").",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 473,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "There is no category `CRng` (or `Ring`) of commutative rings, no forgetful `CRng → Set`, and no polynomial-ring monad. The \"polynomial\" hits in-tree are polynomial *functors* (initial-algebra theory), unrelated to `ℤ[X]`. Polynomial rings as universal arrows are the subject of the already-filed issue #309; this item adds the full adjunction and the induced monad on top of that (and the ring category of #257).",
+  "replace": "There is no category `CRing` (or `Ring`) of commutative rings, no forgetful `CRing → Set`, and no polynomial-ring monad. The \"polynomial\" hits in-tree are polynomial *functors* (initial-algebra theory), unrelated to `ℤ[X]`. Polynomial rings as universal arrows are the subject of the already-filed issue #309; this item adds the full adjunction and the induced monad on top of that (and the ring category of #257).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 473,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Build the category of commutative rings (`CRng`) and the forgetful functor to `Set` with its free-commutative-ring left adjoint (reusing the polynomial-ring universal arrow of #309, and the ring category of #257).",
+  "replace": "- Build the category of commutative rings (`CRing`) and the forgetful functor to `Set` with its free-commutative-ring left adjoint (reusing the polynomial-ring universal arrow of #309, and the ring category of #257).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 473,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Depends on: #257 (the category `Rng`/`CRng` of rings)",
+  "replace": "Depends on: #257 (the category `Ring`/`CRing` of rings)",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 474,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "The forgetful functor `Rng → Ab` (forgetting ring multiplication) has a left adjoint whose induced monad `T` on abelian groups is the tensor-algebra monad — the analogue of the word monad `W` with `Xⁿ` replaced by the n-fold tensor power and `⨆` by the direct sum; its algebras are exactly the rings, and the comparison functor is an isomorphism. See nLab [tensor algebra](https://ncatlab.org/nlab/show/tensor+algebra) (\"the free monoid object\" from the tensor powers).",
+  "replace": "The forgetful functor `Ring → Ab` (forgetting ring multiplication) has a left adjoint whose induced monad `T` on abelian groups is the tensor-algebra monad — the analogue of the word monad `W` with `Xⁿ` replaced by the n-fold tensor power and `⨆` by the direct sum; its algebras are exactly the rings, and the comparison functor is an isomorphism. See nLab [tensor algebra](https://ncatlab.org/nlab/show/tensor+algebra) (\"the free monoid object\" from the tensor powers).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 474,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "There is no concrete category `Ab` of abelian groups (the abstract `Structure/Abelian.v` is a class, not the category), no `Rng`, no tensor-algebra endofunctor `⨁ₙ A^{⊗n}`, and no `Rng → T-Alg` comparison. Tensor algebras as universal arrows are the subject of the already-filed issue #310; this item adds the monad on `Ab` and the ring-algebra characterization, over the categories `Ab` (#256) and `Rng` (#257).",
+  "replace": "There is no concrete category `Ab` of abelian groups (the abstract `Structure/Abelian.v` is a class, not the category), no `Ring`, no tensor-algebra endofunctor `⨁ₙ A^{⊗n}`, and no `Ring → T-Alg` comparison. Tensor algebras as universal arrows are the subject of the already-filed issue #310; this item adds the monad on `Ab` and the ring-algebra characterization, over the categories `Ab` (#256) and `Ring` (#257).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 474,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- On top of `Ab` (#256) and `Rng` (#257), build the tensor-algebra endofunctor `T A = ⨁_{n} A^{⊗n}` on `Ab`, its unit and multiplication (the analogue of the word monad), and discharge the `Monad` laws (reusing #310's tensor-algebra universal arrow).",
+  "replace": "- On top of `Ab` (#256) and `Ring` (#257), build the tensor-algebra endofunctor `T A = ⨁_{n} A^{⊗n}` on `Ab`, its unit and multiplication (the analogue of the word monad), and discharge the `Monad` laws (reusing #310's tensor-algebra universal arrow).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 474,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Prove the algebra characterization and the isomorphism/equivalence `EilenbergMoore T ≅ Rng`.",
+  "replace": "- Prove the algebra characterization and the isomorphism/equivalence `EilenbergMoore T ≅ Ring`.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 474,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Suggested module: `Monad/Instance/TensorAlgebra.v` (donors: the `Ab`/`Rng` instances of #256/#257, #310's construction, `Theory/Monad.v`, `Monad/Comparison.v`).",
+  "replace": "- Suggested module: `Monad/Instance/TensorAlgebra.v` (donors: the `Ab`/`Ring` instances of #256/#257, #310's construction, `Theory/Monad.v`, `Monad/Comparison.v`).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 474,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- [ ] `Print Assumptions` clean for the tensor-algebra monad and the `Rng ≅ EM` comparison.",
+  "replace": "- [ ] `Print Assumptions` clean for the tensor-algebra monad and the `Ring ≅ EM` comparison.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 474,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Depends on: #257 (the category `Rng` of rings)",
+  "replace": "Depends on: #257 (the category `Ring` of rings)",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 479,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "For a normal subgroup `N ◁ G`, the projection `G → G/N` is the coequalizer in `Grp` of a parallel pair `G ⋉ N ⇉ G` built from the semidirect product; the fork is generally not split in `Grp` but becomes split after applying the forgetful functor to `Set` (via a coset-representative section). The same pattern exhibits a quotient ring `R/A` (by an ideal `A`) as a coequalizer in `Rng` split under `Rng → Set`. See Wikipedia [Quotient group](https://en.wikipedia.org/wiki/Quotient_group) and [Quotient ring](https://en.wikipedia.org/wiki/Quotient_ring).",
+  "replace": "For a normal subgroup `N ◁ G`, the projection `G → G/N` is the coequalizer in `Grp` of a parallel pair `G ⋉ N ⇉ G` built from the semidirect product; the fork is generally not split in `Grp` but becomes split after applying the forgetful functor to `Set` (via a coset-representative section). The same pattern exhibits a quotient ring `R/A` (by an ideal `A`) as a coequalizer in `Ring` split under `Ring → Set`. See Wikipedia [Quotient group](https://en.wikipedia.org/wiki/Quotient_group) and [Quotient ring](https://en.wikipedia.org/wiki/Quotient_ring).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 479,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "There is no category `Grp` of groups-and-homomorphisms and no category `Rng` of rings (`Structure/Group.v` is about group *objects*; the only algebraic-structure category among `Instance/` is `CMon`). No normal-subgroup / semidirect-product / ideal / quotient machinery exists, and no proof that an algebraic quotient projection is a coequalizer that becomes split under the forgetful functor to `Set`. These categories are the subjects of the already-filed issues #255 (`Grp`) and #257 (`Rng`); quotient groups by universality are the subject of #313. The split-coequalizer API this needs is in-tree (`Structure/Coequalizer/Split.v`).",
+  "replace": "There is no category `Grp` of groups-and-homomorphisms and no category `Ring` of rings (`Structure/Group.v` is about group *objects*; the only algebraic-structure category among `Instance/` is `CMon`). No normal-subgroup / semidirect-product / ideal / quotient machinery exists, and no proof that an algebraic quotient projection is a coequalizer that becomes split under the forgetful functor to `Set`. These categories are the subjects of the already-filed issues #255 (`Grp`) and #257 (`Ring`); quotient groups by universality are the subject of #313. The split-coequalizer API this needs is in-tree (`Structure/Coequalizer/Split.v`).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 479,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Repeat for rings (#257): exhibit `R/A` as the coequalizer of the analogous pair in `Rng`, split under `Rng → Set` (Ex. 1).",
+  "replace": "- Repeat for rings (#257): exhibit `R/A` as the coequalizer of the analogous pair in `Ring`, split under `Ring → Set` (Ex. 1).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 479,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Suggested modules: `Instance/Grp/Coequalizer.v`, `Instance/Rng/Coequalizer.v` (donors: the `Grp`/`Rng` instances of #255/#257, `Structure/Coequalizer.v`, `Structure/Coequalizer/Split.v`).",
+  "replace": "- Suggested modules: `Instance/Grp/Coequalizer.v`, `Instance/Rng/Coequalizer.v` (donors: the `Grp`/`Ring` instances of #255/#257, `Structure/Coequalizer.v`, `Structure/Coequalizer/Split.v`).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 479,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Depends on: #257 (the category `Rng` of rings)",
+  "replace": "Depends on: #257 (the category `Ring` of rings)",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 518,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "The forgetful functor `U : Rng → Mon` (forget addition) has a left adjoint `ℤ : Mon → Rng` sending a monoid `M` to its monoid ring `ℤM` (additive group the free abelian group on `M`, multiplication the bilinear extension of the product); for a group `Π`, `ℤΠ` is the group ring. See the nLab, [group algebra](https://ncatlab.org/nlab/show/group+algebra), and Wikipedia, [Group ring](https://en.wikipedia.org/wiki/Group_ring).",
+  "replace": "The forgetful functor `U : Ring → Mon` (forget addition) has a left adjoint `ℤ : Mon → Ring` sending a monoid `M` to its monoid ring `ℤM` (additive group the free abelian group on `M`, multiplication the bilinear extension of the product); for a group `Π`, `ℤΠ` is the group ring. See the nLab, [group algebra](https://ncatlab.org/nlab/show/group+algebra), and Wikipedia, [Group ring](https://en.wikipedia.org/wiki/Group_ring).",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 518,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Once the category of rings `Rng` (#257) is available, construct the monoid-ring functor `ℤ : Mon → Rng` and the adjunction `ℤ ⊣ U` (with `U : Rng → Mon` forgetting addition): `ℤM` has additive group the free abelian group on `M` and multiplication the bilinear extension of `M`'s product; unit and counit as in the book; specialize to the group ring `ℤΠ` for a group `Π`. Suggested module: `Instance/GroupRing.v`. In-tree donors: #257 (`Rng`), `Theory/Algebra/Monoid/Hom.v` (`Mon`), the free-abelian-group construction (#256), `Theory/Adjunction.v`.",
+  "replace": "Once the category of rings `Ring` (#257) is available, construct the monoid-ring functor `ℤ : Mon → Ring` and the adjunction `ℤ ⊣ U` (with `U : Ring → Mon` forgetting addition): `ℤM` has additive group the free abelian group on `M` and multiplication the bilinear extension of `M`'s product; unit and counit as in the book; specialize to the group ring `ℤΠ` for a group `Π`. Suggested module: `Instance/GroupRing.v`. In-tree donors: #257 (`Ring`), `Theory/Algebra/Monoid/Hom.v` (`Mon`), the free-abelian-group construction (#256), `Theory/Adjunction.v`.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 518,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- [ ] `ℤ : Mon → Rng` defined; the adjunction `ℤ ⊣ U` proved.",
+  "replace": "- [ ] `ℤ : Mon → Ring` defined; the adjunction `ℤ ⊣ U` proved.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 518,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "The adjunction this issue builds has `U : Rng ⟶ Mon` forgetting addition; Riehl's statement is about the **group of units**, which is a different functor (it is the restriction of the multiplicative monoid to its invertible elements) and needs constructing:",
+  "replace": "The adjunction this issue builds has `U : Ring ⟶ Mon` forgetting addition; Riehl's statement is about the **group of units**, which is a different functor (it is the restriction of the multiplicative monoid to its invertible elements) and needs constructing:",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 518,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- [ ] (from Riehl §2.3) The units functor `(−)ˣ : Rng ⟶ Grp` is constructed, and `Ring(ℤ[G], R) ≅ Grp(G, Rˣ)` is proved as a natural isomorphism with its universal element η : G ⟶ ℤ[G]ˣ named",
+  "replace": "- [ ] (from Riehl §2.3) The units functor `(−)ˣ : Ring ⟶ Grp` is constructed, and `Ring(ℤ[G], R) ≅ Grp(G, Rˣ)` is proved as a natural isomorphism with its universal element η : G ⟶ ℤ[G]ˣ named",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 927,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "None. (The remaining clauses of Example 2.1.5 are covered by separate issues: clauses (ii) and (xiv) with the `Top` development, clauses (iii) and (vi)–(vii) with `Grp`, clauses (iv)–(v) by #309, clause (viii) with `Rng`, clauses (ix)–(xii) with `Cat`, clause (xiii) with pointed objects.)",
+  "replace": "None. (The remaining clauses of Example 2.1.5 are covered by separate issues: clauses (ii) and (xiv) with the `Top` development, clauses (iii) and (vi)–(vii) with `Grp`, clauses (iv)–(v) by #309, clause (viii) with `Ring`, clauses (ix)–(xii) with `Cat`, clause (xiii) with pointed objects.)",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 933,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "5. Clause (viii): over #257's `Rng`, define the units functor `(−)ˣ : Rng ⟶ Sets` (which needs the group-of-units construction) and prove it represented by ℤ[x, x⁻¹].",
+  "replace": "5. Clause (viii): over #257's `Ring`, define the units functor `(−)ˣ : Ring ⟶ Sets` (which needs the group-of-units construction) and prove it represented by ℤ[x, x⁻¹].",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 933,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "6. Example 2.4.12 clauses (iv) and (vi): instantiate the category of elements (#345) at `Uⁿ : Grp ⟶ Sets` and at `U : Rng ⟶ Sets`, and prove that the free group on n generators (with its generating tuple) is initial in the first and that ℤ[x] (with x) is initial in the second. Also prove the Yoneda corollary Riehl draws in clause (vi): every natural endomorphism of `U : Rng ⟶ Sets` has components r ↦ p(r) for an integer polynomial p, because `End(U) ≅ Rng(ℤ[x], ℤ[x]) ≅ U(ℤ[x])`.",
+  "replace": "6. Example 2.4.12 clauses (iv) and (vi): instantiate the category of elements (#345) at `Uⁿ : Grp ⟶ Sets` and at `U : Ring ⟶ Sets`, and prove that the free group on n generators (with its generating tuple) is initial in the first and that ℤ[x] (with x) is initial in the second. Also prove the Yoneda corollary Riehl draws in clause (vi): every natural endomorphism of `U : Ring ⟶ Sets` has components r ↦ p(r) for an integer polynomial p, because `End(U) ≅ Ring(ℤ[x], ℤ[x]) ≅ U(ℤ[x])`.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 933,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- [ ] The initial objects of the two categories of elements are identified, and the integer-polynomial description of `End(U : Rng ⟶ Sets)` is derived through the Yoneda embedding",
+  "replace": "- [ ] The initial objects of the two categories of elements are identified, and the integer-polynomial description of `End(U : Ring ⟶ Sets)` is derived through the Yoneda embedding",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 933,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Print Assumptions Rng_natural_endos_are_polynomials.",
+  "replace": "Print Assumptions Ring_natural_endos_are_polynomials.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 933,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Depends on: #257 (Rng, the category of rings)",
+  "replace": "- Depends on: #257 (Ring, the category of rings)",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 937,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "4. Exercise 2.3.iv: state the general fact that a functor may admit several distinct universal elements, and give the two instances Riehl names — the alternate universal elements for `P` (item 3 above) and, once the Grp/Rng representability issue lands, for the underlying-set functor of rings. Prove the general statement in the form \"the universal elements of F are exactly the objects of a contractible groupoid\" only if that issue is already available; otherwise state and prove the two instances and cross-reference it.",
+  "replace": "4. Exercise 2.3.iv: state the general fact that a functor may admit several distinct universal elements, and give the two instances Riehl names — the alternate universal elements for `P` (item 3 above) and, once the Grp/Ring representability issue lands, for the underlying-set functor of rings. Prove the general statement in the form \"the universal elements of F are exactly the objects of a contractible groupoid\" only if that issue is already available; otherwise state and prove the two instances and cross-reference it.",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 941,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- Depends on: #257 (Rng, the category of rings)",
+  "replace": "- Depends on: #257 (Ring, the category of rings)",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 1038,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "1. Current state, after *there is no ring theory of any kind.*, append: *The category of commutative rings is already filed: #257 delivers `CRng` as a full subcategory inside `Instance/Rng.v`, and #226 lists it as residual roster work. The field of fractions is #232's obligation (`Frac D` as a setoid quotient of numerator/denominator pairs, over integral domains and monomorphisms). This issue must consume all three, not re-create them.*",
+  "replace": "1. Current state, after *there is no ring theory of any kind.*, append: *The category of commutative rings is already filed: #257 delivers `CRing` as a full subcategory inside `Instance/Rng.v`, and #226 lists it as residual roster work. The field of fractions is #232's obligation (`Frac D` as a setoid quotient of numerator/denominator pairs, over integral domains and monomorphisms). This issue must consume all three, not re-create them.*",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 1038,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "2. Path line → *Suggested module: `Monad/Instance/Codensity/Fields.v` (new). The category of commutative rings is NOT created here — it is #257's `CRng` in `Instance/Rng.v`.*",
+  "replace": "2. Path line → *Suggested module: `Monad/Instance/Codensity/Fields.v` (new). The category of commutative rings is NOT created here — it is #257's `CRing` in `Instance/Rng.v`.*",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 1038,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "3. Work item 1 → *1. Over #971's `Instance/Field.v` and #257's `CRng` (`Instance/Rng.v`), construct only the inclusion functor `Field ⟶ CRng` and prove its functor laws. Do not define a second commutative-ring category.*; Work item 2 → *2. Define the prime spectrum as the set of prime ideals and the quotient by a prime ideal; prove the quotient is an integral domain, and obtain its field of fractions from #232's `Frac` rather than re-constructing it.*",
+  "replace": "3. Work item 1 → *1. Over #971's `Instance/Field.v` and #257's `CRing` (`Instance/Rng.v`), construct only the inclusion functor `Field ⟶ CRing` and prove its functor laws. Do not define a second commutative-ring category.*; Work item 2 → *2. Define the prime spectrum as the set of prime ideals and the quotient by a prime ideal; prove the quotient is an integral domain, and obtain its field of fractions from #232's `Frac` rather than re-constructing it.*",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 1038,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "- [ ] The inclusion `Field ⟶ CRng` constructed over #257's existing `CRng`; no second commutative-ring category is introduced",
+  "replace": "- [ ] The inclusion `Field ⟶ CRing` constructed over #257's existing `CRing`; no second commutative-ring category is introduced",
+  "note": "3.2: `Rng`->`Ring`, `CRng`->`CRing` (unital category); module paths `Instance/Rng*` deliberately unchanged"
+ },
+ {
+  "issue": 362,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "> 1. Consume #257's `Instance/Rng.v` unital-ring category. The increment here is the category of RNGS (rings without an assumed identity) — add it to the same file alongside #257's `Rng`, together with the forgetful functor `Rng ⟶ Rng_nonunital`.",
+  "replace": "> 1. Consume #257's `Instance/Rng.v` unital-ring category, which is named `Ring`. The increment here is the category of RNGS (rings without an assumed identity), which takes the name `Rng` — add it to the same file alongside #257's `Ring`, together with the forgetful functor `Ring ⟶ Rng` (unital rings to rngs; its left adjoint is this issue's unitalization).",
+  "note": "3.2: #362 Work item 1 rewritten — `Rng` is REASSIGNED to the non-unital category, `Rng_nonunital` retired"
+ },
+ {
+  "issue": 362,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "Current state gains: *#257 is the filed obligation that creates `Instance/Rng.v` with the\nunital category and `CRng`; this issue extends that file.*",
+  "replace": "Current state gains: *#257 is the filed obligation that creates `Instance/Rng.v` with the\nunital category `Ring` and `CRing`; this issue extends that file.*",
+  "note": "3.2: #362 current-state gain names the renamed unital identifiers"
+ },
+ {
+  "issue": 362,
+  "decision": "3.2",
+  "mode": "replace_text",
+  "find": "**Naming:** the `Rng` identifier is #257's, used in Mac Lane's *unital* sense. The\nnon-unital category built here must take a different name, disclosed in the file header,\nso the direction of the forgetful functor is unambiguous.",
+  "replace": "**Naming (settled, QA decision 3.2).** The split is the standard rig/rng one, and it INVERTS the\nnote this paragraph used to carry:\n\n- `Ring` — the UNITAL category (objects: unital rings; arrows: unit-preserving homomorphisms).\n  #257's, in `Instance/Rng.v`. Mac Lane writes `Rng` for this category; this library does not.\n- `Rng` — the NON-UNITAL category (rings without an assumed identity). This issue's, in the same\n  file.\n- `CRing` — the full subcategory of commutative (unital) rings. #257's.\n\nThe file header of `Instance/Rng.v` MUST disclose that Mac Lane's `Rng` is this library's `Ring`,\nso no reader takes a book citation as naming the non-unital category. The module PATH stays\n`Instance/Rng.v` (and `Instance/Rng/*` for the satellites) — renaming it was rejected as a second,\nlarger blast radius across some twenty downstream path references; the path is therefore NOT a\nreliable signal of which of the two categories a file is about, and the header must say so.\nWith those names fixed, the forgetful functor is `Ring ⟶ Rng` and this issue's unitalization is\nits left adjoint.",
+  "note": "3.2: #362's Naming paragraph REWRITTEN (its old claim is inverted by the decision); records the header-disclosure obligation"
+ },
+ {
+  "issue": 257,
+  "decision": "3.2",
+  "mode": "append_block",
+  "block": "### Naming and scope (QA audit, decisions 3.2 and 4.3)\n\n**Rename — the category built here is `Ring`, not `Rng`.** Mac Lane's `Rng` is the *unital*\ncategory, but this campaign also files the non-unital one (#362, the Dorroh unitalization), and the\ntwo cannot both be called `Rng`. Settled naming:\n\n- `Ring` — this issue's category of unital rings and unit-preserving homomorphisms.\n- `CRing` — this issue's full subcategory of commutative rings (`CRng` is retired everywhere).\n- `Rng` — reserved for #362's NON-unital category, which lands in the same file.\n\nThe renamed principal artifacts are `Ring`, `CRing`, `Ring_Initial_Z`, `Ring_Terminal_zero`.\nThe module path stays `Instance/Rng.v` (and `Instance/Rng/*` downstream): renaming the path was\nrejected as a second, larger blast radius, so the path does NOT indicate which category a file is\nabout.\n\n- [ ] The `Instance/Rng.v` header discloses that Mac Lane writes `Rng` for what this library calls\n      `Ring`, that `Rng` here means the non-unital category of #362, and that the module path is\n      historical rather than a naming signal\n\n**Scope addition — the rig/semiring vocabulary is re-homed here (decision 4.3).** #221 previously\nrecorded that it would build the rig/semiring vocabulary itself because #257 supplied only rings.\nThat vocabulary now belongs to this issue, so `Matr` can be stated over a rig without #221 opening a\nrival class.\n\n- [ ] A rig/semiring class (two-operation structure without additive inverses) is supplied\n      alongside `Ring`/`CRing`, with `Ring` presented as the rig-with-negatives case, so #221 can\n      consume it rather than define one\n\n**UNRESOLVED, flagged for the operator, not decided here:** #839 (*Seven Sketches 5.3.1: Rigs*)\nalready builds a rig class in `Theory/Algebra/Rig.v` and already defines `Class Ring` there as\n`Rig` + additive inverses, and seventeen Seven-Sketches issues already consume \"the rig class of\n§5.3.1\" from it. So (i) the rig class re-homed above overlaps #839's, and (ii) after this rename\nthere are two global `Ring`s in one import closure — a set-level ring STRUCTURE (#839) and a\nCATEGORY of rings (this issue). One of the two must yield, or they must be separated the way the\ntree already separates `Structure/Monoid.v`'s monoid objects from `Theory/Algebra/Monoid.v`'s monoid\nstructures. Do not land either side before that is settled.",
+  "note": "3.2+4.3: #257 header-disclosure + rename record + the re-homed rig class, with the #839 `Class Ring` collision disclosed as UNRESOLVED"
+ },
+ {
+  "issue": 221,
+  "decision": "4.3",
+  "mode": "replace_text",
+  "find": "- [ ] (from Awodey §1.4) State `Matr` over a rig/semiring rather than a commutative ring, and land `Matr_ℕ`. Note in the header that #257 supplies only `Rng`/`CRng`, so the rig/semiring vocabulary is built here.",
+  "replace": "- [ ] (from Awodey §1.4) State `Matr` over a rig/semiring rather than a commutative ring, and land `Matr_ℕ`. The rig/semiring class is NOT built here: it is re-homed to #257 (QA decision 4.3), which supplies `Ring`/`CRing` and the rig/semiring vocabulary alongside them — consume it, and note in the header that `Matr` is stated over that rig class.",
+  "note": "4.3: #221's rig/semiring class re-homed to #257 (already a blocker of #221, so no new edge). CONFLICT: the investigation finds #839 already owns a rig class in Theory/Algebra/Rig.v — coordinator must confirm before applying"
+ },
+ {
+  "issue": 309,
+  "decision": "3.2",
+  "mode": "append_block",
+  "block": "### Naming (QA audit, decision 3.2)\n\nThis issue names `Instance/Rng/*` only as a module PATH, so nothing here is renamed. Be aware of\nthe identifiers the path now hosts: the UNITAL category is `Ring` and its commutative full\nsubcategory is `CRing` (#257, in `Instance/Rng.v`), while `Rng` is reserved for the NON-unital\ncategory (#362, same file). Mac Lane writes `Rng` for what this library calls `Ring`; the path\n`Instance/Rng*` is historical and is not a signal of which category a file is about.",
+  "note": "3.2: path-only issue — disclosure of the settled Ring/Rng/CRing names, no rename applied"
+ },
+ {
+  "issue": 310,
+  "decision": "3.2",
+  "mode": "append_block",
+  "block": "### Naming (QA audit, decision 3.2)\n\nThis issue names `Instance/Rng/*` only as a module PATH, so nothing here is renamed. Be aware of\nthe identifiers the path now hosts: the UNITAL category is `Ring` and its commutative full\nsubcategory is `CRing` (#257, in `Instance/Rng.v`), while `Rng` is reserved for the NON-unital\ncategory (#362, same file). Mac Lane writes `Rng` for what this library calls `Ring`; the path\n`Instance/Rng*` is historical and is not a signal of which category a file is about.",
+  "note": "3.2: path-only issue — disclosure of the settled Ring/Rng/CRing names, no rename applied"
+ },
+ {
+  "issue": 400,
+  "decision": "3.2",
+  "mode": "append_block",
+  "block": "### Naming (QA audit, decision 3.2)\n\nThis issue names `Instance/Rng/*` only as a module PATH, so nothing here is renamed. Be aware of\nthe identifiers the path now hosts: the UNITAL category is `Ring` and its commutative full\nsubcategory is `CRing` (#257, in `Instance/Rng.v`), while `Rng` is reserved for the NON-unital\ncategory (#362, same file). Mac Lane writes `Rng` for what this library calls `Ring`; the path\n`Instance/Rng*` is historical and is not a signal of which category a file is about.",
+  "note": "3.2: path-only issue — disclosure of the settled Ring/Rng/CRing names, no rename applied"
+ },
+ {
+  "issue": 409,
+  "decision": "3.2",
+  "mode": "append_block",
+  "block": "### Naming (QA audit, decision 3.2)\n\nThis issue names `Instance/Rng/*` only as a module PATH, so nothing here is renamed. Be aware of\nthe identifiers the path now hosts: the UNITAL category is `Ring` and its commutative full\nsubcategory is `CRing` (#257, in `Instance/Rng.v`), while `Rng` is reserved for the NON-unital\ncategory (#362, same file). Mac Lane writes `Rng` for what this library calls `Ring`; the path\n`Instance/Rng*` is historical and is not a signal of which category a file is about.",
+  "note": "3.2: path-only issue — disclosure of the settled Ring/Rng/CRing names, no rename applied"
+ },
+ {
+  "issue": 705,
+  "decision": "3.3",
+  "mode": "replace_text",
+  "find": "1. Define the \"two sets plus source/target\" presentation of a graph as a\n   category `Graph` in `Sets` (objects: `G₁, G₀` with `s, t : G₁ → G₀`;",
+  "replace": "1. Define the \"two sets plus source/target\" presentation of a graph as a\n   category `DiGraph` in `Sets` (objects: `G₁, G₀` with `s, t : G₁ → G₀`;",
+  "note": "3.3: #705's category renamed `Graph` -> `DiGraph` (Work item 1)"
+ },
+ {
+  "issue": 705,
+  "decision": "3.3",
+  "mode": "replace_text",
+  "find": "2. Prove `Graph ≅ [Parallel^op, Sets]` — ideally an isomorphism of categories,",
+  "replace": "2. Prove `DiGraph ≅ [Parallel^op, Sets]` — ideally an isomorphism of categories,",
+  "note": "3.3: #705 Work item 2 renamed"
+ },
+ {
+  "issue": 705,
+  "decision": "3.3",
+  "mode": "replace_text",
+  "find": "   `QuiverCategory` and `Graph` and prove it full and faithful (state honestly",
+  "replace": "   `QuiverCategory` and `DiGraph` and prove it full and faithful (state honestly",
+  "note": "3.3: #705 Work item 3 renamed"
+ },
+ {
+  "issue": 705,
+  "decision": "3.3",
+  "mode": "replace_text",
+  "find": "- [ ] `Graph ≅ [Parallel^op, Sets]` (or `≃`, with the weaker conclusion stated",
+  "replace": "- [ ] `DiGraph ≅ [Parallel^op, Sets]` (or `≃`, with the weaker conclusion stated",
+  "note": "3.3: #705 Definition-of-Done line renamed"
+ },
+ {
+  "issue": 705,
+  "decision": "3.3",
+  "mode": "replace_text",
+  "find": "Print Assumptions Graph_Presheaf_iso.\nPrint Assumptions Quiver_Graph_comparison.\nPrint Assumptions Graph_Closed.",
+  "replace": "Print Assumptions DiGraph_Presheaf_iso.\nPrint Assumptions Quiver_DiGraph_comparison.\nPrint Assumptions DiGraph_Closed.",
+  "note": "3.3: #705's three Verification lemma names carry the renamed prefix"
+ },
+ {
+  "issue": 705,
+  "decision": "3.3",
+  "mode": "append_block",
+  "block": "### Naming (QA audit, decision 3.3)\n\n**The category built here is `DiGraph`, not `Graph`.** Two names were unavailable:\n\n- `Graph` belongs to #926's category of **simple** graphs (symmetric, irreflexive adjacency), a\n  different mathematical object; it keeps the name.\n- `Quiver` is taken three ways: `Construction/Free/Quiver.v:54` declares a global `Class Quiver`\n  (the section it sits in closes at `:192`, so the identifier escapes), `:358` declares\n  `QuiverCategory` — which is the SAME mathematical object as this issue's category, under the\n  indexed-family presentation — and two filed issues already use bare `Quiver` in their titles to\n  mean `QuiverCategory`. `Grph` was rejected for the same reason (it is already used for Mac Lane's\n  O-graphs).\n\n`DiGraph` has zero occurrences in the tree and zero across the filed issues. The principal\nartifacts are therefore `DiGraph`, `DiGraph_Presheaf_iso`, `Quiver_DiGraph_comparison` and\n`DiGraph_Closed`; the module path `Instance/Parallel/Graphs.v` is unchanged.\n\n- [ ] The header states that `DiGraph` is the source/target presentation of the same notion as\n      `Construction/Free/Quiver.v`'s `QuiverCategory`, and that #926's `Graph` is a different object",
+  "note": "3.3: #705 naming rationale recorded on the issue (Quiver clashes three ways; DiGraph is free)"
+ },
+ {
+  "issue": 357,
+  "decision": "3.3",
+  "mode": "replace_text",
+  "find": "Clause (ii) of the same exercise (the vertex functors of\n`Quiver` and `Graph`) is a different substrate and is filed separately.",
+  "replace": "Clause (ii) of the same exercise (the vertex functors of\n`QuiverCategory` and of the category of *undirected* graphs) is a different substrate and is filed\nseparately. Neither is this chapter's `DiGraph`.",
+  "note": "3.3: #357's ambiguous `Quiver`/`Graph` pair disambiguated in the same pass (it names neither #705's nor #926's identifier)"
+ },
+ {
+  "issue": 926,
+  "decision": "3.3",
+  "mode": "replace_text",
+  "find": "State in the header how this relates to the directed-graph presentation of #705 and to `Construction/Free/Quiver.v`'s `Quiver` — the two are different objects and the header must say so rather than let a reader assume `Quiv` is `Graph`.",
+  "replace": "State in the header how this relates to the directed-graph presentation of #705 (its category is named `DiGraph`) and to `Construction/Free/Quiver.v`'s `Quiver` — the three are different objects and the header must say so rather than let a reader assume `Quiv` or `DiGraph` is `Graph`.",
+  "note": "3.3: #926 keeps `Graph`; its header instruction now names #705's category explicitly as `DiGraph`"
+ },
+ {
+  "issue": 926,
+  "decision": "3.3",
+  "mode": "replace_text",
+  "find": "- [ ] `Graph` is defined for **simple** graphs, and the header states precisely how it differs from `Quiver`/`QuiverCategory` and from #705's directed graphs",
+  "replace": "- [ ] `Graph` is defined for **simple** graphs, and the header states precisely how it differs from `Quiver`/`QuiverCategory` and from #705's `DiGraph`",
+  "note": "3.3: #926 DoD line names #705's renamed category"
+ },
+ {
+  "issue": 516,
+  "decision": "3.9",
+  "mode": "replace_text",
+  "find": "Path: `Structure/Homology.v` becomes `Instance/Simplicial/Homology.v` in Work and Verification\n(the singular chain file stays at `Instance/Singular.v`). **Propagate:** #517 line 17 and #519\nline 17 both list `Structure/Homology.v` as a donor and must be retargeted to the same choice.",
+  "replace": "Path (settled, QA decision 3.9): `Structure/Homology.v` becomes\n`Structure/Abelian/Homology/Simplicial.v` in Work and Verification — the alternating-sum boundary is\ngeneral over any abelian category, so it belongs in `Structure/`, beside #557's\n`Structure/Abelian/Homology.v` whose `ChainComplex` it consumes. The singular chain file stays at\n`Instance/Singular.v`. **Propagated in the same pass:** #517 and #519 both listed\n`Structure/Homology.v` as a donor and now name `Structure/Abelian/Homology/Simplicial.v`.",
+  "note": "3.9: #516 retargeted from Instance/Simplicial/Homology.v to Structure/Abelian/Homology/Simplicial.v"
+ },
+ {
+  "issue": 516,
+  "decision": "3.9",
+  "mode": "replace_text",
+  "find": "Suggested modules: `Structure/Homology.v` (chain complexes and homology of simplicial objects), `Instance/Singular.v` (singular homology).",
+  "replace": "Suggested modules: `Structure/Abelian/Homology/Simplicial.v` (the simplicial boundary and the homology of a simplicial object, over #557's chain complexes), `Instance/Singular.v` (singular homology).",
+  "note": "3.9: #516 Work-section module line retargeted"
+ },
+ {
+  "issue": 516,
+  "decision": "3.9",
+  "mode": "replace_text",
+  "find": "- `coqc -R . Category Structure/Homology.v` (and `Instance/Singular.v`) compile cleanly.",
+  "replace": "- `coqc -R . Category Structure/Abelian/Homology/Simplicial.v` (and `Instance/Singular.v`) compile cleanly.",
+  "note": "3.9: #516 Verification line retargeted"
+ },
+ {
+  "issue": 517,
+  "decision": "3.9",
+  "mode": "replace_text",
+  "find": "`Instance/Simplicial.v`, `Structure/Homology.v`, `Structure/Monoidal/Compose.v`",
+  "replace": "`Instance/Simplicial.v`, `Structure/Abelian/Homology/Simplicial.v`, `Structure/Monoidal/Compose.v`",
+  "note": "3.9: #517's donor list retargeted to the path settled on #516"
+ },
+ {
+  "issue": 519,
+  "decision": "3.9",
+  "mode": "replace_text",
+  "find": "In-tree donors: #258, `Comonad/Bar.v`, `Structure/Homology.v`, `Structure/Abelian.v`.",
+  "replace": "In-tree donors: #258, `Comonad/Bar.v`, `Structure/Abelian/Homology/Simplicial.v`, `Structure/Abelian.v`.",
+  "note": "3.9: #519's donor list retargeted to the path settled on #516"
+ },
+ {
+  "issue": 0,
+  "decision": "3.7",
+  "mode": "file_edit",
+  "file": "doc/plan/books/graph/serialize-groups.json",
+  "find": " {\n  \"module\": \"numeric monoidal-preorder bases (Instance/Nat/Monoidal.v + Instance/Reals/Order.v vs Instance/Poset/Numeric/Monoidal.v)\",",
+  "replace": " {\n  \"module\": \"Instance/Poset/Numeric.v\",\n  \"issues\": [\n   759,\n   967,\n   1022\n  ],\n  \"creator\": 759,\n  \"reason\": \"SAME NUMERIC SUBSTRATE under three paths \\u2014 invisible to check_collisions.py, which matches paths. #759 proposes Instance/Poset/Numeric.v (\\u2124 and \\u211d as ordered carriers), #967 proposes Instance/ExtReal.v (the extended real line as a bicomplete poset), #1022 proposes Instance/Poset/Reals.v (\\u211a and the positive reals as thin categories). All three build a real-number carrier over Instance/Proset.v, and all three make the SAME Coq.Reals-vs-constructive-Dedekind choice. Carrier path nominated by QA decision 3.7: Instance/Poset/Numeric.v, with #759 as creator; #967 and #1022 consume that carrier rather than opening rival ones. No dependency edge is asserted \\u2014 they must not be dispatched in the same parallel wave.\",\n  \"rationale\": \"All three commit to extending docs/AXIOMS.md for the axiom cost of the chosen real-number development (#759 Work item and DoD, #967 DoD, #1022 DoD). WHICHEVER LANDS FIRST OWNS THE docs/AXIOMS.md ENTRY; the other two reconcile against it and add nothing new, so the enumeration is written once. The issue bodies still name their own paths (#967 Instance/ExtReal.v, #1022 Instance/Poset/Reals.v); retargeting those bodies was NOT part of decision 3.7 and is left to the operator.\"\n },\n {\n  \"module\": \"numeric monoidal-preorder bases (Instance/Nat/Monoidal.v + Instance/Reals/Order.v vs Instance/Poset/Numeric/Monoidal.v)\",",
+  "note": "3.7: NEW serialize entry Instance/Poset/Numeric.v [759,967,1022], creator #759, inserted before the related numeric monoidal-preorder entry; records that first-to-land owns the docs/AXIOMS.md entry"
+ },
+ {
+  "issue": 1003,
+  "decision": "3.8",
+  "mode": "replace_text",
+  "find": "**Drop the original's \"prove the dictionary to #340's `LatticeObject`\"** — undeclared scope AND\nan undeclared #340 dependency. (Whether the vocabulary lands in `Structure/Lattice.v` or stays\nin `Instance/Lattice.v` is a judgement call recorded separately; the serialize-group amendment\nis required only if it lands in `Structure/Lattice.v`.)",
+  "replace": "**Drop the original's \"prove the dictionary to #340's `LatticeObject`\"** — undeclared scope AND\nan undeclared #340 dependency.\n\n**Path settled (QA decision 3.8):** the vocabulary lands in `Structure/Lattice.v`, not in\n`Instance/Lattice.v`. `Instance/Lattice.v` keeps only the three CATEGORIES and their forgetful\nfunctors to `Sets`. The matching amendment has been made: the `Structure/Lattice.v` entry in\n`doc/plan/books/graph/serialize-groups.json` now reads `issues: [340, 389, 422, 1003]`, so this\nissue is a declared same-file peer of #340, #389 and #422 and will not be dispatched in the same\nparallel wave as any of them.",
+  "note": "3.8: #1003's open judgement call closed in favour of Structure/Lattice.v (first half of the both-halves-or-neither edit)"
+ },
+ {
+  "issue": 0,
+  "decision": "3.8",
+  "mode": "file_edit",
+  "file": "doc/plan/books/graph/serialize-groups.json",
+  "find": "  \"module\": \"Structure/Lattice.v\",\n  \"issues\": [\n   340,\n   389,\n   422\n  ],\n  \"creator\": 340,",
+  "replace": "  \"module\": \"Structure/Lattice.v\",\n  \"issues\": [\n   340,\n   389,\n   422,\n   1003\n  ],\n  \"creator\": 340,",
+  "note": "3.8: Structure/Lattice.v serialize entry amended to [340, 389, 422, 1003] (second half; must land with the #1003 edit or neither)"
+ }
+]

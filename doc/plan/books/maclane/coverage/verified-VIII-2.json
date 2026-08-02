@@ -1,0 +1,423 @@
+[
+  {
+    "id": "maclane:VIII.3:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "abelian category",
+      "Abelian class",
+      "additive category with kernels/cokernels + normality",
+      "every monic is a kernel, every epi is a cokernel",
+      "AB2 category",
+      "normal/conormal category"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Abelian.v",
+        "line": 137,
+        "symbol": "Abelian",
+        "intree_statement": "Class Abelian (C : Category) := { abelian_additive : @Additive C; abelian_kernels : @HasKernels C (@additive_zero C abelian_additive); abelian_cokernels : @HasCokernels C ...; abelian_monic_normal {x y} (f : x ~> y) : Monic f -> IsKernel (`1 (`2 (cokernel f))) f; abelian_epic_normal {x y} (f : x ~> y) : Epic f -> IsCokernel (`1 (`2 (kernel f))) f }"
+      },
+      {
+        "file": "Structure/Additive.v",
+        "line": 34,
+        "symbol": "Additive",
+        "intree_statement": "Class Additive (C : Category) := { additive_zero : @ZeroObject C; additive_preadditive : @Preadditive C; additive_biproducts : @HasBiproducts C additive_zero; pneg {x y} : (x ~> y) -> (x ~> y); padd_pneg (f : x ~> y) : padd f (pneg f) ≈ pzero }"
+      }
+    ],
+    "statement_record": {
+      "book": "An abelian category is an Ab-category satisfying: (i) it has a null object; (ii) it has binary biproducts; (iii) every arrow has a kernel and a cokernel; (iv) every monic arrow is a kernel and every epi is a cokernel.",
+      "intree": "Class Abelian bundles: abelian_additive : @Additive C (= ZeroObject [null object, (i)] + Preadditive [CMon-enrichment] + pneg/padd_pneg [upgrades homs to abelian groups: Ab-category] + HasBiproducts [binary biproducts, (ii)]); abelian_kernels : HasKernels, abelian_cokernels : HasCokernels [(iii)]; abelian_monic_normal [every monic is a kernel of its chosen cokernel] and abelian_epic_normal [every epi is a cokernel of its chosen kernel] [(iv)].",
+      "strength_comparison": "same. Faithful setoid rephrasing: hom abelian-group axioms are the Preadditive CMon laws plus pneg with padd_pneg; bilinear composition is compose_padd_left/right. Axiom (iv) is pinned to the CHOSEN cokernel/kernel, which the header proves carries full generality (kernel_of_any_cokernel, Structure/Kernel.v:177), so it matches Mac Lane's 'is a kernel'. All four Mac Lane clauses are present."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently found Structure/Abelian.v:137 Class Abelian over Additive.v:34. Verified all four Mac Lane clauses: null via additive_zero, binary biproducts via HasBiproducts, ker/coker via HasKernels/HasCokernels, normality via abelian_monic_normal/abelian_epic_normal. Verified kernel_of_any_cokernel (Kernel.v:177: IsKernel f i -> IsCokernel i e -> IsKernel e i) backs the 'chosen cokernel/kernel carries full generality' claim, so 'kernel of its chosen cokernel' faithfully matches Mac Lane's 'is a kernel'. Both quotes accurate; file registered in _CoqProject."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "abelian category has all finite limits and colimits",
+      "finitely complete and cocomplete",
+      "equalizer = ker(f-g)",
+      "biproducts give finite products",
+      "zero object may replace null object",
+      "kernels give finite limits"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 35,
+        "symbol": "ZeroObject",
+        "intree_statement": "Class ZeroObject (C : Category) := { ... } — packages a terminal structure, an initial structure, and their coincidence (so a null object is both terminal and initial; zero_mor is the composite through it)."
+      },
+      {
+        "file": "Structure/Biproduct.v",
+        "line": 59,
+        "symbol": "bi_is_product / bi_is_coproduct",
+        "intree_statement": "Record Biproduct (x y : C) := { ...; bi_is_product : ∀ z (f : z ~> x)(g : z ~> y), ∃! ...; bi_is_coproduct : ∀ z (f : x ~> z)(g : y ~> z), ∃! ... } — a biproduct IS a binary product and a binary coproduct."
+      }
+    ],
+    "statement_record": {
+      "book": "With (i)-(ii) an abelian category is additive; a terminal/initial object may replace the null object and products/coproducts may replace biproducts. Given (i)-(ii), the kernels of (iii) yield ALL finite limits — the equalizer of f,g is ker(f-g), biproducts give finite products — and dually cokernels give all finite colimits.",
+      "intree": "Present: ZeroObject bundles Terminal+Initial (null object = terminal = initial); every Biproduct carries bi_is_product and bi_is_coproduct (biproducts are binary products/coproducts); HasKernels/HasCokernels give all kernels/cokernels. The characteristic reduction 'equalizer of f,g = ker(f-g)' is stated only in the Structure/Equalizer.v essay (lines 56-59, citing Wikipedia), NOT as a lemma; only the reverse specialization IsKernel := IsEqualizer against zero_mor is done.",
+      "strength_comparison": "intree-weaker: the additive substrate of remark1 (zero=terminal, biproduct=product/coproduct) is present, but the load-bearing claim — that an additive category with kernels has all equalizers (via ker(f-g)) and hence all finite limits/colimits — is not constructed. No abelian⟹Complete/FinitelyComplete instance exists; the general-position equalizer-from-difference-kernel appears only in prose."
+    },
+    "gap": "The finite-completeness/cocompleteness assembly is not proven: there is no in-tree construction of equalizers as ker(f-g) in an additive/abelian category (only mentioned in the Equalizer.v essay), and no lemma/instance asserting an abelian (or additive) category has all finite limits and colimits. Present only: zero object is terminal/initial (ZeroObject), and biproducts are binary products/coproducts (bi_is_product/bi_is_coproduct).",
+    "negative_search_log": [
+      "grep -rn -i 'equalizer.*kernel|kernel.*equalizer|f - g|psub.*equal' Structure/ — only Kernel.v/Equalizer.v ESSAY prose; kernel=equalizer-against-zero is the only coded direction",
+      "grep -rn -i 'Complete|FinitelyComplete|finite limit|all finite' Structure/Abelian.v Structure/Additive.v Structure/Kernel.v — no completeness result on abelian/additive",
+      "grep -rn '@Complete' — Complete used only in Comma/Limit.v, GAFT.v, SAFT.v as hypotheses; never derived for an abelian category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed PARTIAL. Verified ZeroObject.v:35 (zero_terminal+zero_initial) and Biproduct.v:59/63 bi_is_product/bi_is_coproduct (a biproduct IS both a product and a coproduct). Confirmed the load-bearing forward reduction 'equalizer of f,g = ker(f-g)' is NOT built: only the reverse specialization IsKernel := IsEqualizer against zero_mor (Kernel.v:25) exists; Equalizer.v:56-59 essay states the forward direction only as Wikipedia background and explicitly says Kernel.v performs the reverse -- honest, no overclaim. No abelian=>Complete/finite-complete instance. Gap accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:remark2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monic + epi implies iso in abelian",
+      "mono and epi is iso",
+      "balanced category",
+      "epic+monic=isomorphism",
+      "abelian categories are balanced"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Abelian.v",
+        "line": 422,
+        "symbol": "abelian_epic_strong",
+        "intree_statement": "Lemma abelian_epic_strong {x y} (f : x ~> y) : Epic f → StrongEpi f. (via cokernel_regular_epi ∘ regular_epi_strong)"
+      },
+      {
+        "file": "Structure/Factorization/StrongEpi.v",
+        "line": 154,
+        "symbol": "strong_epi_mono_is_iso",
+        "intree_statement": "Lemma strong_epi_mono_is_iso {C}{x y}(f : x ~> y) : StrongEpi f → Monic f → IsIsomorphism f."
+      }
+    ],
+    "statement_record": {
+      "book": "In an abelian category any arrow that is both monic and epi is an isomorphism (abelian categories are balanced). Mac Lane's proof: f monic ⟹ f = ker g with gf = 0; f epi cancels g = 0; ker(0:b→c) ≈ 1_b, so f is iso.",
+      "intree": "The two ingredients are both in-tree: abelian_epic_strong : Epic f → StrongEpi f, and strong_epi_mono_is_iso : StrongEpi f → Monic f → IsIsomorphism f. Their composition gives Epic f → Monic f → IsIsomorphism f, i.e. remark2, but this corollary is not stated anywhere.",
+      "strength_comparison": "intree-weaker: no single in-tree statement matches 'monic ∧ epic ⟹ iso'. It is a one-line composition of abelian_epic_strong (Abelian.v) and strong_epi_mono_is_iso (StrongEpi.v), which the library never assembles. Theory/Isomorphism.v:259 has only the converse (iso ⟹ monic+epic)."
+    },
+    "gap": "The combined corollary 'in an abelian category, Monic f ∧ Epic f → IsIsomorphism f' is not exposed as a lemma, although both ingredients (abelian_epic_strong, strong_epi_mono_is_iso) are proven in-tree and compose to it directly.",
+    "negative_search_log": [
+      "grep -rn -i 'Monic.*Epic.*Isomorphism|Epic.*Monic.*Isomorphism|both monic and epi|mono.*epi.*iso' — no combined statement",
+      "grep -rn -i 'strong.*mono.*iso|epi.*mono.*iso|iso.*epi.*mono' — only strong_epi_mono_is_iso (generic, hypothesis is StrongEpi not plain Epic)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed PARTIAL. Verified abelian_epic_strong (Abelian.v:422) and strong_epi_mono_is_iso (StrongEpi.v:154, fully general, any category); their composition yields Epic f -> Monic f -> IsIsomorphism f but no such combined lemma exists in-tree. Isomorphism.v:259 carries only the converse ('Every isomorphism is both monic and epic', 'converse fails in general'), confirming the abelian balanced statement is unstated. PARTIAL is the honest call: a one-line-derivable corollary that is not exposed."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:remark3",
+    "classification": "ABSENT",
+    "aliases": [
+      "functor category A^J is abelian",
+      "presheaf category abelian",
+      "[C,D] abelian",
+      "pointwise/termwise kernels and biproducts",
+      "R-Mod / Mod-R / Ab are abelian",
+      "Nat(S,T) is an abelian group"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'Preadditive|Additive|Biproduct|HasKernel|Abelian' Instance/Fun.v — only a Freyd citation in the essay (line 50); NO Preadditive/Additive/Biproduct/HasKernels/Abelian instance on the functor category [C,D]",
+      "grep -rln -i 'Preadditive|Additive' Instance/ — only Instance/CMon.v and Instance/CMon/Biproduct.v (commutative monoids: semiadditive, NOT abelian — monoids lack negatives); no functor-category, R-Mod, Mod-R, or Ab abelian instance",
+      "grep -rEn 'Instance.*Abelian|: *@?Abelian|Instance.*Additive|: *@?Additive' . — no concrete Abelian or Additive INSTANCE anywhere; all 'Abelian' hits are essay citations of Freyd's book plus the abstract Context {A : @Abelian C} hypothesis in Abelian.v",
+      "No termwise/pointwise kernel or biproduct construction on Instance/Fun.v; no proof that Nat(S,T) forms an abelian group under termwise addition"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently reached ABSENT. Confirmed no Additive/Abelian/Biproduct/HasKernels instance on Instance/Fun.v (only a Freyd citation in the essay, line 50); the only Preadditive instances tree-wide are Instance/CMon.v + Instance/CMon/Biproduct.v (semiadditive commutative monoids, which lack negatives, not abelian). No termwise-kernel/biproduct construction and no proof that Nat(S,T) is an abelian group. Negative log thorough and accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:prop1",
+    "classification": "PRESENT",
+    "aliases": [
+      "functorial monic-epi factorization",
+      "epi-mono factorization in abelian",
+      "image factorization f = m e",
+      "m = ker(coker f), e = coker(ker f)",
+      "factorization unique up to unique iso",
+      "(Epi,Mono) OFS"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Abelian.v",
+        "line": 371,
+        "symbol": "abelian_epi_mono_factorization",
+        "intree_statement": "Theorem abelian_epi_mono_factorization {x y}(f : x ~> y) : ∃ (i : C)(e : x ~> i)(m : i ~> y), Epic e ∧ Monic m ∧ m ∘ e ≈ f. (witnesses: i = abelian_image_obj f, m = abelian_image f = ker(coker f), e = abelian_image_med f)"
+      },
+      {
+        "file": "Structure/Abelian.v",
+        "line": 431,
+        "symbol": "abelian_epi_mono_ortho",
+        "intree_statement": "Lemma abelian_epi_mono_ortho {a b u v}(e : a ~> b)(m : u ~> v) : Epic e → Monic m → e ⫫ m. (the functoriality/diagonal-fill for a morphism of arrows, via ortho_lift)"
+      },
+      {
+        "file": "Structure/Factorization.v",
+        "line": 216,
+        "symbol": "factorization_unique",
+        "intree_statement": "Theorem factorization_unique (F1 F2 : Factorization f E M) : ∃ i : fact_mid F1 ≅ fact_mid F2, (to i ∘ fact_e F1 ≈ fact_e F2) ∧ (fact_m F2 ∘ to i ≈ fact_m F1). (+ factorization_lift_unique makes the comparison unique)"
+      },
+      {
+        "file": "Structure/Abelian.v",
+        "line": 441,
+        "symbol": "Abelian_OFS",
+        "intree_statement": "Definition Abelian_OFS : OFS (@EpiClass C)(@MonoClass C) := {| ofs_factor := abelian_factorization; ofs_orth := abelian_epi_mono_ortho; ... |}"
+      }
+    ],
+    "statement_record": {
+      "book": "Every arrow f in an abelian category factors as f = m e with m monic, e epi, m = ker(coker f), e = coker(ker f). The factorization is FUNCTORIAL: for a morphism ⟨g,h⟩ : f→f' (commutative square) there is a unique k with e'g = ke and m'k = hm; in particular any two monic-epi factorizations of f are isomorphic by a unique iso.",
+      "intree": "abelian_epi_mono_factorization gives f = m∘e with m = abelian_image f = ker(coker f) monic and e = abelian_image_med f epic (image_mediator_epic, Abelian.v:353). Functoriality: abelian_epi_mono_ortho (e ⫫ m' for any epi e, mono m') + ortho_lift produce the unique k with k∘e ≈ e'∘g and m'∘k ≈ h∘m from the square f'∘g ≈ h∘f. Uniqueness up to unique iso: factorization_unique (iso commuting with both legs) + factorization_lift_unique (the comparison is unique). Packaged as Abelian_OFS.",
+      "strength_comparison": "same (in substance). Minor presentational notes: (a) the epi leg e is the universal mediator abelian_image_med, proven epic, but is not separately identified as coker(ker f) — m = ker(coker f) IS literal; (b) Mac Lane's 'functorial' is delivered as the (Epi,Mono)-orthogonality abelian_epi_mono_ortho + ortho_lift + factorization_unique rather than a single named 'factorization functor'. The unique diagonal k for a morphism of arrows and uniqueness up to unique iso are both fully in-tree."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search reached PARTIAL-leaning-PRESENT; on verification PRESENT is defensible and CONFIRMED. Verified abelian_epi_mono_factorization (Abelian.v:371, witness m=abelian_image=ker(coker f) literal, e=abelian_image_med epic via image_mediator_epic:353), abelian_epi_mono_ortho (431), and factorization_unique (Factorization.v:216, iso commuting with both legs) + factorization_lift_unique. Independently checked that the functorial 'unique k' for a morphism of arrows <g,h> is delivered by orthogonality e (X) m' -- the epi leg of f against the mono leg of f' -- whose unique diagonal filler is exactly Mac Lane's k (k e = e'g, m'k = hm). Two disclosed presentational nuances remain: (a) the epi leg is shown epic but not separately identified as coker(ker f); (b) functoriality is via orthogonality rather than a standalone named factorization-functor. Core proposition (functorial epi-mono factorization, unique up to unique iso) is fully in-tree."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "image and coimage of an arrow",
+      "im f := m = ker(coker f)",
+      "coim f := e = coker(ker f)",
+      "image as subobject of codomain",
+      "coimage as quotient of domain",
+      "canonical coimage-to-image iso"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Abelian.v",
+        "line": 261,
+        "symbol": "abelian_image_obj / abelian_image",
+        "intree_statement": "Definition abelian_image_obj {x y}(f : x ~> y) : C := abelian_kernel_obj (abelian_coker f).  Definition abelian_image {x y}(f : x ~> y) : abelian_image_obj f ~> y := abelian_kernel (abelian_coker f). (= ker(coker f), a monic subobject of the codomain y; abelian_image_monic, Abelian.v:272)"
+      },
+      {
+        "file": "Structure/Abelian.v",
+        "line": 282,
+        "symbol": "abelian_image_med",
+        "intree_statement": "Definition abelian_image_med {x y}(f : x ~> y) : x ~> abelian_image_obj f := unique_obj (abelian_image_med_ex f). (the epi mediator, image_mediator_epic; the 'e' of f = m∘e, but NOT named coimage nor shown = coker(ker f))"
+      }
+    ],
+    "statement_record": {
+      "book": "For f = m e, im f := m (a subobject of codomain b) and coim f := e (a quotient object of domain a), each up to iso; and if f = m1 t e1 with m1 monic, t iso, e1 epi, then m1 ≡ im f, e1 ≡ coim f, and t is the canonical coimage→image iso.",
+      "intree": "Image present exactly: abelian_image_obj/abelian_image = ker(coker f), the monic subobject of the codomain (abelian_image_monic). The epi leg abelian_image_med exists and is epic (the 'e'), and factorization_unique gives uniqueness up to iso. But 'coimage' as a distinct quotient object coker(ker f), the coim/im terminology, and the canonical coimage→image isomorphism as such are not defined — 'coimage' occurs only in the Abelian.v essay (line 90).",
+      "strength_comparison": "intree-weaker: image is fully defined; coimage is not. Mac Lane's def2 introduces two dual named notions (im, coim) plus the coim→im comparison iso; the library defines only the image object and its monic inclusion, leaving the coimage (= coker(ker f) as a quotient of the domain) and the canonical coim→im iso unformalized (the epi mediator is present but unnamed and not tied to coker(ker f))."
+    },
+    "gap": "The coimage (coker(ker f) as a named quotient object of the domain) is not defined, nor the coim/im terminology, nor the canonical coimage→image isomorphism as such. Only the image (abelian_image = ker(coker f)) and the epi mediator abelian_image_med (unnamed) are in-tree; factorization_unique supplies the up-to-iso uniqueness generically.",
+    "negative_search_log": [
+      "grep -rn -i 'coim' Structure/Abelian.v — single hit at line 90, in the ESSAY prose ('the coimage to the image ... isomorphism'), no definition",
+      "grep -rln -i 'coimage|coim' . — Structure/Abelian.v only (prose); no Coimage definition, no coim/im accessors, no coker(ker f) object constructed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed PARTIAL. Verified abelian_image_obj/abelian_image (Abelian.v:261, = ker(coker f), monic subobject of codomain via abelian_image_monic:272) and the epic leg abelian_image_med (282). Confirmed tree-wide that 'coim'/'coimage' occurs only in the Abelian.v:90 essay prose -- no coker(ker f) quotient object is constructed, no coim/im terminology, no canonical coimage->image isomorphism as such. Image present, coimage absent. Gap accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:def3",
+    "classification": "ABSENT",
+    "aliases": [
+      "exact at an object",
+      "exact sequence",
+      "im f = ker g",
+      "exactness at b",
+      "coker f = coim g",
+      "homology-vanishing pair"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'exact at|exact sequence|short exact' — only citation/essay prose (Structure/Coend.v:63 Yoneda paper title 'On Ext and exact sequences'; Structure/Abelian.v:70 essay); no 'exact at' predicate",
+      "grep -rEn 'Exact|Sequence|Homolog|is_exact|Exactness' — no code identifier; only book-title citations in essays",
+      "grep -rEn -i '\\bexact\\b' filtered to definition|class|record|lemma|theorem|:= — 0 mathematical hits; every 'exact' is the Coq tactic",
+      "Ingredients abelian_image (Abelian.v:261) and IsKernel (Kernel.v:53) exist, but the notion 'a→b→c is exact at b (im f = ker g)' is nowhere defined"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed ABSENT. No 'exact at b' / im f = ker g predicate anywhere; every mathematical 'exact' hit is an essay or book-title citation (Buchsbaum, Grillet) or the Coq tactic. Ingredients abelian_image and IsKernel exist but the exactness relation is not assembled. Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:def4",
+    "classification": "ABSENT",
+    "aliases": [
+      "short exact sequence",
+      "0→a→b→c→0 exact",
+      "SES",
+      "f = ker g, g = coker f with f monic g epi",
+      "extension a↣b↠c"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln -i 'short exact|ShortExact|short_exact|ses' — only Coq 'exact' tactic false-positives and essay citations; no ShortExactSequence definition",
+      "grep -rEn 'Exact|Sequence|SES' — no code identifier; book-title citations only",
+      "No 0→a→b→c→0 / SES record or predicate anywhere; the equivalent 'f = ker g ∧ g = coker f' is expressible via IsKernel/IsCokernel but is not assembled into a short-exact-sequence notion"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed ABSENT. No ShortExactSequence record/predicate and no 0->a->b->c->0 notion; the equivalent 'f=ker g and g=coker f' is expressible via IsKernel/IsCokernel but never assembled into a short-exact-sequence concept. Confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:def-short-right-left-exact",
+    "classification": "ABSENT",
+    "aliases": [
+      "short right exact sequence",
+      "short left exact sequence",
+      "a→b→c→0 exact at b,c (h = coker f)",
+      "0→a→b→c exact at a,b (k = ker f)",
+      "right exact / left exact sequence terminology"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rEn -i 'right exact|left exact|short right|short left|RightExact|LeftExact' — no hits (only Coq 'exact' tactic and essay 'exact categories' citations)",
+      "Depends on the exactness/short-exact-sequence notion (def3/def4), which is entirely absent; no in-tree terminology for short right/left exact sequences"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed ABSENT. No right/left short-exact-sequence terminology in-tree; strictly depends on the absent exactness/SES notions (def3/def4). Confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:def-exact-functor",
+    "classification": "ABSENT",
+    "aliases": [
+      "exact functor",
+      "preserves finite limits and colimits",
+      "additive + preserves kernels and cokernels",
+      "biexact functor",
+      "preserves exact sequences"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rEn 'ExactFunctor|exact functor|is_exact|LeftExact|RightExact' — no hits beyond essay citations",
+      "grep -rn -i 'additive functor|AdditiveFunctor|additive_functor' — 0 hits; the base notion 'additive functor' (T(f+g)=Tf+Tg) is itself absent (grep 'fmap.*padd|preserves.*addition' — 0)",
+      "grep -rEn -i 'linear functor|AbFunctor|preserves.*biproduct|preserves.*finite (co)?limit|preserves.*kernel|preserves.*cokernel' — 0 relevant hits",
+      "Nearest vocabulary is generic single-diagram PreservesLimit/PreservesColimit and Continuous/Cocontinuous (Structure/Limit/Preservation.v), but these are per-diagram, not restricted to FINITE, not additive, and never applied to functors between abelian categories; the concept 'exact functor' is not formalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search reached PARTIAL/ABSENT (borderline); CONFIRMED ABSENT for the specific concept. Verified no exact functor, no 'additive functor' base notion (grep AdditiveFunctor/fmap.padd/preserves-biproduct/preserves-addition = 0 hits), no kernel/cokernel-preservation, no finite-limit class. The nearest vocabulary -- per-diagram PreservesLimit/PreservesColimit and global Continuous/Cocontinuous (Structure/Limit/Preservation.v) -- is a genuinely DIFFERENT, more general notion (all limits, not finite; not additive; never applied between abelian categories), which the classifier correctly surfaces in the negative log rather than mis-citing as evidence. ABSENT is the honest call for 'exact functor'."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:def-left-exact-functor",
+    "classification": "ABSENT",
+    "aliases": [
+      "left exact functor",
+      "preserves finite limits",
+      "additive + preserves kernels",
+      "preserves short left exact sequences",
+      "flat functor (dual)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rEn 'LeftExact|left exact|left_exact' — no hits ('Flat' hits are Frobenius-algebra 'flat projections' and syntax 'Flatten', unrelated)",
+      "grep -rn -i 'additive functor' — 0; base notion absent",
+      "Generic Continuous (preserves ALL limits, Structure/Limit/Preservation.v:230) exists but is neither finite-restricted, additive, nor tied to abelian categories; no 'left exact functor' concept and no 'preserves short left exact sequences' characterization in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search reached PARTIAL/ABSENT (borderline); CONFIRMED ABSENT. Same basis as def-exact-functor: the generic Continuous (preserves ALL limits, Preservation.v:229-230) exists but is neither finite-restricted, additive, nor abelian-tied, and there is no 'left exact functor' nor a 'preserves short left exact sequences' characterization. 'Flat' hits are unrelated (Frobenius flat projections / Flatten). ABSENT for the specific concept."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:remark-economical-axioms",
+    "classification": "PARTIAL",
+    "aliases": [
+      "economical axiomatization of abelian categories",
+      "Freyd/Schubert axioms",
+      "additive structure derivable from finite (co)products",
+      "hom-group derived, not assumed",
+      "semiadditive / Eckmann-Hilton enrichment",
+      "products+coproducts+kernels+cokernels+normality ⟹ abelian"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 573,
+        "symbol": "bicartesian_preadditive",
+        "intree_statement": "Definition bicartesian_preadditive : Preadditive C := {| padd := @conv; pzero := @zero_mor; padd_assoc := @conv_assoc; padd_comm := @conv_comm; ... |} — a bicartesian category with a zero object in which the canonical comparison x+y ~> x×y is invertible is preadditive (CMon-enriched), with convolution as addition; commutativity/associativity by Eckmann-Hilton (conv_interchange)."
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 130,
+        "symbol": "biproduct_addition",
+        "intree_statement": "Theorem biproduct_addition (B : Biproduct x x)(B' : Biproduct y y)(f g : x ~> y) : padd f g ≈ bi_copair B' id id ∘ bimap B B' f g ∘ bi_pair B id id — the enrichment addition is computed by the biproduct (formula (2.6))."
+      }
+    ],
+    "statement_record": {
+      "book": "Alternative characterization (Freyd 1964 / Schubert 1970, proof omitted): a category satisfying (i), (iii), (iv) together with (ii') existence of binary products AND coproducts — rather than a given abelian-group structure on each hom-set — automatically admits an addition on each A(a,b) (via formula (2.6)) making it abelian; the additive enrichment is derivable from finite (co)products.",
+      "intree": "The semiadditivity half is proven: bicartesian_preadditive derives the CMon-enrichment (convolution addition f+g := (f▽g)∘can⁻¹∘⟨id,id⟩) with commutativity/associativity by an Eckmann-Hilton interchange, from a bicartesian category + zero object + INVERTIBLE canonical comparison; biproduct_addition realizes formula (2.6). Converse cartesian_biproduct shows products+enrichment ⟹ biproducts.",
+      "strength_comparison": "intree-weaker on three counts: (a) only a commutative MONOID enrichment is derived, not an abelian GROUP — the negatives/subtraction that make it abelian are NOT derived from the axioms (Additive.v takes pneg as primitive); (b) invertibility of the coproduct→product comparison is a HYPOTHESIS here, whereas Mac Lane/Freyd DERIVE it from (iii) kernels/cokernels + (iv) normality; (c) the full Freyd-Schubert theorem — that (i),(ii'),(iii),(iv) alone force the abelian-group hom-enrichment and abelian structure — is not assembled (the library instead takes the Ab-enrichment as primitive via Preadditive/Additive)."
+    },
+    "gap": "The Eckmann-Hilton derivation of a commutative-monoid addition from finite products/coproducts (bicartesian_preadditive) is in-tree, but the full economical axiomatization is not: negatives (abelian-group enrichment) are not derived, the comparison's invertibility is assumed rather than obtained from kernels/cokernels/normality, and there is no theorem 'axioms (i),(ii'),(iii),(iv) ⟹ Abelian'.",
+    "negative_search_log": [
+      "Read Structure/Semiadditive.v fully — provides bicartesian_preadditive (CMon only) and cartesian_biproduct; no derivation of pneg/negatives from the axioms, no use of kernels/cokernels/normality to force comparison invertibility",
+      "grep for a theorem deriving Additive/Abelian from products+coproducts+kernels+cokernels+normality — none; Additive.v:34 takes pneg + padd_pneg as primitive class fields"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed PARTIAL. Verified bicartesian_preadditive (Semiadditive.v:573 -> Preadditive C, convolution addition, Eckmann-Hilton via conv_interchange:503) and biproduct_addition (130, formula (2.6)). Confirmed the three-count gap: (a) only a commutative-MONOID enrichment is derived, not an abelian GROUP -- pneg is a primitive field of Additive.v:34, never derived from the axioms; (b) invertibility of the coproduct->product comparison is a HYPOTHESIS, not derived from kernels/normality; (c) no theorem '(i),(ii'),(iii),(iv) => Abelian' is assembled. Gap accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "exact iff preserves short exact sequences",
+      "additive functor exact ⟺ preserves SES",
+      "preservation of short exact sequences characterizes exactness"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The exercise's content presupposes both an 'exact functor' (def-exact-functor: ABSENT — no exact functor, no additive functor, no finite-limit/colimit preservation bundling) and 'short exact sequences' (def4: ABSENT — no SES notion)",
+      "grep -rEn -i 'exact.*short exact|preserves.*short exact|exact functor' — no hits beyond essay citations; neither side of the biconditional is formalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed ABSENT. Both sides of the biconditional are absent -- 'exact functor' (def-exact-functor) and 'short exact sequence' (def4) -- and no 'exact <=> preserves SES' statement exists. Confirmed."
+    }
+  }
+]

@@ -1,0 +1,433 @@
+[
+  {
+    "id": "maclane:IV.8:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "free ring functor / free ring adjunction Set -> Rng",
+      "Rng / Ring / category of rings (Coq: `Definition Rng : Category`)",
+      "Ab (abelian groups) and Mon (monoids) as categories over Set, with their free-forgetful adjunctions",
+      "monoid ring / group ring / tensor algebra (the two intermediate free constructions)",
+      "composite adjunction Set -> Ab -> Rng vs Set -> Mon -> Rng (Coq: `Adjunction_Compose`, `adj_comp` applied to concrete algebraic categories)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"free ring|\\bRng\\b|monoid ring|group ring|tensor algebra|semiring\" . -- only Theory/Algebra.v:26 (prose: 'a rig (a semiring, i.e. a ring without negatives)'); 0 code hits",
+      "grep -rn --include=\"*.v\" -iE \"category of rings|\\bRng\\b|Ring :=|Ring : Category\" . -- 0 hits",
+      "grep -rn --include=\"*.v\" -E \"(Definition|Program Definition|Instance) +(Ab|Grp|Group|AbGroup|Mon|CMon|Rng|Ring) *(:|:=)\" . -- 3 hits, none a category of rings or of abelian groups: Theory/Algebra/Monoid/Hom.v:83 `Program Definition Mon : Category` is the category of INTERNAL monoids in a monoidal category C (not Mon over Set as a variety with a free functor); Instance/CMon.v:140 `Program Definition CMon : Category` is commutative monoids over setoids; Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq` is a TYPE of group algebras, not a category of groups",
+      "grep -rn --include=\"*.v\" -iE \"category of monoids|category of groups|category of abelian|category of modules\" . -- 1 prose hit (Structure/Monoid.v:91), 0 code",
+      "grep -rn --include=\"*.v\" -iE \"free.*forgetful|FreeForgetfulAdjunction|Free ⊣|⊣ Forgetful\" . -- the only in-tree free/forgetful adjunctions are Construction/Free/Quiver.v:550 `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful` (quivers/categories), Monad/Kleisli/Adjunction.v:125 and Monad/Eilenberg/Moore/Adjunction.v:183 (monad resolutions). None is Set <-> Rng/Ab/Mon",
+      "grep -rn --include=\"*.v\" -iE \"Free_?(Monoid|CMon|Mon|Group|Ab)|Monoid_Free|CMon_Free\" . -- 0 hits; Instance/CMon.v has only `CMon_Forget : CMon ⟶ Sets` (line 169) with no left adjoint, and Theory/Algebra/Monoid/Hom.v has only `Mon_Forget : Mon ⟶ C` (line 93) with no left adjoint",
+      "NEAR MISS, deliberately not counted: the GENERAL theorem that adjunctions compose IS in-tree (Adjunction/Compose.v:173 `Definition Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U')`, plus Instance/Adjoints.v's `Adjoints` category and `adj_comp`). That is the content of the separate inventory item maclane:IV.8:thm1, not of this exercise. This exercise's own content -- the free ring adjunction and its two distinct factorizations, through Ab and through Mon -- has no in-tree counterpart because none of Rng, Ab, or Mon-over-Set exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening the coverage file) reached ABSENT independently. My own searches: `rg -in '\\bRng\\b|\\bRings?\\b'` -> only background-essay prose (Structure/Abelian.v:111, Theory/Lawvere.v:87, Theory/Bicategory.v:83, ...), zero code; `rg` for a category of rings / abelian groups / Set-monoids -> nothing; `rg -in 'free monoid|Free_Monoid|Mon_Free'` -> only prose and list lemmas. The only algebraic categories in-tree are Theory/Algebra/Monoid/Hom.v:83 `Program Definition Mon : Category` (INTERNAL monoids in a monoidal category, with only `Mon_Forget : Mon ⟶ C` at :93 and no left adjoint) and Instance/CMon.v:140 `CMon : Category` (with only `CMon_Forget : CMon ⟶ Sets` at :169, no left adjoint). Spot-checked every line the classifier cites: Theory/Algebra/Monoid/Hom.v:83, Instance/CMon.v:140, Instance/Comp.v:382 (`Definition Group := Algebra GroupOp GroupEq`), Construction/Free/Quiver.v:550 (`FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful`), Adjunction/Compose.v:173 (`Definition Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U')`), Monad/Kleisli/Adjunction.v:125, Monad/Eilenberg/Moore/Adjunction.v:183 — all exact. The declared near miss (generic composition of adjunctions belongs to maclane:IV.8:thm1, not to this exercise) is the right call. ONE ADDITIONAL NEAR MISS my blind pass surfaced that the classifier did not list, and which does not change the verdict: Theory/Lawvere/Monad.v:66-68 works `Context (T : LawvereTheory) (L : Sets ⟶ Models T Sets) (adj : L ⊣ ev1 T)` — the free-algebra/underlying-set adjunction of a variety is taken as a HYPOTHESIS over an abstract Lawvere theory; no concrete variety (rings, abelian groups, monoids) is presented and no left adjoint is ever constructed, so the exercise's two concrete factorizations still have no in-tree counterpart."
+    }
+  },
+  {
+    "id": "maclane:IV.8:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "tensor-hom adjunction for a bimodule: (- ⊗_R E) ⊣ hom_S(E, -)",
+      "bimodule / R-Mod-S / two-sided module",
+      "Mod_R, Mod_S, Mod_T -- categories of modules over a ring",
+      "adjunction with a parameter / parametrized adjunction (bifunctor-indexed family of adjunctions)",
+      "change of base, extension/restriction of scalars, Eilenberg-Watts"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"\\bModule\\b.*categor|R-Mod|Mod_R|bimodule|left module|right module|module over\" . -- all hits are prose in background essays (Theory/Profunctor.v:21,58,61 'a profunctor is also called a distributor or a bimodule'; Theory/DoubleCategory.v:96,104,124,138; Theory/Bicategory.v:57,83 'bimodules over rings are ...'; Structure/Abelian.v:69,106,108,111 'R-Mod'; Theory/Equivalence.v:79 'R-Mod ≃ S-Mod'). No module category, no bimodule structure, and no ring is defined anywhere in code",
+      "grep -rn --include=\"*.v\" -E \"Mod_|ModR|RMod|Modules\" . -- 1 prose hit (Structure/Monoidal/Braided.v:95); 0 code",
+      "grep -rn --include=\"*.v\" -iE \"change of rings|restriction of scalars|extension of scalars\" . -- only Construction/ColouredPROP/BaseChange.v:40,150 (`ColouredPROP_restrict`, colour base change for coloured PROPs -- an unrelated construction that borrows the phrase 'restriction of scalars')",
+      "grep -rn --include=\"*.v\" -iE \"with a parameter|parametrized adjunc|parameterized adjunc|bifunctor.*adjoint\" . -- 0 hits; there is no 'adjunction with a parameter' machinery in-tree, so part (b) of the exercise has no vehicle",
+      "grep -rn --include=\"*.v\" -iE \"tensor.hom|hom.tensor|tensor-hom\" . -- the only real hits are the CLOSED-MONOIDAL / CARTESIAN-CLOSED internal hom: Functor/Hom/Internal.v:34, Theory/Adjunction.v:36, Structure/Monoidal/Closed.v:46 (`Class ClosedMonoidal`, `exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z`), Structure/Monoidal/StarAutonomous.v:109 (`Class SymMonClosed`), Structure/Cartesian/Closed.v:43 (`Class Closed`). The remaining Construction/PROP/Interp.v hits are `prop_tensor_hom`, an unrelated horizontal-composition combinator on PROP homs",
+      "NEAR MISS, deliberately not counted: the in-tree `ClosedMonoidal`/`SymMonClosed`/`Closed` classes do carry a tensor-hom adjunction, but it is the ENDO case (- ⊗ y) ⊣ (y ⇒ -) inside ONE monoidal category -- no second category, no ring change, no bimodule, and no parameter-naturality in E. It therefore formalizes none of parts (a), (b), (c) of this exercise"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My searches: `rg -in '\\bMod\\b|Mod_R|R-Mod|bimodule'` -> every hit is background prose (Theory/Profunctor.v:73 'also Mod or Bimod', Structure/Abelian.v:69,111, Theory/Equivalence.v:79 'R-Mod ≃ S-Mod', Theory/DoubleCategory.v:104, Theory/Bicategory.v:83); no ring, no module category, no bimodule anywhere in code. `rg -in 'adjunction with a parameter|parametrized adjunction|parameterized adjunction|adjoint.*parameter'` -> 0 hits, confirming the classifier's finding that part (b) has no vehicle at all in-tree. `rg -in 'tensor product of|⊗_R|tensor_R'` -> nothing about tensoring over a ring. The classifier's near-miss analysis is accurate and correctly excluded: Structure/Cartesian/Closed.v:43 `Closed` / Structure/Monoidal/Closed.v `ClosedMonoidal` / Structure/Monoidal/StarAutonomous.v `SymMonClosed` carry the ENDO tensor-hom adjunction (- ⊗ y) ⊣ (y ⇒ -) inside a single category, with no second category, no change of rings, no bimodule and no parameter-naturality in E."
+    }
+  },
+  {
+    "id": "maclane:IV.9:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "subobject classifier of Set / Sets_Classifier",
+      "characteristic function chi_S : X -> {0,1} / `char`",
+      "truth value object Omega = 2, truth : 1 ~> Omega / `Ω`, `truth`, `fin_true`",
+      "two-element set / Bool / Fin.t 2 as the classifier",
+      "every subset is the pullback of true along its characteristic map"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 353,
+        "symbol": "FinSet_Classifier",
+        "intree_statement": "#[export] Program Instance FinSet_Classifier :\n  @SubobjectClassifier FinSet FinSet_Terminal := {|\n  Ω     := 2%nat;\n  truth := fun _ => fin_true;\n  char  := fun u x (m : u ~{FinSet}~> x) (_ : Monic m) (b : Fin.t x) =>\n    fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b))\n|}.   (* obligations discharged: char_pullback -- 'u is the preimage of fin_true under char m' -- and char_unique *)"
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 335,
+        "symbol": "finset_monic_iff_injective",
+        "intree_statement": "Lemma finset_monic_iff_injective {m n : nat} (f : m ~{FinSet}~> n) :\n  (∀ a b, f a = f b → a = b) ↔ Monic f.   (* monos in FinSet ARE the injections, i.e. the 'subsets' of the book *)"
+      },
+      {
+        "file": "Instance/Sets/Classifier.v",
+        "line": 224,
+        "symbol": "sets_char_pullback",
+        "intree_statement": "Theorem sets_char_pullback@{o so sso} {A B : SetoidObject@{o o}}\n  (m : A ~{Sets@{o so}}~> B) (Hm : @Monic Sets@{o so} A B m) :\n  @IsPullback Sets@{so sso}\n    (Setoid_Lift@{o so} B) unit_setoid_object@{so so} PropSetoid@{o so}\n    (char_setoid@{o so} m) sets_true@{o so}\n    (Setoid_Lift@{o so} A)\n    (SetoidMorphism_Lift@{o so} m) sets_to_unit@{so}."
+      },
+      {
+        "file": "Instance/Sets/Classifier.v",
+        "line": 283,
+        "symbol": "sets_char_unique",
+        "intree_statement": "Theorem sets_char_unique@{o so sso} {A B : SetoidObject@{o o}}\n  (m : A ~{Sets@{o so}}~> B)\n  (chi : Setoid_Lift@{o so} B ~{Sets@{so sso}}~> PropSetoid@{o so})\n  (H : @IsPullback Sets@{so sso} ... chi sets_true@{o so} (Setoid_Lift@{o so} A)\n         (SetoidMorphism_Lift@{o so} m) sets_to_unit@{so}) :\n  chi ≈[Sets@{so sso}] char_setoid@{o so} m."
+      },
+      {
+        "file": "Instance/Sets/Classifier.v",
+        "line": 151,
+        "symbol": "PropSetoid / sets_true / char_setoid",
+        "intree_statement": "Definition PropSetoid@{o so} : SetoidObject@{so so} :=\n  {| carrier := Type@{o} ; is_setoid := {| equiv := PropSetoid_equiv@{o so} ; ... |} |}.\n(* line 158 *) Definition sets_true@{o so} : SetoidMorphism unit_setoid_object PropSetoid   (* selects poly_unit *)\n(* line 186 *) Definition char_setoid@{o so} {A B} (m : A ~{Sets@{o so}}~> B) :\n  SetoidMorphism (Setoid_Lift B) PropSetoid   (* b ↦ (∃ a, m a ≈ b): 'b is in the image of m' *)"
+      },
+      {
+        "file": "Instance/Sets/Classifier.v",
+        "line": 341,
+        "symbol": "sets_char_subobject",
+        "intree_statement": "Theorem sets_char_subobject@{o so} {A B : SetoidObject@{o o}}\n  (m : A ~{Sets@{o so}}~> B) (Hm : @Monic Sets@{o so} A B m) :\n  @equiv _ (@SubObj_Setoid Sets@{o so} B)\n    (@Build_SubObj Sets@{o so} B A m Hm)\n    (@Build_SubObj Sets@{o so} B (Sets_Image m) (Sets_Image_mono m)\n       (Sets_Image_mono_monic m)).   (* the pullback APEX, unlike Ω, stays at one level *)"
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) :\n  @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}.   (* the book's 'and this square determines S' *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The characteristic function of a subset S ⊆ X is ψ_S : X → {0,1}, sending elements of S to the truth value and everything else to the other; each subset S ⊆ X is the pullback of the monomorphism t : {0} → {0,1} along ψ_S, and this square determines S. Hence t : {0} → {0,1} is a subobject classifier for the category of sets.",
+      "intree": "For SKELETAL FINITE sets: `FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal` with `Ω := 2%nat`, `truth := fun _ => fin_true`, and `char m b := fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b))` -- literally the two-element truth object and the membership-in-the-image characteristic function, with the classifying square proved a pullback and proved unique. For the full setoid category Sets: `PropSetoid` (carrier `Type@{o}` under iffT) with `sets_true`, `char_setoid m b := ∃ a, m a ≈ b`, plus `sets_char_pullback` (a full `IsPullback` square) and `sets_char_unique`, all stated one universe up.",
+      "strength_comparison": "intree-weaker, in two independent ways. (1) The literal two-element classifier is instantiated only for skeletal FinSet -- FINITE sets -- not for the category of all sets. (2) For the library's Sets (setoids) the classifier is NOT an instance of the `SubobjectClassifier` class at all: it is a family of cross-universe theorems whose Ω is `Type@{o}` under iffT, living one universe up, because morphism equivalence in this library is Type-valued (obstruction argued in-file at Instance/Sets/Classifier.v:29-45 and Instance/Sets.v:424). Within that lifting nothing is weakened -- `sets_char_pullback` is the full `IsPullback` (commuting square + UMP with uniqueness) and `sets_char_unique` is genuine uniqueness -- but the book's punchline 'therefore Set has a subobject classifier' is not available as a single-level statement, and Ω is not a two-element object."
+    },
+    "gap": "No `SubobjectClassifier Sets` instance exists: a tree-wide grep finds exactly one instance of the class, `FinSet_Classifier`. Concretely missing for the book's category of all sets: (a) a two-valued truth object -- the in-tree Ω for Sets is `Type@{o}` under iffT, one universe up, and the one-level `IsPullback` form is argued in-file to be unstatable in this encoding; (b) a `HasPullbacks Sets` instance (`FinSet_Pullbacks` is the tree's only `HasPullbacks`), so `classifier_classifies` cannot be applied at Sets; (c) consequently no `ElementaryTopos Sets`. What IS proved for Sets is the classifying pullback square and its uniqueness at cross-universe strength, plus the one-level shadow `sets_char_subobject`.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" \"SubobjectClassifier\" . -- exactly one instance in the tree, Instance/FinSet/Classifier.v:353 `FinSet_Classifier`. Instance/Sets/Classifier.v:21 states in its own header that it is deliberately NOT a `[SubobjectClassifier Sets]` instance",
+      "grep -rn --include=\"*.v\" -E \"HasPullbacks\" . -- the only instance is Instance/FinSet/Classifier.v:264 `FinSet_Pullbacks : HasPullbacks FinSet`; Sets has none",
+      "grep -rn --include=\"*.v\" -iE \"pullback\" Instance/Sets.v Instance/Sets/*.v -- every hit is inside Instance/Sets/Classifier.v's cross-universe theorems; there is no `Sets_Pullbacks`"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, with the same two-part gap. Verified every cited location by reading it: Instance/FinSet/Classifier.v:353-354 is literally `#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| ... |}`, :335 `finset_monic_iff_injective`, :264 `#[export] Program Instance FinSet_Pullbacks : HasPullbacks FinSet`; Instance/Sets/Classifier.v:151 `PropSetoid`, :158 `sets_true`, :186 `char_setoid`, :224 `sets_char_pullback`, :283 `sets_char_unique`, :341 `sets_char_subobject` — all quotes accurate, including the universe annotations @{o so sso}. Independently reconfirmed the negatives that carry the PARTIAL: a tree-wide `rg SubobjectClassifier` yields exactly one instance (`FinSet_Classifier`), and a tree-wide `rg HasPullbacks` yields exactly one instance (`FinSet_Pullbacks`) — so there is neither `SubobjectClassifier Sets` nor `HasPullbacks Sets`, and `classifier_classifies` (which needs the section's HasPullbacks, via Theory/Subobject/Functor.v:30) is inapplicable at Sets. No `Admitted`, `admit` or `Axiom` in any cited file. strength_comparison is honest: it does not overclaim the FinSet instance as covering the book's category of all sets, and it correctly reports that nothing is weakened WITHIN the lifted setting (sets_char_pullback is the full IsPullback record)."
+    }
+  },
+  {
+    "id": "maclane:IV.9:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "subobject classifier / `SubobjectClassifier`",
+      "truth arrow t : 1 -> Omega / `truth : 1 ~> Ω`",
+      "characteristic morphism / classifying map / `char`",
+      "generic subobject / universal monomorphism / `truth_subobject`",
+      "every mono is a pullback of true in a unique way / `char_pullback` + `char_unique`"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 44,
+        "symbol": "SubobjectClassifier",
+        "intree_statement": "Section SubobjectClassifier.\nContext {C : Category}.\nContext `{HT : @Terminal C}.\n...\nClass SubobjectClassifier := {\n  Ω : C;                                (* the object of truth values *)\n  truth : 1 ~> Ω;                       (* the generic subobject *)\n\n  (* the characteristic morphism of a mono m : u ~> x *)\n  char {u x : C} (m : u ~> x) (M : Monic m) : x ~> Ω;\n\n  (* the classifying square is a pullback of truth along char m *)\n  char_pullback {u x : C} (m : u ~> x) (M : Monic m) :\n    IsPullback (char m M) truth u m one;\n\n  (* and char m is the unique morphism with that property *)\n  char_unique {u x : C} (m : u ~> x) (M : Monic m) (h : x ~> Ω) :\n    IsPullback h truth u m one → h ≈ char m M\n}."
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 64,
+        "symbol": "truth_monic / truth_subobject",
+        "intree_statement": "Lemma truth_monic : Monic truth.\n(* line 72 *) Definition truth_subobject : SubObj Ω :=\n  {| sub_dom := 1; sub_mono := truth; sub_is_monic := truth_monic |}.   (* 'the universal monomorphism t may be called truth' *)"
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 143,
+        "symbol": "char_respects",
+        "intree_statement": "Lemma char_respects {u u' x : C} (m : u ~> x) (M : Monic m) ...   (* char depends only on the SUBOBJECT, not on the chosen representing mono; derived from char_pullback + char_unique rather than assumed as a field *)"
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) :\n  @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}.   (* forward: char; backward: pullback of truth via sub_reindex; both round trips proved (classifier_char_roundtrip, classifier_pullback_roundtrip) *)"
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 53,
+        "symbol": "IsPullback",
+        "intree_statement": "Record IsPullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z)\n       (P : C) (p1 : P ~> x) (p2 : P ~> y) := {\n  is_pullback_commutes : f ∘ p1 ≈ g ∘ p2;\n  is_pullback_ump : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2\n    → ∃! u : Q ~> P, p1 ∘ u ≈ q1 ∧ p2 ∘ u ≈ q2\n}.   (* a genuine pullback: commuting square plus the full universal property *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In a category C with a terminal object 1, a subobject classifier is a monomorphism t : 1 → Ω such that every monomorphism m : S ↣ X is a pullback of t in a unique way: for each m there is a unique arrow ψ : X → Ω (the characteristic function of m) making the square on m, the unique S → 1, t and ψ a pullback. The universal monomorphism t may be called 'truth'.",
+      "intree": "`Class SubobjectClassifier`, in a section with `Context {C : Category}` and `Context \\`{HT : @Terminal C}`, with fields `Ω : C`, `truth : 1 ~> Ω`, `char {u x} (m : u ~> x) (M : Monic m) : x ~> Ω`, `char_pullback : IsPullback (char m M) truth u m one`, and `char_unique : IsPullback h truth u m one → h ≈ char m M`. Monicity of `truth` is DERIVED (`truth_monic`), the generic subobject is packaged as `truth_subobject`, and the classification bijection is `classifier_classifies : SubObj x ≅ (x ~> Ω)` in Sets.",
+      "strength_comparison": "same. The in-tree form Skolemizes the book's 'there is a unique ψ' into the operation `char` plus the uniqueness field `char_unique`; because the library's `∃!` is Type-valued (`unique_obj` carries the witness) the two presentations are interderivable. `IsPullback` is the full record (commuting square + universal property with uniqueness), not an apex-only or cone-free weakening -- the trap this library documents elsewhere (apex-only `PreservesLimit`) is absent here. The book's requirement that t be monic is derived, not assumed, which is no weaker. The class is if anything slightly richer than the book's definition: `char_respects` (char is well defined on subobject classes) and `classifier_classifies` (the SubObj x ≅ (x ~> Ω) bijection the book's 'this square determines S' gestures at) are proved consequences. Hypothesis parity: the class needs only `Terminal C`; `HasPullbacks C` is a section hypothesis used solely by `classifier_classifies`, matching the book, which does not require C to have all pullbacks."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Read Structure/SubobjectClassifier.v:38-58 in full: the quoted class body is verbatim-accurate (Ω, truth, char with its Monic argument, char_pullback, char_unique). Ran the specific traps. (1) definition-without-required-API: `truth_monic` (:64), `truth_subobject` (:72), `char_respects` (:143), `classifier_char_roundtrip` (:159), `classifier_pullback_roundtrip` (:174) and `classifier_classifies` (:187) all exist at the cited lines. (2) same-name-weaker-statement: `IsPullback` (Theory/Morphisms/Stability.v:53) is the FULL record — `is_pullback_commutes : f ∘ p1 ≈ g ∘ p2` plus `is_pullback_ump : ∀ Q q1 q2, f ∘ q1 ≈ g ∘ q2 → ∃! u, p1 ∘ u ≈ q1 ∧ p2 ∘ u ≈ q2` — not an apex-only weakening. (3) The one load-bearing claim in strength_comparison, that the section's `Context \\`{HP : @HasPullbacks C}` does NOT become a parameter of the class (so hypothesis parity with the book holds), I verified at both use sites: Structure/Topos.v:117 writes `@SubobjectClassifier C topos_terminal` and Instance/FinSet/Classifier.v:354 writes `@SubobjectClassifier FinSet FinSet_Terminal` — two arguments each, Terminal only. File is registered in _CoqProject and axiom-free."
+    }
+  },
+  {
+    "id": "maclane:IV.9:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "subobject classifier of the arrow category Sets^2 / Sets^→ / Arr(Sets)",
+      "category of functions; monos into f as pairs (S ⊆ X, T ⊆ Y) with g the restriction of f",
+      "three-valued characteristic map psi : X -> {0,1,2} and the classifier j : {0,1,2} -> {0,2}",
+      "double pullback square classifying a subobject of a function",
+      "classifier of [_2, Sets] / of `Arrow Sets` / of the comma category (Id ↓ Id) over Sets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" \"SubobjectClassifier\" . -- the ONLY instance of the class anywhere in the tree is Instance/FinSet/Classifier.v:353 `FinSet_Classifier`; there is no classifier for an arrow category, a comma category, or a functor category",
+      "grep -rn --include=\"*.v\" -E \"SubobjectClassifier +\\(?(@?Fun|Presheaves|\\[|Arrow|Comma)\" . -- 0 hits",
+      "grep -rn --include=\"*.v\" -iE \"three.valued|3-valued|Fin.t 3|\\{0,1,2\\}\" . -- 2 hits, both unrelated FinSet arithmetic (Instance/FinSet.v:282 copairing evaluation, Instance/FinSet/Closed.v:62 an exponential codec)",
+      "grep -rn --include=\"*.v\" -E \"\\[_2, *Sets\\]|Arrow +Sets|@Arrow +Sets\" . -- 0 hits; the arrow category is never instantiated at Sets",
+      "grep -rn --include=\"*.v\" -iE \"classifier\" . (excluding the known classifier/topos files) -- the surviving hits are prose only: Theory/Sheaf.v:84, Instance/Sets.v:103,424-425, Instance/Adjoints.v:281",
+      "CONTEXT (adjacent, not the item): the ambient category IS in-tree -- Construction/Arrow.v:110 `Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C])`, and Instance/Two.v:134 `Program Definition _2 : Category` is the walking arrow. But no structure whatsoever is put on `Arrow` (no Terminal, Cartesian, Closed, pullbacks, classifier), so the construction this item is about -- the three-element truth object j : {0,1,2} → {0,2} and the double-pullback classification of a subobject of a function -- has no in-tree counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My searches: tree-wide `rg classifier` outside the known classifier/topos files returns only prose (Theory/Sheaf.v:84, Instance/Sets.v:103,424-425, Instance/Adjoints.v:281); `rg 'SubobjectClassifier'` returns exactly one instance, for FinSet. Verified the record's CONTEXT note: Construction/Arrow.v:110 is indeed `Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C]).` and Instance/Two.v:134 `Program Definition _2 : Category`, and I confirmed by search that no Terminal, Cartesian, Closed, HasPullbacks or SubobjectClassifier instance is ever declared for `Arrow`, for a comma category, or for `[_2, Sets]`. The three-valued truth object j : {0,1,2} → {0,2} and the double-pullback classification have no in-tree counterpart. Correctly ABSENT rather than OUT_OF_SCOPE: the construction is perfectly statable here."
+    }
+  },
+  {
+    "id": "maclane:IV.9:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "subobject classifier of a functor category Sets^C / presheaf classifier",
+      "Omega(c) = the set of sieves (cosieves) on c / subfunctors of a representable",
+      "subfunctor / subobject of a presheaf",
+      "a function is the same as a functor 2 -> Sets, so Sets^2 is the arrow category",
+      "presheaf topos / Sets^(C^op) has a subobject classifier"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i \"sieve\" . -- 2 hits, both PROSE in background essays (Theory/Sheaf.v:80 'through sieves in SGA 4'; Construction/Localization.v:101 'orthogonal to the covering sieves'). Sieves are never defined in code",
+      "grep -rn --include=\"*.v\" -i \"subfunctor\" . -- 2 hits, both merely the section delimiters `Section SubFunctor.` / `End SubFunctor.` of Theory/Subobject/Functor.v, which builds the SUBOBJECT PRESHEAF `Sub : C^op ⟶ Sets` (reindexing subobjects of objects of C), not the poset of subfunctors of a presheaf",
+      "grep -rn --include=\"*.v\" \"SubobjectClassifier\" . -- one instance only (`FinSet_Classifier`); nothing for `Fun`, `Presheaves`, or any functor category",
+      "grep -rn --include=\"*.v\" -E \"@(Terminal|Cartesian|Closed|Initial|Cocartesian|HasPullbacks|SubobjectClassifier) +\\(?@?(Fun|Presheaves)\" . -- exactly one hit, Instance/Fun/Cartesian.v:111 `Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)`, i.e. pointwise products only. No Terminal, no Closed, no pullbacks, no classifier on functor categories",
+      "grep -rn --include=\"*.v\" -iE \"Functor_Category_(Closed|Terminal|Cartesian)\" . -- only `Functor_Category_Cartesian` exists",
+      "TRAP AVOIDED: Theory/Sheaf.v:84 asserts in its background essay that presheaves form a 'presheaf topos, carrying a subobject classifier and an internal ...'. That is narrative prose citing the literature, not an in-tree theorem or instance; no code backs it"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified each negative claim myself: `rg -in subfunctor` returns exactly two hits and both are section delimiters (Theory/Subobject/Functor.v:27 `Section SubFunctor.` and :199 `End SubFunctor.`) — that file builds the subobject presheaf `Sub : C^op ⟶ Sets` by reindexing, NOT the poset of subfunctors of a presheaf, so it is correctly not counted. `ls Instance/Fun/` contains only `Cartesian.v`, and the sole structure instance on any functor category is Instance/Fun/Cartesian.v:111 `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)` (pointwise products); there is no Terminal, Closed, pullback or classifier instance on `Fun`/`Presheaves`. Sieves are never defined in code. The TRAP AVOIDED note is right: Theory/Sheaf.v:84's 'presheaf topos, carrying a subobject classifier' is narrative prose in a background essay with no code behind it."
+    }
+  },
+  {
+    "id": "maclane:IV.10:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "elementary topos / `ElementaryTopos`",
+      "Lawvere-Tierney axioms: finite limits + subobject classifier + cartesian closed",
+      "cartesian closed category with a subobject classifier / `Closed` + `SubobjectClassifier`",
+      "exponentials, hom(a × b, c) ≅ hom(a, c^b) / `exp_iso`",
+      "power object Pow a = Omega^a"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Topos.v",
+        "line": 112,
+        "symbol": "ElementaryTopos",
+        "intree_statement": "Class ElementaryTopos (C : Category) := {\n  topos_terminal   : @Terminal C;\n  topos_cartesian  : @Cartesian C;\n  topos_pullbacks  : @HasPullbacks C;\n  topos_closed     : @Closed C topos_cartesian;\n  topos_classifier : @SubobjectClassifier C topos_terminal\n}."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 43,
+        "symbol": "Closed",
+        "intree_statement": "Class Closed := {\n  exponent_obj : obj → obj → obj  where \"y ^ x\" := (exponent_obj x y);\n  (* The product-exponential adjunction (- × y) ⊣ (- ^ y), as the natural\n     isomorphism Hom(x × y, z) ≅ Hom(x, z^y). *)\n  exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;\n  ...\n  ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (@curry' _ _ _ f) ≈ f\n}."
+      },
+      {
+        "file": "Structure/Topos.v",
+        "line": 129,
+        "symbol": "Pow / relations_iso",
+        "intree_statement": "Definition Pow {C : Category} {H : ElementaryTopos C} (a : C) : C := Ω ^ a.\n(* line 146 *) Definition relations_iso {C : Category} {H : ElementaryTopos C} (a b : C) :\n  @Isomorphism Sets {| carrier := SubObj (a × b) |} {| carrier := a ~> Pow b |} :=\n  iso_compose exp_iso (classifier_classifies (a × b))."
+      },
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 38,
+        "symbol": "FinSet_Topos",
+        "intree_statement": "Definition FinSet_Topos : ElementaryTopos FinSet := {|\n  topos_terminal   := FinSet_Terminal;\n  topos_cartesian  := FinSet_Cartesian;\n  topos_pullbacks  := FinSet_Pullbacks;\n  topos_closed     := FinSet_Closed;\n  topos_classifier := FinSet_Classifier\n|}.\n(* line 52 *) Example FinSet_Pow_two : @Pow FinSet FinSet_Topos 2%nat = 4%nat := eq_refl."
+      }
+    ],
+    "statement_record": {
+      "book": "An (elementary) topos is a category E such that (i) E has all finite limits, (ii) E has a subobject classifier, and (iii) E is cartesian closed -- each functor - × b has a right adjoint c ↦ c^b, so hom(a × b, c) ≅ hom(a, c^b) and E has exponentials.",
+      "intree": "`Class ElementaryTopos (C : Category)` with the five fields `topos_terminal : @Terminal C`, `topos_cartesian : @Cartesian C`, `topos_pullbacks : @HasPullbacks C`, `topos_closed : @Closed C topos_cartesian`, `topos_classifier : @SubobjectClassifier C topos_terminal`, where `Closed` IS the exponential adjunction `exp_iso {x y z} : x × y ~> z ≊ x ~> z^y` plus the beta law. Derived in-file: `Pow a := Ω ^ a` and `relations_iso : SubObj (a × b) ≅ (a ~> Pow b)`. Witness: `FinSet_Topos : ElementaryTopos FinSet`, with `Pow 2 = 4` by `eq_refl`.",
+      "strength_comparison": "same (equivalent axiomatization). Clause (iii) is matched literally by `Closed`'s `exp_iso`; clause (ii) by `SubobjectClassifier`. Clause (i) is spelled as terminal object + binary products + pullbacks rather than 'all finite limits'; these cut out the same class of categories (terminal + pullbacks already suffice), so the predicate is neither weaker nor stronger. DISCLOSED API nuance, stated by the file itself (Structure/Topos.v:20-27): 'the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library, so we do not pretend one component subsumes another, and we deliberately do not add equalizers to the class.' Hence no in-tree lemma derives equalizers or a general finite limit FROM `ElementaryTopos`; a consumer needing 'E has all finite limits' as a usable fact must still build it."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" \"ElementaryTopos\" . -- the class (Structure/Topos.v:112), its two derived definitions (`Pow`, `relations_iso`), one witness (Instance/FinSet/Topos.v:38), and prose cross-references (Construction/Slice.v:114 records that 'every slice of a topos is again a topos' remains unformalized)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Read Structure/Topos.v:112-149: the five-field class is quoted exactly, and `Pow a := Ω ^ a` (:129) and `relations_iso` (:146) are at the cited lines; Instance/FinSet/Topos.v:38 `FinSet_Topos` and :52 `Example FinSet_Pow_two : @Pow FinSet FinSet_Topos 2%nat = 4%nat := eq_refl` check out. SAME-NAME-WEAKER-STATEMENT TRAP CHECKED EXPLICITLY: CLAUDE.md warns that Structure/Closed.v is an incomplete Eilenberg-Kelly stub whose `Class Closed` is 'not yet in force'. I read Structure/Topos.v's imports (line 7: `Require Import Category.Structure.Cartesian.Closed`; Structure/Closed.v is NOT imported) and the field's shape `topos_closed : @Closed C topos_cartesian` (indexed by the Cartesian instance) — so clause (iii) is the LIVE cartesian-closed class, Structure/Cartesian/Closed.v:43, whose `exp_iso {x y z} : x × y ~> z ≊ x ~> z^y` is literally the book's hom(a × b, c) ≅ hom(a, c^b). The disclosed nuance is quoted faithfully from the file's own header (Structure/Topos.v:20-25). FLAG (recorded, not sufficient to overturn): clause (i) is packaged as terminal + binary products + pullbacks; that cuts out the same class of categories (a terminal object with HasPullbacks generates every finite limit — the file itself cites Borceux I, Prop. 2.8.2 at Structure/Pullback.v:98), but no in-tree lemma derives an equalizer or a general finite limit FROM `ElementaryTopos`, so the book's clause (i) is not usable as stated. That is a presentation difference under the frozen definition of PRESENT, and the record already discloses it."
+    }
+  },
+  {
+    "id": "maclane:IV.10:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Sets is a topos / `ElementaryTopos Sets`",
+      "presheaf topos Sets^(C^op) is a topos / `ElementaryTopos (@Presheaves C Sets)`",
+      "functor category [C^op, Sets] cartesian closed with a subobject classifier",
+      "Grothendieck topos of presheaves / topos of sets",
+      "FinSet as a (small, skeletal) topos of sets"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 38,
+        "symbol": "FinSet_Topos",
+        "intree_statement": "Definition FinSet_Topos : ElementaryTopos FinSet := {| topos_terminal := FinSet_Terminal; topos_cartesian := FinSet_Cartesian; topos_pullbacks := FinSet_Pullbacks; topos_closed := FinSet_Closed; topos_classifier := FinSet_Classifier |}.   (* file header: 'This is the campaign's genuine elementary-topos WITNESS: skeletal FinSet' *)"
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 248,
+        "symbol": "Sets_Terminal",
+        "intree_statement": "#[export] Program Instance Sets_Terminal : @Terminal Sets := {\n  terminal_obj := {| carrier := poly_unit |};\n  one := fun _ => {| morphism := fun _ => ttt |};\n  one_unique := fun x f g => _ }."
+      },
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 38,
+        "symbol": "Sets_Closed",
+        "intree_statement": "#[export] Program Instance Sets_Closed : @Closed Sets _ := {\n  exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |};\n  exp_iso := fun _ _ _ => {| to := {| morphism := fun f => ... |} ... |} }.   (* with Instance/Sets/Cartesian.v:32 `Sets_Cartesian : @Cartesian Sets` *)"
+      },
+      {
+        "file": "Instance/Sets/Classifier.v",
+        "line": 224,
+        "symbol": "sets_char_pullback / sets_char_unique",
+        "intree_statement": "Theorem sets_char_pullback@{o so sso} ... : @IsPullback Sets@{so sso} (Setoid_Lift B) unit_setoid_object PropSetoid (char_setoid m) sets_true (Setoid_Lift A) (SetoidMorphism_Lift m) sets_to_unit.\n(* line 283 *) Theorem sets_char_unique@{o so sso} ... : chi ≈[Sets@{so sso}] char_setoid@{o so} m.   (* the classifier half of 'Sets is a topos', at cross-universe strength only *)"
+      },
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "#[export] Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).   (* pointwise products -- the ONLY structure instance on any functor category in the tree *)"
+      },
+      {
+        "file": "Theory/Sheaf.v",
+        "line": 127,
+        "symbol": "Presheaves",
+        "intree_statement": "Definition Presheaves {U C : Category} := [U^op, C].   (* the presheaf category exists as a category; no topos structure is ever put on it *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The category Sets of all small sets is a topos, and so is the category Sets^(C^op) of all set-valued contravariant functors (presheaves) on any small category C.",
+      "intree": "Neither half is proved. What exists: (a) `FinSet_Topos : ElementaryTopos FinSet` -- a genuine, fully computable elementary topos, but of SKELETAL FINITE sets, not of all sets; (b) for `Sets` (setoids): `Sets_Terminal`, `Sets_Cartesian`, `Sets_Closed` as instances, plus the classifier content as the cross-universe theorems `sets_char_pullback` / `sets_char_unique` / `sets_char_subobject` -- but no `HasPullbacks Sets`, no `SubobjectClassifier Sets`, hence no `ElementaryTopos Sets`; (c) for presheaves: `Presheaves := [U^op, C]` exists as a category and `Functor_Category_Cartesian` supplies pointwise products, and nothing more.",
+      "strength_comparison": "intree-weaker: the book's assertion is in force for neither half. 'Sets is a topos' is blocked by a DOCUMENTED and deliberate universe obstruction (Instance/Sets/Classifier.v:29-45: morphism `≈` is Type-valued, so the truth-value setoid must be `Type@{o}` under iffT, one universe up, and the one-level `IsPullback` form is not statable). The classifier content itself IS proved, just one level up, so this is a real partial result rather than a stub. 'Presheaf categories are toposes' has no in-tree content beyond pointwise products; the assertion appears only as background prose (Theory/Sheaf.v:84)."
+    },
+    "gap": "Two distinct gaps. (1) Sets: missing `HasPullbacks Sets`, missing `SubobjectClassifier Sets`, missing `ElementaryTopos Sets`. Only the cross-universe classifier theorems plus the terminal/cartesian/closed instances exist; the topos claim is never assembled, and by design rather than oversight (the obstruction is argued in-file). The nearest in-tree topos witness, `FinSet_Topos`, is over a DIFFERENT category (skeletal finite sets), so it does not discharge the book's claim about all sets. (2) Presheaves: entirely missing -- no terminal object, no exponentials/cartesian closure, no pullbacks, and no subobject classifier for `[C^op, Sets]`; the classifier for a functor category is exactly the also-absent item maclane:IV.9:remark1, on which this half depends.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" \"ElementaryTopos\" . -- exactly one instance in the tree, `FinSet_Topos`; no `ElementaryTopos Sets`, no `ElementaryTopos (@Presheaves ...)`",
+      "grep -rn --include=\"*.v\" \"SubobjectClassifier\" . -- exactly one instance, `FinSet_Classifier`",
+      "grep -rn --include=\"*.v\" -E \"HasPullbacks\" . -- exactly one instance, `FinSet_Pullbacks`",
+      "grep -rn --include=\"*.v\" -E \"@(Terminal|Cartesian|Closed|Initial|Cocartesian|HasPullbacks|SubobjectClassifier) +\\(?@?(Fun|Presheaves)\" . -- exactly one hit, `Functor_Category_Cartesian`"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, with the same split gap (Sets partially, presheaves not at all). Verified every cited instance: Instance/Sets.v:248 `Sets_Terminal`, Instance/Sets/Cartesian.v:32 `Sets_Cartesian`, Instance/Sets/Cartesian/Closed.v:38 `Program Instance Sets_Closed : @Closed Sets _`, Instance/Fun/Cartesian.v:111 `Functor_Category_Cartesian`, Theory/Sheaf.v:127 `Presheaves`, Instance/FinSet/Topos.v:38 `FinSet_Topos`, Instance/Sets/Classifier.v:224/283. Independently reconfirmed the three negatives that make this PARTIAL and not PRESENT: `rg ElementaryTopos` -> exactly one instance (FinSet); `rg SubobjectClassifier` -> exactly one instance (FinSet); `rg HasPullbacks` -> exactly one instance (FinSet). So there is no `ElementaryTopos Sets` and no `ElementaryTopos (@Presheaves ...)`. PARTIAL rather than ABSENT is the right call under the frozen definition: for the Sets half three of the five topos components exist as real instances and the classifier content is genuinely proved one universe up. The gap field correctly notes that `FinSet_Topos` is over a DIFFERENT category and does not discharge the book's claim, and that the presheaf half depends on the also-absent maclane:IV.9:remark1."
+    }
+  },
+  {
+    "id": "maclane:IV.10:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "presheaf / `Presheaf`",
+      "contravariant set-valued functor C^op -> Sets",
+      "presheaf category / `Presheaves` = [C^op, Sets]",
+      "copresheaf (dual form) / `Copresheaf`",
+      "sheaf on a topological space (the motivating case) / `Sheaf`, `Site`"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Sheaf.v",
+        "line": 124,
+        "symbol": "Presheaf",
+        "intree_statement": "(* A C-valued presheaf on some category U.\n  C is often taken to be Sets. *)\nDefinition Presheaf (U C : Category) := U^op ⟶ C."
+      },
+      {
+        "file": "Theory/Sheaf.v",
+        "line": 127,
+        "symbol": "Presheaves / Copresheaf / Copresheaves",
+        "intree_statement": "(* The category of C-valued presheaves on a category U. *)\nDefinition Presheaves {U C : Category} := [U^op, C].\n(* line 130 *) Definition Copresheaf (U C : Category) := U ⟶ C.\n(* line 133 *) Definition Copresheaves {U C : Category} := [U, C]."
+      },
+      {
+        "file": "Theory/Sheaf.v",
+        "line": 192,
+        "symbol": "Sheaf",
+        "intree_statement": "Class Sheaf `{@Site C} (X : Presheaf C Sets) := {\n  restriction : ∀ u : C, let '(i; f) := coverage u in ForallT ... }   (* the sheaf condition the book's paragraph defers; `Class Site (C : Category)` at line 159 is the coverage *)"
+      },
+      {
+        "file": "Theory/Sheaf/Category.v",
+        "line": 81,
+        "symbol": "Sheaves / Sheaves_Incl",
+        "intree_statement": "Definition Sheaves : Category := Sub (@Presheaves C Sets) Sheaves_sub.\n(* line 84 *) Definition Sheaves_Incl : Sheaves ⟶ @Presheaves C Sets := Incl (@Presheaves C Sets) Sheaves_sub."
+      }
+    ],
+    "statement_record": {
+      "book": "A functor F : C^op → Sets is called a presheaf on C. Motivating topological case: C the poset of open sets of a space X, so F assigns to each open U a set F(U) functorially in inclusions (e.g. the continuous real-valued functions on U); the sheaves among these are central in algebraic geometry and topology (the sheaf condition itself is not stated at this point in the book).",
+      "intree": "`Definition Presheaf (U C : Category) := U^op ⟶ C.` together with `Definition Presheaves {U C : Category} := [U^op, C].` The book's Sets-valued case is `Presheaf C Sets`, which is exactly the type the in-tree `Class Sheaf` quantifies over.",
+      "strength_comparison": "intree-stronger (strictly more general): the in-tree definition is parametric in the value category C, of which the book's Sets-valued notion is the instance `Presheaf C Sets`; the dual `Copresheaf`/`Copresheaves` is defined as well, and the associated category `[U^op, C]` is exactly the book's presheaf category. Regarding the surrounding motivation (not itself a mathematical claim): the library goes FURTHER than the book's paragraph in one direction -- the sheaf condition IS formalized, via `Class Site` and `Class Sheaf`, with `Sheaves` the full subcategory of presheaves and `sheaf_iso_closed` its repleteness -- and stops short in another: the specific site of open sets of a topological space, and the sheaf of continuous real-valued functions, are not instantiated (Instance/Poset.v gives posets as categories generically but no lattice of opens). Note also the disclosed donor erratum on the `Sheaf` predicate recorded in Theory/Sheaf/Category.v's header; it does not touch the presheaf definition itself."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i \"presheaf\" . -- the definitions above plus background prose and uses (Functor/Hom/Yoneda.v:134 `Presheaves [Hom ─,A] F ≅ F A`, Functor/Representable.v, Theory/Subobject/Functor.v:167 the subobject presheaf, Instance/Parallel.v:166 `Presheaf_Graph`)",
+      "grep -rn --include=\"*.v\" -iE \"open set|topological space|lattice of opens\" . -- the motivating topological site is not instantiated in-tree (motivation only; does not bear on the definitional item)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Read Theory/Sheaf.v:123-133 directly: `Definition Presheaf (U C : Category) := U^op ⟶ C.` (:124), `Definition Presheaves {U C : Category} := [U^op, C].` (:127), `Copresheaf` (:130), `Copresheaves` (:133) — quotes exact, including the surrounding comments. `Class Site (C : Category)` at :159 and `Class Sheaf \\`{@Site C} (X : Presheaf C Sets)` at :192 confirmed; Theory/Sheaf/Category.v:81 `Definition Sheaves : Category := Sub (@Presheaves C Sets) Sheaves_sub.` and :84 `Sheaves_Incl` confirmed. Both files are in _CoqProject and contain no Admitted/admit/Axiom. The 'intree-stronger' label is justified (parametric in the value category, with the book's case recovered as `Presheaf C Sets`), and the caveat is honest on both sides: the sheaf condition IS formalized (which the book's paragraph defers), while the motivating site of open sets of a space and the sheaf of continuous real functions are NOT instantiated — I confirmed no lattice-of-opens site exists in-tree. The disclosed Theory/Sheaf/Category.v donor erratum indeed does not touch the presheaf definition."
+    }
+  },
+  {
+    "id": "maclane:IV.10:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "every elementary topos has all finite colimits",
+      "toposes are finitely cocomplete / `Cocomplete` for a topos",
+      "a topos has an initial object, binary coproducts, coequalizers, pushouts",
+      "Pare's theorem (Omega^(-) : E^op -> E is monadic, hence E^op has finite limits)",
+      "bicartesian closed topos / `Bicartesian` + `ElementaryTopos`"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"topos\" . | grep -iE \"colimit|cocomplete|coproduct|initial|pushout|coequalizer\" -- 2 hits, both prose: Construction/Cospan/Corelation.v:33 ('pretoposes (sets, presheaves, ...), where pushouts of (regular) epis are ...') and Structure/Topos.v:91 (Giraud's theorem recited in the background essay: 'an elementary topos with a small generating set, all small colimits, coproducts disjoint and universal ...'). Neither is a theorem about colimits IN a topos",
+      "grep -rn --include=\"*.v\" -iE \"has (all )?finite colimits|finitely cocomplete\" . -- 0 hits",
+      "grep -rn --include=\"*.v\" -E \"Cocomplete\" . -- only Structure/Complete.v:119 `Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F` and its single consumer Theory/Adamek/Corollaries.v:61 (`adamek_cocomplete`, which takes `Cocomplete` as a HYPOTHESIS). No category is ever shown cocomplete, and no topos is",
+      "grep -rn --include=\"*.v\" -iE \"Par(e|é)\" . -- all hits are Grandis-Paré double-category references (Theory/DoubleCategory.v:60,87,117,121,142); Paré's theorem on the monadicity of the power-object functor is nowhere in-tree",
+      "grep -rn --include=\"*.v\" \"ElementaryTopos\" . -- the class has exactly two derived consequences in-tree, `Pow` (Structure/Topos.v:129) and `relations_iso` (Structure/Topos.v:146). Nothing derives colimits, coproducts, an initial object, coequalizers, or pushouts from the topos axioms",
+      "NOTE: the target vocabulary exists independently as classes (Structure/Cocartesian.v, Structure/Initial.v, Structure/Pushout.v, Structure/Coequalizer.v, Structure/Bicartesian.v), so the statement is expressible; but no implication of the form `ElementaryTopos C → <any colimit>` is stated or proved anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My searches: `rg -in 'finite colimit|Par[eé]|colimits.*topos|topos.*colimit'` -> nothing relevant (the Paré hits are all Grandis-Paré double-category citations in Theory/DoubleCategory.v); `rg Cocomplete` -> only Structure/Complete.v:119 `Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F` and Theory/Adamek/Corollaries.v:51,61 where it is consumed as a HYPOTHESIS, never established for any category. `rg ElementaryTopos` confirms the class has exactly two derived consequences in-tree, `Pow` (Structure/Topos.v:129) and `relations_iso` (:146) — nothing produces an initial object, coproducts, coequalizers, pushouts or any colimit from the topos axioms. ABSENT rather than OUT_OF_SCOPE is correct: the conclusion is fully expressible with the existing Structure/Cocartesian.v, Structure/Initial.v, Structure/Pushout.v, Structure/Coequalizer.v vocabulary, as the record itself notes."
+    }
+  }
+]

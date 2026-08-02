@@ -1,0 +1,538 @@
+[
+  {
+    "id": "awodey:5.6:def31",
+    "classification": "PARTIAL",
+    "aliases": [
+      "F creates limits (colimits) of type J / created limit",
+      "creation of limits; unique lifting of a limiting cone along F",
+      "CreatesLimit / CreatesLimits / CreatesColimits class (typeclass encoding)",
+      "F lifts limits uniquely; every limit downstairs is the image of a unique cone upstairs, which is a limit",
+      "dual: creates colimits; nearby: reflects limits, PreservesLimit, ReflectsIsos"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 164,
+        "symbol": "CreatesUSplitCoequalizers",
+        "intree_statement": "Class CreatesUSplitCoequalizers {C D : Category} (U : C ⟶ D) := { create_coeq {x y : C} (f g : x ~> y) (S : SplitCoequalizer (fmap[U] f) (fmap[U] g)) : ∃ (q : C) (e : y ~> q), IsCoequalizer f g q e ∧ (∃ i : @Isomorphism D (U q) (scoeq_obj S), to i ∘ fmap[U] e ≈ scoeq_e S); create_coeq_reflects {x y : C} (f g : x ~> y) (S : SplitCoequalizer (fmap[U] f) (fmap[U] g)) (q : C) (e : y ~> q) (He : e ∘ f ≈ e ∘ g) (i : @Isomorphism D (U q) (scoeq_obj S)) (Hi : to i ∘ fmap[U] e ≈ scoeq_e S) : IsCoequalizer f g q e }."
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 52,
+        "symbol": "(file header, creation scope note)",
+        "intree_statement": "The second clause is the uniqueness half of creation, phrased in the ... [creation] demands a unique on-the-nose lift of the colimiting cocone and that this lift be colimiting; in a setoid-based library, where downstairs ... asks instead that every iso-compatible lift be colimiting."
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 486,
+        "symbol": "equivalence_creates_limits",
+        "intree_statement": "Definition equivalence_creates_limits {J : Category} (G : J ⟶ C) (L : Limit (F ◯ G)) : Limit G := limit_transport (equivalence_diagram_iso G) (rapl_limit (equiv_adjunction E) (F ◯ G) L)."
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 582,
+        "symbol": "equivalence_creates_colimits",
+        "intree_statement": "Definition equivalence_creates_colimits {J : Category} (G : J ⟶ C) ... := equivalence_creates_limits (EquivalenceOfCategories_op E) (G^op) ..."
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 385,
+        "symbol": "CreatedSplitCoequalizer",
+        "intree_statement": "Record CreatedSplitCoequalizer : Type := { created_alg : @TAlgebra D T H (scoeq_obj SC); created_hom : b ~{EilenbergMoore T}~> (scoeq_obj SC; created_alg); created_hom_carrier : t_alg_hom[created_hom] ≈ scoeq_e SC; created_coequalizes : IsCoequalizer f g (scoeq_obj SC; created_alg) created_hom; created_alg_unique (alg' : @TAlgebra D T H (scoeq_obj SC)) : ... → t_alg[alg'] ≈ t_alg[created_alg] }."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 33,
+        "symbol": "(file header) / Comma_Complete (line 245)",
+        "intree_statement": "Standard fact: if [C] has and [U] preserves [J]-limits, then [=(d) ↓ U] has [J]-limits, and the projection [comma_proj2 : =(d) ↓ U ⟶ C] creates them. ... Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 5.31: a functor F : C → D creates limits of type J if for every diagram C : J → C and every limiting cone (p_j : L → F C_j) in D there is a UNIQUE cone (p̄_j : L̄ → C_j) in C with F(L̄) = L and F(p̄_j) = p_j, and that unique cone is itself a limit for the diagram in C. Creating colimits is the dual/analogous notion.",
+      "intree": "No general definition exists. The notion appears only in instantiated form: [CreatesUSplitCoequalizers] (Beck.v:164) is creation specialized to coequalizers of U-split pairs, with the on-the-nose clause deliberately replaced by an iso-compatible one ('every iso-compatible lift be colimiting', header line 52-58); [equivalence_creates_limits] (Equivalence/Limit.v:486) is the map Limit (F ◯ G) → Limit G for an equivalence F, i.e. the existence half only, for one specific class of functors; [CreatedSplitCoequalizer] (BeckObjects.v:385) is the concrete created-data record at EM_Forget; and Construction/Comma/Limit.v proves the comma projection creates J-limits but exposes only the packaged conclusion [Comma_Complete].",
+      "strength_comparison": "intree-weaker: (i) there is no functor-and-shape-indexed definition 'F creates J-limits' — nothing in Structure/Limit/Preservation.v beyond [PreservesLimit], [PreservesColimit], [PreservesAllLimits/Colimits] and [ReflectsIsos]; (ii) where creation IS defined ([CreatesUSplitCoequalizers]) it is fixed to one diagram shape (a U-split parallel pair) and the book's on-the-nose equalities F(L̄)=L, F(p̄)=p are relaxed to 'up to a compatible isomorphism i : U q ≅ scoeq_obj S', an explicit and documented weakening forced by setoid morphism equality; (iii) [equivalence_creates_limits] delivers only the existence half (a limit of G upstairs) and asserts nothing about uniqueness of the lifted cone, and applies only to equivalences; (iv) the colimit dual is present only through these same two special cases."
+    },
+    "gap": "The general definition of Definition 5.31 — a predicate/class 'F creates limits of type J' quantified over an arbitrary shape J and an arbitrary functor F, with the uniqueness clause on the lifted cone and the requirement that the lift be limiting, plus its colimit dual — is not in the library. What exists is (a) the shape-fixed class [CreatesUSplitCoequalizers], whose uniqueness clause is weakened from on-the-nose to iso-compatible, (b) [equivalence_creates_limits]/[equivalence_creates_colimits], existence-only and restricted to equivalences, and (c) an unpackaged creation argument inside Construction/Comma/Limit.v whose exported conclusion is only completeness of the comma category. Consequently nothing in-tree can state 'U creates limits' as a hypothesis or a conclusion in the generality Awodey's Proposition 5.32 and the monadicity literature require.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'creates? ?(limit|colimit|cone)|CreatesLimit|CreateLimit' . — 3 hits, all prose/header (Theory/Equivalence/Limit.v:18,69; Structure/Complete.v:58 'monadic functors create limits' as a cited nLab remark, not a theorem)",
+      "grep -rn --include='*.v' -E '^(Class|Definition|Record|Program Definition).*Creat' . — exactly two: Monad/Monadicity/BeckObjects.v:385 [CreatedSplitCoequalizer], Monad/Monadicity/Beck.v:164 [CreatesUSplitCoequalizers]",
+      "grep -rn --include='*.v' -E 'lift.*limit|limit.*lift|Lifts' . — only the Beck.v:54 header discussion of on-the-nose lifting; no [LiftsLimits] notion",
+      "grep -n 'Class|Definition|Lemma|Theorem' Structure/Limit/Preservation.v — the preservation vocabulary is [PreservesLimit], [PreservesColimit], [PreservesAllLimits], [PreservesAllColimits], [ReflectsIsos]; no creation and no [ReflectsLimits] class"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage-5-3.json) reached the same PARTIAL. My independent aliases: creates limits / created limit / CreatesLimit / CreatesColimits / lifts limits uniquely / creation vs preservation vs reflection. Searches run: `rg -i 'creates|creation|Creating' --glob '*.v' -l` (11 files, all prose except two); `rg 'Creates' --glob '*.v'` -> ONLY Monad/Monadicity/Beck.v (CreatesUSplitCoequalizers at 164, monadic_creates at 911); `rg 'Class |Definition |Theorem |Lemma ' Structure/Limit/Preservation.v` -> PreservesLimit (48), PreservesColimit (196), PreservesAllLimits (229), PreservesAllColimits (232), ReflectsIsos (243) and nothing else; `rg -i 'creat' Theory/Equivalence/Limit.v` -> header 18/58/469 plus equivalence_creates_limits (486) / equivalence_creates_colimits (582); `rg -i 'creat' Construction/Comma/Limit.v` -> header 17/20/33/120 + Section Create (122-241). EVIDENCE CHECKED AT SOURCE, all five citations accurate: Beck.v:164 is the Class verbatim; Beck.v:52 is the header paragraph 'The second clause is the uniqueness half of creation ... Mac Lane's strict definition demands a unique on-the-nose lift ... the non-evil rendering asks instead that every iso-compatible lift be colimiting' (quote accurate); BeckObjects.v:385 is Record CreatedSplitCoequalizer verbatim; Equivalence/Limit.v:486 and :582 verbatim; Comma/Limit.v:33 header and :245 Comma_Complete verbatim. All cited files are registered in _CoqProject. ADVERSARIAL CHECKS: (a) same-name-weaker-statement CONFIRMED as disclosed -- equivalence_creates_limits is only the map Limit (F o G) -> Limit G, with no uniqueness clause and no F(Lbar)=L identification; the header at Theory/Equivalence/Limit.v:58-69 discloses this honestly ('combined with preservation and reflection it is the practical content of \"equivalences create limits\"'), so it is not a library defect, but the bare NAME does overstate and a reader grepping for 'creates' will land on it. (b) definition-without-required-API CONFIRMED: Construction/Comma/Limit.v exports comma_limit (238) and Comma_Complete (245) only -- no statement relating comma_proj2's action on the created cone to the C-limit, so nothing there is consumable as 'comma_proj2 creates J-limits'. (c) I found no additional creation vocabulary the classifier missed."
+    }
+  },
+  {
+    "id": "awodey:5.6:prop32",
+    "classification": "ABSENT",
+    "aliases": [
+      "the forgetful functor U : Groups → Sets creates ω-colimits and all limits",
+      "Grp / Groups / category of groups; underlying-set functor",
+      "algebraic categories (operations + equations) have forgetful functors creating limits",
+      "monadic functors create limits; U^T : EM(T) → C creates limits",
+      "limits of algebras are computed on underlying sets (limit created pointwise)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln --include='*.v' -iE 'category of groups|Grp|Groups' . — 20 files, every hit either the words 'group'/'groupoid' in prose or Structure/Group.v (GROUP OBJECTS in a cartesian monoidal category) and Construction/Groupoid.v; there is no category whose objects are groups",
+      "grep -rn --include='*.v' -E '^(Program )?(Definition|Instance) (Mon|Grp|Ab|Rng|Ring|Vect|Groups|Monoids) ' . — one hit only: Theory/Algebra/Monoid/Hom.v:83 [Mon : Category] (internal monoids in a monoidal category C). No Grp, no Ab",
+      "grep -rn --include='*.v' -iE 'forgetful' . — the in-tree forgetful functors are [Forgetful : StrictCat ⟶ QuiverCategory] (Test/Issue138.v), [CMon_Forget : CMon ⟶ Sets] (Instance/CMon.v:169, proved only FAITHFUL), [Mon_Forget : Mon C ⟶ C] (Theory/Algebra/Monoid/Hom.v:93, proved only FAITHFUL via [Mon_Forget_Faithful]), [EM_Forget], [Drinfeld_Forget], [FCoalg_Forget]. None carries a limit- or colimit-creation theorem",
+      "grep -n 'Limit|Complete|Colimit' Instance/CMon.v Instance/CMon/Biproduct.v — zero hits: the only algebraic category in the tree makes no limit statement at all (its products appear only as biproducts)",
+      "grep -rn --include='*.v' -iE 'EM_Forget|EilenbergMoore' Monad/ Structure/ | grep -i 'limit|complete' — zero hits: the Eilenberg–Moore forgetful functor is never shown to create or preserve limits; Monad/Monadicity/Beck.v:911 [monadic_creates : CreatesUSplitCoequalizers (EM_Forget T)] creates only coequalizers of U^T-split pairs",
+      "grep -rn --include='*.v' -iE 'omega-colimit|ω-colimit|omega colimit|colimit of a chain|chain colimit' . — zero hits; ω-indexed colimits appear only as [Colimit (Chain F)] inside the Adámek development (Theory/Adamek/Corollaries.v), never attached to a forgetful functor",
+      "Nearest in-tree relatives, deliberately not counted as partial coverage: Structure/Complete.v:58 cites nLab's 'monadic functors create limits, so algebras for a monad on a complete category are again complete' — as motivating PROSE in a header, with no corresponding statement; and Instance/CMon/Biproduct.v:167 builds the product of two commutative monoids on the product setoid, which is the finite-product instance of the underlying-set computation but is never stated as preservation or creation by [CMon_Forget]"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. My searches: `rg -i 'Definition Group|Instance Group|Record Group|Groups' --glob '*.v'` -> only prose and Structure/Group.v (GROUP OBJECTS in a cartesian monoidal category, not a category of groups); `ls Instance/` -> no Grp/Ab/Groups (the algebraic instances are CMon, Coq, Sets, FinSet, Ens, Rel, Poset, Proset, Two, Omega, ...); `rg -i 'forgetful' --glob '*.v' -l` -> 30 files, none carrying a limit/colimit creation theorem; `rg -i 'creat|limit' Monad/Eilenberg/Moore.v` -> ZERO hits, confirming EM_Forget is never shown to preserve or create limits. The only creation theorem in the tree is monadic_creates (Beck.v:911), for U-split coequalizers only. MINOR CORRECTION to the classifier's negative_search_log (does not affect the verdict): the entry says '[CMon_Forget : CMon -> Sets] (Instance/CMon.v:169, proved only FAITHFUL)'. CMon_Forget is defined at Instance/CMon.v:169, but there is NO Faithful instance for it anywhere -- `rg 'CMon_Forget' Instance/CMon.v` returns line 169 alone; faithfulness is only ASSERTED in the preceding comment (lines 166-168). The sibling Mon_Forget does register Mon_Forget_Faithful (Theory/Algebra/Monoid/Hom.v:101). So the in-tree situation is even thinner than the log states, which strengthens ABSENT."
+    }
+  },
+  {
+    "id": "awodey:5.6:remark-ab-coproduct",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the coproduct of abelian groups is the product: G + H ≅ G × H (direct sum = direct product for two factors)",
+      "biproduct / direct sum; Biproduct, HasBiproducts",
+      "canonical comparison x + y → x × y is invertible (semiadditive category)",
+      "the forgetful functor does not preserve/create coproducts; underlying set of a coproduct ≠ disjoint union",
+      "Ab / CMon / commutative monoids; CMon_Biproduct"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/CMon/Biproduct.v",
+        "line": 442,
+        "symbol": "CMon_Biproduct",
+        "intree_statement": "Definition CMon_Biproduct (M N : CMonObject) : @Biproduct CMon CMon_Zero M N := @Build_Biproduct CMon CMon_Zero M N (CMon_product M N) (CMon_inl M N) (CMon_inr M N) (CMon_exl M N) (CMon_exr M N) ... (CMon_bi_is_product M N) (CMon_bi_is_coproduct M N)."
+      },
+      {
+        "file": "Instance/CMon/Biproduct.v",
+        "line": 167,
+        "symbol": "CMon_product",
+        "intree_statement": "(* The direct product M ⊕ N: the product setoid with componentwise unit and operation. *) Definition CMon_product (M N : CMonObject) : CMonObject. ... cmon_setoid := {| carrier := (carrier M * carrier N)%type ; is_setoid := @prod_setoid ... |}"
+      },
+      {
+        "file": "Instance/CMon/Biproduct.v",
+        "line": 32,
+        "symbol": "(file header)",
+        "intree_statement": "[CMon_Biproducts]: the direct product M ⊕ N (product setoid, componentwise operation) is simultaneously a product — with the projections [fst], [snd] and the pairing a ↦ (f a, g a) — and a coproduct — with the injections a ↦ (a, 0) and b ↦ (0, b) and the copairing (a, b) ↦ f a + g b."
+      },
+      {
+        "file": "Structure/Biproduct.v",
+        "line": 42,
+        "symbol": "Biproduct",
+        "intree_statement": "Record Biproduct (x y : C) := { biproduct_obj : C; ... bi_is_product : ∀ (z : C) (f : z ~> x) (g : z ~> y), ∃! h : z ~> biproduct_obj, (bi_exl ∘ h ≈ f) ∧ (bi_exr ∘ h ≈ g); bi_is_coproduct : ∀ (z : C) (f : x ~> z) (g : y ~> z), ∃! h : biproduct_obj ~> z, (h ∘ bi_inl ≈ f) ∧ (h ∘ bi_inr ≈ g) }."
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 288,
+        "symbol": "can_comparison",
+        "intree_statement": "(* The canonical comparison morphism from the coproduct to the product ... *) Definition can_comparison (x y : C) : x + y ~{C}~> x × y := ... (with Context (E : ∀ x y : C, IsIsomorphism (can_comparison x y)) as the semiadditivity hypothesis, line 324)"
+      },
+      {
+        "file": "Instance/CMon.v",
+        "line": 169,
+        "symbol": "CMon_Forget",
+        "intree_statement": "Program Definition CMon_Forget : CMon ⟶ Sets := {| fobj := fun M => cmon_setoid M; fmap := fun _ _ f => cmon_map f |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Unnumbered remark following Proposition 5.32: the forgetful functor of an algebraic category does NOT create all colimits — witness the coproduct of abelian groups, whose underlying set is the PRODUCT of the underlying sets (G + H ≅ G × H), not their disjoint sum.",
+      "intree": "[CMon_Biproduct] exhibits, for commutative monoids, exactly the phenomenon: the direct product on the product setoid carries both [bi_is_product] and [bi_is_coproduct], so the binary coproduct in CMon is (carried by) the product of the underlying setoids. [can_comparison : x + y ~> x × y] with the semiadditivity hypothesis that it is invertible names the same coincidence abstractly, and [CMon_Forget : CMon ⟶ Sets] is the underlying-set functor.",
+      "strength_comparison": "intree-weaker in three ways: (i) the witness category is CMon (commutative monoids), not Ab — the library has no category of abelian groups (no negation layer above CMon, only [Structure/Additive.v] as an abstract class); (ii) the punchline is never drawn: nowhere is it said that [CMon_Forget] fails to preserve or create the binary coproduct, and indeed no preservation/creation statement about [CMon_Forget] exists at all (it is proved only faithful); (iii) the comparison with the coproduct of the underlying SETS (the disjoint union [Sets_Cocartesian]) is not made — no in-tree statement compares CMon_Forget (M + N) with CMon_Forget M + CMon_Forget N. The positive half of the remark (coproduct = product for the commutative algebraic structure) is present in full and constructively."
+    },
+    "gap": "Missing: (a) the negative conclusion — that the underlying-set functor of an algebraic category does not preserve/create coproducts, i.e. a statement that [CMon_Forget (M ⊕ N)] is NOT the [Sets] coproduct of the carriers; (b) the abelian-group setting itself (no Ab in-tree; CMon is the nearest algebraic category and it has no inverses); (c) any comparison morphism relating the image of a colimit under [CMon_Forget] to the corresponding colimit in [Sets]. Only the positive coincidence 'binary coproduct = binary product, carried by the product setoid' is formalized.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same evidence: I searched biproduct / direct sum / 'coproduct = product' and landed on Instance/CMon/Biproduct.v and Structure/Biproduct.v via CLAUDE.md's semiadditive spine. EVIDENCE CHECKED AT SOURCE: CMon_Biproduct is at Instance/CMon/Biproduct.v:442 (grep of definition heads confirms 442), CMon_product at 167, the header bullet '[CMon_Biproducts]: the direct product M (+) N ... is simultaneously a product ... and a coproduct' spans lines 32-40 (quote accurate); Structure/Biproduct.v:42 Record Biproduct with bi_is_product/bi_is_coproduct verbatim; Structure/Semiadditive.v:288 Definition can_comparison verbatim with the semiadditivity hypothesis Context (E : forall x y, IsIsomorphism (can_comparison x y)) at line 324 exactly as cited; Instance/CMon.v:169 CMon_Forget verbatim. All files registered in _CoqProject. ADVERSARIAL CHECK on the gap statement: I independently confirmed there is no Ab (`ls Instance/`, `rg 'Definition Ab|Instance Ab'` -> nothing), and that no statement anywhere compares CMon_Forget of a coproduct with the Sets coproduct -- so the record's 'the punchline is never drawn' is accurate, and the PARTIAL rests only on the positive half (coproduct = product in a semiadditive setting), which is genuinely and constructively in-tree."
+    }
+  },
+  {
+    "id": "awodey:5.6:example33",
+    "classification": "ABSENT",
+    "aliases": [
+      "cumulative hierarchy V_ω = colim_n V_n; von Neumann hierarchy; rank",
+      "V_0 = ∅, V_{n+1} = P(V_n); iterated powerset; V(A) with atoms, V_{n+1}(A) = A + P(V_n(A))",
+      "initial algebra of X ↦ A + P(X); ω-colimit of the initial-algebra chain",
+      "functoriality of V_ω: V_ω(f) as the mediating map out of a cocone",
+      "well-founded sets / pure sets as a colimit; Aczel's V"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'cumulative|von Neumann|hierarchy|V_omega|rank' . — no set-theoretic hits; 'hierarchy' occurs in Theory/Sheaf.v:98 (contextuality prose) and Instance/Coq.v:89 (the predicative Type hierarchy); 'rank' is Instance/FinSet/Classifier.v's [fin_rank] (index of an element of a Fin.t) and Theory/Kan/Extension.v's 'rank-2 type'",
+      "grep -rn --include='*.v' -iE 'powerset|power set|direct image|image functor|P_!' . — a single hit, Structure/Topos.v:75, describing the derived power OBJECT [Pow a := Ω ^ a]; there is no powerset functor on Sets",
+      "grep -rn --include='*.v' -E '\\bPow\\b' . — [Pow] is only the topos power object (Structure/Topos.v:129) and its FinSet evaluations; it has no action on morphisms as a direct-image operation",
+      "grep -rn --include='*.v' -iE 'omega-colimit|ω-colimit|omega colimit|colimit of a chain|chain colimit' . — zero hits",
+      "Nearest in-tree relatives, deliberately not counted as partial coverage: [Chain F : Omega ⟶ C] (Construction/Chain.v:64) is precisely an ω-indexed diagram of iterated endofunctor images out of the initial object, and Theory/Adamek.v turns a colimit of it into an initial algebra — the general machinery Awodey's example instantiates. But the example's actual content (the powerset functor P_!, the relativized hierarchy V_n(A) = A + P(V_{n-1}(A)), the colimit V_ω(A), and the functoriality V_ω(f) obtained by mediating out of the induced cocone) requires the covariant powerset functor, which does not exist in-tree, and the resulting chain is not the initial-algebra chain (V_0(A) = A, not ∅), so nothing of the example is formalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. My searches: `rg -i 'powerset|power set|direct image|image of' --glob '*.v'` -> the only 'powerset' hit is Structure/Topos.v:75 (the power OBJECT Pow a := Omega^a, object-level, no fmap); `rg -i 'omega.colimit|colimit.*chain|chain.*colimit'` -> only Theory/Adamek*.v and Construction/Chain.v; no cumulative-hierarchy vocabulary of any kind. I verified Construction/Chain.v myself (chain_obj O := initial_obj, chain_obj (S k) := F (chain_obj k), Chain : Omega -> C at line 64) and agree with the classifier's decision NOT to count it: Awodey's chain starts at V_0(A) = A, not at the initial object, and its step functor X |-> A + P(X) needs the covariant powerset functor, which does not exist in-tree. Nothing of the example -- the hierarchy, the relativized form, or the functoriality V_omega(f) by mediation out of the induced cocone -- is formalized."
+    }
+  },
+  {
+    "id": "awodey:5.6:construction-covariant-powerset",
+    "classification": "ABSENT",
+    "aliases": [
+      "covariant powerset functor P_! : Sets → Sets; direct-image functor",
+      "P_!(f)(U) = { f(u) | u ∈ U }; image of a subset along a function",
+      "existential quantification ∃_f as left adjoint to inverse image f*",
+      "contravariant powerset P* = inverse image; Ω^(-) as a functor",
+      "Sub : C^op ⟶ Sets by reindexing (the contravariant subobject functor)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'powerset|power set|direct image|image functor|P_!' . — exactly one hit, Structure/Topos.v:75, and it concerns the topos power OBJECT [Pow a := Ω ^ a], an object-level definition with no morphism action",
+      "grep -rn --include='*.v' -E '\\bPow\\b' . — Structure/Topos.v:129 [Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a] plus its FinSet sanity examples; no functor instance, no [fmap] for Pow",
+      "grep -n 'Definition|Lemma|Program' Instance/Sets/Image.v — the image development ([Sets_Image], [Sets_Image_epi], [Sets_Image_mono], [Sets_Image_Factorization]) computes the image OF A SINGLE MORPHISM as an epi-mono factorization; it is not a direct-image operation on subsets and carries no functoriality in the subset argument",
+      "grep -rn --include='*.v' -iE 'exists_f|∃_f|left adjoint to.*inverse image|Lawvere quantifier' . — only the Lawvere-hyperdoctrine PROSE in Structure/Pullback.v:126-131 ('the quantifiers ∃ and ∀ as its adjoints'), no formalization",
+      "Nearest in-tree relative, deliberately not counted: [Sub : C^op ⟶ Sets] (Theory/Subobject/Functor.v) is the CONTRAVARIANT subobject functor by chosen-pullback reindexing — the inverse-image direction Awodey explicitly contrasts P_! against, not the covariant direct-image functor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. Independent searches: `rg -i 'powerset|power set|direct image|image of' --glob '*.v'` (40 hits scanned; every one is either the topos power object or the word 'image' meaning 'the F-image of a morphism'); `rg 'Pow' Structure/Topos.v` -> line 129 Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Omega ^ a, an object-level definition with no morphism action; `rg 'Definition |Lemma |Program Instance ' Instance/Sets/Image.v` -> Sets_Image / Sets_Image_epi / Sets_Image_mono / Sets_Image_Factorization, i.e. the epi-mono factorization of ONE morphism, with no action on subsets and no functoriality; `rg 'Definition |Program Instance |Lemma ' Theory/Subobject/Functor.v` -> Sub : C^op -> Sets (line 180), the CONTRAVARIANT reindexing functor, which is the inverse-image direction Awodey contrasts P_! against. Confirmed: no covariant direct-image functor anywhere."
+    }
+  },
+  {
+    "id": "awodey:5.6:example34",
+    "classification": "ABSENT",
+    "aliases": [
+      "ω-CPO / omega-CPO / chain-complete poset / dcpo / directed-complete partial order",
+      "ascending chain d_0 ≤ d_1 ≤ ... with least upper bound / supremum / join",
+      "ω-cocomplete poset; colimit of an ω-chain in a thin category",
+      "continuous monotone map: h(colim_n d_n) = colim_n h(d_n); Scott-continuous; ω-continuous",
+      "Pos / category of posets and monotone maps; preserves colimits of type ω"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE '\\bCPO\\b|dcpo|directed complete|Scott|domain theory|continuous map|ascending chain' . — no CPO hits at all; every 'Scott' is the bibliographic Lambek–Scott / Haghverdi–Scott / Scott's D∞ citation in a header (Instance/Lambda.v:32, Structure/Limit.v:107, Structure/Monoidal/Traced.v:110, Construction/Karoubi.v:97), and Structure/Monoidal/Traced.v:66 mentions 'pointed cpos' only inside a cited list of trace examples",
+      "grep -rn --include='*.v' -iE '\\bjoin\\b|\\bsup\\b|least element|bottom element' Instance/Proset.v Instance/Poset.v Instance/Two.v — one hit, Instance/Poset.v:51, and it is header PROSE ('a coproduct is a join'), not a definition; there is no lub/sup operation anywhere",
+      "grep -rn --include='*.v' -E '\\bPos\\b|category of posets|Preorders|category of preorders' . — Instance/Poset.v:21 forward-references '[Pos], the category of posets' in prose, but no such category exists (the remaining hits are Coq's [Pos] binary-positive module in Lib/MapDecide.v). Instance/Poset.v builds the category OF a single poset, not the category of posets",
+      "grep -rn --include='*.v' -iE 'cocomplete|ω-cocomplete|omega-cocomplete' . — [Cocomplete] (Structure/Complete.v:119) quantifies over ALL shapes (∀ D (F : D ⟶ C), Colimit F); there is no shape-restricted 'has colimits of shape J' predicate that could express ω-cocompleteness",
+      "grep -rn --include='*.v' -iE 'monotone' . — the only monotone-map notion is [MonotoneMap] in Construction/Enriched/Two.v:175, used to prove Two-enriched categories are preorders and Two-enriched functors are monotone maps; it has no completeness or continuity layer",
+      "Nearest in-tree relatives, deliberately not counted as partial coverage: [Omega] (Instance/Omega.v) is the ordinal ω as a thin category, so an ω-chain is a functor [Omega ⟶ C] and its colimit is [Colimit] of that diagram; and [PreservesColimit G F] (Structure/Limit/Preservation.v:196) instantiated at an Omega-shaped G is literally 'F preserves colimits of type ω'. These are the ambient shape/preservation vocabulary the example would be built from, but no ω-CPO is defined, no order-theoretic lub characterization (d_n ≤ d_ω, and d_ω ≤ x whenever all d_n ≤ x) is stated, and no category of posets/CPOs exists to state continuity of a monotone map in"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. Independent searches: `rg -i '\\bCPO\\b|dcpo|directed complete|least upper bound|\\blub\\b|supremum|ascending chain' --glob '*.v'` -> ZERO hits, the strongest possible negative; `rg 'Definition |Program Instance |Class |Record ' Instance/Poset.v` -> only Poset (116) and LessThanEqualTo_Category (120), i.e. the category OF a single poset, with no completeness layer; same for Instance/Proset.v (Proset at 33). I independently confirmed there is no category of posets. I also checked the classifier's 'nearest relatives' framing and agree it is right not to count Omega + PreservesColimit as partial coverage: those give the SHAPE and the preservation predicate, but the item is the definition of an omega-CPO (order-theoretic lub characterization) and of a continuous monotone map, neither of which exists."
+    }
+  },
+  {
+    "id": "awodey:5.6:prop35",
+    "classification": "PARTIAL",
+    "aliases": [
+      "least fixed point of a continuous map on an ω-CPO with bottom; Kleene fixed-point theorem",
+      "Kleene iteration d_0 = ⊥, d_{n+1} = h(d_n), lfp h = sup_n h^n(⊥)",
+      "Adámek's theorem: initial algebra as the colimit of 0 → F0 → F²0 → ...",
+      "Lambek's lemma: F μ ≅ μ (μ is a fixed point); initiality gives leastness",
+      "Knaster–Tarski / least prefixed point; initial F-algebra as least fixed point"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Chain.v",
+        "line": 64,
+        "symbol": "Chain",
+        "intree_statement": "Program Definition Chain : Omega ⟶ C := {| fobj := chain_obj; fmap := fun _ _ p => chain_hom p |}.  (with chain_obj O := initial_obj, chain_obj (S k) := F (chain_obj k), and chain_step O := zero, chain_step (S k) := fmap[F] (chain_step k)) — i.e. the ω-chain 0 --¡--> F 0 --F¡--> F² 0 --> ..."
+      },
+      {
+        "file": "Theory/Adamek.v",
+        "line": 107,
+        "symbol": "AdamekData",
+        "intree_statement": "Record AdamekData : Type := { adamek_colim : IsAColimit (F ◯ Chain F) (F A) ; adamek_legs : ∀ n : nat, colimit_inj adamek_colim n ≈ fmap[F] (colimit_inj HL n) }.  (* The honest hypothesis: [F A] carries a colimit of the shifted diagram whose injections are exactly the image legs *)"
+      },
+      {
+        "file": "Theory/Adamek.v",
+        "line": 285,
+        "symbol": "adamek",
+        "intree_statement": "Definition adamek : @Initial (FAlg F) := @Build_Terminal (Opposite (FAlg F)) muF adamek_one adamek_one_unique.  (in a section with Context (HL : IsAColimit (Chain F) A) and Context (D : AdamekData))"
+      },
+      {
+        "file": "Theory/Lambek.v",
+        "line": 40,
+        "symbol": "lambek",
+        "intree_statement": "Theorem lambek `(F : C ⟶ C) (I : @Initial (FAlg F)) : F (`1 (@initial_obj (FAlg F) I)) ≅ `1 (@initial_obj (FAlg F) I)."
+      },
+      {
+        "file": "Theory/Lambek.v",
+        "line": 21,
+        "symbol": "(file header)",
+        "intree_statement": "[α : F μ ~> μ] is invertible, so [F μ ≅ μ] and [μ] is a fixed point of [F] (\"the least fixed point\")."
+      },
+      {
+        "file": "Theory/Adamek/Corollaries.v",
+        "line": 59,
+        "symbol": "adamek_cocomplete",
+        "intree_statement": "Corollary adamek_cocomplete {C : Category} `{@Initial C} (F : C ⟶ C) (CC : @Cocomplete C) (D : AdamekData F (CC _ (Chain F))) : @Initial (FAlg F). Proof. exact (adamek F (CC _ (Chain F)) D). Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "Proposition 5.35: if D is an ω-CPO with a least element 0 and h : D → D is continuous, then h has a fixed point h(x) = x, and it is the least among all fixed points. Proof: take the chain d_0 = 0, d_{n+1} = h(d_n) (ascending because h is monotone and 0 ≤ d_0); continuity gives h(d_ω) = colim_n h(d_n) = colim_n d_{n+1} = d_ω; and for any fixed point x, 0 ≤ x and inductively d_{n+1} = h(d_n) ≤ h(x) = x, so d_ω ≤ x.",
+      "intree": "The same argument at full categorical generality: [Chain F : Omega ⟶ C] is the chain 0 → F0 → F²0 → … (Construction/Chain.v:33-64), and given a colimit [HL : IsAColimit (Chain F) A] together with [AdamekData] (the honest form of 'F preserves this colimit', pinning the shifted cocone's legs to the image legs), [adamek : @Initial (FAlg F)] makes (A, α) the INITIAL F-algebra; [lambek] then gives [F A ≅ A], the fixed-point conclusion, and initiality of the algebra is the leastness clause (in a poset, an F-algebra is a prefixed point F x ≤ x and a unique map into it is exactly A ≤ x).",
+      "strength_comparison": "intree-stronger in generality (arbitrary category, proof-relevant, conclusion is initiality in FAlg F rather than a bare inequality) but strictly conditional and never instantiated: (i) the continuity hypothesis is not 'h preserves ω-colimits' — [PreservesColimit] is deliberately rejected in the Adámek header as insufficient (it pins only the apex, not the legs), so the theorem consumes the stronger, unproven-from-preservation [AdamekData]; the discharge [PreservesColimit → AdamekData] is explicitly withheld (ledger 17); (ii) 'least element 0' becomes an [Initial] object, which exists in the library, but there is no bridge specializing the theorem to a poset/CPO — no ω-CPO exists in-tree at all; (iii) the order-theoretic phrasings 'h(x) = x' and 'least among fixed points' are never stated as such — only [F A ≅ A] and initiality in [FAlg F]; (iv) docs/INHABITATION.md's regime applies: no concrete [AdamekData] is constructed anywhere in-tree, so the fixed point is not exhibited over any concrete object."
+    },
+    "gap": "The order-theoretic statement itself is absent: there is no ω-CPO, no bottom-element-as-least, no least-upper-bound, and no 'least fixed point' conclusion anywhere in the tree; and there is no poset/CPO instance at which the categorical generalization could be specialized (Instance/Poset.v is the category OF a poset, with no colimits, and there is no category of posets). Moreover the in-tree generalization is conditional in a way Proposition 5.35 is not: [adamek] requires the [AdamekData] leg-agreement record rather than plain continuity ([PreservesColimit] is documented as insufficient, and the bridge is deferred as ledger 17), and no [AdamekData] is inhabited in-tree, so nothing yields an actual fixed point of an actual continuous map.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'fixed point|fixpoint|Knaster|Tarski|Kleene|least upper bound|supremum|lub' . (excluding Kleisli) — the only 'fixed point' hits are Theory/Lambek.v:21-36 and Theory/Recursion.v:48,101 (initial algebra as least fixed point / final coalgebra as greatest fixed point, in header prose), plus Comonad prose; no Knaster–Tarski, no Kleene, no lub",
+      "grep -rn --include='*.v' -iE '\\bCPO\\b|dcpo|directed complete|ascending chain' . — zero relevant hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "DIVERGENCE, resolved in the classifier's favour. My blind pass classified this ABSENT: searching 'fixed point|fixpoint|Kleene|Knaster|Tarski|lfp' turned up only Coq Fixpoint definitions plus header prose, and there is no omega-CPO, no bottom, and no least-upper-bound anywhere, so the statement AS STATED is nowhere in the tree. On reading the record I accept PARTIAL under the frozen definition ('some of the item exists'): Awodey's Kleene iteration is, on the nose, the Adamek chain -- d_0 = bottom is chain_obj O := initial_obj, d_{n+1} = h(d_n) is chain_obj (S k) := F (chain_obj k), h(d_omega) = d_omega is lambek : F mu ~= mu, and leastness among fixed points is initiality in FAlg F (in a thin category an F-algebra IS a prefixed point and a unique map into it IS the inequality). That is a faithful categorical generalization, not a coincidence of names, so 'some of the item exists' holds. I flag for the reader that this is the record in the batch whose classification is most load-bearing on a judgment call, and that the gap field states the shortfall correctly and completely. EVIDENCE CHECKED AT SOURCE, all six citations accurate: Construction/Chain.v:64 (Chain : Omega -> C) with chain_obj/chain_step at 28-43 exactly as paraphrased; Theory/Adamek.v:107 Record AdamekData with adamek_colim/adamek_legs verbatim (lines 107-111) under the honest-hypothesis comment at 105-106; Theory/Adamek.v:285 adamek : @Initial (FAlg F); Theory/Lambek.v:40 Theorem lambek verbatim and the header 'fixed point (\"the least fixed point\")' at line 21-22; Theory/Adamek/Corollaries.v:59 adamek_cocomplete verbatim. The strength_comparison's four caveats (AdamekData rather than PreservesColimit, ledger 17, no CPO bridge, never inhabited) all check out against Theory/Adamek.v:41-46. MINOR CORRECTION to the negative_search_log (does not affect the verdict): the entry claims 'no Knaster-Tarski'. There IS one hit -- Instance/Poset.v:93, 'reads a loop as a Knaster-Tarski least fixed point in a complete lattice' -- but it is a Cousot-and-Cousot citation inside the file's background essay, with no formalization attached, so the log's CONCLUSION stands even though its grep result is misreported."
+    }
+  },
+  {
+    "id": "awodey:5.6:example-colimit-ambient-dependence",
+    "classification": "ABSENT",
+    "aliases": [
+      "colimits depend on the ambient category; a colimit computed in a subcategory differs from the one computed in the ambient",
+      "the chain ω_0 → ω_1 → ω_2 → … has colimit ω in Pos but ω + 1 in ω-CPO",
+      "full subcategory not closed under colimits; inclusion functor does not preserve colimits",
+      "reflective subcategory: colimits computed by reflecting the ambient colimit",
+      "finite ω-CPOs ω_n = {k ≤ n}; ω + 1 as the completion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'depends on the ambient|ambient category|computed in the (sub)?category|relative to the ambient' . — 9 hits, all unrelated: universe/typing notes (Instance/Sets/Classifier.v:218, Structure/Topos.v:28, Structure/Limit/Product.v:43), notation-scoping notes (Functor/Hom/Internal.v:71, Construction/ColouredPROP/*/Universal.v), Construction/Free.v:30, Structure/Monoid.v:66, Structure/Coequalizer/Split.v:29. None concerns a limit or colimit differing between a category and a subcategory",
+      "grep -rn --include='*.v' -iE 'full subcategory.*(limit|colimit)|(limit|colimit).*full subcategory|closed under limits|reflective.*limit' . — zero hits; Construction/Subcategory.v, Construction/Reflective.v and Construction/Reflective/Idempotent.v carry no limit/colimit statements",
+      "grep -rn --include='*.v' -E '\\bPos\\b|category of posets' . — no category of posets exists (only Instance/Poset.v's prose forward-reference), so the example's two ambient categories (Pos and ω-CPO) are both unavailable",
+      "grep -rn --include='*.v' -iE '\\bCPO\\b|dcpo|ascending chain' . — zero hits; no ω-CPO and hence no category of ω-CPOs",
+      "grep -rn --include='*.v' -iE 'omega \\+ 1|ω \\+ 1|successor ordinal|ordinal' . — Instance/Omega.v is the only ordinal in the tree (ω itself, as a thin category); there is no ω + 1"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. Both ambient categories the example needs (Pos and omega-CPO) are absent -- confirmed independently by `rg -i '\\bCPO\\b|dcpo|directed complete|ascending chain'` returning zero hits and by inspecting Instance/Poset.v, which builds the category OF a poset, not the category of posets. I also independently checked Construction/Subcategory.v, Construction/Reflective.v and Construction/Reflective/Idempotent.v for any statement that a colimit computed in a subcategory differs from the ambient one, and found none. No counterpart."
+    }
+  },
+  {
+    "id": "awodey:5:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "m is monic iff the square (M, 1_M, 1_M, m) over m, m is a pullback",
+      "the kernel pair of a mono is the diagonal / is trivial; pullback of m along itself",
+      "monic_iff_pullback / pullback characterization of monomorphism",
+      "representable functors Hom(C, −) preserve monomorphisms; hom-functor sends monos to injections",
+      "dual: epic iff the identity cosquare is a pushout; representables send epis to surjections in C^op"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'monic.*iff.*pullback|pullback.*iff.*monic|kernel pair|monic_iff|iff_monic' . — kernel pairs exist ([kernel_pair], Structure/Regular.v:41, used in Regular/Factorization.v), but no lemma relates a mono to the triviality of its kernel pair or to the identity square being a pullback; the [monic_iff*] hits are [finset_monic_iff_injective] (Instance/FinSet/Classifier.v:335) and [monic_iff_kernel_pzero] (Structure/Abelian.v:170, the additive vanishing test f ∘ k ≈ 0 → k ≈ 0), neither of which is this characterization",
+      "grep -rn --include='*.v' -iE 'diagonal.*(monic|mono)|(monic|mono).*diagonal|identity square|pullback of m along m' . — 'identity square' hits are all double-category vertical/horizontal identity squares (Theory/DoubleCategory*.v, Construction/Cospan/Double.v, Construction/Displayed/Codomain.v:99); nothing about a mono",
+      "grep -n '^Lemma|^Definition|^Theorem|^Corollary|^Record|^Class' Theory/Morphisms/Stability.v — the pullback toolkit is [IsPullback], [pullback_is_pullback], [is_pullback_pullback], [pullback_paste], [pullback_unpaste], [monic_pullback_stable], [iso_pullback_stable], [PullbackTransport], [pullback_transport], [ortho_left_cobase_change]. No characterization of monos by pullback squares",
+      "grep -rn --include='*.v' -E '^(Lemma|Theorem|Corollary|Definition|Program Definition).*[Mm]onic' . — the complete list of mono lemmas in the tree; none is the pullback characterization and none concerns a functor preserving monos",
+      "grep -rn --include='*.v' 'Monic|Epic' Functor/ — ZERO hits in the whole Functor/ directory: nothing about [Curried_Hom] (Functor/Hom.v:60), the Yoneda embedding, or any functor preserving monomorphisms",
+      "Note on the second half, deliberately not counted as partial coverage: the library's [Monic f] IS the statement '∀ g1 g2, f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2' (Theory/Morphisms.v), i.e. Hom(c, f) is injective for every c, and [injectivity_is_monic] (Instance/Sets.v:369) identifies monos in Sets with injections — so 'representables preserve monos' would be a two-line consequence. But no such statement exists in-tree, and there is no preservation-of-monomorphisms notion at all"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT, for both halves. My searches: `rg 'Monic' --glob '*.v' | grep -iE 'lemma|theorem|corollary|definition|instance'` -> the complete mono inventory is id_monic, sections_are_monic, monic_compose, iso_to_monic, iso_from_monic, Monic_Retraction_Iso, monic_pullback_stable, equalizer_monic, truth_monic, abelian_monic_is_kernel, abelian_image_monic, image_comparison_monic, Sets_Image_mono_monic, injectivity_is_monic (Instance/Sets.v:370), finset_monic_iff_injective; NONE is the pullback characterization. `rg 'Monic|Epic' Functor/` -> zero output, independently reproducing the classifier's strongest negative and killing the 'representables preserve monos' half. I also read Structure/Pullback.v:85-145 (the header's list of what pulling back a mono does) and Theory/Morphisms/Stability.v's definition list: the pullback toolkit has pasting, unpasting, mono-stability, iso-stability and transport, but no square-is-a-pullback-iff-monic lemma. The record's closing note is fair: Monic f in this library literally IS 'Hom(z, f) is injective for all z', so the second half would be near-trivial -- but 'would be easy' is not 'is present', and nothing states it."
+    }
+  },
+  {
+    "id": "awodey:5:ex2",
+    "classification": "PRESENT",
+    "aliases": [
+      "monomorphisms are stable under pullback / under base change",
+      "the pullback of a mono is a mono; m' monic whenever m is",
+      "monic_pullback_stable / mono_pullback_stable / pullback_preserves_monos",
+      "the inverse image of a subobject is a subobject",
+      "dual: epis are stable under pushout (cobase change)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 226,
+        "symbol": "monic_pullback_stable",
+        "intree_statement": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P)."
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 217,
+        "symbol": "(comment above monic_pullback_stable)",
+        "intree_statement": "(* Monomorphisms are stable under pullback: in the square P --snd--> y, fst | | m, x --f--> z with m monic, the projection opposite m is monic as well. *)"
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 161,
+        "symbol": "Pullback",
+        "intree_statement": "Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := { Pull : C; pullback_fst : Pull ~> x; pullback_snd : Pull ~> y; pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd; ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2 }."
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 38,
+        "symbol": "sub_reindex",
+        "intree_statement": "sub_is_monic := monic_pullback_stable f (sub_mono u) (sub_is_monic u) (pullback f (sub_mono u))  (* the inverse image of a subobject is a subobject *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 2: in any category, given a pullback square with vertical arrows m' : M' → A' and m : M → A over f : A' → A, if m is monic then m' is monic.",
+      "intree": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P).",
+      "strength_comparison": "same. Stated in an arbitrary category over an arbitrary pullback of the cospan (the [Pullback] record carries its own apex and the full UMP, so no [HasPullbacks] instance and no canonical choice is presupposed — the lemma applies to every pullback square of that cospan, exactly the book's generality). [Monic] is the setoid-faithful '∀ g1 g2, m ∘ g1 ≈ m ∘ g2 → g1 ≈ g2'. The proof is the standard one (cancel m on the other projection, then invoke uniqueness of the mediator). No extra hypotheses. Note: this exercise duplicates the unnumbered §5.2 claim already recorded as awodey:5.2:prop-pullback-of-mono, and the same lemma answers both."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: PRESENT, and I found the same single lemma before reading the record. EVIDENCE CHECKED AT SOURCE: I read Theory/Morphisms/Stability.v:217-259 in full. The comment at 217-225 draws the square exactly as quoted; the statement at 226-228 is verbatim; the proof is the standard one (cancel m on the other projection at 234-240, then two appeals to uniqueness of the mediator at 249-258) and ends in Qed -- no admits, no axioms invoked locally. Structure/Pullback.v:161 Record Pullback verified verbatim including ump_pullbacks. Theory/Subobject/Functor.v:38 verified: sub_is_monic := monic_pullback_stable f (sub_mono u) (sub_is_monic u) (pullback f (sub_mono u)) -- a real consumer, so the lemma is load-bearing and not dead. Both files are in _CoqProject. ADVERSARIAL CHECKS all negative: no hidden hypothesis (C is an arbitrary Category, P is an arbitrary Pullback record for the cospan, so no HasPullbacks and no chosen-pullback assumption); the orientation is right (pullback_fst is the leg opposite m, i.e. Awodey's m'); the setoid rephrasing of Monic is faithful. strength_comparison 'same' is honest."
+    }
+  },
+  {
+    "id": "awodey:5:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "a category with pullbacks and binary products has equalizers",
+      "equalizer of f, g as the pullback of the diagonal Δ = ⟨1_B, 1_B⟩ along ⟨f, g⟩",
+      "construction of equalizers from pullbacks; finite limits from terminal + pullbacks",
+      "converse: pullbacks from products and equalizers (the standard reduction)",
+      "HasEqualizers derived from HasPullbacks + Cartesian"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'equalizer.*pullback|pullback.*equalizer|diagonal.*pullback|Pullback_Equalizer|equalizers from' . — 6 hits, all header prose or unrelated: Structure/Topos.v:23, Structure/Coequalizer.v:103 (a uniqueness lemma mirroring pullback_unique), Structure/Regular.v:29, Structure/Pullback/Limit.v:111 (the Roof-diagram reconciliation), Structure/Regular/Factorization.v:31. No construction",
+      "Structure/Topos.v:22-25 states the in-tree situation explicitly: 'Finite limits are carried EXPLICITLY here as terminal object + binary products + pullbacks: the reduction of pullbacks to products and equalizers (AND CONVERSELY) is not formalized in this library, so we do not pretend one component subsumes another, and we deliberately do not add equalizers to the class.' — i.e. the library itself records this exercise as an open gap",
+      "Structure/Pullback.v:266-278 carries the converse construction only as a dated TODO comment ('jww (2017-06-02)') quoting Wikipedia; nothing is proved",
+      "grep -rn --include='*.v' -E 'HasEqualizers|Equalizer.*from|from.*Equalizer|equalizer_from|Pullback.*Product.*Equalizer' . — [HasEqualizers] (Structure/Equalizer/Fork.v:68) is only ever supplied as a hypothesis or extracted from [Complete] ([Complete_HasEqualizers], Adjunction/GAFT.v:193); it is never constructed from pullbacks and products",
+      "grep -rn --include='*.v' -iE 'finite limits.*(terminal|product|equalizer)|all finite limits' . — Structure/Regular.v:30 asserts in PROSE that 'a terminal object and pullbacks generate all finite limits' (with a Borceux citation), but the file only assumes [regular_terminal] + [regular_pullbacks]; the generation is not formalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. My searches: `rg -i 'pullback.*product|product.*equalizer|equalizer.*pullback|pullback.*equalizer' --glob '*.v'` -> 20 hits, every one prose or unrelated; `rg -i 'Equalizer' --glob '*.v' | grep -E 'Definition|Program|Theorem|Lemma|Instance'` -> the full equalizer inventory, with HasEqualizers only ever assumed or extracted from Complete (Complete_HasEqualizers, Adjunction/GAFT.v:193), never built from pullbacks and products. I independently read the two confessions the record cites and both are accurate verbatim: Structure/Topos.v:22-26 ('the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library ... we deliberately do not add equalizers to the class') and Structure/Pullback.v:267-278, where the converse survives only as a 'jww (2017-06-02)' TODO quoting Wikipedia. The library documents this exercise as an open gap in its own words."
+    }
+  },
+  {
+    "id": "awodey:5:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the category Par(C) of partial maps in a category with pullbacks",
+      "a partial map A ⇀ B as a span (U ↣ A, U → B) with monic left leg, up to equivalence of such pairs",
+      "composition by pulling the domain of definition back along |f|",
+      "Par / Pfn / PAR; Kleisli category of the maybe (partiality) monad",
+      "restriction category / partial map classifier / M-category of partial maps"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Par.v",
+        "line": 27,
+        "symbol": "Part",
+        "intree_statement": "Program Definition Part : Category := {| obj := Sets; hom := fun x y => @SetoidMorphism x (is_setoid x) (option y) (@option_setoid _ (is_setoid y)); homset := fun x y => @SetoidMorphism_Setoid x {| is_setoid := @option_setoid _ (is_setoid y) |} |}.  (identity x ↦ Some x; composition Kleisli-style, undefined if either is)"
+      },
+      {
+        "file": "Instance/Sets/Par.v",
+        "line": 13,
+        "symbol": "(file header)",
+        "intree_statement": "This is the category PAR (also written Par or Pfn) of setoids and partial maps. Following the standard presentation, a partial map A ⇀ B is encoded as a total setoid map A → option B (= A → 1 + B): the elements sent to [None] are exactly those outside the domain of definition. Equivalently this is the Kleisli category of the maybe monad [option] on [Sets]."
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 53,
+        "symbol": "Par",
+        "intree_statement": "Program Definition Par : Category := {| obj := Type; hom := fun A B => A ~> option B; homset := fun P Q => {| equiv := fun f g => ∀ x, f x = g x |}; id := λ _, Some; compose := fun x y z f g => option_bind f ∘ g |}."
+      },
+      {
+        "file": "Instance/Sets/Par.v",
+        "line": 115,
+        "symbol": "Part_Cartesian",
+        "intree_statement": "#[export] Program Instance Part_Cartesian : @Cartesian Part := { product_obj := fun x y => {| carrier := x + (y + (x * y)) |} }.  (with the header note that the categorical product in PAR is the 'classical product' A + B + (A × B), not the set product)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 4 (starred): for any category C with pullbacks, define Par(C): objects those of C; an arrow f : A → B is a pair (|f|, U_f) with U_f ↣ A a subobject (equivalence class of monos) and |f| : U_f → B, taken up to a suitable equivalence of such pairs; composition of (|f|, U_f) with (|g|, U_g) pulls U_g ↣ B back along |f| to get |f|*(U_g) ↣ U_f and composes, giving (|g ∘ f|, |f|*(U_g)); verify that this is a category (associativity, identities).",
+      "intree": "Two concrete partial-map categories are built, both by the option/maybe encoding rather than by subobjects and pullbacks: [Part] on setoids (Instance/Sets/Par.v:27, 'the category PAR … of setoids and partial maps … equivalently the Kleisli category of the maybe monad [option] on [Sets]') and [Par] on Coq types (Instance/Coq/Par.v:52). Both discharge the full category laws (identity and associativity obligations), and [Part] additionally carries the correct 'classical product' A + B + (A × B).",
+      "strength_comparison": "intree-weaker: the exercise's construction is PARAMETRIC in an arbitrary category C with pullbacks and is built from subobjects (equivalence classes of monos) with composition BY PULLBACK; the in-tree categories are two fixed concrete instances (setoids, Coq types) built from the maybe monad, where the 'domain of definition' is recovered only as the preimage of [Some] and no pullback and no subobject ever appears. The library's own header acknowledges the identification holds because Set is a Boolean topos ('in Set (a Boolean topos) every Kleisli map of [option] is a partial function, so PAR ≅ Kleisli(option)') — i.e. it is a coincidence of the concrete model, not the general construction. The generality the exercise asks to verify (any C with pullbacks) is therefore absent, as is the equivalence relation on (|f|, U_f) pairs."
+    },
+    "gap": "The general construction Par(C) for an arbitrary category C with pullbacks is missing: no definition takes a subobject U_f ↣ A together with |f| : U_f → B as a morphism, no equivalence relation on such pairs is defined, and composition-by-pullback of domains of definition is nowhere formalized (so the associativity and identity verifications the exercise asks for are not the ones performed in-tree). What exists is the option-Kleisli model of the same category over Sets and over Coq Type — the correct answer for those two base categories only, obtained by a different route. Also absent is any link between the two: no theorem states that the option-Kleisli category IS Par(Sets) in the subobject sense, and there is no restriction-category or partial-map-classifier layer to mediate.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'partial map|partial function|Par\\(|partial arrow|domain of definition' . — hits are Instance/Sets/Par.v, Instance/Coq/Par.v, Instance/Coq/ParE.v (partial functions with monoidal errors), Theory/Coq/Maybe.v (prose about the Kleisli category being partial functions), Theory/Coq/Map.v (finite partial maps as an ADT), plus Traced/Relevance header citations. None is a general Par(C)",
+      "grep -rn --include='*.v' -iE 'restriction category|Cockett|partial map classifier|dominion' . — the only restriction-category mention is the Instance/Sets/Par.v:109 citation of Cockett & Lemay explaining the classical product; no restriction structure is formalized and no partial map classifier exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: PARTIAL, with the same reasoning (concrete option-monad models present, the general subobject-and-pullback construction absent). EVIDENCE CHECKED AT SOURCE: Instance/Sets/Par.v:27 Program Definition Part : Category verbatim (grep -n confirms 27); the header quote is at lines 13-19 verbatim including 'Equivalently this is the Kleisli category of the maybe monad [option] on [Sets]'; Part_Cartesian at 115 verbatim, with the classical-product rationale and the Cockett-and-Lemay citation at 103-113; Instance/Coq/Par.v:53 Program Definition Par : Category verbatim. Both files in _CoqProject. ADVERSARIAL CHECK -- special-case-only CONFIRMED and correctly stated: neither construction ever mentions a subobject or a pullback, so the associativity/identity verifications the exercise asks for (which are the ones that USE pullback pasting) are not the ones discharged in-tree; they are Kleisli laws for option instead. The gap field says exactly this. I also independently confirmed the absence of any restriction-category or partial-map-classifier layer that could mediate."
+    }
+  },
+  {
+    "id": "awodey:5:ex5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "pushout as the dual (copullback) of a pullback; colimit of a span",
+      "IsPushout / Pushout / HasPushouts; pullback in C^op",
+      "construction of pushouts from coproducts and coequalizers (dual to pullbacks from products and equalizers)",
+      "amalgamated sum / fibred coproduct y +_x z",
+      "proof by duality: apply the pullback construction in C^op"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Pushout.v",
+        "line": 47,
+        "symbol": "IsPushout",
+        "intree_statement": "(** Pushout of the span [y <-f- x -g-> z]. *) Definition IsPushout {x y z : C} (f : x ~> y) (g : x ~> z) : Type := @Pullback (C^op) y z x f g."
+      },
+      {
+        "file": "Structure/Pushout.v",
+        "line": 72,
+        "symbol": "pushout_ump",
+        "intree_statement": "Lemma pushout_ump {x y z : C} {f : x ~> y} {g : x ~> z} (P : IsPushout f g) (Q : C) (q1 : y ~> Q) (q2 : z ~> Q) (Hcomm : q1 ∘ f ≈ q2 ∘ g) : ∃! u : pushout_apex P ~> Q, u ∘ pushout_in1 P ≈ q1 ∧ u ∘ pushout_in2 P ≈ q2. Proof. exact (@ump_pullbacks (C^op) y z x f g P Q q1 q2 Hcomm). Qed."
+      },
+      {
+        "file": "Structure/Pushout.v",
+        "line": 148,
+        "symbol": "HasPushouts",
+        "intree_statement": "Class HasPushouts (C : Category) : Type := { pushout : forall {x y z : C} (f : x ~> y) (g : x ~> z), IsPushout f g }.  (with [HasPullbacks_op_of_HasPushouts] and [HasPushouts_of_HasPullbacks_op] exposing both directions of the definitional equivalence)"
+      },
+      {
+        "file": "Structure/Pushout.v",
+        "line": 26,
+        "symbol": "(file header)",
+        "intree_statement": "Pushout is dual to pullback: a pushout in [C] is exactly a pullback in [C^op]. Accordingly the underlying representation reuses [Pullback] … The accessors [pushout_apex], [pushout_in1], [pushout_in2], [pushout_commutes] and [pushout_ump] are written with the morphisms inverted to the underlying [Pullback] representation, so downstream code can think entirely in terms of [C]."
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 266,
+        "symbol": "(TODO comment, jww 2017-06-02)",
+        "intree_statement": "(* jww (2017-06-02): *) (* Wikipedia: \"... the pullback [is] the equalizer of the morphisms f ∘ p1, g ∘ p2 : X × Y → Z … This shows that pullbacks exist in any category with binary products and equalizers…\" *)  — the primal construction whose dual part (b) asks for, present only as an unproved comment"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 5: (a) dualize the definition of pullback to define the copullback, usually called the pushout, of two arrows with a common domain. (b) indicate how to construct pushouts using coproducts and coequalizers, giving the proof by duality (dual to the construction of pullbacks from products and equalizers).",
+      "intree": "Part (a) is done exactly as the exercise prescribes — literally by duality: [IsPushout f g := @Pullback (C^op) y z x f g] with a full covariant accessor layer ([pushout_apex], [pushout_in1/2], [pushout_commutes], [pushout_ump], [pushout_med] and its three laws) and the chosen-pushout class [HasPushouts], plus both directions of [HasPushouts C ≅ HasPullbacks (C^op)]. Part (b) has no in-tree counterpart: no construction of a pushout from a coproduct and a coequalizer exists.",
+      "strength_comparison": "same for part (a) — the definition is the dual of [Pullback] on the nose, so the exercise's 'by duality' proof discipline is the actual implementation strategy, and the UMP is proved by [exact (@ump_pullbacks (C^op) …)]. intree-weaker overall because part (b) is entirely missing: the primal construction (pullback as the equalizer of f ∘ p1, g ∘ p2 : X × Y → Z) survives only as a dated TODO comment in Structure/Pullback.v:266-278, so there is no theorem to dualize, and Structure/Topos.v:22-25 records the reduction as deliberately not formalized in either direction."
+    },
+    "gap": "Part (b) is absent: nothing constructs the pushout of y <- x -> z as the coequalizer of the two composites x → y + z, and nothing dualizes such a construction. Because the primal statement (pullbacks from binary products and equalizers) is itself only a TODO comment in Structure/Pullback.v and is explicitly disclaimed in Structure/Topos.v:22-25, the 'proof by duality' the exercise calls for has no in-tree antecedent. Concretely, no [HasPushouts] instance is ever derived from [Cocartesian] + coequalizers; the two in-tree pushout suppliers (Instance/FinSet/Pushout.v and the Cospan development) build their pushouts by hand.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'pushout' . | grep -iE 'coequal|coproduct' — 17 hits, none a construction: Instance/FinSet/Pushout.v:423 and the Construction/Cospan/* files USE both a pushout and a coproduct side by side (e.g. Hypergraph.v's [pushout_cover_combine], the pushout of covers being the coproduct of pushouts), and Structure/Coequalizer.v:30 merely describes a coequalizer as 'the pushout-style colimit of the parallel pair'. Nothing derives a pushout from a coproduct plus a coequalizer",
+      "grep -rn --include='*.v' -E 'HasPushouts' . — [HasPushouts] is only ever assumed as a hypothesis or supplied concretely (FinSet); it is never constructed from [Cocartesian] and coequalizers"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: PARTIAL with the same split -- (a) present by literal duality, (b) absent. EVIDENCE CHECKED AT SOURCE: Structure/Pushout.v:47 Definition IsPushout {x y z : C} (f : x ~> y) (g : x ~> z) : Type := @Pullback (C^op) y z x f g -- verbatim, and this is exactly the exercise's part (a); pushout_ump at 72-80 verbatim, proved by `exact (@ump_pullbacks (C^op) y z x f g P Q q1 q2 Hcomm)`, i.e. the 'proof by duality' discipline the exercise prescribes is literally the implementation; HasPushouts at 148 verbatim with both transfer directions at 158/168; the header duality paragraph at 26-40 verbatim. Structure/Pullback.v:267 TODO comment verified. All in _CoqProject. ADVERSARIAL CHECK on part (b): `rg 'HasPushouts' --glob '*.v'` -> only assumed as a Context hypothesis (DecoratedCospan, Cospan/*, HypergraphInstance) or supplied concretely (Instance/FinSet/Pushout.v:513, Instance/Sets/Pushout.v:185), never derived from Cocartesian + coequalizers; and `rg -i 'coproduct.*coequal|coequal.*coproduct'` returns nothing. Part (b) is genuinely absent, and because the primal statement it would dualize is itself only a TODO, there is nothing in-tree to dualize."
+    }
+  }
+]

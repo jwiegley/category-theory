@@ -1,0 +1,399 @@
+[
+  {
+    "id": "maclane:VII.2:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "binary word",
+      "formal iterated product",
+      "parenthesized tensor word",
+      "tensor tree / bracketing",
+      "object of the free monoidal category W",
+      "monoidal expression"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'binary word|free monoidal' --include=*.v .  -> only prose hits: Construction/Day.v ('free monoidal cocompletion'), Construction/PROP/Monoidal.v (FreeMonoidal = free SYMMETRIC STRICT structure on PROP); no binary-word / parenthesized-product datatype",
+      "find . -iname '*word*.v'  -> no matches (no Word module anywhere)",
+      "grep -rniE 'Inductive.*[Ww]ord|Inductive [A-Za-z]*[Tt]ree|Inductive [A-Za-z]*[Tt]ensor' --include=*.v .  -> hits are Solver/Expr.v Term, Instance/Comp.v Tree (arbitrary tree), Construction/PROP/Term.v (Term : nat->nat->Type, i.e. PROP MORPHISMS/string diagrams indexed by arities, NOT word OBJECTS); none is MacLane's inductive of parenthesized formal products with e_0 slots",
+      "The nearest object-level free monoid is the object monoid (nat,+,0) of a PROP (Construction/PROP.v) — a STRICT (flattened) word set, not MacLane's parenthesized W-objects"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: `find -iname '*word*.v'` 0 hits; no Inductive binary-word/parenthesized-product datatype anywhere; nearest is PROP's strict object monoid (nat,+,0) and FreePROP (symmetric strict) objects flattened to nat. Non-strict parenthesized W-objects with e_0 slots have no in-tree counterpart. CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.2:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "free monoidal category on one generator",
+      "the category W",
+      "walking monoidal category / walking object",
+      "free monoidal category W(-)",
+      "coherence category of iterated tensors"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "W has binary words as objects and exactly one arrow between any two words of equal length (a contractible/thin groupoid on each length class); it is monoidal under v,w |-> v box w with unit e_0 and unique alpha,lambda,rho, so every diagram in W commutes.",
+      "intree": "(no in-tree counterpart) — the closest is Construction/PROP.v: 'A PROP ... is a strict SYMMETRIC monoidal category whose objects are the natural numbers ... object monoid (nat,+,0)', and FreePROP (Construction/PROP/Free.v) the free such PROP on a signature.",
+      "strength_comparison": "not-comparable / different structure: FreePROP is the free SYMMETRIC STRICT monoidal category (a PROP, objects = flattened nat words, symmetry built in), whereas MacLane's W is the free PLAIN (non-symmetric, non-strict) monoidal category on ONE generator whose objects retain parenthesization and whose hom is thin (one arrow per equal-length pair). Neither the plain-monoidal W nor its thin-hom universal shape is constructed."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "find . -iname '*free*.v'  -> Construction/Free.v (free CATEGORY on a quiver, Free/Quiver.v), Construction/PROP/Free.v, Construction/ColouredPROP/Free.v (free PROPs); none is a free plain monoidal category",
+      "grep -rniE 'free monoidal category|walking|one generator' --include=*.v .  -> 'walking' 0 hits; 'free monoidal' only in Day.v/PROP.v prose about symmetric/strict structures",
+      "grep -rniE 'MonCat|category of monoidal' --include=*.v .  -> MonCat appears only in header prose of Functor/Structure/Monoidal/*.v as an informal 2-category, never a constructed category of monoidal categories"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass confirmed: only free CATEGORY on a quiver (Construction/Free.v) and free PROP/ColouredPROP (symmetric strict) exist; no free plain (non-strict, non-symmetric) monoidal category on one generator, no thin-hom W. Strength note 'not-comparable / different structure' is honest. CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.2:thm1",
+    "classification": "ABSENT",
+    "aliases": [
+      "W is the free monoidal category on one object",
+      "universal property of the free monoidal category",
+      "unique monoidal functor W -> B sending (-) to b",
+      "freeness of W",
+      "substitution functor (-)_b"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "For any monoidal category B and object b in B there is a unique morphism of monoidal categories W -> B sending the generator (-) to b (substitution of b into all blanks).",
+      "intree": "(no in-tree counterpart for the plain-monoidal case) — Construction/PROP/Universal.v: 'The universal property of the free PROP' proves FreePROP S is unique among STRICT SYMMETRIC monoidal functors (InterpF, interp_unique against StrictMonoidalFunctor + SymmetricStrict).",
+      "strength_comparison": "not-comparable / different universal property: the in-tree freeness is for the free symmetric STRICT monoidal category (PROP) over a SIGNATURE and is stated against StrictMonoidalFunctor/SymmetricStrict; MacLane's Theorem 1 is the freeness of the plain (weak, non-symmetric) monoidal category on a SINGLE generator against arbitrary MonoidalFunctors. The plain-monoidal free object and its universal property are not built."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'free monoidal category|monoidal functor.*unique|unique.*monoidal functor' --include=*.v .  -> no plain free-monoidal universal property; only FreePROP (symmetric strict) universal property in Construction/PROP/Universal.v and ColouredPROP/Universal.v",
+      "Construction/PROP/Universal.v header: 'the universal property really is stated against the strict object equality ... StrictMonoidalFunctor ... BraidedMonoidalFunctor ... SymmetricStrict' — confirms symmetric-strict, not plain-monoidal one-generator freeness",
+      "grep -rniE 'MonCat' --include=*.v .  -> no constructed MonCat to receive such a functor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass confirmed: Construction/PROP/Universal.v proves freeness only for symmetric-strict monoidal functors (InterpF, interp_unique against StrictMonoidalFunctor + SymmetricStrict) over a signature - a different universal property than Mac Lane's plain-monoidal one-generator freeness against arbitrary monoidal functors. CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.2:cor1",
+    "classification": "ABSENT",
+    "aliases": [
+      "coherence theorem",
+      "MacLane coherence for monoidal categories",
+      "all formal diagrams of alpha/lambda/rho commute",
+      "canonical maps can_B(v,w) between word-functors",
+      "every diagram of word-functors commutes",
+      "category It(B)"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "For a monoidal category B there is a canonical natural-iso assignment can_B(v,w): v_B => w_B for equal-length words, with id/alpha/lambda/rho canonical and closed under composite and box; consequently every diagram of word-functors built from 1,id,alpha,lambda,rho and box commutes.",
+      "intree": "Structure/Monoidal.v:44 (PROSE ONLY): 'By Mac Lane's coherence theorem these two laws force every formal diagram built from alpha, lambda, rho to commute.' Structure/Monoidal/Proofs.v proves only SPECIFIC consequences: triangle_identity_left (184), triangle_identity_right (299), inverse_pentagon_identity (215), bimap_triangle_right/left (314/327), Corollary unit_identity (344, Kelly's lambda_I = rho_I).",
+      "strength_comparison": "intree-weaker / much: the general coherence theorem (a can_B assignment, closure, and commutativity of ALL word-functor diagrams via the auxiliary It(B)) is only ASSERTED in prose. What is proven are a fixed handful of named consequences of pentagon+triangle that hold in any monoidal category; a consumer needing a new diagram to commute still has no general result to invoke."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'coheren|canonical (map|iso|arrow|natural)|every diagram|all diagrams' --include=*.v .  -> 'coherence' hits are FIELD names (coherence law/diagram/hexagon) in Bicategory/DoubleCategory/Monoidal; 'every reasonable diagram of associators and unitors commutes' (Theory/Bicategory.v:64) and Structure/Monoidal.v:44 are PROSE; no can_B function, no It(B), no coherence THEOREM",
+      "grep -rniE 'can_[a-z]' --include=*.v .  -> only can_comparison (Structure/Semiadditive.v, the coproduct->product map) — unrelated to MacLane's canonical coherence maps",
+      "grep -nE 'Theorem|Corollary' Structure/Monoidal/Proofs.v  -> triangle/pentagon consequences + unit_identity only; no general 'diagrams commute' statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Borderline ABSENT/PARTIAL - verified every cited consequence at its exact line: Structure/Monoidal/Proofs.v triangle_identity_left:184, triangle_identity_right:299, inverse_pentagon_identity:215, bimap_triangle_right:314, bimap_triangle_left:327, unit_identity:344; Structure/Monoidal.v:43-44 prose 'By Mac Lane's coherence theorem these two laws force every formal diagram ... to commute'. The general coherence theorem (can_B assignment + closure + It(B) + all word-functor diagrams commute) is wholly absent; only pentagon/triangle are axioms and a fixed handful of Kelly consequences are derived (present in any monoidal-category formalization, not progress toward the coherence theorem). A PARTIAL reading citing those Kelly lemmas would be defensible, but since none of the distinctive canonical-maps machinery exists and the record documents the derived lemmas transparently in strength_comparison/intree, ABSENT is the honest coverage call. CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.2:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "associahedron K5 / K_4",
+      "diagram of canonical maps between length-5 words",
+      "pentagon subdivision of the sphere",
+      "19-region polyhedron (16 pentagons + 3 squares)",
+      "Stasheff polytope, small case"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'associahedr|stasheff|polyhedr|subdivision|sphere' --include=*.v .  -> ZERO hits for associahedr/stasheff/polyhedr/subdivision; the diagram-of-canonical-maps content requires the coherence apparatus (VII.2:cor1), which is itself ABSENT",
+      "No cell-complex / polytope / geometric-realization machinery exists in the library; the exercise's content (drawing the K5 associahedron as a polyhedral subdivision of the 2-sphere) is a geometric/combinatorial object with no in-tree counterpart",
+      "content note: even the purely categorical core (the finite diagram of canonical maps among length-5 words in the free monoidal category) presupposes W + coherence, which are ABSENT"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: `associahedr|stasheff|polyhedr|subdivision|sphere` 0 hits; no polytope/CW/geometric-realization machinery. Content also presupposes VII.2:cor1 coherence (itself ABSENT). CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.2:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Stasheff associahedron on the n-sphere",
+      "K_{n} associahedron",
+      "polyhedral subdivision of the n-sphere",
+      "Stasheff 1963 associativity polytope",
+      "higher associativity coherence complex"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'associahedr|stasheff|polyhedr|subdivision|n-sphere' --include=*.v .  -> ZERO hits",
+      "No simplicial/CW/polytope or geometric-realization framework in-tree (Instance/Shapes.v, Structure/* checked); the associahedron of length-(n+3) words as a subdivision of S^n has no counterpart",
+      "content depends on VII.2:cor1 (coherence) which is ABSENT; the topological-realization statement is beyond the library's algebraic scope"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: 0 hits for associahedron/Stasheff/n-sphere; no simplicial/CW/polytope framework. CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.2:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "free monoidal category on a set X",
+      "free monoidal category W_X over generators X",
+      "universal property of the free monoidal category on X",
+      "surjection W_X -> free monoid M_X",
+      "generators as length-1 words"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "Construct the free monoidal category on a set X (objects = words with each x a length-1 word, one arrow v->w iff equal image in the free monoid M_X on X) and prove its universal property.",
+      "intree": "(no plain-monoidal counterpart) — Construction/PROP/Free.v builds FreePROP S, the free symmetric STRICT monoidal category on a signature S, with universal property in Construction/PROP/Universal.v.",
+      "strength_comparison": "not-comparable / different structure: FreePROP is the free SYMMETRIC STRICT monoidal category on a signature (objects flattened to nat, symmetry and strictness built in); MacLane Ex 3 asks for the free PLAIN monoidal category W_X on a bare SET (parenthesized words, thin hom by equal image in M_X). The plain-monoidal free object on a set is not constructed."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'free monoidal|free monoid' --include=*.v .  -> free monoidal only for PROP/ColouredPROP (symmetric strict) and Day (cocompletion); free monoid M_X only as prose/lists, never a plain free monoidal category on a set",
+      "find . -iname '*free*.v'  -> Free.v (free category on quiver), PROP/Free.v, ColouredPROP/Free.v; none is the free plain monoidal category on a set",
+      "no W_X, no surjection-to-free-monoid construction, no thin-hom-by-equal-image object"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass confirmed no free plain monoidal category on a set (only symmetric-strict FreePROP on a signature); no W_X, no surjection-to-free-monoid, no thin-hom-by-equal-image object. CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.3:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "monoid in a monoidal category",
+      "monoid object",
+      "internal monoid",
+      "MonoidObject",
+      "Monoid (mu, eta) with associativity + unit laws"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Algebra/Monoid.v",
+        "line": 44,
+        "symbol": "Monoid",
+        "intree_statement": "Class Monoid (X : C) : Type := { mu : X ⨂ X ~> X; eta : I ~> X; mu_assoc : mu ∘ bimap mu id[X] ≈ mu ∘ bimap id[X] mu ∘ to tensor_assoc; mu_unit_left : mu ∘ bimap eta id[X] ≈ to (@unit_left C M X); mu_unit_right : mu ∘ bimap id[X] eta ≈ to (@unit_right C M X) }"
+      },
+      {
+        "file": "Structure/Monoid.v",
+        "line": 124,
+        "symbol": "MonoidObject",
+        "intree_statement": "Class MonoidObject (mon : C) := { mempty : I ~> mon; mappend : mon ⨂ mon ~> mon; mempty_left : mappend ∘ bimap mempty id ≈ to (@unit_left C _ mon); mempty_right : mappend ∘ bimap id mempty ≈ to (@unit_right C _ mon); mappend_assoc : mappend ∘ bimap mappend id ≈ mappend ∘ bimap id mappend ∘ to tensor_assoc }"
+      }
+    ],
+    "statement_record": {
+      "book": "A monoid c in a monoidal category <B,box,e> is an object c with mu: c box c -> c and eta: e -> c such that the associativity square (mu(1 box mu) = mu(mu box 1)alpha) and the two unit triangles (mu(eta box 1) = lambda, mu(1 box eta) = rho) commute.",
+      "intree": "Class Monoid / MonoidObject with fields mu/mappend, eta/mempty and laws mu_assoc/mappend_assoc, mu_unit_left/mempty_left, mu_unit_right/mempty_right, using to tensor_assoc, to unit_left, to unit_right.",
+      "strength_comparison": "same: two independent faithful renderings. Associativity uses the to-direction associator (X⨂X)⨂X -> X⨂(X⨂X) (MacLane orients alpha oppositely but notes it differs only by inverse; equivalent). Unit laws equate to the to-direction unitors, exactly MacLane. Setoid ≈ replaces = faithfully."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified both citations at exact lines: Theory/Algebra/Monoid.v:44 (Class Monoid, fields mu/eta, laws mu_assoc/mu_unit_left/mu_unit_right) and Structure/Monoid.v:124 (Class MonoidObject, fields mappend/mempty). Both registered in _CoqProject; quotes accurate. Associativity via `to tensor_assoc` and unit laws via `to unit_left`/`to unit_right` are the standard nLab rendering, equivalent to Mac Lane's (his alpha inverse-oriented). Two independent faithful renderings. PRESENT CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.3:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "morphism of monoids",
+      "monoid homomorphism",
+      "MonoidHom",
+      "internal monoid homomorphism",
+      "f mu = mu'(f box f), f eta = eta'"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 34,
+        "symbol": "MonoidHom",
+        "intree_statement": "Class MonoidHom {x y : C} (Mx : Monoid x) (My : Monoid y) (f : x ~> y) : Type := { hom_mu : f ∘ mu[Mx] ≈ mu[My] ∘ (f ⨂ f); hom_eta : f ∘ eta[Mx] ≈ eta[My] }"
+      }
+    ],
+    "statement_record": {
+      "book": "A morphism f: <c,mu,eta> -> <c',mu',eta'> of monoids is f: c -> c' with f mu = mu'(f box f) and f eta = eta'.",
+      "intree": "Class MonoidHom with hom_mu: f ∘ mu[Mx] ≈ mu[My] ∘ (f ⨂ f) and hom_eta: f ∘ eta[Mx] ≈ eta[My].",
+      "strength_comparison": "same: exactly the two conditions of MacLane (multiplication square and unit triangle), with f ⨂ f = bimap f f and ≈ for =. Closure under id/composition and ≈-transport are proven (MonoidHom_id, MonoidHom_comp, MonoidHom_equiv)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Theory/Algebra/Monoid/Hom.v:34 (Class MonoidHom): hom_mu (f o mu[Mx] = mu[My] o (f (x) f)) and hom_eta (f o eta[Mx] = eta[My]) are exactly Mac Lane's two conditions; MonoidHom_id/comp/equiv all proven in the same file. Registered. PRESENT CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.3:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "category Mon_B of monoids",
+      "Mon(C)",
+      "forgetful functor U: Mon_B -> B",
+      "Mon_Forget",
+      "category of internal monoids and homomorphisms"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 83,
+        "symbol": "Mon",
+        "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun X => (id; MonoidHom_id `2 X); compose := fun _ _ _ f g => (`1 f ∘ `1 g; MonoidHom_comp `2 f `2 g) |}"
+      },
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 93,
+        "symbol": "Mon_Forget",
+        "intree_statement": "Program Definition Mon_Forget : Mon ⟶ C := {| fobj := fun X => `1 X; fmap := fun _ _ f => `1 f |}   (with #[export] Instance Mon_Forget_Faithful : Faithful Mon_Forget)"
+      }
+    ],
+    "statement_record": {
+      "book": "The monoids in B and their morphisms form a category Mon_B, with a forgetful functor U: Mon_B -> B, <c,mu,eta> |-> c.",
+      "intree": "Mon : Category (sigma-packaged monoid objects and homs, equivalence = underlying-morphism ≈) and Mon_Forget : Mon ⟶ C projecting the carrier/morphism, proven Faithful.",
+      "strength_comparison": "same (intree-slightly-stronger): the category Mon_B and forgetful U are exactly MacLane's; additionally faithfulness of U is proven (Mon_Forget_Faithful), which MacLane leaves implicit."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Theory/Algebra/Monoid/Hom.v:83 (Mon : Category, sigma-packaged), :93 (Mon_Forget : Mon -> C projecting carrier/morphism), :101 (Instance Mon_Forget_Faithful). Registered. Forgetful U and category Mon_B exactly Mac Lane's; faithfulness proven (intree-slightly-stronger - honest). PRESENT CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.3:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monoids in B recover standard structures",
+      "examples table for monoid objects",
+      "monad = monoid in endofunctors",
+      "ring = monoid in Ab",
+      "comonoid = monoid in C^op",
+      "strict monoidal category = monoid in Cat"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monoid.v",
+        "line": 40,
+        "symbol": "Monoid_Monad",
+        "intree_statement": "Theorem Monoid_Monad : @MonoidObject (Endofunctors C) Compose_Monoidal M ↔ Monad M.  (a genuine logical equivalence: monad = monoid object in [C,C] under composition; the slogan proven both ways)"
+      },
+      {
+        "file": "Structure/Monoid.v",
+        "line": 173,
+        "symbol": "Monoid (cartesian)",
+        "intree_statement": "Definition Monoid := @MonoidObject C CC_Monoidal.  (* a monoid object for the cartesian monoidal structure = an ordinary monoid *)  — header (III.6/VII.3) also lists Set->monoids, Ab tensor->rings, R-Mod->algebras, endofunctors->monads, C^op->comonoids as the intended instances"
+      },
+      {
+        "file": "Theory/Algebra/Comonoid.v",
+        "line": 40,
+        "symbol": "Comonoid",
+        "intree_statement": "Class Comonoid (X : C) := { ... }  with header (lines 25-26): 'In principle [Comonoid X] could be obtained as [@Monoid (C^op) _ X], but defining a Monoidal instance on C^op requires extra machinery' — so comonoid = monoid-in-C^op is stated but the literal identification is deferred"
+      }
+    ],
+    "statement_record": {
+      "book": "Monoids in various monoidal categories specialize to: ordinary monoids (Set,x); topological monoids (Top,x); monads (C^C, compose, Id); rings (Ab, tensor, Z); K-algebras (K-Mod); graded/DG algebras; comonoids (B^op); K-coalgebras; strict monoidal categories (Cat,x); categories (O-Grph).",
+      "intree": "The general mechanism (MonoidObject over any Monoidal) is present; the flagship categorical instance monad = monoid-in-endofunctors is proven as an iff (Monoid_Monad); the cartesian specialization to ordinary monoids is the Definition Monoid; comonoids exist as a sibling class (identification to monoid-in-C^op noted but not proven).",
+      "strength_comparison": "intree-weaker: only a proper subset of the table is instantiated. Proven: monad<->monoid in endofunctors. Present as definition: ordinary monoid (cartesian). Present as sibling structure (identification deferred): comonoid. NOT instantiated: rings (no <Ab,tensor,Z>), K-algebras (no <K-Mod,tensor>), topological/graded/DG algebras, K-coalgebras, and 'strict monoidal category = monoid in (Cat,x)' (only the funny-tensor premonoidal analog exists, Instance/StrictCat/Premonoid.v)."
+    },
+    "gap": "The remark is an examples table. In-tree only the endofunctor case is a proven equivalence (Monoid_Monad); the cartesian 'ordinary monoid' and the comonoid sibling exist as definitions. Missing: rings (monoid in <Ab,tensor>), K-algebras (monoid in <K-Mod,tensor>), topological/graded/DG algebras, K-coalgebras, and the identification 'strict monoidal category = monoid in (Cat,x)' — none of these ambient monoidal categories (Ab-tensor, K-Mod-tensor, Top, Cat-cartesian-as-host) is set up so its monoid objects are shown to be the classical structure.",
+    "negative_search_log": [
+      "grep -rniE 'Instance.*Ring|Ring.*monoid|K-algebra|coalgebra.*comonoid' --include=*.v .  -> no ring/K-algebra-as-monoid instances",
+      "grep -rniE 'monoid.*in.*Cat|StrictMonoidal.*Monoid' Instance/ Structure/  -> Strict.v header asserts 'strict monoidal categories are precisely monoid objects in (Cat, x)' in PROSE only; Instance/StrictCat/Premonoid.v proves the FUNNY-tensor analog (monoid = strict premonoidal), not the cartesian one"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL CONFIRMED. Verified Monoid_Monad (Monad/Monoid.v:40-41, genuine iff), cartesian Definition Monoid (Structure/Monoid.v:173), Comonoid (Theory/Algebra/Comonoid.v:40). Gap accurate and precise: rings/K-algebras/graded/DG/topological monoids/coalgebras/O-Grph-categories not instantiated, and 'monoid in (Cat,x) = strict monoidal category' exists only as the funny-tensor premonoidal analog - Instance/StrictCat/Premonoid.v header (lines 19-25) explicitly calls itself 'the funny counterpart of the classical fact that a monoid in (Cat, x, 1) is a strict monoidal category', confirming the classical fact itself is NOT in-tree. Trivial imprecision: the Comonoid C^op-deferral quote is at lines 26-27, record says 'lines 25-26' (off-by-one; quote text accurate). Comonoid presented honestly as sibling structure, identification to monoid-in-C^op noted-but-deferred. CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.3:prop1",
+    "classification": "ABSENT",
+    "aliases": [
+      "General Associative Law",
+      "generalized associativity for a monoid",
+      "n-fold product mu^(n)",
+      "mu_w o can_c(v,w) = mu_v",
+      "iterated multiplication well-defined",
+      "coherence for monoids"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "For a monoid <c,mu,eta>, for any equal-length words v,w one has mu_w o can_c(v,w) = mu_v (mu_v the iterated product along v), so the n-fold product mu^(n): c^n -> c is well defined and mu^(n)(mu^(k1) box ... box mu^(kn)) = mu^(k1+...+kn).",
+      "intree": "Only the base (ternary) case: Theory/Algebra/Monoid.v mu_assoc and Structure/Monoid.v mappend_assoc (line 135) with derived mappend_assoc_sym (line 144). No mu^(n), no can_c(v,w), no word-indexed iterated products, no general law.",
+      "strength_comparison": "intree-weaker / entirely: what exists is the single monoid axiom (the n=3 instance). The theorem's actual content — a well-defined n-ary product for all bracketings, driven by the coherence canonical maps of Theorem VII.2.1 — is absent, as is its prerequisite (VII.2 coherence)."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'iterated|n-fold|nfold|general associ|mu\\^|tensor power|box.power' --include=*.v .  -> no iterated/n-ary monoid product; 'General associativity coherence' in Construction/PROP/Universal.v:254 and ColouredPROP/Universal.v:255 is the interpretation FUNCTOR's associator-coherence cell (fmap of alpha), NOT MacLane's monoid n-ary law",
+      "grep -rniE 'associative law|can_[a-z]|canonical.*monoid' --include=*.v .  -> no can_c(v,w) canonical-map assignment for monoids; only can_comparison (Semiadditive, coproduct->product)",
+      "prerequisite VII.2:cor1 (coherence / canonical maps) is itself ABSENT, so the General Associative Law cannot be, and is not, stated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass confirmed only the ternary (n=3) case exists: Theory/Algebra/Monoid.v mu_assoc and Structure/Monoid.v mappend_assoc:135 (+ mappend_assoc_sym:144). No mu^(n), no can_c(v,w), no word-indexed iterated products, no general law. Record correctly distinguishes PROP/Universal.v:254 'General associativity coherence' as the interpretation functor's associator cell, not the monoid n-ary law. Prerequisite VII.2 coherence is itself ABSENT. CONFIRMED."
+    }
+  },
+  {
+    "id": "maclane:VII.3:thm2",
+    "classification": "ABSENT",
+    "aliases": [
+      "construction of free monoids",
+      "free monoid = coproduct of tensor powers ∐_n a^n",
+      "left adjoint to U: Mon_B -> B",
+      "tensor algebra",
+      "free monoid functor",
+      "word monoid on a set as coproduct of powers"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "If B has denumerable coproducts preserved by every a box - and - box a, then U: Mon_B -> B has a left adjoint; the free monoid on a is coproduct_n a^n with juxtaposition multiplication a^m box a^n ~= a^{m+n} and unit a^0 -> coproduct. Specializes to free monoid on a set (Set), tensor algebra (K-Mod), DG tensor algebras, free topological monoids.",
+      "intree": "Mon_Forget : Mon ⟶ C exists (Theory/Algebra/Monoid/Hom.v:93) but NO left adjoint is constructed. 'Free monoids' appear only aspirationally: Structure/Monoid.v:73 essay ('closure under products, transport along lax monoidal functors, free monoids — specializes everywhere'), Theory/Coq/Foldable.v ('Folding is the universal property of the free monoid ... L x = ∐ₙ xⁿ', but the class 'records no laws ... stated in prose rather than enforced'), Theory/Coq/List.v (lists = free monoid on a type, comment only).",
+      "strength_comparison": "intree-weaker / entirely: the general adjunction (left adjoint to U via ∐_n a^n under the coproduct-preservation hypothesis) is not formalized; even the Set/Type specialization (lists/tensor algebra as the value of a left adjoint) is described only in prose, never as a theorem or adjunction."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Mon_Forget|left adjoint.*[Mm]on|free monoid.*adjoint|adjoint.*free monoid' --include=*.v .  -> Mon_Forget exists + proven Faithful, but no left adjoint / free-monoid functor anywhere",
+      "grep -rniE 'free monoid|tensor algebra|free_monoid' --include=*.v .  -> all hits are prose/comments (Structure/Monoid.v:73 essay, Foldable.v, List.v Wikipedia refs, Cayley.v, PROP.v object-monoid); no ∐_n a^n construction, no juxtaposition multiplication, no universal property theorem",
+      "Theory/Coq/Foldable.v:44-50 explicitly: the class 'carries the foldr operation but records no laws ... any laws ... are stated in prose rather than enforced' — so no formalized free-monoid universal property even in Type"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass confirmed: Mon_Forget exists (Hom.v:93) but NO left adjoint; no coproduct_n a^n construction, no juxtaposition multiplication, no universal-property theorem. 'Free monoid' appears only in prose: Structure/Monoid.v:73 essay (aspirational - lists 'free monoids' among theorems provable at this generality, but not built), Theory/Coq/Foldable.v:44-50 explicitly 'records no laws ... stated in prose rather than enforced', Theory/Coq/List.v Wikipedia refs. Even the B=Set specialization (lists as value of a left adjoint) is prose-only, never an adjunction/theorem. CONFIRMED."
+    }
+  }
+]

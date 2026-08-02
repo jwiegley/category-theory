@@ -1,0 +1,188 @@
+[
+  {
+    "id": "maclane:III.4:ex1",
+    "classification": "PARTIAL",
+    "aliases": ["Pullback", "HasPullbacks", "fibered product", "Sets_Pullback / FinSet_Pullbacks", "pullback in Set as pairs agreeing under f and g", "pullbacks in Top"],
+    "evidence": [
+      {"file": "Instance/FinSet/Classifier.v", "line": 264, "symbol": "FinSet_Pullbacks",
+       "intree_statement": "#[export] Program Instance FinSet_Pullbacks : HasPullbacks FinSet := { pullback := fun m n k (f : Fin.t m → Fin.t k) (g : Fin.t n → Fin.t k) => {| Pull := fin_countP (finset_pb_pred f g); pullback_fst := fun q => fst (fin_unpair (fin_select (finset_pb_pred f g) q)); pullback_snd := fun q => snd (fin_unpair (fin_select (finset_pb_pred f g) q)) |} } — with finset_pb_pred f g := fun p => fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p)))"},
+      {"file": "Instance/Sets/Classifier.v", "line": 224, "symbol": "sets_char_pullback",
+       "intree_statement": "Theorem sets_char_pullback {A B : SetoidObject} (m : A ~{Sets}~> B) (Hm : @Monic Sets A B m) : @IsPullback Sets@{so sso} (Setoid_Lift B) unit_setoid_object PropSetoid (char_setoid m) sets_true (Setoid_Lift A) (SetoidMorphism_Lift m) sets_to_unit"},
+      {"file": "Instance/Sets/Pushout.v", "line": 185, "symbol": "Sets_HasPushouts",
+       "intree_statement": "#[export] Program Instance Sets_HasPushouts : HasPushouts Sets — the dual construction (pushouts in Sets, packaged as a Pullback in Sets^op per the file's header)"}
+    ],
+    "statement_record": {
+      "book": "In Set the pullback of f : X -> Z and g : Y -> Z is the set of pairs (x,y) with fx = gy, with the evident projections; also describe pullbacks in Top.",
+      "intree": "FinSet_Pullbacks realizes the pullback of f, g as the counted subset of positionally-encoded pairs Fin.t (m*n) on which f and g agree (predicate fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p)))) — exactly the book's pairs-that-agree formula, for skeletal finite sets.",
+      "strength_comparison": "intree-weaker: the agreement-subset pullback is witnessed only in FinSet (skeletal finite sets); the library's Set analog Sets (setoids) has NO general HasPullbacks instance — only the single classifier square sets_char_pullback and the dual Sets_HasPushouts — and no category Top of topological spaces exists in-tree (grep -rn -il 'topolog' hits are prose only)."
+    },
+    "gap": "General binary pullbacks in Sets (setoids) are not constructed (no HasPullbacks Sets; only the one-off classifier pullback square and the dual pushout instance); the Top half of the exercise has no counterpart since no category of topological spaces exists in the library.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same three witnesses and the same two gaps. Independently verified: rg 'HasPullbacks' tree-wide — the only concrete instance is FinSet_Pullbacks (Instance/FinSet/Classifier.v:264, quote verbatim incl. finset_pb_pred at :257); Instance/Sets/ has Pushout.v (Sets_HasPushouts at :185) but no Pullback.v; sets_char_pullback confirmed at Instance/Sets/Classifier.v:224; rg -i 'Top\\b|topolog' finds no Top category (only prose/Solver hits). All cited files registered in _CoqProject."}
+  },
+  {
+    "id": "maclane:III.4:ex2",
+    "classification": "PARTIAL",
+    "aliases": ["Cartesian", "Sets_Cartesian", "product_obj / fork / exl / exr", "iprod / HasIndexedProducts", "indexed product over discrete category", "Coq_Cartesian", "products in Top"],
+    "evidence": [
+      {"file": "Instance/Sets/Cartesian.v", "line": 32, "symbol": "Sets_Cartesian",
+       "intree_statement": "#[export] Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type; is_setoid := ... componentwise equiv ... |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := fun _ _ => {| morphism := fst |}; exr := fun _ _ => {| morphism := snd |} }"},
+      {"file": "Instance/Coq.v", "line": 141, "symbol": "Coq_Cartesian",
+       "intree_statement": "Program Instance Coq_Cartesian : @Cartesian Coq — the cartesian product of bare Coq types with fst/snd is the categorical binary product"},
+      {"file": "Structure/Limit/Product.v", "line": 93, "symbol": "iprod",
+       "intree_statement": "Definition iprod {C : Category} {A : Type} (f : A → C) ... — indexed products as limits over DiscreteCat A, with iprod_proj, iprod_ump, limit_is_indexed_product, and Class HasIndexedProducts (C : Category) (line 128)"}
+    ],
+    "statement_record": {
+      "book": "The usual cartesian product over an index set J, with its projections, is a categorical product in Set and in Top.",
+      "intree": "Sets_Cartesian: the product setoid (carrier x * carrier y with componentwise ≈), with fst/snd as projections and pairing (f x, g x), satisfies the Cartesian universal property in Sets; likewise Coq_Cartesian for bare types.",
+      "strength_comparison": "intree-weaker: only the BINARY case is instantiated for the Set analogs (Sets, Coq, and FinSet via Instance/FinSet/Product.v); the exercise's J-indexed cartesian product has in-tree vocabulary (iprod as a limit over a discrete category, HasIndexedProducts) but no instance for Sets or any other category (grep -rn 'HasIndexedProducts' shows zero instances); Top does not exist in-tree."
+    },
+    "gap": "The J-indexed case: no instance shows that the J-indexed cartesian product of setoids/types is the categorical indexed product (HasIndexedProducts has no inhabitants; iprod is pure vocabulary); and the Top half has no counterpart (no Top category).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees. Verified Sets_Cartesian at Instance/Sets/Cartesian.v:32 (quote matches source), Coq_Cartesian at Instance/Coq.v:141, iprod at Structure/Limit/Product.v:93 and Class HasIndexedProducts at :128; independently re-ran rg 'HasIndexedProducts' — only the class definition plus prose mentions (Theory/WeaklyInitial.v:44, Product.v:34), zero instances, so 'vocabulary only' is accurate; Instance/FinSet/Product.v exists and is in _CoqProject; no Top category in-tree."}
+  },
+  {
+    "id": "maclane:III.4:ex3",
+    "classification": "ABSENT",
+    "aliases": ["limit of F over J with initial object is F(initial)", "limit computed at initial index / evaluation at initial object", "colimit over category with terminal object (dual)", "initial/final (cofinal) functor argument", "Limit_Initial / initial_limit"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'initial' --include='*.v' . | grep -i 'limit' — hits are unrelated: colimit-as-initial-object-of-cocones (Instance/Cones.v:45, Structure/Initial.v:48), Adamek initial-algebra-as-colimit prose, empty-diagram limits (Structure/Limit/Terminal.v); no lemma computing Lim F as F(initial object of J)",
+      "grep -rn 'Lemma|Theorem|Definition|Program|Corollary' --include='*.v' . | grep -i 'initial' — only lambek, adamek, initial_from_weakly_initial (Theory/WeaklyInitial.v, a different theorem: weakly initial family + products + equalizers => initial object), GAFT_from_initials (comma-initial => adjoint), and per-category Initial instances; none evaluate a limit at an initial index object",
+      "grep -rln 'initial_obj' --include='*.v' . cross-referenced with grep 'Limit|limit' in those files — no file connects initial_obj of the index category to a Limit",
+      "grep -rn -i 'cofinal|final functor|initial functor' --include='*.v' . — only Functor/Structure/Terminal.v:53 prose ('An initial functor preserves the initial object', unrelated); no final/initial-functor machinery that would subsume this exercise",
+      "verifier blind pass: rg -i 'initial' over Structure/Limit.v, Structure/Complete.v, Structure/Cone.v, Instance/Cones{,/Limit}.v, Structure/Limit/*.v — only empty-diagram limits and cone-category initiality; rg 'initial_ob|Limit.*[Ii]nitial' tree-wide — zero relevant hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent blind search (rg over limit machinery, initial_obj cross-referencing, cofinal/final-functor aliases) found no counterpart: the library has no lemma computing a limit by evaluation at an initial object of the index category, and no final/initial-functor apparatus that would subsume it. ABSENT stands."}
+  },
+  {
+    "id": "maclane:III.4:ex4",
+    "classification": "ABSENT",
+    "aliases": ["epi iff identity pushout square", "epimorphism characterized by pushout of f with f", "cokernel pair of an epi is trivial", "Epic <-> IsPushout f f id id", "dual: mono iff identity pullback square"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'Epic' --include='*.v' . | grep -i 'pushout|cokernel' — only pushout_jointly_epic (Construction/Cospan/Double.v:67, pushout injections jointly epic — a different statement) and coequalizer_epic (Structure/Coequalizer.v:83)",
+      "grep -rn -i 'cokernel' --include='*.v' Structure/ Theory/ Construction/ — only zero-object cokernels (Structure/Kernel.v, Structure/Abelian.v: kernel/cokernel in the additive spine); no cokernel PAIR (pushout of f with f) anywhere; the only in-tree 'cokernel pair' text is in the book inventory, not the library",
+      "grep -rn 'IsPushout' --include='*.v' . filtered by 'id' — only cospan unitor internals (Construction/Cospan/Double.v:275,337); no epi characterization",
+      "grep -n declarations in Structure/Pushout.v — IsPushout, pushout_apex/in1/in2, pushout_commutes, pushout_ump, pushout_med and its laws only; no connection to Epic; the dual mono-iff-identity-pullback also absent (Theory/Morphisms/Stability.v contains only pasting, monic_pullback_stable, iso_pullback_stable, pullback_transport, ortho_left_cobase_change)",
+      "verifier blind pass: rg 'cokernel.?pair' tree-wide — 0 hits; rg -B3 -A3 'Epic' over Structure/ and Construction/ filtered by 'pushout' — only Construction/Cospan/Corelation.v:154 (a corelation epi condition, unrelated)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agrees: no cokernel pairs exist in-tree (rg 'cokernel.?pair' — 0 hits) and no lemma relates Epic to any pushout square; pushout_jointly_epic (Construction/Cospan/Double.v:67, verified) and coequalizer_epic are genuinely different statements. Stability.v lemma list verified by direct read — no dual mono-iff-identity-pullback either. ABSENT stands."}
+  },
+  {
+    "id": "maclane:III.4:ex5",
+    "classification": "PRESENT",
+    "aliases": ["monos stable under pullback", "monic_pullback_stable", "pullback of a monomorphism is monic", "mono pullback-stable / base change of a mono"],
+    "evidence": [
+      {"file": "Theory/Morphisms/Stability.v", "line": 226, "symbol": "monic_pullback_stable",
+       "intree_statement": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P)."}
+    ],
+    "statement_record": {
+      "book": "In a pullback square over the cospan f : b -> a <- d : g, if f is monic then the projection opposite f is monic.",
+      "intree": "For any pullback P of f : x ~> z and m : y ~> z with m monic, the projection opposite m (pullback_fst : P ~> x) is monic.",
+      "strength_comparison": "same: identical statement up to setoid rephrasing (Monic via ≈-cancellation) and packaging — stated over the existential Pullback record, and the same file provides the apex-pinned IsPullback with conversions both ways (pullback_is_pullback at line 65, is_pullback_pullback at line 71), so the given-square form of the book is recoverable; iso_pullback_stable (line 264) is a bonus companion."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same lemma first. Read Theory/Morphisms/Stability.v:226-259: statement quote is verbatim and the proof is a complete Qed (UMP-uniqueness argument, no admits). The mono is placed on the m-leg and monicity concluded for the opposite projection pullback_fst — exactly the book's orientation up to left/right symmetry. IsPullback conversions at :65/:71 verified. File registered in _CoqProject."}
+  },
+  {
+    "id": "maclane:III.4:ex6",
+    "classification": "PARTIAL",
+    "aliases": ["kernel pair in Set", "kernel_pair", "KernelPair", "induced equivalence relation of a function", "pullback of f along itself in Set"],
+    "evidence": [
+      {"file": "Structure/Regular.v", "line": 46, "symbol": "kernel_pair",
+       "intree_statement": "Definition kernel_pair {C : Category} `{H : @HasPullbacks C} {x y : C} (f : x ~> y) : Pullback f f := pullback f f."},
+      {"file": "Instance/FinSet/Classifier.v", "line": 257, "symbol": "finset_pb_pred / FinSet_Pullbacks",
+       "intree_statement": "Definition finset_pb_pred ... := fun p => fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p))) — so the chosen FinSet pullback of f along f (kernel_pair f under FinSet_Pullbacks, line 264) is by definition the counted subset of pairs (x,x') with f x = f x', with the two decode-then-project projections"}
+    ],
+    "statement_record": {
+      "book": "In Set, the kernel pair of f : X -> Y is the induced equivalence relation E = {(x,x') | fx = fx'} together with its two projection maps E -> X.",
+      "intree": "kernel_pair f := pullback f f generically over HasPullbacks; instantiating the FinSet pullback instance at g := f yields exactly the agreement-relation subset {p | f (fst p) = f (snd p)} of the encoded pairs, with the pair projections.",
+      "strength_comparison": "intree-weaker: the concrete Set-level computation is available only in skeletal FinSet (finite sets), and only definitionally — no in-tree lemma states the identification of the kernel pair with the induced equivalence relation (nor its reflexivity/symmetry/transitivity reading); Sets (setoids) has no HasPullbacks, hence no kernel pairs at all."
+    },
+    "gap": "No kernel-pair construction in Sets proper (Sets lacks HasPullbacks); no explicit statement, in FinSet or elsewhere, that the pullback of f along f is the induced equivalence relation — the FinSet witness is an unstated definitional instantiation, and only for finite skeletal sets.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass reached the same borderline call and the same two witnesses. Verified kernel_pair at Structure/Regular.v:46-47 (quote verbatim) and finset_pb_pred at Instance/FinSet/Classifier.v:257-260 with FinSet_Pullbacks at :264, so kernel_pair f in FinSet definitionally computes to the agreement subset {(x,x') | f x = f x'}. PARTIAL is the honest class under the frozen definitions: some of the item exists (generic kernel_pair + the finite definitional computation) and the gap is stated precisely — no Sets kernel pairs, no equivalence-relation identification lemma anywhere."}
+  },
+  {
+    "id": "maclane:III.4:ex7",
+    "classification": "ABSENT",
+    "aliases": ["kernel pair from products and equalizers", "pullback from binary products + equalizers (special case f,f)", "equalizer of f p1, f p2 : a x a -> b", "finite completeness from products and equalizers", "cokernel pair from coproducts and coequalizers (dual)"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'kernel_pair|KernelPair|kernel pair' --include='*.v' Structure/ — kernel_pair is DEFINED only via HasPullbacks (Structure/Regular.v:46); no construction of it from products+equalizers exists",
+      "grep -rn 'products and equalizers|equalizers and products' --include='*.v' . — all four hits are prose: Structure/Topos.v:22-24 explicitly discloses 'the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library'; Structure/Limit.v:71, Structure/Equalizer.v:80, Structure/Complete.v:51 cite the MacLane V.2 theorem as commentary only",
+      "grep -rn -i 'equaliz' --include='*.v' Structure/Pullback.v — the products+equalizers=>pullbacks reduction appears only inside the 'jww (2017-06-02):' TODO comment quoting Wikipedia (lines 267-274); nothing proven",
+      "grep -rn 'HasEqualizers' consumers — only Structure/Equalizer/Fork.v itself (IsEqualizer API, equalizer_monic, Limit conversions); no pullback- or kernel-pair-building consumer; dual (cokernel pair from coproducts+coequalizers) equally absent since cokernel pairs do not exist in-tree (see ex4 log)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agrees: rg 'kernel_pair' tree-wide hits only Structure/Regular.v (definition from HasPullbacks) and its consumers in Regular/Factorization.v; verified the Topos.v:22-24 disclosure by direct read ('the reduction of pullbacks to products and equalizers (and conversely) is not formalized') and the Pullback.v:267-274 jww TODO block. No products+equalizers construction of kernel pairs anywhere. ABSENT stands."}
+  },
+  {
+    "id": "maclane:III.4:ex8",
+    "classification": "PRESENT",
+    "aliases": ["pullback pasting lemma", "pullback_paste / pullback_unpaste", "two pullback squares compose", "pasting law for pullbacks", "cancellation property of pullback rectangles"],
+    "evidence": [
+      {"file": "Theory/Morphisms/Stability.v", "line": 106, "symbol": "pullback_paste",
+       "intree_statement": "Lemma pullback_paste (HQ : IsPullback h m Q q1 q2) (HP : IsPullback k q1 P p1 p2) : IsPullback (h ∘ k) m P p1 (q2 ∘ p2)."},
+      {"file": "Theory/Morphisms/Stability.v", "line": 160, "symbol": "pullback_unpaste",
+       "intree_statement": "Lemma pullback_unpaste (HQ : IsPullback h m Q q1 q2) (Hcomm : k ∘ p1 ≈ q1 ∘ p2) (HO : IsPullback (h ∘ k) m P p1 (q2 ∘ p2)) : IsPullback k q1 P p1 p2."}
+    ],
+    "statement_record": {
+      "book": "For two side-by-side commutative squares: (a) if both squares are pullbacks then the outer rectangle is a pullback; (b) if the outer rectangle and the right-hand square are pullbacks, so is the left-hand square.",
+      "intree": "(a) pullback_paste: right square and left square pullbacks give the outer rectangle IsPullback (h ∘ k) m with legs p1 and q2 ∘ p2. (b) pullback_unpaste: right square a pullback, left square commuting (Hcomm), outer rectangle a pullback gives left square a pullback.",
+      "strength_comparison": "same: both directions over the apex-pinned IsPullback; the extra hypothesis Hcomm in (b) is exactly the book's data — the book poses two COMMUTATIVE squares, and as the in-tree comment notes (lines 155-159), the left square's commutativity is data the outer rectangle cannot recover, so stating it explicitly is faithful, not weaker."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same pair immediately (file header advertises the pasting law). Read both proofs in full: statement quotes verbatim at :106-108 and :160-164, both complete Qeds via UMP mediation/uniqueness, no admits. The Hcomm analysis is accurate — MacLane's (b) presupposes commutative squares, so the explicit hypothesis is a faithful rendering, and the in-file comment at :158-161 says exactly this. File registered in _CoqProject."}
+  },
+  {
+    "id": "maclane:III.4:ex9",
+    "classification": "ABSENT",
+    "aliases": ["equalizer as pullback of graphs/pairings", "equalizer of f,g as pullback of (1,f) and (1,g)", "equalizers from products and pullbacks", "pullback of the induced pairings", "fork from pullback square"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn '△' --include='*.v' . filtered by 'equaliz|pullback' — 0 hits: no pairing-into-product morphisms ⟨id,f⟩, ⟨id,g⟩ ever meet Pullback or Equalizer",
+      "grep -rn -i 'equaliz' --include='*.v' Structure/Pullback.v Structure/Pullback/Limit.v Theory/Morphisms/Stability.v — comment-only hits (Structure/Pullback.v:269-274 TODO block); Pullback/Limit.v relates Pullback to Limit over the walking roof, never to equalizers",
+      "Structure/Regular.v:29-30 states the exercise's content verbatim as COMMENTARY ('equalizers are pullbacks of the induced pairings, so a terminal object and pullbacks generate all finite limits') with no formal counterpart anywhere in the file or tree",
+      "Structure/Topos.v:22-24 explicitly discloses: 'the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library, so we do not pretend one component subsumes another'",
+      "grep -n declarations in Structure/Equalizer.v and Structure/Equalizer/Fork.v — Equalizer := Limit over Parallel, IsEqualizer fork API, equalizer_monic, equalizer_unique, Limit conversions; no construction from pullbacks"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agrees: verified by direct read that Structure/Regular.v:28-30 states the equalizers-as-pullbacks-of-pairings fact only as header prose justifying the class design, that Structure/Pullback.v carries the reduction solely inside jww TODO comments (:254-274), and that Structure/Topos.v:22-24 explicitly declares the reduction unformalized (echoed in CLAUDE.md). No equalizer-from-pullback construction in-tree. ABSENT stands."}
+  },
+  {
+    "id": "maclane:III.4:ex10",
+    "classification": "ABSENT",
+    "aliases": ["pullbacks + terminal object give finite products and equalizers", "finite completeness from pullbacks and terminal", "binary product as pullback over the terminal object", "Borceux I Prop 2.8.2", "finite limits from pullbacks"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Terminal' --include='*.v' . filtered by 'pullback' — 0 constructive hits; no Cartesian or HasEqualizers instance is ever built from HasPullbacks + Terminal",
+      "grep -rn -i 'finite limit|finite products' --include='*.v' Structure/ — commentary only: Structure/Pullback.v:96-101 ('a terminal object together with [HasPullbacks] generates every finite limit (Borceux ... Prop. 2.8.2)') and Structure/Regular.v:26-30 ('binary products are pullbacks over the terminal object, and equalizers are pullbacks of the induced pairings') are both header prose with no formal counterpart",
+      "Structure/Pullback.v:254-274 — the product-from-pullback-over-terminal reduction exists only as two 'jww (2017-06-01/02): TODO' comments quoting Wikipedia",
+      "Structure/Topos.v:20-24 — the ElementaryTopos class carries terminal + products + pullbacks EXPLICITLY precisely because 'the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library' (also flagged in CLAUDE.md as 'a known in-tree gap')",
+      "grep -rn 'HasPullbacks' consumers (Theory/Subobject/Functor.v, Construction/Span/Category.v, Structure/Regular.v, Construction/Slice/Pullback.v) — all consume pullbacks; none derive products or equalizers from them"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agrees and independently verified each citation: Structure/Pullback.v:96-98 Borceux prose, :254-274 TODO comments (read directly — pure Wikipedia quotes under jww TODO markers), Structure/Regular.v:26-30 economical-presentation prose, Structure/Topos.v:20-25 explicit disclosure. Re-ran rg 'HasPullbacks' consumer survey — every consumer (Subobject/Functor, Span/Category, Regular, Slice/Pullback, Displayed/Codomain, SubobjectClassifier) consumes pullbacks; none derives products or equalizers from pullbacks+terminal. ABSENT stands."}
+  }
+]

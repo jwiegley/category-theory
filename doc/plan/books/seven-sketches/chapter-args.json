@@ -1,0 +1,812 @@
+[
+ {
+  "roman": "1",
+  "title": "Generative effects: Orders and adjunctions",
+  "pdfStart": 13,
+  "pdfEnd": 50,
+  "offset": 12,
+  "splitAt": 30,
+  "sections": [
+   {
+    "n": 1,
+    "name": "1.1 More than the sum of their parts",
+    "printed": 1
+   },
+   {
+    "n": 2,
+    "name": "1.1.1 A first look at generative effects",
+    "printed": 2
+   },
+   {
+    "n": 3,
+    "name": "1.1.2 Ordering systems",
+    "printed": 5
+   },
+   {
+    "n": 4,
+    "name": "1.2 What is order?",
+    "printed": 7
+   },
+   {
+    "n": 5,
+    "name": "1.2.1 Review of sets, relations, and functions",
+    "printed": 7
+   },
+   {
+    "n": 6,
+    "name": "1.2.2 Preorders",
+    "printed": 12
+   },
+   {
+    "n": 7,
+    "name": "1.2.3 Monotone maps",
+    "printed": 18
+   },
+   {
+    "n": 8,
+    "name": "1.3 Meets and joins",
+    "printed": 23
+   },
+   {
+    "n": 9,
+    "name": "1.3.1 Definition and basic examples",
+    "printed": 23
+   },
+   {
+    "n": 10,
+    "name": "1.3.2 Back to observations and generative effects",
+    "printed": 26
+   },
+   {
+    "n": 11,
+    "name": "1.4 Galois connections",
+    "printed": 26
+   },
+   {
+    "n": 12,
+    "name": "1.4.1 Definition and examples of Galois connections",
+    "printed": 27
+   },
+   {
+    "n": 13,
+    "name": "1.4.2 Back to partitions",
+    "printed": 28
+   },
+   {
+    "n": 14,
+    "name": "1.4.3 Basic theory of Galois connections",
+    "printed": 30
+   },
+   {
+    "n": 15,
+    "name": "1.4.4 Closure operators",
+    "printed": 33
+   },
+   {
+    "n": 16,
+    "name": "1.4.5 Level shifting",
+    "printed": 35
+   },
+   {
+    "n": 17,
+    "name": "1.5 Summary and further reading",
+    "printed": 36
+   }
+  ]
+ },
+ {
+  "roman": "2",
+  "title": "Resources: monoidal preorders and enrichment",
+  "pdfStart": 51,
+  "pdfEnd": 88,
+  "offset": 12,
+  "splitAt": 69,
+  "sections": [
+   {
+    "n": 1,
+    "name": "2.1 Getting from a to b",
+    "printed": 39
+   },
+   {
+    "n": 2,
+    "name": "2.2 Symmetric monoidal preorders",
+    "printed": 41
+   },
+   {
+    "n": 3,
+    "name": "2.2.1 Definition and first examples",
+    "printed": 41
+   },
+   {
+    "n": 4,
+    "name": "2.2.2 Introducing wiring diagrams",
+    "printed": 43
+   },
+   {
+    "n": 5,
+    "name": "2.2.3 Applied examples",
+    "printed": 48
+   },
+   {
+    "n": 6,
+    "name": "2.2.4 Abstract examples",
+    "printed": 52
+   },
+   {
+    "n": 7,
+    "name": "2.2.5 Monoidal monotone maps",
+    "printed": 55
+   },
+   {
+    "n": 8,
+    "name": "2.3 Enrichment",
+    "printed": 57
+   },
+   {
+    "n": 9,
+    "name": "2.3.1 V-categories",
+    "printed": 57
+   },
+   {
+    "n": 10,
+    "name": "2.3.2 Preorders as Bool-categories",
+    "printed": 58
+   },
+   {
+    "n": 11,
+    "name": "2.3.3 Lawvere metric spaces",
+    "printed": 59
+   },
+   {
+    "n": 12,
+    "name": "2.3.4 V-variations on preorders and metric spaces",
+    "printed": 63
+   },
+   {
+    "n": 13,
+    "name": "2.4 Constructions on V-categories",
+    "printed": 64
+   },
+   {
+    "n": 14,
+    "name": "2.4.1 Changing the base of enrichment",
+    "printed": 64
+   },
+   {
+    "n": 15,
+    "name": "2.4.2 Enriched functors",
+    "printed": 65
+   },
+   {
+    "n": 16,
+    "name": "2.4.3 Product V-categories",
+    "printed": 66
+   },
+   {
+    "n": 17,
+    "name": "2.5 Computing presented V-categories with matrix mult.",
+    "printed": 68
+   },
+   {
+    "n": 18,
+    "name": "2.5.1 Monoidal closed preorders",
+    "printed": 69
+   },
+   {
+    "n": 19,
+    "name": "2.5.2 Quantales",
+    "printed": 71
+   },
+   {
+    "n": 20,
+    "name": "2.5.3 Matrix multiplication in a quantale",
+    "printed": 73
+   },
+   {
+    "n": 21,
+    "name": "2.6 Summary and further reading",
+    "printed": 75
+   }
+  ]
+ },
+ {
+  "roman": "3",
+  "title": "Databases: Categories, functors, and (co)limits",
+  "pdfStart": 89,
+  "pdfEnd": 128,
+  "offset": 12,
+  "splitAt": 109,
+  "sections": [
+   {
+    "n": 1,
+    "name": "3.1 What is a database?",
+    "printed": 77
+   },
+   {
+    "n": 2,
+    "name": "3.2 Categories",
+    "printed": 81
+   },
+   {
+    "n": 3,
+    "name": "3.2.1 Free categories",
+    "printed": 82
+   },
+   {
+    "n": 4,
+    "name": "3.2.2 Presenting categories via path equations",
+    "printed": 84
+   },
+   {
+    "n": 5,
+    "name": "3.2.3 Preorders and free categories: two ends of a spectrum",
+    "printed": 85
+   },
+   {
+    "n": 6,
+    "name": "3.2.4 Important categories in mathematics",
+    "printed": 86
+   },
+   {
+    "n": 7,
+    "name": "3.2.5 Isomorphisms in a category",
+    "printed": 88
+   },
+   {
+    "n": 8,
+    "name": "3.3 Functors, natural transformations, and databases",
+    "printed": 89
+   },
+   {
+    "n": 9,
+    "name": "3.3.1 Sets and functions as databases",
+    "printed": 89
+   },
+   {
+    "n": 10,
+    "name": "3.3.2 Functors",
+    "printed": 91
+   },
+   {
+    "n": 11,
+    "name": "3.3.3 Database instances as Set-valued functors",
+    "printed": 93
+   },
+   {
+    "n": 12,
+    "name": "3.3.4 Natural transformations",
+    "printed": 95
+   },
+   {
+    "n": 13,
+    "name": "3.3.5 The category of instances on a schema",
+    "printed": 97
+   },
+   {
+    "n": 14,
+    "name": "3.4 Adjunctions and data migration",
+    "printed": 99
+   },
+   {
+    "n": 15,
+    "name": "3.4.1 Pulling back data along a functor",
+    "printed": 100
+   },
+   {
+    "n": 16,
+    "name": "3.4.2 Adjunctions",
+    "printed": 102
+   },
+   {
+    "n": 17,
+    "name": "3.4.3 Left and right pushforward functors, \u03a3 and \u03a0",
+    "printed": 104
+   },
+   {
+    "n": 18,
+    "name": "3.4.4 Single set summaries of databases",
+    "printed": 106
+   },
+   {
+    "n": 19,
+    "name": "3.5 Bonus: An introduction to limits and colimits",
+    "printed": 107
+   },
+   {
+    "n": 20,
+    "name": "3.5.1 Terminal objects and products",
+    "printed": 107
+   },
+   {
+    "n": 21,
+    "name": "3.5.2 Limits",
+    "printed": 110
+   },
+   {
+    "n": 22,
+    "name": "3.5.3 Finite limits in Set",
+    "printed": 111
+   },
+   {
+    "n": 23,
+    "name": "3.5.4 A brief note on colimits",
+    "printed": 113
+   },
+   {
+    "n": 24,
+    "name": "3.6 Summary and further reading",
+    "printed": 114
+   }
+  ]
+ },
+ {
+  "roman": "4",
+  "title": "Co-design: profunctors and monoidal categories",
+  "pdfStart": 129,
+  "pdfEnd": 158,
+  "offset": 12,
+  "splitAt": 144,
+  "sections": [
+   {
+    "n": 1,
+    "name": "4.1 Can we build it?",
+    "printed": 117
+   },
+   {
+    "n": 2,
+    "name": "4.2 Enriched profunctors",
+    "printed": 119
+   },
+   {
+    "n": 3,
+    "name": "4.2.1 Feasibility relationships as Bool-profunctors",
+    "printed": 119
+   },
+   {
+    "n": 4,
+    "name": "4.2.2 V-profunctors",
+    "printed": 121
+   },
+   {
+    "n": 5,
+    "name": "4.2.3 Back to co-design diagrams",
+    "printed": 124
+   },
+   {
+    "n": 6,
+    "name": "4.3 Categories of profunctors",
+    "printed": 125
+   },
+   {
+    "n": 7,
+    "name": "4.3.1 Composing profunctors",
+    "printed": 125
+   },
+   {
+    "n": 8,
+    "name": "4.3.2 The categories V-Prof and Feas",
+    "printed": 127
+   },
+   {
+    "n": 9,
+    "name": "4.3.3 Fun profunctor facts: companions, conjoints, collages",
+    "printed": 130
+   },
+   {
+    "n": 10,
+    "name": "4.4 Categorification",
+    "printed": 132
+   },
+   {
+    "n": 11,
+    "name": "4.4.1 The basic idea of categorification",
+    "printed": 133
+   },
+   {
+    "n": 12,
+    "name": "4.4.2 A reflection on wiring diagrams",
+    "printed": 134
+   },
+   {
+    "n": 13,
+    "name": "4.4.3 Monoidal categories",
+    "printed": 136
+   },
+   {
+    "n": 14,
+    "name": "4.4.4 Categories enriched in a symmetric monoidal category",
+    "printed": 138
+   },
+   {
+    "n": 15,
+    "name": "4.5 Profunctors form a compact closed category",
+    "printed": 139
+   },
+   {
+    "n": 16,
+    "name": "4.5.1 Compact closed categories",
+    "printed": 141
+   },
+   {
+    "n": 17,
+    "name": "4.5.2 Feas as a compact closed category",
+    "printed": 143
+   },
+   {
+    "n": 18,
+    "name": "4.6 Summary and further reading",
+    "printed": 145
+   }
+  ]
+ },
+ {
+  "roman": "5",
+  "title": "Signal flow graphs: Props, presentations, & proofs",
+  "pdfStart": 159,
+  "pdfEnd": 192,
+  "offset": 12,
+  "splitAt": 176,
+  "sections": [
+   {
+    "n": 1,
+    "name": "5.1 Comparing systems as interacting signal processors",
+    "printed": 147
+   },
+   {
+    "n": 2,
+    "name": "5.2 Props and presentations",
+    "printed": 149
+   },
+   {
+    "n": 3,
+    "name": "5.2.1 Props: definition and first examples",
+    "printed": 149
+   },
+   {
+    "n": 4,
+    "name": "5.2.2 The prop of port graphs",
+    "printed": 151
+   },
+   {
+    "n": 5,
+    "name": "5.2.3 Free constructions and universal properties",
+    "printed": 153
+   },
+   {
+    "n": 6,
+    "name": "5.2.4 The free prop on a signature",
+    "printed": 155
+   },
+   {
+    "n": 7,
+    "name": "5.2.5 Props via presentations",
+    "printed": 158
+   },
+   {
+    "n": 8,
+    "name": "5.3 Simplified signal flow graphs",
+    "printed": 159
+   },
+   {
+    "n": 9,
+    "name": "5.3.1 Rigs",
+    "printed": 159
+   },
+   {
+    "n": 10,
+    "name": "5.3.2 The iconography of signal flow graphs",
+    "printed": 160
+   },
+   {
+    "n": 11,
+    "name": "5.3.3 The prop of matrices over a rig",
+    "printed": 164
+   },
+   {
+    "n": 12,
+    "name": "5.3.4 Turning signal flow graphs into matrices",
+    "printed": 165
+   },
+   {
+    "n": 13,
+    "name": "5.3.5 The idea of functorial semantics",
+    "printed": 168
+   },
+   {
+    "n": 14,
+    "name": "5.4 Graphical linear algebra",
+    "printed": 168
+   },
+   {
+    "n": 15,
+    "name": "5.4.1 A presentation of Mat(R)",
+    "printed": 168
+   },
+   {
+    "n": 16,
+    "name": "5.4.2 Aside: monoid objects in a monoidal category",
+    "printed": 172
+   },
+   {
+    "n": 17,
+    "name": "5.4.3 Signal flow graphs: feedback and more",
+    "printed": 174
+   },
+   {
+    "n": 18,
+    "name": "5.5 Summary and further reading",
+    "printed": 178
+   }
+  ]
+ },
+ {
+  "roman": "6",
+  "title": "Circuits: hypergraph categories and operads",
+  "pdfStart": 193,
+  "pdfEnd": 232,
+  "offset": 12,
+  "splitAt": 213,
+  "sections": [
+   {
+    "n": 1,
+    "name": "6.1 The ubiquity of network languages",
+    "printed": 181
+   },
+   {
+    "n": 2,
+    "name": "6.2 Colimits and connection",
+    "printed": 184
+   },
+   {
+    "n": 3,
+    "name": "6.2.1 Initial objects",
+    "printed": 184
+   },
+   {
+    "n": 4,
+    "name": "6.2.2 Coproducts",
+    "printed": 186
+   },
+   {
+    "n": 5,
+    "name": "6.2.3 Pushouts",
+    "printed": 188
+   },
+   {
+    "n": 6,
+    "name": "6.2.4 Finite colimits",
+    "printed": 191
+   },
+   {
+    "n": 7,
+    "name": "6.2.5 Cospans",
+    "printed": 194
+   },
+   {
+    "n": 8,
+    "name": "6.3 Hypergraph categories",
+    "printed": 197
+   },
+   {
+    "n": 9,
+    "name": "6.3.1 Frobenius monoids",
+    "printed": 197
+   },
+   {
+    "n": 10,
+    "name": "6.3.2 Wiring diagrams for hypergraph categories",
+    "printed": 200
+   },
+   {
+    "n": 11,
+    "name": "6.3.3 Definition of hypergraph category",
+    "printed": 201
+   },
+   {
+    "n": 12,
+    "name": "6.4 Decorated cospans",
+    "printed": 203
+   },
+   {
+    "n": 13,
+    "name": "6.4.1 Symmetric monoidal functors",
+    "printed": 204
+   },
+   {
+    "n": 14,
+    "name": "6.4.2 Decorated cospans",
+    "printed": 204
+   },
+   {
+    "n": 15,
+    "name": "6.4.3 Electric circuits",
+    "printed": 207
+   },
+   {
+    "n": 16,
+    "name": "6.5 Operads and their algebras",
+    "printed": 211
+   },
+   {
+    "n": 17,
+    "name": "6.5.1 Operads design wiring diagrams",
+    "printed": 211
+   },
+   {
+    "n": 18,
+    "name": "6.5.2 Operads from symmetric monoidal categories",
+    "printed": 214
+   },
+   {
+    "n": 19,
+    "name": "6.5.3 The operad for hypergraph props",
+    "printed": 216
+   },
+   {
+    "n": 20,
+    "name": "6.6 Summary and further reading",
+    "printed": 218
+   }
+  ]
+ },
+ {
+  "roman": "7",
+  "title": "Logic of behavior: Sheaves, toposes, languages",
+  "pdfStart": 233,
+  "pdfEnd": 270,
+  "offset": 12,
+  "splitAt": 254,
+  "sections": [
+   {
+    "n": 1,
+    "name": "7.1 How can we prove our machine is safe?",
+    "printed": 221
+   },
+   {
+    "n": 2,
+    "name": "7.2 The category Set as an exemplar topos",
+    "printed": 224
+   },
+   {
+    "n": 3,
+    "name": "7.2.1 Set-like properties enjoyed by any topos",
+    "printed": 225
+   },
+   {
+    "n": 4,
+    "name": "7.2.2 The subobject classifier",
+    "printed": 228
+   },
+   {
+    "n": 5,
+    "name": "7.2.3 Logic in the topos Set",
+    "printed": 230
+   },
+   {
+    "n": 6,
+    "name": "7.3 Sheaves",
+    "printed": 232
+   },
+   {
+    "n": 7,
+    "name": "7.3.1 Presheaves",
+    "printed": 232
+   },
+   {
+    "n": 8,
+    "name": "7.3.2 Topological spaces",
+    "printed": 234
+   },
+   {
+    "n": 9,
+    "name": "7.3.3 Sheaves on topological spaces",
+    "printed": 236
+   },
+   {
+    "n": 10,
+    "name": "7.4 Toposes",
+    "printed": 242
+   },
+   {
+    "n": 11,
+    "name": "7.4.1 The subobject classifier \u03a9 in a sheaf topos",
+    "printed": 243
+   },
+   {
+    "n": 12,
+    "name": "7.4.2 Logic in a sheaf topos",
+    "printed": 245
+   },
+   {
+    "n": 13,
+    "name": "7.4.3 Predicates",
+    "printed": 247
+   },
+   {
+    "n": 14,
+    "name": "7.4.4 Quantification",
+    "printed": 248
+   },
+   {
+    "n": 15,
+    "name": "7.4.5 Modalities",
+    "printed": 250
+   },
+   {
+    "n": 16,
+    "name": "7.4.6 Type theories and semantics",
+    "printed": 251
+   },
+   {
+    "n": 17,
+    "name": "7.5 A topos of behavior types",
+    "printed": 252
+   },
+   {
+    "n": 18,
+    "name": "7.5.1 The interval domain",
+    "printed": 252
+   },
+   {
+    "n": 19,
+    "name": "7.5.2 Sheaves on IR",
+    "printed": 253
+   },
+   {
+    "n": 20,
+    "name": "7.5.3 Safety proofs in temporal logic",
+    "printed": 255
+   },
+   {
+    "n": 21,
+    "name": "7.6 Summary and further reading",
+    "printed": 256
+   }
+  ]
+ },
+ {
+  "roman": "A",
+  "title": "Exercise solutions",
+  "pdfStart": 271,
+  "pdfEnd": 334,
+  "offset": 12,
+  "splitAt": 305,
+  "sections": [
+   {
+    "n": 1,
+    "name": "A.1 Solutions for Chapter 1",
+    "printed": 259
+   },
+   {
+    "n": 2,
+    "name": "A.2 Solutions for Chapter 2",
+    "printed": 270
+   },
+   {
+    "n": 3,
+    "name": "A.3 Solutions for Chapter 3",
+    "printed": 277
+   },
+   {
+    "n": 4,
+    "name": "A.4 Solutions for Chapter 4",
+    "printed": 286
+   },
+   {
+    "n": 5,
+    "name": "A.5 Solutions for Chapter 5",
+    "printed": 293
+   },
+   {
+    "n": 6,
+    "name": "A.6 Solutions for Chapter 6",
+    "printed": 303
+   },
+   {
+    "n": 7,
+    "name": "A.7 Solutions for Chapter 7",
+    "printed": 312
+   }
+  ]
+ }
+]

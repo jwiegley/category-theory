@@ -1,0 +1,394 @@
+[
+  {
+    "id": "7sketches:7.4.6:eq7.73",
+    "classification": "PARTIAL",
+    "aliases": [
+      "internal language of a topos / Mitchell-Benabou language; internal logic",
+      "Kripke-Joyal semantics, categorical semantics, forcing semantics, the forcing relation U ⊩ φ",
+      "a semantics as a compiler / interpretation ⟦−⟧ of formal syntax into a model; soundness of the interpretation",
+      "higher-order intuitionistic type theory of a topos; Ω-valued formulas; ∀/∃ as right/left adjoints to pullback (base change, LCCC)",
+      "Curry-Howard-Lambek: the simply-typed lambda calculus is the internal language of a CCC; free CCC / term model; Lambek's theorem"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/AST.v",
+        "line": 94,
+        "symbol": "interp",
+        "intree_statement": "Program Fixpoint interp `(c : Hom a b) : ∀ {C : Category} {A : @Cartesian C} `{@Closed C A} `{@Cocartesian C} `{@Terminal C} `{@Initial C}, denote a ~{C}~> denote b := fun _ _ _ _ _ _ => match c with | Id => id | Compose f g => interp f ∘ interp g | One' => one | Exl => exl | Exr => exr | Fork f g => fork (interp f) (interp g) | Curry f => curry (interp f) | Uncurry f => uncurry (interp f) | Zero' => zero | Inl => inl | Inr => inr | Merge f g => merge (interp f) (interp g) end.  (over Inductive Obj / Inductive Hom at AST.v:45,72 and Fixpoint denote at AST.v:54)"
+      },
+      {
+        "file": "Solver/Decide.v",
+        "line": 136,
+        "symbol": "expr_sound",
+        "intree_statement": "Lemma expr_sound {d c f g h} : termD d c f = Some h → f ≈ g → exprD (Equiv d c f g).  (consuming Definition expr_tauto t : partial (exprSD t) at Decide.v:91 and Theorem exprAD_sound (e : Expr) : exprAD e ↔ exprD e at Solver/Normal.v:376)"
+      },
+      {
+        "file": "Solver/Denote.v",
+        "line": 106,
+        "symbol": "exprD",
+        "intree_statement": "Fixpoint exprD (e : Expr) : Type := match e with | Top => True | Bottom => False | And p q => exprD p ∧ exprD q | Or p q => exprD p + exprD q | Impl p q => exprD p → exprD q | Equiv d c f g => match termD d c f, termD d c g with | Some f, Some g => f ≈ g | _, _ => False end end.  (over Inductive Expr : Set := Top | Bottom | And (p q : Expr) | Or (p q : Expr) | Impl (p q : Expr) | Equiv (x y : Obj) (f g : Term), Solver/Expr.v:73)"
+      }
+    ],
+    "statement_record": {
+      "book": "Display (7.73) exhibits a sentence of the formal internal language of a topos, ∀(t : T). ∃(s : S). f(s) = t. The surrounding prose separates the LOGICAL side (expressions built by strict formal rules; proofs are deductions) from the SEMANTIC side (facts about the sheaves themselves), defines providing SEMANTICS to be giving a compiler that turns each formal statement into a mathematical statement about the objects of the topos, calls the semantics SOUND when every formal proof compiles to a true fact, and asserts that EVERY topos carries such an internal language with a sound semantics — categorical, a.k.a. Kripke-Joyal, semantics.",
+      "intree": "Program Fixpoint interp `(c : Hom a b) : ∀ {C : Category} {A : @Cartesian C} `{@Closed C A} `{@Cocartesian C} `{@Terminal C} `{@Initial C}, denote a ~{C}~> denote b := ... (the syntax-to-model compiler, parametric in the model) ;  Fixpoint exprD (e : Expr) : Type := ... | Equiv d c f g => match termD d c f, termD d c g with Some f, Some g => f ≈ g | _,_ => False end (the formula-to-fact compiler) ;  Lemma expr_sound {d c f g h} : termD d c f = Some h → f ≈ g → exprD (Equiv d c f g).",
+      "strength_comparison": "intree-weaker, and weaker at exactly the layer the display lives in. THE APPARATUS IS PRESENT, THE LOGIC IS NOT. (a) A formal LANGUAGE of types and terms exists — Instance/AST.v's Obj/Hom (the free bicartesian closed syntax) and Instance/Lambda/Exp.v's de Bruijn STLC — and [interp] is precisely the book's 'compiler': it turns each piece of syntax into a mathematical statement in ANY bicartesian closed model, so the 'every ... carries such a semantics' shape is realized parametrically, but over CCC/BCCC models, not over toposes. (b) A formal language of STATEMENTS with the propositional connectives exists — Solver/Expr.v's [Expr] with Top, Bottom, And, Or, Impl and an atomic Equiv of two arrow terms — with [exprD] compiling each formal statement into a genuine mathematical statement about arrows (f ≈ g and its Coq-level ∧, +, →), and [expr_sound]/[exprAD_sound]/[expr_tauto] give exactly 'a verified formal derivation compiles to a true fact'. (c) WHAT IS MISSING is the whole first-order/higher-order layer that display (7.73) uses: there is no quantifier of any kind in either in-tree language (no ∀, no ∃, hence sentence (7.73) is not even expressible), no Ω-valued formula, no equality predicate as a subobject, no forcing relation and no Kripke-Joyal clauses, and the interpreting categories are CCC/BCCC rather than toposes. In-tree soundness is also a narrower notion than the book's: [expr_sound]/Instance/Lambda/Sound.v's [soundness] ('reduction preserves denotation') are soundness for an EQUATIONAL theory of arrows, not for a deductive calculus over logical formulas."
+    },
+    "gap": "The display's sentence itself is not expressible in-tree: neither formal language has quantifiers (Solver/Expr.v's Expr is purely propositional over arrow equations; Instance/AST.v's Hom and Instance/Lambda's Exp are quantifier-free typed terms with no proposition type), there is no Ω-valued formula layer, and Ω never appears in either syntax. Missing pieces, precisely: (1) a formal internal language whose types are objects and whose formulas are terms of type Ω, with ∀/∃ interpreted by right/left adjoints to base change — the library has no base-change functor f^* and no LCCC structure at all (grep 'pullback functor|base change|locally cartesian' finds only Theory/Morphisms/Stability.v's pullback-pasting lemmas and prose); (2) the Kripke-Joyal forcing relation U ⊩ φ and its clauses; (3) a soundness theorem for a deductive calculus (the in-tree soundness results are for reduction/decision procedures over arrow equations); (4) the interpretation is into a bicartesian closed category, never into a topos — the only ElementaryTopos witness in the tree is FinSet_Topos (Instance/FinSet/Topos.v:38) and no interpretation targets it. The Mitchell-Benabou language and Lawvere-Tierney topologies appear in-tree ONLY as prose in Structure/Topos.v:84-90.",
+    "negative_search_log": [
+      "grep -rniE 'internal language' --include='*.v' . — 5 hits, ALL prose headers, and every one says 'internal language of CARTESIAN CLOSED CATEGORIES' (Tools/Abstraction.v:24, Instance/Lambda.v:32, Instance/Lambda/Ty.v:28, Instance/Coq.v:64); none mentions a topos's internal language as a formalized object",
+      "grep -rniE 'kripke|joyal semantics|forcing' --include='*.v' . — 0 hits for Kripke; 'Joyal' hits are all Joyal-Street braided/monoidal citations; 'forcing' hits are all English usage ('a coherence forcing the morphism maps to agree')",
+      "grep -rniE 'Mitchell|B[eé]nabou' --include='*.v' . — 18 hits, all bibliographic prose; the single Mitchell-Benabou mention is Structure/Topos.v:84 ('This internal type theory is the Mitchell-Benabou language of the topos, its quantifiers appearing as adjoint functors') — a comment, not a development",
+      "grep -rniE 'higher.order logic|well.formed formula|\\bsentence\\b|quantifi' --include='*.v' . — 1/0/3/42 hits; no formula syntax with binders anywhere (the 'quantifi' hits are prose about how in-tree lemmas are quantified, plus Tools/Abstraction.v:144's distribute_forall, a Coq-level currying lemma)",
+      "grep -rniE 'base change|pullback functor|f\\^\\*|dependent sum|dependent product|locally cartesian' --include='*.v' . — 53 hits, all prose or Theory/Morphisms/Stability.v's pullback-stability lemmas; no base-change functor and no adjoints to it, so 'quantifiers as adjoints' has nothing to land in"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached the same substrate finding: `rg -i 'kripke|joyal|internal language|forcing' --glob '*.v'` yields only bibliographic Joyal-Street citations plus 5 prose 'internal language of a CCC/BCCC' headers (Tools/Abstraction.v:24, Structure/BiCCC.v:21, Instance/Coq.v:64, Instance/Lambda.v:32, Instance/Lambda/Ty.v:28); Mitchell-Benabou appears once, as prose at Structure/Topos.v:84, and Lawvere-Tierney once at :88 — no j : Omega ~> Omega is ever defined. Every cited line number was opened and is EXACT: Instance/AST.v:45 (Inductive Obj), :54 (Fixpoint denote), :72 (Inductive Hom), :94 (Program Fixpoint interp with the quoted signature verbatim); Solver/Expr.v:73 (Inductive Expr : Set := Top | Bottom | And | Or | Impl | Equiv, quoted verbatim); Solver/Denote.v:106 (Fixpoint exprD, verbatim); Solver/Decide.v:91 (Definition expr_tauto t : partial (exprSD t)); Solver/Decide.v:136 (Lemma expr_sound {d c f g h} : termD d c f = Some h -> f ~~ g -> exprD (Equiv d c f g)); Solver/Normal.v:376 (Theorem exprAD_sound (e : Expr) : exprAD e <-> exprD e). All cited files are registered in _CoqProject (Instance/AST.v:161, Solver/Decide.v:282, Solver/Denote.v:283, Solver/Expr.v:284, Solver/Normal.v:285). CALIBRATION CAVEAT, recorded rather than overturned: only the Instance/AST.v `interp` leg legitimately supports PARTIAL — it is Lambek's internal language of a (bi)cartesian closed category, i.e. the equational fragment on which the Mitchell-Benabou language is built. The Solver/* leg is weaker than the record's framing suggests: Solver/Expr.v's `Expr` is a REFLECTION TACTIC's goal syntax and `exprD` compiles it into EXTERNAL Coq propositions about morphism equality, not into subobjects/Omega-valued truth of any topos, so 'the formula-to-fact compiler' is an analogy, not an instance of Kripke-Joyal semantics. A strict reading of the frozen PARTIAL definition ('some of the ITEM exists') would give ABSENT, since the display's sentence is, as the record itself states, not expressible in-tree. PARTIAL is kept because the record's strength_comparison and gap are explicit and honest about exactly this ('THE APPARATUS IS PRESENT, THE LOGIC IS NOT'; 'sentence (7.73) is not even expressible'), and the CCC internal language is a genuine sub-layer of the item's claim."
+    }
+  },
+  {
+    "id": "7sketches:7.4.6:example7.74",
+    "classification": "ABSENT",
+    "aliases": [
+      "f is an epimorphism iff the internal sentence ∀t∃s. f(s)=t holds (internal surjectivity)",
+      "epimorphisms in Set are exactly the surjections; epi/surjective correspondence",
+      "epis in a presheaf/functor topos are computed objectwise (pointwise epi); surjective natural transformation",
+      "local surjectivity: for every open U and section t there is a cover with local preimages — epis in Sh(X)",
+      "Kripke-Joyal forcing clauses for ∀ and ∃; compiling an internal sentence in a presheaf topos and in a sheaf topos"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'surject' --include='*.v' . — 20 line-hits; ALL are Full/EssentiallySurjective (Theory/Functor.v:323, Theory/Equivalence.v:137) or the phrase 'surjective_pairing' from Coq's stdlib. The ONE statement relating epis and surjections is Lemma surjectivity_is_epic@{h p} {A B : SetoidObject} (h : A ~{Sets}~> B) : (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h at Instance/Sets.v:429 — and its proof ENDS IN `Abort.` (Instance/Sets.v:476, with the reverse direction commented out), so the lemma does NOT enter the environment; the file header at lines 412-428 says so explicitly. It is therefore not citable evidence for either direction.",
+      "grep -rn 'Epic|Monic' --include='*.v' Instance/Fun.v Instance/Cat.v — 0 hits: there is NO objectwise/pointwise characterization of epis (or monos) in a functor or presheaf category anywhere in the tree. Instance/Fun.v:61 merely says in prose that 'monos are computed objectwise'.",
+      "grep -rniE 'local surject|locally surject' --include='*.v' . — 0 hits; grep -rniE 'epi.*presheaf|presheaf.*epi' — 0 hits. Nothing states the sheaf-topos form of surjectivity.",
+      "grep -rn 'Epic|surjective' --include='*.v' Instance/ — the only in-tree epi assertion in a concrete category is Lemma Sets_Image_epi_epic : Epic Sets_Image_epi (Instance/Sets/Image.v:113), the image projection X ~> Im(f) of the (epi, mono) factorization. It is one instance of 'surjective ⇒ epic' and says nothing about a biconditional, about internal sentences, or about presheaf/sheaf toposes.",
+      "grep -rniE 'internal language|kripke|joyal semantics' --include='*.v' . — 5/0/0 hits, all prose (see the eq7.73 record): with no internal language and no forcing semantics, 'the sentence holds internally' has no in-tree meaning, so neither the biconditional nor either of its two compilations (objectwise surjectivity in a presheaf topos; local surjectivity in a sheaf topos) can be stated.",
+      "grep -rniE 'topological|open set|covering famil' --include='*.v' . — no topology in-tree, and the Site/Sheaf classes of Theory/Sheaf.v have NO instance anywhere (grep 'Site' outside Theory/Sheaf* returns nothing), so the Sh(X) half of the example has no substrate either."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and confirmed the load-bearing negative facts by opening the files, not by grep alone. (i) Instance/Sets.v:429 `Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}} (h : A ~{Sets}~> B) : (forall b, exists a, h a ~~ b)%type <-> Epic@{h p} h` genuinely ends at `Abort.` on line 476 with the reverse direction commented out (verified by reading 395-476 and `rg -n Abort Instance/Sets.v` -> single hit at 476), so it does not enter the environment — the record's central negative is correct. (ii) `rg -n 'Epic|Monic' Instance/Fun.v` -> 0 hits; Instance/Fun.v:59-66 is a math-background essay (its objectwise-epi sentence is cited to nLab and is scoped by a following 'in-tree, ...' clause), so there is no over-claim there. (iii) Instance/Sets/Image.v:113 `Lemma Sets_Image_epi_epic : Epic Sets_Image_epi` verified verbatim. (iv) `rg -n '\\bSite\\b' --glob '*.v' .` outside Theory/Sheaf* -> 0 hits, so the Sh(X) compilation has no substrate. MINOR INACCURACY IN THE NEGATIVE LOG (does not affect the verdict): the first entry says the 'surject' hits are 'ALL Full/EssentiallySurjective ... or surjective_pairing' — in fact Lib/Setoid.v:120-121 defines `Class surjective {A B} `{Setoid B} (f : A -> B)` (split surjectivity with a chosen preimage) and Instance/Sets.v:401 `Lemma bijective_is_iso : injective h -> surjective h -> IsIsomorphism h` is a completed proof using it. That is bijection-implies-iso, not the epi/surjective biconditional, so ABSENT stands."
+    }
+  },
+  {
+    "id": "7sketches:7.5:remark7.75",
+    "classification": "OUT_OF_SCOPE",
+    "aliases": [
+      "narrative remark about the exposition's change of viewpoint on time",
+      "reassurance that earlier informal answers remain valid",
+      "no formal content: no definition, claim, or construction",
+      "meta-comment / signposting remark",
+      "'time' as an informal index in the earlier examples"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "No search performed beyond confirming the inventory's own classification: the item carries flags ['no-mathematical-content','pure-prose'] and its statement_summary records that it tells the reader the intuitive treatment of time will be replaced by a more careful one and that no earlier answer needs revising."
+    ],
+    "out_of_scope_reason": "Pure signposting prose about the book's own exposition — it asserts nothing mathematical (no definition, claim, or construction), so there is no statement a formalization could match.",
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Legitimate under the frozen definition: the inventory records the item as pure signposting prose ('no-mathematical-content','pure-prose') asserting no definition, claim or construction, so there is no statement any formalization could match. One-line justification is present and adequate. No search was warranted and none was withheld improperly."
+    }
+  },
+  {
+    "id": "7sketches:7.5.1:def-interval-domain",
+    "classification": "ABSENT",
+    "aliases": [
+      "the interval domain IR: the space of finite closed intervals [d,u] ⊆ R (Scott's interval domain)",
+      "basic open ⟨a,b⟩ = {[d,u] : a < d and u < b}; topology generated by a basis of opens",
+      "domain theory / dcpo / Scott topology / continuous lattice of intervals ordered by reverse inclusion",
+      "closed interval, endpoints, degenerate interval [d,d]; real line R and its usual topology",
+      "topological space (X, Op); a subset is open iff it is a union of basic opens"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'interval domain' --include='*.v' . — 0 hits; grep -rniE 'closed interval|basic open|endpoint of|degenerate interval' — 0/0/0/0 hits ('endpoint' matches only boundary-equation prose in Theory/Multicategory.v, Theory/Displayed.v, Theory/DoubleCategory.v)",
+      "grep -rniE '\\bIR\\b|Interval' --include='*.v' . — 11 hits, every one about the INTERVAL CATEGORY: Instance/Two.v:7-9 ('the interval category 2, the walking arrow'), Instance/Fact.v:12 (Fact(f), 'also called the interval category'), and Instance/Two.v:71 (the enrichment base [0,∞] mentioned in prose). Nothing about intervals of real numbers.",
+      "grep -rniE 'Reals|Rdefinitions|Rle|Rlt|R0|R1' --include='*.v' . — 0 hits: Coq's reals are never imported anywhere in the library; nat (Instance/FinSet.v, Instance/Omega.v) is the only numeric carrier in the tree",
+      "grep -rniE 'scott|dcpo|domain theory|cpo\\b' --include='*.v' . — 12 hits, all bibliographic ('Lambek & Scott', 'Scott's Representation Theorem' in Construction/Karoubi.v:97-99); no domain theory, no directed-complete posets",
+      "grep -rniE 'topological space|open set|topolog' --include='*.v' . — 0/0/23 hits, the 23 all prose/bibliography (this independently reconfirms the batch-2 finding on def7.25: there is no topology on a set anywhere in the tree, hence no space to define IR as, and no notion of 'generated by basic opens')",
+      "grep -rniE 'basis|generated by' --include='*.v' . — 59 hits, none about a basis for a topology (all 'basic structures', 'the basis of representability', free-construction generators)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and reconfirmed the two decisive substrate facts by direct grep: `rg -in 'topological space' --glob '*.v' .` -> 0 hits and `rg -in 'open set' --glob '*.v' .` -> 0 hits across the whole tree; `rg -in 'Require.*Reals|Rdefinitions|Rle|Rlt' --glob '*.v' .` -> 0 hits (Coq's reals are never imported; nat via Instance/FinSet.v and Instance/Omega.v is the only numeric carrier). `rg -in 'interval domain|basic open|degenerate interval|subspace topology' --glob '*.v' .` -> 0 hits each. The 'Interval' hits are the interval CATEGORY (Instance/Two.v, Instance/Fact.v), an unrelated homonym — the record already isolates that trap correctly. Not OUT_OF_SCOPE: a topology on a set and the interval domain are perfectly formalizable in this setting (the library already carries Instance/Poset.v, Instance/Proset.v and Theory/Sheaf.v's Site), so ABSENT is the right class."
+    }
+  },
+  {
+    "id": "7sketches:7.5.1:ex7.76",
+    "classification": "ABSENT",
+    "aliases": [
+      "membership of [2,6] in the basic open ⟨0,8⟩ of the interval domain",
+      "the basic opens are not closed under union: ⟨0,5⟩ ∪ ⟨4,8⟩ ⊊ ⟨0,8⟩",
+      "unfolding the definition of a basis element of a topology; checking x ∈ U",
+      "strict inequalities on interval endpoints (a < d, u < b)",
+      "counterexample to naive union-stability of a basis"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'interval domain|basic open|closed interval' --include='*.v' . — 0/0/0 hits (same substrate search as def-interval-domain: the space the exercise computes in does not exist in-tree)",
+      "grep -rniE 'Reals|Rlt|Rle' --include='*.v' . — 0 hits: no real numbers, so the specific intervals [2,6], ⟨0,5⟩, ⟨4,8⟩, ⟨0,8⟩ cannot even be written down",
+      "grep -rniE 'topolog|open set|union of' --include='*.v' . — 23/0/~0 hits, all prose; there is no membership relation for opens, no union of opens, and no basis of a topology in-tree",
+      "grep -rn 'Instance/' -l --include='*.v' . && ls Instance/ — the concrete categories in-tree are Sets, Coq, FinSet, Cat, Fun, Ens, Rel, Poset, Proset, Props, Two, One, Zero, Omega, CMon, Lambda, ZX, StrictCat, Shapes, Roof, Parallel, Discrete, AST, Adj, Comp, Cones, Fact — no Top and no space of any kind"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: the exercise computes membership in basic opens of a space that does not exist in-tree (see def-interval-domain — 0 hits for 'topological space', 'open set', 'basic open', and no reals). Negative log accurate; the Instance/ listing it gives matches `find Instance -name '*.v'` (no Top, no space of any kind)."
+    }
+  },
+  {
+    "id": "7sketches:7.5.1:construction-behavior-types",
+    "classification": "ABSENT",
+    "aliases": [
+      "the topos of behavior types Sh(IR) — sheaves on the interval domain",
+      "Sh(X, Op) for a topological space; Grothendieck topos of sheaves on a space",
+      "sheaves on a site: the category Sheaves; the sheaf topos is an elementary topos",
+      "R ↪ IR as the subspace of degenerate intervals; subspace topology / topological embedding",
+      "behavior type / temporal type theory (Schultz-Spivak-Vasilakopoulou)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'topos of behavio|behavior type' --include='*.v' . — 0 hits. The only in-tree mention of the idea is prose in Theory/Sheaf.v:91-94 ('Fong and Spivak model a behavior type as a sheaf on a space of time...'), a citation in a background essay, not a construction",
+      "grep -rn 'Site' --include='*.v' . — hits ONLY Theory/Sheaf.v:159 (Class Site) and Theory/Sheaf/Category.v:68 (Context `{@Site C}); there is NO Site instance anywhere in the tree, so the category Sheaves (Definition Sheaves : Category := Sub (@Presheaves C Sets) Sheaves_sub, Theory/Sheaf/Category.v:81) is never instantiated at any site, let alone at a space",
+      "grep -rniE 'ElementaryTopos' --include='*.v' . — the class is Structure/Topos.v and the ONLY witness is Definition FinSet_Topos : ElementaryTopos FinSet (Instance/FinSet/Topos.v:38). Sheaves is never shown to be cartesian closed, to have finite limits, or to carry a subobject classifier — so even for an abstract site the 'sheaves on a space form a topos' half of this construction is absent",
+      "grep -rniE 'subspace|embedding of spaces|degenerate interval' --include='*.v' . — 0/0/0 hits: the identification of R with the degenerate intervals, and the claim that the inherited subspace topology is the usual one, have no substrate",
+      "grep -rniE 'topological space|interval domain' --include='*.v' . — 0/0 hits (see def-interval-domain): the space IR does not exist in-tree, so Sh(IR) cannot be formed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees, and every structural claim in the negative log was checked against the files. Theory/Sheaf.v:159 `Class Site (C : Category)` and Theory/Sheaf/Category.v:68 `Context `{@Site C}` are the ONLY occurrences of Site in the tree — verified by `rg -n '\\bSite\\b' --glob '*.v' .` — so the category built at Theory/Sheaf/Category.v:81 (`Definition Sheaves : Category := Sub (@Presheaves C Sets) Sheaves_sub`, line number exact) is never instantiated at any site. `rg -n ElementaryTopos --glob '*.v' .` outside Structure/Topos.v yields exactly two lines: Instance/FinSet/Topos.v:38 (`Definition FinSet_Topos : ElementaryTopos FinSet`, the sole witness, verified) and a prose mention at Construction/Slice.v:114 — so 'sheaves on a space form a topos' is nowhere stated. The only in-tree trace of the item is the background-essay citation at Theory/Sheaf.v:91-94 ('Fong and Spivak model a behavior type as a sheaf on a space of time... safety becomes a statement of temporal logic'), which the record correctly refuses to count as evidence."
+    }
+  },
+  {
+    "id": "7sketches:7.5.1:ex7.77",
+    "classification": "ABSENT",
+    "aliases": [
+      "subspace topology on R ⊆ IR (the degenerate intervals) agrees with the usual topology on R",
+      "induced/relative topology; U open in the subspace iff U = V ∩ R for V open in the ambient space",
+      "topological embedding / homeomorphism onto its image",
+      "the usual (metric/Euclidean) topology on the real line",
+      "comparison of two topologies on the same set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'subspace|relative topology|induced topology' --include='*.v' . — 0 hits",
+      "grep -rniE 'homeomorph|topological embedding' --include='*.v' . — 0 hits",
+      "grep -rniE 'topolog' --include='*.v' . — 23 hits, all prose/bibliography; there is no topology on a set in-tree, so neither the subspace topology nor the usual topology on R can be compared (batch-2 recorded the ambient example7.26 — the usual topology on R^n — as ABSENT for the same reason)",
+      "grep -rniE 'Reals|Rlt|Rle|real line' --include='*.v' . — 0 hits: the reals are never imported",
+      "grep -rniE 'interval domain|degenerate' --include='*.v' . — 0 hits / 5 hits, the latter all about degenerate pairings and degenerate proof-irrelevant regimes (Theory/Algebra/Frobenius.v, Construction/Sq.v), unrelated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. Reconfirmed 0 hits for 'subspace', 'homeomorph', 'topological embedding', 'topological space', 'open set' and for any real-number import. Both topologies the exercise compares are absent, so there is nothing to be PARTIAL about."
+    }
+  },
+  {
+    "id": "7sketches:7.5.2:remark-basic-open-continuity",
+    "classification": "ABSENT",
+    "aliases": [
+      "a sheaf is determined by its values on a basis of the topology (sheaf on a basis / B-sheaf)",
+      "right Kan extension along the inclusion of a basis into the poset of opens; density of the basis",
+      "the continuity condition F⟨a,b⟩ ≅ lim_{ε>0} F⟨a-ε,b+ε⟩ (a cofiltered limit over shrinking neighbourhoods)",
+      "restriction maps as viewing an event over a shorter interval; matching family glues to a unique event",
+      "stalks/germs and the limit of values on shrinking neighbourhoods"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'stalk|germ' --include='*.v' . — 0 hits; grep -rniE 'sheaf on a basis|B-sheaf|basic open' — 0 hits",
+      "grep -rniE 'filtered|cofiltered|directed' --include='*.v' . — 18 hits, none a filtered/cofiltered (co)limit: they are 'filtered stream' (Comonad/CoKleisli.v:81), 'directed interval' (Instance/Two.v:80), 'type-directed' (Instance/Lambda/Log.v). The library has Structure/Limit.v but no filtered-limit theory and no limit over shrinking neighbourhoods",
+      "grep -rniE '\\bdense\\b|density|codensity' --include='*.v' . — 7 hits, ALL the codensity monad prose in Theory/Kan/Extension.v:35-108. Kan extensions exist (Theory/Kan/Extension.v) but nothing states that a (pre)sheaf is determined by its restriction to a dense/generating subcategory, which is the categorical form of 'determined by its values on basic opens'",
+      "grep -rniE 'basis|generated by' --include='*.v' . — 59 hits, none about a basis for a topology; with no topology in-tree (see def-interval-domain) there are no basic opens to restrict to",
+      "Read Theory/Sheaf.v:192-211 — the in-tree Sheaf class states only the (per-leg, and per batch-3 vacuous beyond subsingleton fibres) gluing condition over the single chosen coverage of a site; it says nothing about determination by a sub-basis, and no continuity/limit consequence is derived from it anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. Independently read Theory/Sheaf.v:192-211: the `Sheaf` class has the single field `restriction` stating a per-leg gluing condition over the ONE chosen coverage of a Site; nothing about determination by a basis, and no limit/continuity consequence is derived from it anywhere (`rg -n '\\brestriction\\b' --glob '*.v' .` shows the identifier occurs only at Theory/Sheaf.v:193 and its one consumer Theory/Sheaf/Category.v:125; every other hit is unrelated prose or ColouredPROP base-change restriction). Also confirmed 0 hits for 'stalk', 'germ', 'sheaf on a basis'. The record's honesty about the vacuity of the in-tree Sheaf predicate matches Theory/Sheaf/Category.v's own SCOPE NOTE (lines 30-46)."
+    }
+  },
+  {
+    "id": "7sketches:7.5.2:example7.78",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the constant sheaf on a set A; constant presheaf U ↦ A with identity restriction maps",
+      "constant functor / diagonal functor Δ : C ⟶ [J, C]",
+      "locally constant functions (the actual constant sheaf = sheafification of the constant presheaf)",
+      "an element of A as a behavior that never changes; global-element reading",
+      "the constant-sheaf functor Δ ⊣ Γ (constant sheaf ⊣ global sections)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Diagonal.v",
+        "line": 33,
+        "symbol": "Diagonal",
+        "intree_statement": "Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := { fobj := fun x => {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |}; fmap := fun _ _ f => {| transform := fun _ => f |} }.  (with notations Δ[J](c) := Diagonal J c and Δ := @Diagonal, Functor/Diagonal.v:50,57)"
+      }
+    ],
+    "statement_record": {
+      "book": "For any set A there is a sheaf on the interval domain assigning to EVERY open U the same set A, with identity restriction maps; it is called the constant sheaf on A. It lets integers, reals or letters of an alphabet be read as behavior types: an element of A is a behavior that never changes over any interval (7 is the behavior that is always 7).",
+      "intree": "Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := { fobj := fun x => {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |}; fmap := fun _ _ f => {| transform := fun _ => f |} }.",
+      "strength_comparison": "intree-weaker: the PRESHEAF is present and is in fact exactly the book's object, the SHEAF claim is absent. Instantiating Diagonal at C := Sets and J := the site (a presheaf on a category U being U^op ⟶ Sets, Theory/Sheaf.v:124) gives Δ[J](A) : J ⟶ Sets with fobj _ = A and fmap _ _ _ = id[A] — value A on every open, identity restriction maps, exactly as the book describes; the in-tree version is even slightly stronger on the functorial side, since Diagonal is asserted as a FUNCTOR C ⟶ [J, C], so A ↦ Δ(A) is functorial in A, which the book does not state. What is entirely missing is (i) the site/space (there is no interval domain and no Site instance in-tree, so 'sheaf on the interval domain' is not statable) and (ii) any proof or statement that this presheaf satisfies the sheaf condition — no presheaf whatsoever is proved to be a Sheaf anywhere in the tree."
+    },
+    "gap": "Only the presheaf half exists, and it exists generically rather than over the space the example names. Missing: (1) the interval domain as a topological space and its site of opens — absent (see def-interval-domain); (2) any instance of Theory/Sheaf.v's Site class (there is none in the tree), hence no way to state 'is a sheaf'; (3) a proof that the constant presheaf satisfies the gluing condition — the library contains no verified sheaf example at all. NOTE FOR A FORMALIZER, since it affects what should be proved: the constant presheaf is NOT a sheaf under the book's own Definition 7.35 when |A| ≥ 2, because the empty family covers ∅ and its (vacuously matching) empty family must glue to a UNIQUE element of P(∅) = A — this is precisely the book's own Example 7.36 (P(∅) ≅ 1). The object that is a sheaf is the sheafification, i.e. the locally-constant-functions sheaf, or the constant presheaf restricted to nonempty opens. Any in-tree statement should target that, not the literal reading of Example 7.78.",
+    "negative_search_log": [
+      "grep -rniE 'constant sheaf|constant presheaf' --include='*.v' . — 0 hits: the object is never named as such in-tree; it is only reachable as Diagonal/Δ at J := the site's opposite",
+      "grep -rn 'Site|Sheaf' --include='*.v' . — the Site and Sheaf classes (Theory/Sheaf.v:159,192) have NO instances anywhere; nothing in the tree is ever proved to be a sheaf",
+      "grep -rniE 'locally constant|sheafification' --include='*.v' . — 0 / 3 hits, the latter all prose deferrals (Theory/Sheaf.v:112-116 'that reflection is the piece deferred here (ledger 1)', Construction/Localization.v:101)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence opened and verified verbatim: Functor/Diagonal.v:33 is `Program Instance Diagonal {C : Category} (J : Category) : C -> [J, C] := { fobj := fun x => {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |}; fmap := fun _ _ f => {| transform := fun _ => f |} }` exactly as quoted (the `#[export]` sits on line 32), and Functor/Diagonal.v is registered in _CoqProject:138. Instantiated at C := Sets, J := the opposite of the site, this IS the book's constant presheaf (value A on every open, identity restrictions), so PARTIAL is honest and the strength_comparison ('intree-weaker: the PRESHEAF is present ..., the SHEAF claim is absent') is accurate. Blind pass independently confirmed 0 hits for 'constant sheaf'/'constant presheaf'/'locally constant', and that no presheaf anywhere in the tree is ever shown to satisfy `Sheaf` (no Site instance exists). SPECIAL CREDIT, not a defect: the gap's formalizer note — that the literal constant presheaf is not a sheaf for |A| >= 2 since the empty cover of the empty open forces P(empty) ~= 1 — is mathematically correct and prevents a future issue from asking for a false theorem."
+    }
+  },
+  {
+    "id": "7sketches:7.5.2:example7.79",
+    "classification": "ABSENT",
+    "aliases": [
+      "the sheaf of continuous maps U ↦ C(U, X) into a fixed space X (sheaf of local X-valued functions)",
+      "representable presheaf Top(−, X) restricted along Op(IR) ↪ Top; hom-sheaf; every representable is a sheaf (subcanonical topology)",
+      "sheaf of local functions defined only on the real-line subspace: U ↦ C(U ∩ R, X)",
+      "sheaf of continuous sections of the projection U × X → U",
+      "Top, the category of topological spaces and continuous maps"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'continuous map|continuous function|local function' --include='*.v' . — 0/0/0 hits. The ~14 'continuous' hits in the tree are all the CATEGORICAL sense 'preserves limits' (Adjunction/Continuity.v, Structure/Limit/Preservation.v); topological continuity does not exist in-tree",
+      "ls Instance/ — no Top: the concrete categories are Sets, Coq, FinSet, Cat, Fun, Ens, Rel, Poset, Proset, Props, Two, One, Zero, Omega, CMon, Lambda, ZX, StrictCat, Shapes, Roof, Parallel, Discrete, AST, Adj, Comp, Cones, Fact. With no spaces and no continuous maps, C(U, X) has no in-tree meaning",
+      "grep -rniE 'interval domain|subspace' --include='*.v' . — 0/0 hits: the second sheaf of the example (functions defined only on the real-line subspace of IR) has no substrate either",
+      "The nearest in-tree neighbour is the representable presheaf — Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] (Functor/Hom.v:60) and the Yoneda embedding (Functor/Hom/Yoneda.v:134,232) — but no representable is ever asserted to be a sheaf (no Site instance exists, grep 'Site' outside Theory/Sheaf* returns nothing), and the example's presheaf is a restriction of a representable on Top along Op(IR) ↪ Top, which needs Top",
+      "grep -rniE 'sheaf of sections|Sec_|etale' --include='*.v' . — 0 relevant hits (batch-3 recorded the analogous construction-sections-sheaf and example7.45 as ABSENT for the same reasons)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. Reconfirmed `rg -in 'continuous map|continuous function' --glob '*.v' .` -> 0 hits each; the tree's 'continuous' vocabulary is entirely the categorical sense (limit preservation, Adjunction/Continuity.v). No Top instance exists (`find Instance -name '*.v'` enumerated; no space of any kind). The nearest neighbour named by the record is real — Functor/Hom.v:60 `Program Definition Curried_Hom `(C : Category) : C^op -> [C, Sets]` verified verbatim, file registered at _CoqProject:139 — but no representable is ever asserted to be a sheaf, so it is correctly NOT counted as evidence."
+    }
+  },
+  {
+    "id": "7sketches:7.5.2:ex7.80",
+    "classification": "ABSENT",
+    "aliases": [
+      "for an arbitrary subset R of the space, is U ↦ C(U ∩ R, X) a presheaf? a sheaf?",
+      "restriction maps by precomposition with an inclusion U' ∩ R ⊆ U ∩ R",
+      "a presheaf that fails the sheaf condition (non-sheaf example / separated presheaf)",
+      "subspace topology on an arbitrary (non-open) subset",
+      "generalization of the sheaf of local continuous functions of Example 7.79"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'continuous map|continuous function' --include='*.v' . — 0/0 hits; no Top instance and no topological continuity in-tree, so C(U ∩ R, X) cannot be written",
+      "grep -rniE 'subspace|arbitrary subset|restriction map' --include='*.v' . — 0/0/0 hits ('restriction' in-tree names only the single field of Theory/Sheaf.v's Sheaf class, line 193)",
+      "grep -rn 'Site|Sheaf' --include='*.v' . — no Site instance and no sheaf/non-sheaf example anywhere: the library contains not one worked verification OR refutation of the sheaf condition, so 'decide whether it is a sheaf, with reasons' has no in-tree counterpart",
+      "grep -rniE 'presheaf' --include='*.v' . — the generic notion exists (Definition Presheaf (U C : Category) := U^op ⟶ C, Theory/Sheaf.v:124) but that is a naming alias for a functor, not this exercise's assignment, which needs spaces, subsets and continuous maps"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. The exercise needs spaces, arbitrary subsets and continuous maps, none of which exist (0 hits for 'continuous map', 'subspace', 'topological space', 'open set'). The record's claim that 'restriction' names only Theory/Sheaf.v:193's Sheaf field was checked and holds for the sheaf-theoretic sense. Also confirmed the library contains no worked verification OR refutation of the sheaf condition anywhere — the Site/Sheaf classes have no instances at all — so 'decide whether it is a sheaf, with reasons' has no counterpart."
+    }
+  },
+  {
+    "id": "7sketches:7.5.2:example7.81",
+    "classification": "OUT_OF_SCOPE",
+    "aliases": [
+      "open hybrid dynamical system (continuous flow of a vector field plus signal-triggered discrete jumps)",
+      "hybrid automaton / machine with continuous and discrete transitions; open dynamical system with inputs and outputs",
+      "trajectories of a vector field; ODE solutions over a time interval",
+      "turning a dynamical system into a sheaf on the interval domain (behavior-type semantics)",
+      "what a system can and cannot do over a time interval — behavioral/Willems-style systems theory"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'hybrid|dynamical|vector field|trajector' --include='*.v' . — 0/0/0/0 hits",
+      "grep -rniE 'automat|machine|Moore' --include='*.v' . — 354 hits, ALL Eilenberg-Moore algebras/adjunctions or prose metaphors ('a machine that accepts a handler', Functor/Hom/Yoneda.v:108); no automaton, transition system or state machine is defined anywhere",
+      "grep -rniE 'Reals|Rdefinitions|Rlt' --include='*.v' . — 0 hits: no real numbers, hence no continuous time, no flows, no ODEs",
+      "grep -rniE 'interval domain|behavior type' --include='*.v' . — 0/0 hits: the target of the asserted construction does not exist either"
+    ],
+    "out_of_scope_reason": "The content is continuous-time dynamics — flows of a vector field interleaved with signal-triggered jumps — which needs real analysis and ODE trajectories that a pure category-theory library with no reals, no topology and no analysis cannot express; the book itself gives no precise construction, explicitly deferring it to its further-reading section, so there is not even a statement to match.",
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reconfirmed the emptiness: 0 hits for 'hybrid', 'dynamical system', 'vector field', 'trajector', and 0 for any real-number import. BORDERLINE CALL, kept but flagged for calibration. Of the two grounds offered in out_of_scope_reason, only the SECOND is legitimate under the frozen definition — the book itself gives no construction, explicitly deferring it to further reading, so there is no statement to match (the same ground that makes remark7.75 out of scope). The first ground ('needs real analysis and ODE trajectories that this library cannot express') is a missing-prerequisite argument, and by this very batch's own standard a missing prerequisite yields ABSENT, not OUT_OF_SCOPE: def-interval-domain, ex7.76 and ex7.77 were all classified ABSENT on exactly the parallel ground that no topology exists in-tree. Not overturned because the deferral ground independently suffices and because an issue asking to formalize an assertion the source declines to state would be unactionable; but a downstream consumer should read this as 'no formalizable statement', not as 'analysis is forbidden here'."
+    }
+  },
+  {
+    "id": "7sketches:7.5.2:remark-truth-values-interval-domain",
+    "classification": "ABSENT",
+    "aliases": [
+      "the subobject classifier of Sh(X): Ω(U) = { opens V ⊆ U }, a sheaf of opens",
+      "truth values as open time-regions; the Heyting algebra of opens; internal truth in a sheaf topos",
+      "sieves as the classifier of a presheaf topos; Ω for a topos of sheaves on a space",
+      "truth values not determined pointwise: statements true on ⟨0,5⟩ and ⟨4,8⟩ but not on ⟨0,8⟩",
+      "evaluating a predicate on sections returns the sub-open on which it holds (χ : x ~> Ω)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'sieve' --include='*.v' . — 2 hits, both bibliographic prose (Theory/Sheaf.v:80 'through sieves in SGA 4', Construction/Localization.v:101); no sieve object is constructed, so neither the presheaf-topos nor the sheaf-topos classifier exists (batch-4 recorded 7.4.1:construction-omega-classifier as ABSENT on the same evidence)",
+      "grep -rniE 'open set|opens|topolog' --include='*.v' . — 0/0/23 hits, the last all prose: with no topology in-tree, 'the set of opens contained in U' has no in-tree meaning and cannot be made the value of a classifier",
+      "grep -rniE 'Heyting' --include='*.v' . — 5 hits, ALL prose (Theory/Sheaf.v:85, Structure/Topos.v:81, Instance/Two.v:86, Instance/Props.v:15-27); no Heyting-algebra structure is defined, so the lattice of temporal truth values is absent",
+      "The generic classifier IS in-tree — Class SubobjectClassifier := { Ω : C; truth : 1 ~> Ω; char ...; char_pullback ...; char_unique ... } (Structure/SubobjectClassifier.v:44-58) with Theorem classifier_classifies (x : C) : SubObj x ≅ (x ~> Ω) (line 187) — but it is a definition of what a classifier is, not this remark's claim; the only instantiations are Ω := 2 in FinSet (Instance/FinSet/Classifier.v) and the cross-universe Sets theorems (Instance/Sets/Classifier.v:224,283,341). Neither is a sheaf topos, and neither has non-pointwise truth values",
+      "grep -rniE 'pointwise truth|not determined pointwise' --include='*.v' . — 0 hits: the remark's substantive claim (truth values fail to be determined pointwise in time, so the interval domain rather than R is needed) has no counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees, and the record's honesty about the generic classifier was verified at source: Structure/SubobjectClassifier.v:44 opens `Class SubobjectClassifier := { Omega : C; truth : 1 ~> Omega; char {u x} (m : u ~> x) (M : Monic m) : x ~> Omega; char_pullback ...; char_unique ... }` (lines 44-58 as cited) and line 187 is `Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Omega |}` — both exact, file registered at _CoqProject:369. The record correctly declines to count these as evidence: they define WHAT a classifier is, and the only instantiations (Omega := 2 in FinSet, the cross-universe Sets theorems) are not sheaf toposes and have pointwise truth values, so the remark's substantive claim — Omega(U) = { opens contained in U }, and truth values NOT determined pointwise — has no counterpart. Reconfirmed 0 hits for 'open set'/'topological space' and that all 5 'Heyting' hits are prose (Theory/Sheaf.v:85, Structure/Topos.v:81, Instance/Two.v:86, Instance/Props.v:15,27)."
+    }
+  },
+  {
+    "id": "7sketches:7.5.3:eq7.82",
+    "classification": "ABSENT",
+    "aliases": [
+      "a behavior contract as a formula of the internal temporal logic of Sh(IR); safety guarantee",
+      "the modality 'at t' / @_t; modality j : Ω ~> Ω (Lawvere-Tierney topology), closure operator on truth values",
+      "temporal logic operators (within one second, and for the next five seconds); ◇/□ over the interval domain",
+      "predicate on a product of behavior types D × T; evaluating a formula on sections yields the open sub-region where the contract holds",
+      "assume-guarantee contract / specification internalized in a topos"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'temporal' --include='*.v' . — 2 hits, both prose (Theory/Sheaf.v:94 citing Fong-Spivak's temporal logic, Construction/Funny/Swap.v:22 'temporal order' as a metaphor); no temporal logic in-tree",
+      "grep -rniE '\\bmodal' --include='*.v' . — 5 hits, all prose about the LINEAR-LOGIC exponential modality ! as a comonad (Comonad/CoKleisli.v:50,66,87, Comonad/Core.v:99) and 'reflective modality' in homotopy type theory (Construction/Localization.v:119); no Class Modality, no j : Ω ~> Ω",
+      "grep -rniE 'Lawvere.Tierney|subtopos|sublocale|j-closed' --include='*.v' . — 1/1/0/0 hits, the single hit being prose at Structure/Topos.v:88 ('Lawvere-Tierney topologies cut out the subtoposes...'); no idempotent finite-meet-preserving endomorphism of Ω is ever defined, so the book's modality (Def 7.69) that this formula uses is not in-tree",
+      "grep -rniE 'safety|guarantee|contract' --include='*.v' . — 62 hits, all unrelated (the AdamekData 'contract' interface, 'contracting homotopy', 'contraction' as a structural rule); nothing about behavioral contracts",
+      "grep -rniE 'internal language|quantifi|kripke' --include='*.v' . — see the eq7.73 record: there is no internal formula language with quantifiers anywhere. The only formal statement language in the tree, Solver/Expr.v:73's Expr (Top | Bottom | And | Or | Impl | Equiv of two arrow terms), is quantifier-free, modality-free and atomic only in arrow equations, so formula (7.82) — which nests ∀ over reals, ∃, and the at-t modality — cannot be written in it",
+      "grep -rniE 'interval domain|behavior type|Reals' --include='*.v' . — 0/0/0 hits: the topos the formula is interpreted in, and the real time parameter t it quantifies over, are both absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. Reconfirmed: 'temporal' has exactly 2 hits, both prose (Theory/Sheaf.v:94 in the Fong-Spivak citation, Construction/Funny/Swap.v as a metaphor); 'Lawvere-Tierney' has one hit, the prose at Structure/Topos.v:88 ('idempotent, finite-meet-preserving endomorphism j : Omega ~> Omega ... cut out the subtoposes'), and no such j is ever defined, so the modality of Def 7.69 that the formula depends on is absent; 'modal' hits are the linear-logic exponential-as-comonad prose in Comonad/*. The formula also needs quantifiers over reals and a topos-internal language, neither of which exists (see the eq7.73 record, whose Solver/Expr.v:73 citation as the tree's only formal statement language is accurate and is quantifier- and modality-free). ABSENT confirmed on every leg."
+    }
+  }
+]

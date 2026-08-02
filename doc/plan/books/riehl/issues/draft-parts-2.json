@@ -1,0 +1,17 @@
+{
+ "Riehl 2.1: The identity functor on Sets is represented by the singleton — the global-elements isomorphism|riehl:2.1:example5": "clause (i); the other thirteen clauses are covered elsewhere — see Dependencies",
+ "Riehl 2.1/2.2: The objects, morphisms and isomorphisms functors on Cat and their representing categories|riehl:2.1:example5": "clauses (ix)–(xii) only",
+ "Riehl 2.1/2.2: The objects, morphisms and isomorphisms functors on Cat and their representing categories|riehl:2.3:exi": "clause (i) only",
+ "Riehl 2.1/2.4: Representable functors on Grp and Rng — free and cyclic groups, tuples, units, and their universal elements|riehl:2.1:example5": "clauses (iii), (vi), (vii), (viii) only",
+ "Riehl 2.1/2.4: Representable functors on Grp and Rng — free and cyclic groups, tuples, units, and their universal elements|riehl:2.4:example12": "clauses (iv) and (vi) only",
+ "Riehl 2.1/2.2/2.4: Representable functors on Top — underlying sets, opens and closeds, paths and reparameterizations|riehl:2.1:example5": "clauses (ii), (xiv) only",
+ "Riehl 2.1/2.2/2.4: Representable functors on Top — underlying sets, opens and closeds, paths and reparameterizations|riehl:2.1:example6": "clauses (ii), (iii) only",
+ "Riehl 2.1/2.2/2.4: Representable functors on Top — underlying sets, opens and closeds, paths and reparameterizations|riehl:2.2:exvii": "part (i) only",
+ "Riehl 2.1/2.2/2.4: Representable functors on Top — underlying sets, opens and closeds, paths and reparameterizations|riehl:2.3:exi": "clauses (ii), (iii) only",
+ "Riehl 2.1/2.2/2.4: Representable functors on Vect_k — the dual-space functor and natural endomorphisms of the underlying-set and identity functors|riehl:2.1:example6": "clause (v) only",
+ "Riehl 2.1/2.2/2.4: Representable functors on Vect_k — the dual-space functor and natural endomorphisms of the underlying-set and identity functors|riehl:2.2:exvii": "part (ii) only",
+ "Riehl 2.1/2.2/2.4: Representable functors on Vect_k — the dual-space functor and natural endomorphisms of the underlying-set and identity functors|riehl:2.4:example12": "clauses (ii) and (v) only",
+ "Riehl 2.3/2.4: Unit, associativity and commutativity of the tensor product from its universal property|riehl:2.4:example12": "clause (iii) only",
+ "Riehl 2.2/2.3/2.4: Natural endomorphisms of the power-set functor, its category of elements, and the non-uniqueness of universal elements|riehl:2.4:example12": "clause (i) only",
+ "Riehl 2.1/2.4: Pointed objects as the category of elements of an underlying-set functor|riehl:2.1:example5": "clause (xiii) only"
+}

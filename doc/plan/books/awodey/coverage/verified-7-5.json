@@ -1,0 +1,300 @@
+[
+  {
+    "id": "awodey:7:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "Alexandroff topology / Alexandrov space (upper-set topology on a poset)",
+      "Top, the category of topological spaces and continuous maps",
+      "Pos, the category of posets and monotone maps",
+      "upward-closed subset / upset / up_closed",
+      "specialization preorder; dual form with downward-closed sets as the opens",
+      "monotone map is continuous; faithful/full functor A : Pos ⟶ Top"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'alexandroff|alexandrov' --glob '*.v' . → 0 hits (exit 1)",
+      "rg -i 'topolog' --glob '*.v' . → ~30 hits, ALL inside header essays/citations (Godement's Topologie, Grothendieck topology in Theory/Sheaf.v, TQFT in Theory/Algebra/Frobenius.v, Lawvere–Tierney topology named in Structure/Topos.v prose). No Category of topological spaces is ever defined.",
+      "rg -i 'open set|continuous map|specialization order|preorder.*topolog' --glob '*.v' . → 0 hits",
+      "rg -i 'upward|upset|up_closed|upclosed|downward closed|monotone' --glob '*.v' . → only Construction/Enriched/Two.v (Record MonotoneMap / EnrichedFunctor_Two_monotone, i.e. preorders as Two-enriched categories) and prose in Instance/Poset.v, Instance/Proset.v; no upward-closed-subset notion anywhere",
+      "rg -n ': Category :=|: Category\\.' --glob '*.v' Instance/ | grep -i 'top|pos|space' → only Instance/Poset.v:117 'Definition Poset ... : Category := Proset P' and Instance/Poset.v:120 LessThanEqualTo_Category — these turn ONE poset into a category (hom = the ≤ proposition); they are not the category Pos of posets and monotone maps",
+      "Both endpoints of the exercise's functor are missing: there is no Pos (only posets-as-categories) and no Top at all, hence no Alexandroff functor, no continuity-of-monotone-maps lemma, and no faithful/full verdict for it."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage-7-5.json) independently reached ABSENT. My searches: `rg -il 'alexandroff' -g '*.v' .` -> 0 hits; `rg -il 'topolog' -g '*.v' .` -> ~23 files, every hit inside a header essay/citation (Grothendieck topology in Theory/Sheaf.v, Lawvere-Tierney in Structure/Topos.v, TQFT/Physics-Topology citations); `rg -n 'continuous|OpenSet|Topology|TopSpace' -g '*.v' .` -> only 'continuous functor' (limit-preserving) prose in Adjunction/GAFT.v, Theory/Adjunction.v:446, Structure/Factorization.v:79 (Freyd-Kelly title); `rg -n 'monotone' -g '*.v' .` -> only Construction/Enriched/Two.v (MonotoneMap via Two-enrichment) and prose in Instance/Poset.v:22, Instance/Proset.v:20; `find Instance -name '*.v'` -> no Top.v, no Pos.v. Spot-checked the classifier's citations: Instance/Poset.v `Definition Poset ... : Category := Proset P` heads at line 116 (its type/RHS on 117, so the cited :117 is one line off, immaterial) and LessThanEqualTo_Category at :120 -- both turn ONE poset into a thin category, not the category Pos. Both endpoints of A : Pos -> Top are missing, so there is no carrier for the functor, the continuity lemma, or the full/faithful verdict. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:7:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "bijective-on-objects functor; (bo, faithful) factorization of a functor",
+      "(surjective-on-objects, injective-on-objects + fully faithful) factorization; full image of a functor",
+      "quotient of a category by the kernel congruence of a functor (C/ker F)",
+      "orthogonal factorization system on Cat",
+      "essential image / replete image of a functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'bijective on objects|bijective_on_obj|surjective on objects|surj_obj|injective on objects|inj_obj|bo_ff|full.and.faithful factor' --glob '*.v' . → 7 hits, all prose about ONE specific functor (Construction/Funny/Comparison.v:24 κ, Structure/Premonoidal/Freyd.v:181,369, Construction/Cospan/Corelation.v:286, Construction/Grothendieck/RoundTrip.v:55). None is a factorization theorem for an arbitrary functor.",
+      "rg -i 'essential.image|full.image|image of a functor|FunctorImage|Image_Functor' --glob '*.v' . → 0 hits",
+      "rg -n 'Factorization|OFS' --glob '*.v' Structure/ Theory/ Construction/ → Structure/Factorization.v:125 Record Factorization and :144 Class OFS are about MORPHISMS in an arbitrary category (Regular_OFS, Abelian_OFS, Sets_Image_Factorization instantiate them). The Cat-level systems are mentioned only in the header essay, Structure/Factorization.v:96-98: 'In Cat the (bijective-on-objects, fully-faithful) and comprehensive (final functor, discrete fibration) systems arise' — prose, no construction.",
+      "read Construction/Quotient.v (the nearest machinery): Class HomCongruence (:226), Definition Quotient (:254), QuotientProj (:294, identity on objects and on morphisms), QuotientLift (:313) and QuotientLift_proj (:322, fmap[QuotientLift] (fmap[QuotientProj] f) = fmap[F] f). This is a factorization through a quotient for an ARBITRARY congruence the functor respects; the kernel congruence of a functor is never formed, QuotientProj is never shown Full, and QuotientLift is never shown Faithful — i.e. neither leg property of (a) is asserted, and (b) has nothing at all.",
+      "rg -i 'identity.on.objects|fully.faithful|FullyFaithful' --glob '*.v' . → Theory/Functor.v:355 Lemma FullyFaithful (a fully faithful functor reflects isos) and identity-on-objects remarks for Kleisli/Freyd/PROP projections; no factorization statement",
+      "read Construction/Subcategory.v (Full/Replete/Wide subcategories, Incl functor, Full_Implies_Full_Functor) → no image subcategory of a functor is constructed, so factorization (b) has no carrier either.",
+      "No comparison of the two factorizations (the exercise's final clause) exists anywhere."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My searches: `rg -in 'bijective on objects|surjective on objects|injective on objects'` -> 7 hits, all prose about one specific functor (Construction/Funny/Comparison.v:24,62; Structure/Premonoidal/Freyd.v:181,369; Construction/Cospan/Corelation.v:286; Construction/Grothendieck/RoundTrip.v:55); `rg -in 'essential image|full image|image of a functor'` -> 0 hits (the 'image' hits are Structure/Abelian.v:260 kernel-of-cokernel and Instance/Sets/Image.v:74, both morphism-level). Verified every cited line: Structure/Factorization.v:125 `Record Factorization {C : Category} {x y : C} (f : x ~> y) (E M : MorphismClass C)` and :144 `Class OFS {C : Category} (E M : MorphismClass C)` are both about MORPHISMS in a category; the Cat-level systems appear only as header prose at :96-98. Verified Construction/Quotient.v exactly as cited (HomCongruence :226, Quotient :254, QuotientProj :294, QuotientLift :313, QuotientLift_proj :322), and `rg -n 'Full|Faithful' Construction/Quotient.v` returns 0 hits -- so the classifier's key claim (neither QuotientProj-is-full nor QuotientLift-is-faithful is proven) is exactly right. Theory/Functor.v:355 `Lemma FullyFaithful` confirmed: it is the reflects-isos lemma, not a factorization. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:7:ex6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "natural isomorphism = isomorphism in the functor category Fun(C,D) = [C, D]",
+      "componentwise/pointwise iso criterion; F ≅[Fun] G",
+      "Functor_Setoid_Nat_Iso / iso_equiv / equiv_iso",
+      "monic natural transformation; pointwise monomorphism in a functor category",
+      "IsIsomorphism of a Transform"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 255,
+        "symbol": "Functor_Setoid_Nat_Iso",
+        "intree_statement": "Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) : F ≅[Fun] G  ↔  F ≈ G.   (* where `F ≈ G` is Theory/Functor.v:148 Functor_Setoid: equiv F G := { iso : ∀ x : C, F x ≅ G x & ∀ (x y : C) (f : x ~> y), fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) } *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A natural transformation θ : F → G is a natural isomorphism — an isomorphism in the functor category Fun(C,D) — exactly when every component θ_X : FX → GX is an isomorphism in D; and then: decide whether the analogous claim holds for monomorphisms, i.e. whether θ is monic in Fun(C,D) exactly when every component is monic.",
+      "intree": "Instance/Fun.v:255 — `Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) : F ≅[Fun] G ↔ F ≈ G.` with `≈` on functors unfolding (Theory/Functor.v:148) to a family of componentwise isomorphisms `∀ x, F x ≅ G x` satisfying the naturality equation `fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x)`; the two directions are also exported as `iso_equiv` (Instance/Fun.v:305) and `equiv_iso` (:308), and the ← direction builds the Fun-isomorphism whose `to` component at X is the given component iso.",
+      "strength_comparison": "iso clause: same content, mildly repackaged — the book predicates on a GIVEN θ ('θ is invertible iff each θ_X is'), the library states an existential equivalence between 'there is an iso in [C,D]' and 'there is a componentwise-iso family satisfying naturality'. That repackaging is faithful in this setoid setting (the ← direction consumes exactly the data of a natural transformation with invertible components and returns an iso whose to-component is that family), so the mathematical content of Awodey's Lemma 7.11 is in force. Mono clause: intree-weaker — no counterpart at all."
+    },
+    "gap": "Only the isomorphism half is formalized. The monomorphism half has NO in-tree counterpart: there is no statement that a natural transformation is monic in [C, D] iff each of its components is monic in D, in either direction (rg -n 'Monic|Epic' over Instance/Fun.v, Instance/Fun/Cartesian.v and Theory/Natural/Transformation.v returns 0 hits; rg -l 'Monic' over the tree lists only morphism-level files — Theory/Morphisms*.v, Structure/{Abelian,Kernel,Equalizer/Fork,SubobjectClassifier}.v, Instance/Sets*.v — none about functor categories). Secondarily, the iso half is stated existentially (F ≅[Fun] G ↔ F ≈ G) rather than as a predicate on a given transformation θ, so 'this θ is invertible' must be routed through equiv_iso rather than read off a dedicated lemma.",
+    "negative_search_log": [
+      "rg -n 'Monic|Epic' --glob '*.v' Instance/Fun.v Instance/Fun/Cartesian.v Theory/Natural/Transformation.v → 0 hits",
+      "rg -ln 'Monic' --glob '*.v' . → 20 files, all about morphisms in a base category (Theory/Morphisms.v, Theory/Morphisms/Classes.v, Structure/Abelian.v, Instance/Sets/Image.v, …); none mentions [C,D] or Transform",
+      "rg -n 'IsIsomorphism' --glob '*.v' . → Theory/Isomorphism.v:133 plus users in Localization/Reflective/Factorization; no pointwise-mono analogue"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same evidence and the same gap. Evidence verified verbatim: Instance/Fun.v:255-256 `Theorem Functor_Setoid_Nat_Iso `(F : C -> D) (G : C -> D) : F <=>[Fun] G  <->  F ~~ G.`; Theory/Functor.v:148-159 `Program Instance Functor_Setoid` with `equiv := fun F G => { iso : forall x : C, F x <=> G x & forall x y f, fmap[F] f ~~ from (iso y) o fmap[G] f o to (iso x) }`; iso_equiv at :305 and equiv_iso at :308 exactly as cited. Independent search confirms the gap: no Monic/Epic statement about [C, D] or about a Transform exists anywhere. ADDITIONAL near-miss the classifier did not record (it strengthens, not weakens, the gap): Instance/Fun.v:60-61 asserts in PROSE, attributed to nLab and scoped to presheaf categories, that 'their limits, colimits, epis and monos are computed objectwise' -- i.e. the exercise's mono clause exists as cited background but is never stated or proved in-tree (the classifier's regex 'Monic|Epic' missed it because the prose says lower-case 'monos'). One parenthetical I could NOT machine-check (no coqc/rocq on PATH in this sandbox; the toolchain needs `nix develop`): the strength_comparison's claim that the <- direction returns an iso whose to-component is the given family. The proof script applies the destructed family `x` at BOTH the to- and the from- transform goals (Instance/Fun.v:275 and :285) with only `Coercion to : Isomorphism >-> hom` (Theory/Isomorphism.v:250) in scope, which I could not reconcile by reading alone; the two branches do differ in their naturality proofs (`rewrite !comp_assoc` vs `rewrite <- !comp_assoc`). This affects neither the classification nor the gap -- the machine-checked statement F <=>[Fun] G <-> F ~~ G is what carries the exercise's iso clause either way."
+    }
+  },
+  {
+    "id": "awodey:7:ex7",
+    "classification": "ABSENT",
+    "aliases": [
+      "Stone representation φ_B : B → P(Ult B); Stone duality",
+      "boolean algebra; the category BA of boolean algebras and homomorphisms",
+      "ultrafilter; Ult(B); principal ultrafilter",
+      "finite boolean algebra; atoms; complete atomic boolean algebra (CABA)",
+      "B ≅ P(Ult B) for finite B (analogue of V ≅ V** in finite dimension)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'boolean algebra|ultrafilter|Stone|filter' --glob '*.v' . → no definition of a boolean algebra, of an ultrafilter, or of Stone representation anywhere. 'boolean algebra' occurs only in header essays (Structure/Cocartesian.v:100 '1 + 1 is a boolean algebra' as motivation, Theory/Lawvere.v:87 listing algebraic theories, Instance/Two.v:85-88, Theory/Equivalence.v:120 citing Stone 1936). 'filter' occurs only as Coq FMap filtering in Lib/FMapExt.v.",
+      "rg -i 'Heyting|lattice|BoolAlg|\\bBA\\b' --glob '*.v' . → prose-only hits (Structure/Topos.v:81 Heyting vs Boolean subobject lattices, Instance/Poset.v Birkhoff citation); no category BA, no lattice/BA object",
+      "rg -i 'principal ultrafilter|prime ideal|atom|CABA|complete atomic' --glob '*.v' . → 1 hit, Solver/Reify.v:33 'a morphism atom' (unrelated parser terminology)",
+      "rg -i 'powerset|power_set|Pow\\b' --glob '*.v' . → only Structure/Topos.v:129 `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a` (the topos power OBJECT) and Theory/Lawvere.v's law_pow / Multicategory Endomorphism.v's pow (n-fold products). There is no powerset-of-a-set boolean algebra P(X), hence no target for φ_B.",
+      "Neither the map φ_B nor its injectivity (item awodey:7.3:construction-stone-representation) exists in-tree, so the finite-case isomorphism claim of this exercise has no carrier."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My searches: `rg -iln 'ultrafilter|stone repr|boolean algebra' -g '*.v' .` -> 5 files, and inspecting each shows every hit is header prose or a citation: Theory/Equivalence.v:120-121 (citing Stone 1936 as an example of a duality), Structure/Cocartesian.v:100-101 ('1 + 1 is a boolean algebra' as motivation), Instance/Two.v:85-88, Theory/Kan/Extension.v:39,86 and Theory/Monad.v:65 (the ultrafilter monad named in codensity/monadicity essays, never constructed). No boolean-algebra object, no category BA, no ultrafilter, no filter (Lib/FMapExt.v's 'filter' is Coq FMap plumbing), no powerset. Structure/Topos.v:129 `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Omega ^ a` is the internal power OBJECT of a topos, not P(X), so phi_B has neither source nor target in-tree. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:7:ex8",
+    "classification": "PRESENT",
+    "aliases": [
+      "products in a functor category [C, D]; D^C has binary products",
+      "pointwise/objectwise product of functors (F × G)(c) = F c × G c",
+      "Functor_Category_Cartesian; Cartesian (Fun C D)",
+      "limits in functor categories are computed pointwise",
+      "product of natural transformations; fork/exl/exr componentwise"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "#[export] Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).   (* product functor built objectwise: `exact (fun c => fobj[F] c × fobj[G] c)` (:115) with `fmap := fun x y f => Cartesian.split (fmap[F] f) (fmap[G] f)` (:116); exl/exr are the transformations with components exl/exr (:129, :133); the UMP `ump_products` is discharged componentwise (:137-139) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Show that a functor category D^C has binary products whenever D does, by constructing the product of two functors objectwise: (F × G)(C) = F(C) × G(C).",
+      "intree": "`Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)`, where `Cartesian` (Structure/Cartesian.v:121) is exactly binary products with pairing `fork`, projections `exl`/`exr`, `fork_respects`, and the universal property `ump_products`. The product functor's object part is `fun c => fobj[F] c × fobj[G] c` and its morphism part is `Cartesian.split (fmap[F] f) (fmap[G] f)`.",
+      "strength_comparison": "same — hypothesis (D cartesian) and conclusion ([C,D] cartesian, product formed objectwise) match the exercise exactly; the in-tree version additionally discharges the full UMP componentwise, not merely the object formula. Note the library's `Cartesian` class is binary products ONLY (terminal object is a separate `Terminal` class), which is precisely the exercise's scope."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT with the same evidence. Verified at the cited location: Instance/Fun/Cartesian.v:110 carries `#[export]` and :111 is `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).` -- quote accurate. Every internal line cited checks out: :115 `exact (fun c => fobj[F] c x fobj[G] c)`, :116 `exact (fun x y f => Cartesian.split (fmap[F] f) (fmap[G] f))`, :129 `exact exl`, :133 `exact exr`, and :137-139 discharge ump_products in both directions componentwise. The file is registered (_CoqProject:201) and built (Instance/Fun/Cartesian.vo present). strength_comparison is honest, including its note that the library's `Cartesian` class is binary products only -- which is exactly the exercise's scope. While confirming this record I found a header defect in the same file; see problems[]."
+    }
+  },
+  {
+    "id": "awodey:7:ex9",
+    "classification": "ABSENT",
+    "aliases": [
+      "contravariant powerset functor P : Sets^op ⟶ Sets (inverse image)",
+      "double powerset endofunctor PP : Sets ⟶ Sets",
+      "η_A : A → PP(A), a ↦ {U ⊆ A | a ∈ U}; unit of the double-dualization monad",
+      "double dual / double dualization; canonical map into the double dual",
+      "continuation monad with answer object 2; Sets(Sets(A,2),2)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'powerset|power_set|subsets of|PP\\b|double.power' --glob '*.v' . → 0 relevant hits; the only 'power' notions are Structure/Topos.v:129 `Pow a := Ω ^ a` (topos power object), Theory/Lawvere.v law_pow, Theory/Multicategory/Endomorphism.v:69 pow. No powerset functor on Sets is defined, so PP has no carrier.",
+      "rg -i 'double dual|double.dual|continuation|Cont\\b|dual space' --glob '*.v' . → Structure/Monoidal/StarAutonomous.v:252 `Definition double_dual (d : C) : C ⟶ C := dual d ◯ (dual d)^op`, but the surrounding `Class StarAutonomous` (:261) POSITS `star_double_dual {x} : x ≅ double_dual dualizer x` and `star_natural` as FIELDS. That is a different setting (symmetric monoidal closed with a dualizing object) and it demands an ISOMORPHISM — exactly what the powerset η is never (Cantor) — so it cannot serve as the exercise's η. No canonical map Id ⟹ (−)** is constructed anywhere.",
+      "rg -n 'Id ⟹' --glob '*.v' . → adjunction units (Adjunction/Natural/Transformation.v:36, Adjunction/Hom.v:78, Monad/Adjunction.v) and Instance/Fun.v:231 `point : Id ⟹ F`; nothing of the shape Id ⟹ P ◯ P^op",
+      "rg -i 'singleton|membership|evaluation map' over Structure/Topos.v, Structure/SubobjectClassifier.v, Instance/Sets/Classifier.v, Instance/FinSet/Classifier.v → only Instance/Sets/Classifier.v:169 prose on the terminal map and Structure/Topos.v:104 prose on membership; no singleton/unit map a → Pow a, let alone a → Pow (Pow a)",
+      "rg -n 'Monad' over Instance/Sets*.v and Instance/Sets/*.v → 0 hits, so there is no ultrafilter/double-dualization monad on Sets either"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My searches: `rg -iln 'powerset|power set' -g '*.v' .` -> exactly one file, Structure/Topos.v, whose only `Pow` is the topos-internal `Omega ^ a` (:129); no contravariant powerset functor on Sets, hence no PP and no eta : Id => PP. Spot-checked the classifier's star-autonomous counter-citation and it is accurate: Structure/Monoidal/StarAutonomous.v:252 `Definition double_dual (d : C) : C -> C := dual d o (dual d)^op` and :261 `Class StarAutonomous` POSITS the double-dual iso as a field, so it cannot model the powerset eta (which is never invertible). Also re-ran the log's last claim: `rg -n 'Monad' Instance/Sets.v Instance/Sets/*.v` -> 0 hits, so there is no double-dualization/ultrafilter monad on Sets either. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:7:ex10",
+    "classification": "PRESENT",
+    "aliases": [
+      "hom-bifunctor Hom : C^op × C ⟶ Sets",
+      "hom functor / two-variable hom; Hom(-,-)",
+      "covariant representable Hom(C,−) : C ⟶ Sets",
+      "contravariant representable Hom(−,C) : C^op ⟶ Sets (presheaf)",
+      "curried hom / Yoneda embedding C^op ⟶ [C, Sets]",
+      "bifunctor lemma applied to hom"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p) ; is_setoid := @homset (C) (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y ; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}.   (* notation [Hom A , ─] *)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 146,
+        "symbol": "Curried_CoHom",
+        "intree_statement": "Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op.   (* notation [Hom ─ , A ]: the presheaf Hom(−, c) : C^op ⟶ Sets, typed by C^op^op = C definitionally *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a locally small category C there is a functor Hom : C^op × C → Sets whose partial functors are the representables: Hom(C,−) : C → Sets is the covariant representable and Hom(−,C) : C^op → Sets the contravariant one (hint: use the Bifunctor Lemma).",
+      "intree": "`Hom (C : Category) : C^op ∏ C ⟶ Sets` with fobj (a,b) the hom-setoid hom C a b and fmap f g = snd f ∘ g ∘ fst f (post-compose with the covariant component, pre-compose with the contravariant one); `Curried_Hom C : C^op ⟶ [C, Sets]` whose value at x is exactly the covariant representable y ↦ hom C x y with fmap = post-composition; `Curried_CoHom C : C ⟶ [C^op, Sets]` whose value at c is the presheaf Hom(−, c).",
+      "strength_comparison": "same, and in-tree-stronger in one respect: the two partial-functor families are packaged not merely as functors for each fixed object but as functors OF that object into functor categories (Curried_Hom / Curried_CoHom), which is more than the exercise asks; the file goes on to prove that packaging full and faithful (Yoneda_Full :96, Yoneda_Faithful :85). One presentational caveat: no lemma explicitly identifies Hom's partial functor at a fixed first argument with Curried_Hom's value there — the identification is by unfolding (Hom's action becomes snd f ∘ g ∘ id, equal to post-composition only up to id_right), since Curried_Hom is defined independently rather than derived from Hom by currying. The library also builds the bifunctor directly rather than via the Bifunctor Lemma (the hint), which is a proof-route difference only."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT with the same three witnesses. All quotes verified verbatim at Functor/Hom.v:49 (`Hom `(C : Category) : C^op x C -> Sets` with fmap g = snd f o g o fst f), :60 (`Curried_Hom `(C : Category) : C^op -> [C, Sets]`), :146 (`Curried_CoHom `(C : Category) : C -> [C^op, Sets] := Curried_Hom C^op`), plus Yoneda_Faithful at :85 and Yoneda_Full at :96. File registered (_CoqProject:139) and built (Functor/Hom.vo). I independently confirmed the strength_comparison's caveat and it is honest: nothing in the file connects Hom's partial functor to Curried_Hom's value (Hom's fmap at (id, f) is `f o g o id`, equal to Curried_Hom's post-composition only up to id_right), and the partial-application device that would supply the 'Bifunctor Lemma' route -- Theory/Naturality.v PartialApply_Product_Left/Right and PartialApply_Curried_Left/Right, lines 64-110 -- is COMMENTED-OUT exploratory code ('Retained exploratory code ... Superseded by the Mapping-based Arity* instances below'), a trap for anyone grepping for `Program Instance` there. The exercise's actual content (a bifunctor C^op x C -> Sets whose partial functors are the two representables) is in force, so PRESENT stands."
+    }
+  },
+  {
+    "id": "awodey:7:ex11",
+    "classification": "ABSENT",
+    "aliases": [
+      "properties invariant under equivalence of categories; equivalence-invariance",
+      "isomorphism of categories vs equivalence of categories",
+      "'evil' property; violation of the principle of equivalence",
+      "skeletality is not equivalence-invariant; number of objects",
+      "transport of a property along an equivalence"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Theory/Equivalence/ → Adjoint.v, Adjunction.v, Bundled.v, FullFaithful.v, Limit.v, Monoidal.v. rg for Definition/Theorem/Lemma over all of them: every result is a POSITIVE transport (limits/adjunctions/monoidal structure carried across an equivalence, MonoidalTransportData, Transported_Tensor, …) or the FF+ESO characterization. Nothing states that any property FAILS to be equivalence-invariant, and no counterexample pair of categories is exhibited.",
+      "rg -i 'invariant' --glob '*.v' . → 15 hits, all prose or unrelated (Structure/Abelian.v:85 self-duality, Theory/Isomorphism.v:65 the principle of equivalence as motivation, Instance/Cat.v:43,50 on Cat's equivalence-invariant homsetoid, Theory/Algebra/*Commutative*.v 'invariant under the braiding')",
+      "rg -i 'skeletal|skeleton' --glob '*.v' . → the only statement that skeletality is not equivalence-invariant is a comment, Theory/Equivalence.v:92-97 ('skeletality is not equivalence-invariant … the library … confines skeletons to concrete instances'), which is not an assertion and may not be cited as evidence",
+      "closest in-tree material (still not the item): Test/Issue138.v:75 `Fail Check (Forgetful : Cat ⟶ QuiverCategory)` — a regression guard that the underlying-quiver functor does not typecheck over Cat because it does not respect natural isomorphism of functors. That is non-invariance under nat-iso of FUNCTORS, not under equivalence of CATEGORIES, and it is a typechecking guard rather than a proof of non-invariance.",
+      "rg '≃|Equivalent ' --glob '*.v' . | grep Definition/Theorem/Lemma → only Theory/Equivalence/Bundled.v accessors, Equivalence_refl, Equivalence_sym; no pair of equivalent categories separated by a property"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My searches: `rg -in 'invariant under equivalence|not invariant|principle of equivalence|evil' -g '*.v' .` -> 13 hits, every one a comment: Theory/Equivalence.v:92-97 ('skeletality is not equivalence-invariant'), Construction/Funny.v:40 and Funny/{Bifunctor,Swap,Unitors,Associator}.v (the funny tensor is not invariant under equivalence), Instance/StrictCat/Funny.v:38, Theory/Isomorphism.v:69, Structure/Discrete.v:20, Theory/Displayed.v:90. Nothing states or proves that any property fails to transport, and no separating pair of equivalent categories is exhibited. I verified the classifier's strongest near-miss and agree with its reading: Test/Issue138.v:75 `Fail Check (Forgetful : Cat -> QuiverCategory).` is a typechecking guard, and the file's own comment at :71-74 concedes it 'only checks the type mismatch; it does not itself exercise the deeper reason no such functor can be *built* over [Cat]'. That is non-invariance under natural isomorphism of FUNCTORS, not the equivalence-invariance of a property of CATEGORIES. Not OUT_OF_SCOPE: the library has universe polymorphism and Subcategory/Discrete machinery, so a concrete separating property (e.g. skeletality, or 'has exactly one object') is formalizable here; it simply is not formalized. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:7:ex12",
+    "classification": "ABSENT",
+    "aliases": [
+      "skeleton of a category; Sk(C)",
+      "skeletal category (isomorphic objects are equal)",
+      "every category is equivalent to its skeleton",
+      "full subcategory of chosen isomorphism-class representatives",
+      "skeletal subcategory + inclusion is an equivalence"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'skeletal|skeleton' --glob '*.v' . → ~40 hits, none a skeleton construction or theorem. They are: prose (Theory/Equivalence.v:92-99 'every category is equivalent to its skeleton … the library … confines skeletons to concrete instances such as Instance/FinSet.v' — a comment, not an assertion), Instance/FinSet.v:15-20 (FinSet declared to BE a skeletal category, with no equivalence to a category of finite sets proved — no such category exists in-tree), Test/Poset.v:102 poset_nat_skeletal and :150 poset_two_skeletal (skeletality of two SPECIFIC posets, not the general theorem), and 'skeleton' used metaphorically for proof outlines (Structure/Monoidal/Hypergraph/Spider.v:588, Theory/Displayed.v:37).",
+      "ls Construction/ → no Skeleton.v; ls Theory/, Instance/ → likewise no skeleton file",
+      "rg -n 'Definition Skeleton|Sk\\b|iso_class|isomorphism class' --glob '*.v' . → 0 hits for a skeleton construction or a quotient of objects by isomorphism",
+      "rg '≃' --glob '*.v' . | grep -i 'Definition|Theorem|Lemma|Instance' → Theory/Equivalence/Bundled.v:45-111 (accessors, Equivalence_refl, Equivalence_sym) only; no theorem of the form `C ≃ <skeletal subcategory of C>`",
+      "Construction/Subcategory.v provides Subcategory/Full/Replete/Wide and the inclusion Incl, so the CARRIER of a skeletal subcategory could be expressed, but no skeletal subcategory is constructed and the inclusion is never shown to be an equivalence."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My search `rg -in 'skeleta|skeleton' -g '*.v' .` reproduced the classifier's ~40 hits and I checked their character: prose only (Theory/Equivalence.v:92-99 states the theorem AND its AC-equivalence AND says the library 'confines skeletons to concrete instances such as Instance/FinSet.v'; Instance/Poset.v:19-21; Structure/Discrete.v:19), skeletality of two SPECIFIC posets (Test/Poset.v:102 poset_nat_skeletal, :150 poset_two_skeletal), FinSet declared to be skeletal (Instance/FinSet.v:15-20, with no category of finite sets in-tree to be equivalent to), or 'skeleton' used metaphorically for a proof outline. No Skeleton.v, no iso-class quotient, no theorem `C ~= <skeletal subcategory of C>`. Construction/Subcategory.v does supply Sub/Full/Wide/Incl (:50,:59,:69,:93), so the carrier could be expressed, but nothing is constructed. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:7:ex13",
+    "classification": "ABSENT",
+    "aliases": [
+      "Sets^I ≃ Sets/I; families of sets vs sets over I",
+      "Fam(I); I-indexed family of sets; discrete category on I",
+      "slice category Sets/I; codomain fibration",
+      "reindexing Sets^f along f : J → I; precomposition functor",
+      "pullback / base-change functor f^* : Sets/I ⟶ Sets/J",
+      "square of categories commuting up to natural isomorphism"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i '\\bFam\\b|Sets\\^|Sets/|slice.*equival|equival.*slice' --glob '*.v' . → hits are only file-path mentions of Instance/Sets/… in header essays; no Fam construction, no equivalence between a functor category and a slice",
+      "rg -n 'Definition|Program Definition|Instance' Construction/Slice.v → Slice (:123), Comma_Slice (:140), Coslice (:169), Comma_Coslice (:181). The slice category exists but is never compared to a functor category.",
+      "read Construction/Slice/Pullback.v → Bang_Functor (:50, Σ_f) and `Program Definition Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c` (:67, base change f^*, under a global `Hypothesis pullbacks`). This is the exercise's f^* leg, but the adjunction is only a commented stub (:38-40) and there is NO statement relating f^* to reindexing along f in a functor category, and no commuting square of the four functors.",
+      "rg -n 'Discrete' --glob '*.v' . and rg over Instance/Discrete.v → DiscreteCat (:37), DiscreteCat_Functor (:52), DiscreteCat_Discrete (:65); discrete categories are used only as limit-diagram shapes (Structure/Limit/Product.v, Adjunction/GAFT.v, Theory/WeaklyInitial.v). No [DiscreteCat I, Sets] appears anywhere, let alone an equivalence with Slice Sets I.",
+      "rg -i 'reindex|base change|f\\^\\*|indexed famil|family of sets' --glob '*.v' . → Construction/ColouredPROP/BaseChange*.v (colour base change for PROPs), Comonad/Coalgebra.v:97 prose on f_! ⊣ f^* ⊣ f_*, Theory/Morphisms/Stability.v (stability under base change of morphism classes). None concerns Sets^f.",
+      "nearest in-tree relative, still not the item: Construction/Grothendieck/Strict.v:290-329 `Grothendieck (Constant_IndexedCat B D) ≅[Cat] B ∏ D` — an identification of a total category with a PRODUCT, not with a slice; and Construction/Displayed/Codomain.v (codomain displayed category, cartesian lifts iff pullbacks), which sets up the slice/fibration side without ever equating it to a functor category."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My searches: `rg -iln 'indexed famil|families of sets|Sets/I' -g '*.v' .` -> only file-path mentions of Instance/Sets/* in header essays; `rg -n '(Program )?(Definition|Instance)' Construction/Slice.v` -> Slice :123, Comma_Slice :140, Coslice :169, Comma_Coslice :181, never compared to a functor category; Instance/Discrete.v -> DiscreteCat :37, DiscreteCat_Functor :52, DiscreteCat_Discrete :65, used only as limit-diagram shapes; no [DiscreteCat I, Sets] anywhere. Verified the f* leg exists: Construction/Slice/Pullback.v:67 `Program Definition Star_Functor `(f : c ~> a) : @Slice C a -> @Slice C c` under a section-level `Hypothesis pullbacks`, with Bang_Functor at :50 -- and confirmed `Base_Functor_Adjunction` is commented out (:121), matching the header's own disclosure at :38-40. Neither the equivalence Sets^I ~= Sets/I nor the reindexing functor Sets^f nor the commuting square exists, so ABSENT is right (the f* leg alone is an ingredient, not part of the item's statement). One harmless imprecision in the negative log's 'nearest relative' note (not evidence): `Grothendieck_Constant_iso` is at Construction/Grothendieck/Strict.v:355; :290-329 is the forward functor GC_to that feeds it."
+    }
+  }
+]

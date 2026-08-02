@@ -1,0 +1,328 @@
+[
+  {
+    "id": "maclane:VIII.3:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "product of abelian categories is abelian",
+      "product category A × B abelian",
+      "A ∏ B abelian / pointwise abelian structure",
+      "Product category preserves abelian / additive structure",
+      "Construction/Product.v abelian instance"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'Product.*Abelian|Abelian.*Product|Abelian.*∏|∏.*Abelian' --glob '*.v' -> 0 hits",
+      "rg -in 'Product.*Additive|Additive.*Product|Preadditive.*∏|∏.*Preadditive|Product.*Biproduct|Product.*Preadditive' --glob '*.v' -> 0 hits (product-preserves-additive-structure is not built either)",
+      "rg -in 'Instance|Program (Instance|Definition)|Abelian|Additive|Preadditive|Biproduct|Kernel' Construction/Product.v -> product category C ∏ D provides only Fst/Snd/Swap functors (lines 149,157,164); no Abelian/Additive/Preadditive/Biproduct/Kernel instance on the product",
+      "ADJACENT: Construction/Product.v supplies the product category and Structure/Abelian.v supplies the Abelian class, but no theorem or instance combines them to show A ∏ B is abelian; the exercise's mathematical content (the preservation) has no in-tree counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reproduced the negative: `rg -in 'Additive|Preadditive|Biproduct|Abelian|Kernel' Construction/Product.v` -> 0 hits, and no product-preserves-additive-structure lemma anywhere. Independently confirmed the Abelian class (Structure/Abelian.v:137) is never instantiated on ANY concrete category (grep for 'Program Instance ... Abelian' / ': @Abelian' -> only the class definition + Context binders). ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "category of free abelian groups is not abelian",
+      "FreeAb not abelian",
+      "free ℤ-modules category counterexample",
+      "torsion-free / free abelian group category",
+      "counterexample to the abelian axioms"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'free abelian' --glob '*.v' -> 0 hits",
+      "rg -in 'AbGroup|category of abelian|noetherian' --glob '*.v' -> 0 hits",
+      "ls Instance/ -> CMon (commutative monoids) but no Ab/Grp category instance; Instance/CMon.v is semiadditive commutative monoids, not abelian groups",
+      "Structure/Group.v (sed 1,30) is 'group objects in a cartesian monoidal category' (internal group objects), NOT the concrete category Grp/Ab of abelian groups",
+      "No concrete Abelian instance of any kind exists in-tree, hence no category of free abelian groups and no such counterexample"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass confirmed Instance/CMon.v:8 is 'The category of commutative monoids over Sets' (monoids, no inverses) — not abelian groups. No 'free abelian' / 'AbGroup' identifier anywhere. Structure/Group.v is internal group objects, not the concrete category Ab. No category of (free) abelian groups exists to serve as a counterexample. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "finite abelian groups form an abelian category",
+      "FinAb is abelian",
+      "category of finite abelian groups",
+      "finite ℤ-modules category",
+      "finite abelian group category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'finite abelian' --glob '*.v' -> 0 hits",
+      "rg -in 'AbGroup|category of abelian' --glob '*.v' -> 0 hits",
+      "Instance/FinSet is the category of finite SETS (skeletal), not finite abelian groups; ls Instance/ shows no Ab/FinAb category",
+      "No category of (finite) abelian groups exists in-tree and no abelian instance is witnessed on such a category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: no 'finite abelian' identifier; Instance/ contains only CMon (commutative monoids) as an algebraic-category instance; Instance/FinSet is finite sets. No category of finite abelian groups and no Abelian instance witnessing it. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "finitely generated modules over a left noetherian ring is abelian",
+      "R-Mod_fg abelian",
+      "noetherian ring module category",
+      "left noetherian modules category",
+      "coherent / finitely generated module category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'noetherian|Noetherian' --glob '*.v' -> 0 hits",
+      "rg -in 'finitely generated|R-Mod|module category|left module|AbGroup' --glob '*.v' -> no R-Mod / module category / ring instance",
+      "No rings, modules, or noetherian conditions are formalized anywhere in-tree; find . -name '*.v' | rg -i 'module' -> none relevant",
+      "The whole concrete instance (f.g. left R-modules over a noetherian R, shown abelian) is absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: `rg -iln 'noetherian|finitely.?generated|category.*module'` -> only prose hits, no ring/module category. No rings or modules are formalized in-tree at all. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.3:ex6",
+    "classification": "ABSENT",
+    "aliases": [
+      "quotient object v/u of subobjects",
+      "subquotient v/u",
+      "quotient of subobjects (u ≤ v)",
+      "ker g / im f ≅ coim g / coker f duality",
+      "coimage/cokernel vs kernel/image isomorphism"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'quotient object|subquotient|v/u|QuotientObject' --glob '*.v' -> 0 hits",
+      "rg -in 'ker.*im|coim.*coker' --glob '*.v' -> no ker/im ≅ coim/coker duality isomorphism",
+      "rg 'Theory/Subobject.v' -> the setoid quotient there is the quotient of MONOS into x by mutual factorization (subobjects as equivalence classes), NOT the subquotient v/u of two subobjects",
+      "ADJACENT: Theory/Subobject.v does provide the subobject preorder the exercise references — sub_le u v (mono of u factors through mono of v; lines 55-97), sub_le_refl/trans/unique, sub_equiv_iff_mutual — so the 'u ≤ v' premise exists; but the quotient-object v/u construction (agreeing with Ab) and the ker g/im f ≅ coim g/coker f isomorphism (the exercise's content) are both absent. Structure/Abelian.v has abelian_image and cokernels but assembles no subquotient."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass read Theory/Subobject.v directly: SubObj record + SubObj_Setoid (quotient of monos by mutual factorization) + sub_le preorder (lines 55-97) + sub_equiv_iff_mutual (line 93) all exist — the u≤v premise the exercise references. But no quotient-object v/u construction and no ker g/im f ≅ coim g/coker f iso; Structure/Abelian.v has abelian_image + cokernels but assembles no subquotient. The exercise's actual content is absent. ABSENT confirmed; classifier's adjacent-preorder note is accurate."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:def-chain-complex",
+    "classification": "ABSENT",
+    "aliases": [
+      "chain complex",
+      "differential graded object / complex in an abelian category",
+      "ChainComplex record",
+      "∂_n ∘ ∂_{n+1} = 0 sequence",
+      "cochain complex (dual)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'chain.?complex|ChainComplex|chaincomplex' --glob '*.v' -> hits ONLY in background-essay prose (Structure/Abelian.v:70, Construction/Localization.v:58/80/98, Construction/Enriched.v:47), no definition",
+      "rg -in '\\bdifferential\\b|∂|d ∘ d|boundary map' --glob '*.v' -> no chain-complex differential; Construction/ColouredPROP/LNL.v 'boundary map' is unrelated (list-of-colour boundaries)",
+      "head -40 Construction/Chain.v -> Construction/Chain.v is the INITIAL-ALGEBRA ω-chain of an endofunctor (Chain : Omega ⟶ C, 0 → F0 → F²0 → …), NOT a chain complex; there is no ∂∘∂=0 condition",
+      "rg -in '(Record|Inductive|Class|Definition) [A-Za-z_]*(Complex|ChainComplex)' --glob '*.v' -> no complex record/class/inductive; find . -name '*.v' | rg -i 'complex' -> none"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: every chain/homology hit (Structure/Abelian.v:70, Localization.v:58/80/98, Enriched.v:47) is background-essay prose describing homological algebra as the subject abelian categories serve, not a definition. Independently read Construction/Chain.v:12 — its own title is 'The initial-algebra chain of an endofunctor' (ω-indexed 0→F0→F²0→…), no ∂∘∂=0. No Complex record/class/inductive. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:def-homology-object",
+    "classification": "ABSENT",
+    "aliases": [
+      "n-th homology object H_n c",
+      "homology object Ker ∂_n / Im ∂_{n+1}",
+      "H_n of a chain complex",
+      "homology in an abelian category",
+      "cycles-mod-boundaries subquotient"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'homolog' --glob '*.v' -> only prose/citations in background essays (Structure/Abelian.v:67/75/100, Theory/Adjunction.v:34, etc.); no H_n definition",
+      "rg -in 'homology_obj|H_n|Hn ' --glob '*.v' -> 0 code hits (Structure/Group.v:92 'homology' is a prose historical remark about Hopf)",
+      "The homology object requires (a) a chain complex — absent (def-chain-complex) and (b) a subquotient/quotient object Ker/Im — absent (ex6)",
+      "ADJACENT: kernels, cokernels, and the image (abelian_image) exist in Structure/Abelian.v and Structure/Kernel.v, but the homology subquotient Ker ∂_n / Im ∂_{n+1} is never assembled"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: all 'homolog' hits are prose/citations in background essays; no H_n / homology_obj identifier. Homology depends on two absent prerequisites — the chain complex (def-chain-complex, ABSENT) and the subquotient Ker/Im (ex6, ABSENT). Adjacent kernel/cokernel/abelian_image exist but the subquotient is never assembled. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:def-morphism-ses",
+    "classification": "ABSENT",
+    "aliases": [
+      "morphism of short exact sequences",
+      "ladder / commutative-ladder diagram of two SES",
+      "triple ⟨f,g,h⟩ between short exact sequences",
+      "map of exact sequences",
+      "morphism in Ses A"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'short.?exact|ShortExact|\\bSES\\b|exact.?sequence' --glob '*.v' -> only background-essay prose and one Yoneda citation (Structure/Coend.v:63); no definition of a short exact sequence",
+      "rg -in 'Definition.*[Ee]xact|Class.*[Ee]xact|Record.*[Ee]xact|is_exact|exact_at|ExactSeq' --glob '*.v' -> no exact-sequence / exact-at concept (all 'exact' code hits are the Coq `exact` TACTIC)",
+      "With no short exact sequence defined in-tree, there is no notion of a morphism (ladder ⟨f,g,h⟩) between them",
+      "ADJACENT: Structure/Abelian.v has the epi–mono / image factorization but never phrases it as exact sequences"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently verified there is NO short-exact-sequence identifier: `rg -in '(Definition|Class|Record|Inductive|Lemma|Theorem|Notation) [A-Za-z_]*[Ee]xact'` returns only ith_exact (an IList indexing lemma, unrelated) and a Lawvere prose 'exactly'; `rg 'IsExact|exact_at|is_exact|Exactness'` -> only 'exactness' prose in Abelian.v comments. All other 'exact' hits are the Coq tactic. No SES => no morphism of SES. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:construction-ses",
+    "classification": "ABSENT",
+    "aliases": [
+      "category Ses A of short exact sequences",
+      "Ses(A) additive category",
+      "category of short exact sequences",
+      "SES category / arrow category of exact sequences",
+      "Ses A"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in '\\bSes\\b|Ses A|category of short exact|ShortExact|SES' --glob '*.v' -> 0 code hits",
+      "find . -name '*.v' | rg -i 'ses|exact' -> none (only Lib/FMapExt.v matches the 'ext' substring, irrelevant finite-map lemmas)",
+      "No short exact sequences are defined, hence no category Ses A and no proof that it is additive",
+      "rg -in '(Record|Inductive|Class) [A-Za-z_]*(Ses|SES|ExactSeq)' --glob '*.v' -> none"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: no Ses / short-exact-sequence identifier and no exact-sequence concept exists in-tree (see def-morphism-ses verification), so a fortiori no category Ses A and no additivity proof. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:lem1",
+    "classification": "ABSENT",
+    "aliases": [
+      "short five lemma",
+      "short 5-lemma (monic/epi middle map)",
+      "short_five_lemma",
+      "five lemma (short form)",
+      "g monic if f,h monic; g epi if f,h epi"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'five.?lemma|five lemma|short.?five' --glob '*.v' -> 0 hits",
+      "rg -in 'snake' --glob '*.v' -> matches ONLY the compact-closed snake/zigzag (adjunction triangle 'yanking') identities in Structure/Monoidal/CompactClosed.v, Collapse.v, Traced.v — a wholly different concept, not the snake/diagram lemma",
+      "No diagram lemmas (five, short five, snake) are formalized; and there is no short exact sequence over which to even state the short five lemma",
+      "rg -in '(Lemma|Theorem) [A-Za-z_]*[Ff]ive' --glob '*.v' -> none"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: `rg -il 'five.?lemma'` -> 0 hits; `rg -il 'snake'` -> only Frobenius/Traced/CompactClosed (compact-closed 'snake equation'/yanking identities, an unrelated concept). No diagram lemmas of any kind, and no short exact sequence over which to state the short five lemma. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:prop2",
+    "classification": "ABSENT",
+    "aliases": [
+      "pullback of an epi is epi in an abelian category",
+      "epi stable under pullback (abelian)",
+      "kernel factorization k = g'k' of a pulled-back epi",
+      "pullback of a short exact sequence along g",
+      "regular epi pullback stability applied to abelian"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'pullback.*epi|epi.*pullback|pullback_stable|stable.*epi' --glob '*.v' -> Structure/Regular.v:81 has RegularEpi pullback-stability as a FIELD (hypothesis) of a Regular category, not a derived fact; Theory/Morphisms/Stability.v proves monic_pullback_stable (line 226) and iso_pullback_stable (line 264) — monos and isos, NOT epis",
+      "rg -in 'abelian.*pullback|Abelian.*Pullback|abelian_pullback' --glob '*.v' -> 0 hits (an Abelian category is not shown to have pullbacks)",
+      "rg -in 'Abelian.*Regular|Regular.*Abelian|Instance.*Regular|: @?Regular' --glob '*.v' -> no Abelian ⟹ Regular instance",
+      "ADJACENT but insufficient: (a) monic_pullback_stable (Theory/Morphisms/Stability.v:226) is the Lemma V.7 companion the proposition CITES (monos, not prop2's epi claim); (b) abelian epis are regular (cokernel_regular_epi via abelian_epic_normal, Structure/Abelian.v:427) and RegularEpi is pullback-stable as a Regular FIELD — but with no Abelian⟹Regular derivation and no pullbacks provided by Abelian, prop2's assertion (the pulled-back epi f' is epi, and the kernel factorization k = g'k') is neither stated nor derivable in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass read Structure/Regular.v: regular_pullbacks:HasPullbacks (field) and regular_stable (field, line 25) — 'pullback of a regular epi is a regular epi' is an ASSUMED axiom of the Regular class, NOT a theorem, and it is never derived for abelian categories (no Abelian⟹Regular instance; `rg 'Abelian.*Regular'` -> 0). Abelian (Structure/Abelian.v:137) carries no HasPullbacks. Confirmed monic_pullback_stable exists (Stability.v:226) — but that is the Lemma-V.7 companion Mac Lane cites for the MONO half, not prop2's content. The epi-is-pullback-stable claim + the kernel factorization k=g'k' are neither stated nor derivable in-tree. ABSENT confirmed; the classifier's adjacent-but-insufficient framing is honest and precise."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:remark-ext-bifunctor",
+    "classification": "ABSENT",
+    "aliases": [
+      "Ext(c,a) as a bifunctor",
+      "Ext bifunctor on an abelian category",
+      "pullback (and pushout) of a short exact sequence",
+      "extensions bifunctor Ext",
+      "Yoneda Ext of exact sequences"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in '\\bExt\\b|Ext_|Ext ' --glob '*.v' filtered against Extension/Extend/context/external/extent -> no Ext identifier; Structure/Coend.v:63 cites Yoneda 'On Ext and exact sequences' in PROSE only",
+      "rg -in 'short.?exact|pullback of a short|pushout of a short' --glob '*.v' -> no pullback/pushout of a short exact sequence (no SES exists to transport)",
+      "No bifunctor Ext(c,a) : A^op ∏ A ⟶ Ab/Set is defined; even Mac Lane defers Ext ('not developed here'), and it is likewise undeveloped in-tree",
+      "find . -name '*.v' | rg -i 'ext' -> only Lib/FMapExt.v (finite-map extensionality), unrelated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: the only `\\bExt\\b` hit surviving the Extension/Extend/context filter is Structure/Coend.v:63, a Yoneda paper citation in prose. No Ext bifunctor, and no SES to transport by pullback/pushout. Mac Lane himself defers Ext ('not developed here'); likewise undeveloped in-tree. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:VIII.4:def-member",
+    "classification": "ABSENT",
+    "aliases": [
+      "member of an object (x ∈_m a)",
+      "generalized element / member with the ≡ relation",
+      "element chasing member apparatus",
+      "member equivalence x ≡ y via epis (xu ≈ yv)",
+      "zero member / negative member for diagram chasing"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'member|∈_m|Definition member|member_of' --glob '*.v' -> only 'class membership' comments (Structure/Factorization.v:386, Instance/Sets/Image.v:32), list_membership (Theory/Coq/List.v:240), and member_respects for eqDec maps (Theory/Coq/Map.v:120); no member-of-an-object apparatus",
+      "rg -in '(Definition|Record|Class|Inductive) [A-Za-z_]*[Mm]ember' --glob '*.v' -> no Member type",
+      "rg -in 'generalized element|global element|element chas|diagram chas|∈_m' --glob '*.v' -> global elements (points 1 ~> x) exist (Tools/Represented.v:18, Structure/Constant.v:7, Functor/Structure/Constant.v) but that is a NARROWER, un-quotiented notion",
+      "ADJACENT: global elements exist, but Mac Lane's member (ANY arrow into a), the ≡ relation (x ≡ y iff ∃ epis u,v with xu ≈ yv), the zero member, the negative member, and the Theorem-3 diagram-chasing rules are all absent — no element-free member calculus is formalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: `rg '(Definition|Record|Class|Inductive) .*[Mm]ember'` -> no Member type; the 'member' hits are class-membership comments and list_membership. Independently confirmed global elements exist (Structure/Constant.v:7, 'Embedded constants via global elements', the narrower un-quotiented 1~>x notion) but Mac Lane's member (any arrow into a) + the ≡ relation (∃ epis u,v: xu≈yv) + zero/negative member + Theorem-3 chasing rules are wholly absent. ABSENT confirmed."
+    }
+  }
+]

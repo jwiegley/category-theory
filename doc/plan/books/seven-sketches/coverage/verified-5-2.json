@@ -1,0 +1,395 @@
+[
+ {
+  "id": "7sketches:5.2.4:def5.25",
+  "classification": "PARTIAL",
+  "aliases": [
+   "prop signature (G, s, t)",
+   "arity/coarity-indexed generator family; Signature : nat -> nat -> Type",
+   "G-labeling of a port graph (l : V -> G with s(l v) = in(v), t(l v) = out(v))",
+   "free PROP on a signature; Free(G); FreePROP S",
+   "symmetric monoidal theory generators / string-diagram generators"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Instance.v",
+    "line": 82,
+    "symbol": "FreePROP",
+    "intree_statement": "Definition FreePROP : PROP := {| prop_cat := FreeCat S; prop_strict := FreeCat_Strict S; prop_symmetric := FreeCat_Symmetric S; prop_monoidal_coherence := eq_refl; prop_of_nat := fun n : nat => n; prop_unit_zero := eq_refl; prop_tensor_plus := fun m n => eq_refl |}"
+   },
+   {
+    "file": "Construction/PROP/Free.v",
+    "line": 81,
+    "symbol": "FreeCat",
+    "intree_statement": "Program Definition FreeCat : Category := {| obj := nat; hom := @Term S; homset := @Term_Setoid; id := T_id; compose := @T_comp S; compose_respects := @T_comp_respects; id_left := fun m n f => TE_id_left f; id_right := fun m n f => TE_id_right f; comp_assoc := fun m n p q f g h => TE_sym _ _ (TE_assoc f g h); comp_assoc_sym := fun m n p q f g h => TE_assoc f g h |}"
+   },
+   {
+    "file": "Construction/PROP/Signature.v",
+    "line": 50,
+    "symbol": "Signature",
+    "intree_statement": "Definition Signature : Type := nat -> nat -> Type."
+   }
+  ],
+  "statement_record": {
+   "book": "(a) A prop signature is (G, s, t) with G a set and s, t : G -> N giving each generator its in-arity and out-arity. (b) A G-labeling of a port graph (V, in, out, iota) is l : V -> G with s(l v) = in(v) and t(l v) = out(v) for every vertex. (c) Free(G) is the prop whose morphisms m -> n are the G-labeled (m,n)-port graphs, with composition and monoidal structure exactly those of PG, the labelings carried along.",
+   "intree": "Definition Signature : Type := nat -> nat -> Type. ... Program Definition FreeCat : Category := {| obj := nat; hom := @Term S; homset := @Term_Setoid; id := T_id; compose := @T_comp S; ... |} ... Definition FreePROP : PROP := {| prop_cat := FreeCat S; prop_strict := FreeCat_Strict S; prop_symmetric := FreeCat_Symmetric S; ... prop_of_nat := fun n : nat => n; prop_unit_zero := eq_refl; prop_tensor_plus := fun m n => eq_refl |}",
+   "strength_comparison": "intree-weaker: clause (a) is faithful (Signature := nat -> nat -> Type is the fibered form of (G, s, t) — S m n is the type of generators of in-arity m and out-arity n — so the arity functions are the indexing and no side condition is needed), and clause (c)'s OBJECT exists as a genuine PROP (FreePROP S, with prop_of_nat the identity on nat, prop_unit_zero and prop_tensor_plus both eq_refl). But its morphisms are Term S m n modulo the strict-SMC congruence TermEq (Construction/PROP/Term.v:39, Construction/PROP/TermEq.v), NOT G-labeled port graphs: the port-graph model of clause (c) and the labeling notion of clause (b) have no counterpart in the tree, and nothing identifies terms-mod-axioms with labeled port graphs."
+  },
+  "gap": "Clause (b) — G-labelings of port graphs — is entirely absent: there is no port-graph (or any combinatorial open-graph) datatype anywhere in the tree, so there is no notion of vertices, in/out degrees, a structure bijection iota, or a labeling function whose arities match the degrees. Consequently clause (c) is realized only in the SYNTACTIC presentation (S-terms modulo the strict-SMC congruence), and no theorem identifies the syntactic free PROP with the prop of G-labeled port graphs. Searches run: rg -i 'port graph|portgraph|port-graph' (0 hits), rg -i 'open graph|opengraph' (0 hits), rg -i '\\bport\\b|\\bPG\\b' over *.v (only unrelated hypothesis names pf/pg in Structure/Monoidal/Drinfeld.v), rg -i 'vertex|vertices|incident' (only cone vertices in Theory/Equivalence/Limit.v), rg -i 'labell|labeled|labelling' (only prose and signature RE-labelling in Tietze.v/Relabel.v).",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first, coverage second; my independent classification was PARTIAL, same as Phase C, with the same split (clause (a) present, clause (b) absent, clause (c) present only in the syntactic model). Evidence re-opened and quotes checked character-by-character: Construction/PROP/Signature.v:50 is exactly `Definition Signature : Type := nat -> nat -> Type.`; Construction/PROP/Free.v:81 is the quoted `FreeCat` record literal with `hom := @Term S` and `homset := @Term_Setoid` (so the free prop's morphisms ARE terms, not graphs); Construction/PROP/Instance.v:82 is the quoted `FreePROP` literal with `prop_of_nat := fun n => n`, `prop_unit_zero := eq_refl`, `prop_tensor_plus := fun m n => eq_refl`. My own searches reproduce the gap: `rg -i 'port graph|port_graph|PortGraph' --glob '*.v'` 0 hits; `rg -i 'open graph|opengraph'` 0 hits; `rg -i -l 'vertex|vertices|incident'` yields only cone vertices. All three cited files are registered in _CoqProject (lines 83, 86, 96). strength_comparison is honest: it does not claim the syntactic free PROP has been identified with a port-graph model, and no such identification exists."
+  }
+ },
+ {
+  "id": "7sketches:5.2.4:example5.27",
+  "classification": "ABSENT",
+  "aliases": [
+   "free prop on the empty signature; Free(0) = Bij; FreePROP Empty_Sig",
+   "Bij, the category of finite sets and bijections",
+   "permutation PROP; symmetric groups S_n as PROP(n,n); Perm n",
+   "core groupoid of FinSet (Groupoid FinSet)",
+   "the prop of permutations / the free symmetric monoidal category on no generators"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'Empty_Sig' --include=*.v . — 4 hits: Construction/PROP/Signature.v:58 (the definition `Definition Empty_Sig : Signature := fun (_ _ : nat) => Empty_set`) and :23,:54 (prose comments CLAIMING that FreePROP Empty_Sig 'is the permutation category: morphisms m ~> n are empty unless m = n, in which case they are the braidings of m wires'), plus Construction/PROP/Tietze.v:757 (`scratch_smt`, an axiom-free SMT over Empty_Sig used only to test that ext_retract reduces). No Lemma/Theorem/Definition anywhere asserts anything about FreePROP Empty_Sig or its hom-sets — the claim exists only as a comment, which the evidence contract forbids citing.",
+   "grep -rn '\\bBij\\b|Bijection|bijective' --include=*.v . — only Instance/Sets.v:400 `bijective_is_iso` and Functor/Hom.v:115, plus prose about bijective-on-objects functors. No category of finite sets and bijections is constructed.",
+   "grep -rn -i 'permutation' --include=*.v . | grep -i 'prop|perm n|Perm ' — Construction/PROP.v:265-278 explicitly records the permutation PROP as 'literature canonical, NOT YET IN THE LIBRARY' and 'the permutation subcategory [Perm n] itself remains unbuilt'; Construction/PROP/TermEq.v:212,305 refer to 'the standard permutation model' only as an inhabitation argument in prose. Theory/Multicategory.v's tperm is a Type-valued permutation witness on lists, not a category of bijections.",
+   "grep -rn 'symmetric group|S_n|Sym ' --include=*.v . — Construction/PROP.v:23,34,267 and Construction/PROP/Structural.v:27 are all prose; no S_n is constructed.",
+   "grep -rn 'Groupoid' + read Construction/Groupoid.v — the core groupoid construction exists (objects @obj C, homs @Isomorphism C), and Instance/FinSet.v defines skeletal FinSet, so `Groupoid FinSet` (= Bij) is CONSTRUCTIBLE, but it is never formed, carries no PROP/strict-symmetric-monoidal structure in-tree, and nothing relates it to any free PROP.",
+   "grep -rn '≅|Isomorphism|Equivalence' --include=*.v Construction/PROP/ — the only isomorphisms in the whole PROP development are structural (unitors/associator in Structural.v, Strict.v) and tensor-comparison natural isos (Universal.v:371, Presentation.v:355, Tietze.v:200, Presentation/Universal.v:264). No iso or equivalence between a free PROP and any concrete category is asserted.",
+   "grep -rn -i 'port graph|open graph' --include=*.v . — 0 hits, so the Example's other half (its reading of morphisms as port graphs with empty vertex set) has no substrate either."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first; my independent verdict was ABSENT-or-PARTIAL and I settled on ABSENT for the same reason Phase C gives — the substance of the Example is the IDENTIFICATION Free(0) = Bij, and neither side of it is in-tree as a citable constant. My searches: `rg -n 'Empty_Sig' --glob '*.v'` returns exactly 4 hits (Signature.v:23,54,58 and Tietze.v:757), matching the log; `rg -i 'permutation categ|symmetric group|Perm'` confirms Construction/PROP.v:265-278 states the permutation PROP is 'literature canonical, not yet in the library' and '[Perm n] itself remains unbuilt'. Spot-checked the two auxiliary claims: Instance/Sets.v:400 really is `Lemma bijective_is_iso`, and Construction/Groupoid.v:103 really is `Program Definition Groupoid (C : Category) : Category` with `hom := @Isomorphism C` (:17) — so `Groupoid FinSet` is constructible but is never formed, exactly as logged. One substantive observation I add: the prose claim in Signature.v:24-31 that the free PROP on no generators 'is the permutation category' is only HALF machine-supportable — that `Term Empty_Sig m n` is uninhabited unless m = n follows by induction on the constructors, but the identification of the hom-setoid with S_n would need the very permutation model PROP.v declares unbuilt. Phase C's refusal to cite a comment as evidence is therefore the right call, not excessive strictness."
+  }
+ },
+ {
+  "id": "7sketches:5.2.4:ex5.28",
+  "classification": "ABSENT",
+  "aliases": [
+   "free prop on one generator per arity; G = {rho_{m,n}} with s(rho)=m, t(rho)=n",
+   "the full/total signature `fun m n => unit` (Full_Sig / Total_Sig)",
+   "PG, the prop of port graphs (Section 5.2.2)",
+   "prop of open graphs / string diagrams with unlabelled boxes",
+   "cospans of finite sets / hypergraph category of open graphs"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i 'port graph|portgraph|port-graph' --include=*.v . — 0 hits. The exercise's target PG (the prop of port graphs of Section 5.2.2) simply does not exist in the tree, so the claimed identification cannot be stated, let alone proved.",
+   "grep -rn -i 'open graph|opengraph' --include=*.v . — 0 hits.",
+   "grep -rn -i '\\bgraph\\b' --include=*.v . — every hit is the 'underlying graph/quiver of a category' idiom (Construction/Free.v, Instance/Cat.v:63, Instance/StrictCat.v:50, Test/Issue138.v), the graph of a relation (Instance/Rel.v:160), or prose about graph states in Instance/ZX.v:160. No combinatorial graph datatype with vertices and ports.",
+   "grep -rn 'Full_Sig|Total_Sig|fun _ _ => unit|fun m n => unit|fun _ _ : nat => unit' --include=*.v . — the one-generator-per-arity signature is never formed. Construction/PROP/Signature.v defines only Empty_Sig (:58), Single_Sig m n (:68) and Sum_Sig (:79); grep -rn 'Single_Sig|Sum_Sig' shows their only uses are inside Construction/PROP/Tietze.v's definitional-extension machinery (:448, :485, :526).",
+   "grep -rn '≅|Isomorphism|Equivalence' --include=*.v Construction/PROP/ — no iso/equivalence between a FreePROP and any other category is asserted anywhere in the PROP development (all hits are structural isos or tensor-comparison natural isos).",
+   "grep -rn -i 'vertex|vertices|incident' --include=*.v . — only cone vertices (Theory/Equivalence/Limit.v); no graph vertices, hence no arity/degree agreement condition to instantiate."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first; independent verdict ABSENT, same as Phase C. The exercise's target PG (the prop of port graphs of Section 5.2.2) is the same missing object as in def5.25 clause (b)/(c): my `rg -i 'port graph|port_graph|PortGraph'` and `rg -i 'open graph'` both return 0 hits, so the identification cannot even be stated. Confirmed the source side too: `rg -n 'Single_Sig|Sum_Sig' --glob '*.v'` shows the definitions at Signature.v:68,79, a prose mention at ColouredPROP/Signature.v:64, and all remaining uses inside Construction/PROP/Tietze.v (322,325,329,340,353,448,476,485,498,508,523,526,530); the one-generator-per-arity signature `fun m n => unit` is never formed. Phase C's parenthetical '(:448, :485, :526)' is a sample rather than the exhaustive Tietze list, but every use it omits is also in Tietze.v, so the claim is accurate in substance."
+  }
+ },
+ {
+  "id": "7sketches:5.2.4:prop5.29",
+  "classification": "PRESENT",
+  "aliases": [
+   "universal property of the free prop; maps out of Free(G)",
+   "free-forgetful adjunction for PROPs; initiality of FreePROP",
+   "Valuation / interpretation of generators; InterpF",
+   "prop functors Free(G) -> C correspond to arity-respecting functions G -> Mor(C)",
+   "unique strict symmetric monoidal extension of a generator assignment"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Universal.v",
+    "line": 603,
+    "symbol": "interp_unique",
+    "intree_statement": "Context (G : FreeCat S ⟶ P). Context (SG : @StrictMonoidalFunctor (FreeCat S) P (FreeCat_Monoidal S) (MP P) G). Context (HB : SymmetricStrict G SG). Context (Hobj : ∀ n : nat, G n = ⟦n⟧). Context (Hgen : ∀ m n (g : S m n), fmap[G] (T_gen g) ≈ hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (v m n g)). Theorem interp_unique : ∀ m n (t : Term S m n), fmap[G] t ≈ hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (interp P S v t)."
+   },
+   {
+    "file": "Construction/PROP/Universal.v",
+    "line": 186,
+    "symbol": "InterpF_extends_valuation",
+    "intree_statement": "Definition InterpF : FreeCat S ⟶ P := Build_Functor (FreeCat S) P (@prop_of_nat P) (fun m n t => interp P S v t) (fun m n s t Hst => interp_sound P S v Hst) InterpF_fmap_id (fun m n p f g => InterpF_fmap_comp f g).  ...  Example InterpF_extends_valuation (m n : nat) (g : S m n) : fmap[InterpF] (T_gen g) = v m n g := eq_refl."
+   },
+   {
+    "file": "Construction/PROP/Universal.v",
+    "line": 416,
+    "symbol": "InterpF_Strict / InterpF_Symmetric",
+    "intree_statement": "Program Definition InterpF_Strict : @StrictMonoidalFunctor (FreeCat S) P (FreeCat_Monoidal S) (MP P) InterpF := {| strict_functor_is_monoidal := InterpF_Monoidal; strict_pure_obj := @prop_unit_zero P; strict_ap_obj := fun x y : nat => @prop_tensor_plus P x y; ... |}   and   Definition InterpF_Symmetric : @SymmetricMonoidalFunctor (FreeCat S) P (FreeCat_Symmetric S) (@prop_symmetric P) InterpF := InterpF_Braided."
+   }
+  ],
+  "statement_record": {
+   "book": "The free prop Free(G) on a prop signature (G, s, t) has this universal property: for any prop C, the prop functors Free(G) -> C are in one-to-one correspondence with the functions from G to the morphisms of C sending each generator g to a morphism s(g) -> t(g) of C.",
+   "intree": "Definition Valuation : Type := ∀ m n : nat, S m n → (⟦m⟧ ~{P}~> ⟦n⟧).  [existence] InterpF : FreeCat S ⟶ P with InterpF_Strict/InterpF_Symmetric and `fmap[InterpF] (T_gen g) = v m n g := eq_refl`.  [uniqueness] Theorem interp_unique : ∀ m n (t : Term S m n), fmap[G] t ≈ hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (interp P S v t), for any G with SG : StrictMonoidalFunctor, HB : SymmetricStrict G SG, Hobj : ∀ n, G n = ⟦n⟧ and Hgen agreeing with v on generators; Corollary interp_unique2 turns this into agreement of any two such competitors.",
+   "strength_comparison": "same in substance — the book's bijection is delivered as its two halves: existence (a Valuation, i.e. exactly an arity-respecting function G -> Mor(C) since S m n is the type of generators of arity (m,n), yields the strict symmetric monoidal InterpF that extends it definitionally) and uniqueness (interp_unique pins ANY strict symmetric competitor agreeing with v on generators; interp_unique_from_one, Universal.v:710, synthesises the object family from the single datum G 1 = ⟦1⟧). Encoding-level differences to note, none of which weakens the book's claim on the book's own props: (i) the target carries two side conditions, HomEqProp P (a Prop reflection of P's hom-setoid equivalence, needed only to build InterpF) and ObjDecEq P (decidable object equality, powering axiom-free UIP in the uniqueness proof) — both hold automatically for props in the book's sense (objects N, set-valued homs) and are supplied in-tree by FreeCat_HomEqProp / FreeCat_ObjDecEq (Instance.v:109,117) and their Quotient_* analogues; (ii) 'prop functor' is spelled as Functor + StrictMonoidalFunctor + SymmetricStrict (the braid square, Universal.v:445) + the object family Hobj rather than a bundled class, because the library has no PROP-morphism class; (iii) the correspondence is stated as existence + uniqueness rather than packaged as an iso of hom-sets in Sets."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first; independent verdict PRESENT-with-side-conditions, same as Phase C, and I specifically hunted the 'same-name-weaker-statement' and 'definition-without-required-API' failure modes here. All three evidence entries open at the cited lines with accurate quotes: Universal.v:174 `InterpF := Build_Functor ...`, :186 `Example InterpF_extends_valuation ... := eq_refl`, :416 `InterpF_Strict` with fields `strict_pure_obj := @prop_unit_zero P` and `strict_ap_obj := fun x y : nat => @prop_tensor_plus P x y` verbatim, :525 `InterpF_Symmetric := InterpF_Braided`, :603 `Theorem interp_unique` under the Context pack declared at :566-571 exactly as quoted, plus :710 `interp_unique_from_one` and :727 `interp_unique2`. Independently confirmed the disclosed side conditions are real and file-wide: Universal.v:147-148 declare `Context {HP : HomEqProp P}` and `Context {OD : @ObjDecEq P}` for the whole `Section Universal` (:143-:752), so the in-tree universal property quantifies over PROPs satisfying them rather than over all in-tree PROPs — strength_comparison states this explicitly, so it is honest rather than same-name-weaker. Checked the hypothesis pack is not vacuous: `SymmetricStrict` (:445) is inhabited by `InterpF_SymmetricStrict` (:451), and `Example InterpF_interp_unique_self` (:673) instantiates the whole pack at InterpF, so uniqueness is not trivially true. Also confirmed the disclosed absence of a bundled prop-functor class: `rg 'PROPFunctor|PROP_Functor|prop_functor'` 0 hits. Construction/PROP/Universal.v is registered (_CoqProject:98)."
+  }
+ },
+ {
+  "id": "7sketches:5.2.4:def5.30",
+  "classification": "PRESENT",
+  "aliases": [
+   "G-generated prop expression; Expr(G)",
+   "raw terms over a PROP signature; Term S m n",
+   "string-diagram syntax: id, symmetry, monoidal sum, composite, generator",
+   "free symmetric monoidal term algebra / syntax modulo the prop axioms",
+   "arity of an expression e : m -> n"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Term.v",
+    "line": 39,
+    "symbol": "Term",
+    "intree_statement": "Inductive Term : nat -> nat -> Type := | T_id : forall n, Term n n | T_braid : forall m n, Term (m + n) (n + m) | T_comp : forall {m n p}, Term n p -> Term m n -> Term m p | T_tens : forall {m1 n1 m2 n2}, Term m1 n1 -> Term m2 n2 -> Term (m1 + m2) (n1 + n2) | T_gen : forall {m n}, S m n -> Term m n."
+   },
+   {
+    "file": "Construction/PROP/Free.v",
+    "line": 52,
+    "symbol": "Term_Setoid",
+    "intree_statement": "#[export] Program Instance Term_Setoid {m n : nat} : Setoid (Term S m n) := {| equiv := @TermEq S m n |}  — used as the homset of FreeCat (Free.v:81), so the morphisms of the free prop are exactly expressions quotiented by the prop axioms."
+   },
+   {
+    "file": "Construction/PROP/TermEq.v",
+    "line": 104,
+    "symbol": "TE_tens_id",
+    "intree_statement": "| TE_tens_id : forall (m n : nat), TermEq (T_tens (T_id m) (T_id n)) (T_id (m + n))  — with TE_braid_hex_left/TE_braid_hex_right (TermEq.v:216,240) decomposing block braids, this identifies the extra in-tree primitives with the book's generated forms."
+   }
+  ],
+  "statement_record": {
+   "book": "Given G with s, t : G -> N, the G-generated prop expressions e : m -> n are defined inductively: (i) id_0 : 0 -> 0, id_1 : 1 -> 1 and sigma : 2 -> 2 are expressions; (ii) each g in G is an expression g : s(g) -> t(g); (iii) if alpha : m -> n and beta : p -> q are expressions so is alpha + beta : m+p -> n+q; (iv) if alpha : m -> n and beta : n -> p are expressions so is alpha ; beta : m -> p. Expr(G) is the set of all such; (m,n) is the arity. Distinct expressions may denote the same morphism of Free(G), so morphisms of the free prop are expressions quotiented by the prop axioms.",
+   "intree": "Inductive Term : nat -> nat -> Type := | T_id : forall n, Term n n | T_braid : forall m n, Term (m + n) (n + m) | T_comp : forall {m n p}, Term n p -> Term m n -> Term m p | T_tens : forall {m1 n1 m2 n2}, Term m1 n1 -> Term m2 n2 -> Term (m1 + m2) (n1 + n2) | T_gen : forall {m n}, S m n -> Term m n.  ...  Program Instance Term_Setoid {m n : nat} : Setoid (Term S m n) := {| equiv := @TermEq S m n |}.",
+   "strength_comparison": "intree-stronger on the raw syntax, same after the quotient: T_id n and the block braid T_braid m n are PRIMITIVE at every arity, whereas the book generates them from id_0/id_1 and sigma : 2 -> 2 via clauses (iii)/(iv) (in-tree T_swap := T_braid 1 1, Term.v:65, is the book's sigma; T_nothing := T_id 0 and wire := T_id 1, Term.v:86-92, are its id_0 and id_1). The extra primitives are identified with the generated forms by the prop axioms (TE_tens_id, TE_braid_hex_left/right), so Term S/TermEq presents the same morphisms as Expr(G)/prop-axioms. The arity (m,n) is the index of the Term type family rather than a separately defined function, and the book's closing remark — distinct expressions denoting one morphism, e.g. f ; id_1 and f — is exactly TE_id_right/TE_id_left in Term_Setoid's equivalence."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first; independent verdict PRESENT, same as Phase C. Term.v:39 matches the quoted inductive constructor-for-constructor (T_id/T_braid/T_comp/T_tens/T_gen); Free.v:52 is `Term_Setoid` with `equiv := @TermEq S m n`, consumed as `homset` at Free.v:81, so the book's closing remark (morphisms of the free prop are expressions modulo the prop axioms) is literally how FreeCat is built; TermEq.v:104 is `TE_tens_id` verbatim. Two nits that do not move the verdict: (1) the parenthetical cites `TE_braid_hex_left/right (TermEq.v:216,240)` — left is at :216 but right begins at :241, a one-line slip in a parenthetical, not in an `evidence` entry; (2) strength_comparison's 'same after the quotient' is an informal mathematical argument, NOT an in-tree theorem — there is no normalization lemma saying every `Term S m n` is TermEq-equal to one built only from `T_id 0`/`T_id 1`/`T_swap`/comp/tens/gen. For a DEFINITION item that is immaterial (the two syntaxes are inter-derivable and the extra primitives are strictly more convenient), but the sentence should not be read as machine-checked. Term.v is registered (_CoqProject:84)."
+  }
+ },
+ {
+  "id": "7sketches:5.2.4:example5.31",
+  "classification": "PARTIAL",
+  "aliases": [
+   "sample prop expressions over G = {f : 1->1, g : 2->2, h : 2->1}",
+   "worked Term S m n examples; smoke-test terms over a concrete signature",
+   "three-generator prop signature via Sum_Sig/Single_Sig",
+   "h + id_1 : 3 -> 2 and (h + id_1) ; sigma ; g ; sigma : 3 -> 2",
+   "f ; id_1 = f (identity absorption illustration)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Term.v",
+    "line": 39,
+    "symbol": "Term",
+    "intree_statement": "Inductive Term : nat -> nat -> Type := | T_id : forall n, Term n n | T_braid : forall m n, Term (m + n) (n + m) | T_comp : forall {m n p}, Term n p -> Term m n -> Term m p | T_tens : forall {m1 n1 m2 n2}, Term m1 n1 -> Term m2 n2 -> Term (m1 + m2) (n1 + n2) | T_gen : forall {m n}, S m n -> Term m n.  — each of the example's five expressions is a well-typed Term at the stated arity."
+   },
+   {
+    "file": "Construction/PROP/Term.v",
+    "line": 65,
+    "symbol": "T_swap",
+    "intree_statement": "Definition T_swap {S : Signature} : Term S 2 2 := T_braid 1 1.   (with wire := T_id 1 : Term S 1 1, Term.v:86)"
+   },
+   {
+    "file": "Construction/PROP/Signature.v",
+    "line": 68,
+    "symbol": "Single_Sig / Sum_Sig",
+    "intree_statement": "Definition Single_Sig (m n : nat) : Signature := fun a b => if Nat.eqb a m then if Nat.eqb b n then unit else Empty_set else Empty_set.   Definition Sum_Sig (S T : Signature) : Signature := fun m n => sum (S m n) (T m n).  — the example's G is Sum_Sig (Single_Sig 1 1) (Sum_Sig (Single_Sig 2 2) (Single_Sig 2 1))."
+   }
+  ],
+  "statement_record": {
+   "book": "For G = {f : 1 -> 1, g : 2 -> 2, h : 2 -> 1}, the following are all G-generated prop expressions: id_1 : 1 -> 1; f : 1 -> 1; f ; id_1 : 1 -> 1; h + id_1 : 3 -> 2; and (h + id_1) ; sigma ; g ; sigma : 3 -> 2.",
+   "intree": "Inductive Term : nat -> nat -> Type := ... | T_gen : forall {m n}, S m n -> Term m n.  Definition T_swap {S : Signature} : Term S 2 2 := T_braid 1 1.  Definition wire {S : Signature} : Term S 1 1 := T_id 1.",
+   "strength_comparison": "intree-weaker: the formation rules the example instantiates are fully in-tree (Term, with T_swap for sigma and wire for id_1), and the example's three-generator signature is constructible from Single_Sig/Sum_Sig, so each listed expression IS a well-typed inhabitant of Term S m n at the stated arity — but no in-tree assertion exhibits any of them, and the arities are witnessed only by typing, never asserted."
+  },
+  "gap": "There is no worked instantiation at a concrete multi-generator signature anywhere in the tree. The only closed Term examples are the trivial arbitrary-signature ones in Construction/PROP/Term.v:86-92 — wire := T_id 1, wire2 := T_id 2, T_nothing := T_id 0, T_swap := T_braid 1 1 — and grep -rn 'Single_Sig|Sum_Sig' shows those combinators are used ONLY inside Tietze.v's definitional-extension machinery (:448, :485), never to build an illustrative signature. Nothing constructs a composite of the shape (h + id_1) ; sigma ; g ; sigma : 3 -> 2, nor records the identity-absorption illustration f ; id_1 ≈ f at a concrete generator (TE_id_right exists generically in TermEq.v but is never instantiated at an example signature).",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first; independent verdict PARTIAL, same as Phase C. Verified Term.v:65 `T_swap := T_braid 1 1` and Term.v:86-92 (`wire := T_id 1`, `wire2 := T_id 2`, `T_nothing := T_id 0`) — these are the only closed Term examples in the tree, exactly as the gap says; Signature.v:68 `Single_Sig` and :79 `Sum_Sig` are quoted correctly (the evidence entry pins line 68 while the quote also carries Sum_Sig from :79 — a harmless co-citation, both are in the same file and both text bodies are exact). I independently confirmed no multi-generator illustrative signature is ever built (`rg 'Single_Sig|Sum_Sig'`: uses confined to Tietze.v's definitional-extension machinery) and that no in-tree Example composes a term of shape `(h + id_1) ; sigma ; g ; sigma`. PARTIAL is the right calibration: the formation rules the Example instantiates are fully present and each listed expression is a well-typed inhabitant, but nothing in-tree exhibits them."
+  }
+ },
+ {
+  "id": "7sketches:5.2.4:ex5.32",
+  "classification": "PARTIAL",
+  "aliases": [
+   "draw the string diagram of (f + id_1 + id_1) ; (sigma + id_1) ; (id_1 + h) ; sigma ; g",
+   "picture / string diagram of a prop expression",
+   "denotation of an expression as a port graph (translation of Def 5.30's prose)",
+   "graphical normal form of a Term S 3 2",
+   "expression-to-diagram semantics for the free PROP"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Term.v",
+    "line": 39,
+    "symbol": "Term",
+    "intree_statement": "Inductive Term : nat -> nat -> Type := | T_id : forall n, Term n n | T_braid : forall m n, Term (m + n) (n + m) | T_comp : forall {m n p}, Term n p -> Term m n -> Term m p | T_tens : forall {m1 n1 m2 n2}, Term m1 n1 -> Term m2 n2 -> Term (m1 + m2) (n1 + n2) | T_gen : forall {m n}, S m n -> Term m n.  — the exercise's expression is a well-typed Term S 3 2, its arity checked by the indices."
+   },
+   {
+    "file": "Construction/PROP/Term.v",
+    "line": 65,
+    "symbol": "T_swap",
+    "intree_statement": "Definition T_swap {S : Signature} : Term S 2 2 := T_braid 1 1.  — the symmetry map sigma : 2 -> 2 the exercise composes with."
+   }
+  ],
+  "statement_record": {
+   "book": "For the free prop on G = {f : 1 -> 1, g : 2 -> 2, h : 2 -> 1}, draw the picture of the expression (f + id_1 + id_1) ; (sigma + id_1) ; (id_1 + h) ; sigma ; g, where sigma : 2 -> 2 is the symmetry map.",
+   "intree": "Inductive Term : nat -> nat -> Type := ... | T_tens : forall {m1 n1 m2 n2}, Term m1 n1 -> Term m2 n2 -> Term (m1 + m2) (n1 + n2) | T_gen : forall {m n}, S m n -> Term m n.   Definition T_swap {S : Signature} : Term S 2 2 := T_braid 1 1.",
+   "strength_comparison": "intree-weaker: the syntactic half is covered — the expression is expressible and its arity 3 -> 2 is enforced by the Term indices — but the exercise's actual content, the PICTURE, has no in-tree counterpart, because there is no diagram/port-graph denotation of a term."
+  },
+  "gap": "The diagrammatic content is unformalizable as stated in-tree today because the target of the drawing does not exist: rg -i 'port graph|portgraph|open graph' returns 0 hits, so there is no port-graph datatype for a term to denote into, no term-to-diagram interpretation function, and no normal form by which two pictures could be compared. (The library's string-diagram talk in Construction/PROP/Signature.v:45 is prose only.) Secondarily, as with Example 5.31, the expression itself is never exhibited: nothing in-tree builds this composite over a concrete three-generator signature. Note this is NOT out of scope — a port-graph model and a denotation Term S m n -> PortGraph m n is exactly what Definition 5.25 clause (c) would require and is formalizable in this setting.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first; my own leaning was OUT_OF_SCOPE-or-ABSENT (a 'draw the picture' exercise), and on comparison I accept Phase C's PARTIAL as the better-calibrated verdict under the frozen rule that OUT_OF_SCOPE be used sparingly: the drawing's target — a port-graph denotation `Term S m n -> PortGraph m n` — is genuinely formalizable in this setting and is precisely the model def5.25 clause (c) is missing, so this is a gap in the library rather than a non-formalizable item. Verified the evidence: Term.v:39 and Term.v:65 are quoted accurately, and the exercise's expression is a well-typed `Term S 3 2` under those constructors. Verified the gap's supporting claim: the string-diagram language at Signature.v:44-46 ('[S]-labelled string diagrams modulo the strict-SMC axioms') is prose in the file header, with no diagram datatype behind it; `rg -i 'port graph|open graph'` 0 hits. The record correctly declines OUT_OF_SCOPE and says why."
+  }
+ },
+ {
+  "id": "7sketches:5.2.5:def5.33",
+  "classification": "PRESENT",
+  "aliases": [
+   "presentation of a prop (G, s, t, E); generators and relations",
+   "symmetric monoidal theory; SMT record",
+   "the prop presented by a presentation; PresentedPROP",
+   "quotient of Expr(G) by the equations and the SMC axioms; TermEqW",
+   "equation system / set of relations over a signature; EqSystem"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Presentation.v",
+    "line": 312,
+    "symbol": "PresentedPROP",
+    "intree_statement": "Definition PresentedPROP : PROP := {| prop_cat := PresentedCat; prop_strict := Presented_Strict; prop_symmetric := Presented_Symmetric; prop_monoidal_coherence := eq_refl; prop_of_nat := fun n : nat => n; prop_unit_zero := eq_refl; prop_tensor_plus := fun m n => eq_refl |}   over   Definition PresentedCat : Category := @Quotient (FreeCat Σ) (fun m n : nat => @TermEqW m n) TermEqW_Congruence."
+   },
+   {
+    "file": "Construction/PROP/Presentation.v",
+    "line": 136,
+    "symbol": "TermEqW",
+    "intree_statement": "Inductive TermEqW : forall {m n}, Term Σ m n → Term Σ m n → Prop := | TEW_termeq {m n} (s t : Term Σ m n) : TermEq Σ s t → TermEqW s t | TEW_ax {m n} (s t : Term Σ m n) : smt_eqs E m n s t → TermEqW s t | TEW_sym ... | TEW_trans ... | TEW_comp {m n p} (f f' : Term Σ n p) (g g' : Term Σ m n) : TermEqW f f' → TermEqW g g' → TermEqW (T_comp f g) (T_comp f' g') | TEW_tens {m1 n1 m2 n2} (f f' : Term Σ m1 n1) (g g' : Term Σ m2 n2) : TermEqW f f' → TermEqW g g' → TermEqW (T_tens f g) (T_tens f' g')."
+   },
+   {
+    "file": "Construction/PROP/Presentation.v",
+    "line": 113,
+    "symbol": "SMT / EqSystem",
+    "intree_statement": "Definition EqSystem (S : Signature) : Type := ∀ m n : nat, Term S m n → Term S m n → Prop.   Record SMT : Type := { smt_sig : Signature; smt_eqs : EqSystem smt_sig }."
+   }
+  ],
+  "statement_record": {
+   "book": "A presentation (G, s, t, E) for a prop consists of a set G of generators, functions s, t : G -> N, and a set E contained in Expr(G) x Expr(G) of pairs of G-generated prop expressions whose two components have the same arity ('the equations', traditionally 'relations'). The prop presented by (G, s, t, E) is the prop whose morphisms are the elements of Expr(G) quotiented both by e1 = e2 for every (e1,e2) in E and by the axioms of symmetric strict monoidal categories.",
+   "intree": "Record SMT : Type := { smt_sig : Signature; smt_eqs : EqSystem smt_sig } with EqSystem (S : Signature) := ∀ m n : nat, Term S m n → Term S m n → Prop.  Inductive TermEqW := TEW_termeq (TermEq Σ s t → TermEqW s t) | TEW_ax (smt_eqs E m n s t → TermEqW s t) | TEW_sym | TEW_trans | TEW_comp | TEW_tens.  Definition PresentedCat : Category := @Quotient (FreeCat Σ) (fun m n => @TermEqW m n) TermEqW_Congruence.  Definition PresentedPROP : PROP := {| prop_cat := PresentedCat; prop_strict := Presented_Strict; prop_symmetric := Presented_Symmetric; ... |}.",
+   "strength_comparison": "same. The presentation data match field for field: smt_sig is the (G, s, t) of Definition 5.25 in indexed form and smt_eqs is E, with the book's arity side condition ('the two components of each pair have the same arity') built into EqSystem's type since both arguments live in Term S m n at the SAME m, n. TermEqW is precisely the double quotient the book asks for — the smallest congruence containing both the strict-SMC equations (TEW_termeq, embedding TermEq, which IS the symmetric strict monoidal axiom set) and the theory's equations (TEW_ax) — and the result is delivered not merely as a category but as a bundled PROP whose strictness fields are eq_refl. Presentational differences only: E is a Prop-valued arity-indexed relation family rather than a subset of a product set, and the book's 'rough' hedge (its own informal Definition header) is discharged in-tree by an actual construction."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first; independent verdict PRESENT, same as Phase C. All three evidence sites open at the cited lines with exact quotes: Presentation.v:109 `EqSystem`, :113 `Record SMT`, :136 `Inductive TermEqW` with all six constructors as quoted (TEW_termeq / TEW_ax / TEW_sym / TEW_trans / TEW_comp / TEW_tens), :180 `PresentedCat := @Quotient (FreeCat Σ) ... TermEqW_Congruence`, :312 the `PresentedPROP` record literal verbatim (prop_monoidal_coherence := eq_refl, prop_of_nat := fun n => n, prop_unit_zero := eq_refl, prop_tensor_plus := fun m n => eq_refl). I independently confirm the two substantive claims of strength_comparison: the book's arity side condition on E is definitional here (both arguments of `smt_eqs E m n` inhabit `Term S m n` at the SAME m,n), and TermEqW really is the DOUBLE quotient the book asks for — the strict-SMC axioms enter through TEW_termeq embedding TermEq, the theory's equations through TEW_ax. Registered (_CoqProject:100)."
+  }
+ },
+ {
+  "id": "7sketches:5.2.5:remark5.34",
+  "classification": "PRESENT",
+  "aliases": [
+   "universal property of a presented prop; maps out of a presented prop",
+   "prop functors from a presented prop correspond to equation-respecting valuations",
+   "soundness of a valuation for the equations; ESound",
+   "the quotient's universal property / lifting through PresentedProj",
+   "initiality of the presented PROP among models of the theory"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Presentation/Universal.v",
+    "line": 435,
+    "symbol": "Presented_unique",
+    "intree_statement": "Context (G : PresentedCat E ⟶ P). Context (SG : @StrictMonoidalFunctor (PresentedCat E) P (Presented_Monoidal E) (MP P) G). Context (HBW : SymmetricStrictW G SG). Context (Hobj : ∀ n : nat, G n = ⟦n⟧). Context (Hgen : ∀ m n (g : Σ m n), fmap[G] (quot E (T_gen g)) ≈ hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (v m n g)). Theorem Presented_unique : ∀ m n (f : m ~{PresentedCat E}~> n), fmap[G] f ≈ hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (interp P Σ v f)."
+   },
+   {
+    "file": "Construction/PROP/Presentation/Universal.v",
+    "line": 180,
+    "symbol": "interpW_sound",
+    "intree_statement": "Definition ESound : Type := ∀ m n (s t : Term Σ m n), smt_eqs E m n s t → interp P Σ v s ≈ interp P Σ v t.  Context (Hv : ESound).  Theorem interpW_sound {m n : nat} {s t : Term Σ m n} : TermEqW E s t → interp P Σ v s ≈ interp P Σ v t."
+   },
+   {
+    "file": "Construction/PROP/Presentation/Universal.v",
+    "line": 194,
+    "symbol": "PresentedInterp",
+    "intree_statement": "Definition PresentedInterp : PresentedCat E ⟶ P := @QuotientLift (FreeCat Σ) (fun m n : nat => @TermEqW E m n) (TermEqW_Congruence E) P (InterpF Σ P v) (fun (m n : nat) (s t : Term Σ m n) (H : TermEqW E s t) => interpW_sound H).   (equipped with PresentedInterp_Strict, :304, and PresentedInterp_SymmetricStrict, :327; Theorem Presented_factor, :340, gives fmap[PresentedInterp] (fmap[PresentedProj E] t) ≈ interp P Σ v t.)"
+   }
+  ],
+  "statement_record": {
+   "book": "For the prop script-G presented by (G, s, t, E) and any prop C, the prop functors script-G -> C are in one-to-one correspondence with the functions f from G to the morphisms of C such that (i) f(g) is a morphism s(g) -> t(g) of C for every g, and (ii) f(e1) = f(e2) in C for every equation (e1,e2) in E, where f(e) is obtained by applying f to each generator of e and composing/summing in C.",
+   "intree": "Definition ESound : Type := ∀ m n (s t : Term Σ m n), smt_eqs E m n s t → interp P Σ v s ≈ interp P Σ v t.  Theorem interpW_sound : TermEqW E s t → interp P Σ v s ≈ interp P Σ v t.  Definition PresentedInterp : PresentedCat E ⟶ P := QuotientLift ... (InterpF Σ P v) (fun m n s t H => interpW_sound H).  Theorem Presented_unique : ∀ m n (f : m ~{PresentedCat E}~> n), fmap[G] f ≈ hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (interp P Σ v f).",
+   "strength_comparison": "same in substance, and the book's remark is stated without proof ('it can be shown') whereas the in-tree version is machine-checked. Clause (i) is the type of Valuation P Σ (a generator of S m n is sent to ⟦m⟧ ~> ⟦n⟧, so the arity condition is definitional); clause (ii) is ESound verbatim, with interpW_sound showing it suffices for the whole theory congruence; existence is PresentedInterp (with PresentedInterp_Strict/PresentedInterp_SymmetricStrict making it a prop functor, and Presented_factor :340 recording that it extends the valuation's interpretation); uniqueness is Presented_unique, with Presented_unique2 (:528) as the two-competitor agreement form and Presented_unique_from_one (:506) deriving the object family from G 1 = ⟦1⟧. The same two encoding-level side conditions as Proposition 5.29 sit on the target — HomEqProp P and ObjDecEq P — which hold automatically for props in the book's sense and are supplied for the in-tree free/presented PROPs by Quotient_HomEqProp / Quotient_ObjDecEq (Construction/Quotient.v:271,280); and 'prop functor' is again spelled as Functor + StrictMonoidalFunctor + SymmetricStrictW + Hobj rather than a bundled class."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first; independent verdict PRESENT, same as Phase C. Every cited line opens as claimed in Construction/PROP/Presentation/Universal.v: :139 `ESound` (clause (ii) verbatim), :180 `interpW_sound`, :194 `PresentedInterp := QuotientLift ... interpW_sound`, :304 `PresentedInterp_Strict`, :327 `PresentedInterp_SymmetricStrict`, :340 `Theorem Presented_factor : ∀ m n (t : Term Σ m n), fmap[PresentedInterp] (fmap[PresentedProj E] t) ≈ interp P Σ v t` (the parenthetical's paraphrase is exact; the definitional `=` form is the neighbouring `PresentedInterp_proj`, :202), :435 `Presented_unique` under the quoted Context pack, :506 `Presented_unique_from_one`, :528 `Presented_unique2`. Cross-checked the side-condition citation: Construction/Quotient.v:271 `Quotient_HomEqProp` and :280 `Quotient_ObjDecEq` are real, so the disclosed HomEqProp/ObjDecEq hypotheses are discharged for the in-tree presented PROPs. The 'stated without proof in the book, machine-checked in-tree' remark is correct — the book hedges with 'it can be shown'. Registered (_CoqProject:101)."
+  }
+ },
+ {
+  "id": "7sketches:5.2.5:ex5.35",
+  "classification": "PARTIAL",
+  "aliases": [
+   "free prop vs prop presented with no relations; Free(G) =? presented by (G, s, t, empty)",
+   "presentation with an empty equation set; SMT with smt_eqs = fun _ _ _ _ => False",
+   "the theory congruence collapses to the free congruence: TermEqW E <-> TermEq when E has no axioms",
+   "PresentedPROP of the axiom-free theory is isomorphic to FreePROP",
+   "conservativity of the empty presentation; PresentedProj is an isomorphism"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Presentation.v",
+    "line": 180,
+    "symbol": "PresentedCat",
+    "intree_statement": "Definition PresentedCat : Category := @Quotient (FreeCat Σ) (fun m n : nat => @TermEqW m n) TermEqW_Congruence.  — same objects (nat) and the same morphism carriers (Term Σ m n) as FreeCat Σ; only the hom equivalence coarsens from TermEq Σ to TermEqW."
+   },
+   {
+    "file": "Construction/PROP/Presentation.v",
+    "line": 188,
+    "symbol": "PresentedProj",
+    "intree_statement": "Definition PresentedProj : FreeCat Σ ⟶ PresentedCat := @QuotientProj (FreeCat Σ) (fun m n : nat => @TermEqW m n) TermEqW_Congruence.   (a prop functor by PresentedProj_Strict :402 and PresentedProj_Symmetric :444; Example PresentedProj_fmap_id_on_terms {m n} (t : Term Σ m n), :466, records that it is the identity on terms.)"
+   },
+   {
+    "file": "Construction/PROP/Presentation.v",
+    "line": 139,
+    "symbol": "TermEqW constructors TEW_termeq / TEW_ax",
+    "intree_statement": "| TEW_termeq {m n} (s t : Term Σ m n) : TermEq Σ s t → TermEqW s t | TEW_ax {m n} (s t : Term Σ m n) : smt_eqs E m n s t → TermEqW s t  — with smt_eqs uninhabited, TEW_ax can never fire, so only TEW_termeq and the sym/trans/comp/tens closure remain."
+   }
+  ],
+  "statement_record": {
+   "book": "Is the free prop on a signature (G, s, t) as given in Definition 5.25 the same thing as the prop presented by (G, s, t, empty set) — i.e. with no relations — in the sense of Rough Definition 5.33, or is there a subtle difference?",
+   "intree": "Definition PresentedCat : Category := @Quotient (FreeCat Σ) (fun m n : nat => @TermEqW m n) TermEqW_Congruence.   Definition PresentedProj : FreeCat Σ ⟶ PresentedCat := @QuotientProj ...",
+   "strength_comparison": "intree-weaker: both sides of the comparison are constructed (FreeCat Σ / FreePROP Σ on one side, PresentedCat E / PresentedPROP E over an SMT with an uninhabited equation system on the other), the presented one is BY CONSTRUCTION a quotient of the free one, they share objects and morphism carriers, and the comparison prop functor PresentedProj exists and is the identity on both — but nothing asserts that the comparison is invertible when E has no axioms, which is exactly what the exercise asks."
+  },
+  "gap": "The exercise's comparison is never stated. (1) No lemma says TermEqW E s t <-> TermEq Σ s t for an axiom-free E (grep for '<->' across Construction/PROP/ returns only Tietze.v:397), hence nothing shows the quotient is trivial; (2) no isomorphism or equivalence between PresentedPROP of the axiom-free theory and FreePROP is asserted (grep '≅|Isomorphism|Equivalence' across Construction/PROP/ finds only structural and tensor-comparison isos); (3) the axiom-free SMT is formed in-tree exactly once, as `Local Definition scratch_smt : SMT := {| smt_sig := Empty_Sig; smt_eqs := fun _ _ _ _ => False |}` (Construction/PROP/Tietze.v:756), and only to test that ext_retract reduces — it is never compared with FreeCat. The nearest in-tree result, Theorem AddEqn_derivable_conservative (Construction/PROP/Tietze.v:395: 'TermEqW AddEqn u u' <-> TermEqW E u u'' when the added equation is derivable), covers adding a DERIVABLE equation to an arbitrary theory, not the empty-theory-versus-free comparison. Finally, the book's own 'subtle difference' hinges on Free(G) being defined via port graphs while the presented prop is expressions-modulo-axioms; that identification is itself absent in-tree (see the gap recorded for def5.25), so the in-tree pair is the two SYNTACTIC constructions only.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass first; independent verdict PARTIAL, same as Phase C, and for the same reason: both sides of the comparison are constructed but the comparison itself is never stated. Verified the evidence (Presentation.v:180 PresentedCat, :188 PresentedProj, :139 the TEW_termeq/TEW_ax constructors) and every search in the gap: the only `<->` in proof text under Construction/PROP/ is Tietze.v:397 (Naturality.v:112 is a comment), `Theorem AddEqn_derivable_conservative` really is at Tietze.v:395 with conclusion `TermEqW AddEqn u u' <-> TermEqW E u u'` and really does concern adding a DERIVABLE equation rather than the empty theory, and `scratch_smt` with `smt_eqs := fun _ _ _ _ => False` really is the tree's only axiom-free SMT (Tietze.v:756-757, `Local`, used only by `ext_retract_computes_on_new_gen` at :759). The observation that the book's 'subtle difference' turns on Free(G) being port-graph-defined — itself absent in-tree — is correct and correctly cross-referenced to def5.25."
+  }
+ }
+]

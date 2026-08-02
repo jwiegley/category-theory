@@ -1,0 +1,1269 @@
+{
+  "book": "7sketches",
+  "range": {
+    "pdf_start": 129,
+    "pdf_end": 158
+  },
+  "pages": [
+    {
+      "pdf_page": 129,
+      "book_page": "117",
+      "empty": false,
+      "items": [],
+      "notes": "Chapter 4 opener (title-page form: 'Collaborative design: Profunctors, categorification, and monoidal categories') and section 4.1 'Can we build it?'. Pure motivational prose on hierarchical co-design, citing [Cen15]. No numbered environment and no numbered display."
+    },
+    {
+      "pdf_page": 130,
+      "book_page": "118",
+      "empty": false,
+      "items": [
+        "7sketches:4.1:def-codesign-diagram"
+      ],
+      "notes": "Number 4.1 is CONSUMED BY A DISPLAY: the boxed robot/chassis/motor/battery wiring picture is labelled (4.1) right-flush. Not an item. The chapter's first named environment is Definition 4.2 on printed 120. The prose sentence naming 'co-design diagrams' is recorded as an unnumbered prose definition. The trailing sentence 'Each of the boxes in a co-design diagram corresponds to what we call a feasibility relation' runs onto printed 119 and is subsumed by Definition 4.2."
+    },
+    {
+      "pdf_page": 131,
+      "book_page": "119",
+      "empty": false,
+      "items": [],
+      "notes": "No numbered environment and no numbered display. Contains the informal prose version of a feasibility relation (a function Phi: P x R -> Bool subject to (a) Phi(p,r)=true and p'<=p implies Phi(p',r)=true, (b) Phi(p,r)=true and r<=r' implies Phi(p,r')=true, i.e. monotonicity of P^op x R -> Bool) which the text itself forwards to Definition 4.2 on printed 120; not recorded separately. Section headings 4.2 'Enriched profunctors' and 4.2.1 'Feasibility relationships as Bool-profunctors' both begin on this page."
+    },
+    {
+      "pdf_page": 132,
+      "book_page": "120",
+      "empty": false,
+      "items": [
+        "7sketches:4.2.1:def4.2",
+        "7sketches:4.2.1:ex4.4"
+      ],
+      "notes": "Number 4.3 is CONSUMED BY A DISPLAY inside the Definition 4.2 box (the typing 'Phi: X^op x Y -> Bool'); it carries no claim distinct from its enclosing definition, so no separate item. Number 4.5 is CONSUMED BY A DISPLAY in running prose: the quantale residuation law 'b AND c <= d iff b <= (c => d)', recalled from the Chapter 2 quantale/closed-monoidal material (Exercise 2.93) rather than newly claimed here; its verification for Bool is Exercise 4.7. Also on the page: the Bool-category / Bool-functor / Bool-profunctor = preorder / monotone map / feasibility relation dictionary table (unnumbered)."
+    },
+    {
+      "pdf_page": 133,
+      "book_page": "121",
+      "empty": false,
+      "items": [
+        "7sketches:4.2.1:ex4.7",
+        "7sketches:4.2.2:def4.8",
+        "7sketches:4.2.2:ex4.9",
+        "7sketches:4.2.2:ex4.10"
+      ],
+      "notes": "Number 4.6 is CONSUMED BY A DISPLAY: the four-row truth table for the Boolean closure operation c => d. Section heading 4.2.2 'V-profunctors' begins on this page. Footnote 1 ('whenever we speak of quantales we mean unital commutative quantales') belongs to the independent per-chapter footnote sequence and is not an item."
+    },
+    {
+      "pdf_page": 134,
+      "book_page": "122",
+      "empty": false,
+      "items": [
+        "7sketches:4.2.2:example4.11",
+        "7sketches:4.2.2:ex4.12",
+        "7sketches:4.2.2:example4.13"
+      ],
+      "notes": "Example 4.13's shaded box opens at the foot of this page and continues onto PDF 135 (recorded here, flagged spans-page-break). No numbered display on this page."
+    },
+    {
+      "pdf_page": 135,
+      "book_page": "123",
+      "empty": false,
+      "items": [
+        "7sketches:4.2.2:example4.13",
+        "7sketches:4.2.2:ex4.15",
+        "7sketches:4.2.2:remark4.16",
+        "7sketches:4.2.2:ex4.17"
+      ],
+      "notes": "Example 4.13 (started PDF 134) continues and ends here. Number 4.14 is CONSUMED BY A DISPLAY inside Example 4.13: the two-city weighted-graph picture of a Cost-profunctor. Exercise 4.17 opens here and its closing sentence plus lozenge fall on PDF 136 (flagged spans-page-break)."
+    },
+    {
+      "pdf_page": 136,
+      "book_page": "124",
+      "empty": false,
+      "items": [
+        "7sketches:4.2.2:ex4.17"
+      ],
+      "notes": "Nothing inventoriable STARTS here. Exercise 4.17 finishes at the top ('Your answer should agree with what you got in Exercise 4.15; does it?'). Section heading 4.2.3 'Back to co-design diagrams' begins. The rest is worked illustration of the co-design-diagram semantics already recorded on printed 118: ports labelled by preorders, left/right port preorders multiplied, and the unnumbered display 'Chassis: (load x velocity) -|-> (torque x speed x $)'; then the movie example with the preorders T, E, $ drawn as Hasse diagrams. No numbered environment, no numbered display."
+    },
+    {
+      "pdf_page": 137,
+      "book_page": "125",
+      "empty": false,
+      "items": [
+        "7sketches:4.2.3:ex4.18"
+      ],
+      "notes": "No numbered display. Section headings 4.3 'Categories of profunctors' and 4.3.1 'Composing profunctors' begin here; 4.3 announces in prose 'There is a category Feas whose objects are preorders and whose morphisms are feasibility relations', which is discharged formally by Theorem 4.23 and Definition 4.24 on printed 127 (not recorded separately as a prose item)."
+    },
+    {
+      "pdf_page": 138,
+      "book_page": "126",
+      "empty": false,
+      "items": [],
+      "notes": "No numbered environment on this page. TWO numbers CONSUMED BY DISPLAYS: (4.19), the three-cities picture P, Q, R with blue and red bridges, and (4.20), the Bool composition formula '(Phi ; Psi)(p,r) := JOIN over q of Phi(p,q) AND Psi(q,r)'. (4.20) is the V=Bool instance of Definition 4.21 on the next page, so it carries no claim distinct from that definition and is not recorded as a separate item."
+    },
+    {
+      "pdf_page": 139,
+      "book_page": "127",
+      "empty": false,
+      "items": [
+        "7sketches:4.3.1:def4.21",
+        "7sketches:4.3.1:ex4.22",
+        "7sketches:4.3.2:def-skeletal-quantale",
+        "7sketches:4.3.2:thm4.23",
+        "7sketches:4.3.2:def4.24"
+      ],
+      "notes": "Section heading 4.3.2 'The categories V-Prof and Feas' begins mid-page. The one-sentence prose definition of a SKELETAL QUANTALE (underlying preorder skeletal; Bool and Cost are skeletal) is unnumbered but load-bearing for Theorem 4.23, so it is recorded as an unnumbered prose definition. No numbered display on this page."
+    },
+    {
+      "pdf_page": 140,
+      "book_page": "128",
+      "empty": false,
+      "items": [
+        "7sketches:4.3.2:def4.25",
+        "7sketches:4.3.2:ex4.26",
+        "7sketches:4.3.2:lem4.27",
+        "7sketches:4.3.2:ex4.30"
+      ],
+      "notes": "Number 4.25 is a NUMBERED DISPLAY that IS the definition of the unit profunctor ('Define the unit profunctor U_X ... by the formula (4.25) U_X(x,y) := X(x,y)'), i.e. a definition given in running prose whose number comes from the shared counter; recorded as a definition item with number 4.25 (flagged). Numbers 4.28 and 4.29 are CONSUMED BY DISPLAYS inside the proof of Lemma 4.27 (the two chains of (in)equalities); they are intermediate proof steps carrying no claim distinct from the lemma, so no separate items. Exercise 4.30 opens at the foot and its part 3 falls on PDF 141 (flagged spans-page-break)."
+    },
+    {
+      "pdf_page": 141,
+      "book_page": "129",
+      "empty": false,
+      "items": [
+        "7sketches:4.3.2:ex4.30",
+        "7sketches:4.3.2:lem4.31",
+        "7sketches:4.3.2:ex4.32",
+        "7sketches:4.3.2:remark4.33"
+      ],
+      "notes": "Exercise 4.30 part 3 completes at the top. No numbered display on this page: the one-input/one-output wiring diagram and the repeated robot co-design diagram are both UNNUMBERED here (the numbered instance was (4.1) on printed 118). Prose slogan 'A monoidal category is a categorified monoidal preorder' is motivation for section 4.4, not an item. Remark 4.33 opens at the foot and continues onto PDF 142 (flagged spans-page-break)."
+    },
+    {
+      "pdf_page": 142,
+      "book_page": "130",
+      "empty": false,
+      "items": [
+        "7sketches:4.3.2:remark4.33",
+        "7sketches:4.3.3:def4.34",
+        "7sketches:4.3.3:example4.35"
+      ],
+      "notes": "Remark 4.33 (started PDF 141) ends at the top. Section heading 4.3.3 'Fun profunctor facts: companions, conjoints, collages' begins; the bold run-in lead 'Companions and conjoints.' is NOT an item. No numbered display on this page."
+    },
+    {
+      "pdf_page": 143,
+      "book_page": "131",
+      "empty": false,
+      "items": [
+        "7sketches:4.3.3:ex4.36",
+        "7sketches:4.3.3:example4.37",
+        "7sketches:4.3.3:ex4.38",
+        "7sketches:4.3.3:remark4.39",
+        "7sketches:4.3.3:ex4.41",
+        "7sketches:4.3.3:def4.42"
+      ],
+      "notes": "Number 4.40 is CONSUMED BY A DISPLAY inside Remark 4.39: the V-adjunction condition 'P(p, G(q)) iso Q(F(p), q)'. It is the operative content of its enclosing remark rather than a distinct claim, so it is folded into the Remark 4.39 item. The bold run-in lead 'Collage of a profunctor.' is NOT an item. Definition 4.42's shaded box opens near the foot and continues onto PDF 144 (flagged spans-page-break)."
+    },
+    {
+      "pdf_page": 144,
+      "book_page": "132",
+      "empty": false,
+      "items": [
+        "7sketches:4.3.3:def4.42",
+        "7sketches:4.3.3:example4.43",
+        "7sketches:4.3.3:ex4.44"
+      ],
+      "notes": "Definition 4.42's box ends at the top with the collage inclusions i_X, i_Y. Section heading 4.4 'Categorification' begins at the foot with prose only; its first numbered item (Rough Definition 4.45) lies beyond this range. No numbered display on this page. ANOMALY: the Cost-matrix printed for Col(Phi) in Example 4.43 gives the Y-to-X block as 0 rather than infinity (rows x and y begin '0 0'), which contradicts clause (iii) of Definition 4.42 (empty join); see problems[]."
+    },
+    {
+      "pdf_page": 145,
+      "book_page": "133",
+      "empty": false,
+      "items": [],
+      "notes": "Section 4.4.1 'The basic idea of categorification' opens here. Pure motivational prose: categorification replaces properties by structure; the running illustration categorifies N by FinSet, replacing 5+3=8 with an isomorphism 5bar u 3bar iso 8bar of chosen finite sets, + by disjoint union, and equality by isomorphism. One unnumbered figure. No numbered environment, no numbered display, and no construction developed formally enough to be an item."
+    },
+    {
+      "pdf_page": 146,
+      "book_page": "134",
+      "empty": false,
+      "items": [],
+      "notes": "End of 4.4.1 (the slogan that preorders are Bool-categories while ordinary categories are Set-categories: the brute property 'a <= b' is replaced by a hom-SET of morphisms a -> b), then section 4.4.2 'A reflection on wiring diagrams' opens. Wiring-diagram pictures for preorders and for categories, plus the observation that associativity makes a chain of boxes f,g,h unambiguous. All displays unnumbered; no numbered environment."
+    },
+    {
+      "pdf_page": 147,
+      "book_page": "135",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation of 4.4.2. Three admissible drawings of an identity morphism; the unitality law id_x ; f = f = f ; id_y read as 'insert or discard identity wires'; the coherence laws described as exactly what lets wires be lengthened and shortened unambiguously; then the informal jump from wiring diagrams for monoidal preorders (unlabelled <= boxes with several typed inputs/outputs) to labelled boxes, i.e. symmetric monoidal categories. All figures unnumbered; no numbered environment."
+    },
+    {
+      "pdf_page": 148,
+      "book_page": "136",
+      "empty": false,
+      "items": [
+        "7sketches:4.4.3:def4.45"
+      ],
+      "notes": "Section 4.4.3 'Monoidal categories' opens. Two UNNUMBERED displays: the comparison S x (T x U) vs (S x T) x U, and the bookkeeping associator alpha_{s,t,u}. Rough Definition 4.45's rose box BEGINS at the foot of this page and continues onto PDF 149."
+    },
+    {
+      "pdf_page": 149,
+      "book_page": "137",
+      "empty": false,
+      "items": [
+        "7sketches:4.4.3:def4.45",
+        "7sketches:4.4.3:remark4.46",
+        "7sketches:4.4.3:remark4.47",
+        "7sketches:4.4.3:ex4.48",
+        "7sketches:4.4.3:example4.49"
+      ],
+      "notes": "Top of page carries the continuation of Rough Definition 4.45 (constituent (ii) and the four natural isomorphisms (a)-(d)); that item is recorded on PDF 148. Example 4.49's green box begins here and continues onto PDF 150."
+    },
+    {
+      "pdf_page": 150,
+      "book_page": "138",
+      "empty": false,
+      "items": [
+        "7sketches:4.4.3:example4.49",
+        "7sketches:4.4.3:ex4.50",
+        "7sketches:4.4.4:def4.51"
+      ],
+      "notes": "Top of page carries the continuation of Example 4.49 (the four coherence isomorphisms are the obvious bookkeeping bijections in Set). Section 4.4.4 'Categories enriched in a symmetric monoidal category' opens mid-page; Rough Definition 4.51's rose box begins at the foot and continues onto PDF 151. Exercise 4.50 contains an unnumbered wiring-diagram figure."
+    },
+    {
+      "pdf_page": 151,
+      "book_page": "139",
+      "empty": false,
+      "items": [
+        "7sketches:4.4.4:def4.51",
+        "7sketches:4.4.4:ex4.52",
+        "7sketches:4.4.4:remark4.53",
+        "7sketches:4.4.4:ex4.54"
+      ],
+      "notes": "Top of page carries the continuation of Rough Definition 4.51 (constituents (iii) identity element and (iv) composition morphism, plus 'the usual associative and unital laws'); that item is recorded on PDF 150. Section 4.5 'Profunctors form a compact closed category' opens at the foot. Citations [nLa18],[Wik18],[Kel05] for the precise enriched-category definition."
+    },
+    {
+      "pdf_page": 152,
+      "book_page": "140",
+      "empty": false,
+      "items": [],
+      "notes": "NUMBERS CONSUMED BY NUMBERED DISPLAYS, NOT MISSING ITEMS: (4.55) a feedback wiring diagram with boxes f1..f5; (4.56) the Person 1 / Person 2 diagram with wires pain, sound, fury, complaint; (4.57) the cap and cup icons that reverse wire direction. All three are right-flush parenthesised figure displays inside the running prose of section 4.5, carrying no claim of their own beyond the surrounding exposition, so no equation item is recorded. Verified by grep -nE '\\(4\\.(55|56|57|59)\\)' on the page text: hits at the (4.55), (4.56), (4.57) display lines."
+    },
+    {
+      "pdf_page": 153,
+      "book_page": "141",
+      "empty": false,
+      "items": [
+        "7sketches:4.5.1:def4.58"
+      ],
+      "notes": "Section 4.5.1 'Compact closed categories'. NUMBER CONSUMED BY A DISPLAY: (4.59) is the pair of commutative 'snake equation' diagrams typeset INSIDE Definition 4.58's rose box; it states exactly the definition's required equations and carries no claim distinct from its enclosing item, so it is not recorded as a separate equation item. Also unnumbered pictures of eta_c/epsilon_c as cup and cap and of the snake equations as wiring diagrams."
+    },
+    {
+      "pdf_page": 154,
+      "book_page": "142",
+      "empty": false,
+      "items": [
+        "7sketches:4.5.1:prop4.60",
+        "7sketches:4.5.1:example4.61"
+      ],
+      "notes": "Prose above Proposition 4.60 recalls monoidal closedness of a monoidal category (object c -o d with C(b (x) c, d) iso C(b, c -o d) natural in b). A one-paragraph proof sketch of clause 1 follows the proposition but is not itself a numbered item. Example 4.61's green box begins here and continues onto PDF 155; footnote marker 2 appears in it, with the footnote text on PDF 155."
+    },
+    {
+      "pdf_page": 155,
+      "book_page": "143",
+      "empty": false,
+      "items": [
+        "7sketches:4.5.1:example4.61",
+        "7sketches:4.5.1:ex4.62"
+      ],
+      "notes": "Top of page carries the continuation of Example 4.61 (the composite corelation picture, and the compact closed structure (empty set, disjoint union) on Corel with every finite set self-dual); that item is recorded on PDF 154. Footnote 2 gives the formal three-step definition of corelation composition (relational union, transitive closure, restriction) with the display alpha ; beta := iota*_{A u C}((iota_{A u B})!(alpha) OR (iota_{B u C})!(beta)) - footnotes are an independent sequence and are not items. Section 4.5.2 'Feas as a compact closed category' opens at the foot."
+    },
+    {
+      "pdf_page": 156,
+      "book_page": "144",
+      "empty": false,
+      "items": [
+        "7sketches:4.5.2:thm4.63",
+        "7sketches:4.5.2:ex4.64",
+        "7sketches:4.5.2:ex4.65"
+      ],
+      "notes": "Two UNNUMBERED bold run-in leads ('Monoidal products in Prof_V are just product categories.', 'The monoidal unit in Prof_V is 1.') carry the proof sketch of Theorem 4.63; per campaign policy these are not items and their content is folded into the Theorem 4.63 summary. Two unnumbered displays give the hom formulas (X x Y)((x,y),(x',y')) := X(x,x') (x) Y(y,y') and (Phi x Psi)((x1,y1),(x2,y2)) := Phi(x1,x2) (x) Psi(y1,y2). One unnumbered stacking wiring diagram for Phi (x) Psi."
+    },
+    {
+      "pdf_page": 157,
+      "book_page": "145",
+      "empty": false,
+      "items": [
+        "7sketches:4.5.2:ex4.66"
+      ],
+      "notes": "A third UNNUMBERED bold run-in lead ('Duals in Prof_V are just opposite categories.') completes the proof sketch of Theorem 4.63: the dual of a V-category X is X^op, with unit eta_X : 1 -|-> X^op x X given by the V-functor 1 x X^op x X -> V, eta_X(1,x,x') := X(x,x'), and counit epsilon_X : (X x X^op) -|-> 1 given by epsilon_X(x,x',1) := X(x,x'). Section 4.6 'Summary and further reading' opens mid-page: pure retrospective prose with citations [Cen15],[Cen17],[Law73],[Shu08],[Shu10],[BD98],[CY96],[Mac98],[JS93],[JSV96]. No numbered environment in 4.6."
+    },
+    {
+      "pdf_page": 158,
+      "book_page": "146",
+      "empty": false,
+      "items": [],
+      "notes": "Final page of Chapter 4: a single closing paragraph of section 4.6 noting that compact closed categories are one of many structured monoidal categories, citing [Sel10]. Remainder of the page blank. No numbered environment. Chapter 4's last number is 4.66 (Exercise 4.66, PDF 157), matching the pagemap's max."
+    }
+  ],
+  "items": [
+    {
+      "id": "7sketches:4.1:def-codesign-diagram",
+      "kind": "definition",
+      "number": null,
+      "name": "co-design diagram (informal, defined in running prose)",
+      "statement_summary": "Prose definition, no shaded box and no number: a co-design diagram is a box-and-wire picture of a design problem in which every wire is labelled by a PREORDER of resources of one type (ordered from less useful to more useful, e.g. dollars, watts, torques), every box is a design component whose LEFT ports carry the resources it produces (its functionalities) and whose RIGHT ports carry the resources it requires, and each wire connecting a requirement of one box to a production of another is annotated with <= asserting that the requirement is below the production. The composite outer box is again such a component. The robot example (chassis / motor / battery plus two summing boxes) is the numbered display (4.1). Made precise later: each box denotes a feasibility relation (Definition 4.2) and the whole diagram denotes a composite in a compact closed category (sections 4.5-4.5.2).",
+      "book_section": "4.1",
+      "book_page": "118",
+      "pdf_pages": [
+        130
+      ],
+      "cross_refs": [
+        "7sketches:4.2.1:def4.2",
+        "7sketches:4.3.2:def4.24"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "defined-in-running-prose",
+        "number-4.1-is-a-display"
+      ]
+    },
+    {
+      "id": "7sketches:4.2.1:def4.2",
+      "kind": "definition",
+      "number": "4.2",
+      "name": "feasibility relation",
+      "statement_summary": "Let X = (X, <=_X) and Y = (Y, <=_Y) be preorders. A feasibility relation for X given Y is a MONOTONE MAP Phi: X^op x Y -> Bool (display (4.3)), written Phi: X -|-> Y. Reading: Phi(x,y) = true means 'x can be obtained given y'. Unfolding monotonicity on the product preorder X^op x Y: if x' <=_X x and y <=_Y y' then Phi(x,y) <=_Bool Phi(x',y'), i.e. anything obtainable from y is obtainable from a larger y', and anything obtainable is obtainable in a weaker form. This is the V = Bool case of Definition 4.8.",
+      "book_section": "4.2.1",
+      "book_page": "120",
+      "pdf_pages": [
+        132
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:def4.8",
+        "7sketches:4.2.2:ex4.10",
+        "7sketches:4.3.2:def4.24"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.2.1:ex4.4",
+      "kind": "exercise",
+      "number": "4.4",
+      "name": "Hasse diagram of X^op x Y and an aunt-explains profunctor",
+      "statement_summary": "Given the drawn preorders X (monoid -> category <- preorder) and Y (nothing -> this book): (1) draw the Hasse diagram of the product preorder X^op x Y; (2) write down a profunctor Lambda: X -|-> Y and, reading Lambda(x,y) = true as 'my aunt can explain an x given y', interpret the fact that the preimage of true is an UPPER SET in X^op x Y.",
+      "book_section": "4.2.1",
+      "book_page": "120",
+      "pdf_pages": [
+        132
+      ],
+      "cross_refs": [
+        "7sketches:4.2.1:def4.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.2.1:ex4.7",
+      "kind": "exercise",
+      "number": "4.7",
+      "name": "Boolean implication satisfies the residuation law",
+      "statement_summary": "Show that the operation => : B x B -> B given by the truth table of display (4.6) (c => d is false exactly when c = true and d = false) satisfies the closure/residuation condition of display (4.5): for all b, c, d in B, b AND c <= d iff b <= (c => d). I.e. verify concretely that Bool with AND is a closed monoidal preorder (a quantale) with internal hom =>.",
+      "book_section": "4.2.1",
+      "book_page": "121",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.2.2:def4.8",
+      "kind": "definition",
+      "number": "4.8",
+      "name": "V-profunctor",
+      "statement_summary": "Let V = (V, <=, I, tensor) be a unital commutative quantale and let X and Y be V-categories. A V-profunctor from X to Y, written Phi: X -|-> Y, is a V-FUNCTOR Phi: X^op x Y -> V, where the product is the enriched product of V-categories and V is regarded as enriched in itself. Feasibility relations are the case V = Bool.",
+      "book_section": "4.2.2",
+      "book_page": "121",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [
+        "7sketches:4.2.1:def4.2",
+        "7sketches:4.2.2:ex4.9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.2.2:ex4.9",
+      "kind": "exercise",
+      "number": "4.9",
+      "name": "elementwise characterisation of a V-profunctor",
+      "statement_summary": "Show that a V-profunctor in the sense of Definition 4.8 is the same thing as a function Phi: Ob(X) x Ob(Y) -> V such that for all x, x' in X and y, y' in Y the inequality X(x',x) tensor Phi(x,y) tensor Y(y,y') <= Phi(x',y') holds in V. (This is the enriched dinaturality/bimodule condition, replacing the two functoriality axioms by one inequality.)",
+      "book_section": "4.2.2",
+      "book_page": "121",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:def4.8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.2.2:ex4.10",
+      "kind": "exercise",
+      "number": "4.10",
+      "name": "Bool-profunctors versus feasibility relations",
+      "statement_summary": "Decide whether a Bool-profunctor in the sense of Definition 4.8 is exactly the same thing as a feasibility relation in the sense of Definition 4.2 once the jargon is unwound, or whether some subtle difference remains.",
+      "book_section": "4.2.2",
+      "book_page": "121",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [
+        "7sketches:4.2.1:def4.2",
+        "7sketches:4.2.2:def4.8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.2.2:example4.11",
+      "kind": "example",
+      "number": "4.11",
+      "name": "Bool-profunctors and their interpretation as bridges",
+      "statement_summary": "Reads Definition 4.8 for V = Bool pictorially: a preorder (a Bool-category) is a 'city' whose points are its elements and whose Hasse arrows are routes; a Bool-profunctor Phi: X -|-> Y is a set of one-way 'bridges' from points of X to points of Y, and Phi(x,y) = true exactly when there is a route from x within X, across some bridge, and on within Y to y. Worked on X = {W,N,E,S} and Y = {a,b,c,d,e}: Phi(N,e) = true and Phi(E,a) = true because such paths exist, while Phi(W,d) = false because none does. Notes that boxing the whole picture yields a single new preorder with W <= N <= c <= a, foreshadowing the COLLAGE (Definition 4.42).",
+      "book_section": "4.2.2",
+      "book_page": "122",
+      "pdf_pages": [
+        134
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:def4.8",
+        "7sketches:4.3.3:def4.42",
+        "7sketches:4.2.2:ex4.12"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.2.2:ex4.12",
+      "kind": "exercise",
+      "number": "4.12",
+      "name": "feasibility matrix of a Bool-profunctor",
+      "statement_summary": "Express the profunctor Phi of Example 4.11 as a Bool-matrix whose (m,n) entry is Phi(m,n) in B, and fill in the 4x5 table (rows N,E,W,S; columns a,b,c,d,e) of which only Phi(N,e) = true, Phi(E,a) = true and Phi(W,d) = false are given. The resulting matrix is named the FEASIBILITY MATRIX of Phi.",
+      "book_section": "4.2.2",
+      "book_page": "122",
+      "pdf_pages": [
+        134
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:example4.11"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.2.2:example4.13",
+      "kind": "example",
+      "number": "4.13",
+      "name": "Cost-profunctors and their interpretation as bridges",
+      "statement_summary": "The V = Cost reading of Definition 4.8. Cost-categories are Lawvere metric spaces, drawn as weighted graphs ('charts of distances within a city'); a Cost-profunctor Phi: X -|-> Y is given by a few bridges labelled by their lengths, and Phi(x,y) is the length of the SHORTEST PATH running from x through X, across one bridge, and through Y to y. Worked on the weighted graphs of display (4.14) (X on {A,B,C,D}, Y on {x,y,z}, bridges of length 11 and 9), giving Phi(B,x) = 11, Phi(A,z) = 20, Phi(C,y) = 17.",
+      "book_section": "4.2.2",
+      "book_page": "122",
+      "pdf_pages": [
+        134,
+        135
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:def4.8",
+        "7sketches:4.2.2:ex4.15",
+        "7sketches:4.2.2:remark4.16"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:4.2.2:ex4.15",
+      "kind": "exercise",
+      "number": "4.15",
+      "name": "Cost-matrix of a Cost-profunctor",
+      "statement_summary": "Complete the 4x3 Cost-matrix (rows A,B,C,D; columns x,y,z) of the Cost-profunctor of Example 4.13, of which only the entries Phi(A,z) = 20, Phi(B,x) = 11 and Phi(C,y) = 17 are supplied.",
+      "book_section": "4.2.2",
+      "book_page": "123",
+      "pdf_pages": [
+        135
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:example4.13",
+        "7sketches:4.2.2:ex4.17"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.2.2:remark4.16",
+      "kind": "remark",
+      "number": "4.16",
+      "name": "computing profunctors via matrix multiplication",
+      "statement_summary": "Gives an algorithm for the distance matrix of a Cost-profunctor. Read off the raw arrow-label matrices M_X, M_Phi, M_Y from the weighted graphs (missing arrows = infinity, diagonal = 0). By the Chapter 2 matrix-power result the shortest-path matrices are d_X = the power of M_X with smallest entries and likewise d_Y; then the profunctor's matrix is Phi = d_X * M_Phi * d_Y, and since |X| = 4 and |Y| = 3 one may take Phi = M_X^3 * M_Phi * M_Y^2, all products in the (min,+) quantale Cost. The concrete M_X, M_Phi, M_Y for Example 4.13 are tabulated.",
+      "book_section": "4.2.2",
+      "book_page": "123",
+      "pdf_pages": [
+        135
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:example4.13",
+        "7sketches:4.2.2:ex4.17"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.2.2:ex4.17",
+      "kind": "exercise",
+      "number": "4.17",
+      "name": "compute M_X^3 * M_Phi * M_Y^2 in Cost",
+      "statement_summary": "Calculate the product M_X^3 * M_Phi * M_Y^2 for the matrices of Remark 4.16, performing matrix multiplication by the (min,+) formula of the quantale Cost, and check that the result agrees with the matrix obtained by hand in Exercise 4.15.",
+      "book_section": "4.2.2",
+      "book_page": "123",
+      "pdf_pages": [
+        135,
+        136
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:remark4.16",
+        "7sketches:4.2.2:ex4.15"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:4.2.3:ex4.18",
+      "kind": "exercise",
+      "number": "4.18",
+      "name": "a node with no outgoing bridge",
+      "statement_summary": "In the displayed feasibility relation Phi: (T x E) -|-> $ for the movie-production example, the node (good-natured, funny) of T x E has no dashed blue arrow emerging from it. Decide whether this is a valid profunctor and say what the absence means (no budget suffices to obtain that combination of tone and entertainment value).",
+      "book_section": "4.2.3",
+      "book_page": "125",
+      "pdf_pages": [
+        137
+      ],
+      "cross_refs": [
+        "7sketches:4.2.1:def4.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.1:def4.21",
+      "kind": "definition",
+      "number": "4.21",
+      "name": "composite of V-profunctors",
+      "statement_summary": "Let V be a quantale, X, Y, Z be V-categories, and Phi: X -|-> Y, Psi: Y -|-> Z be V-profunctors. Their COMPOSITE Phi ; Psi : X -|-> Z is defined by (Phi ; Psi)(p,r) := JOIN over q in Y of (Phi(p,q) tensor Psi(q,r)). This is matrix multiplication in the quantale V; for V = Bool it is display (4.20), the big OR over way-points q of Phi(p,q) AND Psi(q,r) ('can I get from p to r via some q').",
+      "book_section": "4.3.1",
+      "book_page": "127",
+      "pdf_pages": [
+        139
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:def4.8",
+        "7sketches:4.3.2:thm4.23",
+        "7sketches:4.3.2:lem4.27",
+        "7sketches:4.3.2:lem4.31"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.1:ex4.22",
+      "kind": "exercise",
+      "number": "4.22",
+      "name": "composite of two Cost-profunctors",
+      "statement_summary": "For the drawn Cost-profunctors Phi: X -|-> Y and Psi: Y -|-> Z (bridges of lengths 11, 9 and 4, 4, 0), fill in the 4x4 matrix (rows A,B,C,D; columns p,q,r,s) of the composite Phi ; Psi using Definition 4.21 in Cost, of which the entries (A,q) = 24 and (D,r) = 9 are supplied.",
+      "book_section": "4.3.1",
+      "book_page": "127",
+      "pdf_pages": [
+        139
+      ],
+      "cross_refs": [
+        "7sketches:4.3.1:def4.21"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.2:def-skeletal-quantale",
+      "kind": "definition",
+      "number": null,
+      "name": "skeletal quantale (defined in running prose)",
+      "statement_summary": "Unnumbered prose definition immediately preceding Theorem 4.23: a preorder is SKELETAL when x <= y and y <= x imply x = y (i.e. it is a poset, recalling Remark 1.35), and a quantale is SKELETAL when its underlying preorder is skeletal. Bool and Cost are skeletal quantales. This is exactly the technical hypothesis that makes profunctor composition strictly (rather than merely up-to-isomorphism) unital and associative, hence that makes Prof_V a category.",
+      "book_section": "4.3.2",
+      "book_page": "127",
+      "pdf_pages": [
+        139
+      ],
+      "cross_refs": [
+        "7sketches:4.3.2:thm4.23",
+        "7sketches:4.3.2:remark4.33"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "defined-in-running-prose"
+      ]
+    },
+    {
+      "id": "7sketches:4.3.2:thm4.23",
+      "kind": "theorem",
+      "number": "4.23",
+      "name": "the category Prof_V of V-categories and V-profunctors",
+      "statement_summary": "For any SKELETAL quantale V there is a category Prof_V whose objects are V-categories X, whose morphisms X -> Y are V-profunctors Phi: X -|-> Y, and whose composition is the join-of-tensors formula of Definition 4.21. (Identities are the unit profunctors U_X of (4.25); unitality is Lemma 4.27 and associativity is Lemma 4.31, both using skeletality to turn two-sided inequalities into equalities.)",
+      "book_section": "4.3.2",
+      "book_page": "127",
+      "pdf_pages": [
+        139
+      ],
+      "cross_refs": [
+        "7sketches:4.3.1:def4.21",
+        "7sketches:4.3.2:def-skeletal-quantale",
+        "7sketches:4.3.2:def4.25",
+        "7sketches:4.3.2:lem4.27",
+        "7sketches:4.3.2:lem4.31",
+        "7sketches:4.3.2:remark4.33"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.2:def4.24",
+      "kind": "definition",
+      "number": "4.24",
+      "name": "the category Feas",
+      "statement_summary": "Feas := Prof_Bool. That is, Feas is the category whose objects are preorders (Bool-categories) and whose morphisms are feasibility relations (Bool-profunctors), with composition the OR-of-ANDs formula (4.20) and identities the unit profunctors.",
+      "book_section": "4.3.2",
+      "book_page": "127",
+      "pdf_pages": [
+        139
+      ],
+      "cross_refs": [
+        "7sketches:4.3.2:thm4.23",
+        "7sketches:4.2.1:def4.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.2:def4.25",
+      "kind": "definition",
+      "number": "4.25",
+      "name": "unit profunctor U_X",
+      "statement_summary": "Given as a numbered display in running prose rather than a boxed environment: for a V-category X, the UNIT PROFUNCTOR U_X: X -|-> X is defined by U_X(x,y) := X(x,y), i.e. it is the hom-object assignment of X itself viewed as a V-profunctor. It is the identity morphism of X in Prof_V (Theorem 4.23), and by Lemma 4.27 composing any profunctor with it on either side returns that profunctor. In the Bool case it is the 'bridge diagram' in which x is joined to y exactly when x <= y.",
+      "book_section": "4.3.2",
+      "book_page": "128",
+      "pdf_pages": [
+        140
+      ],
+      "cross_refs": [
+        "7sketches:4.3.2:thm4.23",
+        "7sketches:4.3.2:lem4.27",
+        "7sketches:4.3.3:example4.35"
+      ],
+      "flags": [
+        "definition-given-as-numbered-display",
+        "defined-in-running-prose"
+      ]
+    },
+    {
+      "id": "7sketches:4.3.2:ex4.26",
+      "kind": "exercise",
+      "number": "4.26",
+      "name": "bridge diagram of a Cost unit profunctor",
+      "statement_summary": "Choose a not-too-simple Cost-category X and draw the bridge-style (two-copies-of-X, arrows-between) diagram for its unit profunctor U_X: X -|-> X, whose bridge from x to y has length the distance X(x,y).",
+      "book_section": "4.3.2",
+      "book_page": "128",
+      "pdf_pages": [
+        140
+      ],
+      "cross_refs": [
+        "7sketches:4.3.2:def4.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.2:lem4.27",
+      "kind": "lemma",
+      "number": "4.27",
+      "name": "unit profunctors are two-sided identities for profunctor composition",
+      "statement_summary": "For any V-profunctor Phi: P -|-> Q (V a skeletal quantale), composing with either unit profunctor returns Phi: U_P ; Phi = Phi = Phi ; U_Q. Proof: fix p, q; by skeletality it suffices to prove both inequalities. One direction (display (4.28)) is Phi(p,q) = I tensor Phi(p,q) <= P(p,p) tensor Phi(p,q) <= JOIN over p1 of P(p,p1) tensor Phi(p1,q) = (U_P ; Phi)(p,q), using the monoidal unit law and reflexivity I <= P(p,p). The converse follows from the universal property of the join together with the enriched-composition/profunctor inequality P(p,p1) tensor Phi(p1,q) tensor Q(q,q) <= Phi(p,q) (display (4.29), from Definitions 2.46 and 4.8).",
+      "book_section": "4.3.2",
+      "book_page": "128",
+      "pdf_pages": [
+        140
+      ],
+      "cross_refs": [
+        "7sketches:4.3.2:def4.25",
+        "7sketches:4.3.1:def4.21",
+        "7sketches:4.3.2:thm4.23",
+        "7sketches:4.3.2:ex4.30"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.2:ex4.30",
+      "kind": "exercise",
+      "number": "4.30",
+      "name": "justify the steps in the proof of Lemma 4.27",
+      "statement_summary": "Three parts. (1) Justify each of the four steps (=, <=, <=, =) in the chain of display (4.28). (2) Show that when V = Bool each of those four steps is in fact an EQUALITY, and explain why. (3) Justify each of the three steps (=, <=, <=) in the chain of display (4.29).",
+      "book_section": "4.3.2",
+      "book_page": "128",
+      "pdf_pages": [
+        140,
+        141
+      ],
+      "cross_refs": [
+        "7sketches:4.3.2:lem4.27"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:4.3.2:lem4.31",
+      "kind": "lemma",
+      "number": "4.31",
+      "name": "profunctor composition is associative",
+      "statement_summary": "Serial composition of profunctors is associative: given V-profunctors Phi: P -|-> Q, Psi: Q -|-> R and Upsilon: R -|-> S, one has (Phi ; Psi) ; Upsilon = Phi ; (Psi ; Upsilon). (Proof left to the reader as Exercise 4.32; it needs skeletality of V to upgrade the two inequalities to an equality, and the fact that tensor distributes over joins in a quantale.)",
+      "book_section": "4.3.2",
+      "book_page": "129",
+      "pdf_pages": [
+        141
+      ],
+      "cross_refs": [
+        "7sketches:4.3.1:def4.21",
+        "7sketches:4.3.2:thm4.23",
+        "7sketches:4.3.2:ex4.32"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.2:ex4.32",
+      "kind": "exercise",
+      "number": "4.32",
+      "name": "prove associativity of profunctor composition",
+      "statement_summary": "Prove Lemma 4.31 — that (Phi ; Psi) ; Upsilon = Phi ; (Psi ; Upsilon) for composable V-profunctors — using the hint that V is skeletal.",
+      "book_section": "4.3.2",
+      "book_page": "129",
+      "pdf_pages": [
+        141
+      ],
+      "cross_refs": [
+        "7sketches:4.3.2:lem4.31"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.2:remark4.33",
+      "kind": "remark",
+      "number": "4.33",
+      "name": "Prof_V for non-skeletal quantales",
+      "statement_summary": "Although Prof_V was defined (Theorem 4.23) only for skeletal quantales, non-skeletal ones can be accommodated in two standard ways. First, take the morphisms of Prof_V to be ISOMORPHISM CLASSES of V-profunctors — the same device used later for the category Cospan_C (Definition 6.45). Second, relax the notion of category so that composition need only be unital and associative UP TO ISOMORPHISM; this is itself a form of categorification, namely BICATEGORY theory.",
+      "book_section": "4.3.2",
+      "book_page": "129",
+      "pdf_pages": [
+        141,
+        142
+      ],
+      "cross_refs": [
+        "7sketches:4.3.2:thm4.23",
+        "7sketches:4.3.2:def-skeletal-quantale"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:4.3.3:def4.34",
+      "kind": "definition",
+      "number": "4.34",
+      "name": "companion and conjoint of a V-functor",
+      "statement_summary": "Let F: P -> Q be a V-functor. Its COMPANION is the V-profunctor F-hat: P -|-> Q defined by F-hat(p,q) := Q(F(p), q), and its CONJOINT is the V-profunctor F-check: Q -|-> P defined by F-check(q,p) := Q(q, F(p)). (These are the representable/corepresentable bimodules induced by F; in the Bool case a monotone map F is drawn as one bridge out of each p landing at F(p), and reversing every bridge gives the conjoint.)",
+      "book_section": "4.3.3",
+      "book_page": "130",
+      "pdf_pages": [
+        142
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:def4.8",
+        "7sketches:4.3.3:example4.35",
+        "7sketches:4.3.3:ex4.41"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.3:example4.35",
+      "kind": "example",
+      "number": "4.35",
+      "name": "companion and conjoint of the identity are the unit profunctor",
+      "statement_summary": "For any preorder P the identity functor id: P -> P has companion and conjoint that agree, id-hat = id-check : P -|-> P, and the resulting profunctor is precisely the unit profunctor U_P of display (4.25), i.e. (x,y) |-> P(x,y). (Proved as part 2 of Exercise 4.41 via the adjointness criterion.)",
+      "book_section": "4.3.3",
+      "book_page": "130",
+      "pdf_pages": [
+        142
+      ],
+      "cross_refs": [
+        "7sketches:4.3.3:def4.34",
+        "7sketches:4.3.2:def4.25",
+        "7sketches:4.3.3:ex4.36",
+        "7sketches:4.3.3:ex4.41"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.3:ex4.36",
+      "kind": "exercise",
+      "number": "4.36",
+      "name": "companion of the identity is the unit profunctor",
+      "statement_summary": "Check directly from Definition 4.34 that the companion id-hat of the identity functor id: P -> P is given by the unit-profunctor formula of Eq. (4.25), i.e. id-hat(p,q) = P(p,q).",
+      "book_section": "4.3.3",
+      "book_page": "131",
+      "pdf_pages": [
+        143
+      ],
+      "cross_refs": [
+        "7sketches:4.3.3:def4.34",
+        "7sketches:4.3.2:def4.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.3:example4.37",
+      "kind": "example",
+      "number": "4.37",
+      "name": "companion of the addition map on the reals",
+      "statement_summary": "The function + : R x R x R -> R sending (a,b,c) to a+b+c is monotone for the product order (a <= a', b <= b', c <= c' imply a+b+c <= a'+b'+c'), hence is a Bool-functor and has both a companion and a conjoint. Its companion is the feasibility relation +-hat : (R x R x R) -|-> R sending (a,b,c,d) to true iff a+b+c <= d, and to false otherwise.",
+      "book_section": "4.3.3",
+      "book_page": "131",
+      "pdf_pages": [
+        143
+      ],
+      "cross_refs": [
+        "7sketches:4.3.3:def4.34",
+        "7sketches:4.3.3:ex4.38"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.3:ex4.38",
+      "kind": "exercise",
+      "number": "4.38",
+      "name": "conjoint of the addition map",
+      "statement_summary": "For the monotone addition map + : R x R x R -> R of Example 4.37, work out its conjoint +-check : R -|-> (R x R x R), i.e. the feasibility relation sending (d,(a,b,c)) to true iff d <= a+b+c.",
+      "book_section": "4.3.3",
+      "book_page": "131",
+      "pdf_pages": [
+        143
+      ],
+      "cross_refs": [
+        "7sketches:4.3.3:example4.37",
+        "7sketches:4.3.3:def4.34"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.3:remark4.39",
+      "kind": "remark",
+      "number": "4.39",
+      "name": "V-adjoints (enriched adjunction between V-categories)",
+      "statement_summary": "Extends the notion of Galois connection (Definition 1.95, the Bool-enriched case of preorders and monotone maps) to an arbitrary monoidal preorder V: a V-ADJUNCTION is a pair of V-functors F: P -> Q and G: Q -> P such that P(p, G(q)) is isomorphic to Q(F(p), q) for all p in P and q in Q (display (4.40)); when V is skeletal the isomorphism is an equality of hom-objects. This is the hom-object form of adjointness that Exercise 4.41 shows to be equivalent to F-hat = G-check.",
+      "book_section": "4.3.3",
+      "book_page": "131",
+      "pdf_pages": [
+        143
+      ],
+      "cross_refs": [
+        "7sketches:4.3.3:ex4.41",
+        "7sketches:4.3.3:def4.34"
+      ],
+      "flags": [
+        "contains-numbered-display-4.40"
+      ]
+    },
+    {
+      "id": "7sketches:4.3.3:ex4.41",
+      "kind": "exercise",
+      "number": "4.41",
+      "name": "adjointness iff companion of F equals conjoint of G",
+      "statement_summary": "Let V be a skeletal quantale, P and Q be V-categories, and F: P -> Q, G: Q -> P be V-functors. (1) Show that F and G are V-adjoints in the sense of Eq. (4.40) if and only if the companion of F equals the conjoint of G: F-hat = G-check. (2) Use this to prove id-hat = id-check, as asserted in Example 4.35.",
+      "book_section": "4.3.3",
+      "book_page": "131",
+      "pdf_pages": [
+        143
+      ],
+      "cross_refs": [
+        "7sketches:4.3.3:remark4.39",
+        "7sketches:4.3.3:def4.34",
+        "7sketches:4.3.3:example4.35"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.3.3:def4.42",
+      "kind": "definition",
+      "number": "4.42",
+      "name": "collage of a profunctor, and the collage inclusions",
+      "statement_summary": "Let V be a quantale, X and Y be V-categories and Phi: X -|-> Y a V-profunctor. The COLLAGE of Phi, written Col(Phi), is the V-category with (i) Ob(Col(Phi)) := Ob(X) DISJOINT-UNION Ob(Y), and (ii) for a, b in Ob(Col(Phi)), Col(Phi)(a,b) := X(a,b) if a,b are both in X; Phi(a,b) if a is in X and b is in Y; the EMPTY JOIN (bottom element of V; false in Bool, infinity in Cost) if a is in Y and b is in X; and Y(a,b) if a,b are both in Y. There are evident V-functors i_X : X -> Col(Phi) and i_Y : Y -> Col(Phi) sending each object and morphism to 'itself', called the COLLAGE INCLUSIONS. (This is the two-sided cograph/cylinder of a bimodule; the Bool case turns the bridge picture of Example 4.11 into a single preorder.)",
+      "book_section": "4.3.3",
+      "book_page": "131",
+      "pdf_pages": [
+        143,
+        144
+      ],
+      "cross_refs": [
+        "7sketches:4.2.2:def4.8",
+        "7sketches:4.2.2:example4.11",
+        "7sketches:4.3.3:example4.43",
+        "7sketches:4.3.3:ex4.44"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:4.3.3:example4.43",
+      "kind": "example",
+      "number": "4.43",
+      "name": "collage of a Cost-profunctor, drawn and tabulated",
+      "statement_summary": "Works Definition 4.42 for a Cost-profunctor Phi: X -|-> Y where X = {A, B} with X(A,B) = 2, X(B,A) = infinity; Y = {x, y} with Y(x,y) = 3, Y(y,x) = 4; and Phi(A,x) = 5, Phi(A,y) = 8, Phi(B,-) = infinity. States that a generalized Hasse diagram for the collage is obtained by taking the union of the Hasse diagrams of X and Y and adding the bridges as arrows, then displays that diagram together with the 4x4 Cost-matrix of Col(Phi) on objects A, B, x, y. NOTE: the printed matrix gives the Y-to-X block as 0 (rows x and y begin '0 0') where clause (iii) of Definition 4.42 requires the empty join, i.e. infinity in Cost; see the range report's problems list.",
+      "book_section": "4.3.3",
+      "book_page": "132",
+      "pdf_pages": [
+        144
+      ],
+      "cross_refs": [
+        "7sketches:4.3.3:def4.42",
+        "7sketches:4.2.2:example4.13"
+      ],
+      "flags": [
+        "suspected-book-typo"
+      ]
+    },
+    {
+      "id": "7sketches:4.3.3:ex4.44",
+      "kind": "exercise",
+      "number": "4.44",
+      "name": "draw the collage of a given Cost-profunctor",
+      "statement_summary": "Draw a Hasse (weighted-graph) diagram for the collage of the displayed Cost-profunctor, namely the four-point X = {A,B,C,D} and three-point Y = {x,y,z} of Eq. (4.14) joined by the bridges of length 11 and 9.",
+      "book_section": "4.3.3",
+      "book_page": "132",
+      "pdf_pages": [
+        144
+      ],
+      "cross_refs": [
+        "7sketches:4.3.3:def4.42",
+        "7sketches:4.2.2:example4.13"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.4.3:def4.45",
+      "kind": "rough-definition",
+      "number": "4.45",
+      "name": "symmetric monoidal structure / symmetric monoidal category (rough)",
+      "statement_summary": "Deliberately informal ('rough') definition, the FIRST Rough Definition in the book. A symmetric monoidal structure on a category C consists of (i) an object I in Ob(C), the monoidal unit, and (ii) a functor (x) : C x C -> C, the monoidal product, subject to natural isomorphisms that are only required to be 'well behaved' (the coherence axioms are explicitly suppressed): (a) lambda_c : I (x) c iso c, (b) rho_c : c (x) I iso c, (c) alpha_{c,d,e} : (c (x) d) (x) e iso c (x) (d (x) e), and (d) a swap map sigma_{c,d} : c (x) d iso d (x) c satisfying sigma o sigma = id. A category so equipped is a symmetric monoidal category. Presented as the categorification of the symmetric monoidal preorder of Chapter 2: brute equations become invertible structure maps.",
+      "book_section": "4.4.3",
+      "book_page": "136",
+      "pdf_pages": [
+        148,
+        149
+      ],
+      "cross_refs": [
+        "7sketches:2.3.1:def2.46"
+      ],
+      "flags": [
+        "spans-page-break",
+        "rough-definition-first-occurrence"
+      ]
+    },
+    {
+      "id": "7sketches:4.4.3:remark4.46",
+      "kind": "remark",
+      "number": "4.46",
+      "name": "symmetric strict monoidal categories and Mac Lane coherence",
+      "statement_summary": "If the isomorphisms (a) lambda, (b) rho and (c) alpha of Rough Definition 4.45 - but NOT the swap (d) sigma - are replaced by equalities, the monoidal structure is called strict, and this yields a complete (non-rough) definition of symmetric strict monoidal category. States without proof that symmetric strict monoidal categories are almost the same thing as symmetric monoidal categories, by Mac Lane's coherence theorem, whose upshot licenses pretending monoidal categories are strict - which is what the book implicitly does when drawing wiring diagrams.",
+      "book_section": "4.4.3",
+      "book_page": "137",
+      "pdf_pages": [
+        149
+      ],
+      "cross_refs": [
+        "7sketches:4.4.3:def4.45"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.4.3:remark4.47",
+      "kind": "remark",
+      "number": "4.47",
+      "name": "non-rough definition of symmetric monoidal category via equivalence",
+      "statement_summary": "Gives the promised complete (non-rough) definition in one sentence: a symmetric monoidal category is a category equipped with an equivalence to (the underlying category of) a symmetric strict monoidal category. Notes this can be unpacked using Remark 4.46 together with the notion of equivalence of categories from Remark 3.59, but does not do so.",
+      "book_section": "4.4.3",
+      "book_page": "137",
+      "pdf_pages": [
+        149
+      ],
+      "cross_refs": [
+        "7sketches:4.4.3:remark4.46",
+        "7sketches:3.3.4:remark3.59"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.4.3:ex4.48",
+      "kind": "exercise",
+      "number": "4.48",
+      "name": "monoidal categories generalize monoidal preorders",
+      "statement_summary": "Check that monoidal categories indeed generalize monoidal preorders, in the precise sense that a monoidal preorder is exactly a monoidal category (P, I, (x)) in which, for every p, q in P, the hom-set P(p,q) has at most one element. (Used later in Remark 4.53 to apply Rough Definition 4.51 to a monoidal preorder base.)",
+      "book_section": "4.4.3",
+      "book_page": "137",
+      "pdf_pages": [
+        149
+      ],
+      "cross_refs": [
+        "7sketches:4.4.3:def4.45"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.4.3:example4.49",
+      "kind": "example",
+      "number": "4.49",
+      "name": "the symmetric monoidal category (Set, {1}, x)",
+      "statement_summary": "Constructs the cartesian monoidal structure on Set: unit I := a chosen singleton {1}, product (x) := x. Spells out that x is a functor Set x Set -> Set: on objects (S,T) |-> S x T = {(s,t) | s in S, t in T}; on morphisms f : S -> S', g : T -> T' one gets f x g : S x T -> S' x T' acting pointwise, (f x g)(s,t) := (f(s), g(t)); it preserves identities, id_S x id_T = id_{S x T}; and it preserves composition, (f x g) ; (f' x g') = (f ; f') x (g ; g'). The four coherence isomorphisms (a)-(d) of Rough Definition 4.45 exist and are the obvious bookkeeping bijections, e.g. {1} x S iso S sending (1,s) to s.",
+      "book_section": "4.4.3",
+      "book_page": "137",
+      "pdf_pages": [
+        149,
+        150
+      ],
+      "cross_refs": [
+        "7sketches:4.4.3:def4.45"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:4.4.3:ex4.50",
+      "kind": "exercise",
+      "number": "4.50",
+      "name": "evaluating a wiring diagram in (Set, 1, x)",
+      "statement_summary": "Computational exercise in the monoidal category (Set, 1, x) over a given three-box wiring diagram with boxes f, g, h and wires A,B,C,D,E,F,G. Take A = B = C = D = F = G = Z and E = B(ool) = {true, false}, with f_C(a) = |a|, f_D(a) = a * 5, g_E(d,b) = the truth value of 'd <= b', g_F(d,b) = d - b, and h(c,e) = if e then c else 1 - c. Asked: (1) g_E(5,3), g_F(5,3); (2) g_E(3,5), g_F(3,5); (3) h(5,true); (4) h(-5,true); (5) h(-5,false); then, since the whole diagram defines a function q : A x B -> G x F, (6) q_G(-2,3), q_F(-2,3); (7) q_G(2,3), q_F(2,3). Exercises the claim that a symmetric monoidal category interprets such diagrams.",
+      "book_section": "4.4.3",
+      "book_page": "138",
+      "pdf_pages": [
+        150
+      ],
+      "cross_refs": [
+        "7sketches:4.4.3:example4.49"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.4.4:def4.51",
+      "kind": "rough-definition",
+      "number": "4.51",
+      "name": "category enriched in a symmetric monoidal category (V-category, rough)",
+      "statement_summary": "Second 'Rough Definition' of the book. Let V be a symmetric monoidal category (Rough Definition 4.45). To specify a category enriched in V, or V-category, X: (i) a collection Ob(X) of objects; (ii) for every pair x, y in Ob(X) an OBJECT X(x,y) of V, the hom-object; (iii) for every x a MORPHISM id_x : I -> X(x,x) in V, the identity element; (iv) for every x, y, z a morphism ';' : X(x,y) (x) X(y,z) -> X(x,z) in V, the composition morphism. These are required to satisfy 'the usual associative and unital laws', which the text deliberately suppresses; it points to [nLa18], [Wik18], [Kel05] for the precise definition. This is the categorification of Definition 2.46, where V had to be a monoidal preorder and (iii),(iv) were properties rather than data.",
+      "book_section": "4.4.4",
+      "book_page": "138",
+      "pdf_pages": [
+        150,
+        151
+      ],
+      "cross_refs": [
+        "7sketches:4.4.3:def4.45",
+        "7sketches:2.3.1:def2.46"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:4.4.4:ex4.52",
+      "kind": "exercise",
+      "number": "4.52",
+      "name": "Set-categories versus ordinary categories",
+      "statement_summary": "Since V = (Set, {1}, x) is a symmetric monoidal category (Example 4.49), Rough Definition 4.51 applies to it. Asked whether the resulting rough notion of a Set-enriched category roughly agrees with the definition of a category given in Definition 3.6, or whether there is a subtle difference.",
+      "book_section": "4.4.4",
+      "book_page": "139",
+      "pdf_pages": [
+        151
+      ],
+      "cross_refs": [
+        "7sketches:4.4.4:def4.51",
+        "7sketches:4.4.3:example4.49",
+        "7sketches:3.2:def3.6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.4.4:remark4.53",
+      "kind": "remark",
+      "number": "4.53",
+      "name": "preorder-enriched V-categories are V-categories in the new sense",
+      "statement_summary": "Reconciles the two definitions of V-category. Argument: every symmetric monoidal preorder is a symmetric monoidal category (Exercise 4.48), so Rough Definition 4.51 applies to any monoidal preorder V; data (i) objects and (ii) hom-objects are literally the same in both definitions; the extra data of Definition 4.51, namely (iii) identity elements and (iv) composition morphisms, need not be CHOSEN when V is a preorder, since between any two objects of a preorder there is at most one morphism, so it suffices that they EXIST - and that existence is exactly properties (a) and (b) of Definition 2.46. Illustrated by (iii): the chosen id_x : I -> X(x,x) degenerates to the property I <= X(x,x). Presented as typical of categorification: properties become structure.",
+      "book_section": "4.4.4",
+      "book_page": "139",
+      "pdf_pages": [
+        151
+      ],
+      "cross_refs": [
+        "7sketches:4.4.4:def4.51",
+        "7sketches:2.3.1:def2.46",
+        "7sketches:4.4.3:ex4.48"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.4.4:ex4.54",
+      "kind": "exercise",
+      "number": "4.54",
+      "name": "identity elements in Lawvere metric spaces",
+      "statement_summary": "Asks what the identity elements (constituent (iii) of Rough Definition 4.51) are in Lawvere metric spaces, i.e. in Cost-enriched categories, and how to interpret them in terms of distances (i.e. that the identity amounts to d(x,x) = 0, or 0 >= d(x,x) in the Cost ordering).",
+      "book_section": "4.4.4",
+      "book_page": "139",
+      "pdf_pages": [
+        151
+      ],
+      "cross_refs": [
+        "7sketches:4.4.4:def4.51"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.5.1:def4.58",
+      "kind": "definition",
+      "number": "4.58",
+      "name": "dual object, snake equations, compact closed category",
+      "statement_summary": "Let (C, I, (x)) be a symmetric monoidal category and c an object. A DUAL for c consists of (i) an object c* (the dual of c), (ii) a morphism eta_c : I -> c* (x) c (the unit for c), and (iii) a morphism epsilon_c : c (x) c* -> I (the counit for c), required to satisfy two equations displayed as commuting diagrams and numbered (4.59), the SNAKE EQUATIONS: the composite c iso c (x) I --c (x) eta_c--> c (x) (c* (x) c) iso (c (x) c*) (x) c --epsilon_c (x) c--> I (x) c iso c equals the identity on c, and symmetrically the composite c* iso I (x) c* --eta_c (x) c*--> (c* (x) c) (x) c* iso c* (x) (c (x) c*) --c* (x) epsilon_c--> c* (x) I iso c* equals the identity on c*. If every object of C has a dual, then (C, I, (x)) is called COMPACT CLOSED. The accompanying prose fixes the wire convention: a forward wire labelled c is the same as a backward wire labelled c*, and eta_c, epsilon_c are drawn as the cup and cap of Eq. (4.57).",
+      "book_section": "4.5.1",
+      "book_page": "141",
+      "pdf_pages": [
+        153
+      ],
+      "cross_refs": [
+        "7sketches:4.4.3:def4.45"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.5.1:prop4.60",
+      "kind": "proposition",
+      "number": "4.60",
+      "name": "properties of compact closed categories",
+      "statement_summary": "If C is a compact closed category then: (1) C is monoidal closed, i.e. for every pair of objects c, d there is an object c -o d together with an isomorphism C(b (x) c, d) iso C(b, c -o d) natural in b; and, for any object c, (2) any two duals c* and c' of c are isomorphic, c* iso c'; and (3) c is isomorphic to its double dual, c iso c**. No full proof is given; for (1) the text supplies the key idea: take c -o d := c* (x) d, and obtain the natural isomorphism C(b (x) c, d) iso C(b, c -o d) by precomposing with id_b (x) eta_c.",
+      "book_section": "4.5.1",
+      "book_page": "142",
+      "pdf_pages": [
+        154
+      ],
+      "cross_refs": [
+        "7sketches:4.5.1:def4.58"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.5.1:example4.61",
+      "kind": "example",
+      "number": "4.61",
+      "name": "Corel, the compact closed category of corelations",
+      "statement_summary": "Constructs the category Corel and its compact closed structure. Recalling that an equivalence relation on a set A is a reflexive, symmetric, transitive binary relation (Definition 1.18): for finite sets A and B, a CORELATION A -> B is an equivalence relation on the disjoint union A u B. Corel has finite sets as objects and corelations as morphisms; composition of alpha : A -> B and beta : B -> C is described pictorially as 'two elements are equivalent in the composite if one can travel from one to the other staying within equivalence classes of alpha or of beta', and formally in footnote 2 as: regard alpha and beta as binary relations on A u B u C along the inclusions, take the transitive closure of their union, then restrict to A u C. Corel carries the symmetric monoidal structure (empty set, disjoint union), and this monoidal category is COMPACT CLOSED with every finite set its own dual: on A u A take the equivalence relation whose classes are the pairs {(a,1),(a,2)} for a in A; the unit is the corelation eta_A : empty -> A u A and the counit is epsilon_A : A u A -> empty, both given by that relation.",
+      "book_section": "4.5.1",
+      "book_page": "142",
+      "pdf_pages": [
+        154,
+        155
+      ],
+      "cross_refs": [
+        "7sketches:4.5.1:def4.58",
+        "7sketches:1.2.1:def1.18"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:4.5.1:ex4.62",
+      "kind": "exercise",
+      "number": "4.62",
+      "name": "snake equations in Corel for the three-element set",
+      "statement_summary": "For the set 3 = {1,2,3} in Corel: (1) draw the unit corelation empty -> 3 u 3; (2) draw the counit corelation 3 u 3 -> empty; (3) check that the snake equations (4.59) hold - and note that since every object of Corel is its own dual, only one of the two equations needs checking.",
+      "book_section": "4.5.1",
+      "book_page": "143",
+      "pdf_pages": [
+        155
+      ],
+      "cross_refs": [
+        "7sketches:4.5.1:example4.61",
+        "7sketches:4.5.1:def4.58"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.5.2:thm4.63",
+      "kind": "theorem",
+      "number": "4.63",
+      "name": "Prof_V is compact closed for a skeletal quantale V",
+      "statement_summary": "Let V be a skeletal quantale. Then the category Prof_V of V-categories and V-profunctors (Theorem 4.23) can be given the structure of a compact closed category, whose monoidal product is given by the product of V-categories. The (sketched, not fully proved) structure, developed in unnumbered run-in paragraphs: the monoidal product on objects is the product V-category of Definition 2.74, (X x Y)((x,y),(x',y')) := X(x,x') (x) Y(y,y'); on morphisms, given profunctors Phi : X1 -|-> X2 and Psi : Y1 -|-> Y2 one sets (Phi x Psi)((x1,y1),(x2,y2)) := Phi(x1,x2) (x) Psi(y1,y2), a profunctor X1 x Y1 -|-> X2 x Y2; the monoidal unit is the V-category 1 with a single object 1 and 1(1,1) = I; the dual of a V-category X is its opposite X^op, with unit eta_X : 1 -|-> X^op x X the V-functor 1 x X^op x X -> V given by eta_X(1,x,x') := X(x,x') and counit epsilon_X : (X x X^op) -|-> 1 given by epsilon_X(x,x',1) := X(x,x'). Specializing V = Bool gives the compact closed structure on Feas = Prof_Bool that justifies the co-design wiring diagrams of Eqs. (4.1), (4.55), (4.56).",
+      "book_section": "4.5.2",
+      "book_page": "144",
+      "pdf_pages": [
+        156
+      ],
+      "cross_refs": [
+        "7sketches:4.3.2:thm4.23",
+        "7sketches:4.5.1:def4.58",
+        "7sketches:2.4.3:def2.74"
+      ],
+      "flags": [
+        "proof-only-sketched"
+      ]
+    },
+    {
+      "id": "7sketches:4.5.2:ex4.64",
+      "kind": "exercise",
+      "number": "4.64",
+      "name": "reading the monoidal product of Prof_Bool as feasibility",
+      "statement_summary": "Interpret the monoidal products in Prof_Bool in terms of feasibility: preorders represent resources ordered by availability (x <= x' means x is available given x'), and a profunctor is a feasibility relation. Explain why the product preorder X x Y makes sense as the monoidal product of the resource preorders X and Y, and why Phi x Psi makes sense as the monoidal product of the feasibility relations Phi and Psi.",
+      "book_section": "4.5.2",
+      "book_page": "144",
+      "pdf_pages": [
+        156
+      ],
+      "cross_refs": [
+        "7sketches:4.5.2:thm4.63"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.5.2:ex4.65",
+      "kind": "exercise",
+      "number": "4.65",
+      "name": "unitor profunctors for the monoidal unit 1 of Prof_V",
+      "statement_summary": "For the V-category 1 to be a monoidal unit in Prof_V there must be isomorphisms X x 1 -|-> X and 1 x X -|-> X in Prof_V for every V-category X. Asked to exhibit these unitor profunctors.",
+      "book_section": "4.5.2",
+      "book_page": "144",
+      "pdf_pages": [
+        156
+      ],
+      "cross_refs": [
+        "7sketches:4.5.2:thm4.63"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:4.5.2:ex4.66",
+      "kind": "exercise",
+      "number": "4.66",
+      "name": "snake equations for the proposed duals in Prof_V",
+      "statement_summary": "Check that the proposed unit eta_X : 1 -|-> X^op x X, defined by eta_X(1,x,x') := X(x,x'), and counit epsilon_X : (X x X^op) -|-> 1, defined by epsilon_X(x,x',1) := X(x,x'), do indeed obey the snake equations Eq. (4.59) - i.e. that X^op really is a dual for X in Prof_V, completing the proof of Theorem 4.63.",
+      "book_section": "4.5.2",
+      "book_page": "145",
+      "pdf_pages": [
+        157
+      ],
+      "cross_refs": [
+        "7sketches:4.5.2:thm4.63",
+        "7sketches:4.5.1:def4.58"
+      ],
+      "flags": []
+    }
+  ]
+}

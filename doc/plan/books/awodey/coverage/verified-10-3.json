@@ -1,0 +1,391 @@
+[
+  {
+    "id": "awodey:10:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "natural numbers object (NNO)",
+      "initial T-model / initial model of an equational theory",
+      "initial algebra for F(X) = X + 1",
+      "NatF / option endofunctor / 1 + X",
+      "(N, 0, succ) as a Peano/recursion object",
+      "nat as least fixed point mu X. 1 + X"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 111,
+        "symbol": "list_initial",
+        "intree_statement": "Program Definition list_initial (A : Type) : @Initial (FAlg (ListF A)) := {| terminal_obj := (list A; alg A); one := fun y => list_alg_hom A y |}.   (with [ListF A X := option (A * X)%type], i.e. 1 + A × X, Instance/Coq/Lists.v:39, and [alg A] the nil/cons structure map, line 67)"
+      },
+      {
+        "file": "Theory/Recursion.v",
+        "line": 72,
+        "symbol": "cata_unique",
+        "intree_statement": "Lemma cata_unique {a : C} (β : FAlgebra F a) (h : μ ~> a) (Hh : h ∘ inα ≈ β ∘ fmap[F] h) : h ≈ cata β.   (with [Context (I : @Initial (FAlg F))], [μ := `1 (initial_obj)], [inα := `2 (initial_obj)] — the general 'initiality IS the recursion scheme' statement)"
+      }
+    ],
+    "statement_record": {
+      "book": "For the theory with one constant and one unary function symbol and no axioms, an NNO is an initial T-model; (a) (N, 0, n+1) is an NNO in Sets, (b) any NNO is uniquely isomorphic to it as a T-model, (c) (N, 0, n+1) is uniquely characterized up to isomorphism as the initial algebra for F(X) = X + 1.",
+      "intree": "Program Definition list_initial (A : Type) : @Initial (FAlg (ListF A)) := {| terminal_obj := (list A; alg A); one := fun y => list_alg_hom A y |}.",
+      "strength_comparison": "intree-weaker: the tree has NO natural-numbers-object notion at all, and no initial-model notion for an equational theory (Theory/Lawvere/Model.v defines Models T C but proves nothing about an initial model). What exists is the general initial-F-algebra framework plus ONE concrete polynomial witness — [list A] as the initial algebra of [ListF A X = 1 + A × X] over COQ, which is the A-parameterized sibling of Awodey's X + 1, not that functor itself. The endofunctor [NatF X := option X = 1 + X] is defined (Theory/Adamek/Corollaries.v:87) but its own header states at lines 76-80 that 'the initial-algebra theorem [nat ≅ μ NatF] is not stated in the tree — it is recorded here as the informal cross-reference to [ListF A], not as a proven result.'"
+    },
+    "gap": "Clauses (a) and (b) have no in-tree counterpart whatsoever: no NNO class, no initial-T-model definition, and no 'initial objects are unique up to a unique isomorphism' lemma (Structure/Initial.v offers only zero_unique, uniqueness of the mediator, at line 112). Clause (c) is realized only for the neighbouring functor ListF A (= 1 + A × X, carrier list A over COQ); the X + 1 / nat instance is explicitly declared unproven in Theory/Adamek/Corollaries.v:76-80.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'natural numbers object|NNO|nat_object|NaturalNumbers' . — 0 relevant hits (only 'cannot'/'annotated' false positives)",
+      "rg -n -tv 'Peano|succ_object|zero_succ' . — only PeanoNat library imports in Solver/Lib/Test, no NNO",
+      "rg -n -tv 'initial model|Initial_Model|initial T-model' . — 0 hits",
+      "rg -n -tv 'Initial \\(FAlg' . — 6 hits: Theory/Lambek.v, Theory/Recursion.v, Theory/Adamek.v, Theory/Adamek/Corollaries.v (all generic) and Instance/Coq/Lists.v:111 (the only concrete initial algebra); none for NatF/nat",
+      "rg -n -tv 'NatF|ListF|StreamF' . — NatF is a bare Functor definition with no initiality theorem"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-10-3.json) reached PARTIAL independently. My searches: rg -i 'natural numbers object|NNO|natural_number' (no NNO anywhere); rg -i 'zero.*succ|succ.*zero' (2 hits, both PROP-presentation prose); rg 'NatF' (5 hits, all Theory/Adamek/Corollaries.v + one FAlg cross-ref); rg 'Initial \\(FAlg' (Instance/Coq/Lists.v:111 the only concrete one); rg -i 'initial model|free model' (0 hits, incl. Theory/Lawvere/Model.v). Evidence CONFIRMED at both cited locations: Instance/Coq/Lists.v:111 is verbatim 'Program Definition list_initial (A : Type) : @Initial (FAlg (ListF A)) := {| terminal_obj := (list A; alg A); one := fun y => list_alg_hom A y |}' and Theory/Recursion.v:72 is cata_unique as quoted. The disclaimer quoted from Theory/Adamek/Corollaries.v:76-80 is verbatim accurate ('the initial-algebra theorem [nat = mu NatF] is not stated in the tree'); NatF at line 87 is indeed a bare Functor with no initiality. _CoqProject registers both cited files. One imprecision in the gap field, not enough to overturn: the claim 'no initial objects are unique up to a unique isomorphism lemma' is true of Structure/Initial.v (only zero_unique at 112, and the uniqueness remark at line 36 is prose citing Milewski), but Structure/UniversalProperty.v:175 does carry a general 'Proposition univ_property_unique_up_to_unique_iso' over representability; it is simply never instantiated at Initial/Terminal (rg over that file returns 0 hits for Initial/Terminal), so clause (b) still has no usable carrier and PARTIAL stands."
+    }
+  },
+  {
+    "id": "awodey:10:ex2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Lambek's lemma",
+      "initial algebra structure map is an isomorphism",
+      "F mu ≅ mu / least fixed point of an endofunctor",
+      "N + 1 ≅ N for a natural numbers object",
+      "recursion principle from initiality / catamorphism"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Lambek.v",
+        "line": 40,
+        "symbol": "lambek",
+        "intree_statement": "Theorem lambek `(F : C ⟶ C) (I : @Initial (FAlg F)) : F (`1 (@initial_obj (FAlg F) I)) ≅ `1 (@initial_obj (FAlg F) I)."
+      },
+      {
+        "file": "Theory/Recursion.v",
+        "line": 63,
+        "symbol": "cata_commutes",
+        "intree_statement": "Lemma cata_commutes {a : C} (β : FAlgebra F a) : cata β ∘ inα ≈ β ∘ fmap[F] (cata β).   (paired with cata_unique at line 72: any h with h ∘ inα ≈ β ∘ fmap[F] h satisfies h ≈ cata β — existence-and-uniqueness, i.e. recursion derived from initiality)"
+      }
+    ],
+    "statement_record": {
+      "book": "(Lambek's Lemma) For any endofunctor T : C → C, if i : TI → I is an initial T-algebra then i is an isomorphism. Conclude that for any NNO N in any category there is an isomorphism N + 1 ≅ N, and derive the usual recursion property of the natural numbers from initiality.",
+      "intree": "Theorem lambek `(F : C ⟶ C) (I : @Initial (FAlg F)) : F (`1 (@initial_obj (FAlg F) I)) ≅ `1 (@initial_obj (FAlg F) I).",
+      "strength_comparison": "same for the main clause — the in-tree [lambek] is stated for an ARBITRARY endofunctor on an arbitrary category, exactly Awodey's generality, and the argument in the file is his hint diagram (mediator into (F μ, fmap α), then α ∘ h ≈ id by initiality, then h ∘ α ≈ id by functoriality). Theory/Lambek.v additionally proves the dual [lambek_final] (line 78), which the exercise does not ask for. intree-weaker on the two derived conclusions."
+    },
+    "gap": "The two consequences the exercise draws from Lambek's lemma are not in the tree: (i) 'N + 1 ≅ N for any NNO in any category' is unavailable because there is no natural-numbers-object notion anywhere (see awodey:10:ex1); (ii) the recursion property is available only in the generic catamorphism form (cata_commutes/cata_unique) and, concretely, for lists (Instance/Coq/Lists.v hom_is_fold, line 86) — the natural-numbers instance is explicitly recorded as unproven in Theory/Adamek/Corollaries.v:76-80.",
+    "negative_search_log": [
+      "rg -n -tv 'natural numbers object|NNO' . — 0 hits, so the N + 1 ≅ N clause has no in-tree carrier"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently (Lambek core present, NNO rider absent). Theory/Lambek.v:40 CONFIRMED verbatim, including the arbitrary-endofunctor/arbitrary-category generality; the in-file proof does follow Awodey's hint diagram (mediator h into (F mu, fmap alpha); alpha o h = id by zero_unique; h o alpha = id by fmap_comp/fmap_id). lambek_final at line 78 also confirmed (the exercise does not ask for it, so 'intree-stronger' on that leg is honestly reported as extra). Theory/Recursion.v:63 cata_commutes and :72 cata_unique confirmed. Instance/Coq/Lists.v hom_is_fold confirmed at line 86 as cited. The gap is honestly and precisely stated: N + 1 = N has no carrier because no NNO notion exists (my own rg confirms 0 hits). PRESENT would have been the dishonest call here, since the exercise's own 'then conclude' riders are half unavailable; the classifier did not take it."
+    }
+  },
+  {
+    "id": "awodey:10:ex3",
+    "classification": "PRESENT",
+    "aliases": [
+      "monad induced by an adjunction",
+      "T = U∘F, eta the unit, mu = U eps F",
+      "Adjunction_Monad / Adjunction_Induced_Monad",
+      "monad from a resolution / adjunction determines a triple",
+      "monad laws from the triangle identities"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Comparison.v",
+        "line": 123,
+        "symbol": "Adjunction_Induced_Monad",
+        "intree_statement": "Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) := @Build_Monad D (U ◯ F) (fun x => @unit _ _ _ _ A x) (* ret = η *) (fun x => fmap[U] (@counit _ _ _ _ A (F x))) (* join = U ε F *) (fun x y f => adj_unit_natural f) (fun x => Induced_Monad_join_fmap_join x) (fun x => Induced_Monad_join_fmap_ret x) (fun x => @fmap_counit_unit _ _ _ _ A (F x)) (fun x y f => Induced_Monad_join_fmap_fmap f).   (Context {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U))"
+      },
+      {
+        "file": "Monad/Adjunction.v",
+        "line": 48,
+        "symbol": "Adjunction_Monad",
+        "intree_statement": "Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F).   (with {F : D ⟶ C} {U : C ⟶ D}; the hom-set/transpose presentation, ret = ⌊id⌋ and join = fmap[U] ⌈id⌉)"
+      },
+      {
+        "file": "Monad/Adjunction.v",
+        "line": 84,
+        "symbol": "Adjunction_Nat_Monad",
+        "intree_statement": "Theorem Adjunction_Nat_Monad : F ∹ U → @Monad D (U ◯ F).   (the unit/counit presentation, ret = transform[unit], join = fmap (transform[counit]); its proof discharges the unit laws by counit_fmap_unit and fmap_counit_unit — literally 'the monad laws from the triangle identities')"
+      }
+    ],
+    "statement_record": {
+      "book": "Given F ⊣ U with unit eta : 1_C → UF and counit epsilon : FU → 1_D, show that T := UF, eta : 1_C → T and mu := U epsilon F : T^2 → T determine a monad on C — i.e. verify the two unit laws and associativity from the triangle identities and naturality.",
+      "intree": "Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) := @Build_Monad D (U ◯ F) (fun x => unit x) (fun x => fmap[U] (counit (F x))) ... ",
+      "strength_comparison": "same. The library's variable naming is transposed (F : D ⟶ C left adjoint, U : C ⟶ D right adjoint, so the induced monad lives on D), but the data are Awodey's exactly: endofunctor U ◯ F, ret = η, join = U ε F. Adjunction_Induced_Monad is a TRANSPARENT record so both readings are definitional, and its law fields are the named lemmas Induced_Monad_join_fmap_join (associativity, from counit naturality, line 90), Induced_Monad_join_fmap_ret (line 101) and fmap_counit_unit (the zig-zag identities) — precisely the verification the exercise asks for."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently via rg 'Adjunction.*Monad|induced monad'. All three cited symbols CONFIRMED: Monad/Adjunction.v:48 'Theorem Adjunction_Monad : F -| U -> @Monad D (U o F)' and :84 'Theorem Adjunction_Nat_Monad : F :: U -> @Monad D (U o F)'; Monad/Comparison.v:123 Adjunction_Induced_Monad is a transparent Build_Monad with ret = unit and join = fmap[U] (counit (F x)) exactly as quoted. The law fields resolve to the named lemmas as claimed (Induced_Monad_join_fmap_join at 89 -- the record says 90, which is the statement line, not the Lemma keyword line; Induced_Monad_join_fmap_ret at 100, record says 101, same off-by-one; both are cosmetic and land inside the lemma). Both associativity and the unit laws are genuinely discharged from adj_counit_natural / counit_fmap_unit / fmap_counit_unit, i.e. the triangle identities, which is exactly the verification the exercise asks for. Checked for the 'definition-without-required-API' failure mode: Adjunction_Induced_Monad is a transparent Definition (not a Qed-sealed Theorem), so ret/join are readable. Monad/Adjunction.v and Monad/Comparison.v are both in _CoqProject."
+    }
+  },
+  {
+    "id": "awodey:10:ex4",
+    "classification": "PRESENT",
+    "aliases": [
+      "Eilenberg–Moore comparison functor",
+      "Phi : D → C^T",
+      "EM_Comparison",
+      "U^T ∘ Phi = U (comparison commutes with the forgetful functors)",
+      "U eps_D as a T-algebra structure map on UD"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Comparison.v",
+        "line": 198,
+        "symbol": "EM_Comparison_Forget",
+        "intree_statement": "Theorem EM_Comparison_Forget : @EM_Forget D (U ◯ F) Adjunction_Induced_Monad ◯ EM_Comparison ≈ U.   (proved with 'exists (fun c => iso_id)', i.e. the mediating natural isomorphism has identity components)"
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 151,
+        "symbol": "EM_Comparison_Algebra",
+        "intree_statement": "Definition EM_Comparison_Algebra (c : C) : @TAlgebra D (U ◯ F) Adjunction_Induced_Monad (U c) := @Build_TAlgebra D (U ◯ F) Adjunction_Induced_Monad (U c) (fmap[U] (@counit _ _ _ _ A c)) (EM_Comparison_Algebra_id c) (EM_Comparison_Algebra_action c).   (unit law EM_Comparison_Algebra_id at line 137 is the zig-zag identity; action law EM_Comparison_Algebra_action at line 141 is the U-image of counit naturality)"
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 186,
+        "symbol": "EM_Comparison",
+        "intree_statement": "Definition EM_Comparison : C ⟶ @EilenbergMoore D (U ◯ F) Adjunction_Induced_Monad := @Build_Functor C (@EilenbergMoore D (U ◯ F) Adjunction_Induced_Monad) (fun c => (U c; EM_Comparison_Algebra c)) (fun c c' h => EM_Comparison_fmap h) ..."
+      }
+    ],
+    "statement_record": {
+      "book": "For an adjunction F ⊣ U with unit eta and counit epsilon, every object D of D determines a T = UF algebra with structure map U epsilon_D : UFUD → UD; this assignment is a comparison functor Phi : D → C^T into the Eilenberg–Moore category, and it commutes with the forgetful functors: U^T ∘ Phi = U.",
+      "intree": "Theorem EM_Comparison_Forget : EM_Forget ◯ EM_Comparison ≈ U.",
+      "strength_comparison": "same (up to the library's transposed naming F : D ⟶ C, U : C ⟶ D, monad on D, comparison C ⟶ D^T). The object assignment c ↦ (U c, U ε_c) is Awodey's verbatim, both algebra laws are proved, and the commuting condition is stated as ≈ in the functor category with iso_id components — i.e. the strict equality U^T ∘ Phi = U up to the setoid presentation of functor equality this library uses, which is faithful rather than weaker. The tree also proves the second half Awodey states only in the section text, EM_Comparison_Free : EM_Comparison ◯ F ≈ EM_Free (line 260)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Cited lines CONFIRMED: Monad/Comparison.v:151 EM_Comparison_Algebra with structure map fmap[U] (counit c) on carrier U c (= Awodey's U eps_D on UD), :186 EM_Comparison as a Build_Functor into EilenbergMoore, :198 'Theorem EM_Comparison_Forget : EM_Forget o EM_Comparison = U'. The two algebra laws are real lemmas (EM_Comparison_Algebra_id at 137 is fmap_counit_unit, the zig-zag; EM_Comparison_Algebra_action at 141 is the U-image of adj_counit_natural). Adversarial check on the strength claim: the proof is 'exists (fun c => iso_id)', and iso_id : x = x only typechecks because EM_Forget (U c; alg) reduces definitionally to U c -- so the natural iso really has identity components and the record's 'strict equality up to the setoid presentation of functor equality' is honest, not a weaker natural-iso substitute. EM_Comparison_Free confirmed at line 260 (its iso is NOT identity-componented, and the file discloses exactly that at lines 245-252)."
+    }
+  },
+  {
+    "id": "awodey:10:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "covariant powerset monad",
+      "P : Sets → Sets with P(f) = im(f)",
+      "singleton unit / union multiplication",
+      "powerset functor / Pow / Ensemble monad",
+      "nondeterminism monad on Sets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni -tv 'powerset|Pow\\b|power set' . — hits are only Theory/Multicategory/Endomorphism.v's [pow X n] product fold, Instance/FinSet/Closed.v's Nat.pow, Theory/Lawvere's law_pow, and Structure/Topos.v:129 'Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a' — the topos POWER OBJECT (an internal exponential), which is not made into a functor, let alone a monad, and is not the covariant powerset",
+      "rg -ni -tv 'singleton|\\bunion\\b|Powerset|covariant power' . — no singleton/union monad components; the [singleton] hits are Lib/TList.v and Lib/FMapExt.v container helpers",
+      "rg -n -tv '@Monad Sets|Monad Sets|: @Monad' Instance/ Theory/Coq/ — no concrete categorical monad on Sets is instantiated anywhere (Instance/Coq/Monad.v is parametric in an arbitrary M)",
+      "sed -n '1,60p' Instance/Ens.v — Instance/Ens.v builds a category whose OBJECTS are Coq Ensembles with membership-reflecting maps; it defines no powerset endofunctor and no monad",
+      "rg -n -tv 'Sets_Image' Instance/Sets/Image.v — the image factorization Sets_Image exists (line 75) but is the epi-mono factorization of a single map, never assembled into the image functor P(f) = im(f)",
+      "grep -n 'Instance.*Monad' Theory/Coq/*.v — the concrete monads in the FP layer are Maybe, Tuple, Either, Identity, arrow, Compose, Yoneda and list; no powerset/set monad"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT CONFIRMED. My own blind search, run before reading the coverage file, found no counterpart: rg -i 'powerset|power set|Ensemble' -l returned only Structure/Topos.v, Instance/Rel.v, Instance/Ens.v; Structure/Topos.v:129 'Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Omega ^ a' is the internal power OBJECT (verified verbatim at that exact line) and is never made a functor or a monad; Instance/Rel.v uses 'Ensemble B' only as the hom type of a relation and contains zero occurrences of 'monad' or 'Kleisli' (rg over the file: 0 hits), so even the classical 'Rel is the Kleisli category of the powerset monad' reading is not in the tree; Instance/Ens.v builds a category of ensembles with no endofunctor. Cross-checked the concrete-monad inventory: rg '@Monad' over Instance/ yields only Instance/Coq/Monad.v (parametric) and the three Env/Store/Traced comonads -- no powerset monad. Negative_search_log is accurate and the aliases cover im(f)/singleton/union/nondeterminism."
+    }
+  },
+  {
+    "id": "awodey:10:ex6",
+    "classification": "ABSENT",
+    "aliases": [
+      "free-monoid monad / list monad on Sets",
+      "algebras for the list monad are monoids",
+      "Sets ⇄ Mon free ⊣ forgetful adjunction",
+      "Eilenberg–Moore category of the list monad ≃ Mon",
+      "monoid structure recovered from an algebra structure map"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -tv 'Mon_Free|Free_Monoid|FreeMonoid|CMon_Free|⊣ Mon_Forget' . — 0 hits; there is NO free ⊣ forgetful adjunction between Sets (or Coq) and any category of monoids",
+      "rg -n -tv 'Sets ⟶ Mon|Mon ⟶ Sets|Coq ⟶ Mon' . — only Instance/CMon.v:169 'Program Definition CMon_Forget : CMon ⟶ Sets', a forgetful functor with no left adjoint constructed; Theory/Algebra/Monoid/Hom.v:94 'Program Definition Mon_Forget : Mon ⟶ C' likewise has no left adjoint",
+      "rg -n -tv 'TAlgebra' . — TAlgebra is used only in Monad/Algebra.v, Monad/Eilenberg/Moore*.v, Monad/Comparison.v, Monad/Monadicity/*, Monad/Lifting.v, Comonad/Coalgebra.v and Construction/Reflective/Idempotent.v; NO file identifies the T-algebras of a concrete monad with a concrete algebraic structure",
+      "grep -n 'Instance list_Monad' Theory/Coq/List.v — line 113 gives the FP-layer 'Instance list_Monad : Monad list := { ret := λ _ x, [x]; bind := λ _ _ x f, flatten (map f x) }' (the free-monoid monad's data), but Theory/Coq/Monad.v's Monad class carries NO laws, and grep over Theory/Coq/Monad/Proofs.v shows the only IsMonad theorems are Identity_IsMonad, arrow_IsMonad and Compose_IsMonad — list's monad laws are not proved, and it is never converted to a categorical @Monad Coq",
+      "Near-miss deliberately not counted: Theory/Multicategory/Algebra.v:686 Comm_algebra_CMon proves that algebras for the TERMINAL OPERAD in Sets are commutative monoids (both directions). That is an operad-algebra theorem for a different (commutative) structure, not the Eilenberg–Moore algebras of the free-monoid MONAD."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT CONFIRMED (my blind pass reached the same call). Verified the two most load-bearing negative claims rather than trusting them: (i) Theory/Algebra/Monoid/Hom.v really does define 'Program Definition Mon : Category' (line 83) and 'Program Definition Mon_Forget : Mon --> C' -- at line 93, the record says 94, a one-line slip -- and I confirmed by rg that NO left adjoint / free-monoid functor exists for it (rg 'Free_Monoid|FreeMonoid|Mon_Free' = 0 hits; Construction/Free.v is the free category on a graph, not the free monoid); (ii) Theory/Coq/Monad.v:32 'Class Monad {F} := { ret; bind }' does carry NO laws, and Theory/Coq/Monad/Proofs.v proves IsMonad only for Identity/arrow/Compose (lines 57, 63, 90) -- list_Monad at Theory/Coq/List.v:113 is lawless and never becomes a categorical @Monad Coq. The near-miss flagged in the log (Theory/Multicategory/Algebra.v:686 Comm_algebra_CMon) is correctly excluded: it is operad algebras for the TERMINAL operad giving COMMUTATIVE monoids, a different monad-free statement. Also checked Monad/Monadicity/Examples.v -- the only concrete EM computation in the tree is for the IDENTITY monad (Identity_Monadic, line 155), not the list monad."
+    }
+  },
+  {
+    "id": "awodey:10:ex7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comonad induced by an adjunction (G = F∘U, eps counit, delta = F eta_U)",
+      "Adjunction_Comonad",
+      "coalgebra for a comonad / co-Eilenberg–Moore category",
+      "every comonad comes from an adjunction (cofree resolution)",
+      "End: category of sets with an endomorphism; eventually fixed points comonad"
+    ],
+    "evidence": [
+      {
+        "file": "Comonad/Duality.v",
+        "line": 170,
+        "symbol": "Adjunction_Comonad",
+        "intree_statement": "Definition Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U) := let M : @Monad (C^op) (F^op ◯ U^op) := Adjunction_Monad (Opposite_Adjunction F U A) in @Build_Monad (C^op) ((F ◯ U)^op) (fun x => @ret ... M x) (fun x => @join ... M x) ...   (Context {F : D ⟶ C} {U : C ⟶ D})"
+      },
+      {
+        "file": "Comonad/Duality.v",
+        "line": 362,
+        "symbol": "CoEM_Comonad_agrees",
+        "intree_statement": "Theorem CoEM_Comonad_agrees : CoEM_Forget ◯ CoEM_Cofree ≈ W.   (with Definition CoEM_Adjunction : CoEM_Forget ⊣ CoEM_Cofree at line 324, and CoEM_counit_agrees at line 329: counit CoEM_Adjunction x ≈ extract x — i.e. every comonad W arises from an adjunction whose counit is the comonad counit)"
+      },
+      {
+        "file": "Comonad/Coalgebra.v",
+        "line": 116,
+        "symbol": "WCoalgebra",
+        "intree_statement": "Class WCoalgebra {C : Category} (W : C ⟶ C) {H : @Comonad C W} (a : C) := { w_coalg : a ~> W a; w_counit_law : @extract C W H a ∘ w_coalg ≈ id; w_coaction : fmap[W] w_coalg ∘ w_coalg ≈ @duplicate C W H a ∘ w_coalg }."
+      }
+    ],
+    "statement_record": {
+      "book": "(a) An adjoint pair F ⊣ U with U : D → C gives a comonad (G, epsilon, delta) on D, G = F∘U, epsilon the adjunction counit, delta = F eta_U, satisfying the duals of the monad equations. (b) Define coalgebras for a comonad and show by duality that every comonad on D comes from a (not necessarily unique) adjunction, with G the composite of the two adjoints and epsilon the counit. (c) On End (sets with an endomorphism e), G(S,e) = {x : e^(n+1)(x) = e^n(x) for some n} with e restricted is the functor part of a comonad.",
+      "intree": "Definition Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U) := ... ;  Theorem CoEM_Comonad_agrees : CoEM_Forget ◯ CoEM_Cofree ≈ W ;  Class WCoalgebra ... := { w_coalg : a ~> W a; w_counit_law : extract ∘ w_coalg ≈ id; w_coaction : fmap[W] w_coalg ∘ w_coalg ≈ duplicate ∘ w_coalg }.",
+      "strength_comparison": "intree-weaker in one exposure detail plus one missing part. Parts (a) and (b) are fully carried: the comonad on F ◯ U is constructed (by the tree's definitional duality, not re-derived), coalgebras are defined with exactly the dual counit and coaction laws, and BOTH resolutions of an arbitrary comonad are built with the counit identified — the cofree co-Eilenberg–Moore one (CoEM_Adjunction, CoEM_Comonad_agrees, CoEM_counit_agrees) and the co-Kleisli one (CoKleisli_Adjunction line 233, CoKleisli_Comonad_agrees line 265, CoKleisli_counit_agrees line 238), which together also witness Awodey's 'not necessarily unique'. However, for Adjunction_Comonad itself the specific readings the exercise asks one to exhibit — epsilon = the adjunction counit and delta = F eta_U — are NOT stated as lemmas; the file discloses this at lines 149-153 ('these covariant readings hold inside the sealed proof of the Qed-opaque [Adjunction_Monad] ... they are not exposed here as lemmas about [extract]/[duplicate] of the induced comonad')."
+    },
+    "gap": "Two gaps. (1) Part (c) is entirely absent: there is no category of sets-equipped-with-an-endomorphism (End) in the tree and no eventually-fixed-point / eventually-fixed-point comonad. (2) In part (a), Adjunction_Comonad delivers the comonad on F ◯ U but does not expose its counit as the adjunction counit nor its comultiplication as F eta_U — the covariant readings are sealed inside Adjunction_Monad's Qed, as the file itself records (Comonad/Duality.v:149-153). The analogous agreement lemmas exist only for the CoKleisli and CoEM resolutions.",
+    "negative_search_log": [
+      "rg -ni -tv 'category of sets equipped|endomorphism.*category|eventually (fixed|periodic)|periodic point' . — 0 hits; the only 'endomorphism' file is Theory/Multicategory/Endomorphism.v (the endomorphism operad of an object), unrelated",
+      "ls Instance | grep -v glob — no End.v / Endo.v; the closest shape categories are Parallel.v (walking parallel pair) and Omega.v"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL CONFIRMED; my blind pass split the exercise the same way ((a),(b) present, (c) absent). All cited lines verified: Comonad/Duality.v:170 Adjunction_Comonad quoted verbatim (including the 'let M := Adjunction_Monad (Opposite_Adjunction F U A)' repackaging), :324 CoEM_Adjunction, :329 CoEM_counit_agrees, :362 CoEM_Comonad_agrees, and the co-Kleisli trio at :233/:238/:265; Comonad/Coalgebra.v:116 WCoalgebra with exactly the dual counit/coaction laws. The self-disclosure the record quotes is real and sits at Comonad/Duality.v:149-153 verbatim. I independently verified the mechanism behind gap (2): Monad/Adjunction.v's Adjunction_Monad ends in Qed (line 82), so it is genuinely opaque and extract/duplicate of the induced comonad do NOT reduce to counit / F eta U -- the gap is real, not a bookkeeping quibble, and it is the 'definition-without-required-API' failure mode caught honestly by the classifier itself. Part (c): my own rg for a category of sets-with-an-endomorphism, 'equivariant', 'eventually fixed/periodic' returned nothing (Theory/Multicategory/Endomorphism.v is the endomorphism OPERAD, unrelated), confirming the log."
+    }
+  },
+  {
+    "id": "awodey:10:ex8",
+    "classification": "ABSENT",
+    "aliases": [
+      "topological interior comonad",
+      "topological closure monad / closure operator",
+      "monad on a poset = inflationary idempotent monotone map",
+      "powerset of a space as a poset category, open/closed subsets",
+      "coalgebras for interior ≅ algebras for closure"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni -tv 'topolog|interior|closure operat|closed subset|open subset|Locale|Frame\\b' . — no topological spaces anywhere; the only 'closure operator' occurrences are prose in the header essay of Instance/Poset.v (lines 48, 64-68), and grep over that file shows its only declarations are eq_equiv (111), Poset (116) and LessThanEqualTo_Category (120) — no monad, no closure operation, no assertion",
+      "rg -ni -tv 'inflationary|deflationary|idempotent monotone' . — 0 hits",
+      "grep -n '^Class|^Definition|^Program Definition' Construction/Reflective/Idempotent.v — IdempotentMonad is defined at line 81, but only as the abstract notion used for the reflective-subcategory correspondence; it is never instantiated on a poset, on a powerset, or by a closure operation, and no comonad counterpart is defined there",
+      "rg -ni -tv 'powerset|power set' . — as recorded for awodey:10:ex5, there is no powerset object on which the interior/closure pair could live",
+      "No theorem anywhere relating a category of coalgebras to a category of algebras (searched WCoalgebras / CoEilenbergMoore users: Comonad/Coalgebra.v only relates WCoalgebras to CoEilenbergMoore, i.e. two presentations of the SAME coalgebras, not coalgebras-vs-algebras of a paired comonad/monad)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT CONFIRMED; my blind pass agreed. Verified independently: rg -i 'interior|closure operator|topolog' over the whole tree returns only background-essay prose -- there is no category Top, no space, no open/closed subset predicate. I checked the single most tempting near-miss myself: Instance/Poset.v does say 'a monad is a closure operator, the unit giving extensivity and the multiplication idempotency' (lines 48-49) and discusses Moore closure operators (64-68), but rg for top-level declarations in that file returns exactly three (eq_equiv:111, Poset:116, LessThanEqualTo_Category:120), so the record's claim is precisely right: the closure-operator reading is essay text, never formalized. Construction/Reflective/Idempotent.v:81 IdempotentMonad is abstract and never instantiated on a poset. The last log entry is also correct: Comonad/Coalgebra.v relates WCoalgebras to CoEilenbergMoore (two presentations of the same coalgebras, lines 249-303), which is NOT the coalgebras-of-interior = algebras-of-closure isomorphism the exercise wants."
+    }
+  },
+  {
+    "id": "awodey:10:ex9",
+    "classification": "PRESENT",
+    "aliases": [
+      "Kleisli category C_T of a monad",
+      "hom A_T → B_T is A → TB, identity eta, composite mu ∘ Tg ∘ f",
+      "Kleisli resolution / initial resolution of a monad",
+      "free ⊣ forgetful adjunction on the Kleisli category",
+      "T = U∘F with unit eta and mu = U eps_F"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 157,
+        "symbol": "Kleisli_Monad_agrees",
+        "intree_statement": "Theorem Kleisli_Monad_agrees : Kleisli_Forget ◯ Kleisli_Free ≈ M.   (proved with 'exists (fun x => iso_id)' — the composite U_M ◯ F_M recovers the monad M with identity components)"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 125,
+        "symbol": "Kleisli_Adjunction",
+        "intree_statement": "Program Definition Kleisli_Adjunction : Kleisli_Free ⊣ Kleisli_Forget := @Build_Adjunction' Kleisli C Kleisli_Free Kleisli_Forget Kleisli_adj_iso _ _.   (with Kleisli_Free : C ⟶ Kleisli, fobj := fun x => x, fmap := fun x y f => ret ∘ f, line 52; and Kleisli_Forget : Kleisli ⟶ C, fobj := fun x => M x, fmap := fun x y f => join ∘ fmap[M] f, line 75)"
+      },
+      {
+        "file": "Monad/Kleisli.v",
+        "line": 38,
+        "symbol": "Kleisli",
+        "intree_statement": "Program Definition Kleisli : Category := {| obj := C; hom := fun x y => x ~> M y; homset := fun x y => @homset C x (M y); id := @ret C M _; compose := fun x y z f g => join ∘ fmap[M] f ∘ g |}.   (Context `{@Monad C M}; the identity/associativity obligations are discharged from join_fmap_ret, join_ret, fmap_ret, join_fmap_join and join_fmap_fmap)"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 146,
+        "symbol": "Kleisli_join_agrees",
+        "intree_statement": "Lemma Kleisli_join_agrees {x : C} : fmap[Kleisli_Forget] (@counit _ _ _ _ Kleisli_Adjunction x) ≈ join[M].   (with Kleisli_unit_agrees at line 132: unit Kleisli_Adjunction x ≈ ret[M])"
+      }
+    ],
+    "statement_record": {
+      "book": "Given a monad (T, eta, mu) on C, construct the Kleisli category C_T — objects those of C, an arrow A_T → B_T being an arrow A → TB of C, identity eta_A, composite g_T ∘ f_T := mu_C ∘ T g_T ∘ f_T — verify it is a category, and construct an adjunction F ⊣ U with U : C_T → C such that T = U∘F, the unit is the given eta and mu = U epsilon_F.",
+      "intree": "Program Definition Kleisli : Category := {| obj := C; hom := fun x y => x ~> M y; id := ret; compose := fun x y z f g => join ∘ fmap[M] f ∘ g |};  Program Definition Kleisli_Adjunction : Kleisli_Free ⊣ Kleisli_Forget;  Theorem Kleisli_Monad_agrees : Kleisli_Forget ◯ Kleisli_Free ≈ M.",
+      "strength_comparison": "same. Objects, homs, identity and composition match Awodey's definition on the nose (his mu_C ∘ T g_T ∘ f_T is the in-tree join ∘ fmap[M] f ∘ g); the category laws are discharged from the monad laws as he asks; the adjunction is built and all three required agreements are proved — T = U∘F (Kleisli_Monad_agrees, with identity iso components), unit = eta (Kleisli_unit_agrees, by reflexivity) and mu = U epsilon_F (Kleisli_join_agrees). Monad/Kleisli.v additionally restates the monad laws as the Kleisli category laws (monad_id_left/right, monad_comp_assoc, lines 81-87)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PRESENT CONFIRMED; my blind pass reached PRESENT. Every cited line verified verbatim: Monad/Kleisli.v:38 the Kleisli category with obj := C, hom := fun x y => x ~> M y, id := ret, compose := fun x y z f g => join o fmap[M] f o g -- Awodey's mu_C o T g o f on the nose -- with the five obligations discharged from join_fmap_ret / join_ret / fmap_ret / join_fmap_join / join_fmap_fmap exactly as claimed; Monad/Kleisli/Adjunction.v:125 Kleisli_Adjunction (Build_Adjunction' over Kleisli_adj_iso), :132 Kleisli_unit_agrees (by reflexivity), :146 Kleisli_join_agrees, :157 Kleisli_Monad_agrees. Checked the 'iso_id' strength question adversarially: 'exists (fun x => iso_id)' typechecks only because Kleisli_Forget (Kleisli_Free x) reduces to M x definitionally, so T = U o F holds on the nose, not merely up to an arbitrary natural iso. The bonus claim about monad_id_left/right and monad_comp_assoc is accurate at lines 81/84/87. Both files are in _CoqProject."
+    }
+  },
+  {
+    "id": "awodey:10:ex10",
+    "classification": "PARTIAL",
+    "aliases": [
+      "final (terminal) coalgebra for an endofunctor",
+      "coalgebra for P dual to P-algebra; FCoalg",
+      "P(X) = 1 + A × X; colists / possibly-infinite lists over A",
+      "greatest fixed point nu X. 1 + A × X",
+      "streams / anamorphism / corecursion"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Streams.v",
+        "line": 231,
+        "symbol": "Stream_final",
+        "intree_statement": "Definition Stream_final : @Terminal (FCoalg StreamF).   (StreamF : Sets ⟶ Sets with fobj := fun X => A × X, line 146; the unique coalgebra map is the anamorphism and uniqueness is proved up to bisimilarity)"
+      },
+      {
+        "file": "Construction/FCoalg.v",
+        "line": 32,
+        "symbol": "fcoalg_hom",
+        "intree_statement": "Lemma fcoalg_hom `(F : C ⟶ C) (x y : FCoalg F) : (x ~{FCoalg F}~> y) = (y ~{FAlg (F^op)}~> x). Proof. reflexivity. Qed.   (over Definition FCoalg `(F : C ⟶ C) : Category := (FAlg (F^op))^op, line 28 — coalgebras and their homomorphisms are exactly dual to P-algebras, definitionally)"
+      },
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 111,
+        "symbol": "list_initial",
+        "intree_statement": "Program Definition list_initial (A : Type) : @Initial (FAlg (ListF A)) := {| terminal_obj := (list A; alg A); one := fun y => list_alg_hom A y |}.   (ListF A X := option (A * X), i.e. EXACTLY Awodey's P(X) = 1 + A × X; this is the exercise's hint — its initial algebra is the finite lists over A)"
+      }
+    ],
+    "statement_record": {
+      "book": "Coalgebras for an endofunctor P : S → S are exactly dual to P-algebras (an object A with an arrow A → PA, homomorphisms the evident commuting squares). Determine the FINAL coalgebra for P(X) = 1 + A × X on Sets; the hint recalls that the initial algebra for this functor is the finite lists over A, so the final coalgebra is the finite-or-infinite lists (colists) over A.",
+      "intree": "Definition Stream_final : @Terminal (FCoalg StreamF).   (with StreamF X := A × X on Sets)",
+      "strength_comparison": "intree-weaker: the duality clause is fully carried (FCoalg F := (FAlg (F^op))^op with fcoalg_hom, plus the corecursion package ana/ana_commutes/ana_unique in Theory/Recursion.v:111-131 and lambek_final in Theory/Lambek.v:78), and one CONCRETE final coalgebra in Sets is constructed — but for the neighbouring functor StreamF X = A × X, whose final coalgebra is the purely INFINITE streams, not for Awodey's P(X) = 1 + A × X, whose final coalgebra is the finite-or-infinite lists. The exact functor 1 + A × X does appear in the tree (ListF A, Instance/Coq/Lists.v:39) but only on the algebra side, where its INITIAL algebra list A is proved (list_initial) — i.e. the exercise's hint is formalized and the exercise's task is not."
+    },
+    "gap": "The final coalgebra of P(X) = 1 + A × X (the colist / possibly-finite-stream object, terminal in FCoalg (ListF A)) is not constructed anywhere. The only concrete terminal FCoalg object in the tree is Stream_final for StreamF X = A × X over Sets (infinite streams, quotiented by bisimilarity), and the 1 + A × X endofunctor is realized only over COQ on the algebra side (ListF A with list_initial). No @Terminal (FCoalg (ListF _)) and no colist/possibly-infinite-list carrier exist.",
+    "negative_search_log": [
+      "rg -n -tv 'NatF|ListF|StreamF' . — ListF appears only in Instance/Coq/Lists.v (initial algebra) and as a cross-reference in Construction/FAlg.v and Theory/Adamek/Corollaries.v; no coalgebra or Terminal instance for it",
+      "rg -n -tv 'Terminal \\(FCoalg' . — Instance/Sets/Streams.v:231 (StreamF) is the only concrete final coalgebra; Theory/Lambek.v:78 and Theory/Recursion.v are generic over an assumed Terminal (FCoalg F)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL CONFIRMED; my blind pass independently flagged the functor mismatch (StreamF X = A x X vs Awodey's 1 + A x X). Verified: Instance/Sets/Streams.v:146 StreamF has fobj := fun X => product_obj A X (no unit summand), and :231 'Definition Stream_final : @Terminal (FCoalg StreamF)' is the tree's only concrete final coalgebra (my rg 'Terminal \\(FCoalg' over the tree returns exactly that one concrete hit plus the generic hypotheses in Lambek/Recursion). Construction/FCoalg.v:28 'Definition FCoalg (F : C --> C) : Category := (FAlg (F^op))^op' and :32 fcoalg_hom (Proof. reflexivity. Qed.) confirmed, so the duality clause really is definitional. The record's sharpest observation is correct and I re-derived it: ListF A X := option (A * X) at Instance/Coq/Lists.v:39 IS exactly Awodey's 1 + A x X, but only its INITIAL algebra is built (list_initial:111) -- the exercise's hint is formalized while the exercise's task (the terminal FCoalg (ListF A), i.e. colists) is not, and no colist/possibly-infinite-list carrier exists anywhere. Classification is honest; a PRESENT claim here would have been the 'special-case-only' failure mode."
+    }
+  }
+]

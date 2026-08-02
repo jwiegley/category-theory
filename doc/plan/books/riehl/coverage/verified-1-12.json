@@ -1,0 +1,497 @@
+[
+  {
+    "id": "riehl:1.7:remark3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "size of a functor category",
+      "D^C is locally small when C is small and D locally small",
+      "functor category [C, D] / Fun C D",
+      "universe levels Category@{o h p} (small vs locally small as universes)",
+      "hom-setoid universe level of Transform"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}."
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; uhom := Type@{h} : Type@{h+1}; hom : obj → obj → uhom; homset : ∀ X Y, Setoid@{h p} (X ~> Y); ... }"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 96,
+        "symbol": "Functor",
+        "intree_statement": "Class Functor@{o1 h1 p1 o2 h2 p2} {C : Category@{o1 h1 p1}} {D : Category@{o2 h2 p2}} := { fobj : C → D; fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y; fmap_respects ...; fmap_id ...; fmap_comp ... }"
+      }
+    ],
+    "statement_record": {
+      "book": "Forming a functor category can increase size: D^C is small when C and D are small; when C and D are merely large-but-locally-small, D^C need not be locally small; and it suffices for local smallness of D^C that C be small and D locally small (Exercise 1.7.i).",
+      "intree": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; ... |}  — over Class Category@{o h p | h <= p} with obj : Type@{o}, hom : obj → obj → Type@{h}, and Class Functor@{o1 h1 p1 o2 h2 p2}.",
+      "strength_comparison": "intree-weaker: the whole size discipline is carried by universe polymorphism and is discharged silently by elaboration when `Fun C D` is typechecked. `Fun C D : Category` says the functor category is a legitimate Category at whatever levels the constraint solver assigns; it does not state, and nothing in-tree states, any of the remark's three clauses. In particular the NEGATIVE clause (two locally small categories whose functor category is not locally small) has no in-tree counterpart at all, since there is no vocabulary in which the failure could be expressed."
+    },
+    "gap": "The library has no smallness vocabulary: no `Small`/`LocallySmall` predicate, no cardinality/collection-size notion, so none of the remark's three clauses is stated or proved. `Fun C D : Category@{...}` records the analogous closure fact only as a universe constraint solved at elaboration time, never as a theorem; and the counterexample clause (locally small C, D with D^C not locally small) is not expressible.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'Class .*Small|Definition .*Small|IsSmall|LocallySmall' . -- 0 hits (no smallness predicate anywhere)",
+      "grep -rn --include='*.v' -i 'locally small' . -- 3 hits, all prose in file headers (Functor/Representable.v:29, Functor/Hom.v:18, Construction/Enriched.v:26); no assertion",
+      "grep -rn --include='*.v' -i 'smallness' . -- 5 hits, all header prose; Theory/Lawvere/Sets.v:44 states outright 'the library has no smallness machinery'",
+      "grep -rln --include='*.v' -i universe Test/ -- only Test/ProbeFunnyPoly.v (a Funny-tensor universe probe), nothing probing the levels of Fun"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL independently. Aliases expanded: 'functor category size', 'small/locally small', 'D^C', 'universe polymorphism', 'Fun', 'Transform universe'. Searches run: rg -i 'locally small|small categor|smallness|size obstruction' over *.v -> hits are header prose ONLY (Functor/Representable.v:29, Functor/Hom.v:18, Construction/Enriched.v:26, Structure/Complete.v:16-111, Adjunction/SAFT.v:56-90, Theory/Lawvere/Sets.v:44, Instance/Cat.v:22-26,108-114); rg 'Class .*Small|Definition .*Small|IsSmall|LocallySmall|Record .*Small' -> 0 hits, so the negative log's key claim is independently reproduced. Cited evidence verified line-exact: Instance/Fun.v:108 is 'Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; ... |}'; Theory/Category.v:111 is 'Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)}' with obj : Type@{o} and hom : obj → obj → uhom := Type@{h}; Theory/Functor.v:96 is 'Class Functor@{o1 h1 p1 o2 h2 p2}'. Both files are in _CoqProject. Additional context the classifier did not cite but which does not change the verdict: Instance/Cat.v:22-26 states the size discipline explicitly in prose ('Cat is a large category ... that constraint is enforced by universe polymorphism'), and Instance/Cat.v:108-114 repeats it; still prose, still not a statement about [C,D]. PARTIAL (not OUT_OF_SCOPE) is correct under the frozen rule that size discussions are usually PARTIAL where universe polymorphism exists."
+    }
+  },
+  {
+    "id": "riehl:1.7:lem4",
+    "classification": "PRESENT",
+    "aliases": [
+      "horizontal composition of natural transformations",
+      "Godement product γ * α",
+      "nat_hcompose",
+      "hcomp2 / fmap[hcompose] (bicategorical form)",
+      "star product / Godement whiskering"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 283,
+        "symbol": "nat_hcompose",
+        "intree_statement": "Program Definition nat_hcompose {C D E} {F G : C ⟶ D} {J K : D ⟶ E} (ε : J ⟹ K) (η : F ⟹ G) : J ◯ F ⟹ K ◯ G := {| transform := fun x => transform[ε] (fobj[G] x) ∘ fmap[J] (transform[η] x) |}  (naturality and naturality_sym discharged as obligations)"
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 196,
+        "symbol": "whisker_left_right",
+        "intree_statement": "Lemma whisker_left_right A B C (F G : A ⟶ B) (H J : B ⟶ C) (η : F ⟹ G) (θ : H ⟹ J) : (J ⊳ η) ∙ (θ ⊲ F) ≈ (θ ⊲ G) ∙ (H ⊳ η).  Proof. simpl; intros; cat; apply naturality. Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "Given α : F ⇒ G between F, G : C → D and γ : J ⇒ K between J, K : D → E, there is a natural transformation γ*α : JF ⇒ KG whose component at c is the common diagonal of the square JFc → KFc → KGc = JFc → JGc → KGc, which commutes by naturality of γ at α_c; naturality of γ*α follows from a commutative cube.",
+      "intree": "Program Definition nat_hcompose (ε : J ⟹ K) (η : F ⟹ G) : J ◯ F ⟹ K ◯ G := {| transform := fun x => transform[ε] (fobj[G] x) ∘ fmap[J] (transform[η] x) |}",
+      "strength_comparison": "same. The chosen component is Riehl's γ_{Gc} ∘ Jα_c leg; the agreement of the two legs is exactly the `naturality` field of ε applied to η x (the file's own header states it, and `whisker_left_right` records the whiskered form of the very square Riehl draws), and naturality of the composite is proved as an obligation from naturality of both cells plus fmap_comp — Riehl's cube."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same evidence before opening coverage-1-12.json. rg 'horizontal composit|hcompose|Godement|hcomp2' and rg 'nat_hcompose' located Theory/Natural/Transformation.v:283 'Program Definition nat_hcompose {C D E} {F G : C ⟶ D} {J K : D ⟶ E} (ε : J ⟹ K) (η : F ⟹ G) : J ◯ F ⟹ K ◯ G := {| transform := fun x => transform[ε] (fobj[G] x) ∘ fmap[J] (transform[η] x) |}' with BOTH obligations proved (naturality by 'rewrite <- naturality; ... rewrite <- !fmap_comp; rewrite !naturality' — Riehl's cube — and naturality_sym by symmetry). I independently checked that Instance/Fun.v:196 whisker_left_right IS the leg-agreement claim: '(J ⊳ η) ∙ (θ ⊲ F) ≈ (θ ⊲ G) ∙ (H ⊳ η)' unfolds at x to 'fmap[J](η x) ∘ θ(F x) ≈ θ(G x) ∘ fmap[H](η x)', which is exactly Riehl's diagonal square with (outer θ = γ, inner η = α). strength_comparison 'same' is honest. No Admitted/Axiom in either file; both are in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:1.7:remark6",
+    "classification": "PRESENT",
+    "aliases": [
+      "whiskering",
+      "whisker_left / whisker_right (⊳ / ⊲)",
+      "lwhisker / rwhisker (hcomp2 against an identity 2-cell)",
+      "J α I, the two-sided whiskered composite",
+      "pre/post-composition of a natural transformation with a functor"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 347,
+        "symbol": "whisker_left",
+        "intree_statement": "Program Definition whisker_left {C D : Category} {E : Category} (X : D ⟶ E) {F G : C ⟶ D} (N : F ⟹ G) : X ◯ F ⟹ X ◯ G := {| transform := λ x, fmap[X] (N x) |}.  Next Obligation. simpl; rewrite <- !fmap_comp; apply fmap_respects, naturality. Qed."
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 329,
+        "symbol": "whisker_right",
+        "intree_statement": "Program Definition whisker_right {C D : Category} {F G : C ⟶ D} (N : F ⟹ G) {E : Category} (X : E ⟶ C) : F ◯ X ⟹ G ◯ X := {| transform := λ x, N (X x); naturality := λ _ _ _, naturality _ _ _ _; naturality_sym := λ _ _ _, naturality_sym _ _ _ _ |}"
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 90,
+        "symbol": "lwhisker",
+        "intree_statement": "Definition lwhisker {x y z : bi0cell} (g : bicat y z) {f f' : bicat x y} (η : f ~> f') : (g ∘∘∘ f) ~> (g ∘∘∘ f') := hcomp2 (bi2id (a:=g)) η.   (dual: Definition rwhisker ... θ (f : bicat x y) := hcomp2 θ (bi2id (a:=f)), line 93)"
+      }
+    ],
+    "statement_record": {
+      "book": "The transformations Jα, Kα, γF, γG of Lemma 1.7.4 are whiskerings; in general, for α : F ⇒ G and functors I : B → C, J : D → E, the whiskered composite JαI : JFI ⇒ JGI has components (JαI)_b := Jα_{Ib}, natural because its squares are the J-images of α's naturality squares at morphisms in the image of I. Whiskering is the special case of horizontal composition in which one transformation is an identity.",
+      "intree": "whisker_left X N : X ◯ F ⟹ X ◯ G with transform := λ x, fmap[X] (N x) (naturality by `rewrite <- !fmap_comp; apply fmap_respects, naturality`); whisker_right N X : F ◯ X ⟹ G ◯ X with transform := λ x, N (X x) (naturality inherited verbatim); lwhisker g η := hcomp2 (bi2id) η.",
+      "strength_comparison": "same for the construction and for Riehl's proof of naturality (in-tree it is literally `fmap_respects` applied to `naturality`, i.e. the J-image of α's square). Two presentational deltas: (i) the two-sided whisker JαI is the composite `X ⊳ (N ⊲ Y)` of the two one-sided whiskerings, not a primitive; (ii) Riehl's final clause (whiskering = horizontal composition against an identity) is definitional in-tree only in the abstract-bicategory presentation, where lwhisker/rwhisker ARE hcomp2 with an identity 2-cell — no lemma identifies Instance/Fun.v's `⊲`/`⊳` with `nat_hcompose nat_id _`, which agree only up to fmap_id/id_left."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: rg -i 'whisker' over *.v surfaced the same three sites before reading coverage. Verified line-exact: Theory/Natural/Transformation.v:329 'Program Definition whisker_right {C D} {F G : C ⟶ D} `(N : F ⟹ G) {E} (X : E ⟶ C) : F ◯ X ⟹ G ◯ X := {| transform := λ x, N (X x); naturality := λ _ _ _, naturality _ _ _ _ |}' (notation N ⊲ F at :337); Theory/Natural/Transformation.v:347 'Program Definition whisker_left ... (X : D ⟶ E) {F G : C ⟶ D} `(N : F ⟹ G) : X ◯ F ⟹ X ◯ G := {| transform := λ x, fmap[X] (N x) |}' with naturality proved by 'rewrite <- !fmap_comp; apply fmap_respects, naturality' — literally Riehl's 'the J-image of α's naturality square' (notation F ⊳ N at :361); Theory/Bicategory/Adjunction.v:90 'Definition lwhisker (g : bicat y z) {f f'} (η : f ~> f') := hcomp2 (bi2id (a:=g)) η' plus rwhisker at :93, which IS whiskering-as-horizontal-composite-against-an-identity definitionally. Riehl's two-sided JαI is the composite X ⊳ (N ⊲ Y); supporting laws exist at Instance/Fun.v:147-159 (identity and distribution over vertical composition). The strength_comparison's two presentational deltas are accurate. SEE problems[]: the two Instance/Fun.v distribution lemmas carry SWAPPED names."
+    }
+  },
+  {
+    "id": "riehl:1.7:lem7",
+    "classification": "PRESENT",
+    "aliases": [
+      "middle four interchange",
+      "interchange law / exchange law",
+      "(δ·γ) * (β·α) = (δ*β) · (γ*α)",
+      "functoriality of horizontal composition (fmap_comp of hcompose)",
+      "Godement interchange"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 79,
+        "symbol": "hcomp2_comp",
+        "intree_statement": "Lemma hcomp2_comp {x y z : bi0cell} {g g' g'' : bicat y z} {f f' f'' : bicat x y} (θ' : g' ~> g'') (θ : g ~> g') (η' : f' ~> f'') (η : f ~> f') : hcomp2 (θ' ∘∘ θ) (η' ∘∘ η) ≈ hcomp2 θ' η' ∘∘ hcomp2 θ η."
+      },
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 64,
+        "symbol": "Cat_Hcompose",
+        "intree_statement": "Program Definition Cat_Hcompose {C D E : Category} : ([D, E] ∏ [C, D]) ⟶ [C, E] := {| fobj := fun p => fst p ◯ snd p; fmap := fun p q m => nat_hcompose (fst m) (snd m) |}  — its fmap_comp obligation (proved lines 82-90: `rewrite fmap_comp, !comp_assoc; ... symmetry; apply naturality`) IS the middle-four interchange for natural transformations."
+      }
+    ],
+    "statement_record": {
+      "book": "For α : F ⇒ G, β : G ⇒ H (F,G,H : C → D) and γ : J ⇒ K, δ : K ⇒ L (J,K,L : D → E), horizontal-then-vertical agrees with vertical-then-horizontal: (δ·γ) * (β·α) = (δ*β) · (γ*α).",
+      "intree": "hcomp2 (θ' ∘∘ θ) (η' ∘∘ η) ≈ hcomp2 θ' η' ∘∘ hcomp2 θ η   (with hcomp2 := fmap[hcompose]; at Cat_Bicategory hcompose := Cat_Hcompose, whose fmap is nat_hcompose and whose vertical composition is nat_compose)",
+      "strength_comparison": "same. In-tree the law is exactly the functoriality (fmap_comp) of the horizontal-composition bifunctor — proved concretely for natural transformations in Cat_Hcompose, and re-stated as a named lemma over an arbitrary Bicategory. Riehl's `=` is the library's `≈` on 2-cells (componentwise equality of natural transformations), the sanctioned setoid rephrasing."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass: rg -i 'interchange|exchange law|middle four' plus rg 'hcomp2_comp' located the same two sites. Verified full strength (no same-name-weaker-statement): Theory/Bicategory/Adjunction.v:79-86 'Lemma hcomp2_comp {x y z} {g g' g''} {f f' f''} (θ' : g' ~> g'') (θ : g ~> g') (η' : f' ~> f'') (η : f ~> f') : hcomp2 (θ' ∘∘ θ) (η' ∘∘ η) ≈ hcomp2 θ' η' ∘∘ hcomp2 θ η' — four independent 2-cells, i.e. Riehl's (δ·γ)*(β·α) = (δ*β)·(γ*α) verbatim, NOT the whiskered special case. It sits in 'Section BicatAdjunction' with 'Context {B : Bicategory}', so after section close it is universally quantified over every bicategory and applies to Cat_Bicategory. I also confirmed the CONCRETE natural-transformation instance the classifier cites: Instance/Cat/Bicategory.v:76-83 is Cat_Hcompose's THIRD Program obligation, whose intro pattern 'intros C D E [P1 P2] [Q1 Q2] [R1 R2] [α β] [α' β']' matches fmap_comp's signature (three objects, two morphisms) — with composition in [D,E] ∏ [C,D] componentwise this is exactly nat_hcompose (α'∙α) (β'∙β) ≈ nat_hcompose α' β' ∙ nat_hcompose α β. Proved (Qed), no Admitted, file in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:1.7:def8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "2-category (strict)",
+      "bicategory / weak 2-category",
+      "Cat as a 2-category",
+      "Cat-enriched category",
+      "vertical and horizontal composition of 2-cells with interchange"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 127,
+        "symbol": "Cat_Bicategory",
+        "intree_statement": "Definition Cat_Bicategory : Bicategory := Build_Bicategory Category (fun C D => @obj (@Fun C D)) (fun C D => @hom (@Fun C D)) (@Id) ... (@Cat_Hcompose) (fun C D f => nat_ρ f) (fun C D f => nat_λ f) (fun W X Y Z h g f => iso_sym (nat_α f g h)) Cat_hunit_left_natural Cat_hunit_right_natural Cat_hassoc_natural Cat_triangle Cat_pentagon."
+      },
+      {
+        "file": "Theory/Bicategory.v",
+        "line": 204,
+        "symbol": "Bicategory",
+        "intree_statement": "Class Bicategory := { bi0cell : Type; bi1cell : bi0cell → bi0cell → bi1uhom; bi2cell {x y} (f g : bi1cell x y) : bi2uhom; ... bicat (x y : bi0cell) : Category := {| obj := bi1cell x y; hom := bi2cell; compose := vcompose; ... |}; hcompose {x y z} : bicat y z ∏ bicat x y ⟶ bicat x z; hcomp2 θ η := fmap[hcompose] (θ, η); hunit_left f : (bi1id ∘∘∘ f) ≅[bicat x y] f; hunit_right f : (f ∘∘∘ bi1id) ≅[bicat x y] f; hassoc h g f : ((h ∘∘∘ g) ∘∘∘ f) ≅[bicat w z] (h ∘∘∘ (g ∘∘∘ f)); ... hcoherence_triangle ...; hcoherence_pentagon ... }"
+      },
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 64,
+        "symbol": "Cat_Hcompose",
+        "intree_statement": "Program Definition Cat_Hcompose {C D E : Category} : ([D, E] ∏ [C, D]) ⟶ [C, E] := {| fobj := fun p => fst p ◯ snd p; fmap := fun p q m => nat_hcompose (fst m) (snd m) |}  — its fmap_id obligation is Riehl's `id_H * id_F = id_{HF}` and its fmap_comp obligation is the middle-four interchange."
+      }
+    ],
+    "statement_record": {
+      "book": "A 2-category has objects, 1-morphisms and 2-morphisms such that: objects+1-morphisms form a category; for each pair of objects the 1- and 2-morphisms form a category under vertical composition; the objects and 2-cells form a category under horizontal composition with identities id_{id_C}; id_H * id_F = id_{HF}; and middle four interchange holds. Lemmas 1.7.1, 1.7.4, 1.7.7 show categories, functors and natural transformations form a 2-category.",
+      "intree": "Class Bicategory := { ... bicat x y : Category (vertical composition); hcompose : bicat y z ∏ bicat x y ⟶ bicat x z; hunit_left f : bi1id ∘∘∘ f ≅ f; hunit_right f : f ∘∘∘ bi1id ≅ f; hassoc h g f : (h ∘∘∘ g) ∘∘∘ f ≅ h ∘∘∘ (g ∘∘∘ f); hcoherence_triangle; hcoherence_pentagon }, instantiated by Definition Cat_Bicategory : Bicategory.",
+      "strength_comparison": "intree-weaker: the in-tree notion is the WEAK one (Bénabou bicategory). Riehl's demand that the 1-cells and 2-cells form a genuine category under horizontal composition — strictly associative and unital, with identities id_{id_C} — is replaced by the associator `hassoc` and unitors `hunit_left`/`hunit_right` as invertible 2-cells subject to pentagon and triangle. The two axioms that are strict equations in Riehl's list and are strict in-tree (id*id = id, middle four interchange) hold as fmap_id/fmap_comp of Cat_Hcompose. Riehl's concluding claim 'Cat is a 2-category' appears in-tree only as 'Cat is a bicategory' (Cat_Bicategory), whose unitors are the non-identity isos nat_ρ/nat_λ built from `fmap[F] id`."
+    },
+    "gap": "No strict 2-category exists in-tree: there is no class demanding on-the-nose associativity/unitality of horizontal 1-cell composition, no Cat-enriched presentation, and no theorem that Cat's bicategory structure is strict (or that its unitors/associator are identities). Theory/Bicategory.v's own header states the contrast ('A strict 2-category demands that horizontal composition of 1-cells be associative and unital on the nose'), and no strictification/coherence theorem is proved either. Everything else in Riehl's field list is present.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE '2-categor|two.categor|TwoCategory' . -- hits are header prose (MonCat, BrMonCat, sub-2-category) plus Theory/Bicategory.v's explanation of why the weak notion is used; no strict 2-category class",
+      "grep -rn --include='*.v' -i 'StrictCat' . -- Instance/StrictCat.v is the 1-category of categories with strict functor equality, not a 2-category structure"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same gap. Searches: rg -i '2-category|two-category|strict 2|StrictCat|strict bicategory' over *.v; every hit is either header prose about MonCat/BrMonCat/Adj, Theory/Bicategory.v's own weak-vs-strict discussion (:53-54 'A strict 2-category demands that horizontal composition of 1-cells be associative and unital on the nose' — quote verified), or Instance/StrictCat.v, which is the strict 1-CATEGORY of categories (obj := Category, hom := Functor, homset := Functor_StrictEq_Setoid), not a 2-categorical structure. I also checked the Cat-enriched route: Construction/Enriched/ holds only Compose/Fun/Natural/Sets/Two — there is no V := Cat instantiation, hence no strict 2-category by enrichment either. Evidence verified line-exact: Theory/Bicategory.v:204 'Class Bicategory := { bi0cell : Type; bi1cell; bi2cell; bi1id; bi2homset; bi2id; ... }'; Instance/Cat/Bicategory.v:127 'Definition Cat_Bicategory : Bicategory := Build_Bicategory ...' (raw constructor, 20 explicit arguments, all five coherence lemmas Qed'd at :92-120); Instance/Cat/Bicategory.v:64 Cat_Hcompose. The strength_comparison correctly notes that the two clauses of Riehl's definition that ARE strict equations (id*id = id, middle-four) hold in-tree as fmap_id/fmap_comp of Cat_Hcompose, while associativity/unitality of horizontal 1-cell composition is only up to hassoc/hunit_*. Build_Bicategory' exists at Theory/Bicategory.v:319 as the header claims."
+    }
+  },
+  {
+    "id": "riehl:1.7:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "local smallness of D^C",
+      "natural transformations form a set",
+      "injection of a natural transformation into its family of components",
+      "Transform_Setoid (componentwise equality)",
+      "universe level of Transform F G"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 139,
+        "symbol": "Transform_Setoid",
+        "intree_statement": "Program Instance Transform_Setoid : Setoid Transform := {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x) |}"
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; ... |}"
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; hom : obj → obj → Type@{h}; homset : ∀ X Y, Setoid@{h p} (X ~> Y); ... }"
+      }
+    ],
+    "statement_record": {
+      "book": "If C is small and D is locally small then D^C is locally small; prove it by exhibiting a monomorphism from the collection of natural transformations F ⇒ G into a set, sending a natural transformation to its family of components.",
+      "intree": "Transform_Setoid : Setoid Transform with equiv N0 N1 := ∀ x, transform N0 x ≈ transform N1 x  (a natural transformation is determined by its components — the exercise's injection, made definitional); Fun : Category with hom := @Transform C D.",
+      "strength_comparison": "intree-weaker: the exercise's ingredients are present (the hom-collection of D^C is `Transform F G`, whose identity criterion IS the component family, so the components map is injective by construction, and `Fun C D` typechecks as a Category), but the size argument itself is absent. The hypothesis (C small, D locally small) and the conclusion (D^C locally small) are not expressible: universe polymorphism discharges the corresponding constraint at elaboration time without any statement being made."
+    },
+    "gap": "No smallness predicate exists, so neither the hypothesis nor the conclusion of the exercise can be stated, and no in-tree proof performs the size argument. What exists is (a) the componentwise identity criterion for natural transformations, which is the exercise's monomorphism-into-a-product-of-hom-sets hint in definitional form, and (b) the bare fact that `Fun C D` elaborates to a Category at universe levels determined by C's object level and D's hom level.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'Class .*Small|Definition .*Small|IsSmall|LocallySmall' . -- 0 hits",
+      "grep -rn --include='*.v' -i 'locally small' . -- header prose only (Functor/Hom.v:18, Functor/Representable.v:29, Construction/Enriched.v:26)",
+      "grep -rn --include='*.v' -i 'smallness' . -- header prose only; Theory/Lawvere/Sets.v:44 'the library has no smallness machinery'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Same searches as riehl:1.7:remark3 (shared alias set); blind verdict PARTIAL, matching. Evidence verified: Theory/Natural/Transformation.v:139 'Program Instance Transform_Setoid : Setoid Transform := {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x) |}' — this IS the exercise's hint in definitional form (two natural transformations are identified exactly when their component families agree, so 'send a natural transformation to its collection of components' is injective by construction). Instance/Fun.v:108 Fun and Theory/Category.v:111 Category verified as above. The gap statement is precise and honest: the hypothesis 'C small, D locally small' and the conclusion 'D^C locally small' are not expressible — rg for any Small/LocallySmall predicate returns 0 hits, and the analogous universe constraint (hom-level of [C,D] bounded by C's object level and D's hom level) is discharged silently by the elaborator, never stated. PARTIAL, not ABSENT (the component-injectivity half is genuinely present) and not OUT_OF_SCOPE (universe polymorphism exists)."
+    }
+  },
+  {
+    "id": "riehl:1.7:exii",
+    "classification": "PRESENT",
+    "aliases": [
+      "horizontal composition via whiskering and vertical composition",
+      "γ * α = Kα · γF = γG · Jα",
+      "hcomp2 θ η ≈ lwhisker ∘∘ rwhisker",
+      "Godement product factored through whiskerings",
+      "whisker_left_right"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 136,
+        "symbol": "hcomp2_lwhisker_rwhisker",
+        "intree_statement": "Lemma hcomp2_lwhisker_rwhisker {x y z : bi0cell} {g g' : bicat y z} {f f' : bicat x y} (θ : g ~> g') (η : f ~> f') : hcomp2 θ η ≈ lwhisker g' η ∘∘ rwhisker θ f."
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 145,
+        "symbol": "hcomp2_rwhisker_lwhisker",
+        "intree_statement": "Lemma hcomp2_rwhisker_lwhisker {x y z : bi0cell} {g g' : bicat y z} {f f' : bicat x y} (θ : g ~> g') (η : f ~> f') : hcomp2 θ η ≈ rwhisker θ f' ∘∘ lwhisker g η."
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 196,
+        "symbol": "whisker_left_right",
+        "intree_statement": "Lemma whisker_left_right A B C (F G : A ⟶ B) (H J : B ⟶ C) (η : F ⟹ G) (θ : H ⟹ J) : (J ⊳ η) ∙ (θ ⊲ F) ≈ (θ ⊲ G) ∙ (H ⊳ η)."
+      }
+    ],
+    "statement_record": {
+      "book": "Redefine the horizontal composition of Lemma 1.7.4 in terms of vertical composition and whiskering, i.e. γ * α = (Kα) · (γF) = (γG) · (Jα).",
+      "intree": "hcomp2 θ η ≈ lwhisker g' η ∘∘ rwhisker θ f  and  hcomp2 θ η ≈ rwhisker θ f' ∘∘ lwhisker g η  (both orders); plus, at Cat in Fun.v's own whiskering notation, (J ⊳ η) ∙ (θ ⊲ F) ≈ (θ ⊲ G) ∙ (H ⊳ η).",
+      "strength_comparison": "same in substance, with a coordinate caveat: the factorisation is proved for an arbitrary Bicategory, which specialises to Cat_Bicategory where hcomp2 is definitionally `nat_hcompose` (Cat_Hcompose's fmap) and vertical composition is `nat_compose`. But in that specialisation the whiskerings are `hcomp2` against an identity 2-cell, and no in-tree lemma identifies those with Instance/Fun.v's `⊲`/`⊳` (they agree only up to fmap_id/id_left). So the identity is available at Cat in hcomp2-whiskering coordinates, not literally as `nat_hcompose ε η ≈ (ε ⊲ G) ∙ (J ⊳ η)`."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'nat_hcompose' . -- 17 hits; none states nat_hcompose as a composite of whisker_left/whisker_right"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same lemmas. Verified line-exact: Theory/Bicategory/Adjunction.v:136 'Lemma hcomp2_lwhisker_rwhisker (θ : g ~> g') (η : f ~> f') : hcomp2 θ η ≈ lwhisker g' η ∘∘ rwhisker θ f' and :145 hcomp2_rwhisker_lwhisker giving the other order — together these ARE 'redefine horizontal composition in terms of vertical composition and whiskering', for an arbitrary bicategory, with whisker_exchange at :156 recording that the two agree. I independently verified the Cat specialisation the strength_comparison describes: hcomp2 := fmap[hcompose] and Cat_Bicategory's hcompose := Cat_Hcompose whose fmap p q m = nat_hcompose (fst m) (snd m), so hcomp2 IS nat_hcompose definitionally at Cat; but lwhisker J η = nat_hcompose nat_id η has component 'id ∘ fmap[J](η x)' whereas (J ⊳ η) x = fmap[J](η x), so the identification with Instance/Fun.v's ⊲/⊳ is only up to id_left/fmap_id and is nowhere stated — the caveat is accurate, and rg 'nat_hcompose' (17 hits) confirms no such lemma exists. PRESENT is right under the frozen definition: the general bicategory statement subsumes the Cat instance in substance."
+    }
+  },
+  {
+    "id": "riehl:1.7:exiii",
+    "classification": "PRESENT",
+    "aliases": [
+      "proof of the middle four interchange",
+      "interchange law for natural transformations",
+      "fmap_comp of the horizontal-composition bifunctor",
+      "hcomp2_comp",
+      "Godement exchange law"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 64,
+        "symbol": "Cat_Hcompose",
+        "intree_statement": "Program Definition Cat_Hcompose {C D E : Category} : ([D, E] ∏ [C, D]) ⟶ [C, E] := {| fobj := fun p => fst p ◯ snd p; fmap := fun p q m => nat_hcompose (fst m) (snd m) |}.  Next Obligation. ... rewrite fmap_comp, !comp_assoc; apply compose_respects; [|reflexivity]; rewrite <- !comp_assoc; apply compose_respects; [reflexivity|]; symmetry; apply naturality. Qed."
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 79,
+        "symbol": "hcomp2_comp",
+        "intree_statement": "Lemma hcomp2_comp {x y z : bi0cell} {g g' g'' : bicat y z} {f f' f'' : bicat x y} (θ' : g' ~> g'') (θ : g ~> g') (η' : f' ~> f'') (η : f ~> f') : hcomp2 (θ' ∘∘ θ) (η' ∘∘ η) ≈ hcomp2 θ' η' ∘∘ hcomp2 θ η."
+      }
+    ],
+    "statement_record": {
+      "book": "Prove Lemma 1.7.7: (δ·γ) * (β·α) = (δ*β) · (γ*α) for natural transformations, relating vertical and horizontal composition.",
+      "intree": "The fmap_comp obligation of Cat_Hcompose : ([D, E] ∏ [C, D]) ⟶ [C, E] with fmap := nat_hcompose — proved componentwise from fmap_comp of the outer functor and naturality of the outer transformation; abstracted as hcomp2_comp over an arbitrary Bicategory.",
+      "strength_comparison": "same; the exercise is discharged, for natural transformations, exactly by the proof Riehl expects (functoriality of J/K plus naturality of γ), and is packaged as functoriality of the horizontal-composition bifunctor."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Same evidence and same independent verification as riehl:1.7:lem7 (the exercise is 'prove Lemma 1.7.7'). Cat_Hcompose's third obligation (Instance/Cat/Bicategory.v:76-83) discharges it for natural transformations by exactly Riehl's route — 'rewrite fmap_comp, !comp_assoc; apply compose_respects; ... symmetry; apply naturality' (functoriality of the outer functor plus naturality of the outer transformation) — and hcomp2_comp (Theory/Bicategory/Adjunction.v:79) restates it over any bicategory. Both Qed, no admits."
+    }
+  },
+  {
+    "id": "riehl:1.7:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "center of a category",
+      "natural endomorphisms of the identity functor Id ⟹ Id",
+      "End(Id_C) as a commutative monoid",
+      "Z(C) (centre)",
+      "Eckmann-Hilton for natural endomorphisms of Id / End(I)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'center of the category' . -- 0 hits",
+      "grep -rn --include='*.v' -i 'natural endomorphism' . -- 0 hits",
+      "grep -rn --include='*.v' -i 'End(Id)' . -- 0 hits",
+      "grep -rn --include='*.v' -i 'endomorphisms of Id' . -- 0 hits",
+      "grep -rn --include='*.v' -i 'nat_endo' . -- 0 hits",
+      "grep -rn --include='*.v' -i 'monoid of natural' . -- 0 hits",
+      "grep -rn --include='*.v' -iE '\\bcenter\\b|\\bcentre\\b' . -- all hits are a DIFFERENT notion: the premonoidal centre Z(C) of central morphisms (Structure/Binoidal/Central.v `Centre`, Structure/Premonoidal/Centre.v `Centre_Monoidal`) and the Drinfeld monoidal centre (Structure/Monoidal/Drinfeld.v). Neither is the monoid of natural endomorphisms of Id.",
+      "grep -rn --include='*.v' 'Id ⟹' . -- 20 hits, all units of monads/adjunctions/strengths (Id ⟹ M, Id ⟹ U ◯ F, Id ⟹ F); no Id ⟹ Id anywhere",
+      "grep -rn --include='*.v' -i 'commutative monoid' . -- Instance/CMon.v, Theory/Algebra/CommutativeMonoid.v, Theory/Multicategory/Algebra.v; none concerns natural endomorphisms of an identity functor",
+      "grep -rn --include='*.v' -iE 'End\\(I\\)|endomorphism monoid|scalar' . -- the closest cousin is Structure/Monoidal/Proofs.v:337 `unit_identity` (Kelly's λ_I ≈ ρ_I), whose comment names 'the commutativity of End(I) via Eckmann-Hilton' as a downstream consequence that is NOT proved in-tree",
+      "grep -rn --include='*.v' -i 'Eckmann' . -- the in-tree Eckmann-Hilton arguments are about hom-set convolution in Structure/Semiadditive.v (two convolutions coincide / are commutative), a different statement from commutativity of End(Id_C)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search reproduced ABSENT and found nothing the classifier missed. Independent commands run BEFORE reading coverage-1-12.json: rg -i 'center of|centre of|natural endomorphism|endomorphisms of the identity' -> 0 relevant hits; rg -i '\\bcentre\\b|\\bcenter\\b' -l -> Monad/Thunkable.v, Structure/{Premonoidal,Binoidal}*, Structure/Monoidal/{Braided,Drinfeld}.v, Construction/Indexed.v — all the premonoidal centre Z(C) of central morphisms (Structure/Binoidal/Central.v:253 'Centre') or the Drinfeld monoidal centre, a DIFFERENT notion, exactly as the negative log says; rg 'Id ⟹ Id' -> 0 hits; rg -i 'commutative monoid' -> Structure/Preadditive.v, Structure/Semiadditive.v, Instance/CMon.v, Theory/Algebra/CommutativeMonoid.v, Theory/Multicategory/Algebra.v — none about natural endomorphisms of Id; rg 'Endo' -> Monad/Monoid.v 'Endofunctors C := [C, C]' and MonoidObject ⇔ Monad, which is the monoid structure on the endofunctor category under composition, NOT the abelian monoid End(Id_C). I also spot-verified the negative log's most specific claim: Structure/Monoidal/Proofs.v:337 is indeed the comment block ('Kelly's lemma ... it underlies, e.g., the commutativity of End(I) via Eckmann-Hilton') introducing Corollary unit_identity at :344 — so that comment names the Eckmann-Hilton consequence WITHOUT proving it, confirming it is not a counterpart. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:1.7:exv",
+    "classification": "PRESENT",
+    "aliases": [
+      "composite of equivalences is an equivalence",
+      "transitivity of equivalence of categories",
+      "EquivalenceOfCategories_Compose",
+      "Equivalence_trans (C ≃ D → D ≃ E → C ≃ E)",
+      "direct construction of the composite unit/counit natural isomorphisms"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 94,
+        "symbol": "EquivalenceOfCategories_Compose",
+        "intree_statement": "Definition EquivalenceOfCategories_Compose : EquivalenceOfCategories (G ◯ F) := @Build_EquivalenceOfCategories C E (G ◯ F) (F' ◯ G') EquivalenceOfCategories_Compose_counit EquivalenceOfCategories_Compose_unit.   (Context: F : C ⟶ D, G : D ⟶ E, F' := quasi_inverse F, G' := quasi_inverse G)"
+      },
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 83,
+        "symbol": "EquivalenceOfCategories_Compose_unit",
+        "intree_statement": "Lemma EquivalenceOfCategories_Compose_unit : Id[C] ≈ (F' ◯ G') ◯ (G ◯ F).  Proof. rewrite <- (fun_equiv_comp_assoc F' G' (G ◯ F)); rewrite (fun_equiv_comp_assoc G' G F); rewrite <- (@equivalence_unit D E G HG); rewrite (fun_equiv_id_left F); exact (@equivalence_unit C D F HF). Qed."
+      },
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 72,
+        "symbol": "EquivalenceOfCategories_Compose_counit",
+        "intree_statement": "Lemma EquivalenceOfCategories_Compose_counit : (G ◯ F) ◯ (F' ◯ G') ≈ Id[E].  Proof. rewrite <- (fun_equiv_comp_assoc G F (F' ◯ G')); rewrite (fun_equiv_comp_assoc F F' G'); rewrite (@equivalence_counit C D F HF); rewrite (fun_equiv_id_left G'); exact (@equivalence_counit D E G HG). Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "Given equivalences C ≃ D (F, G with η : id_C ≅ GF, ε : FG ≅ id_D) and D ≃ E (F', G' with η', ε'), prove directly that C ≃ E by constructing composite natural isomorphisms id_C ≅ GG'F'F and F'FGG' ≅ id_E — a second, choice-free proof of Lemma 1.5.5 not routed through Theorem 1.5.9.",
+      "intree": "Lemma EquivalenceOfCategories_Compose_unit : Id[C] ≈ (F' ◯ G') ◯ (G ◯ F);  Lemma EquivalenceOfCategories_Compose_counit : (G ◯ F) ◯ (F' ◯ G') ≈ Id[E];  Definition EquivalenceOfCategories_Compose : EquivalenceOfCategories (G ◯ F), with Equivalence_trans (E1 : C ≃ D) (E2 : D ≃ E) : C ≃ E at line 117.",
+      "strength_comparison": "same. `≈` on functors is Functor_Setoid, i.e. a natural isomorphism with the conjugation coherence, so the two cells ARE Riehl's composite natural isomorphisms (with names permuted: in-tree F : C ⟶ D, G : D ⟶ E). The proof is precisely the direct one the exercise asks for — reassociate with fun_equiv_comp_assoc, cancel the inner cell, apply the outer one — and does not go through the adjoint-equivalence theorem (Theory/Equivalence/Adjoint.v) or any choice principle; the quasi-inverses are taken as given data in the class, as in the exercise's hypotheses."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass located Theory/Equivalence/Bundled.v independently via rg 'compose.*equivalence|Equivalence_Compose'. Verified line-exact and read the whole file: :72 'Lemma EquivalenceOfCategories_Compose_counit : (G ◯ F) ◯ (F' ◯ G') ≈ Id[E]', :83 'Lemma EquivalenceOfCategories_Compose_unit : Id[C] ≈ (F' ◯ G') ◯ (G ◯ F)', :94 'Definition EquivalenceOfCategories_Compose : EquivalenceOfCategories (G ◯ F)'. The classifier's key claim is correct and I checked it rather than taking it on trust: the proofs use only fun_equiv_comp_assoc / fun_equiv_id_left (Theory/Functor.v:314 / :309, both 'construct; cat' Qed) and the two given cells — no route through Theory/Equivalence/Adjoint.v and no choice principle; the quasi-inverse is a field of the class, matching the exercise's hypotheses. '≈' on functors is Functor_Setoid (Theory/Functor.v:148), a family of isos '{iso : ∀ x, F x ≅ G x & ∀ x y f, fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x)}', i.e. genuinely Riehl's composite natural isomorphisms. Naming differs only by which functor is primed. strength_comparison 'same' is honest."
+    }
+  },
+  {
+    "id": "riehl:1.7:exvi",
+    "classification": "PRESENT",
+    "aliases": [
+      "currying a bifunctor",
+      "Cat(C × D, E) ≅ Cat(C, E^D)",
+      "Cat is cartesian closed with exponential the functor category",
+      "Curry / uncurry of a functor of two variables",
+      "exp_iso : x × y ~> z ≊ x ~> z^y"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := {| morphism := fun F : A × B ⟶ C => {| fobj := fun x : A => {| fobj := fun y : B => F (x, y); fmap := fun J K f => fmap[F] (@id A x, f) |}; fmap := fun J K f => {| transform := fun L : B => fmap[F] (f, @id B L) |} |} |}; from := {| morphism := fun F : A ⟶ [B, C] => {| fobj := fun x : A × B => F (fst x) (snd x); fmap := fun J K f => fmap (snd f) ∘ transform[fmap[F] (fst f)] _ |} |} |} }   (via Closed's field exp_iso {x y z} : x × y ~> z ≊ x ~> z^y, Structure/Cartesian/Closed.v:51)"
+      },
+      {
+        "file": "Structure/Closed.v",
+        "line": 124,
+        "symbol": "Curry",
+        "intree_statement": "Program Definition Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E] := {| fobj := fun x => {| fobj := fun y => F (x, y); fmap := fun y z (f : y ~{D}~> z) => fmap[F] (id[x], f) |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun z => fmap[F] (f, id[z]) |} |}"
+      }
+    ],
+    "statement_record": {
+      "book": "A bifunctor F : C × D → E is determined by and uniquely determined by (i) a functor F(c,−) : D → E for each object c and (ii) a natural transformation F(f,−) : F(c,−) ⇒ F(c',−) for each f : c → c', assigned functorially; equivalently there is a bijection between functors C × D → E and functors C → E^D (and, by symmetry of the product, with functors D → E^C).",
+      "intree": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y instantiated at Cat with exponent_obj := @Fun, i.e. (A ∏ B ⟶ C) ≊ (A ⟶ [B, C]) as an isomorphism of hom-setoids in Sets; together with Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E] giving exactly Riehl's data (i) x ↦ F(x,−) and (ii) f ↦ (z ↦ fmap[F] (f, id z)).",
+      "strength_comparison": "same in substance, with two presentational deltas. (1) The 'bijection' is an isomorphism in Sets between Cat's hom-setoids, and Cat's hom-setoid equality (Functor_Setoid) is natural isomorphism of functors — so the round trips are established up to natural iso, not as a strict bijection of sets of functors; this is the library's standard setoid rephrasing. (2) The symmetry clause (also in bijection with functors D → E^C) is not stated as a separate result. Note Structure/Closed.v's Class Closed is an inert commented-out stub, but its `Curry` above is a live, fully proved Program Definition."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached Instance/Cat/Cartesian/Closed.v via rg 'curry|uncurry' -l. Verified: :47 'Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := ... |} }', and the Closed class it inhabits (Structure/Cartesian/Closed.v:43-63) has 'exp_iso {x y z} : x × y ~> z ≅ x ~> z^y' with z^y = exponent_obj y z = Fun y z = [y,z], so this is exactly Hom_Cat(A×B,C) ≅ Hom_Cat(A,[B,C]). Every obligation is discharged by Qed — I grepped the file for Admitted/admit/Axiom: none. The Structure/Closed.v:124 'Curry' citation is honest and I checked the caveat myself: 'Program Definition Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E]' is LIVE code (6 obligations, all Qed) sitting BEFORE the commented-out block, and the 'Class Closed' further down (:165) really is inside a comment that closes at :195, matching CLAUDE.md's 'incomplete Eilenberg-Kelly stub ... not yet in force'. Note Curry is fully general despite the C^op in its type, since C^op^op = C by reflexivity in this library. Both presentational deltas in strength_comparison (setoid-level bijection; symmetry clause not separately stated) are accurate. Both files in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:1.7:exvii",
+    "classification": "PRESENT",
+    "aliases": [
+      "two-sided represented bifunctor C(-,-) : C^op × C → Set",
+      "Hom bifunctor / hom-functor",
+      "Curried_Hom : C^op ⟶ [C, Sets]",
+      "Yoneda embedding (curried hom is full and faithful)",
+      "covariant representable family c ↦ C(c,−)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p); is_setoid := @homset C (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 109,
+        "symbol": "Yoneda_Embedding'",
+        "intree_statement": "Corollary Yoneda_Embedding' (C : Category) (c d : C) : @IsIsomorphism Sets {| carrier := hom d c |} {| carrier := hom (fobj[C] c) (fobj[C] d) |} {| morphism := @fmap _ _ (Curried_Hom C) c d; proper_morphism := fmap_respects _ _ |}   (from Yoneda_Faithful at line 85 and Yoneda_Full at line 96)"
+      }
+    ],
+    "statement_record": {
+      "book": "Revisit the two-sided represented bifunctor of Definition 1.3.13 and the families of natural transformations of Example 1.4.9 from the currying perspective of Exercise 1.7.vi; this previews the Yoneda embedding (Corollary 2.2.8).",
+      "intree": "Hom C : C^op ∏ C ⟶ Sets (the uncurried two-sided represented bifunctor) together with Curried_Hom C : C^op ⟶ [C, Sets], whose action on f : x ~{C^op}~> y is the natural transformation g ↦ g ∘ op f (Riehl's C(f,−) family), and Yoneda_Embedding' asserting that this action is a bijection of hom-setoids in Sets.",
+      "strength_comparison": "same, and in fact stronger than the exercise's 'preview': the curried hom is not only exhibited but proved full and faithful (Yoneda_Full, Yoneda_Faithful, packaged as Yoneda_Embedding'), i.e. Corollary 2.2.8 itself is in-tree. One connective gap: Curried_Hom is a hand-built definition rather than the image of `Hom` under the currying bijection of Exercise 1.7.vi (Cat_Closed's exp_iso), and no in-tree lemma relates the two constructions."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same three sites via rg 'Curried_Hom|CoHom'. Verified line-exact: Functor/Hom.v:49 'Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets' (the two-sided represented bifunctor, fmap sending g to snd f ∘ g ∘ fst f); :60 'Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets]' with :146 Curried_CoHom := Curried_Hom C^op; :109 'Corollary Yoneda_Embedding'' packaging Yoneda_Full (:96) and Yoneda_Faithful (:85) as an IsIsomorphism in Sets — so the claim that Corollary 2.2.8 itself is in-tree is correct, not an overstatement. I independently confirmed the connective gap the classifier discloses: rg 'Curried_Hom' across the tree (14 non-Hom.v hits, all consumers) shows no lemma relating Curried_Hom to Cat_Closed's exp_iso applied to Hom, so the currying link of Exercise 1.7.vi is exhibited by parallel construction rather than derived. That is a presentational delta, not a missing statement; PRESENT stands."
+    }
+  }
+]

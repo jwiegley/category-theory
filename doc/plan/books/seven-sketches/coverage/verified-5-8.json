@@ -1,0 +1,192 @@
+[
+  {
+    "id": "7sketches:5.4.3:ex5.82",
+    "classification": "ABSENT",
+    "aliases": [
+      "behavior B(g ; h^op) of a forwards-then-backwards composite of signal flow graphs",
+      "converse / transposed / opposite relation; the dagger of Rel (R†)",
+      "solution set of the linear equation S(g)x = S(h)y; fibre product / pullback of two matrices",
+      "relational composition of a graph with a reversed graph: graph(f) ; graph(h)^op",
+      "kernel pair / equalizer of two linear maps, seen as a relation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'signal.?flow|SFG' -g '*.v' -c -> 5 files (Construction/ColouredPROP.v, Structure/Monoidal/HypergraphFunctor.v, Structure/Monoidal/Symmetric.v, Construction/DecoratedCospan.v, Construction/DecoratedCospan/Symmetric.v), every hit a bibliographic sentence in a header essay; there is no SFG_R and no SFG_R^+ prop, so the composite g ; h^op of the exercise cannot even be written",
+      "rg -in 'behavio' -g '*.v' -c -> 8 files, every hit English prose about the BEHAVIOUR of a tactic/proof (Test/Issue138.v, Theory/Sheaf.v, Comonad/Core.v, ...); no semantics map B(-) from diagrams to relations exists",
+      "rg -in 'Rel_R|RelR|LinRel' -g '*.v' -> 0 hits",
+      "rg -in 'dagger|converse' -g '*.v' -> prose only. Instance/Rel.v:35-39 names exactly this operation and declines to build it: 'REL is a dagger category: the converse R† = { (b, a) | (a, b) ∈ R } is an involution ... None of that extra structure is built here'. rg -n 'Class Dagger|Definition converse|Definition transpose_rel' -g '*.v' -> 0 hits, so the (-)^op of Eq. (5.76) has no in-tree counterpart at all",
+      "rg -in 'solution set' -g '*.v' -> 18 hits, all in Adjunction/GAFT.v and Adjunction/SAFT.v for Freyd's SolutionSet condition — a homonym, unrelated to the solution set of a linear equation",
+      "rg -in 'transposed|transpose' -g '*.v' -> adjunction transposes (Adjunction/Continuity.v, Monad/Lifting.v) and matrix-transpose PROSE (Structure/Bicartesian.v:36) only; no transpose of a relation",
+      "rg -in 'matri|\\bMat\\b' -g '*.v' -> comment lines only; Mat(R) does not exist (sibling record 7sketches:5.3.3:def5.50 is ABSENT on the same evidence), so S(g) and S(h) are undefined in-tree",
+      "NEAREST IN-TREE STRUCTURES, none of which asserts the exercise: (a) Instance/Rel.v:44 `Rel : Category` gives relational composition on Coq types as `(f ∘ g) a b = ∃ e, g a e ∧ f e b`, but has no converse, no monoidal/prop structure, and no lemma computing any composite; (b) Construction/Span/Category.v:120 `span_compose` composes spans by PULLBACK and :522 `SpanCat : Category` proves the laws — abstractly the same content as 'forwards-then-backwards = solution set' — but SpanCat is never connected to Rel, to relations-as-subsets, or to any semantics of diagrams (the file header, :35-37, notes 'Span(Set) subsumes Rel ... neither is developed here'); (c) Instance/FinSet/Classifier.v:264 `FinSet_Pullbacks` literally computes {(a,b) : f a = g b} via `finset_pb_pred f g p := fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p)))`, the solution-set shape, but over finite sets, not R^m, and with no relation to a behavior. Since NEITHER side of the exercise's equation (the behavior of a composite; the solution set of S(g)x = S(h)y over a rig) exists in-tree, this is ABSENT rather than PARTIAL."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-5-8.json): rg -il 'signal.?flow|SignalFlow|SFG' -g'*.v' -> 5 files, all header-essay prose; rg -in 'behavio' -g'*.v' -> prose about proof/tactic behaviour only; rg -in 'LinRel|linear relation|Rel_R|RelR' -> 0 hits; rg -in 'Laurent|cruise|control theory' -> 0 hits; rg -in 'semiring|\\brig\\b' -g'*.v' -> 2 comment lines in Theory/Algebra.v (16,25); rg -in 'matrix|matrices' -> prose only, no Mat(R); rg -il 'compact.?closed' -> Structure/Monoidal/{Collapse,Traced,CompactClosed}.v, Instance/{Rel,ZX}.v, Theory/Algebra/Frobenius.v, Construction/Cospan/Hypergraph.v. My independent classification was ABSENT, identical. Spot-checks of the log: Instance/Rel.v — the dagger/converse disclaimer is verbatim at :36-43 (the record's ':35-39' starts one line early, immaterial), and the Cartesian/Cocartesian/Closed instances really are inside the commented block :96-157, so Rel carries no monoidal structure and no converse. Cited nearest structures all check out at the given lines: Construction/Span/Category.v:49 SpanArrow, :120 span_compose, :522 `Program Definition SpanCat : Category`, and the header quote 'Span(Set) subsumes Rel ... neither is developed here' at :35-37; Instance/FinSet/Classifier.v:257 finset_pb_pred, :264 FinSet_Pullbacks. ONE MINOR LOG INACCURACY (not material): 'solution set' has 18 hits across FOUR files (Adjunction/GAFT.v, Adjunction/SAFT.v, Structure/Equalizer.v, Structure/Complete.v), not two; every hit is still Freyd's solution-set condition, a homonym. Neither side of the exercise's equation is expressible in-tree, so ABSENT stands."
+    }
+  },
+  {
+    "id": "7sketches:5.4.3:ex5.83",
+    "classification": "ABSENT",
+    "aliases": [
+      "behavior B(g^op ; h) of a backwards-then-forwards composite of signal flow graphs",
+      "joint image {(S(g)x, S(h)x) : x in R^m}; image of the pairing <S(g), S(h)>",
+      "relation induced by a span of matrices with common source R^m",
+      "converse relation precomposed: graph(g)^op ; graph(h)",
+      "co-kernel-pair / pushout dual of Exercise 5.82"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'signal.?flow|SFG' -g '*.v' -> 5 files, bibliographic prose only; no SFG_R^+ and no g^op",
+      "rg -in 'behavio' -g '*.v' -> 8 files, all English prose about proof behaviour; no B(-) semantics",
+      "rg -in 'joint image|image of the pair|pairing' -g '*.v' -> 'pairing' hits are Theory/Algebra/Frobenius.v:56 ('nondegenerate bilinear pairing', prose) and Structure/Semiadditive.v:99 ('Copairing against pairing computes the matrix product', prose about biproducts); no joint image of two morphisms",
+      "rg -in 'dagger|converse' -g '*.v' -> Instance/Rel.v:35-39 declares the converse and dagger-compactness of Rel explicitly NOT built; no `Class Dagger` / `Definition converse` anywhere, so g^op is unavailable",
+      "rg -n 'Definition Sets_Image|Sets_Image_Factorization|abelian_image' -g '*.v' -> Instance/Sets/Image.v:143 `Sets_Image_Factorization` and Structure/Abelian.v:261-288 give an epi–mono image factorization of a SINGLE morphism; nothing forms the image of a pair <f, g> nor identifies it with a relation",
+      "rg -in 'Rel_R|RelR|LinRel' -g '*.v' -> 0 hits; rg -in 'matri|\\bMat\\b' -> comment lines only, so S(g), S(h) do not exist",
+      "NEAREST IN-TREE STRUCTURE: Construction/Span/Category.v:49 `Record SpanArrow (X Y : C) := { apex : C; leg1 : apex ~> X; leg2 : apex ~> Y }` is exactly the datum (R^m, S(g), S(h)) whose induced relation the exercise computes, and `SpanCat` (:522) makes such data compose. But no in-tree lemma turns a span into a relation or a subset, Rel and SpanCat are never linked, and the file header (:35-37) records that Span(Set)-subsumes-Rel is 'not developed here'. Neither side of the exercise's equation exists, hence ABSENT."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-5-8.json): rg -il 'signal.?flow|SignalFlow|SFG' -g'*.v' -> 5 files, all header-essay prose; rg -in 'behavio' -g'*.v' -> prose about proof/tactic behaviour only; rg -in 'LinRel|linear relation|Rel_R|RelR' -> 0 hits; rg -in 'Laurent|cruise|control theory' -> 0 hits; rg -in 'semiring|\\brig\\b' -g'*.v' -> 2 comment lines in Theory/Algebra.v (16,25); rg -in 'matrix|matrices' -> prose only, no Mat(R); rg -il 'compact.?closed' -> Structure/Monoidal/{Collapse,Traced,CompactClosed}.v, Instance/{Rel,ZX}.v, Theory/Algebra/Frobenius.v, Construction/Cospan/Hypergraph.v. My independent classification was ABSENT, identical. Verified: no converse/dagger operator anywhere (no `Class Dagger`, no `Definition converse`), so g^op cannot be written; Instance/Sets/Image.v:143 Sets_Image_Factorization and Structure/Abelian.v:261-353 factor a SINGLE morphism, and nothing forms the image of a pair; Construction/Span/Category.v:49 SpanArrow is indeed the datum (R^m, S(g), S(h)) and :522 SpanCat composes it, but no in-tree lemma turns a span into a relation (header :35-37 says so explicitly). No joint image, no Mat(R), no behavior map. ABSENT stands."
+    }
+  },
+  {
+    "id": "7sketches:5.4.3:ex5.84",
+    "classification": "ABSENT",
+    "aliases": [
+      "kernel / null space of a matrix as the behavior of a graph capped with reversed zero icons",
+      "image / column space of a matrix as the behavior of a graph capped with reversed discard icons",
+      "ker f = equalizer of (f, 0); im f = kernel of the cokernel; epi–mono image factorization",
+      "behaviors are linear subspaces: closed under addition and scalar multiplication",
+      "hom-sets enriched in commutative monoids / abelian groups (preadditive, additive category)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'null space|nullspace|kernel of a matrix|column space' -g '*.v' -> 0 hits",
+      "rg -in 'subspace|vector space|R-module|\\bmodule\\b' -g '*.v' -> 0 hits for subspace/vector space; 'module' hits are Coq `Module` declarations and prose",
+      "rg -in 'scalar' -g '*.v' -> 11 hits, all prose (restriction of scalars in ColouredPROP/BaseChange.v, 'scalar multiple of the identity' in Collapse.v:172, 'scalar equalities' in Funny/Bifunctor.v); no rig action on morphisms",
+      "rg -n 'HasKernels|HasCokernels' -g '*.v' -> only the class declarations at Structure/Kernel.v:63,69; no instance",
+      "rg -in 'behavio|signal.?flow|SFG' -g '*.v' -> prose only (see ex5.82 log)",
+      "VERIFIER re-runs: rg -in 'behavio|signal.?flow|SFG' -g'*.v' -> header prose only, so neither graph construction of clauses (1)/(2) is expressible; rg -in 'matrix|matrices' -> prose only, so S(g) does not exist; rg -in 'scalar' -> prose only, so no rig acts on anything and 'linear subspace' is inexpressible; rg -n 'HasKernels|HasCokernels' -> the classes at Structure/Kernel.v:63,69, the Abelian fields at Structure/Abelian.v:141,143 and the two corollaries at Kernel.v:226,234 — no INSTANCE anywhere (the Phase-C log said 'only the class at :63,69', slightly understated but correct on the point that matters).",
+      "NEAREST IN-TREE STRUCTURES (Phase C's evidence, retained as adjacent infrastructure — none of it asserts any clause of the exercise): (a) Structure/Kernel.v:118 kernel_desc, the universal property of the kernel defined as the equalizer against zero_mor (IsKernel at :53), in any category with a ZeroObject — a DEFINITION the exercise would be about, not a claim about any behavior; (b) Structure/Abelian.v:353 image_mediator_epic plus abelian_image_med_comm at :286, the epi-mono image factorization, whose Abelian premise is uninhabited in-tree (docs/INHABITATION.md:57); (c) Structure/Preadditive.v:34 Class Preadditive, which makes each HOM-SET a commutative monoid — a different statement from 'the subset B(g) is closed under addition', and silent on scalar multiplication."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "BLIND PASS (run before opening coverage-5-8.json): rg -il 'signal.?flow|SignalFlow|SFG' -g'*.v' -> 5 files, all header-essay prose; rg -in 'behavio' -g'*.v' -> prose about proof/tactic behaviour only; rg -in 'LinRel|linear relation|Rel_R|RelR' -> 0 hits; rg -in 'Laurent|cruise|control theory' -> 0 hits; rg -in 'semiring|\\brig\\b' -g'*.v' -> 2 comment lines in Theory/Algebra.v (16,25); rg -in 'matrix|matrices' -> prose only, no Mat(R); rg -il 'compact.?closed' -> Structure/Monoidal/{Collapse,Traced,CompactClosed}.v, Instance/{Rel,ZX}.v, Theory/Algebra/Frobenius.v, Construction/Cospan/Hypergraph.v. My blind classification was ABSENT; Phase C said PARTIAL. Every cited line is real and accurately quoted (Structure/Kernel.v:118, Structure/Abelian.v:353, Structure/Preadditive.v:34 all verified), so this is not an evidence defect — it is a classification defect. Phase C's own strength_comparison is self-refuting for PARTIAL: it says 'intree-weaker on every clause' and 'Nothing in-tree computes a kernel or an image AS THE BEHAVIOR OF A DIAGRAM — the exercise's actual content ... has no counterpart', and its gap field then enumerates the WHOLE item as missing (R, R^m, Mat(R), S(g), SFG_R^+, B(-), both graph constructions, both equalities, and scalar multiplication). Under the frozen definition PARTIAL requires that SOME OF THE ITEM exist; here none of it does. The cited material is ambient vocabulary the future formalization would CONSUME (a kernel is what clause (1) would be proved equal to; Preadditive is about hom-sets, not about behaviors), i.e. dependencies, not partial coverage. This also restores consistency inside the batch: ex5.82/ex5.83 were classified ABSENT on strictly stronger adjacency (Instance/Rel.v really does compose relations; SpanCat really does compose spans), and matches the chapter's calibration — the PARTIAL exemplar ex5.41 has a piece of the actual answer in-tree (can_comparison's four entries ARE the 2x2 identity matrix), whereas ex5.51/5.55/5.58/5.59/5.62/5.63/5.77/5.80 are all ABSENT on adjacency of this kind. Phase C's evidence is preserved verbatim in the negative_search_log as 'NEAREST IN-TREE STRUCTURES' so Phase E loses nothing."
+    },
+    "phase_c_classification": "PARTIAL"
+  },
+  {
+    "id": "7sketches:5.4.3:ex5.85",
+    "classification": "ABSENT",
+    "aliases": [
+      "LinRel_R: the sub-prop of Rel_R on linear relations",
+      "wide (lluf) subcategory cut out by a morphism class closed under composition and identities",
+      "sub-PROP / sub-symmetric-monoidal-category; monoidal wide subcategory",
+      "composite of two linear relations is linear (closure of a morphism class under composition)",
+      "MorphismClass / left class closed under composition; Det, the deterministic wide subcategory"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'LinRel|linear relation|Rel_R' -g '*.v' -> 0 hits",
+      "rg -in 'sub.?prop|subPROP|sub-symmetric monoidal' -g '*.v' -> 0 hits; rg -n ': PROP\\b|PROP :=' -g '*.v' -> the only PROP instances in the tree are FreePROP (Construction/PROP/Instance.v), PresentedPROP (Construction/PROP/Presentation.v), Lawvere_PROP (Theory/Lawvere/PROP.v) and RepeatPROP (Construction/ColouredPROP/UnitBridge.v) — none is a sub-prop of another",
+      "rg -n 'Subcategory' -g '*.v' -> Construction/Subcategory.v plus its two users, Structure/Binoidal/Central.v (CentralSub) and Structure/Monoidal/CopyDiscard/Deterministic.v (DeterministicSub); also Construction/Reflective.v and Construction/Localization.v use full subcategories. No monoidal-subcategory constructor is offered generically",
+      "rg -in 'scalar multiplication|closed under addition' -g '*.v' -> 0 hits",
+      "VERIFIER re-runs: rg -in 'LinRel|linear relation|Rel_R' -g'*.v' -> 0 hits (confirmed); rg -in 'semiring|\\brig\\b' -> 2 comment lines in Theory/Algebra.v, so no R and no R^m; rg -n 'Subcategory' -> Construction/Subcategory.v plus the two users named by Phase C (confirmed). Nothing in the tree states any closure property of a class of relations.",
+      "NEAREST IN-TREE STRUCTURES (Phase C's evidence, retained as adjacent infrastructure): Construction/Subcategory.v:31-56 (`Record Subcategory` with the `scomp`/`sid` fields and `Program Definition Sub : Category` at :50), Structure/Premonoidal/Centre.v:302 Centre_Monoidal (a wide subcategory carrying a monoidal structure), and Structure/Monoidal/CopyDiscard/Deterministic.v:167 deterministic_comp / :574 DeterministicSub / :581 Det. All three CONSUME a closure proof of the shape the exercise asks for; none supplies one for linear relations, and no construction in the tree builds a PROP as a sub-object of another PROP."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "BLIND PASS (run before opening coverage-5-8.json): rg -il 'signal.?flow|SignalFlow|SFG' -g'*.v' -> 5 files, all header-essay prose; rg -in 'behavio' -g'*.v' -> prose about proof/tactic behaviour only; rg -in 'LinRel|linear relation|Rel_R|RelR' -> 0 hits; rg -in 'Laurent|cruise|control theory' -> 0 hits; rg -in 'semiring|\\brig\\b' -g'*.v' -> 2 comment lines in Theory/Algebra.v (16,25); rg -in 'matrix|matrices' -> prose only, no Mat(R); rg -il 'compact.?closed' -> Structure/Monoidal/{Collapse,Traced,CompactClosed}.v, Instance/{Rel,ZX}.v, Theory/Algebra/Frobenius.v, Construction/Cospan/Hypergraph.v. My blind classification was ABSENT; Phase C said PARTIAL. All three citations verified line-exact (Construction/Subcategory.v:50, Structure/Premonoidal/Centre.v:302, Structure/Monoidal/CopyDiscard/Deterministic.v:167/:581), so again a classification defect, not an evidence defect. Phase C's own words: 'only the FORM of the exercise exists, never its content', and its gap lists item (3) 'the closure theorem itself (composite of linear relations is linear) in any form' as missing. The principled line: an in-tree general theorem covers an item when it CONCLUDES the item's claim; `Sub`/`Centre`/`Det` instead CONSUME a claim of that shape as a hypothesis (`scomp`), so they are the framework the exercise would be filed into, not coverage of it. Contrast thm5.87 in this same batch, where Hypergraph_CompactClosed genuinely concludes the book's statement for a class of carriers and PARTIAL is right. Phase C's evidence preserved in the negative_search_log."
+    },
+    "phase_c_classification": "PARTIAL"
+  },
+  {
+    "id": "7sketches:5.4.3:thm5.87",
+    "classification": "PARTIAL",
+    "aliases": [
+      "compact closed category; rigid / autonomous symmetric monoidal category",
+      "every object is its own dual (self-dual), n = n*",
+      "cup and cap; unit/counit, coevaluation/evaluation, eta_1 and epsilon_1",
+      "snake / zigzag / yanking equations",
+      "hypergraph category (Fong–Spivak); dagger-compact category; Rel is compact closed"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/CompactClosed.v",
+        "line": 303,
+        "symbol": "Hypergraph_CompactClosed",
+        "intree_statement": "Program Instance Hypergraph_CompactClosed : @CompactClosed C S := {| dual := fun X => X; cc_unit := fun X => hcc_unit X (F := scfa X); cc_counit := fun X => hcc_counit X (F := scfa X); snake_left := hypergraph_snake_left; snake_right := hypergraph_snake_right |}   (Context {C : Category}, `{S : @SymmetricMonoidal C}, `{H : @Hypergraph C S}) — every hypergraph category is compact closed with EVERY OBJECT ITS OWN DUAL, the cup being δ ∘ η and the cap ε ∘ μ."
+      },
+      {
+        "file": "Structure/Monoidal/CompactClosed.v",
+        "line": 241,
+        "symbol": "hypergraph_snake_left",
+        "intree_statement": "Lemma hypergraph_snake_left (X : C) : to (@unit_left C _ X) ∘ bimap (hcc_counit X (F := scfa X)) id[X] ∘ from (@tensor_assoc C _ X X X) ∘ bimap id[X] (hcc_unit X (F := scfa X)) ∘ from (@unit_right C _ X) ≈ id[X].   (with hypergraph_snake_right at :273, the mirror identity) — the two snake/yanking equations of the theorem, proved rather than assumed, from the Frobenius law plus the monoid-unit and comonoid-counit laws."
+      },
+      {
+        "file": "Construction/Cospan/HypergraphInstance.v",
+        "line": 703,
+        "symbol": "Cospan_Hypergraph",
+        "intree_statement": "#[export] Program Instance Cospan_Hypergraph : @Hypergraph (CospanCat C HP) (Cospan_SymmetricMonoidal HP) := {| ... |}   (Context {C : Category}, `{H_Coc : @Cocartesian C}, `{H_Ini : @Initial C}, (HP : HasPushouts C)) — a concrete inhabitant of the hypothesis above, witnessed over skeletal FinSet by FinSet_HasPushouts per docs/INHABITATION.md:40, so the self-dual compact-closed conclusion is not vacuous."
+      }
+    ],
+    "statement_record": {
+      "book": "Theorem 5.87: the prop Rel_R of R-relations is a compact closed category in which every object n ∈ ℕ is dual to itself, n = n*. The witnesses are supplied by the preceding prose: the cup and cap signal flow graphs of Eq. (5.86), with behaviors {(0,(x,x)) : x ∈ R} ⊆ R^0 × R^2 and {((x,x),0) : x ∈ R} ⊆ R^2 × R^0, serve as η_1 and ε_1 at the object 1, monoidal products give the duality data at every n, and the snake equations are the graphically checked claim that three displayed signal flow graphs denote the same relation. Notably this holds for Rel_R but NOT for Mat(R), since cup and cap are not graphs of linear maps.",
+      "intree": "`Class CompactClosed` (Structure/Monoidal/CompactClosed.v:139) over a `SymmetricMonoidal` base, with fields `dual : C -> C`, `cc_unit X : I ~> dual X ⨂ X`, `cc_counit X : X ⨂ dual X ~> I` and the two snake identities, matching the chapter-4 definition. `Hypergraph_CompactClosed` proves the abstract form of the theorem: for any hypergraph category, `dual X := X` — every object is its own dual — with cup δ ∘ η and cap ε ∘ μ built from the special commutative Frobenius algebra on each object, and both snake laws discharged (`hypergraph_snake_left`, `hypergraph_snake_right`). `Cospan_Hypergraph` supplies a concrete hypergraph category, so the self-dual compact-closed structure has an in-tree witness (over FinSet).",
+      "strength_comparison": "intree-weaker only in its instantiation, not in its content: the general theorem 'every hypergraph category is compact closed with every object self-dual, snake laws proved' is in-tree at full strength and is inhabited, but it is never applied to Rel_R, which does not exist. The gap is one of models, not of the statement. Note also a genuine hypothesis difference: the in-tree route DERIVES self-duality from a special commutative Frobenius structure on every object (the `Hypergraph` class), whereas the book exhibits η and ε directly for Rel_R and checks the snakes graphically; there is no in-tree derivation of `CompactClosed` from bare cup/cap data supplied by hand, so a future Rel_R would have to be routed through `Hypergraph` or instantiate `Class CompactClosed` from scratch. The book's contrast clause (Mat(R) is NOT compact closed) likewise has no counterpart."
+    },
+    "gap": "Missing: (1) Rel_R itself — no rig R, no R^m, no relations-over-a-rig, no prop of such (rg 'Rel_R|RelR' -> 0 hits; sibling record def5.79 is the ambient definition); (2) even ORDINARY Rel is not compact closed in-tree: Instance/Rel.v builds only the bare category, and its header (:35-39) explicitly declares the dagger, the local posetal order and dagger-compactness as 'not built here' — Instance/Rel.v has no `Monoidal` instance at all, so `CompactClosed` cannot be stated for it; (3) the cup/cap of Eq. (5.86) as behaviors, and the graphical snake check, since behaviors and signal flow graphs do not exist; (4) the theorem's negative half (Mat(R) is not compact closed, cup and cap not being graphs of linear maps) — the tree has no notion of a morphism failing to be dualizable. What is directly reusable: `Hypergraph_CompactClosed` yields the conclusion immediately for any Rel_R once Rel_R is exhibited as a hypergraph category (i.e. once each object carries a special commutative Frobenius algebra), which is the standard route for relations.",
+    "negative_search_log": [
+      "rg -in 'Rel_R|RelR' -g '*.v' -> 0 hits",
+      "rg -n 'CompactClosed' -g '*.v' -> the class and its hypergraph derivation in Structure/Monoidal/CompactClosed.v, one consumer (Structure/Monoidal/Collapse.v:192, `Context `{CC : @CompactClosed C (relevance_is_symmetric R)}` for Abramsky's no-cloning collapse), and prose in Theory/Algebra/Frobenius.v, Instance/ZX.v, Structure/Monoidal/Traced.v, Instance/Rel.v, Construction/Cospan/Hypergraph.v. No `CompactClosed` instance other than Hypergraph_CompactClosed",
+      "rg -n 'Monoidal' Instance/Rel.v -> 0 hits: Rel carries only Category + Initial + the Coq ⟶ Rel graph embedding (the Cartesian/Cocartesian/Closed instances at :96-155 are COMMENTED OUT), so no symmetric monoidal base for compact closure exists on Rel",
+      "rg -n 'Monoidal|dual' Instance/ZX.v -> ZX is dagger-compact in its header prose only; ZX_Monoidal is explicitly deferred (Instance/ZX.v:402, 'Building [ZX_Monoidal : Monoidal ZX_Cat] requires ...'), so ZX is not a second compact-closed witness"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-5-8.json): rg -il 'signal.?flow|SignalFlow|SFG' -g'*.v' -> 5 files, all header-essay prose; rg -in 'behavio' -g'*.v' -> prose about proof/tactic behaviour only; rg -in 'LinRel|linear relation|Rel_R|RelR' -> 0 hits; rg -in 'Laurent|cruise|control theory' -> 0 hits; rg -in 'semiring|\\brig\\b' -g'*.v' -> 2 comment lines in Theory/Algebra.v (16,25); rg -in 'matrix|matrices' -> prose only, no Mat(R); rg -il 'compact.?closed' -> Structure/Monoidal/{Collapse,Traced,CompactClosed}.v, Instance/{Rel,ZX}.v, Theory/Algebra/Frobenius.v, Construction/Cospan/Hypergraph.v. My blind classification was PARTIAL for exactly the reason given, and every citation checks out line-exact: Structure/Monoidal/CompactClosed.v:139 `Class CompactClosed` (fields dual/cc_unit/cc_counit/snake_left/snake_right), :241 hypergraph_snake_left, :273 hypergraph_snake_right, :303 `Program Instance Hypergraph_CompactClosed` with `dual := fun X => X` — literally 'every object is its own dual' — and Construction/Cospan/HypergraphInstance.v:703 Cospan_Hypergraph. The inhabitation claim also holds: FinSet_HasPushouts exists at Instance/FinSet/Pushout.v:513 and docs/INHABITATION.md:40 is exactly the row cited, so the premise is not vacuous. CAVEAT WORTH CARRYING FORWARD: no .v file in the tree actually writes the instantiation of Cospan_Hypergraph at FinSet (rg 'CospanCat FinSet' -> a single prose mention at Construction/Cospan/Hypergraph.v:294); the witness is 'applies and typechecks', asserted in docs/INHABITATION.md's cospan note, not a committed term. Negative claims re-verified: Hypergraph_CompactClosed is the ONLY CompactClosed instance in the tree; Instance/Rel.v has no Monoidal (its Cartesian/Cocartesian/Closed block is commented out at :96-157); Instance/ZX.v:402 defers ZX_Monoidal, so ZX is not a second witness. The distinction that keeps this PARTIAL rather than ABSENT: the in-tree general theorem CONCLUDES the book's statement (self-dual compact closure with both snakes proved) for any hypergraph category, so only the carrier Rel_R is missing — a gap of models, as the record says."
+    }
+  },
+  {
+    "id": "7sketches:5.4.3:example-control-theory-cruise-control",
+    "classification": "ABSENT",
+    "aliases": [
+      "cruise control / control theory worked example as a signal flow diagram",
+      "rig of Laurent polynomials R[s, s^{-1}] with s·s^{-1} = 1; integration and differentiation as scalars",
+      "feedback loop in a string diagram; trace / partial trace; transfer function",
+      "behavior of a diagram with feedback as an integral equation v = ∫(1/m)F + u + p∫(au + bv)",
+      "controller design: choose a, b so the behavior approximates {(F,u,v) : u = v}"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'control theory|cruise|controller|transfer function' -g '*.v' -> 0 hits",
+      "rg -in 'Laurent|polynomial' -g '*.v' -> 6 hits, all prose: 'link polynomials' (Structure/Monoidal/Braided.v:101,103) and 'polynomial endofunctor' (Theory/Adamek/Corollaries.v:69, Instance/Coq/Lists.v:18, Instance/Shapes.v:55) — no polynomial or Laurent-polynomial rig",
+      "rg -in 'Reals|Rdefinitions|Rplus|Rmult|R_scope' -g '*.v' -> 3 hits, all the English word 'reals' in header prose (Construction/Karoubi.v:87, Construction/Enriched.v:74, Structure/Monoidal.v:64); the library imports no real-number theory",
+      "rg -iw 'rig' -g '*.v'; rg -in 'semiring' -g '*.v' -> 2 comment lines in Theory/Algebra.v (16, 25); there is no rig class, so R[s,s^{-1}] cannot be formed",
+      "rg -in 'behavio|signal.?flow|SFG' -g '*.v' -> prose only (see ex5.82 log); no diagram, no behavior, no semantics map",
+      "rg -in 'feedback' -g '*.v' -> 3 hits, all in header essays: Structure/Monoidal/Traced.v:19,56 and Structure/Monoidal/Symmetric.v:100. The one relevant in-tree ABSTRACTION is `Class TracedMonoidal` (Structure/Monoidal/Traced.v:127) with `trace {x y u} : x ⨂ u ~> y ⨂ u → x ~> y` and the axioms trace_natural_in_{x,y,u}, vanishing_unit, vanishing_tensor, superposing, yanking — the categorical form of the example's feedback loop. It is a bare class: rg 'TracedMonoidal' -g '*.v' finds NO instance and no consumer, so nothing in-tree carries a feedback loop, let alone this one",
+      "NOTE on classification: this is ABSENT, not OUT_OF_SCOPE. The formalizable half (the rig R[s, s^{-1}], the diagram, its behavior as a relation) is ordinary algebra plus the machinery of §5.4.3 and would be in scope once Rel_R and SFG_R exist; only the closing design clause ('choose a and b so that the behavior APPROXIMATES {(F,u,v) : u = v}') is analytic rather than categorical and has no propositional content to formalize."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS (run before opening coverage-5-8.json): rg -il 'signal.?flow|SignalFlow|SFG' -g'*.v' -> 5 files, all header-essay prose; rg -in 'behavio' -g'*.v' -> prose about proof/tactic behaviour only; rg -in 'LinRel|linear relation|Rel_R|RelR' -> 0 hits; rg -in 'Laurent|cruise|control theory' -> 0 hits; rg -in 'semiring|\\brig\\b' -g'*.v' -> 2 comment lines in Theory/Algebra.v (16,25); rg -in 'matrix|matrices' -> prose only, no Mat(R); rg -il 'compact.?closed' -> Structure/Monoidal/{Collapse,Traced,CompactClosed}.v, Instance/{Rel,ZX}.v, Theory/Algebra/Frobenius.v, Construction/Cospan/Hypergraph.v. My blind classification was ABSENT, identical; the record's explicit refusal of OUT_OF_SCOPE is correct under the frozen definition (the rig R[s,s^-1], the diagram and its behavior are ordinary algebra plus the missing SFG machinery — formalizable in principle, hence ABSENT, not OUT_OF_SCOPE; only the closing 'choose a,b so the behavior approximates {u=v}' design clause is analytic). Re-verified: rg -in 'cruise|control theory|transfer function' -> 0 hits; rg -n 'Require.*Reals|Coq.Reals' -> 0 hits (the library imports no real-number theory at all); rg -in 'Laurent' -> 0; Structure/Monoidal/Traced.v:127 `Class TracedMonoidal` exists and `rg TracedMonoidal` outside that file returns NOTHING — no instance, no consumer — so the record's characterization of the one relevant abstraction as a bare class is exact. TWO MINOR LOG INACCURACIES, neither material: the 'Reals|Rdefinitions|Rplus|Rmult|R_scope' line reports 3 prose hits, but as written R_scope substring-matches 'functor_scope' so that command returns many hits; and of the three cited 'reals' prose sites only two are real (Construction/Karoubi.v:87, Construction/Enriched.v:74 — Structure/Monoidal.v:64 is about Kelly's coherence redundancy, not reals). The substance — no reals, no rig, no feedback anywhere in-tree — is confirmed."
+    }
+  }
+]

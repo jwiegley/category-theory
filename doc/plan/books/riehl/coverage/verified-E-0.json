@@ -1,0 +1,435 @@
+[
+  {
+    "id": "riehl:E.1:thm-yoneda",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Yoneda lemma",
+      "Yoneda_Lemma / Covariant_Yoneda_Lemma",
+      "Nat(C(-,c), F) ≅ F c, evaluation at the identity",
+      "Yoneda embedding, Yoneda_Full + Yoneda_Faithful, Yoneda_Embedding'",
+      "ninja/co-Yoneda reduction (Theory/Coend/Yoneda.v)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 133,
+        "symbol": "Yoneda_Lemma",
+        "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; from := {| morphism := fun y : F A => {| transform := fun x : C => {| morphism := fun phi : A ~{C^op}~> x => @fmap (C^op) Sets F A x phi y |} |} |} }"
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 231,
+        "symbol": "Yoneda_Embedding",
+        "intree_statement": "Program Instance Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.   (* ≊ = isomorphism in Sets of the setoid of natural transformations with the hom-setoid; the from-direction is the transformation X ↦ (fun X0 => X ∘ X0), i.e. postcomposition *)"
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 182,
+        "symbol": "Covariant_Yoneda_Lemma",
+        "intree_statement": "Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) : ∀ A : C, Copresheaves [Hom A,─] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; ... }"
+      }
+    ],
+    "statement_record": {
+      "book": "For a locally small C, a functor F : C^op -> Set and an object c, evaluation at the identity is a bijection Nat(C(-,c), F) ≅ F c, NATURAL IN BOTH c AND F; consequently every natural transformation C(-,c) => C(-,c') is postcomposition with a unique morphism c -> c'.",
+      "intree": "∀ A : C, Presheaves [Hom ─,A] F ≅ F A, with to := fun x => transform[x] A id (setoid isomorphism in Sets); and ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.",
+      "strength_comparison": "intree-weaker: the bijection is asserted as a SEPARATE isomorphism for each object A (and, at top level, for each F), given exactly by evaluation at the identity, but NO in-tree statement asserts that this family is natural in A or in F. The file header (Functor/Hom/Yoneda.v:22) claims 'natural in both A and F' in prose only; nothing downstream proves or uses a naturality square for the Yoneda bijection. The second clause (2.2.8) is fully present, in fact in a slightly stronger packaging (a Sets-isomorphism Yoneda_Embedding, plus separate Full/Faithful instances and the hom-set bijection Yoneda_Embedding' in Functor/Hom.v:109)."
+    },
+    "gap": "Naturality of the Yoneda bijection is not stated anywhere. The library gives, for each object A (and each F supplied as an argument), an isomorphism of setoids Presheaves [Hom ─,A] F ≅ F A; it never assembles these into a natural isomorphism of functors in A (a natural iso of presheaves) nor in F, so Riehl's 'natural in both c and F' clause has no in-tree counterpart. Everything else in the item — the evaluation-at-identity bijection in both variances, and the represented-to-represented consequence — is present.",
+    "negative_search_log": [
+      "grep -rn -i 'natural in' --include=\"*.v\" . -- only Functor/Hom/Yoneda.v:22 (a comment) mentions Yoneda naturality; no lemma",
+      "grep -rn 'Yoneda_Lemma|Yoneda_Embedding' --include=\"*.v\" . -- consumers are Structure/UniversalProperty.v and Construction/Cayley.v, neither states naturality"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (before opening coverage) found exactly the same three constants: Functor/Hom/Yoneda.v:133 Yoneda_Lemma, :182 Covariant_Yoneda_Lemma, :231 Yoneda_Embedding, plus Functor/Hom.v:85/96/109 Yoneda_Faithful/Yoneda_Full/Yoneda_Embedding'. All cited line numbers and quotes verified verbatim; the file is registered (_CoqProject:141). My blind classification LEANED PRESENT (the evaluation-at-identity bijection in both variances and the represented-to-represented consequence are all there), but the classifier's PARTIAL survives adversarial scrutiny: Riehl's statement names naturality in BOTH c and F, and I independently confirmed no naturality square for the Yoneda bijection exists anywhere - Theory/Coend/Yoneda.v gives only the apex-level ninja/co-Yoneda isos, Structure/UniversalProperty.v:54 preyoneda is the pointwise computation tau_d f = P f (tau_c id) not a naturality statement, and Instance/Fun.v / Construction/Cayley.v (the only other Yoneda mentions) state nothing. Verified the classifier's '=~ isomorphism in Sets' reading: Instance/Sets.v:205 Notation x =~ y := ({|carrier:=x|} ~= [Sets] {|carrier:=y|}), so Yoneda_Embedding really is the hom-setoid bijection. Gap is narrow but real; any issue should be scoped to naturality only, not to the lemma."
+    }
+  },
+  {
+    "id": "riehl:E.1:def-representable",
+    "classification": "PRESENT",
+    "aliases": [
+      "representable functor",
+      "Representable / repr_obj / represented",
+      "naturally isomorphic to Hom(A,-)",
+      "representable presheaf, naturally isomorphic to Hom(-,A)",
+      "representation of a functor (A, Φ)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Representable.v",
+        "line": 46,
+        "symbol": "Representable",
+        "intree_statement": "Class Representable `(F : C ⟶ Sets) := { repr_obj : C;  (* the representing object A *)  represented : [Hom repr_obj,─] ≅ F  (* natural iso Φ : Hom(A, ─) ⟹ F *) }."
+      }
+    ],
+    "statement_record": {
+      "book": "A set-valued functor is representable exactly when it is naturally isomorphic to a represented functor — the covariant C(c,-) or the contravariant C(-,c), according to its variance.",
+      "intree": "Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }.",
+      "strength_comparison": "same. The iso lives in the functor category [C, Sets] (Instance/Fun.v), so `represented` really is a natural isomorphism, not a pointwise family; and the choice of representing object is data (a representation), matching the book's pair (A, Φ). The CONTRAVARIANT clause needs no separate declaration: Functor/Hom.v:146 defines Curried_CoHom C := Curried_Hom C^op with notation [Hom ─,A], so instantiating this same class at C^op gives literally `[Hom ─,repr_obj] ≅ F` for a presheaf F : C^op ⟶ Sets."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same single site, Functor/Representable.v:46, quoted accurately (registered at _CoqProject:145). I independently checked the classifier's load-bearing contravariance claim and it is correct DEFINITIONALLY, not merely morally: Functor/Hom.v:60 Curried_Hom C : C^op -> [C,Sets] with notation [Hom A,-] (:80), and Functor/Hom.v:146-149 Curried_CoHom C := Curried_Hom C^op with notation [Hom -,A]; so instantiating `Class Representable (F : C -> Sets)` at the category C^op forces repr_obj : C and `represented : [Hom repr_obj,-] ~= F` to elaborate to Curried_CoHom, i.e. the presheaf case, with no separate declaration needed. `represented` is an iso of objects of the functor category [C,Sets] (Instance/Fun.v), hence a genuine natural iso, and the representing object is data, matching Riehl's pair (A, Phi). strength_comparison 'same' is honest."
+    }
+  },
+  {
+    "id": "riehl:E.1:thm-representation-initial",
+    "classification": "PARTIAL",
+    "aliases": [
+      "category of elements, el(F), ∫F, Elts(F)",
+      "initial object of the category of elements",
+      "universal element of a representable functor",
+      "UniversalArrow as an initial object of the comma =(c) ↓ F",
+      "Grothendieck construction of a Set-valued functor (discrete fibres)",
+      "terminal object of ∫F, for a contravariant F (dual form)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 72,
+        "symbol": "representability_by_yoneda",
+        "intree_statement": "Proposition representability_by_yoneda (C : Category) (F : C^op ⟶ Sets) (c : C) : @Isomorphism Sets {| carrier := { x : F c & IsIsomorphism (from (Yoneda_Lemma C F c) x) } |} (Build_SetoidObject (Isomorphism [Hom ─,c] F) _).   (* universal elements at c ≅ representations of F by c *)"
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 127,
+        "symbol": "UniversalArrow",
+        "intree_statement": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); arrow_obj := snd (`1 (@initial_obj _ arrow_initial)); arrow : c ~> F arrow_obj := `2 (@initial_obj _ arrow_initial) }."
+      },
+      {
+        "file": "Structure/UniversalProperty/Universal/Arrow.v",
+        "line": 61,
+        "symbol": "UniversalArrowIsUniversalProperty",
+        "intree_statement": "Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _.   (* proved with repr_functor := (Curried_Hom C c) ◯ U, i.e. universal arrows at a = representations of d ↦ Hom_C(c, U d) by a *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A representation for a covariant F : C -> Set is precisely an INITIAL OBJECT of its category of elements; dually, a representation for a contravariant F : C^op -> Set is precisely a TERMINAL OBJECT of its category of elements.",
+      "intree": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); ... } together with UniversalArrowIsUniversalProperty (universal arrows = representations of d ↦ Hom_C(c, U d)) and representability_by_yoneda ({x : F c & the Yoneda image of x is an iso} ≅ natural isos [Hom ─,c] ≅ F).",
+      "strength_comparison": "intree-weaker: the library states the 'representation = universal element' half (representability_by_yoneda) and separately packages a universal arrow as an initial object of a COMMA category =(c) ↓ F for a functor F : D ⟶ C and an object c : C. It never builds the category of elements of a Set-valued functor, and never asserts the identification the book makes — that initial objects of ∫F are exactly representations of F itself. representability_by_yoneda also fixes the object c in advance, so it characterizes 'c represents F', not 'F is representable ⟺ ∫F has an initial object'."
+    },
+    "gap": "The category of elements ∫F of a Set-valued functor is never constructed in-tree — the phrase occurs only in a prose comment (Construction/Grothendieck.v:108, 'Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)'), and the Grothendieck construction in-tree is indexed by an IndexedCat (Cat-valued), not by a Sets-valued functor. Consequently neither direction of Riehl's identification (representation of covariant F ⟺ initial object of ∫F; representation of a presheaf ⟺ terminal object of ∫F) is stated. What exists is the adjacent content: representations = universal elements at a fixed object, and universal arrows = initial objects of a comma category.",
+    "negative_search_log": [
+      "grep -rn -i 'category of elements|el(F)|elements of a presheaf|Elts' --include=\"*.v\" . -- exactly ONE hit, Construction/Grothendieck.v:108, a comment",
+      "find . -iname '*element*' -- no file",
+      "grep -rn -i 'element' --include=\"*.v\" . -- all hits are set-element/global-element prose or Metacategory list machinery"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the same gap. Evidence verified: Theory/Universal/Arrow.v:127-128 (UniversalArrow c F carries arrow_initial : @Initial (=(c) doubledown F) - so initiality is genuinely the packaging), Structure/UniversalProperty.v:72 representability_by_yoneda, Structure/UniversalProperty/Universal/Arrow.v:61 UniversalArrowIsUniversalProperty (repr_functor := (Curried_Hom C c) o U, exactly as claimed). Independently re-ran the negative search: 'category of elements' occurs at exactly one place in the whole tree, Construction/Grothendieck.v:108, and it is prose; no file matches *element*; the Grothendieck construction in-tree is indexed by IndexedCat (Cat-valued), never by a Sets-valued functor. Additional finding supporting the gap: the comma =(x) doubledown F for x the singleton setoid WOULD be the category of elements up to the global-elements iso (1 ~> X) ~= X in Sets, but that iso is also not in-tree (grep for 'global element' / 'One ~>' in Instance/Sets.v, Instance/One.v: 0 hits), so even the specialization route is unavailable."
+    }
+  },
+  {
+    "id": "riehl:E.1:thm-colimit-construction",
+    "classification": "ABSENT",
+    "aliases": [
+      "colimits from coproducts and coequalizers",
+      "limits from products and equalizers (dual)",
+      "every limit is an equalizer of two maps between products",
+      "cocompleteness from small coproducts + coequalizers",
+      "Complete / Cocomplete existence theorem, HasProducts + HasEqualizers ⇒ Limit"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i 'coproducts and coequalizers' . -- 0 hits",
+      "grep -rn --include=\"*.v\" -i 'products and equalizers' . -- 4 hits, ALL prose headers: Structure/Complete.v:51 ('a category with all small products and equalizers of parallel pairs has all small limits ... Mac Lane V.2.1; Riehl 3.4.12'), Structure/Limit.v:71 and :95 ('the existence theorem — a category with products and equalizers has all limits (Riehl, Theorem 3.5.11, dual form)'), Structure/Equalizer.v:80, Structure/Topos.v:23 ('the pullback-from-equalizer reduction ... is not' done). None is a Coq statement.",
+      "grep -rn --include=\"*.v\" -iE 'cocomplete_from|complete_from|limits_from_products|colimits_from_coproducts|Complete_of|Cocomplete_of' . -- 0 hits",
+      "grep -rn --include=\"*.v\" -E 'HasProducts|HasCoproducts' . -- 0 hits (only HasEqualizers in Structure/Equalizer/Fork.v:68 and HasCoequalizers in Structure/Coequalizer.v:68, neither feeding a general limit construction)",
+      "grep -rn --include=\"*.v\" -E 'Complete|Cocomplete' . restricted to Theorem/Lemma/Definition lines -- the only producers are Structure/Complete.v:115/119 (the DEFINITIONS), Construction/Comma/Limit.v:245 Comma_Complete (lifts an assumed Complete along a comma), Adjunction/GAFT.v:193 Complete_HasEqualizers (the CONVERSE direction: completeness ⇒ equalizers), and SAFT's cogen_prod/cogen_power (consumers)",
+      "ls Structure/Limit/ -- only Cartesian.v, Kan/, Preservation.v, Product.v, Terminal.v, Weighted.v; each recognises ONE limit shape as a Limit, none assembles a general limit from products and equalizers"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. Re-ran the negative log and every claim checks out: no HasProducts/HasCoproducts anywhere (0 hits, only HasEqualizers/HasCoequalizers); ls Structure/Limit/ = Cartesian.v Kan/ Preservation.v Product.v Terminal.v Weighted.v exactly; the only Complete/Cocomplete producers are the DEFINITIONS (Structure/Complete.v:115/119), Comma_Complete (Construction/Comma/Limit.v:245, lifts an assumed Complete), and Complete_HasEqualizers (Adjunction/GAFT.v:193, the CONVERSE direction). Strengthening datum the classifier did not record: grep for any inhabitant of Complete/Cocomplete over a concrete category returns NOTHING in the whole tree (the sole consumer is Theory/Adamek/Corollaries.v:61, which takes Cocomplete as a hypothesis), so not even a single instance forces the products+equalizers construction to exist implicitly. See problems[] - Structure/Limit.v:70-71 advertises this very construction as something 'proved once about [Limit]'."
+    }
+  },
+  {
+    "id": "riehl:E.1:thm-large-products-poset",
+    "classification": "ABSENT",
+    "aliases": [
+      "Freyd's size argument / Freyd's theorem on complete small categories",
+      "a small complete category is a preorder (poset)",
+      "products indexed by a set as large as the collection of morphisms force thinness",
+      "thin category / posetal / hom-sets are subsingletons",
+      "dual: coproducts as large as the morphism collection"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE 'equivalent to a (poset|preorder)|is a preorder|is thin|thin category' . -- hits are Instance/Proset.v, Instance/Poset.v, Instance/Two.v: all DEFINE thin/posetal example categories, none derives thinness from large products",
+      "grep -rn --include=\"*.v\" -i 'Freyd' . -- 10 hits, all bibliographic prose; the size claim appears at Instance/Poset.v:83 ('by Freyd's observation, any complete small category is a preorder') and Structure/Complete.v:64-77, both COMMENTS explaining why GAFT needs a SolutionSet",
+      "grep -rn --include=\"*.v\" -iE 'cardinality|Cantor|large product|product indexed by|indexed by all morphisms' . -- Theory/Metacategory.v:415 'cardinality' counts identity arrows of a finite metacategory (unrelated); Structure/Complete.v:68 is the prose sketch of the Cantor argument; no theorem",
+      "grep -rn --include=\"*.v\" -iE 'hom.*subsingleton|at most one (morphism|arrow)|any two morphisms are equal' . -- Instance/Proset.v, Instance/Roof.v, Instance/Two.v: thinness ASSUMED of specific instances, never concluded",
+      "grep -rn --include=\"*.v\" -i 'small complete' . -- Structure/Complete.v:41/105 and Adjunction/GAFT.v:104, all comments (including the note that Hyland's effective-topos counterexample makes the theorem non-constructive)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT; every hit for Freyd / small complete / thin / preorder is prose (Structure/Complete.v:64-77 and :104-106, Instance/Poset.v:79-86, Adjunction/GAFT.v:104-108), and Instance/Proset.v / Instance/Poset.v / Instance/Two.v ASSUME thinness of specific instances rather than concluding it. I considered and REJECTED OUT_OF_SCOPE: the statement is expressible here (universe polymorphism lets one quantify a product over a hom-indexed family, exactly as Adjunction/SAFT.v:175-192 already does with cogen_power_index), so it is a genuine coverage gap, not a foundational impossibility. Caveat for the issue writer, which the classifier correctly surfaced in its negative log: Structure/Complete.v:104-106 records Hyland's effective-topos counterexample, i.e. the thinness theorem is NOT constructively provable, so any in-tree statement must be scoped classically or restated (e.g. as an injection P(Mor) -> Hom contradiction under explicitly classical hypotheses)."
+    }
+  },
+  {
+    "id": "riehl:E.1:thm-adjoints-preserve",
+    "classification": "PRESENT",
+    "aliases": [
+      "RAPL / right adjoints preserve limits",
+      "LAPC / left adjoints preserve colimits",
+      "adjoint continuity and cocontinuity",
+      "PreservesAllLimits / PreservesAllColimits",
+      "rapl_is_alimit, right_adjoint_preserves_limits, left_adjoint_preserves_colimits"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 183,
+        "symbol": "rapl_is_alimit",
+        "intree_statement": "Definition rapl_is_alimit : IsALimit (U ◯ G) (U L) := @Build_IsALimit J D (U ◯ G) (U L) rapl_acone rapl_ump.   (* under Context (A : F ⊣ U) (G : J ⟶ C) (L : Limit G); rapl_acone's legs are fmap[U] of L's legs, so this is the CONE-level statement, not merely apex-level *)"
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 202,
+        "symbol": "right_adjoint_preserves_limits",
+        "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G.   (* PreservesAllLimits U := ∀ J (G : J ⟶ C), PreservesLimit G U *)"
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 223,
+        "symbol": "left_adjoint_preserves_colimits",
+        "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G."
+      }
+    ],
+    "statement_record": {
+      "book": "Every right adjoint preserves all limits that exist in its domain, and every left adjoint preserves all colimits that exist in its domain.",
+      "intree": "right_adjoint_preserves_limits : PreservesAllLimits U and left_adjoint_preserves_colimits : PreservesAllColimits F, both derived from an adjunction A : F ⊣ U; the per-diagram core is rapl_is_alimit : IsALimit (U ◯ G) (U L) whose cone is the fmap[U]-image of the limit cone of L.",
+      "strength_comparison": "same, and in one respect intree-stronger: the quantification is over EVERY diagram shape J and every diagram G with a limit (no smallness or finiteness restriction, matching Riehl's 'no size restriction' remark), and rapl_is_alimit pins the limit at the image apex U L with the image legs, so it discharges the honest cone-level obligation rather than merely asserting 'U L carries some limit structure'. LAPC is obtained by duality through Opposite_Adjunction, which is faithful since PreservesColimit G F is definitionally PreservesLimit G^op F^op."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT with the same constants. Lines verified: Adjunction/Continuity.v:183 rapl_is_alimit, :198/:202 right_adjoint_preserves_limit(s), :217/:223 left_adjoint_preserves_colimit(s) - the quoted signature of left_adjoint_preserves_colimits (explicit {C D F U} (A : F -| U)) is verbatim correct, as is the duality route through Opposite_Adjunction. I specifically hunted the same-name-weaker-statement trap flagged in CLAUDE.md ('the in-tree apex-only PreservesLimit is genuinely insufficient - its legs are unconstrained'): Structure/Limit/Preservation.v:48-50 confirms PreservesLimit G F only asserts IsALimit (F o G) (F L) with unconstrained legs. The classifier did NOT fall into it - it cites rapl_is_alimit as the cone-level core and says so explicitly, and I verified Adjunction/Continuity.v:91-102 that rapl_acone's legs are literally fmap[U] (limit_leg ... x), so the cone-level content is proved and exported. Cross-check: Construction/Comma/Limit.v:264 right_adjoint_PreservesImageLimit exists at the cited line and derives the honest cone-level hypothesis from rapl_ump."
+    }
+  },
+  {
+    "id": "riehl:E.1:thm-gaft",
+    "classification": "PARTIAL",
+    "aliases": [
+      "adjoint functor theorem, GAFT, Freyd's theorem",
+      "solution set condition / SolutionSet / pre-adjointness",
+      "initial object of the comma category s/U (=(d) ↓ U)",
+      "SAFT / special adjoint functor theorem / coseparating (cogenerating) set",
+      "well-powered + intersections of subobjects (wide pullbacks)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 241,
+        "symbol": "GAFT",
+        "intree_statement": "Theorem GAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }."
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 180,
+        "symbol": "GAFT_from_initials",
+        "intree_statement": "Theorem GAFT_from_initials {C D : Category} (U : C ⟶ D) (H : forall d : D, @Initial (=(d) ↓ U)) : { F : D ⟶ C & F ⊣ U }."
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 274,
+        "symbol": "SAFT",
+        "intree_statement": "Definition SAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D ⟶ C & F ⊣ U } := GAFT U comp cont (SAFT_solution_set U comp G WP cover)."
+      }
+    ],
+    "statement_record": {
+      "book": "For U : A -> S continuous with A complete and both categories locally small, U has a left adjoint if ANY of: (i) every s/U has an initial object; (ii) the SOLUTION SET condition — for each s a SET of arrows f_i : s -> U a_i through which every f : s -> U a factors as U(k) ∘ f_i; (iii) A has a small coseparating set and every collection of subobjects of a fixed object has an intersection (wide pullback).",
+      "intree": "GAFT_from_initials (clause i, verbatim: initial object of =(d) ↓ U for every d, no other hypothesis needed); GAFT (clause ii, with `Record SolutionSet U d := { sol_index : Type; sol_obj; sol_arr : ∀ i, d ~> U (sol_obj i); sol_covers : ∀ {c} (h : d ~> U c), { i & { t & fmap[U] t ∘ sol_arr i ≈ h } } }`); SAFT (clause iii, but taking `SubobjectCover` — the factorization of every h through a well-powered subobject of the cogenerator product — as an ADDITIONAL DATA HYPOTHESIS).",
+      "strength_comparison": "Clauses (i) and (ii): same (arguably intree-stronger — GAFT_from_initials needs no completeness or continuity at all, and GAFT's continuity hypothesis is the cone-level PreservesImageLimit, which Construction/Comma/Limit.v:264 shows every right adjoint satisfies; local smallness is carried implicitly by universe polymorphism). Clause (iii): intree-weaker — SAFT's conclusion is only reached after ASSUMING SubobjectCover, i.e. exactly the step the book derives from the existence of intersections of subobjects."
+    },
+    "gap": "Clause (iii) (SAFT) is conditional on an assumed datum rather than derived from the book's hypotheses. Riehl's clause (iii) asks only for a small coseparating set plus intersections (wide pullbacks) of arbitrary families of subobjects; the in-tree SAFT instead requires, on top of Cogenerator and the well-poweredness datum SubobjectIndex, the hypothesis `SubobjectCover U comp G WP : ∀ d c (h : d ~> U c), { i & { s : d ~> U (sub_dom .. i) & { t & fmap[U] t ∘ s ≈ h } } }` — the image-factorization-through-a-subobject-of-the-cogenerator-product step, which is precisely what intersections are used to construct. Intersections / wide pullbacks of families of subobjects are not formalized anywhere in-tree, so clause (iii) as the book states it is not derivable in the library. Clauses (i) and (ii) are fully present.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE 'coseparating|separating set|cogenerat' . -- Cogenerator exists (Adjunction/SAFT.v:99) but no intersection/wide-pullback machinery accompanies it",
+      "grep -rn --include=\"*.v\" -iE 'intersection|wide pullback' . -- no construction of intersections of subobject families"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same three-clause split and the same SAFT gap. Verified verbatim: Adjunction/GAFT.v:159-165 Record SolutionSet (the quoted fields and sol_covers type are exact), :180 GAFT_from_initials (hypothesis is only forall d, @Initial (=(d) doubledown U) - no completeness, no continuity, as claimed), :241 GAFT, Adjunction/SAFT.v:274 SAFT. I re-derived the clause-(iii) gap independently by reading Adjunction/SAFT.v:240-250: SubobjectCover is a hypothesis asserting, for every h : d ~> U c, an index i, s : d ~> U (sub_dom i) and t with fmap[U] t o s = h - i.e. the image-factorization-through-a-subobject step that Riehl's 'every collection of subobjects admits an intersection' is used to CONSTRUCT. The file's own header (SAFT.v:85-90) is honest about this ('the reduction assembling the packaged classical data into a SolutionSet ... over the packaged smallness datum'), so this is a disclosed scope limit, not a mislabelled proof. Confirmed 0 hits for intersection / wide-pullback machinery. The genuinely proven SAFT content is cogenerator_canonical_monic (SAFT.v:223)."
+    }
+  },
+  {
+    "id": "riehl:E.1:thm-locally-presentable-adjoints",
+    "classification": "ABSENT",
+    "aliases": [
+      "locally presentable category",
+      "accessible functor / κ-accessible",
+      "adjoints between locally presentable categories (Adámek–Rosický)",
+      "cocontinuous ⇒ right adjoint; continuous + accessible ⇒ left adjoint",
+      "filtered colimits, finitely presentable / compact objects, Ind-completion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i 'presentable' . -- every hit is 'representable' (Functor/Representable.v, Theory/Profunctor.v, Theory/Multicategory/Representable.v, …); 'locally presentable' occurs exactly once, at Adjunction/GAFT.v:124, inside a header comment ('The modern sharpening (Adámek and Rosický) makes it a biconditional between locally presentable categories, where a functor has a left adjoint exactly when it is accessible and preserves small limits')",
+      "grep -rn --include=\"*.v\" -i 'accessible' . -- the same single comment line, Adjunction/GAFT.v:125",
+      "grep -rn --include=\"*.v\" -i 'filtered|directed colimit|Ind-completion|Ind-object|compact object|finitely presentable' . -- only Comonad/CoKleisli.v:81 ('the filtered stream', a stream-processing metaphor); no categorical notion of filtered category or filtered colimit is defined",
+      "grep -rn --include=\"*.v\" -iE 'cocontinuous|continuous functor' . -- only Theory/Adjunction.v:448, Structure/Limit/Preservation.v:225, Adjunction/Continuity.v:26, all prose glosses on PreservesAllLimits/PreservesAllColimits; no biconditional with adjointness"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT before reading the coverage file. Re-verified every leg: 'locally presentable' and 'accessible' occur exactly once each in the tree, both inside the Adjunction/GAFT.v header (lines 123-126), describing the Adamek-Rosicky sharpening as OUT-of-tree context; there is no notion of a filtered category, filtered/directed colimit, presentable or compact object, or Ind-completion anywhere (the only 'filtered' hit, Comonad/CoKleisli.v:81, is a stream metaphor). Both clauses of the item are therefore unstatable as written, not merely unproven. Not OUT_OF_SCOPE: the notions are perfectly formalizable here, they simply do not exist yet."
+    }
+  },
+  {
+    "id": "riehl:E.1:thm-representability-criteria",
+    "classification": "ABSENT",
+    "aliases": [
+      "representability criterion for a limit-preserving Set-valued functor",
+      "representability analogue of GAFT / of SAFT",
+      "solution set condition for representability (a set Φ of objects with (Ff)(y) = x)",
+      "F : C -> Set continuous + coseparating set + intersections ⇒ F representable",
+      "universal element / universal arrow from the singleton set to F"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE 'representable provided|is representable|representability criterion|representability theorem' . -- Functor/Representable.v:15/42 are the DEFINITION's prose; Theory/Profunctor/Adjunction.v:68 is 'the representability criterion for adjunctions' (F ⊣ U ↔ Repr_left F ≅ Repr_right U — different content); Structure/Monoidal/CompactClosed.v:69 is unrelated",
+      "grep -rn --include=\"*.v\" 'Representable' . filtered to Theorem/Lemma/Proposition/Corollary lines -- ZERO hits: `Class Representable` (Functor/Representable.v:46) is never the conclusion of any in-tree result",
+      "grep -rn --include=\"*.v\" -iE 'coseparating|separating set|cogenerat' . -- Cogenerator (Adjunction/SAFT.v:99) and SolutionSet (Adjunction/GAFT.v:159) exist as inputs to the ADJOINT theorems only; neither is ever used to conclude representability of a single Sets-valued functor",
+      "grep -rn --include=\"*.v\" 'UniversalArrow' . -- Theory/Universal/Arrow.v defines universal arrows and assembles them into adjunctions; there is no instantiation at the terminal setoid (which would be the representability special case) and no bridge to Functor/Representable.v"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT (I briefly weighed PARTIAL and rejected it). Verified: `Class Representable` (Functor/Representable.v:46) is never the conclusion of any Theorem/Lemma/Proposition/Corollary in the tree - it appears only as its own definition, its coercion, and in prose. Theory/Profunctor/Adjunction.v's 'representability criterion' is a different result (F -| U iff Repr_left F ~= Repr_right U). The reason PARTIAL is wrong even though adjacent engine parts exist: the natural route (instantiate Theory/WeaklyInitial.v's initial_from_weakly_initial in the comma =(1) doubledown F at the singleton setoid, then convert an initial object into a representation) needs BOTH the global-elements iso (1 ~> X) ~= X in Sets and a bridge from UniversalArrow to Functor/Representable.v, and I confirmed neither exists; so no part of the item's statement is present, only reusable machinery for a future proof."
+    }
+  },
+  {
+    "id": "riehl:E.1:thm-monadicity",
+    "classification": "PARTIAL",
+    "aliases": [
+      "properties of monadic functors",
+      "monadic functors are conservative / reflect isomorphisms (ReflectsIsos)",
+      "monadic functors create limits",
+      "creation of colimits preserved by T and T^2 (Linton)",
+      "cocompleteness of the Eilenberg–Moore category from filtered-colimit preservation"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 264,
+        "symbol": "creates_split_reflects_isos",
+        "intree_statement": "Lemma creates_split_reflects_isos {C D : Category} (U : C ⟶ D) (CR : CreatesUSplitCoequalizers U) : ReflectsIsos U.   (* clause (i): conservativity, derived from creation of U-split coequalizers alone *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 304,
+        "symbol": "beck_reflects",
+        "intree_statement": "Definition beck_reflects : ReflectsIsos U := creates_split_reflects_isos U CR.   (* under Context (A : F ⊣ U) (CR : CreatesUSplitCoequalizers U) — exactly the book's hypothesis pack *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 739,
+        "symbol": "beck_monadicity",
+        "intree_statement": "Definition beck_monadicity : EquivalenceOfCategories (EM_Comparison A) := {| quasi_inverse := Beck_Inverse ; equivalence_counit := beck_equivalence_counit ; equivalence_unit := beck_equivalence_unit |}.   (* justifies the item's framing hypothesis: left adjoint + creation of U-split coequalizers ⇒ monadic *)"
+      }
+    ],
+    "statement_record": {
+      "book": "If U : A -> S has a left adjoint and creates coequalizers of U-split pairs (Beck-monadic) then: (i) U is conservative; (ii) U creates all limits existing in S; (iii) U creates all colimits existing in S that are preserved by the induced monad T and by T^2; (iv) if S is locally small, complete and cocomplete and U preserves filtered colimits then A has all small colimits.",
+      "intree": "creates_split_reflects_isos : CreatesUSplitCoequalizers U -> ReflectsIsos U, instantiated as beck_reflects under the full Beck hypothesis pack; and beck_monadicity establishing the hypothesis's own content (Beck's precise theorem). Nothing corresponds to (ii), (iii) or (iv).",
+      "strength_comparison": "Clause (i): same, in fact intree-stronger — conservativity is proved from the creation clause ALONE, with no left adjoint required, and the file header records that this is deliberate ('No conservativity hypothesis appears: it is derived from creation'). Clauses (ii)-(iv): absent, so the item as a four-part statement is intree-weaker."
+    },
+    "gap": "Only clause (i) exists. (ii) 'U creates all limits existing in S' has no counterpart: the sole creation notions in-tree are CreatesUSplitCoequalizers (Monad/Monadicity/Beck.v:164) and equivalence_creates_limits/colimits (Theory/Equivalence/Limit.v:486/582, about equivalences, not monadic functors); nothing states that EM_Forget or a monadic U creates limits. (iii) has no counterpart at all — there is no notion of a colimit preserved by T and T^2, nor any creation-of-colimits result for monadic functors. (iv) is doubly out of reach: the library has no notion of filtered category or filtered colimit (see the negative log for riehl:E.1:thm-locally-presentable-adjoints), and there is no result deriving cocompleteness of an Eilenberg–Moore category from properties of S and U.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i 'creates|creation|CreatesLimit|creates_limit' . filtered to Class/Definition/Theorem/Lemma/Record -- only Theory/Equivalence/Limit.v:486 equivalence_creates_limits, :582 equivalence_creates_colimits, Monad/Monadicity/Beck.v:164 CreatesUSplitCoequalizers, :911 monadic_creates, Monad/Monadicity/BeckObjects.v:396 em_forget_creates_split. None is about creation of general (co)limits by a monadic functor.",
+      "grep -rn --include=\"*.v\" -i 'limit' Monad/ Comonad/ -- only Require lines and comments; the Monad/ tree proves no limit or colimit result",
+      "grep -rn --include=\"*.v\" 'EM_Forget' . -- Monad/Eilenberg/Moore/Adjunction.v:65 (the functor), :183 (EM_Adjunction), BeckObjects.v:177 (em_forget_reflects_isos), Beck.v:911 (monadic_creates). No limit/colimit creation.",
+      "grep -rn --include=\"*.v\" -i 'filtered' . -- one metaphorical hit in Comonad/CoKleisli.v:81; clause (iv) is unstatable as written"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same clause split (only (i) present). Evidence verified at the cited lines: Monad/Monadicity/Beck.v:264 creates_split_reflects_isos, :304 beck_reflects, :739 beck_monadicity, plus :911 monadic_creates which supplies CreatesUSplitCoequalizers for EM_Forget so the conservativity of a monadic forgetful functor really does follow. The claimed header quote is accurate - Beck.v:63-76 is titled '** Conservativity is derived, not assumed' and gives exactly the argument the classifier paraphrases. Independently confirmed (ii)/(iii)/(iv) absent: the only creation notions in the tree are CreatesUSplitCoequalizers (Beck.v:164), em_forget_creates_split (BeckObjects.v), and equivalence_creates_limits/colimits (Theory/Equivalence/Limit.v:486/584, about EQUIVALENCES not monadic functors); grep for Limit/Complete across all of Monad/ returns only Require lines and comments - the Monad/ tree proves no (co)limit result at all; and 'filtered' is undefined, so clause (iv) is unstatable as written."
+    }
+  },
+  {
+    "id": "riehl:E.1:thm-kan-adjoints",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Kan extensions as adjoints to restriction, Lan_K ⊣ K* ⊣ Ran_K",
+      "restriction / precomposition functor K*, Induced := (− ◯ F)",
+      "existence of pointwise Kan extensions by the (co)limit formula",
+      "LeftKan / RightKan / LocalLeftKan / LocalRightKan",
+      "fully faithful K ⇒ Lan_K ⊣ K* coreflective, K* ⊣ Ran_K reflective (unit/counit an iso)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 222,
+        "symbol": "LeftKan",
+        "intree_statement": "Class LeftKan := { Lan : [A, C] ⟶ [B, C];  lan_adjoint : Lan ⊣ Induced }.   (* with Induced : [B,C] ⟶ [A,C] := fun G => G ◯ F, the restriction functor K* *)"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 140,
+        "symbol": "RightKan",
+        "intree_statement": "Class RightKan := { Ran : [A, C] ⟶ [B, C];  ran_adjoint : Induced ⊣ Ran }."
+      },
+      {
+        "file": "Structure/Limit/Kan/Extension.v",
+        "line": 46,
+        "symbol": "Kan_Limit",
+        "intree_statement": "Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt.   (* the (co)limit/Kan bridge, in the special case K = Erase J : J ⟶ 1 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For K : C -> D with C small and D locally small, and any E: if E is COCOMPLETE the restriction K* : E^D -> E^C has a left adjoint Lan_K given by a colimit formula; if E is COMPLETE it has a right adjoint Ran_K given by the dual limit formula, so Lan_K ⊣ K* ⊣ Ran_K. Moreover, for K fully faithful, Lan_K ⊣ K* is coreflective and K* ⊣ Ran_K reflective (the Kan extensions restrict back to the original functor).",
+      "intree": "Induced : [B,C] ⟶ [A,C] := (− ◯ F) is the restriction functor; `Class LeftKan := { Lan : [A,C] ⟶ [B,C]; lan_adjoint : Lan ⊣ Induced }` and `Class RightKan := { Ran : [A,C] ⟶ [B,C]; ran_adjoint : Induced ⊣ Ran }` package exactly the adjoint characterization, and RightKan_to_LocalRightKan / LeftKan_to_LocalLeftKan derive the local (universal-transformation) forms from the global one.",
+      "strength_comparison": "intree-weaker: the adjunctions Lan ⊣ K* and K* ⊣ Ran are the DEFINITION of the global Kan extensions (a hypothesis class), not a conclusion. No existence theorem is proved, and the (co)completeness hypothesis on the target E never appears; the colimit/limit formulas are absent, and there is no in-tree INSTANCE of LeftKan or RightKan anywhere (grep for Lan/Ran/LeftKan/RightKan outside Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v returns nothing). The fully-faithful clause is absent entirely."
+    },
+    "gap": "Two of the item's three components are missing. (a) EXISTENCE: nothing derives LeftKan/RightKan from cocompleteness/completeness of the target, and no colimit formula (Lan_K G d = colim over K/d) or limit formula (Ran) is constructed — the coend/end machinery of Theory/Coend/ is never applied to Kan extensions, and there is no instance of either class in the whole tree. (b) The FULLY FAITHFUL clause — K fully faithful ⇒ the unit of Lan_K ⊣ K* (resp. the counit of K* ⊣ Ran_K) is an isomorphism, so Lan_K G ◯ K ≅ G — has no counterpart. What IS present is the adjoint characterization itself (as a class over the restriction functor Induced), the local/pointwise-free universal forms, and the single bridge Kan_Limit identifying the limit of F with Ran along Erase J.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" 'Lan\\b|Ran\\b|LeftKan|RightKan' . excluding Theory/Kan/Extension.v and Structure/Limit/Kan/ -- 0 hits, i.e. no instance and no consumer anywhere else in the library",
+      "grep -rn --include=\"*.v\" -iE 'pointwise Kan|colimit formula|coend formula|density' . -- Theory/DoubleCategory.v:140 names pointwise Kan extensions as future work; Theory/Kan/Extension.v:35-108 discuss codensity monads in prose; no formula is built",
+      "ls Theory/Kan/ Structure/Limit/Kan/ -- only Extension.v in each",
+      "grep -rn --include=\"*.v\" -i 'fully faithful' Theory/Kan/Extension.v Structure/Limit/Kan/Extension.v -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same two missing components (existence under (co)completeness with the (co)limit formula; the fully-faithful coreflective/reflective clause). Verified: Theory/Kan/Extension.v:127 Induced (the restriction functor K*), :140 RightKan {Ran; ran_adjoint : Induced -| Ran}, :222 LeftKan {Lan; lan_adjoint : Lan -| Induced}, :180/:249 the global-to-local derivations, and Structure/Limit/Kan/Extension.v:46 Kan_Limit. I re-ran the classifier's strongest negative claim with a corrected exclusion filter and it holds exactly: grep -rnE '\\b(Lan|Ran|LeftKan|RightKan)\\b' over all *.v outside Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v returns ZERO lines - no instance, no consumer, no coend-formula construction. Also checked the abandoned left_adjoints_preserve at the end of Theory/Kan/Extension.v: it ends in `Abort.` with three `admit.`s inside, exactly as its header comment says, so it adds nothing to the environment and introduces no axiom - the comment is accurate, not a defect."
+    }
+  },
+  {
+    "id": "riehl:E.1:exi",
+    "classification": "OUT_OF_SCOPE",
+    "aliases": [
+      "describe your favorite theorem in category theory",
+      "expository exercise / explain to a friend",
+      "no mathematical statement",
+      "pedagogical prompt",
+      "non-formalizable exercise"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": "The exercise asks the reader to explain a favourite theorem to a friend who does not know it; it states no mathematical proposition, so there is no content a proof assistant could carry.",
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "OUT_OF_SCOPE is legitimate under the frozen definition and needs no search: Exercise E.1.i asks the reader to explain a favourite theorem to a friend, asserting no proposition. This is the sparing, correct use of the category - it is not a size/foundations question dressed up as unformalizable."
+    }
+  }
+]

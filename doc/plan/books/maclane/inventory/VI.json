@@ -1,0 +1,1483 @@
+{
+ "book": "maclane",
+ "range": {
+  "pdf_start": 146,
+  "pdf_end": 168
+ },
+ "pages": [
+  {
+   "pdf_page": 146,
+   "book_page": "137",
+   "empty": false,
+   "items": [
+    "maclane:VI.1:def1"
+   ],
+   "notes": "Chapter VI opener + start of §VI.1 Monads in a Category. Opening motivational prose (universal algebra / adjoint functors / Alg_τ forgetful G and free F / preview of Beck) skipped. The whiskering notation Tμ and μT (horizontal composites, §II.5) is notational setup, not recorded. The monad Definition starts and ends here."
+  },
+  {
+   "pdf_page": 147,
+   "book_page": "138",
+   "empty": false,
+   "items": [
+    "maclane:VI.1:remark1",
+    "maclane:VI.1:construction1"
+   ],
+   "notes": "§VI.1 continued. Monoid-analogy paragraph and the 'triple/triad/dual standard construction' terminology paragraph skipped except for the formalizable 'monad = monoid in the endofunctor category' identification (remark1). The construction of the monad induced by an adjunction (⟨GF,η,GεF⟩) begins here and concludes on PDF 148."
+  },
+  {
+   "pdf_page": 148,
+   "book_page": "139",
+   "empty": false,
+   "items": [
+    "maclane:VI.1:def2",
+    "maclane:VI.1:construction2",
+    "maclane:VI.1:remark2"
+   ],
+   "notes": "End of §VI.1 and header of §VI.2. construction1 (monad from adjunction) concludes at top ('Call it the monad defined by the adjunction'; anchored to PDF 147). Free-group-monad one-line example skipped. Comonad definition (def2), comonad-from-adjunction construction (construction2), and monad-in-a-preorder/closure characterization (remark2) recorded. The end-of-§VI.1 'we leave the reader to describe a morphism of monads and the category of monads' invitation is captured by Exercise VI.2.3, not duplicated. §VI.2 header + motivational intro (two positive answers, Eilenberg–Moore) skipped."
+  },
+  {
+   "pdf_page": 149,
+   "book_page": "140",
+   "empty": false,
+   "items": [
+    "maclane:VI.2:def1",
+    "maclane:VI.2:thm1"
+   ],
+   "notes": "§VI.2. Unnumbered Definition of a T-algebra and its morphisms (def1). Theorem 1 (Eilenberg–Moore: category X^T with free/forgetful adjunction) begins here; its proof continues onto PDF 150."
+  },
+  {
+   "pdf_page": 150,
+   "book_page": "141",
+   "empty": false,
+   "items": [
+    "maclane:VI.2:remark1",
+    "maclane:VI.2:remark2"
+   ],
+   "notes": "§VI.2 continued. Remainder of Theorem 1 proof (anchored to PDF 149). Worked examples: Closure (algebras = closed elements, remark1) and Group actions (algebras of G×(−) = G-actions, remark2). The Group-actions example continues to its punchline near the page foot."
+  },
+  {
+   "pdf_page": 151,
+   "book_page": "142",
+   "empty": false,
+   "items": [
+    "maclane:VI.2:remark3",
+    "maclane:VI.2:ex1",
+    "maclane:VI.2:ex2",
+    "maclane:VI.2:ex3",
+    "maclane:VI.3:thm1"
+   ],
+   "notes": "End of §VI.2, all of its Exercises, and start of §VI.3. Modules example (algebras of R⊗(−) on Ab = left R-modules, remark3). Exercises 1 (power-set monad / complete semilattices, Manes), 2 (G^T creates limits), 3 (monad morphisms + θ*). §VI.3 header + intro skipped; Theorem 1 (comparison functor K) begins here and its proof continues onto PDF 152."
+  },
+  {
+   "pdf_page": 152,
+   "book_page": "143",
+   "empty": false,
+   "items": [
+    "maclane:VI.3:def1"
+   ],
+   "notes": "§VI.3 continued. Proof of Theorem 1 (K a = ⟨Ga, Gε_a⟩, KF = F^T, G^T K = G, uniqueness via Prop IV.7.1; anchored to PDF 151). The unnumbered definition of a monadic (tripleable) functor begins here and finishes on PDF 153 (Barr–Wells equivalence variant)."
+  },
+  {
+   "pdf_page": 153,
+   "book_page": "144",
+   "empty": false,
+   "items": [
+    "maclane:VI.3:remark1",
+    "maclane:VI.4:construction1",
+    "maclane:VI.4:prop1"
+   ],
+   "notes": "End of §VI.3, start of §VI.4. 'monadic' definition concludes (anchored to PDF 152). Top/Set discrete-space counterexample: induced identity monad, comparison functor = G not an equivalence (remark1). §VI.4 header; construction of the free-semigroup functor and adjunction Set⇀Smgrp (construction1, incl. the counit description). Proposition 1 (the word monad W) begins here; its statement formula and proof continue onto PDF 154."
+  },
+  {
+   "pdf_page": 154,
+   "book_page": "145",
+   "empty": false,
+   "items": [
+    "maclane:VI.4:prop2"
+   ],
+   "notes": "§VI.4 continued. Rest of Proposition 1 statement (μ_X removes outer brackets) + its Proof + a Note on verifying the monad laws bracket-combinatorially (skipped as commentary; anchored to PDF 153). Proposition 2 (characterization of W-algebras as sets with an n-ary operation per n) begins here and its proof continues onto PDF 155."
+  },
+  {
+   "pdf_page": 155,
+   "book_page": "146",
+   "empty": false,
+   "items": [
+    "maclane:VI.4:cor1",
+    "maclane:VI.4:remark1",
+    "maclane:VI.4:ex1",
+    "maclane:VI.4:ex2",
+    "maclane:VI.4:ex3",
+    "maclane:VI.4:ex4"
+   ],
+   "notes": "End of §VI.4 with its Exercises. Proof of Proposition 2 concludes (anchored PDF 154). Unnumbered Corollary (W-algebra iff associative binary v2 with iterated v_n; cor1). Prose conclusion that K:Smgrp→Set^W is an isomorphism, i.e. Smgrp is monadic over Set (remark1). Exercises 1 (monoid monad W0), 2 (free R-module monad T_R on Set, 3 parts), 3 (polynomial monad from CRng), 4 (tensor-algebra monad Ab⇀Rng)."
+  },
+  {
+   "pdf_page": 156,
+   "book_page": "147",
+   "empty": false,
+   "items": [
+    "maclane:VI.5:construction1",
+    "maclane:VI.5:thm1"
+   ],
+   "notes": "§VI.5 Free Algebras for a Monad. Construction restricting an adjunction to a full subcategory B⊇{Fx}, giving another adjunction defining the same monad (construction1); the 'smallest' being the free objects FX, motivating the Kleisli category. Theorem 1 (the Kleisli category of a monad) begins here and its Sketch of proof continues onto PDF 157."
+  },
+  {
+   "pdf_page": 157,
+   "book_page": "148",
+   "empty": false,
+   "items": [
+    "maclane:VI.5:thm2",
+    "maclane:VI.5:thm3",
+    "maclane:VI.5:ex1",
+    "maclane:VI.5:ex2",
+    "maclane:VI.5:ex3",
+    "maclane:VI.5:ex4",
+    "maclane:VI.5:ex5"
+   ],
+   "notes": "End of §VI.5 with its Exercises. Kleisli Theorem 1 sketch concludes (anchored PDF 156). Theorem 2 (Kleisli comparison functor L, unique). Theorem 3 (Kleisli = initial, Eilenberg–Moore = terminal among adjunctions defining the monad). Exercises 1–5. §VI.6 Split Coequalizers begins on the next page (PDF 158)."
+  },
+  {
+   "pdf_page": 158,
+   "book_page": "149",
+   "empty": false,
+   "items": [
+    "maclane:VI.6:def1",
+    "maclane:VI.6:def2",
+    "maclane:VI.6:def3",
+    "maclane:VI.6:lem1"
+   ],
+   "notes": "Section VI.6 'Split Coequalizers' opens. The coequalizer definition is only recalled from Ch III and is not re-inventoried here."
+  },
+  {
+   "pdf_page": 159,
+   "book_page": "150",
+   "empty": false,
+   "items": [
+    "maclane:VI.6:def4",
+    "maclane:VI.6:cor1",
+    "maclane:VI.6:remark1",
+    "maclane:VI.6:remark2",
+    "maclane:VI.6:ex1",
+    "maclane:VI.6:ex2"
+   ],
+   "notes": "Cat and Grp worked examples recorded as formalizable remarks. Exercise 2's second defining equation appears non-composable as scanned; flagged for re-read."
+  },
+  {
+   "pdf_page": 160,
+   "book_page": "151",
+   "empty": false,
+   "items": [
+    "maclane:VI.7:thm1"
+   ],
+   "notes": "Section VI.7 'Beck's Theorem' opens. 'Creates coequalizers' is recalled from §V.1, not re-inventoried. Theorem 1 statement and start of proof ((i)=>(ii))."
+  },
+  {
+   "pdf_page": 161,
+   "book_page": "152",
+   "empty": false,
+   "items": [
+    "maclane:VI.7:thm1"
+   ],
+   "notes": "Theorem 1 proof continued: structure-map construction (diagram (3)), associativity/unit laws, (ii)=>(iii), and start of (iii)=>(i) with fork (4)."
+  },
+  {
+   "pdf_page": 162,
+   "book_page": "153",
+   "empty": false,
+   "items": [
+    "maclane:VI.7:thm1",
+    "maclane:VI.7:construction1",
+    "maclane:VI.7:def1",
+    "maclane:VI.7:lem1"
+   ],
+   "notes": "Theorem 1 proof continues; the canonical presentation fork (5), the notion of comparison of adjunctions, and the comparison-uniqueness Lemma are introduced."
+  },
+  {
+   "pdf_page": 163,
+   "book_page": "154",
+   "empty": false,
+   "items": [
+    "maclane:VI.7:thm1",
+    "maclane:VI.7:lem1",
+    "maclane:VI.7:def2",
+    "maclane:VI.7:ex1",
+    "maclane:VI.7:ex2"
+   ],
+   "notes": "Lemma proof and Theorem 1 conclude; 'reflects colimits' Definition block. PTT/CTT/VTT naming prose points forward to the exercises (itemized on 155). Exercises 1-2."
+  },
+  {
+   "pdf_page": 164,
+   "book_page": "155",
+   "empty": false,
+   "items": [
+    "maclane:VI.7:ex3",
+    "maclane:VI.7:ex4",
+    "maclane:VI.7:ex5",
+    "maclane:VI.7:ex6",
+    "maclane:VI.7:def3",
+    "maclane:VI.7:ex7",
+    "maclane:VI.7:ex8",
+    "maclane:VI.7:ex9",
+    "maclane:VI.7:ex10",
+    "maclane:VI.7:ex11"
+   ],
+   "notes": "The CTT/VTT/PTT property definitions are embedded in the exercise stream between Exercises 6 and 7."
+  },
+  {
+   "pdf_page": 165,
+   "book_page": "156",
+   "empty": false,
+   "items": [
+    "maclane:VI.8:thm1"
+   ],
+   "notes": "Section VI.8 'Algebras Are T-Algebras'. Theorem 1 statement and full proof (via Beck's theorem) are contained on this page."
+  },
+  {
+   "pdf_page": 166,
+   "book_page": "157",
+   "empty": false,
+   "items": [
+    "maclane:VI.8:ex1",
+    "maclane:VI.8:ex2",
+    "maclane:VI.9:thm1",
+    "maclane:VI.9:def1",
+    "maclane:VI.9:lem1"
+   ],
+   "notes": "VI.8 Exercises 1-2, then Section VI.9 'Compact Hausdorff Spaces' opens with Theorem 1, the closure-space reformulation, and the compact->Hausdorff Lemma."
+  },
+  {
+   "pdf_page": 167,
+   "book_page": "158",
+   "empty": false,
+   "items": [
+    "maclane:VI.9:thm1"
+   ],
+   "notes": "Theorem 1 (VI.9) proof continued: power-set-functor diagram (1), closure operation on W, and the Hausdorff/compactness argument."
+  },
+  {
+   "pdf_page": 168,
+   "book_page": "159",
+   "empty": false,
+   "items": [
+    "maclane:VI.9:thm1",
+    "maclane:VI.9:ex1"
+   ],
+   "notes": "Theorem 1 (VI.9) proof concludes; Exercise 1. The end-of-chapter 'Notes.' block is historical prose and is not inventoried."
+  }
+ ],
+ "items": [
+  {
+   "id": "maclane:VI.1:def1",
+   "kind": "definition",
+   "number": null,
+   "name": "monad",
+   "statement_summary": "A monad ⟨T,η,μ⟩ in a category X is an endofunctor T:X→X together with natural transformations η:Id_X⇒T (unit) and μ:T²⇒T (multiplication) satisfying the associative law μ∘Tμ = μ∘μT : T³⇒T and the two unit laws μ∘ηT = 1_T = μ∘Tη : T⇒T.",
+   "book_section": "VI.1",
+   "book_page": "137",
+   "pdf_pages": [
+    146
+   ],
+   "cross_refs": [],
+   "flags": [
+    "unnumbered"
+   ]
+  },
+  {
+   "id": "maclane:VI.1:remark1",
+   "kind": "remark",
+   "number": null,
+   "name": "a monad is a monoid in the endofunctor category",
+   "statement_summary": "A monad in X is exactly a monoid object in the strict monoidal category of endofunctors (End(X), ∘, Id_X): functor composition replaces the tensor ×, the identity endofunctor replaces the unit object, η is the monoid unit and μ the monoid multiplication; the monad laws are the monoid associativity and unit laws.",
+   "book_section": "VI.1",
+   "book_page": "138",
+   "pdf_pages": [
+    147
+   ],
+   "cross_refs": [
+    "maclane:VI.1:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.1:construction1",
+   "kind": "construction",
+   "number": null,
+   "name": "the monad defined by an adjunction",
+   "statement_summary": "Every adjunction ⟨F,G,η,ε⟩:X⇀A induces a monad in X on the endofunctor T=GF, with unit the adjunction unit η and multiplication μ=GεF:GFGF⇒GF; associativity follows from naturality of ε (the interchange law) and the unit laws from the triangle identities. This monad is called the monad defined by the adjunction.",
+   "book_section": "VI.1",
+   "book_page": "138",
+   "pdf_pages": [
+    147,
+    148
+   ],
+   "cross_refs": [
+    "maclane:VI.1:def1"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-pages"
+   ]
+  },
+  {
+   "id": "maclane:VI.1:def2",
+   "kind": "definition",
+   "number": null,
+   "name": "comonad",
+   "statement_summary": "Dually, a comonad in a category A is a functor L:A→A with natural transformations ε:L⇒Id_A (counit) and δ:L⇒L² (comultiplication) making the coassociativity square Lδ∘δ = δL∘δ and the counit laws εL∘δ = 1_L = Lε∘δ commute.",
+   "book_section": "VI.1",
+   "book_page": "139",
+   "pdf_pages": [
+    148
+   ],
+   "cross_refs": [
+    "maclane:VI.1:def1"
+   ],
+   "flags": [
+    "unnumbered"
+   ]
+  },
+  {
+   "id": "maclane:VI.1:construction2",
+   "kind": "construction",
+   "number": null,
+   "name": "the comonad defined by an adjunction",
+   "statement_summary": "Every adjunction ⟨F,G,η,ε⟩:X⇀A defines a comonad ⟨FG, ε, FηG⟩ in A, dual to the monad GF it induces in X.",
+   "book_section": "VI.1",
+   "book_page": "139",
+   "pdf_pages": [
+    148
+   ],
+   "cross_refs": [
+    "maclane:VI.1:def2",
+    "maclane:VI.1:construction1"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VI.1:remark2",
+   "kind": "remark",
+   "number": null,
+   "name": "monads in a preorder are (in a poset) closure operations",
+   "statement_summary": "In a preorder P viewed as a category, an endofunctor is just a monotone map T:P→P, and it carries monad structure η,μ exactly when x≤Tx and T(Tx)≤Tx for all x (all monad diagrams then commute automatically). If P is a partial order this forces T(Tx)=Tx, so a monad in P is precisely a closure operation t: a monotone map with x≤tx and t(tx)=tx.",
+   "book_section": "VI.1",
+   "book_page": "139",
+   "pdf_pages": [
+    148
+   ],
+   "cross_refs": [
+    "maclane:VI.1:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.2:def1",
+   "kind": "definition",
+   "number": null,
+   "name": "T-algebra (Eilenberg–Moore algebra) and its morphisms",
+   "statement_summary": "For a monad T=⟨T,η,μ⟩ in X, a T-algebra ⟨x,h⟩ is an object x∈X (the underlying object) with an arrow h:Tx→x (the structure map) satisfying the associative law h∘Th = h∘μ_x : T²x→x and the unit law h∘η_x = 1_x. A morphism f:⟨x,h⟩→⟨x',h'⟩ of T-algebras is an arrow f:x→x' of X with f∘h = h'∘Tf.",
+   "book_section": "VI.2",
+   "book_page": "140",
+   "pdf_pages": [
+    149
+   ],
+   "cross_refs": [
+    "maclane:VI.1:def1"
+   ],
+   "flags": [
+    "unnumbered"
+   ]
+  },
+  {
+   "id": "maclane:VI.2:thm1",
+   "kind": "theorem",
+   "number": "1",
+   "name": "Every monad is defined by its T-algebras (Eilenberg–Moore)",
+   "statement_summary": "For a monad ⟨T,η,μ⟩ in X, the T-algebras and their morphisms form a category X^T, and there is an adjunction ⟨F^T,G^T;η^T,ε^T⟩:X⇀X^T whose right adjoint G^T:X^T→X forgets the structure map (⟨x,h⟩↦x, f↦f) and whose left adjoint F^T sends x to the free algebra ⟨Tx,μ_x⟩ (f↦Tf); the unit is η^T=η and the counit is ε^T_{⟨x,h⟩}=h. The monad induced in X by this adjunction is the original ⟨T,η,μ⟩.",
+   "book_section": "VI.2",
+   "book_page": "140",
+   "pdf_pages": [
+    149,
+    150
+   ],
+   "cross_refs": [
+    "maclane:VI.2:def1",
+    "maclane:VI.1:construction1"
+   ],
+   "flags": [
+    "spans-pages"
+   ]
+  },
+  {
+   "id": "maclane:VI.2:remark1",
+   "kind": "remark",
+   "number": null,
+   "name": "algebras for a closure operation are the closed elements",
+   "statement_summary": "For a closure operation T on a preorder P (regarded as a monad), a T-algebra is an element x with structure map Tx≤x; since always x≤Tx this gives x≅Tx, and when P is a partial order x=Tx — so the T-algebras are exactly the closed (fixed) elements of P.",
+   "book_section": "VI.2",
+   "book_page": "141",
+   "pdf_pages": [
+    150
+   ],
+   "cross_refs": [
+    "maclane:VI.2:def1",
+    "maclane:VI.1:remark2"
+   ],
+   "flags": [
+    "worked-example"
+   ]
+  },
+  {
+   "id": "maclane:VI.2:remark2",
+   "kind": "remark",
+   "number": null,
+   "name": "algebras for the monad G×(−) are G-actions",
+   "statement_summary": "For a group G the endofunctor TX=G×X on Set, with unit x↦⟨e,x⟩ and multiplication ⟨g₁,⟨g₂,x⟩⟩↦⟨g₁g₂,x⟩, is a monad; a T-algebra ⟨X,h⟩ is a set with h:G×X→X satisfying h(g₁g₂,x)=h(g₁,h(g₂,x)) and h(e,x)=x — i.e. exactly a left G-action (G-set).",
+   "book_section": "VI.2",
+   "book_page": "141",
+   "pdf_pages": [
+    150
+   ],
+   "cross_refs": [
+    "maclane:VI.2:def1"
+   ],
+   "flags": [
+    "worked-example"
+   ]
+  },
+  {
+   "id": "maclane:VI.2:remark3",
+   "kind": "remark",
+   "number": null,
+   "name": "algebras for the monad R⊗(−) on Ab are left R-modules",
+   "statement_summary": "For a ring R the endofunctor TA=R⊗A on Ab, with unit a↦1⊗a and multiplication r₁⊗(r₂⊗a)↦r₁r₂⊗a, is a monad whose T-algebras are exactly the left R-modules.",
+   "book_section": "VI.2",
+   "book_page": "142",
+   "pdf_pages": [
+    151
+   ],
+   "cross_refs": [
+    "maclane:VI.2:def1"
+   ],
+   "flags": [
+    "worked-example"
+   ]
+  },
+  {
+   "id": "maclane:VI.2:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "the power-set monad and complete semilattices (Manes)",
+   "statement_summary": "Let 𝒫 be the covariant power-set functor on Set with η_X(x)={x} and μ_X = union of a set of subsets. Prove: (a) ⟨𝒫,η,μ⟩ is a monad; (b) each 𝒫-algebra ⟨X,h⟩ is a complete semilattice under x≤y iff h{x,y}=y, with sup S = h(S); (c) conversely every small complete semilattice is a 𝒫-algebra; (d) the category of 𝒫-algebras is the category of small complete semilattices and sup-preserving maps.",
+   "book_section": "VI.2",
+   "book_page": "142",
+   "pdf_pages": [
+    151
+   ],
+   "cross_refs": [
+    "maclane:VI.2:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.2:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "the algebra forgetful functor creates limits",
+   "statement_summary": "Show that the forgetful functor G^T:X^T→X of the Eilenberg–Moore category creates limits.",
+   "book_section": "VI.2",
+   "book_page": "142",
+   "pdf_pages": [
+    151
+   ],
+   "cross_refs": [
+    "maclane:VI.2:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.2:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "morphisms of monads and the induced functor between algebra categories",
+   "statement_summary": "(a) For monads ⟨T,η,μ⟩ and ⟨T',η',μ'⟩ on X, define a monad morphism θ:T⇒T' as a suitable natural transformation (compatible with units and multiplications) and construct the category of all monads on X. (b) From θ construct a functor θ*:X^{T'}→X^T with G^T∘θ*=G^{T'} together with a natural transformation F^{T'}⇒θ*∘F^T.",
+   "book_section": "VI.2",
+   "book_page": "142",
+   "pdf_pages": [
+    151
+   ],
+   "cross_refs": [
+    "maclane:VI.2:thm1",
+    "maclane:VI.1:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.3:thm1",
+   "kind": "theorem",
+   "number": "1",
+   "name": "Comparison of adjunctions with algebras (the comparison functor K)",
+   "statement_summary": "For an adjunction ⟨F,G,η,ε⟩:X⇀A defining the monad T=⟨GF,η,GεF⟩ in X, there is a unique functor K:A→X^T with G^T∘K=G and K∘F=F^T; explicitly K a = ⟨Ga, Gε_a⟩ and K f = G f. (When K is an isomorphism G is monadic.)",
+   "book_section": "VI.3",
+   "book_page": "142",
+   "pdf_pages": [
+    151,
+    152
+   ],
+   "cross_refs": [
+    "maclane:VI.1:construction1",
+    "maclane:VI.2:thm1"
+   ],
+   "flags": [
+    "spans-pages"
+   ]
+  },
+  {
+   "id": "maclane:VI.3:def1",
+   "kind": "definition",
+   "number": null,
+   "name": "monadic (tripleable) functor",
+   "statement_summary": "A right adjoint G is called monadic (tripleable) when the comparison functor K:A→X^T is an isomorphism of categories; some authors (Barr–Wells) require only that K be an equivalence of categories.",
+   "book_section": "VI.3",
+   "book_page": "143",
+   "pdf_pages": [
+    152,
+    153
+   ],
+   "cross_refs": [
+    "maclane:VI.3:thm1"
+   ],
+   "flags": [
+    "unnumbered",
+    "spans-pages"
+   ]
+  },
+  {
+   "id": "maclane:VI.3:remark1",
+   "kind": "remark",
+   "number": null,
+   "name": "discrete-space adjunction yields the identity monad; Top is not monadic over Set here",
+   "statement_summary": "The forgetful G:Top→Set has left adjoint D (discrete topology) with unit η_X=id; the induced monad on Set is the identity monad I=⟨Id,1,1⟩, whose algebras are just sets, so the comparison functor Top→Top^I=Set is G itself — neither an isomorphism nor an equivalence, an explicit non-monadic adjunction.",
+   "book_section": "VI.3",
+   "book_page": "144",
+   "pdf_pages": [
+    153
+   ],
+   "cross_refs": [
+    "maclane:VI.3:thm1",
+    "maclane:VI.3:def1"
+   ],
+   "flags": [
+    "worked-example"
+   ]
+  },
+  {
+   "id": "maclane:VI.4:construction1",
+   "kind": "construction",
+   "number": null,
+   "name": "the free semigroup functor and adjunction Set⇀Smgrp",
+   "statement_summary": "The free semigroup WX on a set X consists of all nonempty words ⟨x₁⟩…⟨x_n⟩ (n≥1) in letters of X multiplied by juxtaposition, giving a semigroup FX=⟨WX,v⟩ with WX=⨆_{n≥1}X^n; the map η_X:X→GFX, x↦⟨x⟩ is universal from X to the forgetful G:Smgrp→Set, so F is left adjoint to G and η defines an adjunction ⟨F,G,η,ε⟩:Set⇀Smgrp; the counit ε_S(⟨s₁⟩…⟨s_n⟩)=s₁…s_n (product in S) removes the pointy brackets.",
+   "book_section": "VI.4",
+   "book_page": "144",
+   "pdf_pages": [
+    153
+   ],
+   "cross_refs": [
+    "maclane:VI.1:construction1"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VI.4:prop1",
+   "kind": "proposition",
+   "number": "1",
+   "name": "the word monad W on Set",
+   "statement_summary": "The monad on Set induced by the free-semigroup adjunction Set⇀Smgrp is W=⟨W,η,μ⟩ with WX=⨆_{n≥1}X^n, unit η_X(x)=⟨x⟩ (the one-letter word), and multiplication μ_X that erases the outer brackets of a word-of-words, sending ⟨⟨x₁₁⟩…⟨x_{1n₁}⟩…⟨x_{k1}⟩…⟨x_{kn_k}⟩⟩ to the concatenated word ⟨x₁₁⟩…⟨x_{kn_k}⟩.",
+   "book_section": "VI.4",
+   "book_page": "144",
+   "pdf_pages": [
+    153,
+    154
+   ],
+   "cross_refs": [
+    "maclane:VI.4:construction1"
+   ],
+   "flags": [
+    "spans-pages"
+   ]
+  },
+  {
+   "id": "maclane:VI.4:prop2",
+   "kind": "proposition",
+   "number": "2",
+   "name": "algebras for the word monad W",
+   "statement_summary": "A W-algebra is a set S equipped with one n-ary operation v_n:S^n→S for each n≥1 such that v₁=1_S and, for every k≥1 and positive n₁,…,n_k, v_k∘(v_{n₁}×…×v_{n_k}) = v_{n₁+…+n_k} : S^{n₁+…+n_k}→S; a morphism of W-algebras is a function f:S→S' commuting with every operation, f∘v_n = v'_n∘f^n.",
+   "book_section": "VI.4",
+   "book_page": "145",
+   "pdf_pages": [
+    154,
+    155
+   ],
+   "cross_refs": [
+    "maclane:VI.4:prop1",
+    "maclane:VI.2:def1"
+   ],
+   "flags": [
+    "spans-pages"
+   ]
+  },
+  {
+   "id": "maclane:VI.4:cor1",
+   "kind": "corollary",
+   "number": null,
+   "name": "W-algebras are semigroups with iterated multiplications",
+   "statement_summary": "A system ⟨S,v₁,v₂,…⟩ is a W-algebra iff v₁=1_S, v₂:S×S→S is an associative binary operation, and v_{n+1}=v_n∘(v₂×1):S^{n+1}→S for all n≥2 (so every v_n is the n-fold product determined by v₂).",
+   "book_section": "VI.4",
+   "book_page": "146",
+   "pdf_pages": [
+    155
+   ],
+   "cross_refs": [
+    "maclane:VI.4:prop2"
+   ],
+   "flags": [
+    "unnumbered"
+   ]
+  },
+  {
+   "id": "maclane:VI.4:remark1",
+   "kind": "remark",
+   "number": null,
+   "name": "Smgrp is monadic over Set (the comparison functor is an isomorphism)",
+   "statement_summary": "The comparison functor K:Smgrp→Set^W, sending a semigroup ⟨S,v⟩ to ⟨S,1,v,…,v_n,…⟩ with each v_n the iterated product, is an isomorphism of categories — so the forgetful G:Smgrp→Set is monadic; K merely re-expresses one associative binary operation as the family of all its iterated operations.",
+   "book_section": "VI.4",
+   "book_page": "146",
+   "pdf_pages": [
+    155
+   ],
+   "cross_refs": [
+    "maclane:VI.4:cor1",
+    "maclane:VI.3:thm1",
+    "maclane:VI.3:def1"
+   ],
+   "flags": [
+    "worked-example"
+   ]
+  },
+  {
+   "id": "maclane:VI.4:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "the monoid monad W0 and its algebras",
+   "statement_summary": "For the monad W₀ on Set defined by the forgetful Mon→Set, show a W₀-algebra is a set M with a string v₀,v₁,… of n-ary operations where v₀:*→M is the monoid unit and v_n is the n-fold product.",
+   "book_section": "VI.4",
+   "book_page": "146",
+   "pdf_pages": [
+    155
+   ],
+   "cross_refs": [
+    "maclane:VI.4:prop2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.4:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "the free R-module monad on Set and its algebras",
+   "statement_summary": "For a ring R with identity the forgetful R-Mod→Set has a left adjoint, giving a monad ⟨T_R,η,μ⟩ on Set. (a) Describe it: T_R X = finitely-supported functions f:X→R; for t:X→Y, [(T_R t)f]_y = Σ f_x over x with tx=y; η_X x is the indicator at x; μ_X k assigns x↦Σ_f k_f f_x. (b) Verify directly it is a monad. (c) Show its algebras are the usual R-modules, presented via all linear-combination operations (the structure map sends f to the linear combination with coefficients f_x).",
+   "book_section": "VI.4",
+   "book_page": "146",
+   "pdf_pages": [
+    155
+   ],
+   "cross_refs": [
+    "maclane:VI.4:prop2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.4:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "the polynomial-ring monad from CRng",
+   "statement_summary": "Give a complete description of the adjunction defined by the forgetful CRng→Set, in which TX is the ring of all polynomials with integer coefficients in indeterminates x∈X.",
+   "book_section": "VI.4",
+   "book_page": "146",
+   "pdf_pages": [
+    155
+   ],
+   "cross_refs": [
+    "maclane:VI.4:construction1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.4:ex4",
+   "kind": "exercise",
+   "number": "4",
+   "name": "the tensor-algebra monad on Ab and rings as its algebras",
+   "statement_summary": "For the adjunction ⟨F,G,φ⟩:Ab⇀Rng whose G forgets ring multiplication, the induced monad T on Ab. (a) Describe T directly as for W but with X^n replaced by the n-fold tensor power and ⨆ by the direct sum of abelian groups. (b) Describe its T-algebras and show the comparison functor from rings to T-algebras is an isomorphism.",
+   "book_section": "VI.4",
+   "book_page": "146",
+   "pdf_pages": [
+    155
+   ],
+   "cross_refs": [
+    "maclane:VI.4:prop2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.5:construction1",
+   "kind": "construction",
+   "number": null,
+   "name": "restricting an adjunction to a full subcategory of free objects",
+   "statement_summary": "Given ⟨F,G,φ⟩:X⇀A, any full subcategory B⊆A containing every Fx yields an adjunction ⟨F_B,G_B,φ_B⟩:X⇀B (F with codomain restricted, G with domain restricted) via the same natural bijection hom_B(F_B x,b)≅hom_X(x,G_B b); this second adjunction defines the same monad in X, showing one monad arises from many adjunctions — the smallest being B = the full subcategory FX of free objects.",
+   "book_section": "VI.5",
+   "book_page": "147",
+   "pdf_pages": [
+    156
+   ],
+   "cross_refs": [
+    "maclane:VI.1:construction1"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VI.5:thm1",
+   "kind": "theorem",
+   "number": "1",
+   "name": "the Kleisli category of a monad",
+   "statement_summary": "For a monad ⟨T,η,μ⟩ in X, the Kleisli category X_T has an object x_T per x∈X and an arrow f♭:x_T→y_T per X-arrow f:x→Ty, with composition g♭∘f♭ = (μ_z∘Tg∘f)♭. Functors F_T:X→X_T (k:x→y ↦ (η_y∘k)♭) and G_T:X_T→X (f♭ ↦ μ_y∘Tf, so G_T F_T x = Tx) form an adjunction ⟨F_T,G_T,φ_T⟩:X⇀X_T (via f♭↦f) whose induced monad in X is the original ⟨T,η,μ⟩; the unit is η and the counit is (ε_T)_{y_T}=(1_{Ty})♭.",
+   "book_section": "VI.5",
+   "book_page": "147",
+   "pdf_pages": [
+    156,
+    157
+   ],
+   "cross_refs": [
+    "maclane:VI.5:construction1",
+    "maclane:VI.1:construction1"
+   ],
+   "flags": [
+    "spans-pages"
+   ]
+  },
+  {
+   "id": "maclane:VI.5:thm2",
+   "kind": "theorem",
+   "number": "2",
+   "name": "comparison theorem for the Kleisli construction",
+   "statement_summary": "For an adjunction ⟨F,G,ε⟩:X⇀A defining the monad T=⟨GF,η,GεF⟩, there is a unique functor L:X_T→A with G∘L = G_T and L∘F_T = F.",
+   "book_section": "VI.5",
+   "book_page": "148",
+   "pdf_pages": [
+    157
+   ],
+   "cross_refs": [
+    "maclane:VI.5:thm1",
+    "maclane:IV.7:prop1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.5:thm3",
+   "kind": "theorem",
+   "number": "3",
+   "name": "Kleisli initial and Eilenberg–Moore terminal among adjunctions for a monad",
+   "statement_summary": "For a fixed monad ⟨T,η,μ⟩ in X, the category whose objects are the adjunctions ⟨F,G,ε⟩:X⇀A that define this monad and whose arrows are maps of adjunctions which are the identity on X has the Kleisli construction X_T as initial object and the Eilenberg–Moore construction ⟨F^T,G^T,η,ε^T⟩:X⇀X^T as terminal object, connected by the comparison functors X_T →(L) A →(K) X^T.",
+   "book_section": "VI.5",
+   "book_page": "148",
+   "pdf_pages": [
+    157
+   ],
+   "cross_refs": [
+    "maclane:VI.5:thm1",
+    "maclane:VI.5:thm2",
+    "maclane:VI.3:thm1",
+    "maclane:VI.2:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.5:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "the Kleisli comparison functor and its image",
+   "statement_summary": "Construct the Kleisli comparison functor L, prove its uniqueness, and show that the image of X_T under L is the full subcategory FX of A on the objects Fx, x∈X.",
+   "book_section": "VI.5",
+   "book_page": "148",
+   "pdf_pages": [
+    157
+   ],
+   "cross_refs": [
+    "maclane:VI.5:thm2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.5:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "Kleisli category is equivalent to the free objects",
+   "statement_summary": "Show that the restriction of L gives an equivalence of categories X_T→FX.",
+   "book_section": "VI.5",
+   "book_page": "148",
+   "pdf_pages": [
+    157
+   ],
+   "cross_refs": [
+    "maclane:VI.5:ex1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.5:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "the equivalence X_T→FX need not be an isomorphism",
+   "statement_summary": "Construct an adjunction whose F is not a bijection on objects, and deduce that the equivalence X_T→FX of Exercise 2 need not be an isomorphism (suggestion: S↦T(S)= the one-point set defines a monad on Set).",
+   "book_section": "VI.5",
+   "book_page": "148",
+   "pdf_pages": [
+    157
+   ],
+   "cross_refs": [
+    "maclane:VI.5:ex2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.5:ex4",
+   "kind": "exercise",
+   "number": "4",
+   "name": "existence of the category of all adjunctions defining a monad",
+   "statement_summary": "In the summary comparison Theorem 3, ask whether the category of all such adjunctions really exists (a size/foundational question).",
+   "book_section": "VI.5",
+   "book_page": "148",
+   "pdf_pages": [
+    157
+   ],
+   "cross_refs": [
+    "maclane:VI.5:thm3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.5:ex5",
+   "kind": "exercise",
+   "number": "5",
+   "name": "composing with an identity-monad adjunction preserves the induced monad",
+   "statement_summary": "If ⟨F,G,η,ε⟩:X⇀B defines the monad ⟨T,η,μ⟩ in X, while a second adjunction ⟨L,R,η',ε'⟩:B⇀A defines the identity monad in B (RL=I_B, η'=1, Rε'L=1), prove that the composite adjunction X⇀A defines in X the same monad ⟨T,η,μ⟩.",
+   "book_section": "VI.5",
+   "book_page": "148",
+   "pdf_pages": [
+    157
+   ],
+   "cross_refs": [
+    "maclane:VI.5:construction1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.6:def1",
+   "kind": "definition",
+   "number": null,
+   "name": "fork",
+   "statement_summary": "A fork in a category C on a parallel pair d0,d1 : a => b is an arrow e : b -> c with e.d0 = e.d1; equivalently a cone from the diagram a => b to a vertex c.",
+   "book_section": "VI.6",
+   "book_page": "149",
+   "pdf_pages": [
+    158
+   ],
+   "cross_refs": [],
+   "flags": [
+    "running-prose-definition"
+   ]
+  },
+  {
+   "id": "maclane:VI.6:def2",
+   "kind": "definition",
+   "number": null,
+   "name": "absolute coequalizer",
+   "statement_summary": "An arrow e is an absolute coequalizer of d0,d1 in C if for every functor T : C -> X (to any X) the image fork Ta => Tb -> Tc has Te a coequalizer of T.d0, T.d1; in particular an absolute coequalizer is itself a coequalizer. Absolute colimits/limits are defined analogously (Pare 1971a).",
+   "book_section": "VI.6",
+   "book_page": "149",
+   "pdf_pages": [
+    158
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def1"
+   ],
+   "flags": [
+    "running-prose-definition"
+   ]
+  },
+  {
+   "id": "maclane:VI.6:def3",
+   "kind": "definition",
+   "number": null,
+   "name": "split fork",
+   "statement_summary": "A split fork is a fork (d0,d1,e) equipped with arrows t : b -> a and s : c -> b satisfying e.d0 = e.d1, e.s = 1_c, d0.t = 1_b, and d1.t = s.e; s and t 'split' the fork. Then e is a split epi with right inverse s. Equivalently the data is a pair of commutative squares (in the arrow category C^2) whose two horizontal composites are identities.",
+   "book_section": "VI.6",
+   "book_page": "149",
+   "pdf_pages": [
+    158
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def1"
+   ],
+   "flags": [
+    "running-prose-definition"
+   ]
+  },
+  {
+   "id": "maclane:VI.6:lem1",
+   "kind": "lemma",
+   "number": null,
+   "name": "in a split fork e is the coequalizer",
+   "statement_summary": "In every split fork, e is the coequalizer of d0 and d1. (Any f : b -> d with f.d0 = f.d1 factors as f = (f.s).e, and any factorization f = k.e forces k = f.s, giving uniqueness.)",
+   "book_section": "VI.6",
+   "book_page": "149",
+   "pdf_pages": [
+    158
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def3"
+   ],
+   "flags": [
+    "unnumbered"
+   ]
+  },
+  {
+   "id": "maclane:VI.6:def4",
+   "kind": "definition",
+   "number": null,
+   "name": "split coequalizer",
+   "statement_summary": "A split coequalizer of d0,d1 is the arrow e of some split fork on d0,d1.",
+   "book_section": "VI.6",
+   "book_page": "150",
+   "pdf_pages": [
+    159
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def3"
+   ],
+   "flags": [
+    "running-prose-definition"
+   ]
+  },
+  {
+   "id": "maclane:VI.6:cor1",
+   "kind": "corollary",
+   "number": null,
+   "name": "in a split fork e is an absolute coequalizer",
+   "statement_summary": "In every split fork, e is an absolute coequalizer of d0 and d1: since the split-fork equations involve only composites and identities they are preserved by any functor, so the image fork is again a split fork, hence a coequalizer.",
+   "book_section": "VI.6",
+   "book_page": "150",
+   "pdf_pages": [
+    159
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def3",
+    "maclane:VI.6:def2"
+   ],
+   "flags": [
+    "unnumbered"
+   ]
+  },
+  {
+   "id": "maclane:VI.6:remark1",
+   "kind": "remark",
+   "number": null,
+   "name": "split fork in Cat (arrow category over terminal)",
+   "statement_summary": "In Cat, for any category C, the diagram C^2 => C -> 1 is a fork: C^2 is the arrow category, d0 and d1 are the domain and codomain functors, and e is the unique functor C -> 1. If C has a terminal object a0 the fork is split, by s sending 1's object to a0 and t sending each object c to the unique arrow c -> a0.",
+   "book_section": "VI.6",
+   "book_page": "150",
+   "pdf_pages": [
+    159
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def1",
+    "maclane:VI.6:def3"
+   ],
+   "flags": [
+    "example"
+   ]
+  },
+  {
+   "id": "maclane:VI.6:remark2",
+   "kind": "remark",
+   "number": null,
+   "name": "quotient group as a coequalizer in Grp",
+   "statement_summary": "For a normal subgroup N <| G, form the semidirect product G x0 N (elements (x,n) with x in G, n in N; multiplication (x,n)(y,m) = (xy, (y^-1 n y) m)). Then G x0 N => G -> G/N is a fork, with d0(x,n)=x, d1(x,n)=xn, and p the quotient projection; p is the coequalizer of d0,d1 in Grp. This fork is not split in Grp in general, but applying the forgetful U : Grp -> Set makes it split (s a coset-representative section, t x = (x, x^-1 (s p x))). Thus every quotient group is a coequalizer in Grp.",
+   "book_section": "VI.6",
+   "book_page": "150",
+   "pdf_pages": [
+    159
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def1"
+   ],
+   "flags": [
+    "example"
+   ]
+  },
+  {
+   "id": "maclane:VI.6:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "quotient ring as a coequalizer in Rng",
+   "statement_summary": "In Rng, exhibit every quotient R/A of a ring R by an ideal A as a coequalizer, and show the resulting fork becomes split after applying the forgetful functor to Set.",
+   "book_section": "VI.6",
+   "book_page": "150",
+   "pdf_pages": [
+    159
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.6:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "contractible (Beck) pair",
+   "statement_summary": "Contractible (Beck) parallel pair: a pair d0,d1:a->b is contractible if there is t:b->a with d0.t = 1_b and d1.t.d0 = d1.t.d1. (a) the pair of any split fork is contractible; (b) a contractible pair whose coequalizer exists has that coequalizer split. [equation recovered from PDF 159; earlier scan misread 'd1.t = d0.d1' was non-composable.]",
+   "book_section": "VI.6",
+   "book_page": "150",
+   "pdf_pages": [
+    159
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def3",
+    "maclane:VI.6:def4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:thm1",
+   "kind": "theorem",
+   "number": "1",
+   "name": "Beck's theorem characterizing algebras",
+   "statement_summary": "Let <F,G,eta,eps> : X -> A be an adjunction inducing the monad <T,eta,mu> on X, let X^T be its category of T-algebras and <F^T,G^T,eta^T,eps^T> the Eilenberg-Moore adjunction. Then the following are equivalent: (i) the unique comparison functor K : A -> X^T is an isomorphism; (ii) G : A -> X creates coequalizers for exactly those parallel pairs f,g in A for which <Gf,Gg> has an absolute coequalizer in X; (iii) the same with 'absolute coequalizer' replaced by 'split coequalizer'. (Precise monadicity/tripleability; 'creates coequalizers' as in Sec V.1.)",
+   "book_section": "VI.7",
+   "book_page": "151",
+   "pdf_pages": [
+    160,
+    161,
+    162,
+    163
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def2",
+    "maclane:VI.6:def4"
+   ],
+   "flags": [
+    "spans-multiple-pages"
+   ]
+  },
+  {
+   "id": "maclane:VI.7:construction1",
+   "kind": "construction",
+   "number": null,
+   "name": "canonical presentation of an object",
+   "statement_summary": "For each object a in A the adjunction <F,G,eps,eta> yields a fork FGFGa => FGa -> a (arrows eps_{FGa} and FG(eps_a), coequalized by eps_a), called the canonical presentation of a (for A = Grp it is the free-group presentation). Applying G gives a split fork, the canonical presentation of the T-algebra <Ga, G eps_a>.",
+   "book_section": "VI.7",
+   "book_page": "153",
+   "pdf_pages": [
+    162
+   ],
+   "cross_refs": [
+    "maclane:VI.7:thm1"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VI.7:def1",
+   "kind": "definition",
+   "number": null,
+   "name": "comparison of two adjunctions defining the same monad",
+   "statement_summary": "Given adjunctions <F,G,eta,eps> : X -> A and <F',G',eta',eps'> : X -> A' inducing the same monad T on X, a comparison (of F' to F) is a functor M : A' -> A with M.F' = F and G.M = G'. Such an M is a morphism of adjunctions and hence satisfies M.eps' = eps.M.",
+   "book_section": "VI.7",
+   "book_page": "153",
+   "pdf_pages": [
+    162
+   ],
+   "cross_refs": [
+    "maclane:VI.7:lem1"
+   ],
+   "flags": [
+    "running-prose-definition"
+   ]
+  },
+  {
+   "id": "maclane:VI.7:lem1",
+   "kind": "lemma",
+   "number": null,
+   "name": "existence/uniqueness of the comparison under creation of coequalizers",
+   "statement_summary": "If G satisfies hypothesis (iii) of Beck's theorem (creates coequalizers of pairs with a split coequalizer under G), then for any other adjunction <F',G',eta',eps'> defining the same monad there is a unique comparison M : A' -> A. Applied to the Eilenberg-Moore adjunction (which satisfies (iii)) this reproves the comparison theorem of Sec 3; it also supplies the M used in proving (iii)=>(i) of Beck's theorem.",
+   "book_section": "VI.7",
+   "book_page": "153",
+   "pdf_pages": [
+    162,
+    163
+   ],
+   "cross_refs": [
+    "maclane:VI.7:thm1",
+    "maclane:VI.7:def1",
+    "maclane:VI.7:construction1"
+   ],
+   "flags": [
+    "unnumbered"
+   ]
+  },
+  {
+   "id": "maclane:VI.7:def2",
+   "kind": "definition",
+   "number": null,
+   "name": "reflects colimits (coequalizers, isomorphisms)",
+   "statement_summary": "A functor G : A -> X reflects colimits of T : J -> A when every cone lambda : T -> a in A whose image G.lambda : GT -> Ga is a colimiting cone in X is already colimiting in A. Specializations: G reflects coequalizers (a fork in A that G sends to a coequalizer is already a coequalizer), and G reflects isomorphisms (for every arrow t of A, Gt an isomorphism implies t an isomorphism).",
+   "book_section": "VI.7",
+   "book_page": "154",
+   "pdf_pages": [
+    163
+   ],
+   "cross_refs": [
+    "maclane:VI.7:thm1"
+   ],
+   "flags": [
+    "unnumbered-definition-block"
+   ]
+  },
+  {
+   "id": "maclane:VI.7:def3",
+   "kind": "definition",
+   "number": null,
+   "name": "CTT, VTT, PTT tripleability properties of a functor",
+   "statement_summary": "For G : A -> X let C_G (resp. S_G) be the set of parallel pairs <f,g> in A for which <Gf,Gg> has a coequalizer (resp. a split coequalizer) in X. G is CTT (crude tripleable) if G has a left adjoint, preserves and reflects coequalizers of all pairs in C_G, and A has coequalizers of all pairs in C_G. G is VTT (vulgar tripleable) if G has a left adjoint, reflects coequalizers of all pairs in S_G, and A has split coequalizers of all pairs in S_G. G is PTT (precise tripleable) if G has a left adjoint, preserves and reflects coequalizers of all pairs in S_G, and A has coequalizers of all pairs in S_G. Both CTT and VTT imply PTT. (More authoritative CTT/VTT definitions are in Barr-Wells 1985.)",
+   "book_section": "VI.7",
+   "book_page": "155",
+   "pdf_pages": [
+    164
+   ],
+   "cross_refs": [
+    "maclane:VI.6:def4"
+   ],
+   "flags": [
+    "exercise-setup-definition"
+   ]
+  },
+  {
+   "id": "maclane:VI.7:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "creates implies reflects coequalizers",
+   "statement_summary": "If G creates coequalizers, prove that G also reflects coequalizers. ('coequalizers' throughout means coequalizers of parallel pairs.)",
+   "book_section": "VI.7",
+   "book_page": "154",
+   "pdf_pages": [
+    163
+   ],
+   "cross_refs": [
+    "maclane:VI.7:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "Weak Tripleability Theorem (Beck's thesis)",
+   "statement_summary": "Given the adjunction (1) and comparison functor K, give a direct proof that: (a) if A has all coequalizers then K has a left adjoint L; (b) if in addition G preserves all coequalizers then the unit is an isomorphism I ~= K.L; (c) if in addition G reflects all coequalizers then the counit is an isomorphism L.K ~= I.",
+   "book_section": "VI.7",
+   "book_page": "154",
+   "pdf_pages": [
+    163
+   ],
+   "cross_refs": [
+    "maclane:VI.7:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "preserves + reflects-isos gives reflects coequalizers",
+   "statement_summary": "(Alternative hypothesis for Exercise 2.) If A has all coequalizers, G preserves all coequalizers, and G reflects isomorphisms, prove that G reflects all coequalizers.",
+   "book_section": "VI.7",
+   "book_page": "155",
+   "pdf_pages": [
+    164
+   ],
+   "cross_refs": [
+    "maclane:VI.7:ex2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:ex4",
+   "kind": "exercise",
+   "number": "4",
+   "name": "canonical presentation of a T-algebra; M as a coequalizer",
+   "statement_summary": "(a) Show the canonical presentation of a T-algebra <x,h> is <T^2 x, mu_{Tx}> => <Tx, mu_x> -> <x,h> (parallel arrows mu_x and Th, coequalized by h). (b) Show the comparison functor M : X^T -> A in Beck's theorem appears as a coequalizer diagram FGFx => Fx -> M(x,h) (parallel arrows eps_{Fx} and Fh).",
+   "book_section": "VI.7",
+   "book_page": "155",
+   "pdf_pages": [
+    164
+   ],
+   "cross_refs": [
+    "maclane:VI.7:construction1",
+    "maclane:VI.7:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:ex5",
+   "kind": "exercise",
+   "number": "5",
+   "name": "left adjoint to K from coequalizers of split-under-G pairs",
+   "statement_summary": "Let P be the set of parallel pairs f,g : a => b in A such that <Gf,Gg> has a split coequalizer. Using Exercise 4(b): (a) if A has coequalizers of all pairs in P, then K has a left adjoint M; (b) if in addition G preserves coequalizers of pairs in P, the unit eta : I -> K.M is an isomorphism; (c) if in addition to (a) G reflects coequalizers of pairs in P, the counit M.K -> I is an isomorphism.",
+   "book_section": "VI.7",
+   "book_page": "155",
+   "pdf_pages": [
+    164
+   ],
+   "cross_refs": [
+    "maclane:VI.7:ex4",
+    "maclane:VI.6:def4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:ex6",
+   "kind": "exercise",
+   "number": "6",
+   "name": "Beck's theorem up to equivalence",
+   "statement_summary": "Using Exercise 5 and Theorem IV.4.1, prove the equivalence-version of Beck's theorem: given data (1),(2), the following are equivalent -- (i) the comparison K : A -> X^T is an equivalence of categories; (ii) for every parallel pair f,g in A for which <Gf,Gg> has an absolute coequalizer, A has a coequalizer of f,g and G preserves and reflects coequalizers of such pairs; (iii) the same with 'absolute coequalizer' replaced by 'split coequalizer'.",
+   "book_section": "VI.7",
+   "book_page": "155",
+   "pdf_pages": [
+    164
+   ],
+   "cross_refs": [
+    "maclane:VI.7:ex5",
+    "maclane:VI.6:def2",
+    "maclane:VI.6:def4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:ex7",
+   "kind": "exercise",
+   "number": "7",
+   "name": "Crude Tripleability Theorem (Barr-Beck)",
+   "statement_summary": "CTT: if G is CTT then the comparison functor K is an equivalence of categories.",
+   "book_section": "VI.7",
+   "book_page": "155",
+   "pdf_pages": [
+    164
+   ],
+   "cross_refs": [
+    "maclane:VI.7:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:ex8",
+   "kind": "exercise",
+   "number": "8",
+   "name": "Vulgar Tripleability Theorem",
+   "statement_summary": "VTT: if G is VTT then the comparison functor K is an equivalence of categories.",
+   "book_section": "VI.7",
+   "book_page": "155",
+   "pdf_pages": [
+    164
+   ],
+   "cross_refs": [
+    "maclane:VI.7:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:ex9",
+   "kind": "exercise",
+   "number": "9",
+   "name": "composite CTT/PTT/VTT is PTT",
+   "statement_summary": "Given functors G1 : A -> X, G2 : X -> Y, G3 : Y -> Z with G1 CTT, G2 PTT, G3 VTT, prove that the composite G3.G2.G1 is PTT.",
+   "book_section": "VI.7",
+   "book_page": "155",
+   "pdf_pages": [
+    164
+   ],
+   "cross_refs": [
+    "maclane:VI.7:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:ex10",
+   "kind": "exercise",
+   "number": "10",
+   "name": "composite of two VTT is VTT",
+   "statement_summary": "Prove that the composite of two VTT functors is VTT.",
+   "book_section": "VI.7",
+   "book_page": "155",
+   "pdf_pages": [
+    164
+   ],
+   "cross_refs": [
+    "maclane:VI.7:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.7:ex11",
+   "kind": "exercise",
+   "number": "11",
+   "name": "composite of two CTT is CTT",
+   "statement_summary": "Prove that the composite of two CTT functors is CTT.",
+   "book_section": "VI.7",
+   "book_page": "155",
+   "pdf_pages": [
+    164
+   ],
+   "cross_refs": [
+    "maclane:VI.7:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.8:thm1",
+   "kind": "theorem",
+   "number": "1",
+   "name": "algebras of a variety are T-algebras (comparison is an isomorphism)",
+   "statement_summary": "Let Omega be a set of operators, E a set of identities on the derived operators, G the forgetful functor from the category <Omega,E>-Alg of all small <Omega,E>-algebras to Set, and T the induced monad on Set. Then the comparison functor K : <Omega,E>-Alg -> Set^T is an isomorphism. Proof via Beck's theorem: G creates coequalizers of pairs whose underlying maps have an absolute coequalizer e, defining each operation on the codomain via the n-th power e^n (still a coequalizer).",
+   "book_section": "VI.8",
+   "book_page": "156",
+   "pdf_pages": [
+    165
+   ],
+   "cross_refs": [
+    "maclane:VI.7:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.8:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "Theorem 1 via split coequalizers",
+   "statement_summary": "Prove Theorem 1 using split coequalizers instead of absolute coequalizers, defining each operation on the codomain X from a splitting <s,t> of the fork (1) by omega_X(x1,...,xn) = e . omega_B(s x1,...,s xn) for xi in X; for n=2 this is like the usual product of cosets of a normal subgroup.",
+   "book_section": "VI.8",
+   "book_page": "157",
+   "pdf_pages": [
+    166
+   ],
+   "cross_refs": [
+    "maclane:VI.8:thm1",
+    "maclane:VI.6:def4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.8:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "Beck's theorem for K-Alg over K-Mod",
+   "statement_summary": "For K a commutative ring, show that Beck's theorem applies to the forgetful functor K-Alg -> K-Mod.",
+   "book_section": "VI.8",
+   "book_page": "157",
+   "pdf_pages": [
+    166
+   ],
+   "cross_refs": [
+    "maclane:VI.7:thm1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VI.9:thm1",
+   "kind": "theorem",
+   "number": "1",
+   "name": "the forgetful functor Cmpt Haus -> Set is monadic",
+   "statement_summary": "The standard forgetful functor G : Cmpt Haus -> Set, sending each (small) compact Hausdorff space to its underlying set, is monadic. Its left adjoint F assigns to a set X the Stone-Cech compactification (V.6.2) of X with the discrete topology; the proof (due to Pare) shows G creates coequalizers for pairs whose underlying set-maps have an absolute coequalizer, transporting the closure operation along e and checking the quotient is compact Hausdorff.",
+   "book_section": "VI.9",
+   "book_page": "157",
+   "pdf_pages": [
+    166,
+    167,
+    168
+   ],
+   "cross_refs": [
+    "maclane:VI.7:thm1",
+    "maclane:VI.9:lem1",
+    "maclane:VI.9:def1"
+   ],
+   "flags": [
+    "spans-multiple-pages"
+   ]
+  },
+  {
+   "id": "maclane:VI.9:def1",
+   "kind": "definition",
+   "number": null,
+   "name": "topological space as a closure space; continuous and closed maps",
+   "statement_summary": "For the proof a topological space is regarded as a pair (X, closure) with a closure operation S |-> Sbar on subsets satisfying the Kuratowski axioms: emptyset-bar = emptyset, S subset Sbar, Sbar-bar = Sbar, (S union T)-bar = Sbar union Tbar. A continuous map f : (X,cl_X) -> (Y,cl_Y) is a function with f(Sbar) subset f(S)-bar for all S; f is closed if f(Sbar) superset f(S)-bar for all S.",
+   "book_section": "VI.9",
+   "book_page": "157",
+   "pdf_pages": [
+    166
+   ],
+   "cross_refs": [],
+   "flags": [
+    "proof-internal-setup",
+    "running-prose-definition"
+   ]
+  },
+  {
+   "id": "maclane:VI.9:lem1",
+   "kind": "lemma",
+   "number": null,
+   "name": "continuous map from compact to Hausdorff is closed",
+   "statement_summary": "If X is a compact space and Y a Hausdorff space, then every continuous map f : (X,cl_X) -> (Y,cl_Y) is closed.",
+   "book_section": "VI.9",
+   "book_page": "157",
+   "pdf_pages": [
+    166
+   ],
+   "cross_refs": [
+    "maclane:VI.9:def1"
+   ],
+   "flags": [
+    "unnumbered"
+   ]
+  },
+  {
+   "id": "maclane:VI.9:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "the constructed topology on W is the quotient topology",
+   "statement_summary": "Show that the topology on the coequalizer object W built in the proof of Theorem 1 is the quotient topology on W defined by e : Y -> W, i.e. a subset of W is open iff its inverse image under e is open in Y.",
+   "book_section": "VI.9",
+   "book_page": "159",
+   "pdf_pages": [
+    168
+   ],
+   "cross_refs": [
+    "maclane:VI.9:thm1"
+   ],
+   "flags": []
+  }
+ ]
+}

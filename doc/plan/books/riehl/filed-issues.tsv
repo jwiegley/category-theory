@@ -1,0 +1,334 @@
+216	MacLane I.1: Commutative diagrams as first-class objects
+217	MacLane I.1: Arrows-only metacategories and the equivalence of category presentations
+220	MacLane I.2: Delooping monoids and groups into one-object categories
+221	MacLane I.2: The matrix category Matr_K
+223	MacLane I.2: Preorders as thin categories, with partial and linear orders
+224	MacLane I.2: Finite ordinals as categories and the chain ω
+226	MacLane I.2: The roster of standard large categories
+227	MacLane I.3: The covariant power-set functor
+231	MacLane I.3: Full and faithful functors, subcategories, and reflection of monics
+234	MacLane I.3: Functors between preorders, groups, and representation categories
+237	MacLane I.4: The double-dual natural isomorphism for finite-dimensional vector spaces
+239	MacLane I.4: The currying adjunction and naturality of evaluation
+241	MacLane I.4: Natural transformations between group homomorphisms are conjugations
+242	MacLane I.4: Natural transformations into a preorder
+244	MacLane I.4: Finite-dimensional vector spaces and the matrix-category equivalence
+245	MacLane I.5: Epis in Sets are exactly the surjections
+247	MacLane I.5: Uniqueness of terminal, initial, and zero objects
+248	MacLane I.5: Groupoids and the structure of connected groupoids
+249	MacLane I.5: The fundamental groupoid of a topological space
+250	MacLane I.5: Monic/epi cancellation and a non-invertible bimorphism
+252	MacLane I.5: The natural numbers as an initial algebra
+253	MacLane I.6: Size and foundations vocabulary
+254	MacLane I.6: Small completeness of Sets (indexed products and coproducts)
+255	MacLane I.6: Grp, the category of groups
+260	MacLane I.7: Homotopy categories and pointed spaces
+263	MacLane I.7: Concrete categories
+267	MacLane II.2: The op involution as a functor on Cat
+268	MacLane II.2: Open(X) and the presheaf of continuous functions
+271	MacLane II.3: The cylinder C x 2 and the universal natural transformation
+283	MacLane II.5: Strict 2-categories, double categories, and Cat
+284	MacLane II.5: Naturality of the exponential laws
+288	MacLane II.5: The centre of a category
+298	MacLane II.7: The free groupoid on a graph and free groups
+299	MacLane II.8: The least congruence and presented categories
+300	MacLane II.8: The walking commutative square by generators and relations
+305	MacLane III.1: The free vector space on a set as a universal arrow
+306	MacLane III.1: The tensor product as a universal element of the bilinear-maps functor
+309	MacLane III.1: Free modules and polynomial rings as universal arrows
+311	MacLane III.1: A universal element for the contravariant power-set functor
+312	MacLane III.1: Universal arrows to the standard forgetful functors
+313	MacLane III.1: Quotient groups and the isomorphism theorems by universality
+316	MacLane III.2: Naturality of the Yoneda isomorphism in both variables
+320	MacLane III.3: Indexed coproducts
+321	MacLane III.4: Powers and copowers of an object
+324	MacLane III.3: Coproducts in the familiar algebraic and topological categories
+326	MacLane III.4: Interdefinability of the finite (co)limit constructions
+329	MacLane III.3: Chain unions as colimits and the cocompleteness of Sets
+333	MacLane III.4: Pullbacks and kernel pairs in Sets
+334	MacLane III.4: Limits along an index category with an initial object
+336	MacLane III.5: The matrix calculus from finite coproducts to finite products
+338	MacLane III.5: Cat has small coproducts
+345	MacLane III.7: The category of elements of a set-valued functor
+346	MacLane III.7: The density theorem: set-valued functors as colimits of representables
+348	MacLane IV.1: A left adjoint exists exactly when the hom-functors are representable
+349	MacLane IV.1: Adjoints of additive functors are additive
+352	MacLane IV.2: Connected categories
+353	MacLane IV.2: Limits and colimits as adjoints of the diagonal functor
+355	MacLane IV.2: Limits over a disjoint union of index categories, and connected components
+357	MacLane IV.2: The adjoint string on the objects functor of Cat
+358	MacLane IV.2: Functors adjoint on the right
+362	MacLane IV.2: Adjoining an identity to a ring as a left adjoint
+367	MacLane IV.3: Fullness and faithfulness of a right adjoint through its counit
+370	MacLane IV.3: Concrete reflective and coreflective subcategories
+373	MacLane IV.3: A full reflective subcategory inherits limits
+374	MacLane IV.4: Skeletons and skeletal categories
+380	MacLane IV.5: Galois connections are adjunctions between preorders
+382	MacLane IV.5: The powerset preorder and the direct-image/inverse-image adjunction
+384	MacLane IV.5: Quantifiers as adjoints to substitution
+386	MacLane IV.5: Closed elements of a Galois connection and the fixed points of an adjunction
+388	MacLane IV.6: The tensor-hom adjunction for modules
+389	MacLane IV.6: Powerset lattices and Boolean algebras are cartesian closed
+393	MacLane IV.7: Maps of adjunctions
+394	MacLane IV.7: Conjugate natural transformations and the four characterizations of conjugacy
+396	MacLane IV.7: Adjunctions with a parameter
+398	MacLane IV.7: Adjoint squares and the Palmquist mates bijection
+401	MacLane IV.8: Bimodule tensor adjunctions and their composites
+406	MacLane V.1: Creation of limits by a functor
+407	MacLane V.1: Completeness of Sets by cone sets
+408	MacLane V.1: Inverse limits of towers of sets
+409	MacLane V.1: The p-adic integers and formal power series as inverse limits of rings
+410	MacLane V.1: The p-adic solenoid as a limit in Top
+414	MacLane V.1: Cat is small-complete
+416	MacLane V.2: Limits from products and equalizers
+417	MacLane V.2: Finite index categories and finite limits
+418	MacLane V.2: Completeness of a product category
+419	MacLane V.2: The canonical comparison arrow for limits of composites
+422	MacLane V.2: Products in a preorder are greatest lower bounds
+423	MacLane V.2: A small small-complete category is a preorder (Freyd)
+425	MacLane V.3: Pointwise limits in a functor category
+426	MacLane V.3: Pointwise limits as creation along the discrete inclusion
+427	MacLane V.4: Cone-level preservation of limits and continuous functors
+428	MacLane V.4: Hom-functors are continuous
+431	MacLane V.5: Adjunctions and limits in functor categories
+434	MacLane V.5: A full reflective subcategory of a cocomplete category is cocomplete
+435	MacLane V.6: The initial-object theorem as a characterization
+437	MacLane V.6: The representability theorem
+438	MacLane V.6: The comma projection creates limits
+442	MacLane V.6: The free group functor via the adjoint functor theorem
+445	MacLane V.7: Intersections and unions of subobjects
+447	MacLane V.7: Generating (separating) sets of objects
+450	MacLane V.7: Colimits in algebraic categories via the adjoint functor theorem
+452	MacLane V.8: The special initial-object theorem
+453	MacLane V.8: The special adjoint functor theorem as a characterization
+455	MacLane V.6/V.8: The Stone-Cech compactification via the adjoint functor theorems
+456	MacLane V.9: The underlying-set functor of Top and its adjoint triple
+458	MacLane V.9: Top is complete and cocomplete
+461	MacLane V.9: Hausdorff spaces, reflection, and the separation axioms
+462	MacLane V.9: The connected-components functor
+463	MacLane VI.1: Monads on a preorder are closure operators, and their algebras are the closed elements
+464	MacLane VI.2: The group-action monad G×(−) and its algebras are G-sets
+465	MacLane VI.2: The monad R⊗(−) on Ab and its algebras are left R-modules
+466	MacLane VI.2: The power-set monad and complete semilattices (Manes)
+471	MacLane VI.4: The monoid monad W₀ and monoids as its algebras
+472	MacLane VI.4: The free R-module monad on Set and R-modules as its algebras
+474	MacLane VI.4: The tensor-algebra monad on Ab and rings as its algebras
+475	MacLane VI.5: The Kleisli comparison functor and the free-object subcategory
+476	MacLane VI.5: The category of resolutions of a monad — Kleisli initial, Eilenberg–Moore terminal
+477	MacLane VI.6: The absolute-coequalizer (absolute-colimit) predicate
+481	MacLane VI.7: Reflection of coequalizers — definition, and from creation or from preservation+conservativity
+482	MacLane VI.7: Comparison of adjunctions defining the same monad (definition and uniqueness)
+483	MacLane VI.7: The graded weak and precise tripleability construction (left adjoint to K, unit/counit isos, algebra presentation)
+484	MacLane VI.7: Complete Beck's monadicity theorem (isomorphism conclusion, absolute-coequalizer condition, general converse)
+487	MacLane VI.8: Algebras of a variety are T-algebras (equational categories are monadic over Set)
+489	MacLane VI.9: Compact Hausdorff spaces are monadic over Set (the ultrafilter monad)
+490	MacLane VII.1: Cocartesian monoidal structure from finite coproducts
+497	MacLane VII.2: The coherence theorem for monoidal categories
+500	MacLane VII.3: Monoids in a monoidal category recover the classical algebraic structures
+502	MacLane VII.3: Construction of free monoids as coproducts of tensor powers
+518	MacLane VII.6: The monoid-ring functor and the group ring
+520	MacLane VII.7: Coherence for symmetric monoidal categories, and product/coproduct as symmetric tensor
+522	MacLane VII.8: Compactly generated Hausdorff spaces and the Kelleyfication coreflection
+528	MacLane VII.9: Reduced suspension, loop space, and the Σ ⊣ Ω adjunction
+529	MacLane VII.9: The left adjoint of the pointed-hom functor on pointed sets
+530	MacLane VIII.1: Equalizers as kernels of differences in an Ab-category
+534	MacLane VIII.2: Product, biproduct, and coproduct coincide in an Ab-category
+542	MacLane VIII.3: Abelian categories are finitely (co)complete and balanced
+544	MacLane VIII.3: Coimage and the canonical coimage-to-image isomorphism
+545	MacLane VIII.3: Exact sequences and short exact sequences
+546	MacLane VIII.3: Exact and left-exact functors
+547	MacLane VIII.3: The economical (Freyd–Schubert) axiomatization of abelian categories
+554	MacLane VIII.4: The short five lemma and the five lemma
+557	MacLane VIII.4: Chain complexes and homology objects
+558	MacLane VIII.4: The Freyd–Mitchell embedding theorem
+559	MacLane IX.1: Filtered categories and filtered colimits
+563	MacLane IX.2: Finite limits commute with filtered colimits in Set
+564	MacLane IX.2: Interchange of iterated limits and of iterated colimits
+568	MacLane IX.3: Final functors preserve colimits (and initial functors, limits)
+572	MacLane IX.4: Multi-variable (di)natural transformations and dummy variables
+575	MacLane IX.5: The end–limit correspondence (subdivision and twisted-arrow categories)
+577	MacLane IX.5: The set of natural transformations is an end of the hom-functor
+583	MacLane IX.7: A limit in a functor category that is not pointwise (Dubuc)
+589	MacLane X.3: The pointwise (co)limit formula for Kan extensions
+590	MacLane X.3: Existence of Kan extensions from completeness and the global adjoint to precomposition
+591	MacLane X.3: Fully faithful K — an invertible Kan counit and extension along an inclusion
+592	MacLane X.3: Kan extensions between sets — images, representables, and non-existence
+597	MacLane X.4: Composition of right Kan extensions (Dubuc)
+598	MacLane X.5: Preservation of Kan extensions; right adjoints and representables preserve them
+599	MacLane X.5: Pointwise Kan extensions and the comma-category limit criterion
+600	MacLane X.6: Dense and codense functors and the full-faithfulness (nerve) criteria
+603	MacLane X.7: Kan extensions along the identity and the terminal functor give functors and (co)limits
+604	MacLane X.7: The adjoint criterion via the Kan extension of the identity, and absolute Kan extensions
+605	MacLane X.7: The codensity monad and codensity as Ran_K K
+617	MacLane XII.1: Internal categories (category objects in a finitely complete category)
+626	MacLane XII.4: 2-functors and 2-natural transformations (strict)
+637	MacLane App.1: Natural-numbers object
+641	Awodey 1.4: Pos, the category of posets and monotone maps
+643	Awodey 1.5: Automorphism groups, permutation groups, and Cayley's theorem
+644	Awodey 1.5: Every category with small hom-collections is concrete (Cayley/Yoneda into Sets)
+645	Awodey 1.9 Ex 3: Isomorphisms versus bijective homomorphisms in Sets, Mon, and Pos
+646	Awodey 1.9 Ex 4: The coslice as the opposite of the slice over the opposite category
+649	Awodey 2.1: The inclusion of the additive monoid of naturals into the integers is a non-surjective epimorphism
+652	Awodey 2.2: Initial and terminal objects in slice categories, coslices, and posets
+656	Awodey 2.4: Functors preserve split monomorphisms and split epimorphisms
+657	Awodey 2.4: The categorical axiom of choice and projective objects in Sets and Pos
+663	Awodey 3.4: Presentations of algebras by generators and relations as coequalizers of free algebras
+697	Awodey 7.1: Injectivity and surjectivity of a functor on objects and on arrows
+698	Awodey 7.1: Monoids, groups, posets and sets embed fully and faithfully in Cat
+704	Awodey 7.5: The contravariant powerset functor on Sets, the double-powerset unit, and P(A+B) ≅ P(A) × P(B)
+708	Awodey 7.9: The category of partial maps is equivalent to the category of pointed sets
+709	Awodey 7.9: The equivalence Sets^I ≃ Sets/I and reindexing as pullback
+710	Awodey 7.10 Ex 3: The forgetful functors Grp ⟶ Mon ⟶ Sets — fullness, faithfulness and (non-)surjectivity
+712	Awodey 7.10 Ex 5: The full-image factorization of a functor, and its comparison with the bijective-on-objects factorization
+716	Awodey 8.6: The category of elements is equivalent to the Yoneda slice y/P
+718	Awodey 8.7: Exponentials of presheaves and cartesian closure of Sets^(C^op)
+721	Awodey 8.8: The subobject functor is representable — naturality of the classifying bijection and uniqueness of Ω
+722	Awodey 8.8: The fundamental theorem of topos theory — every slice of a topos is a topos
+726	Awodey 9.2/9.8: Recovering universal arrows from an adjunction — each unit component is initial in the comma category
+729	Awodey 9.7: Change of base for indexed families of sets — the adjoint triple with its fibrewise formulas
+730	Awodey 9.7: The dependent product — the right adjoint to base change on slices
+732	Awodey 9.7: Locally cartesian closed categories, and the equivalence with slicewise cartesian closure
+733	Awodey 9.7: A slice of a presheaf category is again a presheaf category
+734	Awodey 9.7: Presheaf categories are locally cartesian closed
+743	Awodey 10.4: Adjoint triples — the induced monad, the induced comonad, and T ⊣ G
+745	Awodey 10.4/10.6 Ex 8: The interior comonad and the closure monad on the subsets of a space
+758	Seven Sketches 1.2: The divisibility preorder on the naturals, with gcd and lcm as meet and join
+760	Seven Sketches 1.4: The ceiling/multiplication Galois connection between the integers and the reals
+772	Seven Sketches 2.2: Every commutative monoid is a symmetric monoidal preorder on its discrete order
+809	Seven Sketches 3.5.3: Restriction along a functor is a pullback of categories of elements
+890	Seven Sketches 7.3.3: Sheaves on a topological space — matching families, unique gluing, and Shv(X, Op)
+905	Riehl 1.0: Group extensions, Ext(H,G), and the universal coefficient sequence
+906	Riehl 1.1: Reflexive quivers and the underlying reflexive quiver of a category
+907	Riehl 1.1: The maximal subgroupoid of a category as a wide subcategory
+908	Riehl 1.2: Representable characterizations of isomorphisms, split epimorphisms and split monomorphisms
+909	Riehl 1.3: The Brouwer fixed-point theorem via the fundamental group
+910	Riehl 1.3: Functorial clustering — FinMetric, Cluster, and persistent clusters
+911	Riehl 1.3: The fundamental theorem of Galois theory as an isomorphism of categories
+912	Riehl 1.3/1.5: Counterexamples — functors need not reflect isomorphisms, and full or faithful alone does not suffice
+913	Riehl 1.3: Centre, commutator, automorphism and conjugacy-class functors on Grp and its wide subcategories
+914	Riehl 1.4: The torsion subgroup of a finitely generated abelian group and the non-naturality of its splitting
+915	Riehl 1.4: The Riesz representation theorem as a natural isomorphism
+916	Riehl 1.4: Natural transformations between the identity and the add-a-point endofunctor on Sets
+917	Riehl 1.5/1.6: Transporting a morphism along isomorphisms — the conjugation toolkit
+918	Riehl 1.5: The essential image of a functor, and a fully faithful functor as an equivalence onto it
+919	Riehl 1.5: Essentially small and essentially discrete categories
+920	Riehl 1.5: Equivalence-invariance of categorical notions
+921	Riehl 1.5: Segal's category Gamma and the opposite of finite pointed sets
+922	Riehl 1.5: Affine and projective planes as equivalent groupoids
+923	Riehl 1.5: The action groupoid and the categorified orbit-stabilizer theorem
+924	Riehl 1.6: Cancellation criteria for pasted squares, and the failure of the converse
+925	Riehl 1.7: Size of functor categories — local smallness of [C, D]
+926	Riehl 2.0/2.4: The n-colouring functor on graphs, its representing object K_n, and the category of n-coloured graphs
+927	Riehl 2.1: The identity functor on Sets is represented by the singleton — the global-elements isomorphism
+928	Riehl 2.1/2.4: Initial and terminal objects as representations of the constant singleton functor
+929	Riehl 2.1/2.2: The objects, morphisms and isomorphisms functors on Cat and their representing categories
+930	Riehl 2.1: Subfunctors of a represented functor and the sieve condition
+931	Riehl 2.1: Representable functors preserve monomorphisms
+932	Riehl 2.1: Transporting representability along natural isomorphisms and equivalences of categories
+933	Riehl 2.1/2.4: Representable functors on Grp and Rng — free and cyclic groups, tuples, units, and their universal elements
+934	Riehl 2.1/2.2/2.4: Representable functors on Top — underlying sets, opens and closeds, paths and reparameterizations
+935	Riehl 2.1/2.2/2.4: Representable functors on Vect_k — the dual-space functor and natural endomorphisms of the underlying-set and identity functors
+936	Riehl 2.3/2.4: Unit, associativity and commutativity of the tensor product from its universal property
+937	Riehl 2.2/2.3/2.4: Natural endomorphisms of the power-set functor, its category of elements, and the non-uniqueness of universal elements
+938	Riehl 2.2: The Yoneda lemma and embedding computed directly at the ordinal category omega
+939	Riehl 2.2: The Yoneda lemma for a group — equivariant maps out of the regular representation
+940	Riehl 2.3/2.4: Torsors — representable G-sets are the free transitive actions, and the category of elements is the action groupoid
+941	Riehl 2.2: Row operations are left multiplication by a matrix
+942	Riehl 2.3: Representably isomorphic objects — isomorphism of objects is natural isomorphism of represented functors
+943	Riehl 2.1/2.4: Pointed objects as the category of elements of an underlying-set functor
+944	Riehl 2.4: The category of elements over a discrete base — dependent sums, dependent products and sections
+945	Riehl 2.4: Slice and coslice categories as the categories of elements of represented functors
+946	Riehl 2.4: Universal elements are exactly the initial (resp. terminal) objects of the category of elements
+947	Riehl 2.4: The subcategory of representations is empty or a contractible groupoid
+948	Riehl 2.4: Discrete fibrations and the characterization of categories of elements
+949	Riehl 2.4: The functor of preorders on a set and its category of elements
+950	Riehl 3.1: Essential uniqueness of limits and colimits
+951	Riehl 3.1: The fiber of a morphism over a global element
+952	Riehl 3.1: The least common multiple as a pullback in Ab, and the sign ambiguity of its cone
+953	Riehl 3.1: Concrete limits and colimits in Top — the fiber of the exponential covering map, and the wedge of circles and the torus as pushouts
+954	Riehl 3.2/3.3/3.6: Limits and colimits of G-sets — fixed points, orbits, and objectwise versus natural isomorphism
+955	Riehl 3.3: Associativity of binary products up to unique natural isomorphism, and a chosen product whose associator is not the identity
+956	Riehl 3.3: Species — permutations versus total orderings, and unlabeled structures as colimits over the automorphism groupoid
+957	Riehl 3.2/3.4/3.8: Split idempotents as absolute limits and colimits
+958	Riehl 3.4/3.6: Connected colimits — the coslice and category-of-elements projections create them, and slices of a bicomplete category are bicomplete
+959	Riehl 3.5: The Yoneda embedding preserves and reflects limits but does not create them
+960	Riehl 3.6: Internal equivalence relations — the kernel pair as a relation, and effective quotients
+961	Riehl 3.1/3.6: Cone-shape index categories, and pushouts in Cat computing the free monoid and free group on one generator
+962	Riehl 3.6: Completeness and cocompleteness of Quiver and rQuiver, and the failure for Graph
+963	Riehl 3.6: Configuration spaces of n points — the ordered configuration space, its symmetric-group action, and functoriality in finite sets and injections
+964	Riehl 3.6: Fiber spaces, trivial fiber spaces, and the sections functors
+965	Riehl 3.6/3.7: Size obstructions — the large products Set does and does not admit, and the failure of cocompleteness for CAT
+966	Riehl 3.7: The limit of the identity functor is the initial object
+967	Riehl 3.8: The extended real line as a bicomplete poset — lim inf, lim sup, and sup-inf at most inf-sup
+968	Riehl 3.8: Coprime group orders — BG-indexed limits commute with BH-indexed colimits in Set
+969	Riehl 4.1: Naturality of adjoint transposition as a bijection of commuting squares
+970	Riehl 4.1: Chains of adjoint functors between the ordinal categories
+971	Riehl 4.1: The forgetful functors out of the category of fields admit no adjoints
+972	Riehl 4.1: Groupoids in Cat — the core and the category of fractions as adjoints to the inclusion
+973	Riehl 4.3: Uniqueness of adjoints up to a unique compatible natural isomorphism
+974	Riehl 4.3: The adjunction calculus internal to a bicategory — composition, adjoint equivalences, and the representable characterization
+975	Riehl 4.3: The double category of categories, functors, adjunctions and mates
+976	Riehl 4.4: Two-variable adjunctions, left and right closures, and closed monoidal categories
+977	Riehl 4.4: Two antitone Galois connections — zero sets versus ideals, and axioms versus models
+978	Riehl 4.5: Sets and injections — slices as predicate posets, and local cartesian closure without a terminal object
+979	Riehl 4.5: The composition-pullback-pushforward triple on slices of quivers over the walking arrow
+980	Riehl 4.5: The Beck-Chevalley transformations and their invertibility over a pullback square
+981	Riehl 4.5: Distributivity of the dependent product over the dependent sum, and the type-theoretic axiom of choice
+982	Riehl 4.6: Distributive laws for sets, and the corresponding cardinal arithmetic
+983	Riehl 4.6: Adjoints preserve monomorphisms and epimorphisms, via the pullback characterization of a monomorphism
+984	Riehl 4.6: Cat is not locally cartesian closed
+985	Riehl 4.6: The essential image of a reflective subcategory, and its local objects
+986	Riehl 4.7: Locally presentable categories, accessible functors, and their adjoint functor theorem
+987	Riehl 4.1: Induction, restriction and coinduction along a group homomorphism
+988	Riehl 4.1: Adjoints to the vertex functor of quivers, and the question for graphs
+989	Riehl 4.2: The six equivalent presentations of an adjunction, closed as one theorem
+990	Riehl 4.5: The composition laws of the slice adjoint triple, and the pushforward on morphisms
+991	Riehl 4.6: The nerve and the homotopy category — Cat as a reflective subcategory of simplicial sets, and the cocompleteness of Cat
+992	Riehl 5.1: The maybe monad on Sets — its Kleisli category of partial functions, its pointed-set algebras, and monadicity
+993	Riehl 5.1/5.5: The free-category monad on quivers, and the monadicity of Cat over Quiver
+994	Riehl 5.1: The self-adjoint exponential S^(−) and its continuation monad (double power set, double dual)
+995	Riehl 5.1/5.2: The writer monad of a monoid object and the state monad of the currying adjunction
+996	Riehl 5.1/5.2: The Giry monad on measurable spaces, and its Kleisli category of Markov kernels
+997	Riehl 5.1: Characterizations of an idempotent monad — μ invertible, μ monic, and ηT = Tη
+998	Riehl 5.1: The ultrafilter monad on Sets, as a submonad of the double power set monad
+999	Riehl 5.2: Affine spaces — translation actions, affine combinations, and algebras for the affine-combination monad
+1000	Riehl 5.2: Eilenberg–Moore algebras as presheaves on the Kleisli category
+1001	Riehl 5.3: Algebras for an idempotent monad form a reflective subcategory, and reflective inclusions are monadic
+1002	Riehl 5.3/5.6: Monadic functors are conservative, and bijective homomorphisms of algebras are isomorphisms
+1003	Riehl 5.5: Lattices and semilattices as categories over Set
+1004	Riehl 5.5: Finitary functors and monads, and categories of models for an algebraic theory
+1005	Riehl 5.5: Paré's theorem — the contravariant power set functor is monadic
+1006	Riehl 5.5: Restriction along a functor of small categories — the left Kan extension by copowers, and monadicity
+1007	Riehl 5.5: The Lawvere theory of a monad on Set, built from its Kleisli category
+1008	Riehl 5.6: Monadic functors create limits, and the colimits preserved by T and T²
+1009	Riehl 5.6: Cocompleteness of a monadic category reduces to coequalizers — coproducts of algebras as coequalizers of free algebras
+1010	Riehl 5.6: Algebras for a finitary monad are complete and cocomplete, and categories of models are cocomplete
+1011	Riehl E.2: The symmetric monoidal structure on chain complexes and its sign conventions
+1012	Riehl E.3: The universal property of the unit interval — bipointed spaces and Freyd's terminal coalgebra
+1013	Riehl E.4: Finite-limit-preserving functors and the definition of a Grothendieck topos
+1014	Riehl E.4: Every Grothendieck topos is a cocomplete elementary topos, and Fin is not one
+1015	Riehl E.4: Disjoint coproducts and universal (pullback-stable) colimits
+1016	Riehl E.4: Giraud's theorem
+1017	Riehl 6.1: Kan extensions as representations — the candidate category, terminality, and essential uniqueness
+1018	Riehl 6.1/6.2: Kan extensions along the inclusion of the parallel pair into the free fork
+1019	Riehl 6.1/6.2: Extension along a fully faithful functor — the walking-triangle example and a non-pointwise counterexample
+1020	Riehl 6.1/6.2: The augmented simplex category and the adjoint triples on simplicial sets — augmentation, truncation, skeleton and coskeleton
+1021	Riehl 6.2: The comma category K↓d as the indexing data for Kan extensions — projection, reindexing, and the category-of-elements identification
+1022	Riehl 6.2: The real exponential as a Kan extension along the rationals in the reals
+1023	Riehl 6.2: Explicit induction and coinduction formulae for a subgroup inclusion
+1024	Riehl 6.2: The fixed-point functor as a right Kan extension along the orbit-category embedding
+1025	Riehl 6.3: Preservation of induced and coinduced objects by underlying-set functors
+1026	Riehl 6.3: (Co)completeness as an adjoint to restriction along the cone-shape inclusion
+1027	Riehl 6.4: Homotopical categories — weak equivalences, the 2-of-6 property, and homotopical functors
+1028	Riehl 6.4: The homotopy category and the localization functor — universal property and the Gabriel–Zisman construction
+1029	Riehl 6.4: Concrete homotopical structures — chain complexes and topological spaces
+1030	Riehl 6.4: Total and point-set derived functors as Kan extensions along localization
+1031	Riehl 6.4: Deformations and the construction of derived functors
+1032	Riehl 6.4: Derived functors of deformable functors are absolute, and the derived adjunction
+1033	Riehl 6.5: A functor as a (co)limit over its (co)slices, and the Yoneda equalizer and co-Yoneda coequalizer formulas
+1034	Riehl 6.5: Adjunctions out of a presheaf category — left Kan extension along Yoneda and the nerve-realization paradigm
+1035	Riehl 6.5: The sheaf and etale-space adjunction from the inclusion of opens into spaces over a base
+1036	Riehl 6.5: Geometric realization and the total singular complex
+1037	Riehl 6.5: The ultrafilter monad as the codensity monad of the inclusion of finite sets
+1038	Riehl 6.5: The codensity monad of the inclusion of fields into commutative rings
+1039	Riehl 6.5: The Giry monad as a codensity monad

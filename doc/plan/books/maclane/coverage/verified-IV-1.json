@@ -1,0 +1,477 @@
+[
+  {
+    "id": "maclane:IV.1:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "representable functor X(x, G-) / representation determines left adjoint",
+      "universal arrow from x to G (UniversalArrow, AUniversalArrow)",
+      "AdjunctionFromUniversalArrows / LeftAdjointFunctorFromUniversalArrows",
+      "representability criterion for adjunctions (Repr_left/Repr_right, representable_adjunction)",
+      "IsUniversalProperty / Curried_Hom representation"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty/Universal/Arrow.v",
+        "line": 61,
+        "symbol": "UniversalArrowIsUniversalProperty",
+        "intree_statement": "Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _.  (repr_functor := (Curried_Hom C c) ◯ U, i.e. d ↦ Hom_C(c, U d) = X(x, G−); repr_equivalence a : AUniversalArrow c U a ≅ Isomorphism [Hom a,─] ((Curried_Hom C c) ◯ U) in Sets, so a representation of X(x, G−) IS the universal-arrow datum — the exact content of clause (vi))"
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 240,
+        "symbol": "AUniversalArrow",
+        "intree_statement": "Class AUniversalArrow (c : C) (F : D ⟶ C) (a : D) := { universal_arrow : c ~> fobj[F] a ; universal_arrow_universal {d} {f : c ~> (fobj[F] d)} : Unique (fun g : hom a d => fmap[F] g ∘ universal_arrow ≈ f) }."
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 127,
+        "symbol": "UniversalArrow",
+        "intree_statement": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); arrow_obj := ...; arrow : c ~> F arrow_obj := ... }.  (a SECOND, comma-initial packaging — a different type from AUniversalArrow)"
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 214,
+        "symbol": "AdjunctionFromUniversalArrows",
+        "intree_statement": "Definition AdjunctionFromUniversalArrows (H: forall c : C, UniversalArrow c U) : @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U.  (consumes the comma-initial UniversalArrow, NOT AUniversalArrow)"
+      },
+      {
+        "file": "Theory/Profunctor/Adjunction.v",
+        "line": 70,
+        "symbol": "representable_adjunction",
+        "intree_statement": "Definition representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U) := (adjunction_to_repr_iso, repr_iso_to_adjunction).  (bifunctor-level; PRESUPPOSES a given F, so it is the converse half only)"
+      },
+      {
+        "file": "Functor/Representable.v",
+        "line": 46,
+        "symbol": "Representable",
+        "intree_statement": "Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }.  (defined, but never applied to (Curried_Hom C c) ◯ U nor connected to adjunctions anywhere in the tree)"
+      }
+    ],
+    "statement_record": {
+      "book": "Theorem IV.1.2 admits an added equivalent clause (vi): an adjunction is completely determined by the functor G : A -> X together with, for each object x of X, a representation phi_x of the functor X(x, G-) : A -> Set (dual clause likewise).",
+      "intree": "UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a => AUniversalArrow c U a) _ (a representation of Hom_C(c, U−) is the same data as an AUniversalArrow at c, via Yoneda); AdjunctionFromUniversalArrows : (forall c, UniversalArrow c U) -> Adjunction (LeftAdjointFunctorFromUniversalArrows H) U (note: UniversalArrow, the comma-initial packaging, not AUniversalArrow); representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅ Repr_right U), which presupposes F.",
+      "strength_comparison": "intree-weaker: no in-tree statement is the clause-(vi) equivalence, and the forward half cannot be run end-to-end from the in-tree lemmas alone. The representability half lands in AUniversalArrow c U a (Theory/Universal/Arrow.v:240) while the adjunction-building half consumes UniversalArrow c U (Theory/Universal/Arrow.v:127, an Initial of the comma =(c) ↓ U); the two packagings are distinct types and NO conversion between them exists in-tree (`rg 'AUniversalArrow'` hits only the definition, its setoid, and Structure/UniversalProperty/Universal/Arrow.v). The bridge is short — universal_arrow_from_UMP (Theory/Universal/Arrow.v:158) takes the raw UMP ∃! g, f ≈ fmap g ∘ η, which AUniversalArrow supplies up to symmetry of the equation — but it is not written. Only the converse half (adjunction ⇒ representations) is genuinely available as a theorem, at bifunctor level (representable_adjunction / hom_adj). The exercise's explicit dual clause has no counterpart at all: the dual universal arrow (terminal object of F ↓ =(c)) is described only in prose at Theory/Universal/Arrow.v:23."
+    },
+    "gap": "The added clause (vi) is never stated as an equivalence. Missing: (a) the conversion AUniversalArrow c U a → UniversalArrow c U (equivalently, the equivalence of the library's two universal-arrow packagings), without which the representability datum produced by UniversalArrowIsUniversalProperty cannot be fed to AdjunctionFromUniversalArrows; (b) any statement of the form '(∀ x, Representable ([Hom x,─] ◯ G)) ↔ ∃ F, F ⊣ G' — Functor/Representable.v's Representable class is never applied to the composite Hom(x, G−) and never mentioned in any adjunction file; (c) the exercise's dual clause (a representation of A(F−, a) for each a, i.e. a couniversal arrow / terminal object of F ↓ =(a)), which exists only as a prose remark at Theory/Universal/Arrow.v:23.",
+    "negative_search_log": [
+      "rg -n 'AUniversalArrow' --glob '*.v' — 6 hits, all in Theory/Universal/Arrow.v (header prose, Class at 240, AUniversalArrowEquiv at 248) and Structure/UniversalProperty/Universal/Arrow.v (header prose, use at 62); no conversion to/from UniversalArrow",
+      "rg -n 'Representable' --glob '*.v' — outside Functor/Representable.v the only hits are prose, Theory/Profunctor.v's representable PROFUNCTORS, and Theory/Multicategory/Representable.v; the Representable class is never instantiated at (Curried_Hom C c) ◯ U",
+      "rg -i 'couniversal|co-universal' --glob '*.v' — 0 hits; the dual universal arrow appears only as prose at Theory/Universal/Arrow.v:23"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:PARTIAL",
+      "notes": "Blind pass (run before opening the coverage file) independently found the same three files and classified the item PARTIAL. The classifier's evidence is real and its line numbers are exact (61 / 214 / 70; all three files are registered in _CoqProject), but strength_comparison 'same — both directions of the clause are proven in-tree ... a difference of packaging only' is not accurate. Hunt hit: definition-without-required-API. The representability theorem UniversalArrowIsUniversalProperty is stated over AUniversalArrow c U a, whereas AdjunctionFromUniversalArrows consumes UniversalArrow c U (an Initial of the comma =(c) ↓ U). These are two different classes in the same file (Theory/Universal/Arrow.v:240 and :127) and the tree contains no lemma converting either into the other — verified by rg over the whole tree, which finds AUniversalArrow only in its own definition/setoid and in Structure/UniversalProperty/Universal/Arrow.v. So the direction the exercise is about (a family of representations ⇒ the adjunction) is not derivable by citing in-tree results alone; it needs a new (short) bridge through universal_arrow_from_UMP. Second defect: the exercise explicitly asks for clause (vi) AND ITS DUAL; the dual universal arrow (terminal object of F ↓ =(c)) is prose only (Theory/Universal/Arrow.v:23) and no dual class or lemma exists. Kept PRESENT-grade evidence and added the two packagings plus Functor/Representable.v so the gap is checkable."
+    }
+  },
+  {
+    "id": "maclane:IV.1:ex2",
+    "classification": "PRESENT",
+    "aliases": [
+      "Lawvere comma-category characterization of adjunction",
+      "(F ↓ Id) ≅ (Id ↓ G) over the projections",
+      "Adjunction_Comma / lawvere_equiv / lawvere_iso",
+      "comma isomorphism commuting with comma_proj to D ∏ C",
+      "graph of an adjunction"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Adjunction.v",
+        "line": 904,
+        "symbol": "Adjunction_Comma",
+        "intree_statement": "Theorem Adjunction_Comma `{F : D ⟶ C} `{G : C ⟶ D} : F ⊣ G  ↔  @lawvere_equiv _ _ F G."
+      },
+      {
+        "file": "Construction/Comma/Adjunction.v",
+        "line": 84,
+        "symbol": "lawvere_iso",
+        "intree_statement": "lawvere_iso : F ↓ Id[C] ≅[Cat] Id[D] ↓ G;   (* the comma iso (F↓Id) ≅ (Id↓G) *)"
+      },
+      {
+        "file": "Construction/Comma/Adjunction.v",
+        "line": 92,
+        "symbol": "projF / projG",
+        "intree_statement": "projF : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ φ;  projG : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ ψ;  (the iso is over the projections comma_proj to D ∏ C, with the whisker coherence field σ)"
+      }
+    ],
+    "statement_record": {
+      "book": "(Lawvere) Given G : A -> X and F : X -> A, each adjunction <F,G,phi> can be described as an isomorphism theta : (F ↓ I_A) ≅ (I_X ↓ G) of comma categories for which the square of projection functors over X x A commutes.",
+      "intree": "Theorem Adjunction_Comma : F ⊣ G ↔ @lawvere_equiv _ _ F G, where lawvere_equiv packages lawvere_iso : F ↓ Id[C] ≅[Cat] Id[D] ↓ G together with projF/projG (both composites agree with comma_proj to D ∏ C) and the whiskering coherence σ.",
+      "strength_comparison": "same — the biconditional is proven in both directions; the setoid setting makes 'commutes with the projections' precise as natural isomorphisms (projF/projG) plus the coherence condition σ, which is the honest ≈-level rendering of the book's strict commuting square. Both directions extract/reconstitute the hom-set bijection (lawvere_to/lawvere_from)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search reached Construction/Comma/Adjunction.v independently and classified PRESENT. Verified at the cited locations: line 904 is 'Theorem Adjunction_Comma `{F : D ⟶ C} `{G : C ⟶ D} : F ⊣ G ↔ @lawvere_equiv _ _ F G.' (quote exact), line 84 is the lawvere_iso field, line 92 the projF field. The record lawvere_equiv (line 83) carries exactly the exercise's data: the comma iso (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G), projF/projG saying both composites agree with comma_proj into D ∏ C, and the whiskering coherence σ. Both directions are real proofs, not one-way: forward via Comma_F_Id_Id_G_Iso (line 863), backward via lawvere_eqv_unit/counit_transform (lines 815/824), the two triangle identities (lines 711/725) and Adjunction_from_Transform. The extracted hom-set bijection lawvere_morph_iso (line 659) with naturality in both variables (lines 668/675) is present, so 'each adjunction can be described as' is honoured in substance. File registered in _CoqProject. Note the orientation swap versus the book (library F : D ⟶ C is the left adjoint; the book writes F : X → A), which is a renaming only. The setoid rendering of 'the square commutes' as natural isos plus σ is disclosed and is the faithful ≈-level reading."
+    }
+  },
+  {
+    "id": "maclane:IV.1:ex3",
+    "classification": "PRESENT",
+    "aliases": [
+      "unit of Δ ⊣ × is the diagonal arrow δ_c = ⟨1,1⟩",
+      "Diagonal_Product_Adjunction",
+      "id △ id / fork of identities",
+      "diagonal as universal arrow to the product bifunctor (diagonal_UA, diagonal_unique)",
+      "ump_products / exl_fork / exr_fork"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |} ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }.  (the unit at c is to (id,id) = id[c] △ id[c], the diagonal arrow)"
+      },
+      {
+        "file": "Adjunction/GAFT/Examples.v",
+        "line": 65,
+        "symbol": "diagonal_unique",
+        "intree_statement": "Program Definition diagonal_unique (d : C) (d' : C ∏ C) (f : d ~> InternalProductFunctor C d') : ∃! g : (d, d) ~{ C ∏ C }~> d', f ≈ fmap[InternalProductFunctor C] g ∘ (id[d] △ id[d])  (the diagonal id △ id is the universal arrow from d to ×(C), with unique factorization)"
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 136,
+        "symbol": "ump_products",
+        "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)  (hence id △ id is the unique h with exl ∘ h ≈ id and exr ∘ h ≈ id)"
+      }
+    ],
+    "statement_record": {
+      "book": "For the adjunction <Δ, ×, phi>, the unit at each object c is the diagonal arrow delta_c : c -> c × c, the unique arrow whose composites with both projections are the identity; in Set, delta_c x = <x, x>.",
+      "intree": "Diagonal_Product_Adjunction : Diagonal_Product C ⊣ ×(C) with transpose to f = fst f △ snd f, so the unit at c computes to id[c] △ id[c]; ump_products characterizes it as the unique arrow with exl ∘ h ≈ id and exr ∘ h ≈ id; diagonal_unique proves the full universal-arrow property of id △ id.",
+      "strength_comparison": "same — the unit is definitionally the diagonal fork id △ id and its uniqueness characterization via the projections is ump_products; the Set clause delta_c x = (x, x) holds definitionally in the Sets/Coq Cartesian instances (fork f g x = (f x, g x)) though it is not isolated as a named lemma."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass had this at PARTIAL and was talked down by checking the actual terms. Cited evidence verified: Adjunction/Diagonal/Product.v:36 Diagonal_Product_Adjunction with to := fun f => fst f △ snd f; Adjunction/GAFT/Examples.v:65 diagonal_unique proving ∃! g, f ≈ fmap[×(C)] g ∘ (id[d] △ id[d]) (existence AND uniqueness both Qed'd); Structure/Cartesian.v:136 ump_products, whose instance at f = g = id is verbatim the exercise's characterization 'h ≈ id △ id ↔ (exl ∘ h ≈ id) * (exr ∘ h ≈ id)'. All three files registered in _CoqProject. The two unstated steps are genuinely definitional, not proof obligations: unit := ⌊id⌋ = to adj id[Δ x] = fst (id,id) △ snd (id,id) reduces to id △ id, and Instance/Sets/Cartesian.v:41 defines fork f g := fun x => (f x, g x), so δ x = (x, x) by computation. strength_comparison already discloses that the Set clause is not isolated as a named lemma; the same caveat applies to the unit-identification lemma, which is likewise absent as a named statement. Since the exercise's only proof content (the projection characterization of δ and its universal property) is fully proven in-tree, PRESENT stands."
+    }
+  },
+  {
+    "id": "maclane:IV.1:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "Paré split-idempotent criterion for existence of a left adjoint",
+      "epsilon-K ∘ K-rho idempotent in the functor category A^X",
+      "semi-adjunction / one triangle identity satisfied only",
+      "idempotent splitting gives adjoint (Karoubi-style argument on functor categories)",
+      "SplitIdempotent of a natural transformation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'pare|paré' --glob '*.v' — only Paré cited for absolute colimits in Structure/Coequalizer/Split.v:32; no split-idempotent adjoint criterion",
+      "rg -i 'idempotent' -l --glob '*.v' — hits are Construction/Karoubi.v + Karoubi/Universal.v (envelope, no adjoint-existence criterion for a given G), Construction/Reflective/Idempotent.v (reflective ⟺ idempotent monad, a different theorem), Theory/Monad.v, Instance/Sets/Karoubi.v; none states the Paré criterion",
+      "rg 'SplitIdempotent' --glob '*.v' — class defined in Theory/Morphisms.v:85 and used only by the Karoubi development; never applied to natural transformations epsilon-K ∘ K-rho or tied to left-adjoint existence",
+      "rg -i 'semi-?adjunction|half.?adjoint|one triangle|single triangle' --glob '*.v' — no formalization of a functor pair satisfying only one triangle identity (only prose hits in Structure/Monoidal.v, Construction/Reflective.v)",
+      "rg -i 'splits.*left adjoint|left adjoint.*split|adjoint.*idempotent|idempotent.*adjoint' --glob '*.v' — 0 hits",
+      "rg -i 'adjoint' Construction/Karoubi.v Construction/Karoubi/Universal.v Instance/Sets/Karoubi.v — only a prose mention of 'left-adjoint-style completion'; checked Monad/Lifting.v (Dubuc adjoint-triangle theorem) which proves left-adjoint existence via reflexive coequalizers, a different hypothesis/conclusion shape, not the split-idempotent criterion"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the decisive searches: `rg -i 'paré|Pare\\b'` finds Paré cited only for absolute colimits (Structure/Coequalizer/Split.v:32) and for Mac Lane–Paré bicategory coherence (Theory/Bicategory.v:50,113); `rg 'SplitIdempotent'` finds only Theory/Morphisms.v:85 (the class) plus the Karoubi development; `rg -i 'splits.*adjoint|adjoint.*splits'` gives 0 hits. The vocabulary needed to STATE the exercise does exist (Theory/Morphisms.v:22 Idempotent and :85 SplitIdempotent are stated for any category, and Instance/Fun.v supplies the functor category A^X in which εK ∘ Kρ lives), but no in-tree statement asserts either that εK ∘ Kρ is idempotent under Gε ∘ ρG ≈ 1_G, or that G has a left adjoint iff that idempotent splits. Vocabulary alone is not 'some of the item', so ABSENT rather than PARTIAL is right. The negative_search_log correctly distinguishes the nearby but different Monad/Lifting.v (Dubuc adjoint-triangle) and Construction/Reflective/Idempotent.v (reflective ⟺ idempotent monad) results."
+    }
+  },
+  {
+    "id": "maclane:IV.2:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free ⊣ forgetful adjunctions (free R-module, free group, free abelian group, abelianization, monoid ring, tensor algebra, field of quotients, metric completion)",
+      "free category on a graph/quiver ⊣ underlying-graph functor",
+      "FreeForgetfulAdjunction / FreeCatFunctor / Forgetful (Quiv)",
+      "insertion of generators as unit",
+      "CMon_Forget / underlying-set functor"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .  (FreeCatFunctor : QuiverCategory ⟶ StrictCat is the free category on a quiver; Forgetful the underlying-quiver functor)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful.  (every quiver homomorphism G ⇨ U(C) factors uniquely through the unit as a functor — insertion of generators)"
+      }
+    ],
+    "statement_record": {
+      "book": "Table of eleven forgetful functors with left adjoints and units (insertion of generators): free R-module, free category on a graph, free group, free abelian group, abelianization, scalar extension R ⊗ A, A ⊗ S restriction, integral monoid ring Z(M), tensor algebra TV, field of quotients QD, metric-space completion; counit for free R-modules described as the canonical presentation epimorphism.",
+      "intree": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful (Construction/Free/Quiver.v), with the universal arrow UniversalArrowQuiverCat as unit — exactly the table's 'free category on a graph ⊣ U : Cat → Grph' row, realized over StrictCat.",
+      "strength_comparison": "intree-weaker: exactly one of the eleven table rows is formalized (free category on a quiver/graph). The other ten rows have no in-tree counterpart because the ambient concrete categories do not exist in the library (no Grp, Ab, R-Mod, Rng, Mon-as-category-with-free-adjoint, K-Alg, Fld, Dom, Met, Compmet); Instance/CMon.v has the forgetful CMon_Forget : CMon ⟶ Sets but no free left adjoint. The counit-as-canonical-presentation remark survives only abstractly in the monad resolutions (Kleisli/EM adjunctions), not for any concrete algebraic forgetful functor."
+    },
+    "gap": "Only the Cat/Grph row is present (FreeForgetfulAdjunction over StrictCat). Missing: all algebraic and metric rows — free R-module, free group, free abelian group, abelianization Grp→Ab, scalar extension, restriction adjoint, monoid ring, tensor algebra, field of quotients, metric completion — together with the categories they live on, and any concrete counit-as-presentation statement; CMon (the one algebraic category in-tree) lacks a free functor.",
+    "negative_search_log": [
+      "rg -i 'free monoid|FreeMonoid|free group|FreeGroup' --glob '*.v' — only prose mentions (Construction/Free.v header, Funny/Comparison.v example); no free-group/free-monoid adjunction",
+      "rg -i 'abelianiz|tensor algebra|field of quotients' --glob '*.v' — 0 hits",
+      "rg -i 'category of (groups|abelian|rings|modules|monoids)' --glob '*.v' — only Structure/Monoid.v (monoid objects, not the category Mon with a free adjoint)",
+      "rg -i 'free' Instance/CMon.v Instance/CMon/*.v — 0 hits (forgetful only, line 169 CMon_Forget)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found exactly one of the eleven table rows — the free category on a graph — and classified PARTIAL. Evidence verified: Construction/Free/Quiver.v:550 'Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .' (quote exact) and :518 UniversalArrowQuiverCat, built through universal_arrow_from_UMP with UnitQuiverCatAdjunction (:507) as the 'insertion of generators' unit — so this row is genuine, not a stub, and the file is registered in _CoqProject (line 72). Independently confirmed the absence of every other row: `ls Instance/` shows no Grp, Ab, R-Mod, Rng, Mon, Fld, Dom, Met/Compmet, K-Alg; `rg -i 'exterior|enveloping|tensor algebra|monoid ring|abelianiz|field of quotients|unitaliz'` returns 0 code hits tree-wide; Instance/CMon.v declares only CMon (:140) and CMon_Forget (:169) with no free left adjoint (`rg -i 'free|adjunc|⊣' Instance/CMon.v Instance/CMon/*.v` — 0 hits). One honest caveat on the surviving row, already implicit in the record: the in-tree version lives over StrictCat and QuiverCategory (strict functor equality on objects) rather than Cat and Grph, so it is the strict variant of the book's row — which is the only way to make U : Cat ⟶ Grph well typed in this setting (cf. Test/Issue138.v:76, where the Cat-level form is a documented Fail)."
+    }
+  },
+  {
+    "id": "maclane:IV.2:construction2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "adjoints of diagonal functors: (+) ⊣ Δ ⊣ (×), initial/terminal as adjoints of C → 1, coequalizer/equalizer, pushout/pullback, colim ⊣ Δ ⊣ lim",
+      "Diagonal_Product_Adjunction",
+      "Diagonal / constant-diagram functor Δ[J] (Functor/Diagonal.v)",
+      "Kan extension along Erase J (ran_adjoint / lan_adjoint, Kan_Limit)",
+      "limit functor as right adjoint of the diagonal"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C)  (unit the diagonal id △ id, counit the projection pair — the table's Δ ⊣ × row)"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 145,
+        "symbol": "ran_adjoint (RightKan), lan_adjoint (LeftKan, line 225)",
+        "intree_statement": "ran_adjoint : Induced ⊣ Ran  and  lan_adjoint : Lan ⊣ Induced, for Induced := (− ◯ F) : [B,C] ⟶ [A,C]; with F := Erase J this is the colim ⊣ Δ ⊣ lim row up to the identification [1,C] ≅ C"
+      },
+      {
+        "file": "Structure/Limit/Kan/Extension.v",
+        "line": 46,
+        "symbol": "Kan_Limit",
+        "intree_statement": "Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt.  (the right adjoint along Erase J computes the limit object)"
+      }
+    ],
+    "statement_record": {
+      "book": "Table of left and right adjoints of diagonal-type functors with units/counits: coproduct ⊣ Δ ⊣ product for Δ : C -> C×C; initial ⊣ (C -> 1) ⊣ terminal; coequalizer ⊣ Δ ⊣ equalizer for the parallel-pair diagonal; pushout ⊣ (span diagonal), (cospan diagonal) ⊣ pullback; colim ⊣ Δ ⊣ lim for Δ : C -> C^J; with the noted dependence of the limit unit on the connected components of J.",
+      "intree": "Diagonal_Product_Adjunction : Diagonal_Product C ⊣ ×(C); ran_adjoint : Induced ⊣ Ran and lan_adjoint : Lan ⊣ Induced (Kan extensions along any F, hence along Erase J : J ⟶ 1); Kan_Limit : Lim ≅ Ran (Erase J) F ttt; Functor/Diagonal.v defines Δ[J] : C ⟶ [J,C] and records the colim ⊣ Δ ⊣ lim reading in prose.",
+      "strength_comparison": "intree-weaker: the Δ ⊣ × row is fully present, and the colim ⊣ Δ ⊣ lim rows are present in Kan-extension packaging (adjoint to precomposition along Erase J, tied to per-diagram limits by Kan_Limit) rather than as a literal adjunction of Δ[J] : C ⟶ [J,C]; the remaining rows are not formalized as adjunctions."
+    },
+    "gap": "Missing rows: no coproduct ⊣ Δ instance (only prose remarks in Adjunction/Diagonal/Product.v:19 and GAFT/Examples.v:45; obtainable by duality via Cocartesian C := Cartesian C^op + Opposite_Adjunction but never instantiated); initial/terminal objects are not packaged as adjoints of the unique functor C ⟶ 1 (Structure/Initial.v, Structure/Terminal.v define them by universal property only); no equalizer/coequalizer/pullback/pushout functors adjoint to the corresponding diagonals (these exist only as per-diagram universal properties: Structure/Equalizer/Fork.v, Structure/Coequalizer.v, IsPullback in Theory/Morphisms/Stability.v); the global Δ ⊣ lim adjunction exists only through the [1,C]-repackaged ran_adjoint when RightKan exists; the table's unit/counit descriptions (folding map, coequalizing arrow, universal cone) and the remark on the unit's dependence on connected components of J are not developed (the library has no connected-category notion).",
+    "negative_search_log": [
+      "rg 'Diagonal_Coproduct|Coproduct_Diagonal|InternalCoproductFunctor|Coproduct.*⊣|⊣.*Diagonal' --glob '*.v' — 0 hits",
+      "rg -i 'adjoint|adjunction' Structure/Terminal.v Structure/Initial.v Instance/One/Diagonal.v — only historical/prose mentions; no adjunction statement for C ⟶ 1",
+      "rg '⊣' Structure/Limit.v Structure/Limit/*.v Instance/Cones/*.v — no Δ ⊣ lim adjunction beyond the Kan-extension form"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same single genuine row (Δ ⊣ ×) and classified PARTIAL. Every cited location checks out: Adjunction/Diagonal/Product.v:36 Diagonal_Product_Adjunction; Theory/Kan/Extension.v:145 'ran_adjoint : Induced ⊣ Ran' inside Class RightKan (:140) and :225 'lan_adjoint : Lan ⊣ Induced' inside Class LeftKan (:222), with Induced := (− ◯ F) : [B,C] ⟶ [A,C] defined at :127 — so at F := Erase J this is indeed Δ ⊣ lim modulo [1,C] ≅ C, and the record says exactly that rather than overclaiming; Structure/Limit/Kan/Extension.v:46 'Theorem Kan_Limit ... : Lim ≅ Ran (Erase J) F ttt.' The negative claims hold: a whole-tree `rg '⊣'` over definitions turns up no coproduct/equalizer/coequalizer/pullback/pushout/limit adjunction to a diagonal, and Instance/One/Diagonal.v contains only Corollary Diagonal_Unique (:33), not an adjunction. Two small corrections that do not move the classification: (i) the negative log searched 'InternalCoproductFunctor' and missed Functor/Coproduct.v:61 CoproductFunctor : C ∐ C ⟶ C — but that is the codiagonal out of the coproduct CATEGORY (its own header, lines 21-30, warns it is not the binary-coproduct bifunctor and that the @Cocartesian hypothesis is unused), so it cannot serve as the left adjoint of Δ : C ⟶ C ∏ C and the gap text stands; (ii) the gap's closing remark that 'the library has no connected-category notion' is correct and consistent with maclane:IV.2:def1 below."
+    }
+  },
+  {
+    "id": "maclane:IV.2:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "connected category (zigzag of arrows joining any two objects)",
+      "Connected / is_connected / ConnectedCat",
+      "zigzag / zig-zag connectedness",
+      "connected components of a category / π0",
+      "disjoint union decomposition of a category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg '\\bConnected\\b' --glob '*.v' — 0 hits",
+      "rg -i 'zigzag|zig-zag|connected categor|ConnectedCat|is_connected|Class Connected' --glob '*.v' — 'zig-zag' hits are all about the triangle identities of adjunctions and DoubleCategory companions; no connectedness-of-a-category definition",
+      "rg -i 'connected' --glob '*.v' — remaining hits are prose (Construction/Groupoid.v on connected groupoids in commentary) or Instance/FinSet/Pushout.v (connected components of the span-edge relation used to compute FinSet pushouts — a construction on a graph/setoid, not a definition of connected category)",
+      "rg 'π0|pi0|Pi0|π₀' --glob '*.v' — 0 hits",
+      "rg -i 'disjoint union' --glob '*.v' — Construction/Coproduct.v defines the coproduct of two categories but no connectedness or component decomposition"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-verified every negative: `rg -n 'Connected' --glob '*.v'` — 0 hits (no identifier of that name anywhere); `rg -i 'zigzag|zig-zag'` — all hits are adjunction triangle identities (Theory/Adjunction.v:21, Monad/*, Comonad/Duality.v:154) or DoubleCategory companion zigzags (Theory/DoubleCategory/Companion.v:21); `rg 'π0|pi0|π₀'` — 0 hits; remaining 'connected' occurrences are English prose or Instance/FinSet/Pushout.v's connected-components computation on the span-edge relation (:398,:405), which is a construction on a finite graph used to build pushouts, not a predicate on categories. The definition is plainly formalizable here (a Type-valued zigzag chain over hom, in the style of Lib/TList.v paths or Instance/Omega.v's le_t), so ABSENT rather than OUT_OF_SCOPE is correct."
+    }
+  },
+  {
+    "id": "maclane:IV.2:construction3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "vector-space duality adjunction D^op ⊣ D (dual space functor adjoint to itself on the right)",
+      "contravariant dual / linear negation functor (- ⇒ ⊥) : C^op ⟶ C",
+      "double dual embedding kappa_W : W -> DD W as unit",
+      "dualizing object / StarAutonomous dual, double_dual",
+      "Opposite_Adjunction (F ⊣ U yields U^op ⊣ F^op)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/StarAutonomous.v",
+        "line": 229,
+        "symbol": "dual",
+        "intree_statement": "Program Definition dual (d : C) : C^op ⟶ C := {| fobj := fun x => @exponent_obj C _ x d; fmap := fun x y f => dcur (eval' ∘ (id ⨂ (f : y ~{C}~> x))) |}.  (the contravariant internal-hom-into-a-fixed-object functor — the abstract form of V ↦ Vct(V, K))"
+      },
+      {
+        "file": "Structure/Monoidal/StarAutonomous.v",
+        "line": 252,
+        "symbol": "double_dual",
+        "intree_statement": "Definition double_dual (d : C) : C ⟶ C := dual d ◯ (dual d)^op."
+      },
+      {
+        "file": "Adjunction/Opposite.v",
+        "line": 34,
+        "symbol": "Opposite_Adjunction",
+        "intree_statement": "Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) : U^op ⊣ F^op  (the formal op-duality of adjunctions that the book's rewriting of phi_{V,W} rests on)"
+      }
+    ],
+    "statement_record": {
+      "book": "The contravariant dual-space functor on Vct_K determines covariant D : Vct^op -> Vct and D^op : Vct -> Vct^op; the bijection Vct(V, dual W) ≅ Vct(W, dual V) (self-inverse) rewrites as Vct^op(D^op W, V) ≅ Vct(W, D V), so D^op is left adjoint to D, with unit the double-dual embedding kappa_W : W -> D D^op W and counit (kappa_V)^op; for finite-dimensional spaces D, D^op are isomorphisms of categories.",
+      "intree": "dual (d : C) : C^op ⟶ C and double_dual (d : C) : C ⟶ C := dual d ◯ (dual d)^op over a symmetric monoidal closed base (Structure/Monoidal/StarAutonomous.v); Opposite_Adjunction : F ⊣ U → U^op ⊣ F^op (Adjunction/Opposite.v).",
+      "strength_comparison": "intree-weaker: only the functorial skeleton exists. The adjunction itself — the natural bijection C(V, dual W) ≅ C(W, dual V), i.e. (dual d)^op ⊣ dual d — is not stated or proven; the canonical double-dual map x ~> double_dual d x is not defined in the general closed monoidal setting (it appears only as the posited isomorphism star_double_dual inside the StarAutonomous class, an assumption the all-vector-spaces example fails); and there is no category of vector spaces in-tree, so the concrete instance and the finite-dimensional isomorphism-of-categories remark are absent."
+    },
+    "gap": "Missing: the self-adjunction-on-the-right of the dual functor ((dual d)^op left adjoint to dual d, equivalently the symmetric bijection C(V, dual W) ≅ C(W, dual V)) with its unit the canonical double-dual embedding — none of unit, counit, or the bijection is constructed; the canonical dualization map into double_dual is not defined outside the star-autonomous class where it is assumed invertible (too strong for Vct); no Vct/Vect instance exists in the library (rg -i 'Vct|Vect|vector space|linear map' finds only prose and stdlib Vector.t uses in Instance/Shapes.v).",
+    "negative_search_log": [
+      "rg -i 'dual space|double dual|Vct|Vect|vector space|linear map' --glob '*.v' — no category of vector spaces; 'dual' hits are StarAutonomous.v and CompactClosed.v (dual objects with unit/counit in a compact closed category — object-level duals, not the functor-level adjunction of this construction)",
+      "rg -i 'self.?adjoint|adjoint to itself|adjoint on the right' --glob '*.v' — 0 relevant hits (only 'identity functor is self-adjoint' in Adjunction/Compose.v)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL on the same reasoning. Evidence verified verbatim: Structure/Monoidal/StarAutonomous.v:229 'Program Definition dual (d : C) : C^op ⟶ C := {| fobj := fun x => @exponent_obj C _ x d; fmap := fun x y f => dcur (eval' ∘ (id ⨂ (f : y ~{C}~> x))) |}' and :252 'Definition double_dual (d : C) : C ⟶ C := dual d ◯ (dual d)^op'; Adjunction/Opposite.v:34 Opposite_Adjunction. All registered in _CoqProject. The gap statement is precise and, importantly, correct on the hard point: the class field star_double_dual (:271) POSITS x ≅ double_dual d x as an isomorphism, which is exactly what Vct fails in infinite dimension, so the in-tree apparatus is not an instance of the book's construction but a strictly stronger hypothesis; and the canonical (non-invertible) map x ~> double_dual d x is never defined. Independently confirmed there is no self-duality adjunction anywhere: whole-tree `rg '⊣'` over definitions shows the only adjunctions are adj_id, Adjunction_Compose, the hom/transform conversions, Kleisli/EM/CoKleisli/CoEM, Monad/Lifting, Diagonal_Product_Adjunction, the Kan adjoints and the equivalence transports — none of the form F^op ⊣ F. No category of vector spaces exists (`ls Instance/`). PARTIAL rather than ABSENT is defensible because the contravariant-functor-as-C^op⟶C move and the dual/double-dual functors are genuinely formalized; the record's 'intree-weaker' label and gap make the limitation unambiguous."
+    }
+  },
+  {
+    "id": "maclane:IV.2:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "adjoint on the right (Freyd) / mutually right adjoint contravariant functors",
+      "dual adjunction / contravariant adjunction A(a, T x) ≅ X(x, S a)",
+      "S^op left adjoint to T (covariant reduction)",
+      "Opposite_Adjunction / opposite of an adjunction",
+      "Galois connection of contravariant type"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Opposite.v",
+        "line": 34,
+        "symbol": "Opposite_Adjunction",
+        "intree_statement": "Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) : U^op ⊣ F^op := {| adj := fun x y => {| to := from (@adj _ _ _ _ A y x) ; from := to (@adj _ _ _ _ A y x) ... |} |}.  (with Opposite_Adjunction_invol, line 60: applying op twice recovers A on the nose)"
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 130,
+        "symbol": "Adjunction (class)",
+        "intree_statement": "Class Adjunction@{o3 p3 so sh sp} := { adj {x y} : (F x ~{C}~> y) ≅ (x ~{D}~> U y); ... }  — stated for arbitrary functors between arbitrary categories; contravariant functors are systematically rendered as functors out of C^op (Construction/Opposite.v, with C^op^op = C definitionally), so a pair adjoint on the right is EXPRESSIBLE as S^op ⊣ T. NOTE: expressibility, not an in-tree statement of the notion."
+      }
+    ],
+    "statement_record": {
+      "book": "Two contravariant functors S-bar : A -> X and T-bar : X -> A are adjoint on the right when there is a bijection A(a, T-bar x) ≅ X(x, S-bar a) natural in a and x; rewriting with the covariant S : A^op -> X, T : X^op -> A this says exactly that S^op is left adjoint to T (equivalently T^op left adjoint to S); adjointness on the right is not in general equivalent to adjointness on the left for such a pair.",
+      "intree": "No in-tree definition names the notion. The equivalent covariant unfolding the book itself gives is expressible verbatim with existing machinery: the Adjunction class applied to S^op ⊣ T, the strictly involutive opposite (C^op^op = C), and Opposite_Adjunction : F ⊣ U → U^op ⊣ F^op with Opposite_Adjunction_invol providing the T^op ⊣ S ↔ S^op ⊣ T transposition.",
+      "strength_comparison": "intree-weaker: the reduction target (adjunctions between opposite categories, with the op-involution and the flip lemma) is fully present, but the notion 'adjoint on the right' itself — the symmetric two-contravariant-functor packaging, its name, the natural bijection stated in that form, and Mac Lane's warning that right-adjointness and left-adjointness of such a pair differ — is never defined, stated, or instantiated."
+    },
+    "gap": "No definition or lemma introduces 'adjoint on the right': the contravariant-pair form A(a, T x) ≅ X(x, S a) is not stated, no equivalence with S^op ⊣ T is recorded (it is only definitionally available), no instance exists (the intended example, vector-space duality, is also absent — see maclane:IV.2:construction3), and the non-coincidence with adjointness on the left is nowhere noted.",
+    "negative_search_log": [
+      "rg -i 'adjoint on the right|dual adjunction|contravariant adj|mutually.*adjoint' --glob '*.v' — 0 hits",
+      "rg 'Adjunction_Opposite|Opposite_Adjunction|adj_op' --glob '*.v' — only Adjunction/Opposite.v and Adjunction/Natural/Transformation/Opposite.v (duality of an ordinary adjunction, not the right-adjoint-pair notion)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Borderline PARTIAL/ABSENT; my blind pass classified it ABSENT before reading the coverage file. Confirming PARTIAL because the record's own gap text is exactly right ('never defined, stated, or instantiated') and because the library's definitional op-involution makes the book's reduction more than a suggestion: for S : A^op ⟶ X and T : X^op ⟶ A, S^op has type (A^op)^op ⟶ X^op = A ⟶ X^op on the nose (Construction/Opposite.v), so 'S^op ⊣ T' unfolds to Hom_X(x, S a) ≅ Hom_A(a, T x) — the book's bijection — with no glue needed. That is genuinely 'some of the item'. Two corrections applied to the record: (1) the second evidence entry cited Theory/Adjunction.v:54, which is a line inside the file's header comment, not the class — Class Adjunction is at line 130, and I have corrected the line and quoted the actual field; (2) that entry is expressibility rather than formalization, and is now labelled as such, since under the frozen definitions ambient vocabulary is not by itself evidence. Independently re-ran the negatives: `rg -i 'adjoint on the right|dual adjunction|contravariant adj|mutually.*adjoint'` — 0 hits; Adjunction/Opposite.v:34 Opposite_Adjunction (with Opposite_Adjunction_invol at :60, 'Proof. reflexivity. Qed.') is the op of an EXISTING adjunction, a different statement from the contravariant-pair notion, as the record already says. Mac Lane's warning that right- and left-adjointness of such a pair differ has no in-tree counterpart."
+    }
+  },
+  {
+    "id": "maclane:IV.2:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "exterior algebra E(V) as left adjoint",
+      "graded anticommutative algebra / Grassmann algebra",
+      "free graded-commutative algebra on a vector space",
+      "non-faithful forgetful functor from graded algebras",
+      "wedge product / alternating algebra"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'exterior|grassmann|wedge|alternating' --glob '*.v' — 0 relevant hits",
+      "rg -i 'graded.*algebra|anticommut' --glob '*.v' — 0 hits (Monad/Graded.v is graded monads over a grading monoid, unrelated)",
+      "rg -i 'vector space|Vct|Vect|K-Alg' --glob '*.v' — no category of vector spaces or K-algebras exists in-tree, so neither E nor its forgetful functor can be stated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran: `rg -i 'exterior|grassmann|wedge|alternating|anticommut'` — 0 hits tree-wide; `rg -i 'vector space|Vct|Vect|K-Alg|graded.*algebra'` — no category of vector spaces or of K-algebras (the only 'Vect'-adjacent code is Instance/Shapes.v:404 'Vectors (a : Type)', a category built from stdlib Vector.t, unrelated). Monad/Graded.v is graded MONADS over a grading monoid, correctly excluded. Without K-Mod and a category of graded algebras neither E nor the intended non-faithful forgetful functor can be stated, so there is nothing partial to record. Formalizable in principle, hence ABSENT not OUT_OF_SCOPE."
+    }
+  },
+  {
+    "id": "maclane:IV.2:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "forgetful U : R-Mod -> Ab has left adjoint R ⊗ - and right adjoint hom_Z(R, -)",
+      "coinduction / coinduced module functor",
+      "tensor-hom pair of adjoints to restriction of scalars",
+      "Frobenius-style both-adjoints example",
+      "category of R-modules / abelian groups"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'R-Mod|module' --glob '*.v' — only prose mentions in the Structure/Abelian.v background essay (Freyd–Mitchell discussion) and Structure/Monoid.v commentary; no category of modules",
+      "rg -i 'category of (groups|abelian|rings|modules|monoids)' --glob '*.v' — only Structure/Monoid.v (monoid objects); no Ab, no R-Mod",
+      "rg -i 'coinduc|hom_Z|scalar extension|restriction of scalars' --glob '*.v' — 0 hits",
+      "checked Instance/ directory listing — no algebraic module/group instances (Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, ...)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. `ls Instance/` confirms no Ab and no R-Mod (the algebraic instances are Instance/CMon.v alone); `rg -i 'R-Mod|module'` yields only background-essay prose in Structure/Abelian.v:68-69 and Theory/Equivalence.v:79. One small correction to the negative log, with no effect on the verdict: `rg -i 'restriction of scalars'` is NOT 0 hits — Construction/ColouredPROP/BaseChange.v:40,150 use the phrase for colour base change along a map of colour sets, which is an analogy to restriction of scalars, not the module-theoretic functor; 'coinduc' likewise hits Construction/FAlg.v:88 and Instance/Sets/Streams.v in the coinduction-proof-principle sense. Neither supplies U : R-Mod ⟶ Ab or either of its adjoints."
+    }
+  },
+  {
+    "id": "maclane:IV.2:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "universal enveloping algebra E(L) left adjoint to the commutator-bracket functor",
+      "Lie algebra category Lie_K",
+      "Poincare-Birkhoff-Witt theorem",
+      "associative algebra with bracket [a,b] = ab - ba",
+      "free associative envelope of a Lie algebra"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i '\\bLie\\b|enveloping|Poincar|Birkhoff' --glob '*.v' — only incidental hits: Theory/Lawvere.v background essay lists Lie algebras among algebraic theories and cites Birkhoff's HSP theorem; Instance/Poset.v cites Birkhoff's Lattice Theory; Structure/Group.v mentions Lie groups in prose. No Lie-algebra category, no enveloping-algebra construction, no PBW",
+      "rg -i 'K-Alg|associative algebra|bracket' --glob '*.v' — 0 relevant hits (no category of associative algebras)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. `rg -i '\\bLie\\b|enveloping|Poincar|Birkhoff'` reproduces exactly the incidental hits the record lists (Theory/Lawvere.v:87 lists Lie algebras among algebraic theories; Structure/Group.v:46,93 mention Lie groups and Hopf in prose); no Lie_K category, no bracket functor V : Alg_K ⟶ Lie_K, no enveloping-algebra construction, no PBW. Worth recording for the issue draft: Theory/Lawvere.v's Lawvere-theory spine (with Theory/Lawvere/Model.v's Models T C) is the in-tree machinery in which Lie_K and Alg_K could eventually be presented, but no such theory is instantiated, so this is not partial coverage of the exercise."
+    }
+  },
+  {
+    "id": "maclane:IV.2:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "adjoining a ring identity (unitalization) as left adjoint",
+      "Rng' (rings without identity) / non-unital rings",
+      "forgetful Rng -> Rng' forgetting the identity element",
+      "Dorroh extension",
+      "free unital ring on a non-unital ring"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i '\\bRng\\b|\\bring\\b|unital' --glob '*.v' — 'ring' and 'unital' hits are all prose or monoidal-coherence vocabulary (unitality of tensor structures, rings mentioned in Structure/Monoid.v and Structure/Coend.v essays); no category of rings, unital or not",
+      "rg -i 'adjoin.*identity|unitaliz|Dorroh' --glob '*.v' — 0 hits",
+      "checked Instance/ directory listing — no ring-like concrete categories; the closest algebraic instance is Instance/CMon.v (commutative monoids), which has no analogous identity-adjunction either"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. `rg -i 'adjoin.*identity|unitaliz|Dorroh'` — 0 hits (the only 'adjoin...identity' match tree-wide is Adjunction/Compose.v:29's 'The identity functor is self-adjoint'); no category of rings unital or otherwise (`ls Instance/`, `ls Structure/*.v` — Structure/Monoid.v and Structure/Group.v are monoid/group OBJECTS internal to a monoidal/cartesian category, not Rng or Rng'). Instance/CMon.v is the only concrete algebraic category and carries no analogous construction. ABSENT, and formalizable in principle, so not OUT_OF_SCOPE."
+    }
+  }
+]

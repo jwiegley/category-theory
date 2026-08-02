@@ -1,0 +1,427 @@
+[
+  {
+    "id": "maclane:V.7:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "intersection of subobjects / meet / greatest lower bound in Sub(a)",
+      "pullback of two monomorphisms; sub_meet / sub_inf / subobject_pullback",
+      "wide pullback (multiple pullback) of a J-indexed family of subobjects",
+      "union of subobjects / join / least upper bound / supremum of subobjects",
+      "subobject lattice / Heyting algebra of subobjects; dual: cointersection of quotient objects (pushout of epis)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Subobject.v",
+        "line": 59,
+        "symbol": "sub_le",
+        "intree_statement": "Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }.  (* header: \"The preorder on subobjects: u ≤ v when the mono of u factors through the mono of v ... a genuine preorder whose induced equivalence is exactly the setoid equivalence above.\" *)"
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 93,
+        "symbol": "sub_equiv_iff_mutual",
+        "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u)."
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 62,
+        "symbol": "sub_le_refl / sub_le_trans / sub_le_unique",
+        "intree_statement": "Lemma sub_le_refl (u : SubObj x) : sub_le u u.  Lemma sub_le_trans (u v w : SubObj x) : sub_le u v → sub_le v w → sub_le u w.  Lemma sub_le_unique (u v : SubObj x) (k k' : sub_dom u ~> sub_dom v) : sub_mono v ∘ k ≈ sub_mono u → sub_mono v ∘ k' ≈ sub_mono u → k ≈ k'."
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 226,
+        "symbol": "monic_pullback_stable",
+        "intree_statement": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P)."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 212,
+        "symbol": "monic_compose",
+        "intree_statement": "Definition monic_compose {x y z : C} {f : y ~> z} {g : x ~> y} : Monic f → Monic g → Monic (f ∘ g)."
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 93,
+        "symbol": "(header prose only)",
+        "intree_statement": "\"Pulling a monomorphism back along f computes the preimage of the subobject it names; the pullback of two monomorphisms is the intersection of subobjects\" — a comment in the Pullback header; no corresponding Coq construction exists."
+      }
+    ],
+    "statement_record": {
+      "book": "The subobjects of an object a are partially ordered by the factorization relation u ≤ v. If A has pullbacks, the pullback of two subobjects u : s → a and v : t → a is (by the preceding Lemma) a monic w : p → a with w ≤ u and w ≤ v, and it is their intersection — their meet / greatest lower bound in that partial order. More generally, for a J-indexed family of subobjects u_i : s_i → a, their wide pullback, when it exists, is their intersection. The union (join / least upper bound) of subobjects exists only under added hypotheses.",
+      "intree": "Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }. ... Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u). ... Lemma monic_pullback_stable ... (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P).",
+      "strength_comparison": "intree-weaker: only the partial-order half of the item is formalized (sub_le with reflexivity, transitivity, uniqueness of mediators, and the antisymmetry-up-to-≈ theorem sub_equiv_iff_mutual). The intersection itself is NOT constructed: there is no definition producing the meet subobject u ∧ v from a Pullback, no proof that it satisfies w ≤ u and w ≤ v, and — decisively — no greatest-lower-bound universal property (given any subobject z with z ≤ u and z ≤ v, z ≤ w). The two ingredients the classical proof consumes (monic_pullback_stable, monic_compose) are present but never assembled. The J-indexed wide pullback and the union/join are wholly absent."
+    },
+    "gap": "Missing: (1) the construction of the intersection subobject itself — a definition taking u v : SubObj a plus a Pullback of sub_mono u and sub_mono v to a SubObj a (the composite sub_mono u ∘ pullback_fst, monic by monic_compose + monic_pullback_stable); (2) the two factorizations w ≤ u, w ≤ v; (3) the greatest-lower-bound property making it the meet for sub_le (nothing in the tree states any glb/lub property of sub_le); (4) wide/multiple pullbacks — grep for 'wide pullback' and 'multiple pullback' returns 0 hits tree-wide, so the J-indexed intersection has no vocabulary at all; (5) unions/joins of subobjects and any lattice or Heyting-algebra structure on SubObj (grep 'lattice'/'Heyting' finds only background prose). Structure/Pullback.v's header asserts the intersection reading in words only.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'intersection|greatest lower bound|wide pullback|least upper bound' . -- 4 hits, all prose (Instance/Poset.v:51, Construction/Groupoid.v:59, Structure/Pullback.v:94, Structure/Factorization.v:70); no construction",
+      "grep -rn --include='*.v' -E 'SubObj' . -- every hit enumerated; SubObj occurs only in Theory/Subobject.v, Theory/Subobject/Functor.v (reindexing), Structure/SubobjectClassifier.v, Structure/Topos.v, Instance/Sets/Classifier.v — none forms a meet or join",
+      "grep -rn --include='*.v' -iE 'sub_meet|sub_inter|subobject_meet|sub_join|sub_union' . -- 0 hits",
+      "grep -rn --include='*.v' -iE 'wide (pullback|limit)|multiple pullback' . -- 0 hits",
+      "grep -rn --include='*.v' -iE 'lattice' . -- 12 hits, all background essays (Instance/Poset.v, Structure/Complete.v, Construction/FAlg.v, ...); grep -icE 'heyting' -- only 5 prose mentions"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before the coverage file was opened) reached PARTIAL independently, with the same split: the factorization partial order on subobjects is in-tree, the intersection/union are not. CITATION AUDIT, all opened and matched verbatim: Theory/Subobject.v:59 sub_le, :62 sub_le_refl, :67 sub_le_trans, :78 sub_le_unique, :93 sub_equiv_iff_mutual; Theory/Morphisms/Stability.v:226 monic_pullback_stable; Theory/Morphisms.v:212 monic_compose. Theory/Subobject.v is registered (_CoqProject:465) and Theory/Subobject/Functor.v at :466. One line drift: the Structure/Pullback.v sentence the record cites at :93 has the words 'intersection of subobjects' on :94 (the sentence spans 93-94) -- immaterial. EVIDENCE ENRICHMENT the record misses, which makes the gap SMALLER than stated for the binary case: Theory/Subobject/Functor.v:35 sub_reindex already packages the pulled-back mono AS a SubObj ('sub_dom := Pull f (sub_mono u) (pullback f (sub_mono u)); sub_mono := pullback_fst ...; sub_is_monic := monic_pullback_stable ...'), under a Context `{@HasPullbacks C}`. So for u v : SubObj a, sub_reindex (sub_mono v) u : SubObj (sub_dom v) already exists; what is missing for the meet is only (i) pushing it forward along sub_mono v to a SubObj a, (ii) the two legs w <= u and w <= v, and (iii) the greatest-lower-bound property -- not the monicity bookkeeping the record lists. The rest of the gap is confirmed untouched: I independently re-ran the negatives and found 0 hits for wide/multiple pullback, 0 for sub_meet/sub_inter/sub_join/sub_union, and the only intersection symbol in the tree is the prose 'E n M' at Structure/Factorization.v:70; 'lattice'/'Heyting' occur only in background essays. NOT A LIBRARY DEFECT: the Structure/Pullback.v header sentence is a background essay on what pullbacks subsume in mathematics -- the same sentence supplies an in-tree pointer for kernel_pair ([kernel_pair] in Structure/Regular.v) and deliberately none for the intersection, so it does not claim an in-tree construction. Likewise Structure/Topos.v:81's 'the subobjects of any object form a Heyting algebra' is explicitly framed as the logical reading of an arbitrary topos, not as in-tree content."
+    }
+  },
+  {
+    "id": "maclane:V.7:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "quotient object / QuotObj / Quot (equivalence class of epis out of a)",
+      "SubObj in the opposite category: @SubObj (C^op) a (the library's standard duality idiom)",
+      "equivalence of epimorphisms r = θ s with θ invertible; order r ≤ s by factorization r = r' s",
+      "coimage / regular quotient / quotient by a congruence; G/N in Grp",
+      "dual of Theory/Subobject.v's SubObj_Setoid, sub_le, sub_equiv_iff_mutual"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Subobject.v",
+        "line": 15,
+        "symbol": "SubObj (the dual record, instantiable at C^op)",
+        "intree_statement": "Record SubObj {C : Category} (x : C) := { sub_dom : C; sub_mono : sub_dom ~> x; sub_is_monic : Monic sub_mono }.  — at C^op this reads: an object sub_dom of C, an arrow x ~> sub_dom of C, right-cancellable (i.e. epic) in C."
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 33,
+        "symbol": "SubObj_Setoid",
+        "intree_statement": "#[export] Program Instance SubObj_Setoid : Setoid (SubObj x) := { equiv := fun u v => { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u } }.  — at C^op this is exactly Mac Lane's 'r = θ s for some invertible θ'."
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 59,
+        "symbol": "sub_le",
+        "intree_statement": "Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }.  — at C^op this unfolds to { k : sub_dom v ~{C}~> sub_dom u & k ∘ sub_mono v ≈ sub_mono u }, i.e. r ≤ s iff r = r' s."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 104,
+        "symbol": "Epic (with the duality note)",
+        "intree_statement": "Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }.  Header: \"This is exactly `Monic f` in `C^op`.\""
+      }
+    ],
+    "statement_record": {
+      "book": "Dually to subobjects: two epis r, s with common domain a are equivalent when r = θ s for some invertible θ; the equivalence classes of such epis are the quotient objects of a, partially ordered by r ≤ s, which holds when r factors through s as r = r' s. The definition agrees with the usual notion via quotients by equivalence relations in categories where epis are onto. In Grp every quotient object of G is represented by p : G → G/N, and G/M ≤ G/N iff M contains N.",
+      "intree": "Record SubObj {C : Category} (x : C) := { sub_dom : C; sub_mono : sub_dom ~> x; sub_is_monic : Monic sub_mono }. ... equiv := fun u v => { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u } ... Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }.",
+      "strength_comparison": "intree-weaker: only the DUAL is in the tree. SubObj is universe-polymorphic in {C : Category}, so @SubObj (C^op) a typechecks and unfolds — with C^op^op = C by reflexivity, the library's stated duality architecture — to precisely Mac Lane's quotient objects: epis out of a, the equivalence 'r = θ s with θ invertible', and the order 'r factors through s'. But nothing in the tree ever instantiates it, names it, or provides covariant accessors, and the Grp example has no in-tree counterpart (there is no category of groups)."
+    },
+    "gap": "There is no in-tree quotient-object definition. The one-line dual `Definition QuotObj (x : C) := @SubObj (C^op) x` (the idiom the library uses for `Comonad := @Monad (C^op) (M^op)`) is never written, so there are no covariant accessors (quotient epi, quotient codomain), no covariant restatement of the setoid or of sub_le/sub_equiv_iff_mutual in quotient orientation, and nothing that identifies `Monic` in C^op with the `Epic` class of Theory/Morphisms.v (they are two distinct one-field records with the same field type, so even the conversion lemma is missing). Mac Lane's illustration — quotient objects of a group are the G/N, ordered by reverse inclusion of N — is entirely absent, the library having no group theory beyond `Group := Algebra GroupOp GroupEq` in Instance/Comp.v (a type of algebras, not a category).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'quotient' . -- 25+ hits, all quotient CATEGORIES (Construction/Quotient.v hom-congruence quotients), setoid quotients (Instance/Sets/Coend.v, Instance/Sets/Pushout.v), or prose; zero quotient OBJECTS",
+      "grep -rIn --include='*.v' -iE 'quotient object|QuotObj|coimage|regular quotient' . -- only Structure/Abelian.v:90 prose about coimage-to-image",
+      "grep -rn --include='*.v' -E 'SubObj' . -- no occurrence at C^op anywhere in the tree",
+      "grep -rIn --include='*.v' -i 'normal subgroup' . -- 0 hits; ls Instance/ -- no Grp / Ab / Ring / Mod"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BOUNDARY CALL -- my blind pass classified this ABSENT before the coverage file was opened, and I am recording that dissent rather than overturning. Blind searches: rg -i 'quotient object|QuotObj|coimage|regular quotient' -> only Structure/Abelian.v:90 prose; rg 'SubObj' -> 16 sites, none at C^op; rg -i 'quotient' -> quotient CATEGORIES (Construction/Quotient.v) and setoid quotients only. Nothing in the tree names, defines, instantiates or uses a quotient object. WHY I DID NOT OVERTURN: I hand-checked every dual unfolding the record asserts and all three are exactly right, so this is NOT the 'dual-assumed-but-absent' failure mode. At C^op: sub_mono becomes x ~{C}~> sub_dom (an arrow OUT of x); Monic-in-C^op unfolds to right cancellation in C, i.e. epic; SubObj_Setoid's 'sub_mono v o to i ~~ sub_mono u' becomes 'theta o s ~~ r' with theta invertible, which is Mac Lane's equivalence of epis verbatim; and sub_le becomes '{ k : sub_dom v ~{C}~> sub_dom u & k o s ~~ r }', which is Mac Lane's 'r = r'' s'. Moreover -- and the record UNDERSTATES this -- SubObj, SubObj_Setoid, sub_le, sub_le_refl/trans/unique AND sub_equiv_iff_mutual are all generic in {C : Category} and in x, so the ENTIRE order theory Mac Lane states for quotient objects (equivalence, order, antisymmetry up to iso) transports under one op-application; only the name, the instantiation and the covariant accessors are missing. Under the frozen definitions that is 'some of the item exists' rather than 'no in-tree counterpart', and it matches the treatment of the boundary case at verified-V-0.json maclane:V.1:construction1. CONFIRMED SHARPEST CLAIM: Monic and Epic really are two distinct one-field classes (Theory/Morphisms.v:104 Class Epic, :116 Class Monic -- the record cites 104 correctly), each with its own constructor and projection, so @Monic (C^op) is not @Epic C by conversion of records and no bridge lemma exists in-tree; the record is right to call that out. MINOR CORRECTION to the gap text: 'the library having no group theory beyond Group := Algebra GroupOp GroupEq in Instance/Comp.v' overlooks Structure/Group.v:109 'Class GroupObject (grp : C)' (group objects in a cartesian monoidal category, with Structure/Group/Proofs.v). Neither is a CATEGORY of groups, so Mac Lane's G/N illustration is still absent and the classification is unaffected. READING GUIDANCE for Phase E: PARTIAL here must not be read as 'half built' -- there is no in-tree quotient-object symbol at all; the correct issue is the one-line dual plus covariant API plus the Monic-in-C^op / Epic bridge."
+    }
+  },
+  {
+    "id": "maclane:V.7:def4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "generating set / generator / generating family of objects",
+      "separator / separating set / separating family (Mac Lane's own preferred name)",
+      "jointly faithful representables C(s, -); hom functors jointly faithful",
+      "Cogenerator instantiated at the opposite category: Cogenerator (C^op)",
+      "well-pointed / points separate arrows (the single-object special case, s = 1 in Set)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 99,
+        "symbol": "Cogenerator (the dual record, instantiable at C^op)",
+        "intree_statement": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }.  — at C^op the field unfolds to: for f g : y ~{C}~> x, if for every j and every k : cog_obj j ~{C}~> y we have f ∘ k ≈ g ∘ k, then f ≈ g — exactly 'the family {cog_obj j} generates C'."
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 96,
+        "symbol": "(header prose)",
+        "intree_statement": "\"such that parallel arrows [f, g : x ~> y] are equal as soon as they agree after every arrow [k : y ~> cog_obj j] into a member of the family. Equivalently the representables [C(-, cog_obj j)] are jointly faithful. This is the minimal data form of 'cogenerating family'.\""
+      }
+    ],
+    "statement_record": {
+      "book": "A set S of objects of C generates C when for every parallel pair h ≠ h' : c → d there exist s ∈ S and f : s → c with h f ≠ h' f. (Mac Lane remarks 'separates' would have been the better term.) The single-object case s generates C is included. Examples: the one-point set generates Set; Z generates Ab and Grp; R generates R-Mod; the finite cyclic groups generate the finite (and the torsion) abelian groups.",
+      "intree": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }.",
+      "strength_comparison": "intree-weaker: only the DUAL notion is defined. `Cogenerator` is universe-polymorphic in {C : Category}, and `Cogenerator (C^op)` is definitionally the generating-family condition (precomposition by arrows out of family members separates parallel arrows), so the mathematical content is one op-instantiation away — but no in-tree definition, name, instance, or consequence of a generating set exists. Note also the constructive rephrasing: the in-tree field is the contrapositive/positive form (agreement everywhere implies equality) rather than Mac Lane's 'h ≠ h' implies some f distinguishes them'; that is the faithful constructive reading, not a weakening."
+    },
+    "gap": "No in-tree `Generator` / `Separator` record; grep for `(Record|Class|Definition) (Co)?Generator|Separator|SeparatingFamily|GeneratingFamily|Generates` returns exactly one hit, `Record Cogenerator` in Adjunction/SAFT.v:99 — the dual. Missing: (1) the definition itself (obtainable as `Definition Generator (C : Category) := Cogenerator (C^op)`, or spelled directly); (2) the equivalent characterization 'the representables C(s, -) for s ∈ S are jointly faithful' — stated only as prose about the dual in the SAFT header, never proved in either direction; (3) every example Mac Lane gives — the terminal/one-point object generates Sets, Z generates Ab and Grp, R generates R-Mod, the finite cyclic groups generate finite abelian groups (the library has no Ab, Grp, R-Mod, and no 'points separate arrows' lemma for Sets: grep 'separate points'/'well-pointed' yields only Theory/Lawvere/Sets.v's product-separation lemma and Instance/Fun.v's unrelated WellPointed endofunctor class); (4) the dual pairing with Cogenerator is never recorded.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E '(Record|Class|Definition|Structure)\\s+(Co)?[Gg]enerator|Separator|SeparatingFamily|GeneratingFamily|Generates' . -- 1 hit: Adjunction/SAFT.v:99 Record Cogenerator (the dual)",
+      "grep -rn --include='*.v' -iE 'generator|separat|generating (set|family)|jointly faithful' . -- ~50 hits; all are PROP/free-category generators, 'separate structure/concern' prose, or Theory/Lawvere/Sets.v's prod_separates; none is a generating family of objects",
+      "grep -rn --include='*.v' -iE 'well-pointed|wellpointed|points separate|separate points|jointly (faithful|monic|epic)' . -- 11 hits: Instance/Fun.v's WellPointed endofunctor class, Structure/Terminal.v prose on well-pointed toposes, Cospan jointly-epic pushout lemmas — none about generating objects",
+      "ls Instance/ -- no Grp, Ab, Ring, Mod; the examples Mac Lane cites have no in-tree carrier categories"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BOUNDARY CALL -- my blind pass classified this ABSENT, and I record the dissent rather than overturn. Blind searches, run before opening the coverage file: rg -i 'generat(or|ing) (set|family|object)|separat(or|ing) (set|family)|Generator\\b|Separator\\b' -> the only structural hit tree-wide is Adjunction/SAFT.v:99 Record Cogenerator (the dual); everything else is PROP/free-category generators or 'separate concerns' prose. There is no in-tree Generator/Separator symbol. WHY I DID NOT OVERTURN: I verified the op-unfolding by hand rather than trusting it, and the record's claim is exactly correct. In Cogenerator (C^op): cog_obj lands in ob C (Opposite keeps obj); f g : x ~{C^op}~> y are f g : y ~{C}~> x; k : y ~{C^op}~> cog_obj j is k : cog_obj j ~{C}~> y; and k o[C^op] f is f o[C] k. So cog_separates reads 'if f o k ~~ g o k for every k out of a family member into y, then f ~~ g' -- precisely Mac Lane's generating condition. The record is universe-polymorphic in {C : Category} with 'Arguments Cogenerator : clear implicits', so Cogenerator (C^op) is a well-formed term. That is 'some of the item exists', not 'no in-tree counterpart'. CANDIDATE THE RECORD'S LOG MISSES (checked, does not upgrade the verdict): Functor/Hom.v:85 '#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C)' is the 'representables are jointly faithful' statement -- but for the TOTALITY of objects of C, i.e. the degenerate case S = ob C. Mac Lane's content is precisely that a SMALL S suffices, so this carries none of it; the record's gap item (3), that the joint-faithfulness characterization of a generating family is never proved in either direction, stands. ALSO CONFIRMED: no Cogenerator is ever instantiated anywhere in the tree (rg 'Cogenerator' outside Adjunction/SAFT.v yields only the cross-reference at Adjunction/GAFT.v:119), so neither def4 nor def5 has any concrete witness, and every example Mac Lane lists (1 generates Set, Z generates Ab/Grp, R generates R-Mod, finite cyclic groups generate finite abelian groups) lacks even a carrier category. READING GUIDANCE for Phase E: identical to def3 -- PARTIAL means 'the dual record is generic and one op-application away', not 'partly built'."
+    }
+  },
+  {
+    "id": "maclane:V.7:def5",
+    "classification": "PRESENT",
+    "aliases": [
+      "cogenerating set / cogenerating family / coseparating set",
+      "cogenerator (single object q with {q} cogenerating)",
+      "Cogenerator record; cog_separates; cog_index / cog_obj",
+      "jointly faithful contravariant representables C(-, q)",
+      "dual of a generating/separating set (Generator (C^op))"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 99,
+        "symbol": "Cogenerator",
+        "intree_statement": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }."
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 94,
+        "symbol": "(header prose for Cogenerator)",
+        "intree_statement": "\"A cogenerating family for [C]: a small [Type] of indices [cog_index] with objects [cog_obj j : C], such that parallel arrows [f, g : x ~> y] are equal as soon as they agree after every arrow [k : y ~> cog_obj j] into a member of the family. Equivalently the representables [C(-, cog_obj j)] are jointly faithful. This is the minimal data form of 'cogenerating family'.\""
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 223,
+        "symbol": "cogenerator_canonical_monic",
+        "intree_statement": "Lemma cogenerator_canonical_monic {C : Category} (comp : @Complete C) (G : Cogenerator C) (c : C) : Monic (cogen_canonical comp G c).  (* the classical 'the canonical map into a power of the cogenerating family is monic'; the header stresses that this GENUINELY CONSUMES cog_separates, so the field is not inert *)"
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 274,
+        "symbol": "SAFT",
+        "intree_statement": "Definition SAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D ⟶ C & F ⊣ U }."
+      }
+    ],
+    "statement_record": {
+      "book": "Dual to a generating set: a set Q of objects is a cogenerating set for C when for every parallel pair h ≠ h' : a → b there exist q ∈ Q and g : b → q with g h ≠ g h'. A single object q is a cogenerator when {q} is a cogenerating set. Example: any two-point set is a cogenerator in Set.",
+      "intree": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }.",
+      "strength_comparison": "same. The family is indexed by a Type rather than being a 'set', which is this library's uniform universe-polymorphic reading of smallness (the SAFT header is explicit that the smallness content lives in the index Type); the single-object case is the instance cog_index := unit. The in-tree condition is the constructive positive form — 'agreeing after every k into the family forces f ≈ g' — which is the faithful setoid rephrasing of Mac Lane's 'h ≠ h' implies some g distinguishes them' (≈ replacing =). No extra hypotheses are attached to the definition, and the field is load-bearing: cogenerator_canonical_monic consumes it. NOT PRESENT: Mac Lane's example that a two-point set cogenerates Set — the library has no such instance (nothing in the tree constructs any Cogenerator)."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'cogenerat' . -- all hits are Adjunction/SAFT.v (definition + uses) plus cross-referencing prose in Adjunction/GAFT.v:118 and Structure/Complete.v:84; no concrete Cogenerator instance is ever built (so Mac Lane's Set example is uninstantiated)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently and found the same record. All four citations opened and matched: Adjunction/SAFT.v:99-104 Record Cogenerator (quoted character-for-character, including cog_separates); :94-98 header prose (verbatim); :223 Lemma cogenerator_canonical_monic; :274-278 Definition SAFT, whose quoted signature -- '(comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D ~~> C & F -| U }' -- is exact. Adjunction/SAFT.v is registered (_CoqProject:8) and Adjunction/SAFT.vo is built. DEFINITION-WITHOUT-REQUIRED-API check, done rather than assumed: cog_separates is genuinely consumed, at Adjunction/SAFT.v:227 'apply (cog_separates G g1 g2); intros j k.' inside cogenerator_canonical_monic, which in turn feeds SubobjectCover -> SAFT_solution_set (:252) -> SAFT (:274). The field is load-bearing, not inert. STRENGTH AUDIT of 'same': the in-tree condition is the positive form ((forall j k. k o f ~~ k o g) -> f ~~ g) whereas Mac Lane writes the existential form (h /= h' -> exists q g. g h /= g h'). These are classically equivalent; constructively Mac Lane's yields only ~~(h ~~ h') without double-negation elimination, so the in-tree form is the stronger, usable one. 'same' is therefore honest and if anything conservative -- I considered 'intree-stronger' and judged the record's framing ('the faithful setoid rephrasing') adequate. Mac Lane's single-object cogenerator is the instance cog_index := unit and needs no separate definition. The record's own caveat is accurate and I re-verified it: nothing in the tree ever constructs a Cogenerator, so the two-point-set-cogenerates-Set example is uninstantiated. Correctly left as a note in strength_comparison rather than as a gap, since PRESENT records carry gap: null per the frozen schema and the example is an illustration, not part of the definition."
+    }
+  },
+  {
+    "id": "maclane:V.7:def6",
+    "classification": "ABSENT",
+    "aliases": [
+      "spanning arrow / f spans a / f : x → Ga spans",
+      "proper monomorphism / proper subobject (subobject strictly below the identity subobject)",
+      "arrow not factoring through any proper subobject of its codomain; image-is-everything",
+      "the image of f is all of a (image factorization, smallest subobject through which f factors)",
+      "generated subobject / subobject generated by an arrow; dual: cospanning / cogenerating quotient"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'span[s]? |spanning' . -- ~35 hits, every one is either the limit-shape 'span/cospan' (Instance/Roof.v, Structure/Span.v, Construction/Cospan/, Theory/DoubleCategory.v, Instance/FinSet/Pushout.v) or Theory/Coq/List.v's list-splitting function `span`; zero occurrences of 'spans a' in Mac Lane's sense",
+      "grep -rn --include='*.v' -iE 'proper mono|proper subobject|proper submodule' . -- 0 hits",
+      "grep -rIn --include='*.v' -iE 'smallest subobject|least subobject|minimal subobject' . -- 0 hits",
+      "grep -rIn --include='*.v' -iE 'image factoriz' . -- 6 hits (Structure/Abelian.v, Structure/Factorization.v, Structure/Regular/Factorization.v, Adjunction/SAFT.v header); these give (E,M)-factorizations but never state that the image is the least subobject through which an arrow factors, and never define an arrow whose image is the whole codomain",
+      "grep -rn --include='*.v' -E 'SubObj' . -- Theory/Subobject.v has no 'identity subobject' / 'top element' and no strict order (< ) on sub_le, so 'proper subobject' has no in-tree vocabulary",
+      "grep -rn --include='*.v' -iE 'generated subalgebra|generated subobject' . -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, and my searches found nothing the classifier missed. Re-ran: rg -i 'span|spans|spanning' -> every hit is either the diagram-shape span/cospan (Structure/Span.v:27 'Definition Span (C : Category) := Roof ~~> C', Structure/Span.v:29 cospan, Structure/Pullback.v:87,147, Structure/Pullback/Limit.v, Structure/Pushout.v, Theory/DoubleCategory.v, Theory/Bicategory.v, Construction/Cospan/, Instance/FinSet/Pushout.v) or Theory/Coq/List/Proofs.v:408's list-splitting function 'span'; 0 hits for 'proper mono', 'proper subobject', 'smallest/least/minimal subobject', 'generated subobject'. Independently confirmed the vocabulary claim: Theory/Subobject.v defines only sub_le (a preorder) with no top element (no identity subobject) and no strict order, so 'proper subobject' is literally unstatable without new definitions. NOT OUT_OF_SCOPE: the notion is straightforwardly formalizable over the existing SubObj/sub_le -- add the identity subobject as top and a strict order -- so ABSENT, not a foundational obstruction."
+    }
+  },
+  {
+    "id": "maclane:V.7:lem2",
+    "classification": "ABSENT",
+    "aliases": [
+      "every arrow factors through a spanning arrow / existence of spanning factorization",
+      "solution set from spanning arrows (the set of all spanning arrows out of x is a solution set)",
+      "intersection of all subobjects through which h factors; wide pullback of the u_j preserved by G",
+      "G preserves intersections of subobjects ⇒ factorization through a minimal subobject",
+      "image of an arrow along a right adjoint / limit-preserving functor (dual: cospanning cofactorization)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'span[s]? |spanning' . -- no spanning-arrow notion exists (see def6 log), so the lemma's conclusion is unstatable in-tree",
+      "grep -rn --include='*.v' -iE 'wide (pullback|limit)|multiple pullback' . -- 0 hits: the J-indexed intersection the proof takes does not exist",
+      "grep -rn --include='*.v' -iE 'intersection' . -- 4 hits, all prose (see def2 log); no intersection of subobjects is constructed, hence nothing for G to preserve",
+      "grep -rn --include='*.v' -iE 'solution set|SolutionSet' . -- SolutionSet is defined at Adjunction/GAFT.v:159 and manufactured only in Adjunction/SAFT.v:252 (SAFT_solution_set, from packaged well-poweredness + cogenerator data) and Adjunction/GAFT/Examples.v; there is no spanning-arrow route to a solution set",
+      "grep -rIn --include='*.v' -iE 'PreservesLimit|PreservesImageLimit' -- preservation vocabulary exists (Structure/Limit/Preservation.v, Adjunction/Continuity.v) but is never applied to intersections of subobjects"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Both ingredients of the lemma are independently missing: its conclusion needs the spanning-arrow notion (def6, absent) and its proof takes the J-indexed intersection of subobjects (def2's wide pullback, absent -- re-grepped, 0 hits for wide/multiple pullback tree-wide). Verified the SolutionSet claim myself: Adjunction/GAFT.v:159 Record SolutionSet is manufactured only at Adjunction/SAFT.v:252 (SAFT_solution_set, from SubobjectIndex + Cogenerator) and consumed in Adjunction/GAFT/Examples.v; there is no spanning-arrow route to a solution set, and no lemma anywhere says 'the spanning arrows out of x form a solution set'. The preservation vocabulary the proof would use does exist (PreservesImageLimit at Adjunction/GAFT.v / Structure/Limit/Preservation.v, with right_adjoint_PreservesImageLimit) but is never applied to intersections of subobjects, since none are constructed. ABSENT, not OUT_OF_SCOPE."
+    }
+  },
+  {
+    "id": "maclane:V.7:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "solution set for the forgetful functor of a variety Alg_tau ⟶ Set",
+      "subalgebra generated by a subset; A_f = closure of f(S) under the operations",
+      "cardinality bound on a generated subalgebra; smallness of the set of factored arrows",
+      "free algebra / free-forgetful adjunction for an operator domain Omega",
+      "subobject redefined as u : s → a with Gu injective (concrete subobject in a variety)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include='*.v' -i 'subalgebra' . -- 1 hit, Theory/Lawvere.v:89 prose ('homomorphic images, subalgebras and products'); no subalgebra is ever defined",
+      "grep -rIn --include='*.v' -i 'generated subalgebra' . -- 0 hits; grep -i 'Alg_tau' -- 0 hits",
+      "grep -n -iE 'functor|forget|⟶' Instance/Comp.v -- 2 hits, both inside a comment at lines 211-212; the category Algs (Instance/Comp.v:151, objects OpAlgebra S, morphisms AlgHom) has NO forgetful functor to Coq or Sets, so the functor G of the remark does not exist in-tree",
+      "grep -rIn --include='*.v' -iE 'solution set|SolutionSet' . -- SolutionSet exists (Adjunction/GAFT.v:159) but is instantiated only in Adjunction/SAFT.v and Adjunction/GAFT/Examples.v (the Δ ⊣ (×) witness); never for an algebraic/variety forgetful functor",
+      "NOTE (related but not the item): Instance/Comp.v:92 builds the free algebra `Free : OpAlgebra S` on a Type X with `induced_hom` (Instance/Comp.v:108) and `from_free_unique` (:116) — the universal property directly, for OpAlgebra (signature only, no equations), NOT via a solution set and NOT as an adjunction; the equational layer `Algebra S E` (:268) has no free construction at all",
+      "grep -rIn --include='*.v' -i 'variety' . -- 4 hits: Theory/Monad.v:60, Theory/Lawvere.v:58/89, Instance/Comp.v:11/17 — all background prose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. I re-ran the record's decisive check rather than trusting it: grep -inE 'functor|forget|arrow-to' Instance/Comp.v returns exactly two hits, lines 211-212, both inside the explanatory comment on Algs_Initial. So the category Algs (Instance/Comp.v:151 'Program Definition Algs : Category', objects OpAlgebra S, morphisms AlgHom) genuinely has no forgetful functor to Sets or Coq, and the functor G : Alg_tau -> Set of the remark cannot even be written. Confirmed the free-algebra material: Instance/Comp.v:92 Free, :108 induced_hom, :116 from_free_unique give the universal property DIRECTLY for OpAlgebra (signature only), never as an adjunction and never via a solution set; the equational layer 'Record Algebra (S : OpSignature) (E : EqSignature S)' at :268 has no free construction at all. 0 hits for subalgebra generation or Alg_tau. Instance/Comp.v is registered (_CoqProject:177). OBSERVATION (checked, judged NOT a library defect): the Algs_Initial comment at Instance/Comp.v:210-212 says 'The free functor is left adjoint to the forgetful functor and so preserves colimits' although neither functor exists in-tree. The file's own convention distinguishes in-tree names in brackets ([Free S False], [induced_hom], [from_free_unique], all of which do exist and are cited correctly) from plain-prose mathematics, and the actual proof is from_free_unique -- so this is background justification, not a false claim about the code. DEPENDENCY NOTE for Phase E: the remark also REDEFINES subobject as 'u : s -> a with Gu injective', which presupposes G; so the blocking prerequisite for this item is the free/forgetful adjunction for Algs, not the AFT."
+    }
+  },
+  {
+    "id": "maclane:V.7:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "tensor product of modules A ⊗_K B; universal bilinear map",
+      "Bilin(A,B;C) / bilinear function / bilinear functor of C; multilinear map",
+      "K-Mod / R-Mod / module category / category of modules over a commutative ring",
+      "universal element / representing object of Bilin(A,B;-) via the adjoint functor theorem",
+      "tensor product by generators and relations (the construction the section says to avoid)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include='*.v' -iE 'bilinear|Bilin' . -- 7 hits, all background prose: Theory/Displayed.v:49 (a 2-cocycle countermodel), Theory/Algebra/Frobenius.v:56, Construction/Indexed.v:121, Construction/Enriched.v:28/67, Structure/Preadditive.v:16, Structure/Additive.v:30. No Bilin set, no bilinear-map record, no functor of the third variable",
+      "grep -rIn --include='*.v' -i 'tensor product of modules' . -- 0 hits; grep -i 'K-module' -- 0 hits; grep -i 'R-module' -- 2 hits, prose only (Structure/Monoid.v:69, Construction/Localization.v:67)",
+      "grep -rIn --include='*.v' -i 'commutative ring' . -- 1 hit, prose (Construction/Localization.v:67)",
+      "ls Instance/ -- Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX — no module or ring category; Instance/CMon.v is commutative MONOIDS (with only CMon_Forget : CMon ⟶ Sets at line 169, no free functor, no tensor)",
+      "grep -rIn --include='*.v' -iE 'universal element' . / Theory/Universal/Arrow.v -- the universal-arrow machinery exists generically but is never applied to a bilinear-maps functor",
+      "NOTE: every in-tree 'tensor' is the abstract ⨂ of Structure/Monoidal.v or the Day/PROP/funny tensors — none is a tensor product of modules"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the searches: 'bilinear'/'Bilin' -> background prose only (Structure/Preadditive.v:16, Structure/Additive.v:30, Theory/Algebra/Frobenius.v:56, Construction/Enriched.v, Construction/Indexed.v, Theory/Displayed.v:49); 'tensor product of modules', 'K-module' -> 0 hits; ls Instance/ matches the record's enumeration exactly, with no module or ring category. Verified the CMon claim at source: Instance/CMon.v declares CMonObject (:32), CMonHom (:58), the category CMon (:140) and 'Program Definition CMon_Forget : CMon ~~> Sets' (:169) -- and nothing else; there is no free functor, no adjunction, no tensor. Every in-tree 'tensor' is the abstract monoidal (x) of Structure/Monoidal.v or the Day/PROP/funny tensors, as the record says. The generic universal-arrow machinery (Theory/Universal/Arrow.v) and GAFT exist but are never pointed at a bilinear-maps functor. NOT OUT_OF_SCOPE: Instance/CMon.v is a working template for an algebraic instance category over setoids and Theory/Universal/Arrow.v supplies universal elements, so the construction is formalizable; it is simply not built."
+    }
+  },
+  {
+    "id": "maclane:V.7:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "coproduct in Grp / free product of groups G * H",
+      "category of groups; group homomorphisms; Grp as a variety of algebras",
+      "coproduct injections are monic; images intersect in the identity subgroup",
+      "Cocartesian structure on a category of algebras (Algs_Cocartesian)",
+      "AFT applied to the diagonal/codiagonal functor to build binary coproducts"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include='*.v' -i 'free product' . -- 12 hits, ALL background prose (Construction/Funny.v:113 'M □ N is their coproduct in Mon — the free product', Structure/Cocartesian.v:53/68/74, Construction/Groupoid.v:62 'amalgamated free product of groupoids', Weber citations); no construction",
+      "ls Instance/ -- no Grp; the only group-related material is Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq`, a TYPE of equational algebras, and Structure/Group.v:109 `Class GroupObject (grp : C)`, a group OBJECT in a cartesian category. Neither is assembled into a category of groups, so 'the coproduct in Grp' has no in-tree carrier",
+      "grep -rIhoE '\\b(Ring|Rng|CRing|Grp|Ab|Mod)\\b' --include='*.v' . | sort | uniq -c -- Ring/Rng/CRing: 0; Grp: 3 (all prose, Structure/Group.v:63/72, Structure/Complete.v:55); Ab: 47 (all bound variables in Theory/Bicategory/Adjunction.v); Mod: 5 (prose)",
+      "sed -n '223,233p' Instance/Comp.v -- `Program Instance Algs_Cocartesian : @Cocartesian Algs` is COMMENTED OUT (its product_obj/fork/exl/exr bodies are left as `_`), so even signature-level algebras have no in-tree coproducts; only Algs_Terminal (:160), Algs_Cartesian (:169) and Algs_Initial (:209) are live (Algs_Closed at :190 is likewise commented out)",
+      "grep -rIn --include='*.v' -E 'GAFT|SAFT' . -- the only end-to-end AFT application is Adjunction/GAFT/Examples.v recovering Δ ⊣ (×) (diagonal_product_via_gaft_is_diagonal); no coproduct is ever produced by the AFT",
+      "grep -rIn --include='*.v' -i 'normal subgroup' . -- 0 hits; the 'images intersect in the identity subgroup' half additionally needs intersections of subobjects, which are absent (see def2)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. I verified the record's sharpest and most falsifiable claim at source: Instance/Comp.v:224 'Program Instance Algs_Cocartesian : @Cocartesian Algs' sits inside a block comment opened at :223 and closed at :233, with product_obj's op body and fork/exl/exr all left as '_'; likewise Algs_Closed at :190 inside the block :189-:205. So the live structure on Algs really is Terminal (:160), Cartesian (:169), Initial (:209) only -- there are no coproducts even at the signature level. Confirmed there is no category of groups: 'Definition Group := Algebra GroupOp GroupEq' (Instance/Comp.v:382) is a TYPE of equational algebras, and Structure/Group.v:109 'Class GroupObject (grp : C)' is a group OBJECT in a cartesian monoidal category (with Structure/Group/Proofs.v for the derived laws) -- neither is assembled into Grp, so 'the coproduct in Grp' has no carrier. The only end-to-end AFT application in the tree is Adjunction/GAFT/Examples.v (diagonal_product_via_gaft at :108, diagonal_product_via_gaft_is_diagonal at :121), which recovers a LIMIT; no colimit is ever produced by the AFT. The exercise's second half additionally needs intersections of subobjects, absent per def2. Not OUT_OF_SCOPE."
+    }
+  },
+  {
+    "id": "maclane:V.7:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "coproduct of rings / free product of rings / ring coproduct",
+      "category of rings (Ring / Rng / CRing); ring homomorphisms",
+      "coproduct in a variety of algebras via the adjoint functor theorem",
+      "Cocartesian structure on Algs; coproduct of algebras for a signature",
+      "tensor product of commutative rings as their coproduct"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIhoE '\\b(Ring|Rng|CRing)\\b' --include='*.v' . -- 0 hits; the 701 case-insensitive 'ring' matches are all substrings ('pairing' 82, 'copairing' 54, 'tensoring' 53, 'whiskering' 52, 'string' 33, ...)",
+      "ls Instance/ -- no Ring, Rng, CRing; Structure/Monoid.v defines a MONOID OBJECT in a monoidal category and Structure/Group.v:109 a GROUP OBJECT in a cartesian category — neither is a category of ring-like structures",
+      "sed -n '223,233p' Instance/Comp.v -- Algs_Cocartesian is commented out, so the generic 'coproduct of algebras for a signature' route is also unavailable",
+      "grep -rIn --include='*.v' -i 'free product' . -- prose only (see ex1 log)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-confirmed: no Ring/Rng/CRing category anywhere (the case-insensitive 'ring' matches are all substrings -- pairing, copairing, tensoring, whiskering, string); Instance/ has no Ring, Mod or Ab. Structure/Monoid.v is a monoid OBJECT in a monoidal category and Structure/Group.v:109 a group OBJECT, neither a category of ring-like structures. The generic fallback route is also unavailable: I independently verified that Algs_Cocartesian (Instance/Comp.v:224) is inside the comment block :223-:233, so even coproducts of algebras for a bare signature do not exist in-tree. 'free product' occurs only in background essays (Structure/Cocartesian.v:53/68/74, Construction/Funny.v:113, Construction/Groupoid.v:62). Not OUT_OF_SCOPE -- Instance/Comp.v and Instance/CMon.v show the pattern is formalizable here."
+    }
+  },
+  {
+    "id": "maclane:V.7:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "A ⊗_R B for a right R-module A and left R-module B; balanced/biadditive map",
+      "biadditive function with a r ⊗ b = a ⊗ r b; middle-linear map; balanced product",
+      "category of R-modules / abelian groups Ab; module homomorphisms",
+      "A ⊗_R B is spanned by the elements a ⊗ b (generation of the tensor product)",
+      "base change along a ring morphism S → R relating A ⊗_S B and A ⊗_R B"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include='*.v' -iE 'bilinear|Bilin' . -- 7 prose hits only (see construction1 log); no biadditive/balanced-map notion either",
+      "grep -rIn --include='*.v' -i 'R-module' . -- 2 prose hits (Structure/Monoid.v:69, Construction/Localization.v:67); no module category, no Ab",
+      "ls Instance/ -- no Mod, Ab, Ring; Instance/CMon.v (commutative monoids over setoids) is the closest algebraic instance and has no ring action, no tensor, and only a forgetful functor CMon_Forget (Instance/CMon.v:169)",
+      "grep -rIn --include='*.v' -iE 'base change' . -- hits concern Structure/Pullback.v reindexing and Construction/ColouredPROP colour base change; nothing about rings",
+      "grep -rn --include='*.v' -iE 'span[s]? |spanning' . -- the 'spanned by a ⊗ b' half has no in-tree vocabulary either (see def6 log)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. No module category, no Ab, no R-module structure: 'R-module' occurs twice, both prose (Structure/Monoid.v:69, Construction/Localization.v:67); there is no biadditive, balanced or middle-linear map notion; Instance/CMon.v (commutative monoids over setoids) is the nearest algebraic instance and carries no ring action, no tensor, and only CMon_Forget (:169). The 'A (x)_R B is spanned by the elements a (x) b' half additionally needs def6's spanning vocabulary, which is absent. 'base change' hits concern Structure/Pullback.v reindexing and Construction/ColouredPROP colour base change, nothing ring-theoretic -- the S -> R comparison half is likewise unreachable. Not OUT_OF_SCOPE."
+    }
+  },
+  {
+    "id": "maclane:V.7:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "coequalizers in Alg_tau / coequalizers in a variety of algebras",
+      "HasCoequalizers instance for a category of algebras; quotient of an algebra by a congruence",
+      "cokernel pair / coequalizer via the adjoint functor theorem (left adjoint to the diagonal on the walking parallel pair)",
+      "colimits in a variety; cocompleteness of Algs",
+      "reflexive coequalizers in a category of algebras (HasReflexiveCoequalizers)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include='*.v' -E 'HasCoequalizers|HasReflexiveCoequalizers' . -- the classes are defined (Structure/Coequalizer.v:68, Structure/Coequalizer/Reflexive.v:54) and there is one derivation between them (Reflexive.v:75), but every other occurrence is a HYPOTHESIS (Monad/Lifting.v:107/495/501/530, Monad/Monadicity/Crude.v:113, Theory/Lawvere/Monad.v:87). No category in the tree is given a coequalizer instance",
+      "grep -rIn --include='*.v' -iE 'coequalizer' . | grep -E 'Instance/' -- 2 hits, both prose (Instance/Two.v:51, Instance/Parallel.v:25); no concrete coequalizer construction in Sets, Coq, FinSet, CMon or Algs",
+      "grep -n -E '^(Program|Instance|Definition)' Instance/Comp.v -- the live structure on Algs is Terminal (:160), Cartesian (:169), Initial (:209); Cocartesian (:224) and Closed (:190) are commented out, and there is no colimit or coequalizer of any kind",
+      "grep -rIn --include='*.v' -E 'GAFT|SAFT' . -- the sole end-to-end AFT application is Adjunction/GAFT/Examples.v (Δ ⊣ (×), a LIMIT); no colimit or coequalizer is ever produced by the adjoint functor theorem",
+      "grep -rIn --include='*.v' -i 'Alg_tau' . -- 0 hits; the nearest carrier is Algs (Instance/Comp.v:151) for a signature without equations"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified the coequalizer inventory at source: Structure/Coequalizer.v:68 'Class HasCoequalizers (C : Category)' and Structure/Coequalizer/Reflexive.v:54 'Class HasReflexiveCoequalizers (C : Category)' both exist, with exactly one derivation between them (Reflexive.v:75-76 HasCoequalizers_HasReflexiveCoequalizers); every other occurrence in the tree is a HYPOTHESIS (Monad/Lifting.v, Monad/Monadicity/Crude.v:113, Theory/Lawvere/Monad.v:87). No concrete category anywhere is given a coequalizer instance. Confirmed independently that Algs has no colimit structure beyond Initial: Terminal (:160), Cartesian (:169), Initial (:209) are live and Cocartesian (:224) / Closed (:190) are inside block comments (:223-:233 and :189-:205). No colimit of any kind is ever produced by GAFT/SAFT -- the sole application is the limit Delta -| (x) in Adjunction/GAFT/Examples.v. 'Alg_tau': 0 hits. Not OUT_OF_SCOPE -- the classes and the AFT both exist; the instance simply is not built."
+    }
+  }
+]
