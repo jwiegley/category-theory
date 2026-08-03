@@ -370,3 +370,154 @@ Proof.
   exists iso.
   exact (Sets_Image_comm m).
 Defined.
+
+(* ------------------------------------------------------------------------ *)
+(** ** Epimorphisms of [Sets] are exactly the surjections *)
+
+(* nLab:      https://ncatlab.org/nlab/show/epimorphism
+   Wikipedia: https://en.wikipedia.org/wiki/Epimorphism
+   MathOverflow: aws, "In the category of sets epimorphisms are surjective —
+                 Constructive Proof?", https://mathoverflow.net/q/178786
+
+   In Set the epimorphisms are exactly the surjections.  The forward half of
+   that equivalence is elementary and lives one level down, in
+   Instance/Sets.v: if every b is hit then any two maps agreeing after h agree
+   everywhere, with no auxiliary object required.  The REVERSE half is what
+   this section supplies, and the reason it is here rather than there is the
+   same size obstruction the file header opens with.
+
+   WHY THE NAIVE STATEMENT DOES NOT TYPECHECK.  The argument (aws, loc. cit.)
+   probes the epi with two maps out of B into a truth-value object: the
+   characteristic map of the image of h, λ b, ∃ a, h a ≈ b, against the
+   constantly-true map.
+   The two agree after h, so right cancellation equates them on all of B —
+   which is precisely the assertion that every b is in the image.  This is
+   constructive as it stands: `∃` is [sigT] here (Lib/Foundation.v), so the
+   witness is genuinely extracted and no choice principle is used.  But the
+   probe object is not available at the level one wants it.  Being the
+   codomain of a Type@{o}-valued predicate on B it must have carrier Type@{o}
+   under [iffT], hence is [PropSetoid@{o so}]: a SetoidObject@{so so}, an
+   object of Sets@{so sso}, and NOT an obj[Sets@{o so}].  (Prop is no escape,
+   for the reason given in the file header: truncating the sigma discards the
+   very witness the conclusion has to return.)  So [Epic h] taken in
+   Sets@{o so} — right cancellation against level-o probes only — is too weak
+   a hypothesis to run the argument at all.  That is the abandoned proof at
+   the end of Instance/Sets.v, and it is a fact about size rather than a gap
+   in the proof.
+
+   WHAT IS TRUE.  Right cancellation against the probes that DO exist —
+   epicness of [SetoidMorphism_Lift h] in Sets@{so sso} — yields surjectivity
+   of h back at level o.  The conclusion is stated entirely at level o; only
+   the hypothesis is lifted, and it is not weakened by the lift: it quantifies
+   over ALL of obj[Sets@{so sso}], which contains [PropSetoid] as well as the
+   lift of every level-o setoid.
+
+   The forward direction re-proves at the lifted placement, so the two halves
+   package as the biconditional [sets_epic_iff_surjective].  That packaging
+   hides an asymmetry worth stating: the forward direction is true ALREADY AT
+   LEVEL o — that is the half proved in Instance/Sets.v, strictly stronger
+   than the half restated here — whereas the reverse direction is not
+   available at level o at all.  The biconditional sits at the lifted
+   placement because that is the only placement at which both halves can be
+   stated at once, not because either is naturally there. *)
+
+(* The constantly-true probe: the terminal map followed by [sets_true],
+   i.e. λ _, poly_unit@{o}.  Any inhabited truth value would do, [iffT] being
+   the equivalence on [PropSetoid]. *)
+Definition sets_all_true@{o so sso} (X : SetoidObject@{so so}) :
+  X ~{Sets@{so sso}}~> PropSetoid@{o so} :=
+  sets_true@{o so} ∘[Sets@{so sso}] sets_to_unit@{so}.
+
+(* Epic ⇒ surjective: the half Instance/Sets.v abandons.  Probe the lifted map
+   with [char_setoid h] against [sets_all_true].  The two agree after h because
+   "h a is in the image of h" is inhabited by a itself; right cancellation then
+   equates them on all of B, and the backward leg of the resulting [iffT] at b
+   hands back the preimage. *)
+Theorem sets_epic_implies_surjective@{o so sso} {A B : SetoidObject@{o o}}
+  (h : A ~{Sets@{o so}}~> B)
+  (H : @Epic@{sso so} Sets@{so sso}
+         (Setoid_Lift@{o so} A) (Setoid_Lift@{o so} B)
+         (SetoidMorphism_Lift@{o so} h)) :
+  ∀ b : carrier B, ∃ a : carrier A, @equiv _ (is_setoid B) (h a) b.
+Proof.
+  intro b.
+  assert (Hcomm :
+    char_setoid@{o so} h ∘[Sets@{so sso}] SetoidMorphism_Lift@{o so} h
+      ≈ sets_all_true@{o so sso} (Setoid_Lift@{o so} B)
+          ∘[Sets@{so sso}] SetoidMorphism_Lift@{o so} h). {
+    intro a; split.
+    - intros _; exact ttt.
+    - intros _; exists a; reflexivity.
+  }
+  pose proof (@epic _ _ _ _ H PropSetoid@{o so}
+                (char_setoid@{o so} h)
+                (sets_all_true@{o so sso} (Setoid_Lift@{o so} B))
+                Hcomm b) as E.
+  exact (snd E ttt).
+Qed.
+
+(* Surjective ⇒ epic, restated at the lifted placement so the two halves meet.
+   This is the level-o argument of Instance/Sets.v run verbatim against
+   level-so probes: the lift changes neither carrier nor relation, so the
+   preimage of b transports the hypothesis at h a along to b. *)
+Theorem sets_surjective_implies_epic@{o so sso} {A B : SetoidObject@{o o}}
+  (h : A ~{Sets@{o so}}~> B)
+  (S : ∀ b : carrier B, ∃ a : carrier A, @equiv _ (is_setoid B) (h a) b) :
+  @Epic@{sso so} Sets@{so sso}
+    (Setoid_Lift@{o so} A) (Setoid_Lift@{o so} B)
+    (SetoidMorphism_Lift@{o so} h).
+Proof.
+  constructor; intros Z g1 g2 Hg b.
+  destruct (S b) as [a Ha].
+  transitivity (g1 (h a)).
+  - symmetry.
+    exact (@proper_morphism _ _ _ _ g1 (h a) b Ha).
+  - transitivity (g2 (h a)).
+    + exact (Hg a).
+    + exact (@proper_morphism _ _ _ _ g2 (h a) b Ha).
+Qed.
+
+(* The two halves packaged.  See above for why this placement, and for what
+   the packaging conceals about the forward direction. *)
+Theorem sets_epic_iff_surjective@{o so sso} {A B : SetoidObject@{o o}}
+  (h : A ~{Sets@{o so}}~> B) :
+  (∀ b : carrier B, ∃ a : carrier A, @equiv _ (is_setoid B) (h a) b)
+    ↔ @Epic@{sso so} Sets@{so sso}
+        (Setoid_Lift@{o so} A) (Setoid_Lift@{o so} B)
+        (SetoidMorphism_Lift@{o so} h).
+Proof.
+  split.
+  - exact (sets_surjective_implies_epic@{o so sso} h).
+  - exact (sets_epic_implies_surjective@{o so sso} h).
+Qed.
+
+(* ------------------------------------------------------------------------ *)
+(** ** Corollary: bimorphisms of [Sets] are isomorphisms *)
+
+(* The conclusion in the class form of Lib/Setoid.v, which is what
+   [bijective_is_iso] consumes.  Transparent, because the chosen preimages are
+   the data out of which the inverse function is built. *)
+Definition sets_epic_surjective@{o so sso} {A B : SetoidObject@{o o}}
+  (h : A ~{Sets@{o so}}~> B)
+  (H : @Epic@{sso so} Sets@{so sso}
+         (Setoid_Lift@{o so} A) (Setoid_Lift@{o so} B)
+         (SetoidMorphism_Lift@{o so} h)) :
+  surjective@{o o o} (B:=carrier B) h :=
+  {| surj := λ b, sets_epic_implies_surjective@{o so sso} h H b |}.
+
+(* Hence the classical fact that [Sets] is balanced, at the same cross-universe
+   placement: a map that is monic at level o and epic against level-so probes
+   is an isomorphism already in Sets@{o so}.  Monicity gives injectivity
+   ([injectivity_is_monic]), epicness gives the chosen preimages, and
+   [bijective_is_iso] assembles them into a two-sided inverse — with no appeal
+   to choice, the choice having been data all along. *)
+Definition sets_bimorphic_is_iso@{o so sso} {A B : SetoidObject@{o o}}
+  (h : A ~{Sets@{o so}}~> B)
+  (Hm : @Monic Sets@{o so} A B h)
+  (He : @Epic@{sso so} Sets@{so sso}
+          (Setoid_Lift@{o so} A) (Setoid_Lift@{o so} B)
+          (SetoidMorphism_Lift@{o so} h)) :
+  @IsIsomorphism Sets@{o so} A B h :=
+  bijective_is_iso h
+    {| inj := λ x y, snd (injectivity_is_monic h) Hm x y |}
+    (sets_epic_surjective@{o so sso} h He).

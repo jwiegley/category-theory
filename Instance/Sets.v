@@ -410,67 +410,42 @@ Defined.
 
 
 (* In Set the epimorphisms are exactly the surjections (see the Wikipedia and
-   nLab pages cited in the file header), so the statement below is correct.
-   The forward direction (surjective → epic) is proved; the reverse direction
-   is abandoned (this lemma ends in a non-completing tactic), so
-   [surjectivity_is_epic] does NOT enter the environment and nothing downstream
-   relies on it.
+   nLab pages cited in the file header).  The two halves live at different
+   universes, and only the forward one belongs in this file.
 
-   The classical argument distinguishes a point not in the image with the
-   characteristic map of the image versus the constant map into a truth-value
-   object. Realising that truth-value object here runs into a size obstruction:
-   the natural choice has carrier [Type] (or [Prop]) with `≈` taken to be `↔`,
-   but such an object does not fit as an [obj[Sets]] at the same universe as
-   [A] and [B] — Set's subobject classifier lives one universe up. The
-   cross-universe classifier theorems making this precise — [PropSetoid],
-   [char_setoid], [sets_char_pullback], [sets_char_unique] — are proved in
-   Instance/Sets/Classifier.v. Companion results [injectivity_is_monic] and
-   [bijective_is_iso] above are fully proved. *)
-Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}}
+   FORWARD (below).  Surjective implies epic needs no auxiliary object at all:
+   if every b is hit, two maps agreeing after h agree everywhere.  It holds at
+   the universe of A and B, which is the strongest placement available.
+
+   REVERSE.  Epic implies surjective is the classical argument that
+   distinguishes a point outside the image using the characteristic map of the
+   image against a constant map into a truth-value object.  Realising that
+   truth-value object here runs into a size obstruction: the natural choice has
+   carrier [Type] (or [Prop]) with `≈` taken to be `↔`, and no such object fits
+   as an [obj[Sets]] at the same universe as A and B -- Set's subobject
+   classifier lives one universe up.  This file previously stated the
+   biconditional and abandoned the proof, so NEITHER direction entered the
+   environment; the reverse direction is now proved at its honest placement as
+   [sets_epic_implies_surjective] in Instance/Sets/Classifier.v, where the
+   [Epic] hypothesis is quantified at the level that contains the lifted
+   truth-value object, together with the packaged
+   [sets_epic_iff_surjective] and the balancedness corollary
+   [sets_bimorphic_is_iso].  [Instance/FinSet/Classifier.v]'s
+   [finset_epic_iff_surjective] is the obstruction-free analogue: there
+   Omega = 2 is an honest object of the category itself.
+
+   Companion results [injectivity_is_monic] and [bijective_is_iso] above are
+   fully proved. *)
+Lemma surjective_implies_epic@{h p} {A B : SetoidObject@{p p}}
   (h : A ~{Sets}~> B) :
-  (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h.
+  (∀ b, ∃ a, h a ≈ b)%type → Epic@{h p} h.
 Proof.
-  split.
-  - intros HA.
-    constructor.
-    autounfold in *; intros ??? HB.
-    simpl in *; intros.
-    specialize (HA x).
-    destruct HA as [? HA].
-    rewrite <- HA.
-    apply HB.
-  - (* This constructive proof was given by
-       aws (https://mathoverflow.net/users/30790/aws)
-       In the category of sets epimorphisms are surjective - Constructive Proof?
-       URL (version: 2014-08-18): https://mathoverflow.net/q/178786 *)
-    intros [epic] ?.
-    given (C : SetoidObject). {
-      refine {|
-        carrier := Type;
-        is_setoid := {|
-          equiv p q := p ↔ q
-        |}
-      |}.
-      equivalence.
-    }
-
-    (* given (f : B ~{Sets}~> C). { *)
-    (*   refine {| *)
-    (*     morphism := λ b, ∃ a, h a ≈ b *)
-    (*   |}. *)
-    (* } *)
-    (* given (g : B ~{Sets}~> C). { *)
-    (*   refine {| *)
-    (*     morphism := λ _, True *)
-    (*   |}. *)
-    (* } *)
-    (* specialize (epic C f g). *)
-    (* enough ((f ∘[Sets] h) ≈ (g ∘[Sets] h)). { *)
-    (*   specialize (epic X b); clear X. *)
-    (*   unfold f, g in epic. *)
-    (*   simpl in *. *)
-    (*   now rewrite epic. *)
-    (* } *)
-    (* intro. *)
-    (* unfold f, g; simpl. *)
-Abort.
+  intros HA.
+  constructor.
+  autounfold in *; intros ??? HB.
+  simpl in *; intros.
+  specialize (HA x).
+  destruct HA as [? HA].
+  rewrite <- HA.
+  apply HB.
+Qed.
