@@ -61,11 +61,17 @@ Definition Terminal_transport {C D : Category} {F : C ⟶ D}
     (fun d => terminal_transport_arrow E T d)
     (fun d f g => terminal_transport_unique E T d f g).
 
-(* The initial dual, argued directly rather than by opposing E: the
-   library has no [EquivalenceOfCategories (F^op)] constructor, and
-   producing one means dualizing the two [Functor_Setoid] cells, which is
-   strictly more work than repeating this three-line argument with [epic]
-   in place of [monic] and [zero_unique] in place of [one_unique]. *)
+(* The initial dual, argued directly rather than by opposing E.
+
+   The duality route DOES exist: [EquivalenceOfCategories_op] at
+   Theory/Equivalence/Limit.v:524 opposes an equivalence, and
+   [Terminal_transport (EquivalenceOfCategories_op E) I0] discharges this
+   in one line.  It is not taken here because of where that constructor
+   lives -- Theory/Equivalence/Limit.v carries the limit-preservation and
+   RAPL development, and importing it would make this otherwise-light file
+   depend on the whole chain.  Repeating a three-line argument with [epic]
+   for [monic] and [zero_unique] for [one_unique] is the cheaper trade.
+   Anyone who already has Limit.v in scope should prefer the one-liner. *)
 Lemma initial_transport_unique {C D : Category} {F : C ⟶ D}
   (E : @EquivalenceOfCategories C D F) (I0 : @Initial C) (d : D)
   (f g : F (@initial_obj C I0) ~{D}~> d) : f ≈ g.

@@ -80,10 +80,12 @@ Context {C : Category@{o h p}}.
    Hence, limits qua limits are unique up to unique isomorphism" (Riehl,
    "A survey of categorical concepts").  In this library the statement is
    [univ_property_unique_up_to_unique_iso] in Structure/UniversalProperty.v,
-   and its simplest instance is terminality: Structure/UniversalProperty/
-   Terminal.v supplies [TerminalIsUniversalProperty] (and the initial dual
-   [InitialIsUniversalProperty]), from which [terminal_unique_up_to_unique_-
-   iso_via_UP] recovers the concrete statement proved directly in
+   and its simplest instance is terminality: the file
+   Structure/UniversalProperty/Terminal.v supplies
+   [TerminalIsUniversalProperty] (and the initial dual
+   [InitialIsUniversalProperty]), from which
+   [terminal_unique_up_to_unique_iso_via_UP]
+   recovers the concrete statement proved directly in
    Structure/Terminal.v.  Isomorphisms also
    occur as structure rather than property: the coherence cells
    [unit_left], [unit_right] and [tensor_assoc] of Structure/Monoidal.v are

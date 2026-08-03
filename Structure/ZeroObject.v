@@ -24,6 +24,16 @@ Generalizable All Variables.
    equality of objects.  [zero_object_unique] below is the corresponding
    statement for zero objects themselves.
 
+   [zero_coincide] is a FIELD, i.e. data, so a caller must supply it; the
+   header used to justify that by rhetoric alone.  It need not be assumed:
+   [terminal_initial_arrow_iso] below (Riehl, CTiC, Exercise 1.6.i) shows
+   that ANY morphism 1 ~> 0 is already an isomorphism, and
+   [ZeroObject_from_arrow] turns one such morphism into the whole
+   [ZeroObject] record.  That is the constructive source of the coincidence,
+   and until it was added nothing in tree derived one -- the sole inhabitant,
+   [CMon_Zero] (Instance/CMon/Biproduct.v), supplies [iso_id] only because
+   its two chosen objects are literally the same term.
+
    Every pair of objects x, y then acquires a canonical zero morphism
    x ~> y, obtained by tunnelling through the zero object:
 

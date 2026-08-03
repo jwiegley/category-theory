@@ -27,10 +27,13 @@ Generalizable All Variables.
    hom-functor `[Hom c,─] = Hom(c, −)`, so an object satisfying the predicate
    is a representing object for a covariant functor `C ⟶ Sets`.  That is the
    INITIAL shape: `c` is initial exactly when `Hom(c, −) ≅ 1`, the constant
-   functor at the singleton setoid.  (The two existing instances confirm the
-   reading: both Structure/UniversalProperty/Cartesian.v and
-   Structure/UniversalProperty/Limit.v instantiate the class at `C^op`,
-   because products and limits are LIMIT-shaped.)  Terminality is therefore
+   functor at the singleton setoid.  (Two of the three existing instances
+   confirm the reading: Structure/UniversalProperty/Cartesian.v and
+   Structure/UniversalProperty/Limit.v both instantiate the class at `C^op`,
+   because products and limits are LIMIT-shaped.  The third,
+   Structure/UniversalProperty/Universal/Arrow.v, instantiates at `D` rather
+   than `D^op`, a universal arrow being colimit-shaped, so it agrees with the
+   initial reading taken here.)  Terminality is therefore
    obtained here by instantiating at `C^op`, exactly as Structure/Initial.v
    defines `Initial C := Terminal (C^op)` -- only in the other direction. *)
 
