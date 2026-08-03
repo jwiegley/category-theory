@@ -231,6 +231,54 @@ Qed.
 
 #[local] Hint Rewrite @prod_zero_r : isos.
 
+(* Any two morphisms out of an object isomorphic to `0` agree. Transport both
+   along the isomorphism -- `p ≈ (p ∘ from i) ∘ to i` -- and the transported
+   halves are morphisms out of `0` proper, where [zero_unique] applies. *)
+Lemma iso_initial_arrow_unique {y z : C} (i : y ≅ 0) (p q : y ~> z) : p ≈ q.
+Proof.
+  rewrite <- (id_right p), <- (id_right q).
+  rewrite <- (iso_from_to i).
+  rewrite !comp_assoc.
+  now rewrite (zero_unique (p ∘ from i) (q ∘ from i)).
+Qed.
+
+(* The collapse `x × 0 ~> 0` followed by the unique `0 ~> x` is just the first
+   projection: both are morphisms out of `x × 0`, an object isomorphic to `0`,
+   so [iso_initial_arrow_unique] identifies them. *)
+Lemma zero_prod_zero_r {x : C} :
+  zero ∘ to (@prod_zero_r x) ≈ exl.
+Proof. apply (iso_initial_arrow_unique prod_zero_r). Qed.
+
+(* Strict initiality (Fong & Spivak, *Seven Sketches*, §1.2.1 Exercise 1.25;
+   nLab: strict initial object). In a bicartesian closed category the initial
+   object is STRICT: an object with *any* morphism at all into `0` is already
+   isomorphic to `0`. The set-level reading is that a set with a function to
+   the empty set is itself empty.
+
+   The witness is NOT `f` itself but the composite through the annihilation
+   isomorphism `x × 0 ≅ 0`: pair `f` with the identity to land in `x × 0`,
+   then collapse. The inverse is the unique `zero : 0 ~> x`. One round trip is
+   a morphism out of `0`, killed by [zero_unique]; the other rests on
+   `zero ∘ to prod_zero_r ≈ exl`, which holds because both sides emanate from
+   `x × 0`, an object isomorphic to `0`. *)
+Program Definition initial_strict {x : C} (f : x ~> 0) : x ≅ 0 := {|
+  to   := to prod_zero_r ∘ (id △ f);
+  from := zero
+|}.
+Next Obligation. apply zero_unique. Qed.
+Next Obligation.
+  rewrite comp_assoc.
+  rewrite (zero_prod_zero_r (x:=x)).
+  now rewrite exl_fork.
+Qed.
+
+(* The morphism one starts from is itself that isomorphism: once `x ≅ 0`, `x`
+   is initial too, so morphisms out of it are unique. This is why strictness
+   does not depend on which `f : x ~> 0` is supplied. *)
+Corollary initial_strict_unique {x : C} (f : x ~> 0) :
+  f ≈ to (initial_strict f).
+Proof. now apply (iso_initial_arrow_unique (initial_strict f)). Qed.
+
 Context `{@Terminal C}.
 
 #[export] Program Instance exp_zero {x : C} :

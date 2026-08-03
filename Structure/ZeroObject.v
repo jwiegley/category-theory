@@ -18,8 +18,11 @@ Generalizable All Variables.
    [ZeroObject] packages a terminal structure, an initial structure, and an
    isomorphism [zero_coincide] between the chosen initial object 0 and the
    chosen terminal object 1.  Since initial (resp. terminal) objects are
-   unique up to unique isomorphism, this is no loss of generality, and it
-   avoids any appeal to equality of objects.
+   unique up to unique isomorphism -- [initial_unique] and [terminal_unique],
+   with [initial_arrow_unique] / [terminal_arrow_unique] supplying the
+   "unique" half -- this is no loss of generality, and it avoids any appeal to
+   equality of objects.  [zero_object_unique] below is the corresponding
+   statement for zero objects themselves.
 
    Every pair of objects x, y then acquires a canonical zero morphism
    x ~> y, obtained by tunnelling through the zero object:
@@ -94,3 +97,31 @@ Proof.
              (@zero C (@zero_initial C Z) y)).
   reflexivity.
 Qed.
+
+(* Uniqueness of the zero object (Mac Lane, CWM 2nd ed., §I.5, p. 20).
+
+   Two [ZeroObject] structures on C are related by an isomorphism of their
+   underlying objects. Because a zero object is simultaneously terminal and
+   initial, either half supplies the isomorphism, and the two agree: an arrow
+   between zero objects is unique already as an arrow into a terminal object.
+   We take the terminal side as the representative, matching the convention
+   used by [zero_mor] above, and record the initial-side reading separately. *)
+Program Definition zero_object_unique {C : Category} (Z1 Z2 : ZeroObject C) :
+  @terminal_obj C (@zero_terminal C Z1) ≅ @terminal_obj C (@zero_terminal C Z2) :=
+  terminal_unique (@zero_terminal C Z1) (@zero_terminal C Z2).
+
+(* The same statement read through the chosen initial objects. Composing with
+   [zero_coincide] on each side shows the two readings agree, which is why the
+   choice of representative above is immaterial. *)
+Program Definition zero_object_unique_initial {C : Category}
+      (Z1 Z2 : ZeroObject C) :
+  @initial_obj C (@zero_initial C Z1) ≅ @initial_obj C (@zero_initial C Z2) :=
+  initial_unique (@zero_initial C Z1) (@zero_initial C Z2).
+
+(* An arrow between the underlying objects of two zero objects is unique, so
+   the isomorphism above is canonical -- the "up to a UNIQUE isomorphism" half
+   of the statement, inherited from the terminal side. *)
+Corollary zero_object_arrow_unique {C : Category} (Z1 Z2 : ZeroObject C)
+      (f g : @terminal_obj C (@zero_terminal C Z1)
+               ~> @terminal_obj C (@zero_terminal C Z2)) : f ≈ g.
+Proof. apply (@one_unique C (@zero_terminal C Z2)). Qed.

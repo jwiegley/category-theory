@@ -1,5 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
 Require Import Category.Structure.Terminal.
 Require Import Category.Construction.Opposite.
 
@@ -124,3 +125,27 @@ Notation "zero[ C ]" := (@zero _ _ C)
 Corollary zero_comp `{T : @Initial C} {x y : C} {f : x ~> y} :
   f ∘ zero ≈ zero.
 Proof. apply (@one_comp _ T). Qed.
+
+(* Uniqueness of the initial object (Mac Lane, CWM 2nd ed., §I.5, p. 20),
+   the exact dual of [terminal_unique].
+
+   Note this is NOT obtained by transporting [terminal_unique] along the
+   [Initial C = Terminal (C^op)] definition: that would produce an
+   isomorphism in `C^op`, and reading it back into `C` costs more than the
+   two-line direct argument. Each structure supplies the unique arrow out of
+   its own object, and both round trips are arrows out of an initial object,
+   so [zero_unique] identifies them with the identity. *)
+Program Definition initial_unique {C : Category} (I1 I2 : @Initial C) :
+  @initial_obj C I1 ≅ @initial_obj C I2 := {|
+  to   := @zero C I1 (@initial_obj C I2);
+  from := @zero C I2 (@initial_obj C I1)
+|}.
+Next Obligation. apply (@zero_unique C I2). Qed.
+Next Obligation. apply (@zero_unique C I1). Qed.
+
+(* And it is the only arrow between them, so the isomorphism is canonical --
+   the "unique isomorphism" half of Mac Lane's statement, dual to
+   [terminal_arrow_unique]. *)
+Corollary initial_arrow_unique {C : Category} (I1 I2 : @Initial C)
+      (f g : @initial_obj C I1 ~> @initial_obj C I2) : f ≈ g.
+Proof. apply (@zero_unique C I1). Qed.

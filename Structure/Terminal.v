@@ -1,5 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
 
 Generalizable All Variables.
 
@@ -127,3 +128,29 @@ Notation "one[ C ]" := (@one _ _ C)
 (* A "constant" map `x ~> y` factoring through `1`: pick `f : 1 ~> y`, then
    precompose with `! : x ~> 1`, so the result ignores its argument's data. *)
 Definition const `{@Terminal C} {x y : C} {f : 1 ~> y} := f ∘ one[x].
+
+(* Uniqueness of the terminal object (Mac Lane, CWM 2nd ed., §I.5, p. 20).
+
+   Two [Terminal] structures on the same category need not choose the same
+   object -- nothing in the class forces that -- but their chosen objects are
+   canonically isomorphic. Each supplies the unique arrow into the other's
+   object, and both round trips are arrows into a terminal object, so
+   [one_unique] identifies them with the identity. This is the sense in which
+   "the" terminal object is well defined, and it is what licenses the informal
+   practice of speaking of *the* object `1`. *)
+Program Definition terminal_unique {C : Category} (T1 T2 : @Terminal C) :
+  @terminal_obj C T1 ≅ @terminal_obj C T2 := {|
+  to   := @one C T2 (@terminal_obj C T1);
+  from := @one C T1 (@terminal_obj C T2)
+|}.
+Next Obligation. apply (@one_unique C T2). Qed.
+Next Obligation. apply (@one_unique C T1). Qed.
+
+(* The isomorphism above is moreover the ONLY one, and indeed the only arrow
+   at all between the two objects: every arrow into a terminal object is
+   already pinned down by [one_unique]. Mac Lane states uniqueness of the
+   object "up to a unique isomorphism"; this corollary is the "unique" half,
+   and it makes [terminal_unique] canonical rather than merely one choice. *)
+Corollary terminal_arrow_unique {C : Category} (T1 T2 : @Terminal C)
+      (f g : @terminal_obj C T1 ~> @terminal_obj C T2) : f ≈ g.
+Proof. apply (@one_unique C T2). Qed.
