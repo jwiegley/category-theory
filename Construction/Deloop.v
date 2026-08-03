@@ -88,9 +88,20 @@ Generalizable All Variables.
    is the same delooping one level up: it presents a monoidal category as a
    one-object *bicategory*, with the elements-as-arrows dictionary shifted
    from (object, arrow) to (arrow, 2-cell).  Finally
-   [Construction/Funny/Comparison.v]'s [ListMon] is the ad-hoc delooping of
-   the free monoid on [bool], written for a single counterexample; it is
-   [Deloop] applied to one particular monoid, spelled out by hand. *)
+   [Construction/Funny/Comparison.v]'s [ListMon] is a hand-written one-object
+   category on the free monoid over [bool], made for a single counterexample.
+   It is NOT [Deloop] of that monoid: its composition is `v ++ u`, the
+   REVERSED product (that file's own header says so), so it is [Deloop] of the
+   OPPOSITE free monoid -- equivalently `(Deloop FreeBool)^op`, by [Deloop_op]
+   in Construction/Deloop/Opposite.v.  The two are isomorphic via [rev], so no
+   mathematics turns on it, but the distinction is precisely the
+   composition-order point below and is worth stating exactly.
+
+   Two further internal-monoid donors, neither usable here: Structure/Monoid.v
+   defines `Monoid := @MonoidObject C CC_Monoidal` (still an ambient category),
+   and Theory/Coq/Monoid.v is an operations-only class carrying no laws -- it
+   nevertheless already observes in prose that a monoid is the hom-set of a
+   one-object category, which is the statement this file proves. *)
 
 (* A monoid: a setoid with a distinguished unit and an associative binary
    operation respecting `≈`, for which the unit is neutral on both sides.
@@ -171,7 +182,8 @@ Qed.
    delooping takes `compose f g := mon_op f g`, i.e. the monoid product in the
    same argument order.  So an element of M read as an arrow multiplies on the
    left exactly as it composes on the left; no opposite monoid is introduced.
-   (Riehl's Example 1.2.2(iii) — that `(B G)^op` is `B (G^op)` — is the
+   (Riehl's Example 1.2.2(iii) — that `(B G)^op` is `B (G^op)`, proved as
+   [Deloop_op] in Construction/Deloop/Opposite.v — is the
    statement that the *other* choice deloops the opposite monoid.)
 
    The sole object is [ttt : poly_unit] rather than [tt : unit], following
@@ -323,10 +335,11 @@ Definition Deloop_group_iso (G : GrpObject) (x y : Deloop G)
    [mon_op_respects] field of each is discharged by instance resolution rather
    than appearing as an obligation — every function respects [eq].
 
-   (Both statements are also the standard-library facts [Nat.add_assoc] and
-   [Nat.add_0_r]; they are re-proved inline here because Lib does not put the
-   arithmetic development in scope, and the two inductions are shorter than the
-   import would be.) *)
+   (Both are the standard-library facts [PeanoNat.Nat.add_assoc] and
+   [PeanoNat.Nat.add_0_r], which ARE in scope after Category.Lib -- only the
+   short [Nat.*] aliases are not.  The inductions are kept because they are two
+   lines each and make the witness self-contained, not because the library
+   facts are unavailable.) *)
 Lemma nat_add_assoc (a b c : nat) : (a + (b + c))%nat = ((a + b) + c)%nat.
 Proof.
   induction a; simpl; [reflexivity | now rewrite IHa].
