@@ -25,6 +25,7 @@ Construction/Comma/Natural/Transformation.v
 Construction/Comma/Limit.v
 Construction/Coproduct.v
 Construction/Day.v
+Construction/Deloop.v
 Construction/Displayed/Codomain.v
 Construction/Displayed/Total.v
 Construction/Enriched.v
