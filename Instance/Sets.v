@@ -474,3 +474,79 @@ Proof.
     (* intro. *)
     (* unfold f, g; simpl. *)
 Abort.
+
+(* ------------------------------------------------------------------------ *)
+(** ** The cancellation lemmas do not cancel the other factor *)
+
+(* Mac Lane, CWM 2nd ed., §I.5 Exercise 1 asks about BOTH factors, and
+   Awodey §2.9 Exercise 2(d) asks for the counterexample outright.
+   [monic_cancel] and [epic_cancel] (Theory/Morphisms.v) each cancel one
+   factor; nothing follows about the other, and a single pair of setoid maps
+   refutes both converses at once.
+
+   Take the two-element setoid [bool_setoid_object], the map [pick_true] out
+   of the singleton, and the map [collapse] back onto it.  Their composite is
+   the identity of the singleton, hence monic and epic; but [collapse] is not
+   monic (it identifies the two booleans) and [pick_true] is not epic (it
+   misses [false]). *)
+
+Definition bool_setoid_object@{t u} : SetoidObject@{t u} :=
+  {| carrier   := bool
+   ; is_setoid := {| equiv := eq ; setoid_equiv := eq_equivalence |} |}.
+
+Program Definition pick_true : unit_setoid_object ~{Sets}~> bool_setoid_object :=
+  {| morphism := fun _ => true |}.
+
+Program Definition collapse : bool_setoid_object ~{Sets}~> unit_setoid_object :=
+  {| morphism := fun _ => ttt |}.
+
+Program Definition pick_false : unit_setoid_object ~{Sets}~> bool_setoid_object :=
+  {| morphism := fun _ => false |}.
+
+(* The composite is the identity on the singleton, up to `≈`. *)
+Lemma collapse_pick : collapse ∘[Sets] pick_true ≈ id{Sets}.
+Proof. intro u; now destruct u. Qed.
+
+(* Hence it is both monic and epic: everything into or out of the singleton is
+   forced, the singleton being terminal. *)
+Lemma collapse_pick_monic : Monic (collapse ∘[Sets] pick_true).
+Proof. constructor; intros z g1 g2 _ u; now destruct (g1 u), (g2 u). Qed.
+
+Lemma collapse_pick_epic : Epic (collapse ∘[Sets] pick_true).
+Proof. constructor; intros z g1 g2 H u; destruct u; apply (H ttt). Qed.
+
+(* ... while the OTHER factor need not be, in either case.  [collapse] identifies the
+   two booleans, so it is not monic: probe it with [pick_true] against
+   [pick_false], which it cannot tell apart. *)
+Lemma collapse_not_monic : Monic collapse → False.
+Proof.
+  intro M.
+  assert (E : collapse ∘[Sets] pick_true ≈ collapse ∘[Sets] pick_false)
+    by (intro u; now destruct u).
+  exact (Bool.diff_true_false
+           (@monic Sets _ _ collapse M unit_setoid_object
+              pick_true pick_false E ttt)).
+Qed.
+
+(* And [pick_true] misses [false], so it is not epic: probe it with the
+   identity against the constantly-true map, which agree on [true] alone. *)
+Lemma pick_true_not_epic : Epic pick_true → False.
+Proof.
+  intro E.
+  assert (H : id{Sets} ∘[Sets] pick_true
+                ≈ (pick_true ∘[Sets] collapse) ∘[Sets] pick_true)
+    by (intro u; now destruct u).
+  exact (Bool.diff_false_true
+           (@epic Sets _ _ pick_true E bool_setoid_object
+              id{Sets} (pick_true ∘[Sets] collapse) H false)).
+Qed.
+
+(* The two asymmetries, packaged under the names Theory/Morphisms.v cites. *)
+Definition sets_epic_left_factor_only :
+  Epic (collapse ∘[Sets] pick_true) * (Epic pick_true → False) :=
+  (collapse_pick_epic, pick_true_not_epic).
+
+Definition sets_monic_right_factor_only :
+  Monic (collapse ∘[Sets] pick_true) * (Monic collapse → False) :=
+  (collapse_pick_monic, collapse_not_monic).
+

@@ -65,14 +65,9 @@ Lemma strong_epi_cancel {C : Category} {x y z : C}
 Proof.
   intros [He Hl].
   constructor.
-  - (* Epic f: from g1 ∘ f ≈ g2 ∘ f conclude g1 ∘ (f ∘ g) ≈ g2 ∘ (f ∘ g)
-       and cancel the composite. *)
-    constructor.
-    intros w g1 g2 Hgg.
-    apply (@epic C x z (f ∘ g) He w g1 g2).
-    rewrite !comp_assoc.
-    rewrite Hgg.
-    reflexivity.
+  - (* Epic f: this is exactly [epic_cancel] (Theory/Morphisms.v), which was
+       for a long time inlined here and nowhere exposed. *)
+    exact (epic_cancel He).
   - (* f ⫫ m for every monomorphism m. *)
     intros u v m Hm.
     constructor.
