@@ -17,7 +17,10 @@ Generalizable All Variables.
    dual of an initial object — it is initial in `C^op` — and is the limit of
    the empty diagram; see Structure/Initial.v, which derives initial objects
    from this file by duality. Terminal objects are unique up to (unique)
-   isomorphism whenever they exist. *)
+   isomorphism whenever they exist: [terminal_unique] below builds the
+   isomorphism, [terminal_arrow_unique] shows it is the only arrow at all
+   between the two objects, and [terminal_unique_up_to_unique_iso] packages
+   the two as a single [Unique]. *)
 
 (* Where terminal objects come from, and what they are for
 
@@ -154,3 +157,102 @@ Next Obligation. apply (@one_unique C T1). Qed.
 Corollary terminal_arrow_unique {C : Category} (T1 T2 : @Terminal C)
       (f g : @terminal_obj C T1 ~> @terminal_obj C T2) : f ≈ g.
 Proof. apply (@one_unique C T2). Qed.
+
+(* The object-level form of terminality (Riehl, CTiC, Def. 1.6.1).  The
+   bundled [Terminal] class both *chooses* an object and asserts the
+   universal property; when the object is already fixed -- as it is when
+   terminality is used as a PREDICATE, e.g. to span a subcategory or to
+   transport along an isomorphism -- the choice gets in the way.  Stated
+   with [Unique] (Lib/Setoid.v), "there is exactly one arrow x ~> c" is
+   literally "the hom-setoid x ~> c is contractible", the phrasing of the
+   header of this file.  [Terminal_from_IsTerminalObj] and
+   [IsTerminalObj_from_Terminal] convert in both directions, the latter
+   landing on [terminal_obj] definitionally. *)
+Definition IsTerminalObj {C : Category} (c : C) : Type :=
+  ∀ x : C, Unique (fun _ : x ~> c => True).
+
+(* The unique arrow x ~> c supplied by the predicate. *)
+Definition is_terminal_one {C : Category} {c : C} (H : IsTerminalObj c)
+  {x : C} : x ~> c := unique_obj (H x).
+
+(* ... and its uniqueness, in the two-arrow form used by [one_unique]:
+   both arrows agree with the chosen witness, hence with each other. *)
+Lemma is_terminal_unique {C : Category} {c : C} (H : IsTerminalObj c)
+  {x : C} (f g : x ~> c) : f ≈ g.
+Proof.
+  pose proof (uniqueness (H x) f I) as Hf.
+  pose proof (uniqueness (H x) g I) as Hg.
+  now rewrite <- Hf, <- Hg.
+Qed.
+
+(* Bundling: the predicate at c yields a [Terminal] structure choosing c. *)
+Program Definition Terminal_from_IsTerminalObj {C : Category} {c : C}
+  (H : IsTerminalObj c) : @Terminal C := {|
+  terminal_obj := c;
+  one := fun x => @is_terminal_one C c H x
+|}.
+Next Obligation. now apply (is_terminal_unique H). Qed.
+
+(* ... and conversely, unbundling at the chosen object. *)
+Program Definition IsTerminalObj_from_Terminal {C : Category}
+  (T : @Terminal C) : IsTerminalObj (@terminal_obj C T) := fun x =>
+  {| unique_obj := @one C T x
+   ; unique_property := I |}.
+Next Obligation. now apply (@one_unique C T). Qed.
+
+(* Riehl, CTiC, Exercise 1.6.ii(i): terminality is isomorphism-invariant.
+   Any object isomorphic to a terminal object is itself terminal.  The
+   arrow into y is the arrow into 1 followed across the isomorphism, and
+   uniqueness transports back: two arrows into y agree as soon as their
+   [from i] translates agree, which they do by [one_unique].  The result
+   chooses y ON THE NOSE -- see [Terminal_iso_obj] in Block B -- so this
+   is a genuine transport of structure, not merely an existence claim. *)
+Program Definition Terminal_iso {C : Category} (T : @Terminal C) (y : C)
+  (i : @terminal_obj C T ≅ y) : @Terminal C := {|
+  terminal_obj := y;
+  one := fun x => to i ∘ @one C T x
+|}.
+Next Obligation.
+  assert (Hf : to i ∘ (from i ∘ f) ≈ f)
+    by (rewrite comp_assoc, iso_to_from; apply id_left).
+  assert (Hg : to i ∘ (from i ∘ g) ≈ g)
+    by (rewrite comp_assoc, iso_to_from; apply id_left).
+  transitivity (to i ∘ (from i ∘ f)).
+  - now symmetry.
+  - now rewrite (@one_unique C T _ (from i ∘ f) (from i ∘ g)).
+Qed.
+
+(* Seven Sketches, Remark 3.85 ("unique up to unique isomorphism"), packaged as
+   a single result rather than an existence lemma plus a separate appeal to
+   [terminal_arrow_unique].
+
+   The statement is [Unique] over the setoid [iso_setoid] of isomorphisms
+   `1₁ ≅ 1₂`, whose equivalence [iso_equiv] compares BOTH the `to` and the
+   `from` component.  So the three fields say, in order: such an isomorphism
+   exists; the trivial predicate holds of it; and every isomorphism between
+   the two objects is equal to it, in both directions.  Together that is
+   exactly "there is exactly one isomorphism 1₁ ≅ 1₂" -- the predicate is
+   [True] precisely so that the uniqueness clause quantifies over ALL
+   isomorphisms and not merely over those satisfying some side condition. *)
+Program Definition terminal_unique_up_to_unique_iso {C : Category}
+  (T1 T2 : @Terminal C) :
+  Unique (fun _ : @terminal_obj C T1 ≅ @terminal_obj C T2 => True) := {|
+  unique_obj := terminal_unique T1 T2;
+  unique_property := I
+|}.
+Next Obligation.
+  split.
+  - apply (@one_unique C T2).
+  - apply (@one_unique C T1).
+Qed.
+
+(* The sharper fact behind it: not only is the isomorphism unique, the
+   underlying morphism is the unique morphism of its hom-setoid.  This is
+   [terminal_arrow_unique] packaged as a [Unique], and it implies the
+   isomorphism statement above. *)
+Program Definition terminal_hom_unique {C : Category} (T1 T2 : @Terminal C) :
+  Unique (fun _ : @terminal_obj C T1 ~> @terminal_obj C T2 => True) := {|
+  unique_obj := @one C T2 (@terminal_obj C T1);
+  unique_property := I
+|}.
+Next Obligation. apply (@one_unique C T2). Qed.

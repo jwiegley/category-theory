@@ -149,3 +149,83 @@ Next Obligation. apply (@zero_unique C I1). Qed.
 Corollary initial_arrow_unique {C : Category} (I1 I2 : @Initial C)
       (f g : @initial_obj C I1 ~> @initial_obj C I2) : f ≈ g.
 Proof. apply (@zero_unique C I1). Qed.
+
+(* The initial dual of Block A, taken by duality in the file's own idiom:
+   each definition is its terminal counterpart read in C^op, exactly as
+   [initial_obj]/[zero]/[zero_unique] above are [terminal_obj]/[one]/
+   [one_unique] read in C^op.  Note that -- unlike [initial_unique],
+   where the file records that transporting would cost more than the
+   direct argument -- there is no cost here: no isomorphism has to be
+   read back into C, because the statements are about C-objects
+   throughout and only the hom-direction is reversed. *)
+Definition IsInitialObj {C : Category} (c : C) : Type :=
+  @IsTerminalObj (C^op) c.
+
+Definition is_initial_zero {C : Category} {c : C} (H : IsInitialObj c)
+  {x : C} : c ~> x := @is_terminal_one (C^op) c H x.
+
+Definition is_initial_unique {C : Category} {c : C} (H : IsInitialObj c)
+  {x : C} (f g : c ~> x) : f ≈ g := @is_terminal_unique (C^op) c H x f g.
+
+Definition Initial_from_IsInitialObj {C : Category} {c : C}
+  (H : IsInitialObj c) : @Initial C :=
+  @Terminal_from_IsTerminalObj (C^op) c H.
+
+Definition IsInitialObj_from_Initial {C : Category} (I : @Initial C) :
+  IsInitialObj (@initial_obj C I) :=
+  @IsTerminalObj_from_Terminal (C^op) I.
+
+(* Riehl, CTiC, Exercise 1.6.ii(i), initial half.  [Isomorphism_Opposite]
+   (Construction/Opposite.v) re-reads the C-isomorphism in C^op, and
+   [Terminal_iso] at C^op is the whole proof. *)
+Definition Initial_iso {C : Category} (I : @Initial C) (y : C)
+  (i : @initial_obj C I ≅ y) : @Initial C :=
+  @Terminal_iso (C^op) I y (Isomorphism_Opposite i).
+
+(* The transported structures choose the new object definitionally, which
+   is what makes them usable as transports rather than as bare existence
+   statements. *)
+Corollary Terminal_iso_obj {C : Category} (T : @Terminal C) (y : C)
+  (i : @terminal_obj C T ≅ y) : @terminal_obj C (Terminal_iso T y i) = y.
+Proof. reflexivity. Qed.
+
+Corollary Initial_iso_obj {C : Category} (I : @Initial C) (y : C)
+  (i : @initial_obj C I ≅ y) : @initial_obj C (Initial_iso I y i) = y.
+Proof. reflexivity. Qed.
+
+(* The dual of [terminal_unique_up_to_unique_iso]: two initial objects are
+   connected by exactly one isomorphism. *)
+Program Definition initial_unique_up_to_unique_iso {C : Category}
+  (I1 I2 : @Initial C) :
+  Unique (fun _ : @initial_obj C I1 ≅ @initial_obj C I2 => True) := {|
+  unique_obj := initial_unique I1 I2;
+  unique_property := I
+|}.
+Next Obligation.
+  split.
+  - apply (@zero_unique C I1).
+  - apply (@zero_unique C I2).
+Qed.
+
+Program Definition initial_hom_unique {C : Category} (I1 I2 : @Initial C) :
+  Unique (fun _ : @initial_obj C I1 ~> @initial_obj C I2 => True) := {|
+  unique_obj := @zero C I1 (@initial_obj C I2);
+  unique_property := I
+|}.
+Next Obligation. apply (@zero_unique C I1). Qed.
+
+(* Any two morphisms out of an object isomorphic to `0` agree.  Transport both
+   along the isomorphism -- `p ≈ (p ∘ from i) ∘ to i` -- and the transported
+   halves are morphisms out of `0` proper, where [zero_unique] applies.
+
+   This is the engine behind strict initiality (Structure/BiCCC.v's
+   [initial_strict]): once an object is KNOWN isomorphic to `0`, arrows out of
+   it are forced, even though arrows INTO `0` are not. *)
+Lemma iso_initial_arrow_unique {C : Category} `{I : @Initial C} {y z : C}
+      (i : y ≅ @initial_obj C I) (p q : y ~> z) : p ≈ q.
+Proof.
+  rewrite <- (id_right p), <- (id_right q).
+  rewrite <- (iso_from_to i).
+  rewrite !comp_assoc.
+  now rewrite (@zero_unique C I z (p ∘ from i) (q ∘ from i)).
+Qed.

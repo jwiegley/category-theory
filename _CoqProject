@@ -69,6 +69,7 @@ Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Sq.v
 Construction/Subcategory.v
+Construction/Subcategory/Terminal.v
 Construction/Free/Quiver.v
 Construction/Span/Category.v
 Construction/Cospan/Category.v
@@ -287,6 +288,7 @@ Solver/Reify.v
 Structure/Abelian.v
 Structure/Additive.v
 Structure/BiCCC.v
+Structure/BiCCC/Strict.v
 Structure/Bicartesian.v
 Structure/Binoidal.v
 Structure/Binoidal/Central.v
@@ -379,6 +381,7 @@ Structure/UniversalProperty.v
 Structure/UniversalProperty/Cartesian.v
 Structure/UniversalProperty/Limit.v
 Structure/UniversalProperty/Universal/Arrow.v
+Structure/UniversalProperty/Terminal.v
 Structure/Wedge.v
 Structure/ZeroObject.v
 Theory.v
@@ -439,6 +442,7 @@ Theory/Equivalence/Bundled.v
 Theory/Equivalence/Monoidal.v
 Theory/Equivalence/Adjunction.v
 Theory/Equivalence/Limit.v
+Theory/Equivalence/Terminal.v
 Theory/Fibration.v
 Theory/Functor.v
 Theory/Isomorphism.v

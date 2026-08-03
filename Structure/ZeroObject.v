@@ -102,21 +102,38 @@ Qed.
 
    Two [ZeroObject] structures on C are related by an isomorphism of their
    underlying objects. Because a zero object is simultaneously terminal and
-   initial, either half supplies the isomorphism, and the two agree: an arrow
-   between zero objects is unique already as an arrow into a terminal object.
-   We take the terminal side as the representative, matching the convention
-   used by [zero_mor] above, and record the initial-side reading separately. *)
+   initial, either half supplies the isomorphism. We take the terminal side as
+   the representative, matching the convention used by [zero_mor] above, and
+   record the initial-side reading separately; [zero_object_unique_compat]
+   below proves the two readings agree. *)
 Program Definition zero_object_unique {C : Category} (Z1 Z2 : ZeroObject C) :
   @terminal_obj C (@zero_terminal C Z1) ≅ @terminal_obj C (@zero_terminal C Z2) :=
   terminal_unique (@zero_terminal C Z1) (@zero_terminal C Z2).
 
-(* The same statement read through the chosen initial objects. Composing with
-   [zero_coincide] on each side shows the two readings agree, which is why the
-   choice of representative above is immaterial. *)
+(* The same statement read through the chosen initial objects. *)
 Program Definition zero_object_unique_initial {C : Category}
       (Z1 Z2 : ZeroObject C) :
   @initial_obj C (@zero_initial C Z1) ≅ @initial_obj C (@zero_initial C Z2) :=
   initial_unique (@zero_initial C Z1) (@zero_initial C Z2).
+
+(* The two readings agree: transporting along [zero_coincide] turns one into
+   the other, so the choice of representative above is immaterial.  The square
+
+       0₁ ---- zero_object_unique_initial ----> 0₂
+        |                                        |
+   zero_coincide Z1                      zero_coincide Z2
+        v                                        v
+       1₁ ------- zero_object_unique --------> 1₂
+
+   commutes for the cheapest possible reason: both composites are morphisms
+   OUT OF the initial object 0₁, and [zero_unique] identifies any two of
+   those.  Stating it is still worth the two lines, because it is the one
+   claim about zero objects that neither uniqueness lemma above makes -- each
+   of them is, on its own, a pure alias for the terminal or initial case. *)
+Lemma zero_object_unique_compat {C : Category} (Z1 Z2 : ZeroObject C) :
+  to (@zero_coincide C Z2) ∘ to (zero_object_unique_initial Z1 Z2)
+    ≈ to (zero_object_unique Z1 Z2) ∘ to (@zero_coincide C Z1).
+Proof. apply (@zero_unique C (@zero_initial C Z1)). Qed.
 
 (* An arrow between the underlying objects of two zero objects is unique, so
    the isomorphism above is canonical -- the "up to a UNIQUE isomorphism" half
@@ -125,3 +142,51 @@ Corollary zero_object_arrow_unique {C : Category} (Z1 Z2 : ZeroObject C)
       (f g : @terminal_obj C (@zero_terminal C Z1)
                ~> @terminal_obj C (@zero_terminal C Z2)) : f ≈ g.
 Proof. apply (@one_unique C (@zero_terminal C Z2)). Qed.
+
+(* Riehl, CTiC, Exercise 1.6.i.  If there is ANY morphism from a terminal
+   object to an initial one, it is an isomorphism, and the two objects are
+   then both zero objects.
+
+   The proof is the degenerate case of the usual uniqueness argument.  The
+   candidate inverse is the unique arrow `! : 0 ~> 1` supplied by
+   terminality of 1 (equivalently `¡`, supplied by initiality of 0 -- they
+   agree, being parallel arrows into a terminal object).  One round trip
+   `f ∘ ! : 0 ~> 0` is an arrow OUT OF an initial object, so [zero_unique]
+   identifies it with the identity; the other, `! ∘ f : 1 ~> 1`, is an
+   arrow INTO a terminal object, so [one_unique] does.  Neither direction
+   needs the arrow f to be anything in particular -- the hypothesis is
+   used only for its existence. *)
+Program Definition terminal_initial_arrow_iso {C : Category}
+  (T : @Terminal C) (I : @Initial C)
+  (f : @terminal_obj C T ~> @initial_obj C I) :
+  @terminal_obj C T ≅ @initial_obj C I := {|
+  to   := f;
+  from := @one C T (@initial_obj C I)
+|}.
+Next Obligation. apply (@zero_unique C I). Qed.
+Next Obligation. apply (@one_unique C T). Qed.
+
+(* The same fact as a predicate on the given morphism. *)
+Program Definition terminal_initial_arrow_is_iso {C : Category}
+  (T : @Terminal C) (I : @Initial C)
+  (f : @terminal_obj C T ~> @initial_obj C I) : IsIsomorphism f := {|
+  two_sided_inverse := @one C T (@initial_obj C I)
+|}.
+Next Obligation. apply (@zero_unique C I). Qed.
+Next Obligation. apply (@one_unique C T). Qed.
+
+(* Consequently a zero object can be DERIVED rather than posited.  The
+   [zero_coincide] field of [ZeroObject] is data, and until now the only
+   in-tree inhabitant (Instance/CMon/Biproduct.v) supplied [iso_id]
+   because its two chosen objects were literally the same term.  This
+   constructor produces the field from a single morphism 1 ~> 0, which is
+   the practical form of the exercise: to know that a category with both
+   an initial and a terminal object is pointed, it suffices to connect
+   them in the harder direction. *)
+Definition ZeroObject_from_arrow {C : Category}
+  (T : @Terminal C) (I : @Initial C)
+  (f : @terminal_obj C T ~> @initial_obj C I) : ZeroObject C := {|
+  zero_terminal := T;
+  zero_initial  := I;
+  zero_coincide := iso_sym (terminal_initial_arrow_iso T I f)
+|}.
