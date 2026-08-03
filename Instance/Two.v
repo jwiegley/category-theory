@@ -90,7 +90,8 @@ Generalizable All Variables.
 
    Computationally, thinness means the hom is proof-irrelevant, a mere
    proposition, so [_2] is a (0,1)-category.  Instance/Two/Monoidal.v makes
-   this concrete: [two_thin] says any two parallel arrows coincide, which
+   this concrete: [Two_thin] below says any two parallel arrows coincide
+   (Instance/Two/Monoidal.v's [two_thin] is now that lemma re-exported), which
    discharges every coherence obligation uniformly and is why the strict
    [Morphism_equality] setoid recorded above suffices.  Two consequences
    follow.  A functor out of [_2] materializes one morphism together with
@@ -183,9 +184,14 @@ Next Obligation. destruct x, y, z, w; auto with two_laws; intuition. Qed.
    arrow TwoY ~> TwoX at all ([TwoHom_Y_X_absurd]).
 
    Balancedness is a property of particular categories rather than of the
-   notion of arrow: [Sets] has it (a setoid map that is injective and
-   surjective up to `≈` is invertible, by [bijective_is_iso] of
-   Instance/Sets.v), and 2 is where it does not hold. *)
+   notion of arrow, and 2 is a category where it does not hold.  For the
+   contrast, [Sets] IS balanced in tree: [Sets_balanced]
+   (Instance/Sets.v) assembles [Monic f -> Epic f -> IsIsomorphism f] from
+   [injectivity_is_monic] and [epic_implies_surjective] via [bijective_is_iso].
+   An earlier revision of this comment said the second half was unavailable --
+   "the direction abandoned at Instance/Sets.v:476" -- and that was true when
+   written; it was proved subsequently.  So the contrast is genuine and
+   sharper than first stated: [2] is not balanced while [Sets] is. *)
 
 Require Import Category.Theory.Morphisms.
 Require Import Category.Theory.Isomorphism.
